@@ -1,135 +1,321 @@
+<div align="center">
+
+<img src="assets/logo.svg" width="160"/>
+
+# VLAB
+
+### Immersive STEM Education for Everyone
+
+**Transforming smartphones into affordable Virtual Reality laboratories.**
+
+[![Unity](https://img.shields.io/badge/Unity-6-black?logo=unity)]()
+[![XR](https://img.shields.io/badge/XR-Toolkit-blue)]()
+[![ESP32](https://img.shields.io/badge/ESP32-IoT-red)]()
+[![BLE](https://img.shields.io/badge/Bluetooth-LE-0082FC?logo=bluetooth)]()
+[![Android](https://img.shields.io/badge/Android-Supported-3DDC84?logo=android)]()
+[![License](https://img.shields.io/badge/License-MIT-green)]()
+
+</div>
+
+---
+
+# 🌍 Overview
+
+**VLAB** is a low-cost Virtual Reality laboratory platform designed to make STEM practical education accessible to every student.
+
+Instead of requiring expensive laboratory equipment or professional VR headsets, VLAB leverages devices students already own:
+
+- 📱 Smartphone
+- 🥽 Affordable VR Headset
+- 🎮 ESP32 Motion Controllers
+
+Together they create an immersive virtual laboratory where students can safely perform experiments in Physics, Chemistry, Biology, and Engineering.
+
+---
+
+# 🎯 Why VLAB?
+
+Across many schools, especially in rural and underserved regions, laboratory education remains limited due to:
+
+- Insufficient laboratory facilities
+- High equipment costs
+- Dangerous practical experiments
+- Limited hands-on opportunities
+- Unequal access to STEM education
+
+VLAB bridges this gap by delivering realistic laboratory experiences through immersive Virtual Reality at a fraction of the traditional cost.
+
+---
+
+# ✨ Features
+
+## 🧪 Physics Lab
+
+- Projectile Motion
+- Harmonic Oscillation
+- Optics
+- Magnetism
+- Electric Circuits
+- Mechanics
+
+---
+
+## ⚗️ Chemistry Lab
+
+- Interactive Chemical Reactions
+- Molecular Builder
+- Safe Combustion Simulation
+- Acid–Base Experiments
+- Laboratory Equipment Interaction
+
+---
+
+## 🧬 Biology Lab
+
+- Human Anatomy
+- Cell Exploration
+- Organ Systems
+- Virtual Microscopy
+- Immersive Biological Simulation
+
+---
+
+## ⚙️ Engineering Lab
+
+- Circuit Design
+- Robotics Simulation
+- Mechanical Assembly
+- Electronics Prototyping
+- STEM Design Challenges
+
+---
+
+# 🚀 System Architecture
+
+```text
+          Student
+
+             │
+             ▼
+
+     ESP32 Controllers
+  (IMU + Buttons + Joystick)
+
+             │
+      ESP-NOW + BLE
+             │
+
+             ▼
+
+      Smartphone App
+       Unity XR Engine
+
+             │
+
+             ▼
+
+       Virtual Laboratory
+
+             │
+
+             ▼
+
+      Smartphone VR Headset
+
+             │
+
+             ▼
+
+   Immersive STEM Experience
+```
+
+---
+
+# 🛠 Hardware
+
+| Component | Description |
+|------------|-------------|
+| ESP32 | Motion Controller |
+| MPU9250 IMU | Motion Tracking |
+| BLE | Wireless Communication |
+| ESP-NOW | Controller Synchronization |
+| Rechargeable Battery | Portable Power |
+| Joystick | Navigation |
+| Push Buttons | Interaction |
+| 3D Printed Shell | Ergonomic Controller |
+| Smartphone | Rendering Device |
+| VR Headset | Immersive Display |
+
+---
+
+# 💻 Software Stack
+
+- Unity 6
+- Unity XR Interaction Toolkit
+- C#
+- Arduino Framework
+- ESP-IDF
+- Bluetooth Low Energy
+- ESP-NOW
+- Android
+
+---
+
+# 📂 Repository Structure
+
+```text
 VLAB
+│
+├── docs/
+│
+├── hardware/
+│   ├── pcb/
+│   ├── cad/
+│   ├── enclosure/
+│   └── schematics/
+│
+├── firmware/
+│   ├── controller_left/
+│   ├── controller_right/
+│   └── shared/
+│
+├── unity/
+│   ├── Assets/
+│   ├── Packages/
+│   ├── ProjectSettings/
+│   └── Builds/
+│
+├── experiments/
+│   ├── physics/
+│   ├── chemistry/
+│   ├── biology/
+│   └── engineering/
+│
+├── assets/
+│   ├── images/
+│   ├── models/
+│   ├── textures/
+│   └── audio/
+│
+├── research/
+│
+├── LICENSE
+└── README.md
+```
 
-Democratizing STEM Education through Immersive Virtual Laboratories.
+---
 
-Description
+# 🎮 Workflow
 
-VLAB is an open, low-cost virtual laboratory platform that enables immersive STEM learning using smartphones, affordable VR headsets, and custom ESP32 motion controllers.
-
-Designed for schools with limited laboratory facilities, VLAB transforms traditional STEM experiments into interactive virtual experiences while remaining affordable and scalable.
-
-Mission
-
-Make high-quality STEM practical education accessible to every student, regardless of location or school resources.
-
-Problem
-
-Many schools, especially in rural and mountainous areas, face challenges such as:
-
-Lack of laboratory equipment
-High infrastructure costs
-Dangerous experiments
-Limited student access to hands-on practice
-
-VLAB addresses these issues through immersive Virtual Reality.
-
-Solution
-
-VLAB combines:
-
-📱 Smartphone
-🥽 VR Headset
-🎮 ESP32 Motion Controllers
-🎮 Unity XR Application
-
-to create a fully interactive virtual laboratory.
-
-Students can manipulate virtual objects using real hand movements, providing a realistic laboratory experience at a fraction of traditional costs.
-
-Key Features
-Physics Laboratory
-Chemistry Laboratory
-Biology Laboratory
-Engineering Workshop
-Real-time motion tracking
-Bluetooth Low Energy communication
-Low-cost hardware
-Expandable experiment library
-Cross-platform mobile support
-System Architecture
-Student
-
-↓
-
+```text
+Hand Movement
+      │
+      ▼
 ESP32 Controller
-(IMU + Buttons + Joystick)
-
-↓
-
-Bluetooth Low Energy
-
-↓
-
-Unity XR Application
-
-↓
-
-Virtual Laboratory
-
-↓
-
-VR Headset
-
-↓
-
-Immersive STEM Experience
-Hardware
-ESP32
-MPU9250 IMU
-Joystick
-Push Buttons
-Rechargeable Battery
-3D Printed Controller
-Smartphone VR Headset
-Software Stack
-Unity
+      │
+      ▼
+Motion Sensor (IMU)
+      │
+      ▼
+Bluetooth LE
+      │
+      ▼
 Unity XR
-C#
-ESP-IDF / Arduino
-Bluetooth Low Energy
-ESP-NOW
-Android
-Repository Structure
-VLAB/
+      │
+      ▼
+Virtual Hands
+      │
+      ▼
+Laboratory Interaction
+```
 
-docs/
-hardware/
-firmware/
-unity/
-mobile/
-experiments/
+---
 
-physics/
-chemistry/
-biology/
-engineering/
+# 🎓 Educational Impact
 
-assets/
+VLAB enables students to
 
-images/
-models/
-audio/
+- Learn through immersive interaction
+- Practice unlimited times
+- Explore dangerous experiments safely
+- Understand complex scientific concepts visually
+- Develop engineering thinking through hands-on virtual experiences
 
-design/
+---
 
-cad/
-pcb/
-logos/
+# 💰 Accessibility
 
-research/
+Traditional VR laboratories often cost thousands of dollars.
 
-README.md
-LICENSE
-Roadmap
-Physics Lab
-Chemistry Lab
-Biology Lab
-Engineering Lab
-AI Tutor
-Multiplayer Classroom
-Teacher Dashboard
-Cloud Experiment Library
-Learning Analytics
-Vision
+VLAB reduces the required hardware to approximately
 
-Create an open ecosystem that brings immersive STEM education to every classroom through affordable virtual reality technology.
+| Item | Estimated Cost |
+|-------|---------------:|
+| ESP32 Controller | ~$4 |
+| IMU Sensor | ~$3 |
+| VR Headset | ~$4 |
+| Battery | ~$2 |
+| Buttons & Joystick | ~$1 |
+| 3D Printed Housing | ~$2 |
+
+**Estimated total: under $20 per setup (excluding smartphone).**
+
+---
+
+# 🗺 Roadmap
+
+- [x] ESP32 Motion Controller
+- [x] BLE Communication
+- [x] Unity XR Integration
+- [x] Physics Laboratory
+- [ ] Chemistry Laboratory
+- [ ] Biology Laboratory
+- [ ] Engineering Laboratory
+- [ ] Teacher Dashboard
+- [ ] Cloud Experiment Library
+- [ ] AI Learning Assistant
+- [ ] Classroom Multiplayer
+- [ ] Learning Analytics
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+Whether you're interested in:
+
+- VR Development
+- Unity
+- Embedded Systems
+- ESP32
+- 3D Design
+- STEM Education
+- UX/UI
+- Educational Content
+
+feel free to open an Issue or submit a Pull Request.
+
+---
+
+# 📖 Citation
+
+If you use VLAB in research or educational projects, please cite this repository.
+
+---
+
+# 🌟 Vision
+
+> **Every student deserves access to a laboratory.**
+>
+> VLAB aims to democratize STEM education by making immersive virtual laboratories affordable, scalable, and available to schools everywhere.
+
+---
+
+<div align="center">
+
+### Built with ❤️ for STEM Education
+
+**Making immersive learning accessible to every classroom.**
+
+</div>
