@@ -1,321 +1,129 @@
-<div align="center">
+# VLAB — Virtual Laboratory
 
-<img src="assets/logo.svg" width="160"/>
+<p align="center">
+  <img src="docs/assets/banner.png" alt="VLAB Banner" width="100%">
+</p>
 
-# VLAB
+<p align="center">
+Virtual Laboratory là nền tảng phòng thí nghiệm thực tế ảo (VR) được phát triển nhằm phổ cập giáo dục STEM thông qua trải nghiệm thực hành trực quan, an toàn và chi phí thấp.
+</p>
 
-### Immersive STEM Education for Everyone
+<p align="center">
 
-**Transforming smartphones into affordable Virtual Reality laboratories.**
+![Unity](https://img.shields.io/badge/Unity-6-black?style=for-the-badge&logo=unity)
+![Android](https://img.shields.io/badge/Android-Supported-3DDC84?style=for-the-badge&logo=android)
+![ESP32](https://img.shields.io/badge/ESP32-BLE-blue?style=for-the-badge)
+![VR](https://img.shields.io/badge/Virtual-Reality-purple?style=for-the-badge)
+![STEM](https://img.shields.io/badge/STEM-Education-orange?style=for-the-badge)
 
-[![Unity](https://img.shields.io/badge/Unity-6-black?logo=unity)]()
-[![XR](https://img.shields.io/badge/XR-Toolkit-blue)]()
-[![ESP32](https://img.shields.io/badge/ESP32-IoT-red)]()
-[![BLE](https://img.shields.io/badge/Bluetooth-LE-0082FC?logo=bluetooth)]()
-[![Android](https://img.shields.io/badge/Android-Supported-3DDC84?logo=android)]()
-[![License](https://img.shields.io/badge/License-MIT-green)]()
-
-</div>
-
----
-
-# 🌍 Overview
-
-**VLAB** is a low-cost Virtual Reality laboratory platform designed to make STEM practical education accessible to every student.
-
-Instead of requiring expensive laboratory equipment or professional VR headsets, VLAB leverages devices students already own:
-
-- 📱 Smartphone
-- 🥽 Affordable VR Headset
-- 🎮 ESP32 Motion Controllers
-
-Together they create an immersive virtual laboratory where students can safely perform experiments in Physics, Chemistry, Biology, and Engineering.
+</p>
 
 ---
 
-# 🎯 Why VLAB?
+# Giới thiệu
 
-Across many schools, especially in rural and underserved regions, laboratory education remains limited due to:
+VLAB (Virtual Laboratory) là giải pháp phòng thí nghiệm thực tế ảo được xây dựng nhằm giải quyết tình trạng thiếu điều kiện thực hành STEM tại nhiều trường học, đặc biệt ở khu vực miền núi, vùng sâu, vùng xa và những nơi còn hạn chế về cơ sở vật chất.
 
-- Insufficient laboratory facilities
-- High equipment costs
-- Dangerous practical experiments
-- Limited hands-on opportunities
-- Unequal access to STEM education
+Thay vì đầu tư các phòng thí nghiệm truyền thống với chi phí lớn, VLAB tận dụng điện thoại thông minh, kính VR giá rẻ và bộ điều khiển tương tác sử dụng ESP32 để mang đến trải nghiệm thực hành nhập vai ngay trong môi trường thực tế ảo.
 
-VLAB bridges this gap by delivering realistic laboratory experiences through immersive Virtual Reality at a fraction of the traditional cost.
+Người học không chỉ quan sát mà còn trực tiếp thao tác với các dụng cụ, mô hình và thí nghiệm giống như trong phòng thí nghiệm thật, từ đó nâng cao khả năng tiếp cận giáo dục STEM một cách trực quan, an toàn và hiệu quả.
 
 ---
 
-# ✨ Features
+# Vấn đề
 
-## 🧪 Physics Lab
+Trong quá trình khảo sát thực tế tại nhiều trường THPT trên địa bàn tỉnh Cao Bằng, nhóm nhận thấy:
 
-- Projectile Motion
-- Harmonic Oscillation
-- Optics
-- Magnetism
-- Electric Circuits
-- Mechanics
+- Thiếu phòng thí nghiệm STEM.
+- Thiếu thiết bị thực hành.
+- Chi phí đầu tư cao.
+- Một số thí nghiệm tiềm ẩn rủi ro mất an toàn.
+- Nhiều học sinh chỉ được quan sát thay vì trực tiếp thực hành.
+- Học sinh có nhu cầu trải nghiệm công nghệ VR nhưng rất ít cơ hội tiếp cận.
 
----
-
-## ⚗️ Chemistry Lab
-
-- Interactive Chemical Reactions
-- Molecular Builder
-- Safe Combustion Simulation
-- Acid–Base Experiments
-- Laboratory Equipment Interaction
+Trong khi đó, phần lớn học sinh hiện nay đều đã sở hữu điện thoại thông minh có khả năng đáp ứng nhu cầu học tập bằng công nghệ thực tế ảo.
 
 ---
 
-## 🧬 Biology Lab
+# Giải pháp
 
-- Human Anatomy
-- Cell Exploration
-- Organ Systems
-- Virtual Microscopy
-- Immersive Biological Simulation
+VLAB xây dựng một hệ thống phòng thí nghiệm thực tế ảo dựa trên ba thành phần chính:
 
----
+- Ứng dụng VR phát triển bằng Unity.
+- Bộ điều khiển tương tác ESP32.
+- Điện thoại thông minh kết hợp kính VR.
 
-## ⚙️ Engineering Lab
-
-- Circuit Design
-- Robotics Simulation
-- Mechanical Assembly
-- Electronics Prototyping
-- STEM Design Challenges
+Dữ liệu chuyển động từ bộ điều khiển được truyền tới điện thoại thông qua Bluetooth Low Energy (BLE), sau đó đồng bộ với môi trường 3D trong Unity để tạo nên trải nghiệm nhập vai theo thời gian thực.
 
 ---
 
-# 🚀 System Architecture
+# Mục tiêu
 
-```text
-          Student
+VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm ảo có khả năng:
 
-             │
-             ▼
-
-     ESP32 Controllers
-  (IMU + Buttons + Joystick)
-
-             │
-      ESP-NOW + BLE
-             │
-
-             ▼
-
-      Smartphone App
-       Unity XR Engine
-
-             │
-
-             ▼
-
-       Virtual Laboratory
-
-             │
-
-             ▼
-
-      Smartphone VR Headset
-
-             │
-
-             ▼
-
-   Immersive STEM Experience
-```
+- Phổ cập giáo dục STEM.
+- Giảm chi phí triển khai.
+- Tăng cơ hội thực hành.
+- Đảm bảo an toàn cho học sinh.
+- Dễ dàng mở rộng thêm nhiều bài học trong tương lai.
 
 ---
 
-# 🛠 Hardware
+# Giá trị cốt lõi
 
-| Component | Description |
-|------------|-------------|
-| ESP32 | Motion Controller |
-| MPU9250 IMU | Motion Tracking |
-| BLE | Wireless Communication |
-| ESP-NOW | Controller Synchronization |
-| Rechargeable Battery | Portable Power |
-| Joystick | Navigation |
-| Push Buttons | Interaction |
-| 3D Printed Shell | Ergonomic Controller |
-| Smartphone | Rendering Device |
-| VR Headset | Immersive Display |
+- Tiếp cận
+- Trực quan
+- An toàn
+- Chi phí thấp
+- Khả năng mở rộng
 
 ---
 
-# 💻 Software Stack
+# Đối tượng sử dụng
 
-- Unity 6
-- Unity XR Interaction Toolkit
+- Học sinh THPT
+- Giáo viên
+- Nhà trường
+- Các chương trình giáo dục STEM
+
+---
+
+# Công nghệ
+
+## Software
+
+- Unity
 - C#
-- Arduino Framework
-- ESP-IDF
-- Bluetooth Low Energy
-- ESP-NOW
+- Unity XR
 - Android
 
----
+## Embedded
 
-# 📂 Repository Structure
-
-```text
-VLAB
-│
-├── docs/
-│
-├── hardware/
-│   ├── pcb/
-│   ├── cad/
-│   ├── enclosure/
-│   └── schematics/
-│
-├── firmware/
-│   ├── controller_left/
-│   ├── controller_right/
-│   └── shared/
-│
-├── unity/
-│   ├── Assets/
-│   ├── Packages/
-│   ├── ProjectSettings/
-│   └── Builds/
-│
-├── experiments/
-│   ├── physics/
-│   ├── chemistry/
-│   ├── biology/
-│   └── engineering/
-│
-├── assets/
-│   ├── images/
-│   ├── models/
-│   ├── textures/
-│   └── audio/
-│
-├── research/
-│
-├── LICENSE
-└── README.md
-```
-
----
-
-# 🎮 Workflow
-
-```text
-Hand Movement
-      │
-      ▼
-ESP32 Controller
-      │
-      ▼
-Motion Sensor (IMU)
-      │
-      ▼
-Bluetooth LE
-      │
-      ▼
-Unity XR
-      │
-      ▼
-Virtual Hands
-      │
-      ▼
-Laboratory Interaction
-```
-
----
-
-# 🎓 Educational Impact
-
-VLAB enables students to
-
-- Learn through immersive interaction
-- Practice unlimited times
-- Explore dangerous experiments safely
-- Understand complex scientific concepts visually
-- Develop engineering thinking through hands-on virtual experiences
-
----
-
-# 💰 Accessibility
-
-Traditional VR laboratories often cost thousands of dollars.
-
-VLAB reduces the required hardware to approximately
-
-| Item | Estimated Cost |
-|-------|---------------:|
-| ESP32 Controller | ~$4 |
-| IMU Sensor | ~$3 |
-| VR Headset | ~$4 |
-| Battery | ~$2 |
-| Buttons & Joystick | ~$1 |
-| 3D Printed Housing | ~$2 |
-
-**Estimated total: under $20 per setup (excluding smartphone).**
-
----
-
-# 🗺 Roadmap
-
-- [x] ESP32 Motion Controller
-- [x] BLE Communication
-- [x] Unity XR Integration
-- [x] Physics Laboratory
-- [ ] Chemistry Laboratory
-- [ ] Biology Laboratory
-- [ ] Engineering Laboratory
-- [ ] Teacher Dashboard
-- [ ] Cloud Experiment Library
-- [ ] AI Learning Assistant
-- [ ] Classroom Multiplayer
-- [ ] Learning Analytics
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome.
-
-Whether you're interested in:
-
-- VR Development
-- Unity
-- Embedded Systems
 - ESP32
-- 3D Design
-- STEM Education
-- UX/UI
-- Educational Content
-
-feel free to open an Issue or submit a Pull Request.
+- MPU9250
+- Bluetooth Low Energy (BLE)
+- ESP-NOW
 
 ---
 
-# 📖 Citation
+# Định hướng
 
-If you use VLAB in research or educational projects, please cite this repository.
+VLAB không chỉ là một ứng dụng mô phỏng mà hướng tới trở thành nền tảng Virtual Laboratory có khả năng mở rộng nhiều lĩnh vực STEM như:
 
----
-
-# 🌟 Vision
-
-> **Every student deserves access to a laboratory.**
->
-> VLAB aims to democratize STEM education by making immersive virtual laboratories affordable, scalable, and available to schools everywhere.
+- Physics Lab
+- Chemistry Lab
+- Biology Lab
+- Engineering Lab
 
 ---
 
-<div align="center">
+# Tầm nhìn
 
-### Built with ❤️ for STEM Education
+Mọi học sinh đều có cơ hội tiếp cận phòng thí nghiệm STEM chất lượng cao, bất kể điều kiện cơ sở vật chất của nhà trường.
 
-**Making immersive learning accessible to every classroom.**
+Thông qua việc kết hợp công nghệ thực tế ảo, thiết bị nhúng và điện thoại thông minh, VLAB hướng tới xây dựng một hệ sinh thái học tập trực quan, hiện đại và có khả năng triển khai rộng rãi trong giáo dục phổ thông.
 
-</div>
+---
+
+> **Samsung Solve for Tomorrow 2026**  
+> **VLAB — Creating Technology for Every Student**
