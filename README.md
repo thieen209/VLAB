@@ -93,7 +93,7 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 ## Software
 
 - Unity
-- C#
+- C
 - Unity XR
 - Android
 
