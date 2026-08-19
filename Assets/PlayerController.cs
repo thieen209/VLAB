@@ -6,33 +6,36 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 3.0f;
     public float runSpeed = 6.0f;
 
+    [Header("Lực nhảy & Trọng lực")]
+    public float jumpHeight = 1.2f;   // Độ cao lực nhảy (mét)
+    public float gravity = -9.81f;    // Gia tốc trọng lực
+
     [Header("Độ nhạy chuột")]
     public float mouseSensitivity = 2.0f;
-    public float maxUpAngle = 80f;   // Giới hạn ngước mắt lên
-    public float maxDownAngle = -80f; // Giới hạn cúi mắt xuống
+    public float maxUpAngle = 80f;
+    public float maxDownAngle = -80f;
 
     [Header("Thành phần")]
     public Transform cameraTransform;
-    private CharacterController controller; // Dùng CharacterController sẽ mượt hơn Rigidbody
+    private CharacterController controller;
 
-    private float cameraPitch = 0f; // Góc xoay lên/xuống của Camera
+    private float cameraPitch = 0f;
+    private Vector3 velocity;         // Biến lưu vận tốc rơi/nhảy theo phương Y
+    private bool isGrounded;          // Kiểm tra xem nhân vật có đang chạm đất không
 
     void Start()
     {
-        // Tự lấy CharacterController nếu chưa gắn
         controller = GetComponent<CharacterController>();
         if (controller == null)
         {
             controller = gameObject.AddComponent<CharacterController>();
         }
 
-        // Tự lấy Main Camera nếu chưa gán
         if (cameraTransform == null && Camera.main != null)
         {
             cameraTransform = Camera.main.transform;
         }
 
-        // Khóa con trỏ chuột vào giữa màn hình khi chơi
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -43,18 +46,15 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
     }
 
-    // 1. Xử lý xoay góc nhìn bằng chuột 🖱️
     void HandleRotation()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        // Xoay nhân vật sang trái/phải theo chiều ngang chuột
         transform.Rotate(Vector3.up * mouseX);
 
-        // Xoay Camera lên/xuống (Pitch)
         cameraPitch -= mouseY;
-        cameraPitch = Mathf.Clamp(cameraPitch, maxDownAngle, maxUpAngle); // Giới hạn góc nhìn
+        cameraPitch = Mathf.Clamp(cameraPitch, maxDownAngle, maxUpAngle);
 
         if (cameraTransform != null)
         {
@@ -62,19 +62,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 2. Xử lý di chuyển WASD 🚶
     void HandleMovement()
     {
+        // 1. Kiểm tra va chạm mặt đất
+        isGrounded = controller.isGrounded;
+        if (isGrounded && velocity.y < 0)
+        {
+            // Đặt vận tốc âm nhỏ để nhân vật bám chắc mặt đất
+            velocity.y = -2f;
+        }
+
+        // 2. Di chuyển WASD + Shift
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
         float speed = isRunning ? runSpeed : walkSpeed;
 
-        float moveX = Input.GetAxis("Horizontal"); // Phím A/D
-        float moveZ = Input.GetAxis("Vertical");   // Phím W/S
+        float moveX = Input.GetAxis("Horizontal");
+        float moveZ = Input.GetAxis("Vertical");
 
-        // Tính hướng di chuyển theo hướng mặt nhân vật đang nhìn
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
-
-        // Di chuyển bằng CharacterController
         controller.Move(move * speed * Time.deltaTime);
+
+        // 3. Xử lý Nhảy (Space)
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            // Công thức tính vận tốc nhảy dựa trên độ cao: v = sqrt(h * -2 * g)
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        // 4. Tính toán trọng lực kéo nhân vật xuống theo thời gian
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 }
