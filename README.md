@@ -106,6 +106,123 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ---
 
+# Cài đặt & sử dụng
+
+VLAB hiện là **project Unity đang trong quá trình phát triển**. Repository cung cấp source code để mở project, xem prototype và tiếp tục phát triển trên môi trường Unity.
+
+## Yêu cầu
+
+| Thành phần | Yêu cầu |
+|---|---|
+| Unity | **Unity 6** |
+| Hệ điều hành | Windows — khuyến nghị |
+| Git | Dùng để clone repository |
+| Thiết bị kiểm thử | Smartphone Android — khi kiểm thử phiên bản Android |
+| VR | Smartphone + kính VR — khi kiểm thử trải nghiệm VR |
+| Hardware | ESP32 + MPU9250 — khi kiểm thử controller |
+
+---
+
+## 1. Tải source code
+
+### Cách 1 — Clone bằng Git
+
+Mở Terminal hoặc Git Bash:
+
+```bash
+git clone <REPOSITORY_URL>
+```
+
+Sau khi tải xong, mở thư mục project:
+
+```bash
+cd <VLAB_PROJECT_FOLDER>
+```
+
+### Cách 2 — Download ZIP
+
+Trên GitHub:
+
+```text
+Code
+→ Download ZIP
+```
+
+Giải nén file ZIP vào thư mục bạn muốn lưu project.
+
+> Không tạo Unity Project mới. Source trong repository đã là một Unity Project.
+
+---
+
+## 2. Mở project
+
+Mở **Unity Hub**:
+
+```text
+Add
+→ Add project from disk
+→ Chọn thư mục VLAB
+→ Open
+```
+
+Chọn project bằng **Unity 6**.
+
+Thư mục được chọn phải là thư mục gốc của project và chứa cấu trúc Unity:
+
+```text
+VLAB/
+├── Assets/
+├── Packages/
+├── ProjectSettings/
+└── ...
+```
+
+Khi mở lần đầu, Unity sẽ tự xử lý quá trình import project. Thời gian xử lý phụ thuộc vào máy và dữ liệu của project.
+
+---
+
+## 3. Chạy prototype
+
+Sau khi Unity mở project thành công:
+
+1. Mở Scene có sẵn trong project.
+2. Nhấn **Play ▶** trên Unity Editor.
+3. Kiểm tra prototype trực tiếp trong Editor.
+
+Các chức năng phụ thuộc vào thiết bị thực tế không nhất thiết có thể kiểm tra đầy đủ trong Unity Editor.
+
+---
+
+## 4. Kiểm thử trên thiết bị
+
+VLAB được thiết kế theo kiến trúc kết hợp:
+
+```text
+ESP32 Controller
+       ↓
+Bluetooth Low Energy
+       ↓
+Smartphone
+       ↓
+Unity XR
+       ↓
+VR Environment
+```
+
+Theo kiến trúc dự án, controller sử dụng ESP32 và cảm biến IMU MPU9250; dữ liệu được truyền tới smartphone thông qua Bluetooth Low Energy để Unity XR xử lý và đồng bộ với môi trường 3D. :contentReference[oaicite:1]{index=1}
+
+Để kiểm thử trải nghiệm đầy đủ, cần có các thành phần phần cứng tương ứng của prototype.
+
+---
+
+## Lưu ý
+
+VLAB **chưa phải bản ứng dụng phát hành hoàn chỉnh**. Project hiện được sử dụng cho quá trình phát triển và thử nghiệm prototype.
+
+Một số thành phần của hệ thống, bao gồm môi trường VR, các phòng thí nghiệm và tích hợp hardware, vẫn đang tiếp tục được phát triển. :contentReference[oaicite:2]{index=2}
+
+---
+
 # Định hướng
 
 VLAB không chỉ là một ứng dụng mô phỏng mà hướng tới trở thành nền tảng Virtual Laboratory có khả năng mở rộng nhiều lĩnh vực STEM như:
