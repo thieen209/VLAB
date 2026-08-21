@@ -209,7 +209,7 @@ Unity XR
 VR Environment
 ```
 
-Theo kiến trúc dự án, controller sử dụng ESP32 và cảm biến IMU MPU9250; dữ liệu được truyền tới smartphone thông qua Bluetooth Low Energy để Unity XR xử lý và đồng bộ với môi trường 3D. :contentReference[oaicite:1]{index=1}
+Theo kiến trúc dự án, controller sử dụng ESP32 và cảm biến IMU MPU9250; dữ liệu được truyền tới smartphone thông qua Bluetooth Low Energy để Unity XR xử lý và đồng bộ với môi trường 3D.
 
 Để kiểm thử trải nghiệm đầy đủ, cần có các thành phần phần cứng tương ứng của prototype.
 
@@ -219,7 +219,7 @@ Theo kiến trúc dự án, controller sử dụng ESP32 và cảm biến IMU MP
 
 VLAB **chưa phải bản ứng dụng phát hành hoàn chỉnh**. Project hiện được sử dụng cho quá trình phát triển và thử nghiệm prototype.
 
-Một số thành phần của hệ thống, bao gồm môi trường VR, các phòng thí nghiệm và tích hợp hardware, vẫn đang tiếp tục được phát triển. :contentReference[oaicite:2]{index=2}
+Một số thành phần của hệ thống, bao gồm môi trường VR, các phòng thí nghiệm và tích hợp hardware, vẫn đang tiếp tục được phát triển.
 
 ---
 
