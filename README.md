@@ -130,7 +130,7 @@ VLAB hiện là **project Unity đang trong quá trình phát triển**. Reposit
 Mở Terminal hoặc Git Bash:
 
 ```bash
-git clone <REPOSITORY_URL>
+git clone <https://github.com/thieen209/VLAB/tree/main>
 ```
 
 Sau khi tải xong, mở thư mục project:
