@@ -1,0 +1,744 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.5/staging' branch; Version is '6000.5.6f1 (0e0577a1a2ac) revision 918903'; Using compiler version '194234433'; Build Type 'Release'
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-PC" at "2026-08-31T10:41:21.7636432Z"
+OS: 'Windows 11  (10.0.26200) CoreSingleLanguage' Language: 'en' Physical Memory: 16085 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-08-31T10:41:21Z
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.5.6f1\Editor\Unity.exe
+-batchmode
+-nographics
+-quit
+-projectPath
+D:\VLAB\Web demo\VLAB
+-executeMethod
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder.BuildAllFromCommandLine
+-logFile
+D:\VLAB\Web demo\VLAB\TestResults\RegressionRepairBuildFinal.log
+Successfully changed project path to: D:\VLAB\Web demo\VLAB
+D:/VLAB/Web demo/VLAB
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [38776]  Target information:
+
+Player connection [38776]  * "[IP] 192.168.0.108 [Port] 55504 [Flags] 2 [Guid] 2114264767 [EditorId] 2114264767 [Version] 1048832 [Id] WindowsEditor(7,thieen) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [38776] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [38776] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-25824" after 0.4 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Error: HandshakeResponse reported an error:
+	ResponseCode: 505
+	ResponseStatus: Unsupported protocol version '1.18.1'.
+[Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-PC"
+[Licensing::IpcConnector] LicenseClient-PC channel disconnected successfully.
+[Licensing::IpcConnector] Channel LicenseClient-PC-6000.5.6 doesn't exist
+[Licensing::Module] Successfully launched the LicensingClient (PId: 35128)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-PC-6000.5.6" at "2026-08-31T10:41:25.4743981Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 35128, path: "C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              4397978a04ca463e9ae7d9ea99059108
+  Correlation Id:          a54d6d39bf565851f42292799d69e8b7
+  External correlation Id: 2294482278362054632
+  Machine Id:              Xlc8O0asCxm32E0P9wbkyF8d4s4=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-PC-6000.5.6" (connect: 0.57s, validation: 0.60s, handshake: 0.03s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-PC-6000.5.6-notifications" at "2026-08-31T10:41:26.0970677Z"
+[Licensing::Module] Connected to LicensingClient (PId: 35128, launch time: 0.01, total connection time: 1.19s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 18968469523534-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.02
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 4.43s
+[Licensing::Module] Licensing is initialized (took 3.35s).
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 8 unused hashed content files
+Initialize engine version: 6000.5.6f1 (0e0577a1a2ac)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/VLAB/Web demo/VLAB/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56824
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.006699 seconds.
+Failed to load: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/iOSSupport\x64\UnityEditor.iOS.Native.dll
+Native extension for iOS target not found
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.630 seconds
+Domain Reload Profiling: 1351ms
+	BeginReloadAssembly (193ms)
+		CreateAndSetChildDomain (15ms)
+	RebuildCommonClasses (7ms)
+	RebuildNativeTypeToScriptingClass (19ms)
+	initialDomainReloadingComplete (98ms)
+	LoadAllAssembliesAndSetupDomain (402ms)
+		LoadAssemblies (175ms)
+		AnalyzeDomain (284ms)
+			TypeCache.Refresh (282ms)
+				TypeCache.ScanAssembly (263ms)
+	FinalizeReload (633ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (13ms)
+			BeforeProcessingInitializeOnLoad (129ms)
+			ProcessInitializeOnLoadAttributes (140ms)
+			ProcessInitializeOnLoadMethodAttributes (236ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 59 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.assistant@2.18.0-pre.2 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.ai.assistant@c0127625258e)
+    com.unity.ai.inference@2.6.1 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.ai.inference@9a123aee5df7)
+    com.unity.xr.interaction.toolkit@3.5.1 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.xr.interaction.toolkit@63ca3b7ce776)
+    com.unity.inputsystem@1.20.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.inputsystem@7a4e1a2a8194)
+    com.unity.xr.core-utils@2.6.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.xr.core-utils@a8b900321199)
+    com.unity.burst@1.8.29 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.burst@6bb9aca3ef38)
+    com.unity.dt.app-ui@2.1.7 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.dt.app-ui@b097002a00c2)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.nuget.mono-cecil@1.11.6 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.searcher@4.9.4 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.searcher@d45a78918735)
+    com.unity.test-framework.performance@3.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.multiplayer.center@1.0.1 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.multiplayer.center@b860850997d0)
+    com.unity.render-pipelines.universal@17.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.render-pipelines.universal@73b4c4ff130e)
+    com.unity.ugui@2.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.ugui@67707a67a4ab)
+    com.unity.modules.accessibility@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.mathematics@1.4.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.mathematics@981956d94fb6)
+    com.unity.render-pipelines.core@17.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.render-pipelines.core@645717f21c5f)
+    com.unity.shadergraph@17.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.shadergraph@8d7376ec43ee)
+    com.unity.render-pipelines.universal-config@17.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.render-pipelines.universal-config@fdda01c80fe3)
+    com.unity.collections@6.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.collections@a43cabe808ca)
+    com.unity.2d.sprite@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.2d.sprite@053a968eab56)
+    com.unity.test-framework@1.7.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.test-framework@1405238725ab)
+    com.unity.ext.nunit@2.1.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.ext.nunit@44f7d31723bd)
+  Embedded packages:
+    com.coplaydev.unity-mcp@file:D:\VLAB\Web demo\VLAB\Packages\com.coplaydev.unity-mcp (location: D:\VLAB\Web demo\VLAB\Packages\com.coplaydev.unity-mcp)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.05 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+Starting: C:\Program Files\Unity\Hub\Editor\6000.5.6f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: D:/VLAB/Web demo/VLAB
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 4s833ms
+[1178/1558  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1542/1558  3s] Csc Library/Bee/artifacts/1900b0aE.dag/VLAB.PhysicsLab.Editor.dll (+2 others)
+[1546/1558  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/VLAB.PhysicsLab.Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/VLAB.PhysicsLab.Editor.dll, with 142 defines and 306 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1547/1558  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/VLAB.PhysicsLab.Tests.Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/VLAB.PhysicsLab.Tests.Editor.dll, with 142 defines and 299 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1549/1558  0s] CopyFiles Library/ScriptAssemblies/VLAB.PhysicsLab.Editor.pdb
+[1551/1558  0s] CopyFiles Library/ScriptAssemblies/VLAB.PhysicsLab.Editor.dll
+[1552/1558  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 142 defines and 382 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1553/1558  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 144 defines and 367 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+*** Tundra build success (4.76 seconds), 8 items updated, 1558 evaluated
+Total cache size 267984836
+Total cache size after purge 267984836, took 00:00:00.3826696
+AssetDatabase: script compilation time: 6.200603s
+Begin MonoManager ReloadAssembly
+Failed to load: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/iOSSupport\x64\UnityEditor.iOS.Native.dll
+Native extension for iOS target not found
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  8.532 seconds
+Domain Reload Profiling: 10240ms
+	BeginReloadAssembly (346ms)
+		DisableScriptedObjects (41ms)
+		CreateAndSetChildDomain (62ms)
+	RebuildCommonClasses (15ms)
+	RebuildNativeTypeToScriptingClass (25ms)
+	initialDomainReloadingComplete (129ms)
+	LoadAllAssembliesAndSetupDomain (1190ms)
+		LoadAssemblies (540ms)
+		AnalyzeDomain (575ms)
+			TypeCache.Refresh (439ms)
+				TypeCache.ScanAssembly (413ms)
+			BuildScriptInfoCaches (119ms)
+			ResolveRequiredComponents (13ms)
+	FinalizeReload (8535ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (13ms)
+			BeforeProcessingInitializeOnLoad (189ms)
+			ProcessInitializeOnLoadAttributes (6936ms)
+			ProcessInitializeOnLoadMethodAttributes (986ms)
+			AfterProcessingInitializeOnLoad (14ms)
+		AwakeInstancesAfterBackupRestoration (69ms)
+Starting new worker id: 0 with log in D:/VLAB/Web demo/VLAB/Logs/AssetImportWorkerHW0.log
+Refreshing native plugins compatible for Editor in 3.02 ms, found 1 plugins.
+
+Asset Pipeline Refresh (id=ec6db95ddee305e4e8d4cc633a183e92): Total: 19.375 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=9570 ms
+		Asset DB Callback time: managed=1639 ms, native=68 ms
+		Scripting: domain reloads=1, domain reload time=1792 ms, compile time=6204 ms, other=101 ms
+		Project Asset Count: scripts=2006, non-scripts=5161
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 58.458ms
+	ApplyChangesToAssetFolders: 1.342ms
+	Scan: 221.214ms
+	Collect global state as custom dependencies: 11.334ms
+	OnSourceAssetsModified: 1.079ms
+	CategorizeScriptCompilationAssets: 65.299ms
+	ProcessAssetsWithTransientArtifactChanges: 134.730ms
+	CategorizeAssets: 184.632ms
+	CompileScripts: 6203.738ms
+	ImportOutOfDateAssets: 8745.111ms (8571.019ms without children)
+		UnloadImportedAssets: 0.379ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.753ms
+		ImportSchedulerStart: 171.943ms
+	PostProcessAllAssets: 1643.811ms
+		VCAutoAddAssetPostprocess 3.077ms
+		XRBuildSystem.XRAssetImported 0.508ms
+		MonoPostProcessAllAssets: 1638.673ms
+			AssetPostprocessor.OnPostprocessAllAssets 470.382ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 288.892ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 184.417ms
+			AssetReferenceReimportMonitor.OnPostprocessAllAssets 84.680ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 20.472ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 7.282ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 6.294ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 5.262ms
+			SyncVS.PostprocessSyncProject 5.182ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 5.107ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 4.442ms
+			AssetChangedListener.OnPostprocessAllAssets 3.547ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 3.400ms
+			MaterialPostprocessor.OnPostprocessAllAssets 2.167ms
+			AssetChangeDetector.OnPostprocessAllAssets 2.153ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 2.006ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 1.946ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 1.667ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 1.631ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 1.366ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 1.358ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 1.221ms
+			SkillsProjectAssetPostprocessor.OnPostprocessAllAssets 1.178ms
+			ModelAssetProcessor.OnPostprocessAllAssets 0.910ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.904ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.793ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.749ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.735ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.714ms
+			AssetEvents.OnPostprocessAllAssets 0.625ms
+			PostProcessor.OnPostprocessAllAssets 0.617ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.518ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.491ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.441ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.372ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.343ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.317ms
+			TrackSelectedAssetsProcessor.OnPostprocessAllAssets 0.291ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.230ms
+	PostAssetChangesProfiler: 7.555ms
+	UnloadStreamsBegin: 6.295ms
+	PersistCurrentRevisions: 0.475ms
+	GenerateScriptTypeHashes: 23.547ms
+	GenerateScriptTypeSerializationHashes: 60.654ms
+	Untracked: 2082.382ms
+
+Application.AssetDatabase Initial Refresh End
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Scanning for USB devices : 2.935ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-VLAB
+Unloading 185 Unused Serialized files (Serialized files now loaded: 0)
+Curl error 35: Recv failure: Connection was reset
+Unloading 8457 unused Assets / (4.3 MB). Loaded Objects now: 9429.
+Memory consumption went from 0.61 GB to 0.60 GB.
+Total: 55.155500 ms (FindLiveObjects: 1.163100 ms CreateObjectMapping: 9.027400 ms MarkObjects: 40.102900 ms  DeleteObjects: 4.849600 ms)
+
+
+Asset Pipeline Refresh (id=5aa82f0e8f706aa488e8bd9e406bf565): Total: 0.301 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=301 ms
+		Asset DB Callback time: managed=0 ms, native=0 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2006, non-scripts=5161
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	ApplyChangesToAssetFolders: 0.230ms
+	Collect global state as custom dependencies: 1.391ms
+	ProcessAssetsWithTransientArtifactChanges: 0.168ms
+	CategorizeAssets: 116.805ms
+	ImportOutOfDateAssets: 125.234ms (22.055ms without children)
+		ReloadNativeAssets: 0.059ms
+		UnloadImportedAssets: 0.414ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.589ms
+		ImportSchedulerStart: 101.112ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.466ms
+	UnloadStreamsBegin: 0.112ms
+	PersistCurrentRevisions: 0.411ms
+	Untracked: 50.063ms
+
+Asset Pipeline Refresh (id=3f38712600c28054e9a641c6db57e2a2): Total: 0.005 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Importing 'GUID: fdda24cd30f11bc4cb4f58bb7c637aa5 - Path: Assets/VLAB/PhysicsLab/Generated/PhysicsLabAssetReport.json' with importer (TextScriptImporter)
+Imported 'GUID: fdda24cd30f11bc4cb4f58bb7c637aa5' -> (Import Result ID: '08117e6340a05833b90bf56208f50a9e') in 0.010 seconds [static dependencies only]. Details - ImportResultOutputID=d5cae7d55e35628f425505318d480833 DependenciesID=37d8d166430f138938b3a8b42352c1ac StaticDependenciesID=db913826dca8c2a73510022b0d9687a6 
+Refreshing native plugins compatible for Editor in 2.14 ms, found 1 plugins.
+Asset Pipeline Refresh (id=4e77a97ebc0307f49b41f52afefc8cb7): Total: 0.231 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[VLAB Physics Lab] Scanned 20 required assets. Report: Assets/VLAB/PhysicsLab/Generated/PhysicsLabAssetReport.json
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+VLAB.PhysicsLab.Editor.PhysicsLabAssetPipeline:ScanAssets () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs:67)
+VLAB.PhysicsLab.Editor.PhysicsLabAssetPipeline:GenerateAll () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs:105)
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder:BuildAll () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs:59)
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder:BuildAllFromCommandLine () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs:72)
+
+(Filename: Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs Line: 67)
+
+Asset Pipeline Refresh (id=82f74b21e11ffcb4ab178b8366046c76): Total: 0.016 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=bcd177996a4fca74bb3275541deabb92): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=98e934ccbdd26914b8927270b3a00f88): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=1e8d3d59ea672834981b5403d61655a6): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=9904e9e8dd66c524b9e903a4e65c5778): Total: 0.029 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=e851159f53d0efc4683b5752ea16373f): Total: 0.024 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=5e568374071de1c438c813472c2944a0): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=cec0dcc1b90a2cd48a4877b11ae25e3b): Total: 0.021 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=4d398197df284d146b65881305b3bd10): Total: 0.026 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=0386a50496164f8478a7a6f5d1910525): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=2d31b050874a9e5479f426635c554920): Total: 0.030 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=88089d6768e51b54d9a167b1f552c135): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=16837a6a7c52aeb40814d04d3b02c1f8): Total: 0.030 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 9eb91458532441b4e8d1268e92917f83 - Path: Assets/VLAB/PhysicsLab/Prefabs/Physics_Projectile_Launcher.prefab' with importer (PrefabImporter)
+Imported 'GUID: 9eb91458532441b4e8d1268e92917f83' -> (Import Result ID: '82fad859264838f41307fac9d5f9d5e5') in 0.012 seconds [static and dynamic dependencies]. Details - ImportResultOutputID=3c7398ce70eb466335c578afd80e1e34 DependenciesID=a96f7949f60f05049ea146d6941f5ed0 StaticDependenciesID=75bb8657391449fe0eea160fc8ad4380 
+Asset Pipeline Refresh (id=45846f5ee407dc44e8320348c44185b8): Total: 0.223 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=36bd17c330f12c242903d98cc322afff): Total: 0.023 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=e73aca3586cd27a4d95fc4b6a42a1b28): Total: 0.022 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=a7f2e5c9ea9380b48b7c940e702bea4e): Total: 0.028 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=a736172da6ec56d44aa03fc09b489986): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=43649455770bc8c409d78bda045ca7f6): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=8f7c8daeb3dfa30458e058981a58162e): Total: 0.023 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=f8633836d00a37c449d32b2cec3f4a59): Total: 0.025 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 0000000000000000b000000000000000 - Path: ProjectSettings/EditorBuildSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 0000000000000000b000000000000000' -> (Import Result ID: 'bb753c162cece1e3ac693287339ec455') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=4647dd083cfc32cebcd7526e8846440c DependenciesID=54966af829e8532f7a2ef4cfbdbccb1b StaticDependenciesID=52d9ca7c3a83a0e9a2bbf0ac041e1f05 
+Asset Pipeline Refresh (id=48a911cac1f70fd4ba9b763a39b2234e): Total: 0.124 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=e09979dc5564c0047ace4abc2f8d2d85): Total: 0.014 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[VLAB Physics Lab] Generated 20 reusable prefabs in Assets/VLAB/PhysicsLab/Prefabs.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+VLAB.PhysicsLab.Editor.PhysicsLabAssetPipeline:GeneratePrefabs () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs:80)
+VLAB.PhysicsLab.Editor.PhysicsLabAssetPipeline:GenerateAll () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs:106)
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder:BuildAll () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs:59)
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder:BuildAllFromCommandLine () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs:72)
+
+(Filename: Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs Line: 80)
+
+Asset Pipeline Refresh (id=036962566869a8b4d99a795d72d0fada): Total: 0.004 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/a4daaffdfdcd37546b12a3c510f206bf'
+	Deserialize:            0.617 ms
+	Integration:            0.543 ms
+	Integration of assets:  0.009 ms
+	Thread Wait Time:       0.061 ms
+	Total Operation Time:   1.229 ms
+Loaded scene 'Library/Unused/998453f636b8caf43a74017387bddc47'
+	Deserialize:            2.364 ms
+	Integration:            0.516 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.074 ms
+	Total Operation Time:   2.957 ms
+Loaded scene 'Library/Unused/7ad8217c8f67fd241815e987af30655a'
+	Deserialize:            0.403 ms
+	Integration:            0.252 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.065 ms
+	Total Operation Time:   0.721 ms
+Loaded scene 'Library/Unused/dc4609a05f5aa5e4eab047a909dd72bd'
+	Deserialize:            0.900 ms
+	Integration:            0.311 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.017 ms
+	Total Operation Time:   1.230 ms
+Loaded scene 'Library/Unused/4224dc002310f3e4cbde00ab6a000a74'
+	Deserialize:            1.781 ms
+	Integration:            0.513 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.018 ms
+	Total Operation Time:   2.314 ms
+Loaded scene 'Library/Unused/4423de28c7b6d644b94b8a8f7bc651ba'
+	Deserialize:            0.877 ms
+	Integration:            0.361 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.057 ms
+	Total Operation Time:   1.296 ms
+Loaded scene 'Library/Unused/bed62b3e9bcd2fc40a07def366341c1d'
+	Deserialize:            1.735 ms
+	Integration:            0.444 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.025 ms
+	Total Operation Time:   2.206 ms
+Loaded scene 'Library/Unused/825fb3c26ae52364eb7e31414a1b3752'
+	Deserialize:            1.134 ms
+	Integration:            0.947 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.019 ms
+	Total Operation Time:   2.101 ms
+Loaded scene 'Library/Unused/a49896ab03a80e94fbffa4131602d625'
+	Deserialize:            1.051 ms
+	Integration:            0.326 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.016 ms
+	Total Operation Time:   1.395 ms
+Loaded scene 'Library/Unused/e8b638141a6e0174bb3afc558dd05d67'
+	Deserialize:            0.546 ms
+	Integration:            0.324 ms
+	Integration of assets:  0.006 ms
+	Thread Wait Time:       0.092 ms
+	Total Operation Time:   0.967 ms
+Loaded scene 'Library/Unused/8de988d4493637e44a53fbb0b85a4929'
+	Deserialize:            0.916 ms
+	Integration:            0.427 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.034 ms
+	Total Operation Time:   1.379 ms
+Loaded scene 'Library/Unused/8f6fd45b82eb237458dbe8b115feb30b'
+	Deserialize:            0.961 ms
+	Integration:            0.533 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.024 ms
+	Total Operation Time:   1.520 ms
+Loaded scene 'Library/Unused/39e3afd2378b1304299eeb3edf637f72'
+	Deserialize:            1.688 ms
+	Integration:            0.448 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.035 ms
+	Total Operation Time:   2.173 ms
+Loaded scene 'Library/Unused/db8b701f64a351746932c5e9e93dc55a'
+	Deserialize:            0.920 ms
+	Integration:            0.305 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.053 ms
+	Total Operation Time:   1.280 ms
+Loaded scene 'Library/Unused/0b27d81c235bf1842b31566c34f03226'
+	Deserialize:            1.664 ms
+	Integration:            0.373 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.025 ms
+	Total Operation Time:   2.065 ms
+Loaded scene 'Library/Unused/eff2afc90e8d05742a64c60cda2424ca'
+	Deserialize:            0.676 ms
+	Integration:            0.444 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.028 ms
+	Total Operation Time:   1.149 ms
+Loaded scene 'Library/Unused/172a9369badbcb841a88cc1765ffd127'
+	Deserialize:            1.404 ms
+	Integration:            0.517 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.029 ms
+	Total Operation Time:   1.952 ms
+Loaded scene 'Library/Unused/93864f4da47a0754f95b89c2ab23bfed'
+	Deserialize:            1.146 ms
+	Integration:            0.436 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.033 ms
+	Total Operation Time:   1.617 ms
+Loaded scene 'Library/Unused/5956e777aa4762c4f9e258334566b62a'
+	Deserialize:            1.455 ms
+	Integration:            0.579 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.064 ms
+	Total Operation Time:   2.100 ms
+Loaded scene 'Library/Unused/6b24dbc33baf05c42b96aa0073364df6'
+	Deserialize:            0.935 ms
+	Integration:            0.528 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.028 ms
+	Total Operation Time:   1.494 ms
+Importing 'GUID: fdda24cd30f11bc4cb4f58bb7c637aa5 - Path: Assets/VLAB/PhysicsLab/Generated/PhysicsLabAssetReport.json' with importer (TextScriptImporter)
+Imported 'GUID: fdda24cd30f11bc4cb4f58bb7c637aa5' -> (Import Result ID: '303541a8103617a1dc6d1adcb19282af') in 0.003 seconds [static dependencies only]. Details - ImportResultOutputID=13fef0c0edf0dc2aad7a80bd10514dec DependenciesID=48ea48630590955b2352a245181f313d StaticDependenciesID=e42144367394a448c6f6d0e3209e69f1 
+Refreshing native plugins compatible for Editor in 2.71 ms, found 1 plugins.
+Asset Pipeline Refresh (id=78707a6291530474e86745a8cd0cdb7d): Total: 0.177 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[VLAB Physics Lab] Validation passed for 20 assets. Report: Assets/VLAB/PhysicsLab/Generated/PhysicsLabAssetReport.json
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+VLAB.PhysicsLab.Editor.PhysicsLabAssetPipeline:ValidateAssets () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs:98)
+VLAB.PhysicsLab.Editor.PhysicsLabAssetPipeline:GenerateAll () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs:107)
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder:BuildAll () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs:59)
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder:BuildAllFromCommandLine () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs:72)
+
+(Filename: Assets/VLAB/PhysicsLab/Editor/PhysicsLabAssetPipeline.cs Line: 98)
+
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.02 seconds
+Unloading 18 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1872 unused Assets / (1.8 MB). Loaded Objects now: 9448.
+Memory consumption went from 0.53 GB to 0.53 GB.
+Total: 29.235900 ms (FindLiveObjects: 0.470000 ms CreateObjectMapping: 2.337600 ms MarkObjects: 23.629900 ms  DeleteObjects: 2.796700 ms)
+
+Importing 'GUID: 21649152054922e4282813d787074b8a - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Floor.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 21649152054922e4282813d787074b8a' -> (Import Result ID: '6082c831b9b7e1b9d9936a4a58fdfa0f') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=7afbefd40545f740026a65679097bdf0 DependenciesID=be932916d3fc706737f1e56d9b5941a5 StaticDependenciesID=37cda05603bdb8db015a6f31a2502c98 
+Importing 'GUID: d1bc91e688d8ab847881dbff05a17de1 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_WarmWhite.mat' with importer (NativeFormatImporter)
+Imported 'GUID: d1bc91e688d8ab847881dbff05a17de1' -> (Import Result ID: 'd4bdc765f3be5e891da084615bd92b4c') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=6466194fbd864f88d9c223f7c2595c49 DependenciesID=1cfc78f651393d72809ab986b17689b9 StaticDependenciesID=26b16fc513be250dfc7d8c1dc2a5ea19 
+Importing 'GUID: 03058c71cd1ea2f4bac6c0da3c779208 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Graphite.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 03058c71cd1ea2f4bac6c0da3c779208' -> (Import Result ID: '571e0e857fc0dd0802d65700737e8107') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=cf4472e860284ad62ba618b6f234c6e1 DependenciesID=f0de245647f6ab4a53f21307a9129c75 StaticDependenciesID=b99f59f526be536d7d42c96bc21904c5 
+Importing 'GUID: d3e92ae7b924889489863e2b66c96573 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_SoftBlue.mat' with importer (NativeFormatImporter)
+Imported 'GUID: d3e92ae7b924889489863e2b66c96573' -> (Import Result ID: '91a4b9c69477f85672e4a0dbc7a89818') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=933566220ea425e8b25b08ec41c27cea DependenciesID=8894d09f3a6654b9fd4141056efcc946 StaticDependenciesID=1450942b746eac35ffcfb5212bec4a6a 
+Importing 'GUID: 354ec0dd668fe02459812c19da2b69e5 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Cyan.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 354ec0dd668fe02459812c19da2b69e5' -> (Import Result ID: '5ffe9531316bcf3ff0f7812c7f2f54ba') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=f2c4cad9662b32b5c92617c0d833a4c5 DependenciesID=9a78af92b8a4afc26558134049ed471c StaticDependenciesID=b7fc9b21b742f4885351e86ed2c3107a 
+Importing 'GUID: c740557c11ff368498788dc24962f8e8 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_UI_Text.mat' with importer (NativeFormatImporter)
+Imported 'GUID: c740557c11ff368498788dc24962f8e8' -> (Import Result ID: '641651f26853a680ea135dd779dda625') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=559842b5591cdbdd17744b65714fb244 DependenciesID=6ae7370a6aa6bd5a59f72fa3b95174d1 StaticDependenciesID=a3ba2d4d1bfb6274f687acdeb938f90a 
+Importing 'GUID: d7cde768f5f8af54699ad0bd130d93dd - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Navy.mat' with importer (NativeFormatImporter)
+Imported 'GUID: d7cde768f5f8af54699ad0bd130d93dd' -> (Import Result ID: '4e9519367dddf175a63cd32108bf6a13') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=f1498c4e365e15754ce29ed644003070 DependenciesID=357337a070b8165f13359ef1739c2d55 StaticDependenciesID=b3c84ae9035adb2c459f20f3e266204d 
+Importing 'GUID: d8c4f0fbdd3fb3b41be28e5844375ef8 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_WindowGlass.mat' with importer (NativeFormatImporter)
+Imported 'GUID: d8c4f0fbdd3fb3b41be28e5844375ef8' -> (Import Result ID: 'afd4c8217f3adaf0a1901ff92eb3a6fa') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=a5bc28ac0f0297db07158dd945fa3f25 DependenciesID=0d5307c1c26908832949cb10470ff03b StaticDependenciesID=652328b8c701288f9476a5db037957d2 
+Importing 'GUID: 3a32969b4af792f459b85967e807ca16 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Metal.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 3a32969b4af792f459b85967e807ca16' -> (Import Result ID: 'a22ad1f0dcee4f1dd340b11f078d5b4f') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=624331ef71f4b50cb35bc123d9903680 DependenciesID=eb844a3d4d4b3311eaa10535d713cf5d StaticDependenciesID=ceb93a75289211915a741a5cbba8a242 
+Importing 'GUID: baec287fab0694641bfd905117ec9b43 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Qwantani_Skybox.mat' with importer (NativeFormatImporter)
+Imported 'GUID: baec287fab0694641bfd905117ec9b43' -> (Import Result ID: 'ba5eba3dfc36e6b38cf5145ee69eb025') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=f0f89a1fbc5806ccd859ecbd33e9ba8a DependenciesID=eedd970d55356e251e72bd896bfd8798 StaticDependenciesID=3a5d343f34a0f6ecb4acb5486e60e7c5 
+Importing 'GUID: cb4c5827ba136aa45ba7558373e2b465 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_WarmWood.mat' with importer (NativeFormatImporter)
+Imported 'GUID: cb4c5827ba136aa45ba7558373e2b465' -> (Import Result ID: '0919b66e430fa3b09a61f9d23694b348') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=2e89c018702b7ef775bafef47465b23e DependenciesID=99f38c77ecb0c4d7dddf7c701eae7aea StaticDependenciesID=72ef89fdb93f4328953bfcc9043aaaf7 
+Importing 'GUID: dcce87f7628d8cc4da486dbfaab7f7ac - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Dark.mat' with importer (NativeFormatImporter)
+Imported 'GUID: dcce87f7628d8cc4da486dbfaab7f7ac' -> (Import Result ID: '63058ec64ce29afa8aaf80c12b0ba185') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=923cbc83276c675d0c94b118e81032d7 DependenciesID=90eed544549ba4572f6aa4167f2aad10 StaticDependenciesID=bd20408a5c35086e29f51e4ca301a40b 
+Importing 'GUID: 8d19be66a34fde04ab2f93ee0130fe14 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Green.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 8d19be66a34fde04ab2f93ee0130fe14' -> (Import Result ID: '6ebc0d4e070e8b9f1ad0f3e8d5027fb8') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=e9749896ae06f6514ac2e0de777b5248 DependenciesID=3f212968b814b874303184df48309650 StaticDependenciesID=b4e9ecff9d5f5210058ce981aec2b2dd 
+Importing 'GUID: 9f41797521c7829468582b0e013f1a85 - Path: Assets/VLAB/PhysicsLab/Environment/Materials/VLAB_Orange.mat' with importer (NativeFormatImporter)
+Imported 'GUID: 9f41797521c7829468582b0e013f1a85' -> (Import Result ID: 'ebeb8c6f73f32df3481fc434b919107c') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=d43689997b04b4adbee2ab2f5dd1fe8a DependenciesID=2780504522740abba79eee410ff00ce9 StaticDependenciesID=256baff0ec26309febc23609577ccb0e 
+Refreshing native plugins compatible for Editor in 2.03 ms, found 1 plugins.
+Asset Pipeline Refresh (id=24a498b2b2a00ed429eab912b161fae9): Total: 0.193 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Importing 'GUID: 62f14735386bab343952995d0b0aa91d - Path: Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity' with importer (DefaultImporter)
+Imported 'GUID: 62f14735386bab343952995d0b0aa91d' -> (Import Result ID: 'f8370bc653b24238dcc68829a4ea72db') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=faf3d7e9145936c83d8bfba4edf7f87a DependenciesID=2938eb819d28710b0153f590ae2234e9 StaticDependenciesID=993c57f66dc840f07b27d0ac5c7cd29b 
+Refreshing native plugins compatible for Editor in 2.16 ms, found 1 plugins.
+Asset Pipeline Refresh (id=cab1b9043f2949048bb6e1e9c2cacdc4): Total: 0.170 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Unloading 24 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 530 unused Assets / (495.7 KB). Loaded Objects now: 9469.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 30.865400 ms (FindLiveObjects: 0.572300 ms CreateObjectMapping: 2.216800 ms MarkObjects: 27.422500 ms  DeleteObjects: 0.651800 ms)
+
+Importing 'GUID: ed202fb8883b4af46affbbcd7324e36c - Path: Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity' with importer (DefaultImporter)
+Imported 'GUID: ed202fb8883b4af46affbbcd7324e36c' -> (Import Result ID: '75bff8074ee265393797d38796f48819') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=b8b8913b4b64c6b9a53103aad3183ff9 DependenciesID=a44f72e65fce16288b5e56080628373b StaticDependenciesID=11d2bb521c96e83865b0782125c28826 
+Asset Pipeline Refresh (id=c7caf3c7aac84024995e7d703aa0f400): Total: 0.189 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 157 unused Assets / (144.9 KB). Loaded Objects now: 9469.
+Memory consumption went from 0.66 GB to 0.66 GB.
+Total: 28.110200 ms (FindLiveObjects: 0.578900 ms CreateObjectMapping: 2.208800 ms MarkObjects: 24.957800 ms  DeleteObjects: 0.363000 ms)
+
+Importing 'GUID: f42265c615c32e348970a6b24a457457 - Path: Assets/VLAB/PhysicsLab/Scenes/Physics_Pendulum.unity' with importer (DefaultImporter)
+Imported 'GUID: f42265c615c32e348970a6b24a457457' -> (Import Result ID: '96ebe80a1711d05aaaf3ceca0c7cc646') in 0.003 seconds [static dependencies only]. Details - ImportResultOutputID=0ddd0283757189bc5e3a5fd02316d9e4 DependenciesID=49cdc309d922eae614eb4b8e6d29af5a StaticDependenciesID=fffa24b2510d7bab18721344953cff3a 
+Asset Pipeline Refresh (id=c8e4ad4588d79b243b920e7005fbaaa4): Total: 0.203 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 458 unused Assets / (2.1 MB). Loaded Objects now: 9469.
+Memory consumption went from 0.69 GB to 0.69 GB.
+Total: 28.544500 ms (FindLiveObjects: 0.508600 ms CreateObjectMapping: 2.520900 ms MarkObjects: 24.963900 ms  DeleteObjects: 0.549200 ms)
+
+Importing 'GUID: 7e3c717f068a36540910a1741c3dee3b - Path: Assets/VLAB/PhysicsLab/Scenes/Physics_Projectile.unity' with importer (DefaultImporter)
+Imported 'GUID: 7e3c717f068a36540910a1741c3dee3b' -> (Import Result ID: 'c3434fa5b17e48004b50a1ce35e52476') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=b0decf7ca8f349ea6e29e0d2aaacc6ff DependenciesID=66921844f9244ceb095752db447bd666 StaticDependenciesID=ec9a9168ed177e0f38a475a9fc82486d 
+Refreshing native plugins compatible for Editor in 2.08 ms, found 1 plugins.
+Asset Pipeline Refresh (id=106886a695e396242946b8685badea9a): Total: 0.181 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 366 unused Assets / (240.4 KB). Loaded Objects now: 9469.
+Memory consumption went from 0.72 GB to 0.72 GB.
+Total: 25.966100 ms (FindLiveObjects: 0.579100 ms CreateObjectMapping: 2.094700 ms MarkObjects: 22.812400 ms  DeleteObjects: 0.477600 ms)
+
+Importing 'GUID: 83dd74704183c90459c07b58ab5681b8 - Path: Assets/VLAB/PhysicsLab/Scenes/Physics_Friction.unity' with importer (DefaultImporter)
+Imported 'GUID: 83dd74704183c90459c07b58ab5681b8' -> (Import Result ID: 'cda4fcc6114547adac3949a424952739') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=062a202a8feb006c5512773870d08fac DependenciesID=371aa0787e9adc08468c976a325a5451 StaticDependenciesID=16e8bcffa2367d9cdc620fcb634c58bd 
+Asset Pipeline Refresh (id=97004ecab7f6c8b44b2d7132e732d365): Total: 0.179 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Worker ready: AssetImportWorkerHW0 0
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 502 unused Assets / (2.6 MB). Loaded Objects now: 9469.
+Memory consumption went from 0.57 GB to 0.57 GB.
+Total: 33.691100 ms (FindLiveObjects: 0.704300 ms CreateObjectMapping: 2.783200 ms MarkObjects: 29.413300 ms  DeleteObjects: 0.788000 ms)
+
+Importing 'GUID: 4694e086b75e6614985e0f34382087c4 - Path: Assets/VLAB/PhysicsLab/Scenes/Physics_PhotogateMotion.unity' with importer (DefaultImporter)
+Imported 'GUID: 4694e086b75e6614985e0f34382087c4' -> (Import Result ID: '71bd31a964419b2dc873d48e6984125b') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=e636fc069c75dda3173f8292be6c9bc6 DependenciesID=85cf48d742380680f15ec6c03b939ca5 StaticDependenciesID=5df275a22edb900dee1dd2850fb5677f 
+Refreshing native plugins compatible for Editor in 2.43 ms, found 1 plugins.
+Asset Pipeline Refresh (id=91f5d04549142464e9c9dc530d1ceaba): Total: 0.192 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 605 unused Assets / (3.4 MB). Loaded Objects now: 9469.
+Memory consumption went from 0.60 GB to 0.60 GB.
+Total: 30.902500 ms (FindLiveObjects: 0.506600 ms CreateObjectMapping: 2.118000 ms MarkObjects: 27.549900 ms  DeleteObjects: 0.725400 ms)
+
+Importing 'GUID: 16ae527a8f467164ea01a480e59e11dc - Path: Assets/VLAB/PhysicsLab/Scenes/Physics_Spring.unity' with importer (DefaultImporter)
+Imported 'GUID: 16ae527a8f467164ea01a480e59e11dc' -> (Import Result ID: 'd991beb730313667d8a3bb02e83b09a3') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=ea94efee8d4d9fb4fb783c4b341d28a9 DependenciesID=6e655e0a29090c4777bee425b723fd14 StaticDependenciesID=19b4ff620fc0a1e001d9f48792e8db10 
+Asset Pipeline Refresh (id=0af8f8a5cdd13f041874b7ddaa1565a6): Total: 0.190 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Unloading 22 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 508 unused Assets / (2.7 MB). Loaded Objects now: 9469.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 31.389600 ms (FindLiveObjects: 0.514000 ms CreateObjectMapping: 2.870500 ms MarkObjects: 27.342700 ms  DeleteObjects: 0.660200 ms)
+
+Importing 'GUID: aa5268de8d29e904eafcba12e84d6c2e - Path: Assets/VLAB/PhysicsLab/Scenes/Physics_AirTrackMomentum.unity' with importer (DefaultImporter)
+Imported 'GUID: aa5268de8d29e904eafcba12e84d6c2e' -> (Import Result ID: '6b39730d1c874dfce34322821e4d4db5') in 0.002 seconds [static dependencies only]. Details - ImportResultOutputID=89a65c213f7843a810aedc2874b8bde2 DependenciesID=113a8dd2c95e626aca64a4d1b92837ce StaticDependenciesID=ed925785f05bc1c83ab4bba32d715d1e 
+Asset Pipeline Refresh (id=c3b4e6da9cdeeef41a270707a9012512): Total: 0.217 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=12e6c67a457ab8842a9d3b63230ef75c): Total: 0.016 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[VLAB Physics Lab] Built one reusable base lab, hub and six additive apparatus scenes.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder:BuildAll () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs:69)
+VLAB.PhysicsLab.Editor.PhysicsLabExperienceBuilder:BuildAllFromCommandLine () (at Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs:72)
+
+(Filename: Assets/VLAB/PhysicsLab/Editor/PhysicsLabExperienceBuilder.cs Line: 69)
+
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-PC-6000.5.6-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-PC-6000.5.6 channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

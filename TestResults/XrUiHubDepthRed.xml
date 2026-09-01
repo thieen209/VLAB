@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Failed(Child)" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-08-31 06:41:42Z" end-time="2026-08-31 06:41:43Z" duration="0.543634">
+  <test-suite type="TestSuite" id="1000" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="45" result="Failed" site="Child" start-time="2026-08-31 06:41:42Z" end-time="2026-08-31 06:41:43Z" duration="0.543634" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1069" name="VLAB.PhysicsLab.Tests.Editor.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.PhysicsLab.Tests.Editor.dll" runstate="Runnable" testcasecount="36" result="Failed" site="Child" start-time="2026-08-31 06:41:42Z" end-time="2026-08-31 06:41:43Z" duration="0.533861" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="30648" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1070" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="36" result="Failed" site="Child" start-time="2026-08-31 06:41:42Z" end-time="2026-08-31 06:41:43Z" duration="0.532598" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1071" name="PhysicsLab" fullname="VLAB.PhysicsLab" runstate="Runnable" testcasecount="36" result="Failed" site="Child" start-time="2026-08-31 06:41:42Z" end-time="2026-08-31 06:41:43Z" duration="0.531894" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1072" name="Tests" fullname="VLAB.PhysicsLab.Tests" runstate="Runnable" testcasecount="36" result="Failed" site="Child" start-time="2026-08-31 06:41:42Z" end-time="2026-08-31 06:41:43Z" duration="0.531261" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1056" name="PhysicsLabSceneArchitectureTests" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" testcasecount="12" result="Failed" site="Child" start-time="2026-08-31 06:41:42Z" end-time="2026-08-31 06:41:43Z" duration="0.529098" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1063" name="HubSelector_IsWorldSpaceAndControllerRayCompatible" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.HubSelector_IsWorldSpaceAndControllerRayCompatible" methodname="HubSelector_IsWorldSpaceAndControllerRayCompatible" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1282889621" result="Failed" start-time="2026-08-31 06:41:42Z" end-time="2026-08-31 06:41:43Z" duration="0.510452" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  The world-space selector must sit in front of the physical console so no button row is occluded.
+  Expected: less than 1.16499996f
+  But was:  1.36000001f
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.HubSelector_IsWorldSpaceAndControllerRayCompatible () [0x00127] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:149
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

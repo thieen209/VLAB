@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using VLAB.PhysicsLab.SceneFlow;
 
 public class UIManager : MonoBehaviour
 {
@@ -83,30 +84,16 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator SimulateKitCheckRoutine()
     {
-        // 1. Tắt Pop-up chi tiết bài Lab
         if (labDetailPanel != null)
             labDetailPanel.SetActive(false);
 
-        // 2. Bật bảng thông báo trạng thái
         if (statusPanel != null)
             statusPanel.SetActive(true);
 
-        // 3. thong bao fake
         if (statusText != null)
-            statusText.text = "Đang kiểm tra kết nối thiết bị VR...";
+            statusText.text = "Đang mở Phòng Thí nghiệm Vật lý...";
 
-        // ts fake 
-        yield return new WaitForSeconds(2f);
-
-        // 4. Connect ntf
-        if (statusText != null)
-            statusText.text = "Kết nối thành công! Đang vào phòng VR...";
-
-        // Chờ thêm 1.5 giây cho người dùng đọc thông báo
-        yield return new WaitForSeconds(1.5f);
-
-        // 5. chuyen scece (bo cmt duoi khi tao xong scene hub world)
-        // SceneManager.LoadScene("HubWorldScene");
-        Debug.Log("Đã hoàn tất kiểm tra! Chuyển sang Hub World...");
+        yield return new WaitForSecondsRealtime(0.35f);
+        SceneManager.LoadScene(PhysicsLabSceneNames.Base, LoadSceneMode.Single);
     }
 }

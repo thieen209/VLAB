@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="19" result="Failed(Child)" total="19" passed="14" failed="5" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-08-31 10:27:18Z" end-time="2026-08-31 10:27:39Z" duration="21.5624729">
+  <test-suite type="TestSuite" id="1000" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="52" result="Failed" site="Child" start-time="2026-08-31 10:27:18Z" end-time="2026-08-31 10:27:39Z" duration="21.562473" total="19" passed="14" failed="5" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1076" name="VLAB.PhysicsLab.Tests.Editor.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.PhysicsLab.Tests.Editor.dll" runstate="Runnable" testcasecount="43" result="Failed" site="Child" start-time="2026-08-31 10:27:18Z" end-time="2026-08-31 10:27:39Z" duration="21.547998" total="19" passed="14" failed="5" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="51920" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1077" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="43" result="Failed" site="Child" start-time="2026-08-31 10:27:18Z" end-time="2026-08-31 10:27:39Z" duration="21.545243" total="19" passed="14" failed="5" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1078" name="PhysicsLab" fullname="VLAB.PhysicsLab" runstate="Runnable" testcasecount="43" result="Failed" site="Child" start-time="2026-08-31 10:27:18Z" end-time="2026-08-31 10:27:39Z" duration="21.543528" total="19" passed="14" failed="5" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1079" name="Tests" fullname="VLAB.PhysicsLab.Tests" runstate="Runnable" testcasecount="43" result="Failed" site="Child" start-time="2026-08-31 10:27:18Z" end-time="2026-08-31 10:27:39Z" duration="21.542522" total="19" passed="14" failed="5" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1056" name="PhysicsLabSceneArchitectureTests" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" testcasecount="19" result="Failed" site="Child" start-time="2026-08-31 10:27:18Z" end-time="2026-08-31 10:27:39Z" duration="21.539377" total="19" passed="14" failed="5" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1068" name="Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" methodname="Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="423028143" result="Passed" start-time="2026-08-31 10:27:18Z" end-time="2026-08-31 10:27:19Z" duration="1.275451" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1069" name="Base_PreservesCabinetsWithoutDecorativeEquipmentDisplay" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_PreservesCabinetsWithoutDecorativeEquipmentDisplay" methodname="Base_PreservesCabinetsWithoutDecorativeEquipmentDisplay" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="912652597" result="Failed" start-time="2026-08-31 10:27:19Z" end-time="2026-08-31 10:27:20Z" duration="0.526617" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: False
+  But was:  True
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_PreservesCabinetsWithoutDecorativeEquipmentDisplay () [0x000a6] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:308
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1061" name="Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" methodname="Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="371152005" result="Passed" start-time="2026-08-31 10:27:20Z" end-time="2026-08-31 10:27:20Z" duration="0.471122" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1066" name="Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" methodname="Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1895522053" result="Failed" start-time="2026-08-31 10:27:20Z" end-time="2026-08-31 10:27:21Z" duration="0.498669" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  A flat exterior deck must not hide the lower half of the 360-degree panorama.
+  Expected: null
+  But was:  <empty>
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky () [0x002b1] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:252
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1067" name="Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" methodname="Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="23721369" result="Passed" start-time="2026-08-31 10:27:21Z" end-time="2026-08-31 10:27:21Z" duration="0.473011" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1070" name="Base_XrControllerRaysAreConfiguredForWorldAndUi" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_XrControllerRaysAreConfiguredForWorldAndUi" methodname="Base_XrControllerRaysAreConfiguredForWorldAndUi" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="2032609338" result="Failed" start-time="2026-08-31 10:27:21Z" end-time="2026-08-31 10:27:22Z" duration="0.481649" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Near-Far Interactor
+  Expected: True
+  But was:  False
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_XrControllerRaysAreConfiguredForWorldAndUi () [0x0012a] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:332
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1062" name="Base_XriLocomotionUsesTheHmdCameraAsForwardSource" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_XriLocomotionUsesTheHmdCameraAsForwardSource" methodname="Base_XriLocomotionUsesTheHmdCameraAsForwardSource" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1995673075" result="Passed" start-time="2026-08-31 10:27:22Z" end-time="2026-08-31 10:27:22Z" duration="0.460045" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1057" name="BaseAndAllContentScenes_ExistAndUseAdditiveArchitecture" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.BaseAndAllContentScenes_ExistAndUseAdditiveArchitecture" methodname="BaseAndAllContentScenes_ExistAndUseAdditiveArchitecture" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="139659805" result="Passed" start-time="2026-08-31 10:27:22Z" end-time="2026-08-31 10:27:23Z" duration="1.037846" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1058" name="BuildSettings_ContainsHomeBaseHubAndSixExperiments" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.BuildSettings_ContainsHomeBaseHubAndSixExperiments" methodname="BuildSettings_ContainsHomeBaseHubAndSixExperiments" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1035694566" result="Passed" start-time="2026-08-31 10:27:23Z" end-time="2026-08-31 10:27:23Z" duration="0.002512" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1072" name="EveryNativeGrab_PreservesRemoteOffsetAndRotationUntilDeliberateManipulation" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.EveryNativeGrab_PreservesRemoteOffsetAndRotationUntilDeliberateManipulation" methodname="EveryNativeGrab_PreservesRemoteOffsetAndRotationUntilDeliberateManipulation" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1987460657" result="Failed" start-time="2026-08-31 10:27:23Z" end-time="2026-08-31 10:27:24Z" duration="0.456792" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Physics_Pendulum/Adjustable_Clamp
+  Expected: True
+  But was:  False
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.EveryNativeGrab_PreservesRemoteOffsetAndRotationUntilDeliberateManipulation () [0x00089] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:366
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1064" name="EveryWorldInteractable_HasExactlyOneNativeXriBridge" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.EveryWorldInteractable_HasExactlyOneNativeXriBridge" methodname="EveryWorldInteractable_HasExactlyOneNativeXriBridge" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1666172726" result="Passed" start-time="2026-08-31 10:27:24Z" end-time="2026-08-31 10:27:27Z" duration="2.872157" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1071" name="EveryWorldSpacePhysicsLabCanvas_IsOnUiLayerAndTrackedRaycastable" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.EveryWorldSpacePhysicsLabCanvas_IsOnUiLayerAndTrackedRaycastable" methodname="EveryWorldSpacePhysicsLabCanvas_IsOnUiLayerAndTrackedRaycastable" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1075340499" result="Failed" start-time="2026-08-31 10:27:27Z" end-time="2026-08-31 10:27:27Z" duration="0.411086" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  PhysicsLab_Hub/ExperimentSelectorCanvas
+  Expected: True
+  But was:  False
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.EveryWorldSpacePhysicsLabCanvas_IsOnUiLayerAndTrackedRaycastable () [0x000e7] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:350
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1073" name="ExperimentStations_UseEnlargedTablesAndReadableApparatus" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.ExperimentStations_UseEnlargedTablesAndReadableApparatus" methodname="ExperimentStations_UseEnlargedTablesAndReadableApparatus" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="868463336" result="Passed" start-time="2026-08-31 10:27:27Z" end-time="2026-08-31 10:27:30Z" duration="2.580286" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1074" name="ExperimentStations_UsePhysicalControllerAndNoWizardControls" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.ExperimentStations_UsePhysicalControllerAndNoWizardControls" methodname="ExperimentStations_UsePhysicalControllerAndNoWizardControls" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="535506165" result="Passed" start-time="2026-08-31 10:27:30Z" end-time="2026-08-31 10:27:32Z" duration="2.585164" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1075" name="FrictionStation_UsesThreePhysicalSurfaceSamples" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.FrictionStation_UsesThreePhysicalSurfaceSamples" methodname="FrictionStation_UsesThreePhysicalSurfaceSamples" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1767755160" result="Passed" start-time="2026-08-31 10:27:32Z" end-time="2026-08-31 10:27:33Z" duration="0.420007" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1063" name="HubSelector_IsWorldSpaceAndControllerRayCompatible" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.HubSelector_IsWorldSpaceAndControllerRayCompatible" methodname="HubSelector_IsWorldSpaceAndControllerRayCompatible" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="482842445" result="Passed" start-time="2026-08-31 10:27:33Z" end-time="2026-08-31 10:27:33Z" duration="0.411478" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1059" name="PhysicsLabScenes_HaveNoMissingScriptsOrMaterials" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.PhysicsLabScenes_HaveNoMissingScriptsOrMaterials" methodname="PhysicsLabScenes_HaveNoMissingScriptsOrMaterials" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="629674909" result="Passed" start-time="2026-08-31 10:27:33Z" end-time="2026-08-31 10:27:36Z" duration="3.467153" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1065" name="PhysicsLabUi_IsResponsiveAndLongResultsAreScrollable" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.PhysicsLabUi_IsResponsiveAndLongResultsAreScrollable" methodname="PhysicsLabUi_IsResponsiveAndLongResultsAreScrollable" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1082004817" result="Passed" start-time="2026-08-31 10:27:36Z" end-time="2026-08-31 10:27:39Z" duration="3.071663" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1060" name="XRDeviceSimulator_AutoStartsForTemporaryVrTesting" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.XRDeviceSimulator_AutoStartsForTemporaryVrTesting" methodname="XRDeviceSimulator_AutoStartsForTemporaryVrTesting" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="22046948" result="Passed" start-time="2026-08-31 10:27:39Z" end-time="2026-08-31 10:27:39Z" duration="0.001547" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

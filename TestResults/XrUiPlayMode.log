@@ -1,0 +1,1419 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-PC" at "2026-08-31T06:45:14.9353399Z"
+Built from '6000.5/staging' branch; Version is '6000.5.6f1 (0e0577a1a2ac) revision 918903'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) CoreSingleLanguage' Language: 'en' Physical Memory: 16085 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-08-31T06:45:14Z
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.5.6f1\Editor\Unity.exe
+-batchmode
+-nographics
+-projectPath
+D:\VLAB\Web demo\VLAB
+-runTests
+-testPlatform
+PlayMode
+-testResults
+D:\VLAB\Web demo\VLAB\TestResults\XrUiPlayMode.xml
+-logFile
+D:\VLAB\Web demo\VLAB\TestResults\XrUiPlayMode.log
+Successfully changed project path to: D:\VLAB\Web demo\VLAB
+D:/VLAB/Web demo/VLAB
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [32628]  Target information:
+
+Player connection [32628]  * "[IP] 192.168.0.108 [Port] 55504 [Flags] 2 [Guid] 3165107290 [EditorId] 3165107290 [Version] 1048832 [Id] WindowsEditor(7,thieen) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [32628] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [32628] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-32668" after 0.3 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Error: HandshakeResponse reported an error:
+	ResponseCode: 505
+	ResponseStatus: Unsupported protocol version '1.18.1'.
+[Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-PC"
+[Licensing::IpcConnector] LicenseClient-PC channel disconnected successfully.
+[Licensing::IpcConnector] Channel LicenseClient-PC-6000.5.6 doesn't exist
+[Licensing::Module] Successfully launched the LicensingClient (PId: 25264)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-PC-6000.5.6" at "2026-08-31T06:45:17.862885Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 25264, path: "C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.1+9fbee8e
+  Session Id:              a763a27452254d82bd96aeb5906f7f03
+  Correlation Id:          73ab561b34c6ff5b1c3c6518779a2112
+  External correlation Id: 8823794483374775695
+  Machine Id:              Xlc8O0asCxm32E0P9wbkyF8d4s4=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-PC-6000.5.6" (connect: 0.37s, validation: 0.46s, handshake: 0.01s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-PC-6000.5.6-notifications" at "2026-08-31T06:45:18.3398918Z"
+[Licensing::Module] Connected to LicensingClient (PId: 25264, launch time: 0.01, total connection time: 0.85s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 18968469523534-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.01
+[Licensing::Module] Licensing Background thread has ended after 3.46s
+[Licensing::Module] Licensing is initialized (took 2.89s).
+[Licensing::Client] Successfully resolved entitlement details
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.5.6f1 (0e0577a1a2ac)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path D:/VLAB/Web demo/VLAB/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = 'C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56668
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.007897 seconds.
+Failed to load: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/iOSSupport\x64\UnityEditor.iOS.Native.dll
+Native extension for iOS target not found
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.525 seconds
+Domain Reload Profiling: 1125ms
+	BeginReloadAssembly (156ms)
+		CreateAndSetChildDomain (19ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (17ms)
+	initialDomainReloadingComplete (77ms)
+	LoadAllAssembliesAndSetupDomain (344ms)
+		LoadAssemblies (136ms)
+		AnalyzeDomain (246ms)
+			TypeCache.Refresh (244ms)
+				TypeCache.ScanAssembly (229ms)
+	FinalizeReload (527ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (11ms)
+			BeforeProcessingInitializeOnLoad (101ms)
+			ProcessInitializeOnLoadAttributes (117ms)
+			ProcessInitializeOnLoadMethodAttributes (208ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 59 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.assistant@2.18.0-pre.2 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.ai.assistant@c0127625258e)
+    com.unity.ai.inference@2.6.1 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.ai.inference@9a123aee5df7)
+    com.unity.xr.interaction.toolkit@3.5.1 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.xr.interaction.toolkit@63ca3b7ce776)
+    com.unity.inputsystem@1.20.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.inputsystem@7a4e1a2a8194)
+    com.unity.xr.core-utils@2.6.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.xr.core-utils@a8b900321199)
+    com.unity.burst@1.8.29 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.burst@6bb9aca3ef38)
+    com.unity.dt.app-ui@2.1.7 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.dt.app-ui@b097002a00c2)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.nuget.mono-cecil@1.11.6 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.searcher@4.9.4 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.searcher@d45a78918735)
+    com.unity.test-framework.performance@3.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.multiplayer.center@1.0.1 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.multiplayer.center@b860850997d0)
+    com.unity.render-pipelines.universal@17.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.render-pipelines.universal@73b4c4ff130e)
+    com.unity.ugui@2.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.ugui@67707a67a4ab)
+    com.unity.modules.accessibility@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.mathematics@1.4.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.mathematics@981956d94fb6)
+    com.unity.render-pipelines.core@17.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.render-pipelines.core@645717f21c5f)
+    com.unity.shadergraph@17.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.shadergraph@8d7376ec43ee)
+    com.unity.render-pipelines.universal-config@17.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.render-pipelines.universal-config@fdda01c80fe3)
+    com.unity.collections@6.5.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.collections@a43cabe808ca)
+    com.unity.2d.sprite@1.0.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.2d.sprite@053a968eab56)
+    com.unity.test-framework@1.7.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.test-framework@1405238725ab)
+    com.unity.ext.nunit@2.1.0 (location: D:\VLAB\Web demo\VLAB\Library\PackageCache\com.unity.ext.nunit@44f7d31723bd)
+  Embedded packages:
+    com.coplaydev.unity-mcp@file:D:\VLAB\Web demo\VLAB\Packages\com.coplaydev.unity-mcp (location: D:\VLAB\Web demo\VLAB\Packages\com.coplaydev.unity-mcp)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.02 seconds
+Refreshing native plugins compatible for Editor in 5.32 ms, found 1 plugins.
+Starting: C:\Program Files\Unity\Hub\Editor\6000.5.6f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: D:/VLAB/Web demo/VLAB
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 0s494ms
+[1182/1558  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.45 seconds), 1 items updated, 1558 evaluated
+AssetDatabase: script compilation time: 1.078410s
+Begin MonoManager ReloadAssembly
+Failed to load: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/iOSSupport\x64\UnityEditor.iOS.Native.dll
+Native extension for iOS target not found
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  6.478 seconds
+Domain Reload Profiling: 7946ms
+	BeginReloadAssembly (380ms)
+		DisableScriptedObjects (36ms)
+		CreateAndSetChildDomain (161ms)
+	RebuildCommonClasses (11ms)
+	RebuildNativeTypeToScriptingClass (18ms)
+	initialDomainReloadingComplete (105ms)
+	LoadAllAssembliesAndSetupDomain (953ms)
+		LoadAssemblies (466ms)
+		AnalyzeDomain (437ms)
+			TypeCache.Refresh (339ms)
+				TypeCache.ScanAssembly (319ms)
+			BuildScriptInfoCaches (86ms)
+			ResolveRequiredComponents (9ms)
+	FinalizeReload (6480ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (13ms)
+			BeforeProcessingInitializeOnLoad (170ms)
+			ProcessInitializeOnLoadAttributes (5272ms)
+			ProcessInitializeOnLoadMethodAttributes (733ms)
+			AfterProcessingInitializeOnLoad (9ms)
+		AwakeInstancesAfterBackupRestoration (42ms)
+Starting new worker id: 0 with log in D:/VLAB/Web demo/VLAB/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=aa61271a072055c42bd865887d5a9238): Total: 10.395 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=7361 ms
+		Asset DB Callback time: managed=306 ms, native=22 ms
+		Scripting: domain reloads=1, domain reload time=1542 ms, compile time=1081 ms, other=81 ms
+		Project Asset Count: scripts=2002, non-scripts=5157
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 25.414ms
+	ApplyChangesToAssetFolders: 0.588ms
+	Scan: 154.820ms
+	Collect global state as custom dependencies: 9.750ms
+	CategorizeScriptCompilationAssets: 96.968ms
+	ProcessAssetsWithTransientArtifactChanges: 128.148ms
+	CategorizeAssets: 128.747ms
+	CompileScripts: 1080.665ms
+	ImportOutOfDateAssets: 6640.798ms (6515.183ms without children)
+		UnloadImportedAssets: 0.202ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.353ms
+		ImportSchedulerStart: 124.043ms
+	PostProcessAllAssets: 306.759ms
+		MonoPostProcessAllAssets: 306.673ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 269.812ms
+			SyncVS.PostprocessSyncProject 5.570ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 3.060ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.378ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 2.196ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 1.744ms
+			AssetChangeDetector.OnPostprocessAllAssets 1.370ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.456ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.451ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.334ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.315ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.277ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.242ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.155ms
+	UnloadStreamsBegin: 4.670ms
+	PersistCurrentRevisions: 0.255ms
+	GenerateScriptTypeHashes: 10.785ms
+	GenerateScriptTypeSerializationHashes: 18.162ms
+	Untracked: 1812.288ms
+
+Application.AssetDatabase Initial Refresh End
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Scanning for USB devices : 43.690ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-VLAB
+Unloading 185 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 8455 unused Assets / (5.4 MB). Loaded Objects now: 9415.
+Memory consumption went from 0.51 GB to 0.51 GB.
+Total: 29.820600 ms (FindLiveObjects: 0.773600 ms CreateObjectMapping: 4.641400 ms MarkObjects: 19.496900 ms  DeleteObjects: 4.901000 ms)
+
+Microsoft Media Foundation video decoding to texture disabled: graphics device is Null, only Direct3D 11 and Direct3D 12 (only on desktop) are supported for hardware-accelerated video decoding.
+[Project] Loading completed in 16.956 seconds
+	Project init time: 				16.299 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		3.155 seconds
+		Asset Database init time: 		0.638 seconds
+		Global illumination init time: 	0.004 seconds
+		Assemblies load time: 			1.290 seconds
+		Unity extensions init time: 	0.067 seconds
+		Asset Database refresh time: 	10.395 seconds
+	Scene opening time: 			0.321 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1788158731878,"processId":32668,"projectLoad":16.955516499999999,"projectInit":16.2994922,"templateInit":0.0,"packageManagerInit":3.1549805,"assetDatabaseInit":0.637943,"globalIlluminationInit":0.0041994,"assembliesLoad":1.2898462,"unityExtensionsInit":0.0665578,"assetDatabaseRefresh":10.3954975,"sceneOpening":0.3209019}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1788158731878,"processId":32668,"editorVersion":"6000.5.6f1 (0e0577a1a2ac)","branch":"6000.5/staging","buildType":"Release","platform":"Windows"}
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Successfully resolved entitlement details
+Running tests for ExecutionSettings with details:
+targetPlatform = 
+playerHeartbeatTimeout = 600
+filters[0] = 
+   Filter with settings:
+   testMode = PlayMode
+   targetPlatform = 
+   testNames = null
+   groupNames = null
+   categoryNames = null
+   assemblyNames = null
+ignoreTests = {}
+featureFlags = null
+
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:InitializeAndExecuteRun (string[]) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/CommandLineTest/Executer.cs:53)
+UnityEditor.TestTools.TestRunner.CommandLineTest.TestStarter:InitializeAndExecuteRun () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/CommandLineTest/TestStarter.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 53)
+
+[Licensing::Client] Successfully resolved entitlement details
+Start Indexing on Editor startup
+[Indexing] Starting Initial Indexing for Assets
+[UnityConnectServicesConfig] config is NOT valid, switching to default
+Created GICache directory at C:/Users/PC/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.016s, timestamps: [16.979 - 16.995]
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Unloading 62 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 14 unused Assets / (1.5 MB). Loaded Objects now: 10263.
+Memory consumption went from 0.59 GB to 0.59 GB.
+Total: 23.329500 ms (FindLiveObjects: 0.592900 ms CreateObjectMapping: 2.291500 ms MarkObjects: 19.756700 ms  DeleteObjects: 0.685900 ms)
+
+Importing 'GUID: 0000000000000000b000000000000000 - Path: ProjectSettings/EditorBuildSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 0000000000000000b000000000000000' -> (Import Result ID: 'bb753c162cece1e3ac693287339ec455') in 0.006 seconds [static dependencies only]. Details - ImportResultOutputID=4647dd083cfc32cebcd7526e8846440c DependenciesID=54966af829e8532f7a2ef4cfbdbccb1b StaticDependenciesID=52d9ca7c3a83a0e9a2bbf0ac041e1f05 
+
+Asset Pipeline Refresh (id=fb4e0429e63493841a63212ad2a17e22): Total: 0.719 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=2 ms, native=189 ms
+		Asset DB Callback time: managed=522 ms, native=5 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2002, non-scripts=5157
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	ApplyChangesToAssetFolders: 0.130ms
+	Scan: 12.197ms
+	Collect global state as custom dependencies: 0.618ms
+	ProcessAssetsWithTransientArtifactChanges: 0.121ms
+	CategorizeAssets: 68.163ms
+	ImportOutOfDateAssets: 98.787ms (13.342ms without children)
+		ImportManagerImport: 6.943ms (1.135ms without children)
+		ReloadNativeAssets: 0.051ms
+		UnloadImportedAssets: 0.374ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.241ms
+		ImportSchedulerStart: 76.830ms
+	PostProcessAllAssets: 525.632ms
+		XRBuildSystem.XRAssetImported 2.795ms
+		MonoPostProcessAllAssets: 522.107ms
+			AssetPostprocessor.OnPostprocessAllAssets 128.697ms
+			AssetReferenceReimportMonitor.OnPostprocessAllAssets 75.011ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 34.725ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 10.539ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 3.410ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 1.916ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.486ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 1.056ms
+			ModelAssetProcessor.OnPostprocessAllAssets 0.742ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.732ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.686ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.603ms
+			MaterialPostprocessor.OnPostprocessAllAssets 0.550ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.526ms
+			AssetEvents.OnPostprocessAllAssets 0.525ms
+			SkillsProjectAssetPostprocessor.OnPostprocessAllAssets 0.451ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.402ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.344ms
+			PostProcessor.OnPostprocessAllAssets 0.271ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.256ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.255ms
+			AssetChangedListener.OnPostprocessAllAssets 0.238ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.201ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 0.135ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.123ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.096ms
+			TrackSelectedAssetsProcessor.OnPostprocessAllAssets 0.086ms
+	PostAssetChangesProfiler: 2.078ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.507ms
+	PersistCurrentRevisions: 0.505ms
+	Untracked: 10.475ms
+
+Importing 'GUID: e5d74fad24f5e2340b7200f96cab3d61 - Path: Assets/InitTestScene6aeeef0d-f261-463a-87fa-a0ad03aa136d.unity' with importer (DefaultImporter)
+Imported 'GUID: e5d74fad24f5e2340b7200f96cab3d61' -> (Import Result ID: '2f7e31fde6f4e77a35b16cdd9c83c38b') in 0.003 seconds [static dependencies only]. Details - ImportResultOutputID=cae33c9d5c6234d734dcbaef579135d6 DependenciesID=bea223a4464a7820095e4bec8380f3f1 StaticDependenciesID=c48ba24f1a54babf796b6a084ae88231 
+Asset Pipeline Refresh (id=1a24a43c736c9cc489dabab376a744de): Total: 0.143 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Executing IPrebuildSetup for: Unity.PerformanceTesting.Editor.TestRunBuilder.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<ExecuteMethods>d__8<UnityEngine.TestTools.IPrebuildSetup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<Execute>d__7<UnityEngine.TestTools.IPrebuildSetup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:34)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:194)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:129)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs Line: 48)
+
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+Worker ready: AssetImportWorkerHW0 0
+Failed to load: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/iOSSupport\x64\UnityEditor.iOS.Native.dll
+Native extension for iOS target not found
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.705 seconds
+Domain Reload Profiling: 3786ms
+	BeginReloadAssembly (738ms)
+		DisableScriptedObjects (33ms)
+		CreateAndSetChildDomain (507ms)
+	RebuildCommonClasses (13ms)
+	RebuildNativeTypeToScriptingClass (16ms)
+	initialDomainReloadingComplete (98ms)
+	LoadAllAssembliesAndSetupDomain (214ms)
+		LoadAssemblies (152ms)
+		AnalyzeDomain (25ms)
+			TypeCache.Refresh (10ms)
+			ResolveRequiredComponents (10ms)
+	FinalizeReload (2707ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (10ms)
+			BeforeProcessingInitializeOnLoad (137ms)
+			ProcessInitializeOnLoadAttributes (1559ms)
+			ProcessInitializeOnLoadMethodAttributes (507ms)
+			AfterProcessingInitializeOnLoad (6ms)
+		AwakeInstancesAfterBackupRestoration (56ms)
+No restricted APIs configured; Validation skipped.
+Checking 27 assemblies for restricted APIs found 0 usage(s) in 4 ms
+
+Asset Pipeline Refresh (id=4d8780c727935b840871d1c5b405b105): Total: 5.535 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=3212 ms
+		Asset DB Callback time: managed=885 ms, native=303 ms
+		Scripting: domain reloads=1, domain reload time=1131 ms, compile time=2 ms, other=0 ms
+		Project Asset Count: scripts=2002, non-scripts=5158
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 1.985ms
+	ApplyChangesToAssetFolders: 0.316ms
+	Collect global state as custom dependencies: 0.714ms
+	ProcessAssetsWithTransientArtifactChanges: 283.658ms
+	CategorizeAssets: 87.261ms
+	CompileScripts: 1.537ms
+	ImportOutOfDateAssets: 2791.166ms (2727.041ms without children)
+		CollectScriptTypesHashes: 1.538ms
+		ReloadNativeAssets: 0.984ms
+		UnloadImportedAssets: 0.195ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.193ms
+		ImportSchedulerStart: 61.689ms
+	PostProcessAllAssets: 1185.881ms
+		AssemblyValidation.PostprocessAllAssets 57.913ms
+		PostProcessCallbackCreateDeferredMaterials 48.405ms
+		ShaderAssetModifiedCallback 21.506ms
+		SpeedTreeImporter.PostprocessAllAssets 13.287ms
+		ComputeShaderImportPostprocess 12.610ms
+		RaytracingShaderImportPostprocess 10.335ms
+		LocalizationDatabase.AssetDatabasePostprocessCallback 4.748ms
+		BlockShaderImporter.PostprocessAllAssets 4.287ms
+		XRBuildSystem.XRAssetImported 0.308ms
+		MonoPostProcessAllAssets: 884.143ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 205.428ms
+			PostProcessor.OnPostprocessAllAssets 49.362ms
+			AssetReferenceReimportMonitor.OnPostprocessAllAssets 41.574ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 39.490ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 38.861ms
+			AssetPostprocessor.OnPostprocessAllAssets 37.262ms
+			MaterialPostprocessor.OnPostprocessAllAssets 37.178ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 25.596ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 21.916ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 20.309ms
+			AssetChangedListener.OnPostprocessAllAssets 16.479ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 14.643ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 5.785ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 5.710ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 2.342ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 2.251ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 2.194ms
+			SyncVS.PostprocessSyncProject 2.080ms
+			AssetChangeDetector.OnPostprocessAllAssets 1.255ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 0.967ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.753ms
+			SkillsProjectAssetPostprocessor.OnPostprocessAllAssets 0.673ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.536ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.525ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.514ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.443ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.426ms
+			ModelAssetProcessor.OnPostprocessAllAssets 0.387ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.379ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.341ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.291ms
+			AssetEvents.OnPostprocessAllAssets 0.267ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.228ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.210ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.154ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.115ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.110ms
+			TrackSelectedAssetsProcessor.OnPostprocessAllAssets 0.086ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.075ms
+	PostAssetChangesProfiler: 3.210ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.450ms
+	UnloadStreamsBegin: 0.143ms
+	PersistCurrentRevisions: 0.276ms
+	GenerateScriptTypeHashes: 9.434ms
+	GenerateScriptTypeSerializationHashes: 14.797ms
+	Untracked: 1173.517ms
+
+Skipping automatic instantiation of XR Interaction Simulator prefab since tests are running.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation.XRInteractionSimulatorLoader:Initialize () (at ./Library/PackageCache/com.unity.xr.interaction.toolkit@63ca3b7ce776/Runtime/Inputs/Simulation/XRInteractionSimulatorLoader.cs:36)
+
+(Filename: ./Library/PackageCache/com.unity.xr.interaction.toolkit@63ca3b7ce776/Runtime/Inputs/Simulation/XRInteractionSimulatorLoader.cs Line: 36)
+
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            1.486 ms
+	Integration:            306.019 ms
+	Integration of assets:  0.010 ms
+	Thread Wait Time:       0.020 ms
+	Total Operation Time:   307.536 ms
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Applied No Throttling for test run.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+MCPForUnity.Editor.Helpers.McpLog:Info (string,bool) (at ./Packages/com.coplaydev.unity-mcp/Editor/Helpers/McpLog.cs:40)
+MCPForUnity.Editor.Services.TestRunnerNoThrottle:ApplyNoThrottling () (at ./Packages/com.coplaydev.unity-mcp/Editor/Services/TestRunnerNoThrottle.cs:101)
+MCPForUnity.Editor.Services.TestRunnerNoThrottle/TestCallbacks:RunStarted (UnityEditor.TestTools.TestRunner.Api.ITestAdaptor) (at ./Packages/com.coplaydev.unity-mcp/Editor/Services/TestRunnerNoThrottle.cs:138)
+UnityEditor.TestTools.TestRunner.Api.CallbacksDelegator/<>c__DisplayClass7_0:<RunStarted>b__0 (UnityEditor.TestTools.TestRunner.Api.ICallbacks) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/Api/CallbacksDelegator.cs:42)
+UnityEditor.TestTools.TestRunner.Api.CallbacksDelegator:TryInvokeAllCallbacks (System.Action`1<UnityEditor.TestTools.TestRunner.Api.ICallbacks>) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/Api/CallbacksDelegator.cs:135)
+UnityEditor.TestTools.TestRunner.Api.CallbacksDelegator:RunStarted (NUnit.Framework.Interfaces.ITest) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/Api/CallbacksDelegator.cs:42)
+UnityEngine.Events.InvokableCall`1<NUnit.Framework.Interfaces.ITest>:Invoke (NUnit.Framework.Interfaces.ITest)
+UnityEngine.Events.UnityEvent`1<NUnit.Framework.Interfaces.ITest>:Invoke (NUnit.Framework.Interfaces.ITest)
+UnityEngine.Events.InvokableCall`1<NUnit.Framework.Interfaces.ITest>:Invoke (NUnit.Framework.Interfaces.ITest)
+UnityEngine.Events.UnityEvent`1<NUnit.Framework.Interfaces.ITest>:Invoke (NUnit.Framework.Interfaces.ITest)
+UnityEngine.TestTools.TestRunner.PlaymodeTestsController/<Run>d__25:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/TestRunner/PlaymodeTestsController.cs:140)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: ./Packages/com.coplaydev.unity-mcp/Editor/Helpers/McpLog.cs Line: 40)
+
+Unloading 56 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.517500 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            161.372 ms
+	Integration:            361.583 ms
+	Integration of assets:  19.888 ms
+	Thread Wait Time:       -0.145 ms
+	Total Operation Time:   542.697 ms
+Unloading 7804 unused Assets / (13.5 MB). Loaded Objects now: 11199.
+Memory consumption went from 0.64 GB to 0.63 GB.
+Total: 30.238000 ms (FindLiveObjects: 1.045900 ms CreateObjectMapping: 4.185600 ms MarkObjects: 18.776000 ms  DeleteObjects: 6.229200 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity'
+	Deserialize:            6.174 ms
+	Integration:            7.748 ms
+	Integration of assets:  0.012 ms
+	Thread Wait Time:       0.282 ms
+	Total Operation Time:   14.216 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Pendulum.unity'
+	Deserialize:            39.502 ms
+	Integration:            14.435 ms
+	Integration of assets:  0.872 ms
+	Thread Wait Time:       0.296 ms
+	Total Operation Time:   55.105 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity'
+	Deserialize:            3.334 ms
+	Integration:            0.777 ms
+	Integration of assets:  0.005 ms
+	Thread Wait Time:       0.441 ms
+	Total Operation Time:   4.557 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Projectile.unity'
+	Deserialize:            21.021 ms
+	Integration:            4.864 ms
+	Integration of assets:  0.309 ms
+	Thread Wait Time:       0.151 ms
+	Total Operation Time:   26.345 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity'
+	Deserialize:            2.720 ms
+	Integration:            0.754 ms
+	Integration of assets:  0.006 ms
+	Thread Wait Time:       0.270 ms
+	Total Operation Time:   3.750 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Friction.unity'
+	Deserialize:            25.715 ms
+	Integration:            4.091 ms
+	Integration of assets:  0.694 ms
+	Thread Wait Time:       0.125 ms
+	Total Operation Time:   30.624 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity'
+	Deserialize:            2.523 ms
+	Integration:            0.798 ms
+	Integration of assets:  0.007 ms
+	Thread Wait Time:       0.211 ms
+	Total Operation Time:   3.539 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_PhotogateMotion.unity'
+	Deserialize:            29.191 ms
+	Integration:            6.747 ms
+	Integration of assets:  1.119 ms
+	Thread Wait Time:       0.685 ms
+	Total Operation Time:   37.741 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity'
+	Deserialize:            3.508 ms
+	Integration:            0.828 ms
+	Integration of assets:  0.010 ms
+	Thread Wait Time:       0.363 ms
+	Total Operation Time:   4.710 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Spring.unity'
+	Deserialize:            11.593 ms
+	Integration:            3.208 ms
+	Integration of assets:  0.170 ms
+	Thread Wait Time:       0.290 ms
+	Total Operation Time:   15.262 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity'
+	Deserialize:            2.596 ms
+	Integration:            1.057 ms
+	Integration of assets:  0.008 ms
+	Thread Wait Time:       0.230 ms
+	Total Operation Time:   3.891 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_AirTrackMomentum.unity'
+	Deserialize:            16.615 ms
+	Integration:            5.345 ms
+	Integration of assets:  0.370 ms
+	Thread Wait Time:       0.166 ms
+	Total Operation Time:   22.495 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity'
+	Deserialize:            3.121 ms
+	Integration:            0.820 ms
+	Integration of assets:  0.008 ms
+	Thread Wait Time:       0.194 ms
+	Total Operation Time:   4.144 ms
+Unloading 52 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 9.167100 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity'
+	Deserialize:            2.747 ms
+	Integration:            247.731 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.009 ms
+	Total Operation Time:   250.491 ms
+Unloading 1992 unused Assets / (8.0 MB). Loaded Objects now: 10429.
+Memory consumption went from 0.64 GB to 0.63 GB.
+Total: 24.774900 ms (FindLiveObjects: 1.253800 ms CreateObjectMapping: 2.348300 ms MarkObjects: 19.222500 ms  DeleteObjects: 1.949000 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            26.180 ms
+	Integration:            7.015 ms
+	Integration of assets:  1.000 ms
+	Thread Wait Time:       0.015 ms
+	Total Operation Time:   34.210 ms
+Unloading 52 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.468900 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Pendulum.unity'
+	Deserialize:            11.969 ms
+	Integration:            249.673 ms
+	Integration of assets:  0.863 ms
+	Thread Wait Time:       0.032 ms
+	Total Operation Time:   262.536 ms
+Unloading 817 unused Assets / (4.9 MB). Loaded Objects now: 11021.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 23.420800 ms (FindLiveObjects: 0.675300 ms CreateObjectMapping: 2.552900 ms MarkObjects: 19.399500 ms  DeleteObjects: 0.791700 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            23.060 ms
+	Integration:            7.751 ms
+	Integration of assets:  1.223 ms
+	Thread Wait Time:       -0.005 ms
+	Total Operation Time:   32.029 ms
+Unloading 49 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.294700 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Projectile.unity'
+	Deserialize:            9.120 ms
+	Integration:            243.100 ms
+	Integration of assets:  0.891 ms
+	Thread Wait Time:       0.037 ms
+	Total Operation Time:   253.148 ms
+Unloading 866 unused Assets / (5.3 MB). Loaded Objects now: 10871.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 22.872100 ms (FindLiveObjects: 0.633900 ms CreateObjectMapping: 2.421800 ms MarkObjects: 19.009300 ms  DeleteObjects: 0.805900 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            24.416 ms
+	Integration:            7.215 ms
+	Integration of assets:  1.115 ms
+	Thread Wait Time:       0.031 ms
+	Total Operation Time:   32.777 ms
+Unloading 52 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.319000 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Friction.unity'
+	Deserialize:            12.745 ms
+	Integration:            248.198 ms
+	Integration of assets:  1.163 ms
+	Thread Wait Time:       -0.020 ms
+	Total Operation Time:   262.086 ms
+Unloading 905 unused Assets / (5.0 MB). Loaded Objects now: 11157.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 23.473100 ms (FindLiveObjects: 0.731000 ms CreateObjectMapping: 2.212900 ms MarkObjects: 19.720000 ms  DeleteObjects: 0.807600 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            23.693 ms
+	Integration:            6.586 ms
+	Integration of assets:  1.109 ms
+	Thread Wait Time:       0.003 ms
+	Total Operation Time:   31.392 ms
+Unloading 51 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.605400 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_PhotogateMotion.unity'
+	Deserialize:            12.731 ms
+	Integration:            251.371 ms
+	Integration of assets:  1.328 ms
+	Thread Wait Time:       0.042 ms
+	Total Operation Time:   265.472 ms
+Unloading 1129 unused Assets / (9.1 MB). Loaded Objects now: 11311.
+Memory consumption went from 0.64 GB to 0.63 GB.
+Total: 24.233800 ms (FindLiveObjects: 1.015000 ms CreateObjectMapping: 2.042700 ms MarkObjects: 19.814400 ms  DeleteObjects: 1.360700 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            23.914 ms
+	Integration:            6.803 ms
+	Integration of assets:  1.240 ms
+	Thread Wait Time:       -0.082 ms
+	Total Operation Time:   31.875 ms
+Unloading 54 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.687400 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Spring.unity'
+	Deserialize:            11.970 ms
+	Integration:            259.138 ms
+	Integration of assets:  1.061 ms
+	Thread Wait Time:       0.057 ms
+	Total Operation Time:   272.225 ms
+Unloading 1097 unused Assets / (6.4 MB). Loaded Objects now: 11102.
+Memory consumption went from 0.64 GB to 0.63 GB.
+Total: 23.787400 ms (FindLiveObjects: 0.589700 ms CreateObjectMapping: 2.184100 ms MarkObjects: 19.620300 ms  DeleteObjects: 1.392100 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            27.139 ms
+	Integration:            6.543 ms
+	Integration of assets:  0.988 ms
+	Thread Wait Time:       -0.020 ms
+	Total Operation Time:   34.651 ms
+Unloading 60 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.258000 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_AirTrackMomentum.unity'
+	Deserialize:            16.261 ms
+	Integration:            252.578 ms
+	Integration of assets:  1.873 ms
+	Thread Wait Time:       0.038 ms
+	Total Operation Time:   270.749 ms
+Unloading 1252 unused Assets / (5.9 MB). Loaded Objects now: 11605.
+Memory consumption went from 0.64 GB to 0.63 GB.
+Total: 24.421500 ms (FindLiveObjects: 0.689200 ms CreateObjectMapping: 2.142700 ms MarkObjects: 20.502400 ms  DeleteObjects: 1.086200 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            22.900 ms
+	Integration:            7.160 ms
+	Integration of assets:  1.020 ms
+	Thread Wait Time:       0.025 ms
+	Total Operation Time:   31.105 ms
+Unloading 55 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.981600 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Pendulum.unity'
+	Deserialize:            11.838 ms
+	Integration:            248.302 ms
+	Integration of assets:  1.198 ms
+	Thread Wait Time:       0.048 ms
+	Total Operation Time:   261.387 ms
+Unloading 1199 unused Assets / (6.9 MB). Loaded Objects now: 11022.
+Memory consumption went from 0.64 GB to 0.63 GB.
+Total: 23.687600 ms (FindLiveObjects: 0.710400 ms CreateObjectMapping: 2.193700 ms MarkObjects: 19.665500 ms  DeleteObjects: 1.116100 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            23.067 ms
+	Integration:            6.489 ms
+	Integration of assets:  1.098 ms
+	Thread Wait Time:       0.010 ms
+	Total Operation Time:   30.664 ms
+Setting linear velocity of a kinematic body is not supported.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rigidbody:set_linearVelocity (UnityEngine.Vector3)
+VLAB.PhysicsLab.Interaction.LabGrabbable:OnGrabbed (UnityEngine.Transform) (at Assets/VLAB/PhysicsLab/Runtime/Interaction/LabGrabbable.cs:66)
+VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests/<EveryExperiment_UsesPhysicalControllerWithoutWizardUi>d__2:MoveNext () (at Assets/VLAB/PhysicsLab/Tests/PlayMode/PhysicsLabSceneFlowPlayModeTests.cs:115)
+UnityEngine.TestTools.TestEnumerator/<Execute>d__7:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerableAndRecordExceptions>d__4:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:85)
+UnityEngine.TestTools.EnumerableTestMethodCommand:AdvanceEnumerator (System.Collections.IEnumerator) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:64)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:47)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:48)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestTools.Utils.CoroutineRunner/<WrapEnumeratorForChecks>d__8:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/Utils/CoroutineRunner.cs:58)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+[Assets/VLAB/PhysicsLab/Runtime/Interaction/LabGrabbable.cs line 66]
+
+Setting angular velocity of a kinematic body is not supported.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rigidbody:set_angularVelocity (UnityEngine.Vector3)
+VLAB.PhysicsLab.Interaction.LabGrabbable:OnGrabbed (UnityEngine.Transform) (at Assets/VLAB/PhysicsLab/Runtime/Interaction/LabGrabbable.cs:67)
+VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests/<EveryExperiment_UsesPhysicalControllerWithoutWizardUi>d__2:MoveNext () (at Assets/VLAB/PhysicsLab/Tests/PlayMode/PhysicsLabSceneFlowPlayModeTests.cs:115)
+UnityEngine.TestTools.TestEnumerator/<Execute>d__7:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerableAndRecordExceptions>d__4:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:85)
+UnityEngine.TestTools.EnumerableTestMethodCommand:AdvanceEnumerator (System.Collections.IEnumerator) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:64)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:47)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:48)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestTools.Utils.CoroutineRunner/<WrapEnumeratorForChecks>d__8:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/Utils/CoroutineRunner.cs:58)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+[Assets/VLAB/PhysicsLab/Runtime/Interaction/LabGrabbable.cs line 67]
+
+Unloading 49 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.428400 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Projectile.unity'
+	Deserialize:            10.259 ms
+	Integration:            250.176 ms
+	Integration of assets:  0.938 ms
+	Thread Wait Time:       -0.001 ms
+	Total Operation Time:   261.373 ms
+Unloading 866 unused Assets / (6.3 MB). Loaded Objects now: 10871.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 24.619500 ms (FindLiveObjects: 0.716800 ms CreateObjectMapping: 2.170100 ms MarkObjects: 20.506700 ms  DeleteObjects: 1.224000 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            22.292 ms
+	Integration:            6.668 ms
+	Integration of assets:  1.012 ms
+	Thread Wait Time:       0.003 ms
+	Total Operation Time:   29.974 ms
+Unloading 52 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.243300 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Friction.unity'
+	Deserialize:            12.438 ms
+	Integration:            257.803 ms
+	Integration of assets:  1.228 ms
+	Thread Wait Time:       0.008 ms
+	Total Operation Time:   271.476 ms
+Unloading 905 unused Assets / (5.1 MB). Loaded Objects now: 11157.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 24.905900 ms (FindLiveObjects: 0.583500 ms CreateObjectMapping: 2.299200 ms MarkObjects: 21.199400 ms  DeleteObjects: 0.822200 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            26.351 ms
+	Integration:            6.356 ms
+	Integration of assets:  0.965 ms
+	Thread Wait Time:       0.036 ms
+	Total Operation Time:   33.708 ms
+Setting linear velocity of a kinematic body is not supported.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rigidbody:set_linearVelocity (UnityEngine.Vector3)
+VLAB.PhysicsLab.Common.LabAttachmentPoint:TryAttach (VLAB.PhysicsLab.Common.LabAttachment) (at Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs:46)
+VLAB.PhysicsLab.Interaction.LabSnapController:TrySnap (VLAB.PhysicsLab.Interaction.LabGrabbable) (at Assets/VLAB/PhysicsLab/Runtime/Interaction/LabSnapController.cs:72)
+VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests/<EveryExperiment_UsesPhysicalControllerWithoutWizardUi>d__2:MoveNext () (at Assets/VLAB/PhysicsLab/Tests/PlayMode/PhysicsLabSceneFlowPlayModeTests.cs:127)
+UnityEngine.TestTools.TestEnumerator/<Execute>d__7:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerableAndRecordExceptions>d__4:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:85)
+UnityEngine.TestTools.EnumerableTestMethodCommand:AdvanceEnumerator (System.Collections.IEnumerator) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:64)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:47)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:48)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestTools.Utils.CoroutineRunner/<WrapEnumeratorForChecks>d__8:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/Utils/CoroutineRunner.cs:58)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+[Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs line 46]
+
+Setting angular velocity of a kinematic body is not supported.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rigidbody:set_angularVelocity (UnityEngine.Vector3)
+VLAB.PhysicsLab.Common.LabAttachmentPoint:TryAttach (VLAB.PhysicsLab.Common.LabAttachment) (at Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs:47)
+VLAB.PhysicsLab.Interaction.LabSnapController:TrySnap (VLAB.PhysicsLab.Interaction.LabGrabbable) (at Assets/VLAB/PhysicsLab/Runtime/Interaction/LabSnapController.cs:72)
+VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests/<EveryExperiment_UsesPhysicalControllerWithoutWizardUi>d__2:MoveNext () (at Assets/VLAB/PhysicsLab/Tests/PlayMode/PhysicsLabSceneFlowPlayModeTests.cs:127)
+UnityEngine.TestTools.TestEnumerator/<Execute>d__7:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerableAndRecordExceptions>d__4:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:85)
+UnityEngine.TestTools.EnumerableTestMethodCommand:AdvanceEnumerator (System.Collections.IEnumerator) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:64)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:47)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:48)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestTools.Utils.CoroutineRunner/<WrapEnumeratorForChecks>d__8:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/Utils/CoroutineRunner.cs:58)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+[Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs line 47]
+
+Unloading 51 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.549300 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_PhotogateMotion.unity'
+	Deserialize:            13.118 ms
+	Integration:            239.423 ms
+	Integration of assets:  1.298 ms
+	Thread Wait Time:       0.058 ms
+	Total Operation Time:   253.898 ms
+Unloading 1129 unused Assets / (1.0 MB). Loaded Objects now: 11311.
+Memory consumption went from 0.64 GB to 0.64 GB.
+Total: 24.121200 ms (FindLiveObjects: 0.859800 ms CreateObjectMapping: 2.452300 ms MarkObjects: 19.846800 ms  DeleteObjects: 0.961200 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            24.545 ms
+	Integration:            6.491 ms
+	Integration of assets:  1.106 ms
+	Thread Wait Time:       -0.010 ms
+	Total Operation Time:   32.132 ms
+Unloading 54 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.967400 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Spring.unity'
+	Deserialize:            11.174 ms
+	Integration:            250.878 ms
+	Integration of assets:  1.015 ms
+	Thread Wait Time:       0.108 ms
+	Total Operation Time:   263.174 ms
+Unloading 1097 unused Assets / (6.6 MB). Loaded Objects now: 11102.
+Memory consumption went from 0.64 GB to 0.63 GB.
+Total: 23.622900 ms (FindLiveObjects: 0.692100 ms CreateObjectMapping: 2.058200 ms MarkObjects: 19.869900 ms  DeleteObjects: 1.001800 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            23.488 ms
+	Integration:            6.723 ms
+	Integration of assets:  1.030 ms
+	Thread Wait Time:       -0.002 ms
+	Total Operation Time:   31.239 ms
+Unloading 60 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.437800 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_AirTrackMomentum.unity'
+	Deserialize:            16.635 ms
+	Integration:            259.195 ms
+	Integration of assets:  1.785 ms
+	Thread Wait Time:       0.042 ms
+	Total Operation Time:   277.657 ms
+Unloading 1252 unused Assets / (5.9 MB). Loaded Objects now: 11605.
+Memory consumption went from 0.64 GB to 0.63 GB.
+Total: 23.976800 ms (FindLiveObjects: 0.705600 ms CreateObjectMapping: 2.644300 ms MarkObjects: 19.471700 ms  DeleteObjects: 1.153700 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            22.708 ms
+	Integration:            7.000 ms
+	Integration of assets:  1.243 ms
+	Thread Wait Time:       0.005 ms
+	Total Operation Time:   30.957 ms
+Setting linear velocity of a kinematic body is not supported.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rigidbody:set_linearVelocity (UnityEngine.Vector3)
+VLAB.PhysicsLab.Common.LabAttachmentPoint:TryAttach (VLAB.PhysicsLab.Common.LabAttachment) (at Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs:46)
+VLAB.PhysicsLab.Interaction.LabSnapController:TrySnap (VLAB.PhysicsLab.Interaction.LabGrabbable) (at Assets/VLAB/PhysicsLab/Runtime/Interaction/LabSnapController.cs:72)
+VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests/<EveryExperiment_UsesPhysicalControllerWithoutWizardUi>d__2:MoveNext () (at Assets/VLAB/PhysicsLab/Tests/PlayMode/PhysicsLabSceneFlowPlayModeTests.cs:138)
+UnityEngine.TestTools.TestEnumerator/<Execute>d__7:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerableAndRecordExceptions>d__4:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:85)
+UnityEngine.TestTools.EnumerableTestMethodCommand:AdvanceEnumerator (System.Collections.IEnumerator) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:64)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:47)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:48)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestTools.Utils.CoroutineRunner/<WrapEnumeratorForChecks>d__8:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/Utils/CoroutineRunner.cs:58)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+[Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs line 46]
+
+Setting angular velocity of a kinematic body is not supported.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rigidbody:set_angularVelocity (UnityEngine.Vector3)
+VLAB.PhysicsLab.Common.LabAttachmentPoint:TryAttach (VLAB.PhysicsLab.Common.LabAttachment) (at Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs:47)
+VLAB.PhysicsLab.Interaction.LabSnapController:TrySnap (VLAB.PhysicsLab.Interaction.LabGrabbable) (at Assets/VLAB/PhysicsLab/Runtime/Interaction/LabSnapController.cs:72)
+VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests/<EveryExperiment_UsesPhysicalControllerWithoutWizardUi>d__2:MoveNext () (at Assets/VLAB/PhysicsLab/Tests/PlayMode/PhysicsLabSceneFlowPlayModeTests.cs:138)
+UnityEngine.TestTools.TestEnumerator/<Execute>d__7:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerableAndRecordExceptions>d__4:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:85)
+UnityEngine.TestTools.EnumerableTestMethodCommand:AdvanceEnumerator (System.Collections.IEnumerator) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:64)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:47)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:48)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestTools.Utils.CoroutineRunner/<WrapEnumeratorForChecks>d__8:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/Utils/CoroutineRunner.cs:58)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+[Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs line 47]
+
+Setting linear velocity of a kinematic body is not supported.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rigidbody:set_linearVelocity (UnityEngine.Vector3)
+VLAB.PhysicsLab.Common.LabAttachmentPoint:TryAttach (VLAB.PhysicsLab.Common.LabAttachment) (at Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs:46)
+VLAB.PhysicsLab.Interaction.LabSnapController:TrySnap (VLAB.PhysicsLab.Interaction.LabGrabbable) (at Assets/VLAB/PhysicsLab/Runtime/Interaction/LabSnapController.cs:72)
+VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests/<EveryExperiment_UsesPhysicalControllerWithoutWizardUi>d__2:MoveNext () (at Assets/VLAB/PhysicsLab/Tests/PlayMode/PhysicsLabSceneFlowPlayModeTests.cs:145)
+UnityEngine.TestTools.TestEnumerator/<Execute>d__7:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerableAndRecordExceptions>d__4:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:85)
+UnityEngine.TestTools.EnumerableTestMethodCommand:AdvanceEnumerator (System.Collections.IEnumerator) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:64)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:47)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:48)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestTools.Utils.CoroutineRunner/<WrapEnumeratorForChecks>d__8:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/Utils/CoroutineRunner.cs:58)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+[Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs line 46]
+
+Setting angular velocity of a kinematic body is not supported.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Rigidbody:set_angularVelocity (UnityEngine.Vector3)
+VLAB.PhysicsLab.Common.LabAttachmentPoint:TryAttach (VLAB.PhysicsLab.Common.LabAttachment) (at Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs:47)
+VLAB.PhysicsLab.Interaction.LabSnapController:TrySnap (VLAB.PhysicsLab.Interaction.LabGrabbable) (at Assets/VLAB/PhysicsLab/Runtime/Interaction/LabSnapController.cs:72)
+VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests/<EveryExperiment_UsesPhysicalControllerWithoutWizardUi>d__2:MoveNext () (at Assets/VLAB/PhysicsLab/Tests/PlayMode/PhysicsLabSceneFlowPlayModeTests.cs:145)
+UnityEngine.TestTools.TestEnumerator/<Execute>d__7:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerableAndRecordExceptions>d__4:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:85)
+UnityEngine.TestTools.EnumerableTestMethodCommand:AdvanceEnumerator (System.Collections.IEnumerator) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:64)
+UnityEngine.TestTools.EnumerableTestMethodCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/EnumerableTestMethodCommand.cs:47)
+UnityEngine.TestRunner.NUnitExtensions.Runner.UnityLogCheckDelegatingCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Runner/UnityLogCheckDelegatingCommand.cs:48)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<NUnit.Framework.ITestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<System.Reflection.MethodInfo>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.BeforeAfterTestCommandBase`1/<ExecuteEnumerable>d__16<UnityEngine.TestTools.IOuterUnityTestAction>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/BeforeAfterTestCommandBase.cs:212)
+UnityEngine.TestTools.RetryCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RetryCommand.cs:37)
+UnityEngine.TestTools.RepeatCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/RepeatCommand.cs:36)
+UnityEngine.TestTools.IgnoreTestCommand/<ExecuteEnumerable>d__3:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/IgnoreTestCommand.cs:42)
+UnityEngine.TestTools.StrictCheckCommand/<ExecuteEnumerable>d__2:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/NUnitExtensions/Commands/StrictCheckCommand.cs:29)
+UnityEngine.TestTools.Utils.CoroutineRunner/<WrapEnumeratorForChecks>d__8:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/Utils/CoroutineRunner.cs:58)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+[Assets/VLAB/PhysicsLab/Runtime/Common/LabAttachmentPoint.cs line 47]
+
+Unloading 52 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.634300 ms
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/Physics_Friction.unity'
+	Deserialize:            12.245 ms
+	Integration:            255.844 ms
+	Integration of assets:  1.189 ms
+	Thread Wait Time:       0.053 ms
+	Total Operation Time:   269.331 ms
+Unloading 1168 unused Assets / (1.3 MB). Loaded Objects now: 11157.
+Memory consumption went from 0.64 GB to 0.64 GB.
+Total: 23.813400 ms (FindLiveObjects: 0.848700 ms CreateObjectMapping: 2.096200 ms MarkObjects: 19.778000 ms  DeleteObjects: 1.088900 ms)
+
+Loaded scene 'Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity'
+	Deserialize:            24.364 ms
+	Integration:            7.082 ms
+	Integration of assets:  1.094 ms
+	Thread Wait Time:       0.001 ms
+	Total Operation Time:   32.541 ms
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+MCPForUnity.Editor.Helpers.McpLog:Info (string,bool) (at ./Packages/com.coplaydev.unity-mcp/Editor/Helpers/McpLog.cs:40)
+MCPForUnity.Editor.Services.TestRunnerNoThrottle:RestoreThrottling () (at ./Packages/com.coplaydev.unity-mcp/Editor/Services/TestRunnerNoThrottle.cs:114)
+MCPForUnity.Editor.Services.TestRunnerNoThrottle/TestCallbacks:RunFinished (UnityEditor.TestTools.TestRunner.Api.ITestResultAdaptor) (at ./Packages/com.coplaydev.unity-mcp/Editor/Services/TestRunnerNoThrottle.cs:143)
+UnityEditor.TestTools.TestRunner.Api.CallbacksDelegator/<>c__DisplayClass9_0:<RunFinished>b__0 (UnityEditor.TestTools.TestRunner.Api.ICallbacks) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/Api/CallbacksDelegator.cs:55)
+UnityEditor.TestTools.TestRunner.Api.CallbacksDelegator:TryInvokeAllCallbacks (System.Action`1<UnityEditor.TestTools.TestRunner.Api.ICallbacks>) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/Api/CallbacksDelegator.cs:135)
+UnityEditor.TestTools.TestRunner.Api.CallbacksDelegator:RunFinished (NUnit.Framework.Interfaces.ITestResult) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/Api/CallbacksDelegator.cs:55)
+UnityEngine.Events.InvokableCall`1<NUnit.Framework.Interfaces.ITestResult>:Invoke (NUnit.Framework.Interfaces.ITestResult)
+UnityEngine.Events.UnityEvent`1<NUnit.Framework.Interfaces.ITestResult>:Invoke (NUnit.Framework.Interfaces.ITestResult)
+UnityEngine.Events.InvokableCall`1<NUnit.Framework.Interfaces.ITestResult>:Invoke (NUnit.Framework.Interfaces.ITestResult)
+UnityEngine.Events.UnityEvent`1<NUnit.Framework.Interfaces.ITestResult>:Invoke (NUnit.Framework.Interfaces.ITestResult)
+UnityEngine.TestTools.TestRunner.PlaymodeTestsController/<TestRunnerCoroutine>d__24:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEngine.TestRunner/TestRunner/PlaymodeTestsController.cs:110)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+
+(Filename: ./Packages/com.coplaydev.unity-mcp/Editor/Helpers/McpLog.cs Line: 40)
+
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+Saving results to: D:\VLAB\Web demo\VLAB\TestResults\XrUiPlayMode.xml
+Unloading 41 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            0.534 ms
+	Integration:            243.079 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.065 ms
+	Total Operation Time:   243.680 ms
+Unloading 792 unused Assets / (5.6 MB). Loaded Objects now: 10309.
+Memory consumption went from 0.63 GB to 0.63 GB.
+Total: 23.574200 ms (FindLiveObjects: 0.436100 ms CreateObjectMapping: 2.247500 ms MarkObjects: 20.117300 ms  DeleteObjects: 0.772300 ms)
+
+[ScriptCompilation] Requested script compilation because: Player settings modified
+Starting: C:\Program Files\Unity\Hub\Editor\6000.5.6f1\Editor\Data\Tools\BuildPipeline\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: D:/VLAB/Web demo/VLAB
+ExitCode: 0 Duration: 0s267ms
+[1182/1558  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.23 seconds), 1 items updated, 1558 evaluated
+Executing IPostBuildCleanup for: Unity.PerformanceTesting.Editor.TestRunBuilder.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<ExecuteMethods>d__8<UnityEngine.TestTools.IPostBuildCleanup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:48)
+UnityEditor.TestTools.TestRunner.TestRun.Tasks.BuildActionTaskBase`1/<Execute>d__7<UnityEngine.TestTools.IPostBuildCleanup>:MoveNext () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs:34)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteStep () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:194)
+UnityEditor.TestTools.TestRunner.TestRun.TestJobRunner:ExecuteCallback () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/TestJobRunner.cs:129)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/TestRun/Tasks/BuildActionTaskBase.cs Line: 48)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (2.2 KB). Loaded Objects now: 10313.
+Memory consumption went from 0.66 GB to 0.66 GB.
+Total: 23.372100 ms (FindLiveObjects: 0.372800 ms CreateObjectMapping: 1.680900 ms MarkObjects: 21.287000 ms  DeleteObjects: 0.030200 ms)
+
+Asset Pipeline Refresh (id=c858ebcc3a7505c43be03789bee44517): Total: 0.143 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Reloading assemblies after finishing script compilation.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+Failed to load: C:/Program Files/Unity/Hub/Editor/6000.5.6f1/Editor/Data/PlaybackEngines/iOSSupport\x64\UnityEditor.iOS.Native.dll
+Native extension for iOS target not found
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  3.038 seconds
+Domain Reload Profiling: 4446ms
+	BeginReloadAssembly (1087ms)
+		DisableScriptedObjects (57ms)
+		CreateAndSetChildDomain (640ms)
+	RebuildCommonClasses (10ms)
+	RebuildNativeTypeToScriptingClass (14ms)
+	initialDomainReloadingComplete (89ms)
+	LoadAllAssembliesAndSetupDomain (206ms)
+		LoadAssemblies (155ms)
+		AnalyzeDomain (22ms)
+			TypeCache.Refresh (9ms)
+			ResolveRequiredComponents (9ms)
+	FinalizeReload (3039ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (11ms)
+			BeforeProcessingInitializeOnLoad (284ms)
+			ProcessInitializeOnLoadAttributes (1608ms)
+			ProcessInitializeOnLoadMethodAttributes (540ms)
+			AfterProcessingInitializeOnLoad (6ms)
+		AwakeInstancesAfterBackupRestoration (58ms)
+
+Asset Pipeline Refresh (id=ccdbc6be8d334e04ab9d1ea7c25501e2): Total: 4.772 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=3251 ms
+		Asset DB Callback time: managed=31 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=1486 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=2002, non-scripts=5157
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 1.906ms
+	ApplyChangesToAssetFolders: 0.438ms
+	Collect global state as custom dependencies: 0.621ms
+	ProcessAssetsWithTransientArtifactChanges: 0.227ms
+	CategorizeAssets: 84.955ms
+	CompileScripts: 1.351ms
+	ImportOutOfDateAssets: 3121.247ms (3058.459ms without children)
+		CollectScriptTypesHashes: 1.964ms
+		ReloadNativeAssets: 1.075ms
+		UnloadImportedAssets: 0.155ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.072ms
+		ImportSchedulerStart: 60.422ms
+	PostProcessAllAssets: 31.942ms
+		MonoPostProcessAllAssets: 31.936ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 10.966ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.959ms
+			SyncVS.PostprocessSyncProject 1.835ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 1.758ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 1.597ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.970ms
+			AssetChangeDetector.OnPostprocessAllAssets 0.935ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 0.694ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.377ms
+			ProjectSettingsPostprocessor.OnPostprocessAllAssets 0.345ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.301ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.263ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.200ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.161ms
+			TrackSelectedAssetsProcessor.OnPostprocessAllAssets 0.141ms
+			AssetPostprocessor.OnPostprocessAllAssets 0.119ms
+			ModelAssetProcessor.OnPostprocessAllAssets 0.106ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.083ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 0.080ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.064ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.589ms
+	PersistCurrentRevisions: 0.256ms
+	GenerateScriptTypeHashes: 8.545ms
+	GenerateScriptTypeSerializationHashes: 13.981ms
+	Untracked: 1522.937ms
+
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+DisplayProgressbar: Undo
+Test run completed. Exiting with code 0 (Ok). Run completed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitApplication (UnityEditor.TestTools.TestRunner.CommandLineTest.Executer/ReturnCodes,string) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/CommandLineTest/Executer.cs:81)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitIfRunIsCompleted () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/CommandLineTest/Executer.cs:74)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 81)
+
+MonoPathRemapper: Attempts to remap: 135251; Successful remaps: 38122
+Serialized file version minimum: 22, current 23
+Clearing [LiberationSans SDF - Fallback] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@67707a67a4ab/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit ()
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitApplication (UnityEditor.TestTools.TestRunner.CommandLineTest.Executer/ReturnCodes,string) (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/CommandLineTest/Executer.cs:83)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitIfRunIsCompleted () (at ./Library/PackageCache/com.unity.test-framework@1405238725ab/UnityEditor.TestRunner/CommandLineTest/Executer.cs:74)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions ()
+
+(Filename: ./Library/PackageCache/com.unity.ugui@67707a67a4ab/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Importing 'GUID: 00000000000000004000000000000000 - Path: ProjectSettings/ProjectSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 00000000000000004000000000000000' -> (Import Result ID: '93ac0318373ceb464fd609fba0b10489') in 0.006 seconds [static dependencies only]. Details - ImportResultOutputID=276a810dac73e1f29404d5e5f692e214 DependenciesID=e8a8961ece8b5a7bc420dba5993cccb5 StaticDependenciesID=0030f82e9413ac24a1c62c24213998f0 
+Importing 'GUID: 0000000000000000b000000000000000 - Path: ProjectSettings/EditorBuildSettings.asset' with importer (LibraryAssetImporter)
+Imported 'GUID: 0000000000000000b000000000000000' -> (Import Result ID: 'bb753c162cece1e3ac693287339ec455') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=4647dd083cfc32cebcd7526e8846440c DependenciesID=54966af829e8532f7a2ef4cfbdbccb1b StaticDependenciesID=52d9ca7c3a83a0e9a2bbf0ac041e1f05 
+Importing 'GUID: 2e498d1c8094910479dc3e1b768306a4 - Path: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 2e498d1c8094910479dc3e1b768306a4' -> (Import Result ID: 'db938c1d726be96ac5c16925b7c547fd') in 0.009 seconds [static dependencies only]. Details - ImportResultOutputID=fbf9ab6576188685b1929e638c823871 DependenciesID=69cbe2bdf486040cdd84bd0f85a5e95d StaticDependenciesID=8368c5a82c7fe32fdbd02cdad0f79498 
+
+Asset Pipeline Refresh (id=e5047d4ab815b5e458dae9148865b6c4): Total: 0.464 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=3 (actual=3, local cache=0, cache server=0)
+		Asset DB Process Time: managed=2 ms, native=136 ms
+		Asset DB Callback time: managed=322 ms, native=2 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2002, non-scripts=5157
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 7
+	ApplyChangesToAssetFolders: 0.227ms
+	Scan: 9.879ms
+	Collect global state as custom dependencies: 0.160ms
+	ProcessAssetsWithTransientArtifactChanges: 0.140ms
+	CategorizeAssets: 3.199ms
+	ImportOutOfDateAssets: 119.210ms (14.960ms without children)
+		ImportManagerImport: 34.628ms (18.024ms without children)
+			UpdateCategorizedAssets: 0.054ms
+		ReloadNativeAssets: 0.123ms
+		UnloadImportedAssets: 0.267ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.581ms
+		ImportSchedulerStart: 67.632ms
+	PostProcessAllAssets: 323.442ms
+		XRBuildSystem.XRAssetImported 0.204ms
+		MonoPostProcessAllAssets: 322.629ms
+			AssetReferenceReimportMonitor.OnPostprocessAllAssets 41.776ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 18.382ms
+			AssetPostprocessor.OnPostprocessAllAssets 6.311ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 5.728ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 2.844ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.902ms
+			AssetChangedListener.OnPostprocessAllAssets 1.603ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 1.576ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 1.536ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 1.132ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.560ms
+			MaterialPostprocessor.OnPostprocessAllAssets 0.544ms
+			ModelAssetProcessor.OnPostprocessAllAssets 0.515ms
+			SkillsProjectAssetPostprocessor.OnPostprocessAllAssets 0.493ms
+			InputActionJsonNameModifierAssetProcessor.OnPostprocessAllAssets 0.485ms
+			AssetEvents.OnPostprocessAllAssets 0.374ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.347ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.300ms
+			InputActionAssetPostprocessor.OnPostprocessAllAssets 0.286ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.270ms
+			PostProcessor.OnPostprocessAllAssets 0.267ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.173ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.172ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.128ms
+			GraphRefreshPostprocessor.OnPostprocessAllAssets 0.099ms
+			TrackSelectedAssetsProcessor.OnPostprocessAllAssets 0.070ms
+			AudioContainerPostProcessor.OnPostprocessAllAssets 0.060ms
+	PostAssetChangesProfiler: 1.784ms
+	GatherAllCurrentPrimaryImportResultRevisions: 1.251ms
+	UnloadStreamsBegin: 0.243ms
+	PersistCurrentRevisions: 0.317ms
+	Untracked: 4.007ms
+
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-PC-6000.5.6-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-PC-6000.5.6 channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+CodeReloadManager destroyed
+Checking for leaked weakptr:
+  Found no leaked weakptrs.
+[Package Manager] Server process was shutdown
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1788158757710,"processId":32668,"allocatedMemory":21498030,"memoryLabels":[{"Default":232052},{"Permanent":15516},{"NewDelete":72179},{"Thread":4197560},{"Manager":36101},{"VertexData":8},{"Geometry":816},{"Texture":24},{"Shader":848382},{"Material":24},{"GfxDevice":55328},{"Animation":952},{"FreeType":8},{"FontEngine":736},{"Physics":2146},{"Physics2D":16},{"Serialization":4568},{"Input":42840},{"JobScheduler":256},{"TextLib":280},{"Mono":48},{"MonoCode":704},{"ScriptingNativeRuntime":1978044},{"BaseObject":1626632},{"Resource":1208},{"Renderer":3080},{"Transform":4685},{"File":33775},{"WebCam":616},{"Culling":32},{"Terrain":11442},{"Wind":24},{"STL":40},{"String":13287},{"StaticString":3808},{"Utility":2673238},{"Curl":2559},{"PoolAlloc":2840},{"AI":80},{"TypeTree":19397},{"CodeReload":448},{"RuntimeInitializeOnLoadManager":64},{"Sprites":102},{"SpriteAtlas":120},{"GI":7816},{"Director":8296},{"CloudService":576},{"WebRequest":552},{"VR":47114},{"SceneManager":608},{"Video":64},{"LazyScriptCache":32},{"Camera":17},{"Secure":2377},{"SerializationCache":1576},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57888},{"StaticSafetyDebugInfo":278528},{"Analytics":424},{"Hierarchy":1176},{"UIElements":72},{"CoreStats":13688},{"Identifiers":6768},{"Gui":128},{"EditorUtility":138215},{"VersionControl":8},{"Undo":931},{"AssetDatabase":8981944},{"AssetImporter":40},{"EditorGi":328},{"UnityConnect":38929},{"Upm":1912},{"UpmDiagnostics":8},{"AssetCompliance":64},{"DrivenProperties":72},{"LocalIPC":176},{"ProfilerEditor":9746},{"CoreBusinessMetrics":3220},{"Windowing":456},{"Licensing":664},{"AssetReference":32},{"IPCStream":32}]}

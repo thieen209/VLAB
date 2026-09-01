@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="49" result="Passed" total="49" passed="49" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:40:09Z" duration="21.5251402">
+  <test-suite type="TestSuite" id="1000" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="49" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:40:09Z" duration="21.525140" total="49" passed="49" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1022" name="VLAB.Core.Tests.Editor.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.Core.Tests.Editor.dll" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:48Z" duration="0.886639" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="20056" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1023" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:48Z" duration="0.885615" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1024" name="Tests" fullname="VLAB.Tests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:48Z" duration="0.885372" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1026" name="Core" fullname="VLAB.Tests.Core" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.095975" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1028" name="Experiments" fullname="VLAB.Tests.Core.Experiments" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.088539" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1013" name="ExperimentLifecycleTests" fullname="VLAB.Tests.Core.Experiments.ExperimentLifecycleTests" classname="VLAB.Tests.Core.Experiments.ExperimentLifecycleTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.068824" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1014" name="Lifecycle_TransitionsThroughReadyRunningCompletedAndReset" fullname="VLAB.Tests.Core.Experiments.ExperimentLifecycleTests.Lifecycle_TransitionsThroughReadyRunningCompletedAndReset" methodname="Lifecycle_TransitionsThroughReadyRunningCompletedAndReset" classname="VLAB.Tests.Core.Experiments.ExperimentLifecycleTests" runstate="Runnable" seed="898673200" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.036446" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1015" name="StartExperiment_DoesNotRestartAnAlreadyRunningExperiment" fullname="VLAB.Tests.Core.Experiments.ExperimentLifecycleTests.StartExperiment_DoesNotRestartAnAlreadyRunningExperiment" methodname="StartExperiment_DoesNotRestartAnAlreadyRunningExperiment" classname="VLAB.Tests.Core.Experiments.ExperimentLifecycleTests" runstate="Runnable" seed="2040925425" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.003971" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1016" name="ExperimentManagerTests" fullname="VLAB.Tests.Core.Experiments.ExperimentManagerTests" classname="VLAB.Tests.Core.Experiments.ExperimentManagerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.006491" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1017" name="AssigningAnotherExperiment_DeactivatesThePreviousExperiment" fullname="VLAB.Tests.Core.Experiments.ExperimentManagerTests.AssigningAnotherExperiment_DeactivatesThePreviousExperiment" methodname="AssigningAnotherExperiment_DeactivatesThePreviousExperiment" classname="VLAB.Tests.Core.Experiments.ExperimentManagerTests" runstate="Runnable" seed="992912407" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.002828" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1018" name="ResetCurrentExperiment_ReturnsItToReady" fullname="VLAB.Tests.Core.Experiments.ExperimentManagerTests.ResetCurrentExperiment_ReturnsItToReady" methodname="ResetCurrentExperiment_ReturnsItToReady" classname="VLAB.Tests.Core.Experiments.ExperimentManagerTests" runstate="Runnable" seed="1172947473" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.001646" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="TestFixture" id="1019" name="ExperimentStepControllerTests" fullname="VLAB.Tests.Core.Experiments.ExperimentStepControllerTests" classname="VLAB.Tests.Core.Experiments.ExperimentStepControllerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.010461" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1020" name="AdvanceStep_StopsAtTheLastConfiguredStep" fullname="VLAB.Tests.Core.Experiments.ExperimentStepControllerTests.AdvanceStep_StopsAtTheLastConfiguredStep" methodname="AdvanceStep_StopsAtTheLastConfiguredStep" classname="VLAB.Tests.Core.Experiments.ExperimentStepControllerTests" runstate="Runnable" seed="1759172243" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.006963" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1021" name="ResetSteps_ReturnsToTheFirstStepAndRaisesChangeEvent" fullname="VLAB.Tests.Core.Experiments.ExperimentStepControllerTests.ResetSteps_ReturnsToTheFirstStepAndRaisesChangeEvent" methodname="ResetSteps_ReturnsToTheFirstStepAndRaisesChangeEvent" classname="VLAB.Tests.Core.Experiments.ExperimentStepControllerTests" runstate="Runnable" seed="1241132725" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.001492" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestSuite" id="1027" name="Input" fullname="VLAB.Tests.Core.Input" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.006789" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1010" name="InputManagerTests" fullname="VLAB.Tests.Core.Input.InputManagerTests" classname="VLAB.Tests.Core.Input.InputManagerTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.005755" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1011" name="RefreshInput_RaisesEdgesOnlyWhenButtonStateChanges" fullname="VLAB.Tests.Core.Input.InputManagerTests.RefreshInput_RaisesEdgesOnlyWhenButtonStateChanges" methodname="RefreshInput_RaisesEdgesOnlyWhenButtonStateChanges" classname="VLAB.Tests.Core.Input.InputManagerTests" runstate="Runnable" seed="1096798254" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.003148" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1012" name="SetProvider_ReplacesTheSourceWithoutChangingConsumers" fullname="VLAB.Tests.Core.Input.InputManagerTests.SetProvider_ReplacesTheSourceWithoutChangingConsumers" methodname="SetProvider_ReplacesTheSourceWithoutChangingConsumers" classname="VLAB.Tests.Core.Input.InputManagerTests" runstate="Runnable" seed="598979042" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:47Z" duration="0.001263" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestSuite" id="1025" name="Integration" fullname="VLAB.Tests.Integration" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:48Z" duration="0.789101" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1008" name="PhysicsLabRebuildSceneTests" fullname="VLAB.Tests.Integration.PhysicsLabRebuildSceneTests" classname="VLAB.Tests.Integration.PhysicsLabRebuildSceneTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:48Z" duration="0.788008" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1009" name="BaseScene_HasOneRigOneUiSystemAndNoMissingScripts" fullname="VLAB.Tests.Integration.PhysicsLabRebuildSceneTests.BaseScene_HasOneRigOneUiSystemAndNoMissingScripts" methodname="BaseScene_HasOneRigOneUiSystemAndNoMissingScripts" classname="VLAB.Tests.Integration.PhysicsLabRebuildSceneTests" runstate="Runnable" seed="286237841" result="Passed" start-time="2026-08-31 08:39:47Z" end-time="2026-08-31 08:39:48Z" duration="0.786297" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1073" name="VLAB.PhysicsLab.Tests.Editor.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.PhysicsLab.Tests.Editor.dll" runstate="Runnable" testcasecount="40" result="Passed" start-time="2026-08-31 08:39:48Z" end-time="2026-08-31 08:40:09Z" duration="20.622579" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="20056" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1074" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="40" result="Passed" start-time="2026-08-31 08:39:48Z" end-time="2026-08-31 08:40:09Z" duration="20.400167" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1075" name="PhysicsLab" fullname="VLAB.PhysicsLab" runstate="Runnable" testcasecount="40" result="Passed" start-time="2026-08-31 08:39:48Z" end-time="2026-08-31 08:40:09Z" duration="20.399287" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1076" name="Tests" fullname="VLAB.PhysicsLab.Tests" runstate="Runnable" testcasecount="40" result="Passed" start-time="2026-08-31 08:39:48Z" end-time="2026-08-31 08:40:09Z" duration="20.399052" total="40" passed="40" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1029" name="PhysicalLabArchitectureTests" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-08-31 08:39:48Z" end-time="2026-08-31 08:39:49Z" duration="0.035925" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1034" name="Grabbable_CanReleaseAsDynamicForPhysicalExperimentMotion" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests.Grabbable_CanReleaseAsDynamicForPhysicalExperimentMotion" methodname="Grabbable_CanReleaseAsDynamicForPhysicalExperimentMotion" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" seed="1453242533" result="Passed" start-time="2026-08-31 08:39:48Z" end-time="2026-08-31 08:39:48Z" duration="0.008169" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+]]></output>
+              </test-case>
+              <test-case id="1035" name="Grabbable_ReportsHeldStateSoSafetyRecoveryCannotInterruptAHand" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests.Grabbable_ReportsHeldStateSoSafetyRecoveryCannotInterruptAHand" methodname="Grabbable_ReportsHeldStateSoSafetyRecoveryCannotInterruptAHand" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" seed="913042981" result="Passed" start-time="2026-08-31 08:39:48Z" end-time="2026-08-31 08:39:48Z" duration="0.000873" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1033" name="LearningController_HasNoUiMethodThatPerformsPhysicalTrial" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests.LearningController_HasNoUiMethodThatPerformsPhysicalTrial" methodname="LearningController_HasNoUiMethodThatPerformsPhysicalTrial" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" seed="1259174080" result="Passed" start-time="2026-08-31 08:39:48Z" end-time="2026-08-31 08:39:49Z" duration="0.000454" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1030" name="PhysicalProgress_AdvancesOnlyFromSourcedApparatusEvents" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests.PhysicalProgress_AdvancesOnlyFromSourcedApparatusEvents" methodname="PhysicalProgress_AdvancesOnlyFromSourcedApparatusEvents" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" seed="1585608305" result="Passed" start-time="2026-08-31 08:39:49Z" end-time="2026-08-31 08:39:49Z" duration="0.002598" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1037" name="ResetManager_DetachesSnappedObjectAndRestoresItsOriginalParent" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests.ResetManager_DetachesSnappedObjectAndRestoresItsOriginalParent" methodname="ResetManager_DetachesSnappedObjectAndRestoresItsOriginalParent" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" seed="1045614369" result="Passed" start-time="2026-08-31 08:39:49Z" end-time="2026-08-31 08:39:49Z" duration="0.005021" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1032" name="ResultSheet_RemainsLockedUntilPhysicalSequenceAndThreeLiveMeasurements" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests.ResultSheet_RemainsLockedUntilPhysicalSequenceAndThreeLiveMeasurements" methodname="ResultSheet_RemainsLockedUntilPhysicalSequenceAndThreeLiveMeasurements" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" seed="597252399" result="Passed" start-time="2026-08-31 08:39:49Z" end-time="2026-08-31 08:39:49Z" duration="0.012492" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1036" name="SnapController_AttachesOnlyCompatibleReleasedApparatus" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests.SnapController_AttachesOnlyCompatibleReleasedApparatus" methodname="SnapController_AttachesOnlyCompatibleReleasedApparatus" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" seed="1003711421" result="Passed" start-time="2026-08-31 08:39:49Z" end-time="2026-08-31 08:39:49Z" duration="0.003232" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1031" name="TrialRecorder_RejectsPresetDataAndAcceptsLiveComponentMeasurements" fullname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests.TrialRecorder_RejectsPresetDataAndAcceptsLiveComponentMeasurements" methodname="TrialRecorder_RejectsPresetDataAndAcceptsLiveComponentMeasurements" classname="VLAB.PhysicsLab.Tests.PhysicalLabArchitectureTests" runstate="Runnable" seed="1420088256" result="Passed" start-time="2026-08-31 08:39:49Z" end-time="2026-08-31 08:39:49Z" duration="0.000730" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1038" name="PhysicsLabPrefabGenerationTests" fullname="VLAB.PhysicsLab.Tests.PhysicsLabPrefabGenerationTests" classname="VLAB.PhysicsLab.Tests.PhysicsLabPrefabGenerationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-08-31 08:39:49Z" end-time="2026-08-31 08:39:52Z" duration="3.627499" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1039" name="GenerateAll_CreatesAndValidatesTwentyProductionPrefabs" fullname="VLAB.PhysicsLab.Tests.PhysicsLabPrefabGenerationTests.GenerateAll_CreatesAndValidatesTwentyProductionPrefabs" methodname="GenerateAll_CreatesAndValidatesTwentyProductionPrefabs" classname="VLAB.PhysicsLab.Tests.PhysicsLabPrefabGenerationTests" runstate="Runnable" seed="1073673437" result="Passed" start-time="2026-08-31 08:39:49Z" end-time="2026-08-31 08:39:51Z" duration="2.490921" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[[VLAB Physics Lab] Scanned 20 required assets. Report: Assets/VLAB/PhysicsLab/Generated/PhysicsLabAssetReport.json
+[VLAB Physics Lab] Generated 20 reusable prefabs in Assets/VLAB/PhysicsLab/Prefabs.
+[VLAB Physics Lab] Validation passed for 20 assets. Report: Assets/VLAB/PhysicsLab/Generated/PhysicsLabAssetReport.json
+]]></output>
+              </test-case>
+              <test-case id="1040" name="GeneratedPrefabs_ExposeOnlyPurposefulPhysicalInteractionPoints" fullname="VLAB.PhysicsLab.Tests.PhysicsLabPrefabGenerationTests.GeneratedPrefabs_ExposeOnlyPurposefulPhysicalInteractionPoints" methodname="GeneratedPrefabs_ExposeOnlyPurposefulPhysicalInteractionPoints" classname="VLAB.PhysicsLab.Tests.PhysicsLabPrefabGenerationTests" runstate="Runnable" seed="1928229725" result="Passed" start-time="2026-08-31 08:39:51Z" end-time="2026-08-31 08:39:52Z" duration="1.134288" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[[VLAB Physics Lab] Scanned 20 required assets. Report: Assets/VLAB/PhysicsLab/Generated/PhysicsLabAssetReport.json
+[VLAB Physics Lab] Generated 20 reusable prefabs in Assets/VLAB/PhysicsLab/Prefabs.
+[VLAB Physics Lab] Validation passed for 20 assets. Report: Assets/VLAB/PhysicsLab/Generated/PhysicsLabAssetReport.json
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1041" name="PhysicsLabRuntimeTests" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" testcasecount="14" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.027476" total="14" passed="14" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1043" name="AttachmentPoint_AttachesAndDetachesCompatibleObject" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.AttachmentPoint_AttachesAndDetachesCompatibleObject" methodname="AttachmentPoint_AttachesAndDetachesCompatibleObject" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="1565512848" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.001383" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1050" name="CoilSpring_MeasuresPeriodBetweenSuccessiveExtensionPeaks" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.CoilSpring_MeasuresPeriodBetweenSuccessiveExtensionPeaks" methodname="CoilSpring_MeasuresPeriodBetweenSuccessiveExtensionPeaks" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="121090647" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.002295" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1052" name="FrictionMath_UsesStaticThenKineticLimit" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.FrictionMath_UsesStaticThenKineticLimit" methodname="FrictionMath_UsesStaticThenKineticLimit" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="340331193" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.002597" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1054" name="MeterRuler_ProjectsDistanceOnMeasurementAxis" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.MeterRuler_ProjectsDistanceOnMeasurementAxis" methodname="MeterRuler_ProjectsDistanceOnMeasurementAxis" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="611731556" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.001756" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1055" name="MomentumMath_SumsSignedMomentumAlongTrack" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.MomentumMath_SumsSignedMomentumAlongTrack" methodname="MomentumMath_SumsSignedMomentumAlongTrack" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="549358581" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.000314" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="PendulumMath_ReturnsExpectedSmallAnglePeriod" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.PendulumMath_ReturnsExpectedSmallAnglePeriod" methodname="PendulumMath_ReturnsExpectedSmallAnglePeriod" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="1352297925" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.000308" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1047" name="Photogate_RejectsItsOwnColliders" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.Photogate_RejectsItsOwnColliders" methodname="Photogate_RejectsItsOwnColliders" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="901403357" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.001164" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1048" name="PhotogateVelocity_UsesFlagWidthAndBeamBlockDuration" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.PhotogateVelocity_UsesFlagWidthAndBeamBlockDuration" methodname="PhotogateVelocity_UsesFlagWidthAndBeamBlockDuration" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="269380948" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.000994" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1042" name="PhysicsParameter_ClampsAndPublishesSIValue" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.PhysicsParameter_ClampsAndPublishesSIValue" methodname="PhysicsParameter_ClampsAndPublishesSIValue" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="245576740" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.000974" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1053" name="ProjectileMath_ProducesRequestedSpeedAndAngle" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.ProjectileMath_ProducesRequestedSpeedAndAngle" methodname="ProjectileMath_ProducesRequestedSpeedAndAngle" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="730200373" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.001915" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1044" name="ResetManager_RestoresRegisteredObjectTransform" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.ResetManager_RestoresRegisteredObjectTransform" methodname="ResetManager_RestoresRegisteredObjectTransform" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="576022649" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.001901" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1049" name="SpringMath_ReturnsHookeAndDampingForce" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.SpringMath_ReturnsHookeAndDampingForce" methodname="SpringMath_ReturnsHookeAndDampingForce" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="145370453" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.000390" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1045" name="Timer_ModeAPlusB_MeasuresBetweenTwoPorts" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.Timer_ModeAPlusB_MeasuresBetweenTwoPorts" methodname="Timer_ModeAPlusB_MeasuresBetweenTwoPorts" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="1263216921" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.002175" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1046" name="Timer_ModeT_MeasuresPeriodBetweenSuccessiveBlocks" fullname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests.Timer_ModeT_MeasuresPeriodBetweenSuccessiveBlocks" methodname="Timer_ModeT_MeasuresPeriodBetweenSuccessiveBlocks" classname="VLAB.PhysicsLab.Tests.PhysicsLabRuntimeTests" runstate="Runnable" seed="1567683919" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:52Z" duration="0.000830" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1056" name="PhysicsLabSceneArchitectureTests" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:40:09Z" duration="16.707243" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1069" name="Base_EquipmentDisplayUsesUniqueDecorativeNonInteractableAssets" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_EquipmentDisplayUsesUniqueDecorativeNonInteractableAssets" methodname="Base_EquipmentDisplayUsesUniqueDecorativeNonInteractableAssets" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1041313703" result="Passed" start-time="2026-08-31 08:39:52Z" end-time="2026-08-31 08:39:53Z" duration="0.491071" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1068" name="Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" methodname="Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="808839917" result="Passed" start-time="2026-08-31 08:39:53Z" end-time="2026-08-31 08:39:53Z" duration="0.436843" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1061" name="Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" methodname="Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1438925137" result="Passed" start-time="2026-08-31 08:39:53Z" end-time="2026-08-31 08:39:54Z" duration="0.484155" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1066" name="Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" methodname="Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1638654958" result="Passed" start-time="2026-08-31 08:39:54Z" end-time="2026-08-31 08:39:54Z" duration="0.449622" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1067" name="Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" methodname="Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="767397343" result="Passed" start-time="2026-08-31 08:39:54Z" end-time="2026-08-31 08:39:54Z" duration="0.444454" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1062" name="Base_XriLocomotionUsesTheHmdCameraAsForwardSource" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_XriLocomotionUsesTheHmdCameraAsForwardSource" methodname="Base_XriLocomotionUsesTheHmdCameraAsForwardSource" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1484177916" result="Passed" start-time="2026-08-31 08:39:54Z" end-time="2026-08-31 08:39:55Z" duration="0.421669" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1057" name="BaseAndAllContentScenes_ExistAndUseAdditiveArchitecture" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.BaseAndAllContentScenes_ExistAndUseAdditiveArchitecture" methodname="BaseAndAllContentScenes_ExistAndUseAdditiveArchitecture" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="121418533" result="Passed" start-time="2026-08-31 08:39:55Z" end-time="2026-08-31 08:39:55Z" duration="0.550032" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1058" name="BuildSettings_ContainsHomeBaseHubAndSixExperiments" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.BuildSettings_ContainsHomeBaseHubAndSixExperiments" methodname="BuildSettings_ContainsHomeBaseHubAndSixExperiments" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="202993697" result="Passed" start-time="2026-08-31 08:39:55Z" end-time="2026-08-31 08:39:55Z" duration="0.002523" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1064" name="EveryWorldInteractable_HasExactlyOneNativeXriBridge" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.EveryWorldInteractable_HasExactlyOneNativeXriBridge" methodname="EveryWorldInteractable_HasExactlyOneNativeXriBridge" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="913645840" result="Passed" start-time="2026-08-31 08:39:55Z" end-time="2026-08-31 08:39:58Z" duration="2.130721" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1070" name="ExperimentStations_UseEnlargedTablesAndReadableApparatus" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.ExperimentStations_UseEnlargedTablesAndReadableApparatus" methodname="ExperimentStations_UseEnlargedTablesAndReadableApparatus" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="562079845" result="Passed" start-time="2026-08-31 08:39:58Z" end-time="2026-08-31 08:40:00Z" duration="2.055826" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1071" name="ExperimentStations_UsePhysicalControllerAndNoWizardControls" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.ExperimentStations_UsePhysicalControllerAndNoWizardControls" methodname="ExperimentStations_UsePhysicalControllerAndNoWizardControls" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1848648454" result="Passed" start-time="2026-08-31 08:40:00Z" end-time="2026-08-31 08:40:02Z" duration="2.164804" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1072" name="FrictionStation_UsesThreePhysicalSurfaceSamples" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.FrictionStation_UsesThreePhysicalSurfaceSamples" methodname="FrictionStation_UsesThreePhysicalSurfaceSamples" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="2029106877" result="Passed" start-time="2026-08-31 08:40:02Z" end-time="2026-08-31 08:40:02Z" duration="0.340488" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1063" name="HubSelector_IsWorldSpaceAndControllerRayCompatible" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.HubSelector_IsWorldSpaceAndControllerRayCompatible" methodname="HubSelector_IsWorldSpaceAndControllerRayCompatible" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1963750862" result="Passed" start-time="2026-08-31 08:40:02Z" end-time="2026-08-31 08:40:02Z" duration="0.334235" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1059" name="PhysicsLabScenes_HaveNoMissingScriptsOrMaterials" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.PhysicsLabScenes_HaveNoMissingScriptsOrMaterials" methodname="PhysicsLabScenes_HaveNoMissingScriptsOrMaterials" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1488742162" result="Passed" start-time="2026-08-31 08:40:02Z" end-time="2026-08-31 08:40:05Z" duration="2.960175" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1065" name="PhysicsLabUi_IsResponsiveAndLongResultsAreScrollable" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.PhysicsLabUi_IsResponsiveAndLongResultsAreScrollable" methodname="PhysicsLabUi_IsResponsiveAndLongResultsAreScrollable" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1046657636" result="Passed" start-time="2026-08-31 08:40:05Z" end-time="2026-08-31 08:40:09Z" duration="3.427506" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1060" name="XRDeviceSimulator_AutoStartsForTemporaryVrTesting" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.XRDeviceSimulator_AutoStartsForTemporaryVrTesting" methodname="XRDeviceSimulator_AutoStartsForTemporaryVrTesting" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="473575444" result="Passed" start-time="2026-08-31 08:40:09Z" end-time="2026-08-31 08:40:09Z" duration="0.000706" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

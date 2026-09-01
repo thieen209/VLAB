@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Failed(Child)" total="6" passed="2" failed="4" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-08-31 07:28:05Z" end-time="2026-08-31 07:28:06Z" duration="1.5432785">
+  <test-suite type="TestSuite" id="1000" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="49" result="Failed" site="Child" start-time="2026-08-31 07:28:05Z" end-time="2026-08-31 07:28:06Z" duration="1.543279" total="6" passed="2" failed="4" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1073" name="VLAB.PhysicsLab.Tests.Editor.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.PhysicsLab.Tests.Editor.dll" runstate="Runnable" testcasecount="40" result="Failed" site="Child" start-time="2026-08-31 07:28:05Z" end-time="2026-08-31 07:28:06Z" duration="1.533439" total="6" passed="2" failed="4" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="2308" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1074" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="40" result="Failed" site="Child" start-time="2026-08-31 07:28:05Z" end-time="2026-08-31 07:28:06Z" duration="1.532236" total="6" passed="2" failed="4" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1075" name="PhysicsLab" fullname="VLAB.PhysicsLab" runstate="Runnable" testcasecount="40" result="Failed" site="Child" start-time="2026-08-31 07:28:05Z" end-time="2026-08-31 07:28:06Z" duration="1.531720" total="6" passed="2" failed="4" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1076" name="Tests" fullname="VLAB.PhysicsLab.Tests" runstate="Runnable" testcasecount="40" result="Failed" site="Child" start-time="2026-08-31 07:28:05Z" end-time="2026-08-31 07:28:06Z" duration="1.531227" total="6" passed="2" failed="4" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1056" name="PhysicsLabSceneArchitectureTests" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" testcasecount="16" result="Failed" site="Child" start-time="2026-08-31 07:28:05Z" end-time="2026-08-31 07:28:06Z" duration="1.529692" total="6" passed="2" failed="4" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1069" name="Base_EquipmentDisplayUsesUniqueDecorativeNonInteractableAssets" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_EquipmentDisplayUsesUniqueDecorativeNonInteractableAssets" methodname="Base_EquipmentDisplayUsesUniqueDecorativeNonInteractableAssets" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="97020468" result="Failed" label="Error" start-time="2026-08-31 07:28:05Z" end-time="2026-08-31 07:28:06Z" duration="0.683729" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[System.InvalidOperationException : Sequence contains no matching element]]></message>
+                  <stack-trace><![CDATA[  at System.Linq.Enumerable.Single[TSource] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] predicate) [0x00070] in <fe644d7ad1cf499ebe4e7ad937bc03bf>:0 
+  at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_EquipmentDisplayUsesUniqueDecorativeNonInteractableAssets () [0x0000c] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:286 
+  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)
+  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <816f70bc2a9c4332b0bd119906a8d40e>:0 ]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1068" name="Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" methodname="Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="401568279" result="Failed" start-time="2026-08-31 07:28:06Z" end-time="2026-08-31 07:28:06Z" duration="0.290923" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: property Length equal to 2
+  But was:  0
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_LightingKeepsMobileVrBudgetAndProvidesProbeCoverage () [0x0014b] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:273
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1061" name="Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" methodname="Base_UsesNativeXriInteractionWithoutCustomCrosshairPath" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1884247514" result="Passed" start-time="2026-08-31 07:28:06Z" end-time="2026-08-31 07:28:06Z" duration="0.276911" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1066" name="Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" methodname="Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="843954472" result="Failed" start-time="2026-08-31 07:28:06Z" end-time="2026-08-31 07:28:06Z" duration="0.001544" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  The source HDRI must be copied into the organized shared environment folder.
+  Expected: True
+  But was:  False
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesOrganizedSharedEnvironmentAndRuntimeSizedHdriSky () [0x00000] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:212
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1067" name="Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" methodname="Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="860713845" result="Failed" start-time="2026-08-31 07:28:06Z" end-time="2026-08-31 07:28:06Z" duration="0.000922" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  The supplied GLB should be converted to an organized Unity-friendly model.
+  Expected: True
+  But was:  False
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_UsesProvidedWindowModelWithSingleLayerPerformantGlass () [0x00000] in D:\VLAB\Web demo\VLAB\Assets\VLAB\PhysicsLab\Tests\Editor\PhysicsLabSceneArchitectureTests.cs:246
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1062" name="Base_XriLocomotionUsesTheHmdCameraAsForwardSource" fullname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests.Base_XriLocomotionUsesTheHmdCameraAsForwardSource" methodname="Base_XriLocomotionUsesTheHmdCameraAsForwardSource" classname="VLAB.PhysicsLab.Tests.PhysicsLabSceneArchitectureTests" runstate="Runnable" seed="1253460037" result="Passed" start-time="2026-08-31 07:28:06Z" end-time="2026-08-31 07:28:06Z" duration="0.259402" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

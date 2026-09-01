@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="3" result="Passed" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-08-31 03:56:43Z" end-time="2026-08-31 03:56:50Z" duration="6.6960248">
+  <test-suite type="TestSuite" id="1013" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-08-31 03:56:43Z" end-time="2026-08-31 03:56:50Z" duration="6.696025" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1008" name="VLAB.PhysicsLab.Tests.PlayMode.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.PhysicsLab.Tests.PlayMode.dll" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-08-31 03:56:44Z" end-time="2026-08-31 03:56:50Z" duration="6.659552" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="33164" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1009" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-08-31 03:56:44Z" end-time="2026-08-31 03:56:50Z" duration="6.658300" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1010" name="PhysicsLab" fullname="VLAB.PhysicsLab" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-08-31 03:56:44Z" end-time="2026-08-31 03:56:50Z" duration="6.657911" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1011" name="Tests" fullname="VLAB.PhysicsLab.Tests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-08-31 03:56:44Z" end-time="2026-08-31 03:56:50Z" duration="6.657620" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1012" name="PlayMode" fullname="VLAB.PhysicsLab.Tests.PlayMode" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-08-31 03:56:44Z" end-time="2026-08-31 03:56:50Z" duration="6.657291" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1004" name="PhysicsLabSceneFlowPlayModeTests" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-08-31 03:56:44Z" end-time="2026-08-31 03:56:50Z" duration="6.654517" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1006" name="BaseScene_LoadsHub_AndCyclesThroughAllExperimentsWithoutDuplicatingRig" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests.BaseScene_LoadsHub_AndCyclesThroughAllExperimentsWithoutDuplicatingRig" methodname="BaseScene_LoadsHub_AndCyclesThroughAllExperimentsWithoutDuplicatingRig" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" seed="985535516" result="Passed" start-time="2026-08-31 03:56:44Z" end-time="2026-08-31 03:56:45Z" duration="1.946921" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+]]></output>
+                </test-case>
+                <test-case id="1005" name="EveryContentScene_DirectLaunchBootstrapsSharedBaseAndRuntimeServices" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests.EveryContentScene_DirectLaunchBootstrapsSharedBaseAndRuntimeServices" methodname="EveryContentScene_DirectLaunchBootstrapsSharedBaseAndRuntimeServices" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" seed="2056574708" result="Passed" start-time="2026-08-31 03:56:45Z" end-time="2026-08-31 03:56:48Z" duration="2.526396" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+]]></output>
+                </test-case>
+                <test-case id="1007" name="EveryExperiment_UsesPhysicalControllerWithoutWizardUi" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests.EveryExperiment_UsesPhysicalControllerWithoutWizardUi" methodname="EveryExperiment_UsesPhysicalControllerWithoutWizardUi" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" seed="1757818009" result="Passed" start-time="2026-08-31 03:56:48Z" end-time="2026-08-31 03:56:50Z" duration="2.156282" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Only one UI Input Module allowed on the EventSystem GameObject. Disabling InputSystemUIInputModule on EventSystem since it will block the XRUIInputModule from receiving input events.
+Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

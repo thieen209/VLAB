@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Passed" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:47Z" duration="6.0700534">
+  <test-suite type="TestSuite" id="1014" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:47Z" duration="6.070053" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1009" name="VLAB.PhysicsLab.Tests.PlayMode.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.PhysicsLab.Tests.PlayMode.dll" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:47Z" duration="6.047803" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="32668" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1010" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:47Z" duration="6.046841" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1011" name="PhysicsLab" fullname="VLAB.PhysicsLab" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:47Z" duration="6.046492" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1012" name="Tests" fullname="VLAB.PhysicsLab.Tests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:47Z" duration="6.046182" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1013" name="PlayMode" fullname="VLAB.PhysicsLab.Tests.PlayMode" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:47Z" duration="6.045779" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1004" name="PhysicsLabSceneFlowPlayModeTests" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:47Z" duration="6.043549" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1006" name="BaseScene_LoadsHub_AndCyclesThroughAllExperimentsWithoutDuplicatingRig" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests.BaseScene_LoadsHub_AndCyclesThroughAllExperimentsWithoutDuplicatingRig" methodname="BaseScene_LoadsHub_AndCyclesThroughAllExperimentsWithoutDuplicatingRig" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" seed="2038130505" result="Passed" start-time="2026-08-31 06:45:41Z" end-time="2026-08-31 06:45:43Z" duration="1.407532" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1005" name="EveryContentScene_DirectLaunchBootstrapsSharedBaseAndRuntimeServices" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests.EveryContentScene_DirectLaunchBootstrapsSharedBaseAndRuntimeServices" methodname="EveryContentScene_DirectLaunchBootstrapsSharedBaseAndRuntimeServices" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" seed="1821088749" result="Passed" start-time="2026-08-31 06:45:43Z" end-time="2026-08-31 06:45:45Z" duration="2.290668" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1007" name="EveryExperiment_UsesPhysicalControllerWithoutWizardUi" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests.EveryExperiment_UsesPhysicalControllerWithoutWizardUi" methodname="EveryExperiment_UsesPhysicalControllerWithoutWizardUi" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" seed="1372686982" result="Passed" start-time="2026-08-31 06:45:45Z" end-time="2026-08-31 06:45:47Z" duration="1.990708" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+Setting linear velocity of a kinematic body is not supported.
+Setting angular velocity of a kinematic body is not supported.
+]]></output>
+                </test-case>
+                <test-case id="1008" name="NativeXriSimpleSelection_ActivatesPhysicalApparatusExactlyOnce" fullname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests.NativeXriSimpleSelection_ActivatesPhysicalApparatusExactlyOnce" methodname="NativeXriSimpleSelection_ActivatesPhysicalApparatusExactlyOnce" classname="VLAB.PhysicsLab.Tests.PlayMode.PhysicsLabSceneFlowPlayModeTests" runstate="Runnable" seed="971084529" result="Passed" start-time="2026-08-31 06:45:47Z" end-time="2026-08-31 06:45:47Z" duration="0.338635" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
