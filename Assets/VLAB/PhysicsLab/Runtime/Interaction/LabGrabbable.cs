@@ -63,8 +63,11 @@ namespace VLAB.PhysicsLab.Interaction
 
             previousKinematic = body.isKinematic;
             previousUseGravity = body.useGravity;
-            body.linearVelocity = Vector3.zero;
-            body.angularVelocity = Vector3.zero;
+            if (!body.isKinematic)
+            {
+                body.linearVelocity = Vector3.zero;
+                body.angularVelocity = Vector3.zero;
+            }
             body.useGravity = false;
             body.isKinematic = true;
             IsHeld = true;
@@ -92,12 +95,12 @@ namespace VLAB.PhysicsLab.Interaction
                     : releaseMode == LabReleaseMode.DynamicNoGravity ? false
                     : releaseMode == LabReleaseMode.KeepKinematic ? false
                     : previousUseGravity;
-                if (!dynamicRelease)
+                if (!dynamicRelease && !body.isKinematic)
                 {
                     body.linearVelocity = Vector3.zero;
                     body.angularVelocity = Vector3.zero;
                 }
-                else
+                else if (dynamicRelease)
                 {
                     body.linearVelocity = Vector3.ClampMagnitude(body.linearVelocity, 3f);
                     body.angularVelocity = Vector3.ClampMagnitude(body.angularVelocity, 8f);

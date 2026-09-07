@@ -43,8 +43,11 @@ namespace VLAB.PhysicsLab.Common
             if (attachedRigidbody != null && freezeAttachedRigidbody)
             {
                 previousKinematic = attachedRigidbody.isKinematic;
-                attachedRigidbody.linearVelocity = Vector3.zero;
-                attachedRigidbody.angularVelocity = Vector3.zero;
+                if (!attachedRigidbody.isKinematic)
+                {
+                    attachedRigidbody.linearVelocity = Vector3.zero;
+                    attachedRigidbody.angularVelocity = Vector3.zero;
+                }
                 attachedRigidbody.isKinematic = true;
             }
 
