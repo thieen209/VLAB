@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Failed(Child)" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-08 00:11:21Z" end-time="2026-09-08 00:11:36Z" duration="15.6797663">
+  <test-suite type="TestSuite" id="1027" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="11" result="Failed" site="Child" start-time="2026-09-08 00:11:21Z" end-time="2026-09-08 00:11:36Z" duration="15.679766" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1009" name="VLAB.DemoLabs.Tests.PlayMode.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.DemoLabs.Tests.PlayMode.dll" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-09-08 00:11:21Z" end-time="2026-09-08 00:11:36Z" duration="15.644835" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="26272" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1010" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-09-08 00:11:21Z" end-time="2026-09-08 00:11:36Z" duration="15.643274" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1011" name="DemoLabs" fullname="VLAB.DemoLabs" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-09-08 00:11:21Z" end-time="2026-09-08 00:11:36Z" duration="15.642759" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1012" name="Tests" fullname="VLAB.DemoLabs.Tests" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-09-08 00:11:21Z" end-time="2026-09-08 00:11:36Z" duration="15.642334" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1004" name="DemoLabPlaythroughTests" fullname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" classname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-09-08 00:11:21Z" end-time="2026-09-08 00:11:36Z" duration="15.640321" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1006" name="BiologyPreparationFocusIdentificationAndReset" fullname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests.BiologyPreparationFocusIdentificationAndReset" methodname="BiologyPreparationFocusIdentificationAndReset" classname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" runstate="Runnable" seed="1441854894" result="Failed" start-time="2026-09-08 00:11:21Z" end-time="2026-09-08 00:11:30Z" duration="8.959108" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Refocusing must visibly restore image detail
+  Expected: greater than 0.0f
+  But was:  0.0f
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.DemoLabs.Tests.DemoLabPlaythroughTests+<BiologyPreparationFocusIdentificationAndReset>d__6.MoveNext () [0x00621] in D:\VLAB\Web demo\VLAB\Assets\VLAB\DemoLabs\Tests\PlayMode\DemoLabPlaythroughTests.cs:125
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@1405238725ab\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1007" name="EngineeringAllResistorsShortCircuitPartialResetAndRepeat" fullname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests.EngineeringAllResistorsShortCircuitPartialResetAndRepeat" methodname="EngineeringAllResistorsShortCircuitPartialResetAndRepeat" classname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" runstate="Runnable" seed="1343136307" result="Passed" start-time="2026-09-08 00:11:30Z" end-time="2026-09-08 00:11:31Z" duration="1.091728" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="EngineeringCorrectIncorrectResetAndRecovery" fullname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests.EngineeringCorrectIncorrectResetAndRecovery" methodname="EngineeringCorrectIncorrectResetAndRecovery" classname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" runstate="Runnable" seed="1391882930" result="Passed" start-time="2026-09-08 00:11:31Z" end-time="2026-09-08 00:11:32Z" duration="1.343924" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1008" name="HomeRoutesBothNewLabsAndKeepsPhysicsAvailable" fullname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests.HomeRoutesBothNewLabsAndKeepsPhysicsAvailable" methodname="HomeRoutesBothNewLabsAndKeepsPhysicsAvailable" classname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" runstate="Runnable" seed="336158629" result="Passed" start-time="2026-09-08 00:11:32Z" end-time="2026-09-08 00:11:36Z" duration="4.216454" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Failed(Child)" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-08 07:47:01Z" end-time="2026-09-08 07:47:03Z" duration="2.3509701">
+  <test-suite type="TestSuite" id="1029" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="13" result="Failed" site="Child" start-time="2026-09-08 07:47:01Z" end-time="2026-09-08 07:47:03Z" duration="2.350970" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1011" name="VLAB.DemoLabs.Tests.PlayMode.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.DemoLabs.Tests.PlayMode.dll" runstate="Runnable" testcasecount="6" result="Failed" site="Child" start-time="2026-09-08 07:47:01Z" end-time="2026-09-08 07:47:03Z" duration="2.312413" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="8440" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1012" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="6" result="Failed" site="Child" start-time="2026-09-08 07:47:01Z" end-time="2026-09-08 07:47:03Z" duration="2.310320" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1013" name="DemoLabs" fullname="VLAB.DemoLabs" runstate="Runnable" testcasecount="6" result="Failed" site="Child" start-time="2026-09-08 07:47:01Z" end-time="2026-09-08 07:47:03Z" duration="2.309164" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1014" name="Tests" fullname="VLAB.DemoLabs.Tests" runstate="Runnable" testcasecount="6" result="Failed" site="Child" start-time="2026-09-08 07:47:01Z" end-time="2026-09-08 07:47:03Z" duration="2.307938" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1004" name="DemoLabPlaythroughTests" fullname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" classname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" runstate="Runnable" testcasecount="6" result="Failed" site="Child" start-time="2026-09-08 07:47:01Z" end-time="2026-09-08 07:47:03Z" duration="2.303691" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1005" name="ShortDeviceTapsSurviveOneInputUpdate" fullname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests.ShortDeviceTapsSurviveOneInputUpdate" methodname="ShortDeviceTapsSurviveOneInputUpdate" classname="VLAB.DemoLabs.Tests.DemoLabPlaythroughTests" runstate="Runnable" seed="1610901572" result="Failed" start-time="2026-09-08 07:47:01Z" end-time="2026-09-08 07:47:03Z" duration="2.267141" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  A quick reset tap must not disappear between rendered frames; updated=False; current=True
+  Expected: True
+  But was:  False
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.DemoLabs.Tests.DemoLabPlaythroughTests+<ShortDeviceTapsSurviveOneInputUpdate>d__0.MoveNext () [0x0012a] in D:\VLAB\Web demo\VLAB\Assets\VLAB\DemoLabs\Tests\PlayMode\DemoLabPlaythroughTests.cs:36
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@1405238725ab\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

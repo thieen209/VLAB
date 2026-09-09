@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="12" result="Passed" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:17Z" duration="2.3496704">
+  <test-suite type="TestSuite" id="1000" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="56" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:17Z" duration="2.349670" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1030" name="VLAB.DemoLabs.Tests.Editor.dll" fullname="D:/VLAB/Web demo/VLAB/Library/ScriptAssemblies/VLAB.DemoLabs.Tests.Editor.dll" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:17Z" duration="2.330673" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="11792" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1031" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:17Z" duration="2.329484" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1032" name="DemoLabs" fullname="VLAB.DemoLabs" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:17Z" duration="2.329100" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1033" name="Tests" fullname="VLAB.DemoLabs.Tests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:17Z" duration="2.328745" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1014" name="DemoLabModelTests" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:17Z" duration="2.327079" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1025" name="MicroscopeRequiresPreparationLightBothFocusControlsAndRefocus" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.MicroscopeRequiresPreparationLightBothFocusControlsAndRefocus" methodname="MicroscopeRequiresPreparationLightBothFocusControlsAndRefocus" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="1490316685" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.031219" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1026" name="OvershootingFocusBlursAgain" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.OvershootingFocusBlursAgain" methodname="OvershootingFocusBlursAgain" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="1545146208" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.005668" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1022" name="PhysicalPolarityAndSocketPolarityBothMatter" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.PhysicalPolarityAndSocketPolarityBothMatter" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.011843" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1019" name="PhysicalPolarityAndSocketPolarityBothMatter(False,True,Reversed)" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.PhysicalPolarityAndSocketPolarityBothMatter(False,True,Reversed)" methodname="PhysicalPolarityAndSocketPolarityBothMatter" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="1882157250" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.005178" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1020" name="PhysicalPolarityAndSocketPolarityBothMatter(True,False,Reversed)" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.PhysicalPolarityAndSocketPolarityBothMatter(True,False,Reversed)" methodname="PhysicalPolarityAndSocketPolarityBothMatter" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="138013177" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.000420" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1021" name="PhysicalPolarityAndSocketPolarityBothMatter(True,True,Safe)" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.PhysicalPolarityAndSocketPolarityBothMatter(True,True,Safe)" methodname="PhysicalPolarityAndSocketPolarityBothMatter" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="817439196" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.000287" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1018" name="ResistorControlsCurrent" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.ResistorControlsCurrent" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.004066" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1015" name="ResistorControlsCurrent(100,Overcurrent,0.03f)" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.ResistorControlsCurrent(100,Overcurrent,0.03f)" methodname="ResistorControlsCurrent" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="1807326255" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.002177" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1016" name="ResistorControlsCurrent(220,Safe,0.01363636f)" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.ResistorControlsCurrent(220,Safe,0.01363636f)" methodname="ResistorControlsCurrent" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="1109388916" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.000260" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1017" name="ResistorControlsCurrent(1000,Dim,0.003f)" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.ResistorControlsCurrent(1000,Dim,0.003f)" methodname="ResistorControlsCurrent" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="1687761333" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.000207" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1024" name="ResistorIsNonPolarized" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.ResistorIsNonPolarized" methodname="ResistorIsNonPolarized" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="1192168233" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:15Z" duration="0.001132" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1029" name="SavedScenesHaveWiredReferencesAndNoMissingScripts" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.SavedScenesHaveWiredReferencesAndNoMissingScripts" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:17Z" duration="2.237407" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1027" name="SavedScenesHaveWiredReferencesAndNoMissingScripts(&quot;Assets/VLAB/DemoLabs/Scenes/EngineeringLab.unity&quot;,VLAB.DemoLabs.EngineeringExperiment)" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.SavedScenesHaveWiredReferencesAndNoMissingScripts(&quot;Assets/VLAB/DemoLabs/Scenes/EngineeringLab.unity&quot;,VLAB.DemoLabs.EngineeringExperiment)" methodname="SavedScenesHaveWiredReferencesAndNoMissingScripts" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="723653393" result="Passed" start-time="2026-09-08 07:53:15Z" end-time="2026-09-08 07:53:16Z" duration="1.243541" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1028" name="SavedScenesHaveWiredReferencesAndNoMissingScripts(&quot;Assets/VLAB/DemoLabs/Scenes/BiologyLab.unity&quot;,VLAB.DemoLabs.BiologyExperiment)" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.SavedScenesHaveWiredReferencesAndNoMissingScripts(&quot;Assets/VLAB/DemoLabs/Scenes/BiologyLab.unity&quot;,VLAB.DemoLabs.BiologyExperiment)" methodname="SavedScenesHaveWiredReferencesAndNoMissingScripts" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="800075372" result="Passed" start-time="2026-09-08 07:53:16Z" end-time="2026-09-08 07:53:17Z" duration="0.991566" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1023" name="ShortsBypassesDuplicatesAndMissingPartsCannotPower" fullname="VLAB.DemoLabs.Tests.DemoLabModelTests.ShortsBypassesDuplicatesAndMissingPartsCannotPower" methodname="ShortsBypassesDuplicatesAndMissingPartsCannotPower" classname="VLAB.DemoLabs.Tests.DemoLabModelTests" runstate="Runnable" seed="309932610" result="Passed" start-time="2026-09-08 07:53:17Z" end-time="2026-09-08 07:53:17Z" duration="0.006627" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/PC/AppData/LocalLow/DefaultCompany/VLAB\TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
