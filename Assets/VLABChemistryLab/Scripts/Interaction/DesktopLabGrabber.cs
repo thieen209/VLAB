@@ -34,7 +34,9 @@ namespace VLAB.ChemistryLab.Interaction
             handObject.transform.SetParent(transform, false);
             handObject.AddComponent<SphereCollider>().isTrigger = true;
             handObject.GetComponent<SphereCollider>().radius = .025f;
-            var manager = handObject.AddComponent<XRInteractionManager>();
+            var manager = Object.FindAnyObjectByType<XRInteractionManager>(FindObjectsInactive.Include);
+            if(manager==null)manager=new GameObject("XR Interaction Manager").AddComponent<XRInteractionManager>();
+            else manager.gameObject.SetActive(true);
             hand = handObject.AddComponent<XRDirectInteractor>();
             hand.interactionManager = manager;
             hand.selectInput.inputSourceMode = XRInputButtonReader.InputSourceMode.ManualValue;

@@ -103,7 +103,8 @@ namespace VLAB.MainMenu.Tests
             Canvas.ForceUpdateCanvases();
             var report=new System.Text.StringBuilder();
             foreach(var graphic in App.GetComponentsInChildren<Graphic>())
-                report.AppendLine(graphic.name+" rect="+graphic.rectTransform.rect+" pos="+graphic.rectTransform.anchoredPosition+" culled="+graphic.canvasRenderer.cull+" color="+graphic.color+" texture="+(graphic.mainTexture!=null?graphic.mainTexture.name:"none"));
+                if(graphic.GetComponent<CanvasRenderer>()!=null)
+                    report.AppendLine(graphic.name+" rect="+graphic.rectTransform.rect+" pos="+graphic.rectTransform.anchoredPosition+" culled="+graphic.canvasRenderer.cull+" color="+graphic.color+" texture="+(graphic.mainTexture!=null?graphic.mainTexture.name:"none"));
             File.WriteAllText("TestResults/MenuUI/"+name+"-layout.txt",report.ToString());
             camera.Render();RenderTexture.active=rt;
             var texture=new Texture2D(width,height,TextureFormat.RGB24,false);

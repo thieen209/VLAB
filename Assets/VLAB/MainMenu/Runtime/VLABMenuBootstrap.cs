@@ -16,10 +16,14 @@ namespace VLAB.MainMenu
         }
         private static void Loaded(Scene scene, LoadSceneMode mode)
         {
+            foreach(var root in scene.GetRootGameObjects())
+                foreach(var panel in root.GetComponentsInChildren<VLAB.PhysicsLab.Education.ExperimentContextPanel>(true))
+                    if(panel.GetComponent<VLabPhysicsLessonPanel>()==null)panel.gameObject.AddComponent<VLabPhysicsLessonPanel>();
             if (scene.name != MenuScene && scene.name != PhysicsLabSceneNames.Base && scene.name != "ChemistryLab" && scene.name != "BiologyLab" && scene.name != "EngineeringLab") return;
             foreach (var root in scene.GetRootGameObjects())
                 if (root.GetComponentInChildren<VLABApplicationUI>(true) != null) return;
             bool menu = scene.name == MenuScene;
+            if(scene.name=="ChemistryLab")Object.FindAnyObjectByType<VLAB.ChemistryLab.ChemistryLabModeController>()?.UseSharedRuntime();
             if (menu)
             {
                 // The supplied Menu scene is a copy of Base. Retain its environment and

@@ -98,6 +98,15 @@ namespace VLAB.MainMenu.Tests
                 int activations=0;part.Activated+=()=>activations++;
                 var shared=app.GetComponent<VLabSharedPointer>();
                 var replay=shared.gameObject.AddComponent<VLabControllerReplayProvider>();shared.Input.SetProvider(replay);
+                if(scenes[i]=="ChemistryLab")
+                {
+                    // Walk from the real room entrance to the fixed bench through normal input.
+                    float end=Time.realtimeSinceStartup+2.3f;
+                    while(Time.realtimeSinceStartup<end)
+                    {replay.Submit(new VLABInputState{Move=Vector2.up},Quaternion.identity,++sequence);shared.Input.RefreshInput();yield return null;}
+                    replay.Submit(default,Quaternion.identity,++sequence);shared.Input.RefreshInput();
+                    Assert.That(Camera.main.transform.position.z-position.z,Is.GreaterThan(2),"Movement remains usable while an activity is active.");
+                }
                 yield return ClickWorldPart(replay,shared.Input,part);
                 Assert.That(activations,Is.EqualTo(1),"Held controller trigger activates one real lesson object: "+activities[i]);
                 Capture(activities[i]);

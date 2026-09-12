@@ -32,11 +32,15 @@ public static class VLabProductionValidation
             Directory.CreateDirectory("TestResults/Production");
             if (command == "validate") { VLabUnifiedBuild.ValidateScenes(); return; }
             if (command == "assets") { PrepareSharedController(); return; }
-            if (command != "edit" && command != "play" && command != "journey" && command != "production" && command != "tap") throw new ArgumentException("Unknown validation command: " + command);
+            if (command == "stations") { VLabStabilizationSetup.ConfigureStations(); return; }
+            if (command == "rig") { VLabStabilizationSetup.PrepareRig(); return; }
+            if (command == "bench") { VLabStabilizationSetup.ConfigurePhysicsBench(); return; }
+            if (command != "edit" && command != "play" && command != "journey" && command != "production" && command != "tap" && command != "stabilization") throw new ArgumentException("Unknown validation command: " + command);
             SessionState.SetString(ReportKey, "TestResults/Production/" + command + ".xml");
             var filter = new Filter { testMode = command == "edit" ? TestMode.EditMode : TestMode.PlayMode };
             if (command == "journey") filter.testNames = new[] { "VLAB.MainMenu.Tests.VLABUnifiedJourneyTests.EveryLab_ReturnsAndReentersWithoutDuplicateOwners" };
             if (command == "production") filter.groupNames = new[] { "VLAB.MainMenu.Tests.VLABProduction" };
+            if (command == "stabilization") filter.groupNames = new[] { "VLAB.MainMenu.Tests.VLABStabilization" };
             if (command == "tap") filter.testNames = new[] { "VLAB.ChemistryLab.Tests.PlayMode.DesktopGrabTests.MouseTap_HoldDrainsAndReleaseOrFocusLossStops" };
             ScriptableObject.CreateInstance<TestRunnerApi>().Execute(new ExecutionSettings(filter));
         }

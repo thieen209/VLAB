@@ -15273,6 +15273,89 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329343029}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1333056613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1333056615}
+  - component: {fileID: 1333056614}
+  m_Layer: 0
+  m_Name: ExperimentContentAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1333056614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333056613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6b5bacc453c43459641371bfaf4958, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: VLAB.MainMenu::VLAB.MainMenu.VLabExperimentStation
+  guidedContent:
+  - {fileID: 1946380289}
+  - {fileID: 775751973}
+  - {fileID: 192265839}
+  - {fileID: 1244606188}
+  - {fileID: 1430087141}
+  - {fileID: 1479350225}
+  - {fileID: 144068960}
+  - {fileID: 676661301}
+  - {fileID: 534668227}
+  - {fileID: 33481474}
+  - {fileID: 741699815}
+  - {fileID: 239850511}
+  - {fileID: 362960336}
+  - {fileID: 1159512032}
+  - {fileID: 1210945157}
+  - {fileID: 1653170529}
+  - {fileID: 1350479999}
+  - {fileID: 1238944840}
+  - {fileID: 2088495540}
+  - {fileID: 1143076771}
+  - {fileID: 607830321}
+  - {fileID: 1009999920}
+  - {fileID: 1400571381}
+  - {fileID: 1854451292}
+  - {fileID: 1283640065}
+  - {fileID: 1162418104}
+  - {fileID: 476108195}
+  - {fileID: 821625455}
+  - {fileID: 1449208771}
+  - {fileID: 823949178}
+  - {fileID: 2002131131}
+  - {fileID: 511279623}
+  - {fileID: 970912126}
+  - {fileID: 406219670}
+  - {fileID: 1870703283}
+  - {fileID: 1559569950}
+  - {fileID: 1080594636}
+  - {fileID: 1027767690}
+--- !u!4 &1333056615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333056613}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.14, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1341926188
 GameObject:
   m_ObjectHideFlags: 0
@@ -25564,3 +25647,4 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 900619111}
+  - {fileID: 1333056615}

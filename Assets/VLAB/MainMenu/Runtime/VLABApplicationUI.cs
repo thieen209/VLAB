@@ -52,6 +52,11 @@ namespace VLAB.MainMenu
         private Button zoomIn,zoomOut,acceptDocument;
         private string failedScene,errorReturn;
         private int lastBackFrame=-1;
+        private readonly Collider[] menuObstacles = new Collider[64];
+        private readonly RaycastHit[] menuSightHits = new RaycastHit[32];
+        private Vector3 menuTarget;
+        private Quaternion menuRotation;
+        private float menuScale;
         public bool IsPaused => paused;
         public string CurrentScreen => state;
         public bool IsTransitioning => busy;
@@ -82,7 +87,9 @@ namespace VLAB.MainMenu
             canvas.worldCamera=Camera.main;
             ((RectTransform)canvas.transform).sizeDelta=new Vector2(1440,900);
             canvas.gameObject.layer=LayerMask.NameToLayer("UI");
-            canvas.gameObject.AddComponent<TrackedDeviceGraphicRaycaster>();
+            var trackedRaycaster=canvas.gameObject.AddComponent<TrackedDeviceGraphicRaycaster>();
+            trackedRaycaster.checkFor2DOcclusion=false;
+            trackedRaycaster.checkFor3DOcclusion=false;
             PlaceInWorld();
             if(EventSystem.current==null)
             {
@@ -125,17 +132,61 @@ namespace VLAB.MainMenu
             canvas.worldCamera=view;
             var camera=view.transform;
             var forward=camera.forward;
-            // Base's calibrated eye starts in the open central work zone. Shorten
-            // the viewing distance if an actual wall/apparatus is closer on pause.
-            float distance=2.7f;
-            if(Physics.Raycast(camera.position,forward,out var hit,distance,~(1<<LayerMask.NameToLayer("UI")),QueryTriggerInteraction.Ignore))
-                distance=Mathf.Max(.45f,hit.distance-.20f);
-            float height=2*distance*Mathf.Tan(Mathf.Min(view.fieldOfView*.38f,18f)*Mathf.Deg2Rad);
-            canvas.transform.localScale=Vector3.one*(height/900f);
-            canvas.transform.SetPositionAndRotation(camera.position+forward*distance,camera.rotation);
+            FindMenuPlacement(view);
+            canvas.transform.localScale=Vector3.one*menuScale;
+            canvas.transform.SetPositionAndRotation(menuTarget,menuRotation);
         }
+        private void FindMenuPlacement(Camera view)
+        {
+            menuRotation=view.transform.rotation;
+            float minimum=Mathf.Max(.18f,view.nearClipPlane+.08f);
+            float distance=2.4f;
+            for(;distance>minimum;distance-=.05f)
+            {
+                menuScale=2*distance*Mathf.Tan(Mathf.Min(view.fieldOfView*.38f,18f)*Mathf.Deg2Rad)/900f;
+                menuTarget=view.transform.position+view.transform.forward*distance;
+                if(MenuVolumeClear(menuTarget,menuRotation,menuScale,view))return;
+            }
+            menuScale=2*minimum*Mathf.Tan(Mathf.Min(view.fieldOfView*.38f,18f)*Mathf.Deg2Rad)/900f;
+            menuTarget=view.transform.position+view.transform.forward*minimum;
+        }
+        private bool MenuVolumeClear(Vector3 position,Quaternion rotation,float scale,Camera view)
+        {
+            int count=Physics.OverlapBoxNonAlloc(position,new Vector3(720*scale+.025f,450*scale+.025f,.035f),menuObstacles,rotation,~(1<<LayerMask.NameToLayer("UI")),QueryTriggerInteraction.Ignore);
+            for(int i=0;i<count;i++)
+            {
+                var obstacle=menuObstacles[i];
+                if(IgnoreMenuObstacle(obstacle,view))continue;
+                return false;
+            }
+            if(count==menuObstacles.Length)return false;
+            // Check the viewing cone as well as the panel volume: a free position behind
+            // a wall is still unusable. Center plus four corners protect the whole UI.
+            for(int corner=0;corner<5;corner++)
+            {
+                var offset=corner==0?Vector3.zero:new Vector3((corner%2==0?1:-1)*720*scale,(corner<3?1:-1)*450*scale,0);
+                var delta=position+rotation*offset-view.transform.position;
+                int hits=Physics.RaycastNonAlloc(view.transform.position,delta.normalized,menuSightHits,delta.magnitude,~(1<<LayerMask.NameToLayer("UI")),QueryTriggerInteraction.Ignore);
+                if(hits==menuSightHits.Length)return false;
+                for(int i=0;i<hits;i++)if(!IgnoreMenuObstacle(menuSightHits[i].collider,view))return false;
+            }
+            return true;
+        }
+        private bool IgnoreMenuObstacle(Collider obstacle,Camera view)=>obstacle is CharacterController || obstacle.transform.IsChildOf(transform) || obstacle.transform.IsChildOf(view.transform) || obstacle.GetComponentInParent<Unity.XR.CoreUtils.XROrigin>()!=null;
         private void LateUpdate()
         {
+            if(paused && Camera.main!=null)
+            {
+                var view=Camera.main;
+                bool obstructed=!MenuVolumeClear(canvas.transform.position,canvas.transform.rotation,canvas.transform.localScale.x,view);
+                if(Vector3.Angle(view.transform.forward,menuTarget-view.transform.position)>22 || Vector3.Distance(view.transform.position,menuTarget)>3 || obstructed)
+                    FindMenuPlacement(view);
+                float t=1-Mathf.Exp(-10*Time.unscaledDeltaTime);
+                // Move immediately out of geometry; otherwise soften substantial head turns.
+                canvas.transform.position=obstructed?menuTarget:Vector3.Lerp(canvas.transform.position,menuTarget,t);
+                canvas.transform.rotation=Quaternion.Slerp(canvas.transform.rotation,menuRotation,t);
+                canvas.transform.localScale=Vector3.one*Mathf.Lerp(canvas.transform.localScale.x,menuScale,t);
+            }
             if(!paused)
             {
                 if(rig!=null)lastRigCursorLocked=rig.IsCursorLocked;
@@ -159,11 +210,13 @@ namespace VLAB.MainMenu
                     ui.Button(screen,"OpenChemistryBoard",L("Bảng hóa học","Chemistry controls"),.61f,.90f,.23f,.065f,()=>{PlaceInWorld();Show("chemistry");});
                 return;
             }
-            var bg=ui.Panel(screen,"Backdrop",0,0,1,1,new Color(.018f,.035f,.065f,menu?.48f:.96f));
+            var bg=ui.Panel(screen,"Backdrop",0,0,1,1,new Color(.018f,.035f,.065f,menu?(state=="home"?.08f:.68f):.98f));
             bg.raycastTarget=true;
             ui.Panel(screen,"TopAccent",.04f,.972f,.92f,.004f,VLABUI.Cyan);
             ui.Text(screen,"Brand","VLAB",.055f,.865f,.18f,.10f,44).fontStyle=FontStyle.Bold;
             ui.Text(screen,"Descriptor",L("PHÒNG THÍ NGHIỆM ẢO","VIRTUAL LABORATORY"),.057f,.842f,.4f,.028f,15,VLABUI.Muted);
+            if(menu && state=="home")
+                foreach(var titleElement in new[]{"TopAccent","Brand","Descriptor"})screen.Find(titleElement).gameObject.SetActive(false);
             ui.Text(screen,"Footer",L("Tạo công nghệ cho mọi học sinh","Technology for every student"),.055f,.03f,.6f,.045f,18,VLABUI.Muted);
             ui.Text(screen,"Team","NGỰA MÁN  /  THPT CHUYÊN CAO BẰNG",.57f,.03f,.375f,.045f,14,VLABUI.Muted,TextAnchor.MiddleRight);
             if(state!="boot" && state!="language" && state!="terms" && state!="privacy" && state!="pause" && state!="home")
@@ -229,16 +282,16 @@ namespace VLAB.MainMenu
         }
         private void Home()
         {
-            ui.Text(screen,"Eyebrow",L("KHÁM PHÁ • THỰC HÀNH • HIỂU BIẾT","EXPLORE • EXPERIMENT • UNDERSTAND"),.07f,.71f,.57f,.045f,17,VLABUI.Cyan);
-            ui.Text(screen,"Hero",L("Khoa học bắt đầu\ntừ chính bạn.","Science starts\nwith you."),.07f,.47f,.59f,.23f,56).fontStyle=FontStyle.Bold;
-            ui.Text(screen,"Introduction",L("Bước vào phòng thí nghiệm ảo. Tự tay khám phá,\nđo lường và hiểu những quy luật quanh mình.","Step inside a virtual laboratory. Explore, measure\nand discover the principles of the world around you."),.07f,.34f,.57f,.115f,24,VLABUI.Muted);
-            ui.Button(screen,"EnterLabs",L("Vào phòng thí nghiệm  →","Enter Labs  →"),.07f,.22f,.40f,.095f,()=>Show("labs"),true);
-            var art=ui.Rect(screen,"ScientificOrbits",.65f,.30f,.29f,.48f).gameObject.AddComponent<VLABScientificGraphic>();art.raycastTarget=false;
-            ui.Text(screen,"ArtCaption","01 / STEM",.70f,.25f,.20f,.05f,18,VLABUI.Cyan,TextAnchor.MiddleCenter);
-            ui.Button(screen,"Settings",L("Cài đặt","Settings"),.07f,.11f,.17f,.064f,()=>Show("settings"));
-            ui.Button(screen,"Help",L("Hướng dẫn","Help"),.255f,.11f,.17f,.064f,()=>Show("help"));
-            ui.Button(screen,"About",L("Về VLAB","About VLAB"),.44f,.11f,.17f,.064f,()=>Show("about"));
-            ui.Button(screen,"Quit",L("Thoát","Quit"),.625f,.11f,.17f,.064f,()=>Show("quit"));
+            ui.Ribbon(screen,L("KHÁM PHÁ • THỰC HÀNH • HIỂU BIẾT","EXPLORE • EXPERIMENT • UNDERSTAND"),.09f,.73f,.82f,.075f);
+            Card(.09f,.46f,"01",L("Vật lí","Physics"),L("Chuyển động · lực · năng lượng","Motion · forces · energy"),true);
+            Card(.515f,.46f,"02",L("Hóa học","Chemistry"),L("Phân tử · dung dịch · phản ứng","Molecules · solutions · reactions"),true);
+            Card(.09f,.20f,"03",L("Sinh học","Biology"),L("Tế bào · kính hiển vi · sự sống","Cells · microscopy · life"),true);
+            Card(.515f,.20f,"04",L("Kỹ thuật / Cơ khí","Engineering"),L("Mạch điện · bánh răng · đòn bẩy","Circuits · gears · levers"),true);
+            ui.Button(screen,"Settings",L("Cài đặt","Settings"),.09f,.10f,.15f,.065f,()=>Show("settings"));
+            ui.Button(screen,"Help",L("Hướng dẫn","Help"),.255f,.10f,.15f,.065f,()=>Show("help"));
+            ui.Button(screen,"About",L("Về VLAB","About VLAB"),.42f,.10f,.15f,.065f,()=>Show("about"));
+            ui.Button(screen,"EnterLabs",L("Các phòng","All labs"),.585f,.10f,.15f,.065f,()=>Show("labs"));
+            ui.Button(screen,"Quit",L("Thoát","Quit"),.75f,.10f,.15f,.065f,()=>Show("quit"));
         }
         private void Labs()
         {
@@ -253,7 +306,9 @@ namespace VLAB.MainMenu
             var sceneName = index=="01" ? PhysicsLabSceneNames.Base : index=="02" ? "ChemistryLab" : index=="03" ? "BiologyLab" : "EngineeringLab";
             available = Application.CanStreamedLevelBeLoaded(sceneName);
             var card=ui.Panel(screen,"Lab_"+index,x,y,.395f,.23f,VLABUI.Surface).transform;
-            ui.Panel(card,"Edge",0,0,.007f,1,available?VLABUI.Cyan:new Color(.25f,.35f,.4f));
+            var accent=index=="03"?new Color32(6,214,160,255):index=="04"?new Color32(255,107,53,255):VLABUI.Cyan;
+            card.localPosition+=Vector3.back*(index=="01" || index=="02"?22:12);
+            ui.Panel(card,"Edge",0,0,.007f,1,available?accent:new Color(.25f,.35f,.4f));
             ui.Text(card,"Index",index,.06f,.73f,.12f,.18f,18,VLABUI.Cyan);
             ui.Text(card,"Name",title,.20f,.70f,.73f,.23f,29).fontStyle=FontStyle.Bold;
             ui.Text(card,"Description",description,.06f,.35f,.88f,.32f,20,VLABUI.Muted);
@@ -526,6 +581,17 @@ namespace VLAB.MainMenu
         {
             Title("Chọn bài · "+LabName(),"Mỗi bài có mục tiêu, hướng dẫn và kết quả riêng.");
             var subject=gameObject.scene.name;
+            if(subject=="PhysicsLab_Base")
+            {
+                var titles=new[]{"Con lắc đơn","Ném xiên","Ma sát","Cổng quang","Dao động lò xo","Bảo toàn động lượng"};
+                for(int i=0;i<titles.Length;i++)
+                {
+                    var sceneName=PhysicsLabSceneNames.ContentScenes[i+1];
+                    ui.Button(screen,"Experiment_0"+(i+1),titles[i],.12f+(i%2)*.39f,.48f-(i/2)*.15f,.37f,.11f,()=>
+                    {RestoreLab();Show("hud");PhysicsLabSceneFlow.Instance?.LoadContent(sceneName);});
+                }
+                return;
+            }
             var names=subject=="BiologyLab" ? new[]{"Kính hiển vi · tiêu bản hành","Khám phá tế bào 3D"}
                 : subject=="EngineeringLab" ? new[]{"Lắp mạch điện LED","Bộ truyền bánh răng","Cân bằng đòn bẩy"}
                 : subject=="ChemistryLab" ? new[]{"Chuẩn độ · pin · điện phân","Lắp ráp phân tử nước","Nhận biết phản ứng kết tủa"}
@@ -580,6 +646,8 @@ namespace VLAB.MainMenu
             suspendedInteractions.Clear();
             foreach(var interactable in FindObjectsByType<XRBaseInteractable>())
             {
+                if(interactable.isSelected && interactable.interactionManager!=null)
+                    interactable.interactionManager.CancelInteractableSelection((IXRSelectInteractable)interactable);
                 suspendedInteractions[interactable]=interactable.interactionLayers;
                 interactable.interactionLayers=0;
             }
@@ -706,7 +774,10 @@ namespace VLAB.MainMenu
         private void OnDestroy()
         {
             if(input!=null)input.PausePressed-=NavigateBack;
-            RestoreLab();ReleasePage();
+            // Explicit resume/exit restores live components. Scene teardown only
+            // restores global state; never re-enable objects being destroyed.
+            if(paused){Time.timeScale=previousTimeScale;Cursor.lockState=savedCursorLock;Cursor.visible=savedCursorVisible;}
+            ReleasePage();
         }
     }
 }

@@ -14,6 +14,8 @@ namespace VLAB.DemoLabs
         public VLabGrabInteractable[] Items;
         public VLabExperimentController Experiment;
         public bool ViewLocked;
+        public bool ExperimentInputSuspended { get; set; }
+        public Transform NativePointer { get; set; }
         public VLabGrabInteractable Held { get; private set; }
         public VLabInteractable Hovered { get; private set; }
         private readonly RaycastHit[] hits = new RaycastHit[48];
@@ -34,16 +36,6 @@ namespace VLAB.DemoLabs
         private PointerEventData uiPointer;
         private EventSystem uiEventSystem;
         private readonly System.Collections.Generic.List<RaycastResult> uiHits = new System.Collections.Generic.List<RaycastResult>(16);
-#if UNITY_EDITOR && ENABLE_VR
-        private GameObject suspendedSimulator;
-        private System.Collections.IEnumerator SuspendEditorSimulator()
-        {
-            yield return null; // The package loader creates its persistent simulator after scene load.
-            var simulator = UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation.XRInteractionSimulator.instance;
-            if (simulator != null && simulator.gameObject.activeSelf)
-            { suspendedSimulator = simulator.gameObject; suspendedSimulator.SetActive(false); }
-        }
-#endif
 
         private void Start()
         {
@@ -60,17 +52,10 @@ namespace VLAB.DemoLabs
             Input.DropPressed += HandleDropInput;
             Input.ResetPressed += ResetExperiment;
             Input.PausePressed += Escape;
-#if UNITY_EDITOR && ENABLE_VR
-            StartCoroutine(SuspendEditorSimulator());
-#endif
         }
         private void OnDestroy()
         {
             if (initialized) Application.targetFrameRate = previousFrameRate;
-#if UNITY_EDITOR && ENABLE_VR
-            // Restore the user's simulator when leaving these desktop demo scenes.
-            if (suspendedSimulator != null) suspendedSimulator.SetActive(true);
-#endif
             if (Input == null) return;
             Input.PrimaryPressed -= Select; Input.PrimaryReleased -= ReleaseDrag;
             Input.DropPressed -= HandleDropInput; Input.ResetPressed -= ResetExperiment; Input.PausePressed -= Escape;
@@ -83,7 +68,7 @@ namespace VLAB.DemoLabs
         }
         private void Escape() { if (!isActiveAndEnabled) return; if (Experiment != null) Experiment.ExitInspection(); ReturnHeld(); }
         private void HandleDropInput() { if (isActiveAndEnabled) ReturnHeld(); }
-        private void ResetExperiment() { if(!isActiveAndEnabled)return; Experiment.ResetExperiment(); ResetView(); }
+        private void ResetExperiment() { if(!isActiveAndEnabled || ExperimentInputSuspended)return; Experiment.ResetExperiment(); }
         public void ResetView()
         {
             ReturnHeld(); ViewLocked = false;
@@ -110,7 +95,7 @@ namespace VLAB.DemoLabs
         private void Update()
         {
             var state = Input.CurrentState;
-            if (!ViewLocked && !Hud.ModalOpen)
+            if ((!ViewLocked && !Hud.ModalOpen) || ExperimentInputSuspended)
             {
                 var head = ViewCamera.GetComponent<VLabHeadPose>();
                 bool ownsHead = VLabHeadPose.PhoneViewer || (head != null && head.OwnsRotation);
@@ -131,7 +116,10 @@ namespace VLAB.DemoLabs
                 p.x = Mathf.Clamp(p.x, -3.7f, 3.7f); p.z = Mathf.Clamp(p.z, -4.2f, -1.45f);
                 VLabComfortLocomotion.MoveRootToViewPosition(locomotionRoot, ViewCamera.transform, p);
             }
-            currentRay = Input.PointerRay(ViewCamera, PointerProvider != null ? PointerProvider.Pointer : new Vector2(Screen.width / 2f, Screen.height / 2f));
+            if(ExperimentInputSuspended)return;
+            currentRay = NativePointer!=null && !Input.HasRayProvider
+                ?new Ray(NativePointer.position,NativePointer.forward)
+                :Input.PointerRay(ViewCamera, PointerProvider != null ? PointerProvider.Pointer : new Vector2(Screen.width / 2f, Screen.height / 2f));
             RefreshRay(currentRay, OverUi || Hud.ModalOpen || ViewLocked);
             if (state.ScrollDelta != 0 && !OverUi && !Hud.ModalOpen)
             {
@@ -203,6 +191,7 @@ namespace VLAB.DemoLabs
         }
         private void Select()
         {
+            if(!isActiveAndEnabled || ExperimentInputSuspended)return;
             pressPointer = PointerProvider.PressPointer;
             if (IsOverUi(pressPointer) || Hud.ModalOpen || ViewLocked || !Experiment.Started) return;
             var wasEmpty = Held == null;
@@ -219,8 +208,16 @@ namespace VLAB.DemoLabs
         // Controller and test adapters submit world rays through the same selection path.
         public bool SelectRay(Ray ray)
         {
-            if (!isActiveAndEnabled || Input.BlockExperimentInput || !Experiment.Started || Hud.ModalOpen || ViewLocked) return false;
+            if (!isActiveAndEnabled || ExperimentInputSuspended || Input.BlockExperimentInput || !Experiment.Started || Hud.ModalOpen || ViewLocked) return false;
             RefreshRay(ray);
+            return SelectTarget(Hovered);
+        }
+        public bool SelectTarget(VLabInteractable target)
+        {
+            if (!isActiveAndEnabled || ExperimentInputSuspended || Input.BlockExperimentInput || !Experiment.Started || Hud.ModalOpen || ViewLocked) return false;
+            if(Held==null && target is VLabSnapZone dock && dock.Occupant!=null)target=dock.Occupant;
+            else if(Held==null && target is VLabSnapZone zoneTarget && zoneTarget.GetComponentInParent<VLabGrabInteractable>() is VLabGrabInteractable host)target=host;
+            if(target!=Hovered){Hovered?.SetFocus(false);Hovered=target;Hovered?.SetFocus(true);}
             Experiment.MarkActivity();
             if (Held != null)
             {

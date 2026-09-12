@@ -19,6 +19,7 @@ namespace VLAB.MainMenu.Tests
         private InputManager input;
         private IVLABInputProvider previousProvider;
         private bool previousInputBlock;
+        private VLabExperimentStation station;
 
         [SetUp] public void Setup()
         {
@@ -34,6 +35,8 @@ namespace VLAB.MainMenu.Tests
                 camera.transform.position=new Vector3(0,1.7f,-2.4f);
             }
             workbench=Own(new GameObject("Workbench test host")).AddComponent<VLabActivityWorkbench>();
+            station=Object.FindAnyObjectByType<VLabExperimentStation>();
+            if(station==null)station=Own(new GameObject("Test experiment anchor")).AddComponent<VLabExperimentStation>();
         }
 
         private GameObject Own(GameObject value){owned.Add(value);return value;}
@@ -62,6 +65,8 @@ namespace VLAB.MainMenu.Tests
             var startRotation=body.rotation;
             var startVelocity=body.linearVelocity;
             var startAngular=body.angularVelocity;
+            var previousContent=station.GuidedContent;
+            station.Configure(station.transform.position,new[]{apparatus});
             workbench.Open(nameof(VLabMoleculeActivity));
             Assert.That(body.isKinematic,Is.True);
             Assert.That(apparatus.GetComponent<Collider>().enabled,Is.False);
@@ -77,6 +82,7 @@ namespace VLAB.MainMenu.Tests
             Assert.That(body.angularVelocity,Is.EqualTo(startAngular));
             Assert.That(apparatus.GetComponent<Collider>().enabled,Is.True);
             Assert.That(recovery.enabled,Is.True);
+            station.Configure(station.transform.position,previousContent);
         }
 
         [Test] public void RepeatedOpenClosePreservesControllerVisualsAndOriginallyDisabledObjects()
@@ -147,19 +153,23 @@ namespace VLAB.MainMenu.Tests
             }
         }
 
-        [Test] public void CellBoardShowsShortSynopsisAndOffersFullTheory()
+        [Test] public void CellBoardKeepsCurrentTaskCompactAndOffersFullTheoryAndHide()
         {
             workbench.Open(nameof(VLabCellActivity));
             var board=workbench.transform.Find("VLAB Learning Workbench/VLAB Activity Instructions");
             Assert.That(board,Is.Not.Null);
-            var synopsis=board.Find("Theory").GetComponent<Text>().text;
-            Assert.That(synopsis.Length,Is.LessThan(155));
-            Assert.That(synopsis,Does.Contain("quy ước"));
-            Assert.That(board.Find("ActivityFullTheory").GetComponent<Button>(),Is.Not.Null);
-            Assert.That(workbench.Active.Theory.Length,Is.GreaterThan(synopsis.Length));
+            var content=board.Find("Guidance content");
+            Assert.That(content.Find("Objective").GetComponent<Text>().text,Is.Not.Empty);
+            Assert.That(content.Find("Instruction").GetComponent<Text>().text,Is.Not.Empty);
+            Assert.That(content.Find("ActivityFullTheory").GetComponent<Button>(),Is.Not.Null);
+            Assert.That(workbench.Active.Theory,Does.Contain("quy ước"));
+            board.Find("ToggleGuidance").GetComponent<Button>().onClick.Invoke();
+            Assert.That(content.gameObject.activeSelf,Is.False);
+            board.Find("ToggleGuidance").GetComponent<Button>().onClick.Invoke();
+            Assert.That(content.gameObject.activeSelf,Is.True);
         }
 
-        [Test] public void PitchedEntryFramesBoardAndApparatusWithoutMovingCamera()
+        [Test] public void HeadPitchDoesNotRelocateTheStationOrCamera()
         {
             var savedPosition=camera.transform.position;var savedRotation=camera.transform.rotation;
             try
@@ -170,11 +180,11 @@ namespace VLAB.MainMenu.Tests
                 Assert.That(camera.transform.position,Is.EqualTo(savedPosition));
                 Assert.That(camera.transform.rotation,Is.EqualTo(entryRotation));
                 var station=workbench.transform.Find("VLAB Learning Workbench");
-                var board=station.Find("VLAB Activity Instructions").GetComponent<RectTransform>();
-                var corners=new Vector3[4];board.GetWorldCorners(corners);
-                foreach(var corner in corners)AssertInsideView(camera.WorldToViewportPoint(corner));
-                foreach(var point in new[]{new Vector3(-.4f,0,-.4f),new Vector3(1.7f,1.02f,.4f)})
-                    AssertInsideView(camera.WorldToViewportPoint(station.TransformPoint(point)));
+                Assert.That(station.position,Is.EqualTo(this.station.transform.position));
+                var position=station.position;
+                camera.transform.rotation=Quaternion.Euler(0,150,0);
+                workbench.Open(nameof(VLabMoleculeActivity));
+                Assert.That(workbench.transform.Find("VLAB Learning Workbench").position,Is.EqualTo(position));
             }
             finally { camera.transform.SetPositionAndRotation(savedPosition,savedRotation); }
         }

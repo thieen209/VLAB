@@ -2,7 +2,8 @@
 param(
     [Parameter(Mandatory=$true)][string]$UnityEditor,
     [string]$ProjectPath=(Split-Path -Parent $PSScriptRoot),
-    [string]$LogPath
+    [string]$LogPath,
+    [switch]$Development
 )
 
 $ErrorActionPreference='Stop'
@@ -32,6 +33,7 @@ try {
     $env:TEMP=$vlabJavaTemp
     $env:TMP=$vlabJavaTemp
     $vlabArguments='-batchmode -nographics -projectPath "'+$vlabProject+'" -buildTarget Android -quit -executeMethod VLabUnifiedBuild.BuildAndroid -logFile "'+$vlabLog+'"'
+    if($Development) { $vlabArguments += " -vlabDevelopment" }
     $vlabProcess=Start-Process -FilePath $vlabEditor -ArgumentList $vlabArguments -WindowStyle Hidden -Wait -PassThru
     if($vlabProcess.ExitCode -ne 0) { throw "Unity Android build failed (exit $($vlabProcess.ExitCode)). See $vlabLog" }
     Write-Output (Join-Path $vlabProject 'Builds\Android\VLAB.apk')

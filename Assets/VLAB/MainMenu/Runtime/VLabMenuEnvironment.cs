@@ -14,7 +14,8 @@ namespace VLAB.MainMenu
             foreach (var root in gameObject.scene.GetRootGameObjects())
             {
                 if (root == gameObject) continue;
-                foreach (var renderer in root.GetComponentsInChildren<Renderer>()) renderer.enabled = false;
+                foreach (var renderer in root.GetComponentsInChildren<Renderer>())
+                    if(renderer.GetComponentInParent<Unity.XR.CoreUtils.XROrigin>()==null)renderer.enabled = false;
                 foreach (var light in root.GetComponentsInChildren<Light>()) light.enabled = false;
             }
             camera.clearFlags = CameraClearFlags.SolidColor;
@@ -27,6 +28,18 @@ namespace VLAB.MainMenu
             var center = camera.transform.position;
             var forward = Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up).normalized;
             var origin = center + forward * 6;
+            var brand=new GameObject("VLAB holographic identity").AddComponent<TMPro.TextMeshPro>();
+            brand.transform.SetParent(transform,false);
+            brand.transform.SetPositionAndRotation(center+camera.transform.forward*3.7f+camera.transform.up*1.35f,camera.transform.rotation);
+            var font=Resources.Load<VLABMenuAssets>("VLABMenuAssets")?.activityFont;
+            if(font!=null)brand.font=font;
+            brand.text="V L A B";brand.fontSize=7.2f;brand.fontStyle=TMPro.FontStyles.Bold;
+            brand.alignment=TMPro.TextAlignmentOptions.Center;brand.rectTransform.sizeDelta=new Vector2(3.8f,.65f);
+            var brandMaterial=new Material(brand.fontSharedMaterial);owned.Add(brandMaterial);
+            brandMaterial.SetColor(TMPro.ShaderUtilities.ID_FaceColor,new Color(.86f,.98f,1));
+            brandMaterial.SetColor(TMPro.ShaderUtilities.ID_OutlineColor,new Color(0,.7f,.85f));
+            brandMaterial.SetFloat(TMPro.ShaderUtilities.ID_OutlineWidth,.12f);
+            brand.fontSharedMaterial=brandMaterial;
             // One static mesh for all distant points; no particle updates or transparent quads.
             var vertices = new List<Vector3>(); var triangles = new List<int>();
             var random = new System.Random(209);

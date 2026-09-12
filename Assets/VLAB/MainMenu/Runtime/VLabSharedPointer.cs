@@ -20,6 +20,8 @@ namespace VLAB.MainMenu
         private PointerEventData uiPointer;
         private readonly List<RaycastResult> uiHits = new List<RaycastResult>(16);
         private readonly Dictionary<BaseInputModule,bool> modules = new Dictionary<BaseInputModule,bool>();
+        private readonly Dictionary<Behaviour,bool> nativeState = new Dictionary<Behaviour,bool>();
+        private readonly Dictionary<Renderer,bool> nativeVisuals = new Dictionary<Renderer,bool>();
         private VLabGazeInputModule controllerModule;
         private VLAB.ChemistryLab.DesktopTitrationInterface chemistryInterface;
         private IVLABInputProvider previousProvider;
@@ -29,7 +31,8 @@ namespace VLAB.MainMenu
         private bool routing;
         private bool previousActivityPress;
         private VLAB.PhysicsLab.Common.LabInteractable hoveredActivity;
-        private UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor[] nativeRays;
+        private UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor[] nativeRays;
+        private Renderer[] handRenderers;
         public Ray CurrentRay { get; private set; }
         public bool HasTarget { get; private set; }
         public LabInput Input => input;
@@ -39,7 +42,8 @@ namespace VLAB.MainMenu
             yield return null; yield return null;
             view=Camera.main;
             if(view==null || EventSystem.current==null)yield break;
-            nativeRays=view.GetComponentInParent<Unity.XR.CoreUtils.XROrigin>()?.GetComponentsInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor>(true);
+            nativeRays=view.GetComponentInParent<Unity.XR.CoreUtils.XROrigin>()?.GetComponentsInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>(true);
+            handRenderers=view.GetComponentInParent<Unity.XR.CoreUtils.XROrigin>()?.GetComponentsInChildren<Renderer>(true);
             input=FindAnyObjectByType<LabInput>();
             if(input==null)
             {
@@ -88,12 +92,12 @@ namespace VLAB.MainMenu
         {
             bool pressed=input.CurrentState.PrimaryPressed;
             var activity=GetComponent<VLabActivityWorkbench>()?.Active;
-            if(activity==null || Time.timeScale<=0 || view==null || uiPointer==null || (!input.HasRayProvider && !VLabHeadPose.PhoneViewer && UnityEngine.XR.XRSettings.isDeviceActive && NativePointerAvailable()))
+            if(activity==null || Time.timeScale<=0 || view==null || uiPointer==null || (!input.HasRayProvider && !VLabHeadPose.PhoneViewer && NativePointerTracked()))
             {previousActivityPress=pressed;return;}
             var point=VLabHeadPose.PhoneViewer || input.HasRayProvider ? new Vector2(Screen.width*.5f,Screen.height*.5f) : Mouse.current?.position.ReadValue()??new Vector2(Screen.width*.5f,Screen.height*.5f);
             var ray=input.PointerRay(view,point);
             VLAB.PhysicsLab.Common.LabInteractable next=null;
-            if(VLabPointerUi.Raycast(ray,uiPointer,uiHits).gameObject==null && Physics.Raycast(ray,out var hit,5,~0,QueryTriggerInteraction.Ignore) && hit.collider.GetComponentInParent<VLabActivity>()==activity)
+            if(VLabPointerUi.Raycast(ray,uiPointer,uiHits).gameObject==null && Physics.Raycast(ray,out var hit,VLabComfortSettings.Current.pointerLength,~0,QueryTriggerInteraction.Ignore) && hit.collider.GetComponentInParent<VLabActivity>()==activity)
                 next=hit.collider.GetComponentInParent<VLAB.PhysicsLab.Common.LabInteractable>();
             if(next!=hoveredActivity){hoveredActivity?.SetHighlighted(false);hoveredActivity=next;hoveredActivity?.SetHighlighted(true);}
             if(pressed && !previousActivityPress && hoveredActivity!=null)
@@ -115,6 +119,14 @@ namespace VLAB.MainMenu
             if(EventSystem.current==null)return;
             if(enabled)
             {
+                var origin=view.GetComponentInParent<Unity.XR.CoreUtils.XROrigin>();
+                if(origin!=null)
+                {
+                    foreach(var interactor in origin.GetComponentsInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>(true))
+                    {nativeState[interactor]=interactor.enabled;interactor.enabled=false;}
+                    foreach(var renderer in origin.GetComponentsInChildren<Renderer>(true))
+                    {nativeVisuals[renderer]=renderer.enabled;renderer.enabled=false;}
+                }
                 modules.Clear();
                 foreach(var module in EventSystem.current.GetComponents<BaseInputModule>())
                 {modules[module]=module.enabled;module.enabled=false;}
@@ -123,6 +135,9 @@ namespace VLAB.MainMenu
             }
             else
             {
+                foreach(var pair in nativeState)if(pair.Key!=null)pair.Key.enabled=pair.Value;
+                foreach(var pair in nativeVisuals)if(pair.Key!=null)pair.Key.enabled=pair.Value;
+                nativeState.Clear();nativeVisuals.Clear();
                 if(controllerModule!=null){controllerModule.enabled=false;Destroy(controllerModule);}
                 foreach(var pair in modules)if(pair.Key!=null)pair.Key.enabled=pair.Value;
                 modules.Clear();
@@ -144,8 +159,8 @@ namespace VLAB.MainMenu
             {
                 endpoint=uiHit.worldPosition;HasTarget=true;
             }
-            var native=UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.RightHand);
-            bool nativeTracked=!routing && !VLabHeadPose.PhoneViewer && NativePointerAvailable() && native.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked,out bool tracked) && tracked;
+            bool nativeTracked=!routing && !VLabHeadPose.PhoneViewer && NativePointerTracked();
+            if(handRenderers!=null)foreach(var renderer in handRenderers)if(renderer!=null)renderer.enabled=nativeTracked;
             line.enabled=!nativeTracked;dot.SetActive(!nativeTracked);
             if(model!=null)model.SetActive(!nativeTracked);
             var heading=Quaternion.Euler(0,view.transform.eulerAngles.y,0);
@@ -162,9 +177,18 @@ namespace VLAB.MainMenu
                 if(interactor!=null && interactor.isActiveAndEnabled)return true;
             return false;
         }
+        private bool NativePointerTracked()
+        {
+            if(!NativePointerAvailable())return false;
+            foreach(var device in InputSystem.devices)
+                if(device is UnityEngine.InputSystem.XR.XRController controller && controller.isTracked.isPressed)return true;
+            return false;
+        }
         private void OnDestroy()
         {
-            if(routing)SetRouting(false);
+            // These input modules and hands are scene-owned. Restoring them during
+            // unload can register callbacks after their XR manager has been destroyed.
+            if(controllerModule!=null)controllerModule.enabled=false;
             if(material!=null)Destroy(material);
         }
     }

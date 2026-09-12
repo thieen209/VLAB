@@ -8,6 +8,7 @@ namespace VLAB.MainMenu
         public Font font;
         public TMPro.TMP_FontAsset activityFont;
         public GameObject controllerVisual;
+        public GameObject playerRig;
         public string[] termsVi;
         public string[] termsEn;
         public string[] privacyVi;

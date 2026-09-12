@@ -73,6 +73,7 @@ namespace VLAB.PhysicsLab.SceneFlow
 
         private IEnumerator SwitchContent(string nextScene)
         {
+            FindAnyObjectByType<GrabController>()?.Release();
             yield return FadeTo(1f);
 
             var loadedContent = FindLoadedContentScene();

@@ -12,35 +12,34 @@ namespace VLAB.MainMenu
     {
         public VLabHeadPose Head { get; private set; }
         private VLABApplicationUI app;
+        private InputAction nativeMenu;
+        private void OnNativeMenu(InputAction.CallbackContext context)
+        {
+            if(!VLabHeadPose.PhoneViewer && GetComponent<VLabSharedPointer>()?.Input?.HasRayProvider!=true)app?.NavigateBack();
+        }
+        private void OnDestroy(){if(nativeMenu!=null){nativeMenu.performed-=OnNativeMenu;nativeMenu.Dispose();}}
 #if UNITY_EDITOR && ENABLE_VR
-        private GameObject suspendedMenuSimulator;
         private void ConfigureEditorMenu(Camera camera)
         {
-            if(gameObject.scene.name!=VLABMenuBootstrap.MenuScene || UnityEngine.XR.XRSettings.isDeviceActive)return;
+            if(UnityEngine.XR.XRSettings.isDeviceActive)return;
             var simulator=UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation.XRInteractionSimulator.instance;
-            if(simulator!=null && simulator.gameObject.activeSelf)
-            { suspendedMenuSimulator=simulator.gameObject;suspendedMenuSimulator.SetActive(false); }
-            var origin=camera.GetComponentInParent<Unity.XR.CoreUtils.XROrigin>();
-            if(origin!=null)
-            {
-                foreach(var renderer in origin.GetComponentsInChildren<Renderer>(true))renderer.enabled=false;
-                foreach(var interactor in origin.GetComponentsInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>(true))interactor.enabled=false;
-            }
+            // Desktop fallback is shared across labs. Native interactors stay available;
+            // only the package's synthetic devices are suspended when no headset is active.
+            if(simulator!=null && simulator.gameObject.activeSelf)simulator.gameObject.SetActive(false);
             if(EventSystem.current!=null)
                 foreach(var module in EventSystem.current.GetComponents<UnityEngine.XR.Interaction.Toolkit.UI.XRUIInputModule>())
                 { module.enableMouseInput=true;module.enableTouchInput=true; }
-        }
-        private void OnDestroy()
-        {
-            if(suspendedMenuSimulator!=null)suspendedMenuSimulator.SetActive(true);
         }
 #endif
         private IEnumerator Start()
         {
             app = GetComponent<VLABApplicationUI>();
+            nativeMenu=new InputAction("VLAB native menu",InputActionType.Button,"<XRController>/menuButton");
+            nativeMenu.performed+=OnNativeMenu;nativeMenu.Enable();
             yield return null;
             var camera = Camera.main;
             if (camera == null) yield break;
+            VLabCanonicalRig.Configure(camera,Resources.Load<VLABMenuAssets>("VLABMenuAssets"));
 #if UNITY_EDITOR && ENABLE_VR
             ConfigureEditorMenu(camera);
 #endif
@@ -81,6 +80,11 @@ namespace VLAB.MainMenu
                 if(canvas.GetComponent<UnityEngine.XR.Interaction.Toolkit.UI.TrackedDeviceGraphicRaycaster>()==null)
                     canvas.gameObject.AddComponent<UnityEngine.XR.Interaction.Toolkit.UI.TrackedDeviceGraphicRaycaster>();
             }
+            var lessonHud=FindAnyObjectByType<VLAB.DemoLabs.VLabHud>();
+            var station=FindAnyObjectByType<VLabExperimentStation>();
+            if(lessonHud!=null && station!=null)VLabLessonPanel.Configure(lessonHud,station,camera);
+            if(lessonHud!=null)gameObject.AddComponent<VLabNativeLessonBridge>();
+            if(gameObject.scene.name!="Menu")gameObject.AddComponent<VLabWorldTextDepth>();
             if (!VLabHeadPose.PhoneViewer) yield break;
             camera.stereoTargetEye = StereoTargetEyeMask.Both;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;

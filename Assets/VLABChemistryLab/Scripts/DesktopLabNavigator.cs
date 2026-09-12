@@ -30,6 +30,7 @@ namespace VLAB.ChemistryLab
         private Transform locomotionRoot;
         private readonly VLabComfortTurn comfortTurn = new VLabComfortTurn();
         public VLAB.Core.Input.InputManager SharedInput { get; set; }
+        public bool ExperimentInputSuspended { get; set; }
         private bool previousSharedPress;
         private bool previousSharedUse;
         private VLAB.Core.Input.IVLABInputProvider previousSharedProvider;
@@ -132,7 +133,7 @@ namespace VLAB.ChemistryLab
             }
             if (!frame.PrimaryHeld || frame.CancelPressed || frame.PointerOverScrollableUi) StopTap();
             bool wasHolding = grabber != null && grabber.IsHolding;
-            if (frame.PrimaryPressed && !frame.CancelPressed && !frame.PointerOverScrollableUi && playerCamera != null && (analog || Mouse.current != null))
+            if (!ExperimentInputSuspended && frame.PrimaryPressed && !frame.CancelPressed && !frame.PointerOverScrollableUi && playerCamera != null && (analog || Mouse.current != null))
             {
                 var point = PointerPosition();
                 Ray ray = SharedInput!=null ? SharedInput.PointerRay(playerCamera,point) : phone ? new Ray(transform.position, transform.forward) : playerCamera.ScreenPointToRay(point);
@@ -144,7 +145,7 @@ namespace VLAB.ChemistryLab
                     else hit.collider.GetComponentInParent<ILabCommandTarget>()?.TryActivate();
                 }
             }
-            grabber?.ProcessInput(frame);
+            if(!ExperimentInputSuspended)grabber?.ProcessInput(frame);
             if (!phone && !wasHolding && (grabber == null || !grabber.IsHolding)) UpdateZoom(frame);
             UpdateSeatedHeight(frame);
 

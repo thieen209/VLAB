@@ -67,7 +67,7 @@ namespace VLAB.DemoLabs
             ExitInspection(); Driver.ReturnHeld();
             if (resettables != null) foreach (var item in resettables) item.ResetState();
             ResetModel(); Resetting = false;
-            Driver.ResetView();
+            // Reset apparatus and learning progress; the user's current view is independent.
             Hud.Feedback(""); MarkActivity(); Refresh();
             Hud.ShowModal(Objective, Concept, "Bắt đầu", BeginExperiment);
         }

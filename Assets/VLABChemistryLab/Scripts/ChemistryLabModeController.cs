@@ -42,6 +42,15 @@ namespace VLAB.ChemistryLab
 
         public VLabPresentationMode CurrentMode { get; private set; } = VLabPresentationMode.Desktop;
         public VLabModeFailureReason LastFailureReason { get; private set; }
+        public void UseSharedRuntime()
+        {
+            // Integrated VLAB owns Cardboard and the canonical player; legacy standalone modes remain available to their tests.
+            StopAllCoroutines();
+            enabled=false;
+            if(xrOrigin!=null)xrOrigin.SetActive(false);
+            if(xrInteractionSimulator!=null)xrInteractionSimulator.SetActive(false);
+            if(xrInteractionManager!=null)xrInteractionManager.SetActive(true);
+        }
 
         public void Configure(
             GameObject desktopCameraObject,

@@ -97,6 +97,8 @@ namespace VLAB.PhysicsLab.Tests.PlayMode
 
             var eventSystem = EventSystem.current;
             Assert.That(eventSystem, Is.Not.Null);
+            Object.FindAnyObjectByType<VLAB.MainMenu.VLABApplicationUI>().SelectExperiment();
+            yield return null;
             var experimentButton = GameObject.Find("Experiment_01")?.GetComponent<Button>();
             Assert.That(experimentButton, Is.Not.Null, "The first experiment button is missing or has no Button component.");
             Assert.That(experimentButton.interactable, Is.True);

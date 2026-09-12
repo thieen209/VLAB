@@ -55,10 +55,14 @@ public static class VLabUnifiedBuild
         // Runtime-created menu materials need this shader even when no scene material references it.
         var graphics=new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/GraphicsSettings.asset")[0]);
         var shaders=graphics.FindProperty("m_AlwaysIncludedShaders");
-        var unlit=Shader.Find("Unlit/Color");
-        if(unlit==null)throw new BuildFailedException("Missing Unlit/Color menu shader.");
-        if(!Enumerable.Range(0,shaders.arraySize).Any(i=>shaders.GetArrayElementAtIndex(i).objectReferenceValue==unlit))
-        { int i=shaders.arraySize;shaders.InsertArrayElementAtIndex(i);shaders.GetArrayElementAtIndex(i).objectReferenceValue=unlit;graphics.ApplyModifiedPropertiesWithoutUndo(); }
+        foreach(var name in new[]{"Unlit/Color","TextMeshPro/Mobile/Bitmap"})
+        {
+            var shader=Shader.Find(name);
+            if(shader==null)throw new BuildFailedException("Missing runtime shader: "+name);
+            if(Enumerable.Range(0,shaders.arraySize).Any(i=>shaders.GetArrayElementAtIndex(i).objectReferenceValue==shader))continue;
+            int i=shaders.arraySize;shaders.InsertArrayElementAtIndex(i);shaders.GetArrayElementAtIndex(i).objectReferenceValue=shader;
+        }
+        graphics.ApplyModifiedPropertiesWithoutUndo();
         EditorUtility.SetDirty(settings);EditorUtility.SetDirty(settings.Manager);EditorUtility.SetDirty(targets);
         AssetDatabase.SaveAssets();
         ValidateScenes();
@@ -124,7 +128,7 @@ public static class VLabUnifiedBuild
         {
             scenes=EditorBuildSettings.scenes.Where(s=>s.enabled && s.path!="Assets/Home.unity").Select(s=>s.path).ToArray(),
             locationPathName="Builds/Android/VLAB.apk",target=BuildTarget.Android,
-            options=BuildOptions.None
+            options=Environment.GetCommandLineArgs().Contains("-vlabDevelopment") ? BuildOptions.Development : BuildOptions.None
         });
         Directory.CreateDirectory("TestResults/Unified");
         File.WriteAllText("TestResults/Unified/android-build.txt",result.summary.result+"\nErrors: "+result.summary.totalErrors+"\nBytes: "+result.summary.totalSize+"\nDuration: "+result.summary.totalTime);

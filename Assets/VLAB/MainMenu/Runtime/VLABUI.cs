@@ -62,16 +62,22 @@ namespace VLAB.MainMenu
             var b=image.gameObject.AddComponent<Button>();
             image.gameObject.AddComponent<VLABMenuCancelRelay>();
             b.targetGraphic=image;
-            var colors=b.colors;
-            colors.normalColor=Color.white; colors.highlightedColor=new Color(1.2f,1.2f,1.2f);
-            colors.selectedColor=colors.highlightedColor; colors.pressedColor=new Color(.65f,.8f,.9f);
-            colors.disabledColor=new Color(.48f,.48f,.48f,.8f); colors.fadeDuration=.1f;
-            b.colors=colors;
+            StyleButton(b,primary);
             var title=Text(image.transform,"Label",value,.035f,.04f,.93f,.92f,23,primary?Background:White,TextAnchor.MiddleCenter);
             title.fontStyle=FontStyle.Bold;
             Panel(image.transform,"Accent",0,0,1,.025f,primary?new Color(.38f,.88f,1):new Color(.2f,.4f,.5f));
             b.onClick.AddListener(()=>action?.Invoke());
             return b;
+        }
+        public static void StyleButton(Button button,bool primary=false)
+        {
+            var image=button.GetComponent<Image>();
+            image.color=primary?Cyan:new Color32(32,54,72,255);image.sprite=Rounded();image.type=Image.Type.Sliced;
+            var colors=ColorBlock.defaultColorBlock;
+            colors.normalColor=Color.white; colors.highlightedColor=new Color(1.2f,1.2f,1.2f);
+            colors.selectedColor=colors.highlightedColor; colors.pressedColor=new Color(.65f,.8f,.9f);
+            colors.disabledColor=new Color(.48f,.48f,.48f,.8f); colors.fadeDuration=.1f;
+            button.colors=colors;
         }
         private static Sprite Rounded()
         {
