@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-10 15:45:41Z" end-time="2026-09-10 15:46:36Z" duration="54.6764629">
+  <test-suite type="TestSuite" id="1078" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="42" result="Passed" start-time="2026-09-10 15:45:41Z" end-time="2026-09-10 15:46:36Z" duration="54.676463" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1060" name="VLAB.MainMenu.Tests.dll" fullname="E:/some of my games/The Complete VLAB/VLAB/Library/ScriptAssemblies/VLAB.MainMenu.Tests.dll" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-10 15:45:41Z" end-time="2026-09-10 15:46:36Z" duration="54.622918" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="37512" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1061" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-10 15:45:41Z" end-time="2026-09-10 15:46:36Z" duration="54.597717" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1062" name="MainMenu" fullname="VLAB.MainMenu" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-10 15:45:41Z" end-time="2026-09-10 15:46:36Z" duration="54.544014" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1063" name="Tests" fullname="VLAB.MainMenu.Tests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-10 15:45:41Z" end-time="2026-09-10 15:46:36Z" duration="54.524166" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1058" name="VLABUnifiedJourneyTests" fullname="VLAB.MainMenu.Tests.VLABUnifiedJourneyTests" classname="VLAB.MainMenu.Tests.VLABUnifiedJourneyTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-10 15:45:41Z" end-time="2026-09-10 15:46:36Z" duration="54.501786" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1059" name="EveryLab_ReturnsAndReentersWithoutDuplicateOwners" fullname="VLAB.MainMenu.Tests.VLABUnifiedJourneyTests.EveryLab_ReturnsAndReentersWithoutDuplicateOwners" methodname="EveryLab_ReturnsAndReentersWithoutDuplicateOwners" classname="VLAB.MainMenu.Tests.VLABUnifiedJourneyTests" runstate="Runnable" seed="925863440" result="Passed" start-time="2026-09-10 15:45:41Z" end-time="2026-09-10 15:46:36Z" duration="54.429182" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Account API did not become accessible within 30 seconds. This may be due to network issues or editor focus.
+Saving results to: TestResults/Unified/final-journey.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

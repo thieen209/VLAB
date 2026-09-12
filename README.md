@@ -1,5 +1,7 @@
 # VLAB — Virtual Laboratory
 
+**Bản cập nhật 12/09/2026:** xem [báo cáo sửa chữa](docs/VLAB_REPAIR_REPORT.md), [kết quả kiểm thử](docs/VLAB_TEST_MATRIX.md), [hướng dẫn tay cầm](docs/VLAB_CONTROLLER_MAPPING.md) và [ảnh kiểm chứng](docs/Production/review.html). Mở dự án bằng Unity **6000.5.6f1**, chọn `Assets/VLAB/MainMenu/Scenes/Menu.unity` và chạy Play. Trong Editor, **F9** bật mô phỏng hướng tay cầm, **I/J/K/L** để ngắm. Kết nối BLE vật lý, chất lượng hình ảnh trong kính và hiệu năng trên điện thoại vẫn cần thiết bị thực tế để kiểm chứng.
+
 <p align="center">
   <img src="docs/assets/banner.png" alt="VLAB Banner" width="100%">
 </p>

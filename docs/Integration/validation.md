@@ -1,5 +1,7 @@
 # Integration validation — 10 September 2026
 
+Historical record. Current validation is in [VLAB_TEST_MATRIX.md](../VLAB_TEST_MATRIX.md) and [VLAB_REPAIR_REPORT.md](../VLAB_REPAIR_REPORT.md). The September 10 XML and APK metadata are preserved under `TestResults/Historical/2026-09-10`; shared screenshot paths and the delivered APK have since been refreshed.
+
 Authoritative project: `VLAB`, Unity 6000.5.6f1. Menu source: `VLAB(UI)`. Chemistry source: `VLABChemistry`. Root Physics, Biology and Engineering retained.
 
 ## Executed checks
@@ -7,7 +9,7 @@ Authoritative project: `VLAB`, Unity 6000.5.6f1. Menu source: `VLAB(UI)`. Chemis
 | Check | Observed result |
 | --- | --- |
 | Compilation in Unity | Passed after integration, pause safeguards and spatial Chemistry controls |
-| Edit Mode suite | **107 passed, 0 failed** (`TestResults/Unified/final-editmode.xml`) |
+| Edit Mode suite | **107 passed, 0 failed** (`TestResults/Historical/2026-09-10/final-editmode.xml`) |
 | Full Play Mode suite | **41 passed; 1 failed because Unity AI's account service logged an unrelated timeout warning** (`final-playmode.xml`) |
 | Affected Biology test, isolated | **Passed**, with its original assertions and log checks unchanged (`final-biology.xml`) |
 | Final all-lab journey | **Passed in 54.68 seconds**, including pause safeguards, Editor mouse/simulator ownership and all three spatial Chemistry lesson panels (`final-journey.xml`) |

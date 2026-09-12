@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.6027586">
+  <test-suite type="TestSuite" id="1134" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="88" result="Passed" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.602759" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1030" name="VLAB.ChemistryLab.Tests.PlayMode.dll" fullname="E:/some of my games/The Complete VLAB/VLAB/Library/ScriptAssemblies/VLAB.ChemistryLab.Tests.PlayMode.dll" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.561617" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="41028" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1031" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.538965" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1032" name="ChemistryLab" fullname="VLAB.ChemistryLab" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.506389" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1033" name="Tests" fullname="VLAB.ChemistryLab.Tests" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.472526" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="SetUpFixture" id="1004" name="PlayMode" fullname="VLAB.ChemistryLab.Tests.PlayMode.BatchInputFixture" classname="VLAB.ChemistryLab.Tests.PlayMode.BatchInputFixture" runstate="Runnable" testcasecount="19" result="Passed" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.438266" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1005" name="DesktopGrabTests" fullname="VLAB.ChemistryLab.Tests.PlayMode.DesktopGrabTests" classname="VLAB.ChemistryLab.Tests.PlayMode.DesktopGrabTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.365863" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1008" name="MouseTap_HoldDrainsAndReleaseOrFocusLossStops" fullname="VLAB.ChemistryLab.Tests.PlayMode.DesktopGrabTests.MouseTap_HoldDrainsAndReleaseOrFocusLossStops" methodname="MouseTap_HoldDrainsAndReleaseOrFocusLossStops" classname="VLAB.ChemistryLab.Tests.PlayMode.DesktopGrabTests" runstate="Runnable" seed="1394718658" result="Passed" start-time="2026-09-12 10:02:34Z" end-time="2026-09-12 10:02:36Z" duration="2.337339" asserts="0">
+                  <properties>
+                    <property name="_JOINTYPE" value="UnityCombinatorial" />
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: TestResults/Production/tap.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

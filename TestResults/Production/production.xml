@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="46" result="Passed" total="46" passed="46" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:46Z" duration="39.8885458">
+  <test-suite type="TestSuite" id="1134" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="88" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:46Z" duration="39.888546" total="46" passed="46" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1116" name="VLAB.MainMenu.Tests.dll" fullname="E:/some of my games/The Complete VLAB/VLAB/Library/ScriptAssemblies/VLAB.MainMenu.Tests.dll" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:46Z" duration="39.857472" total="46" passed="46" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="41028" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1117" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:46Z" duration="39.851927" total="46" passed="46" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1118" name="MainMenu" fullname="VLAB.MainMenu" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:46Z" duration="39.846470" total="46" passed="46" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1119" name="Tests" fullname="VLAB.MainMenu.Tests" runstate="Runnable" testcasecount="54" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:46Z" duration="39.842732" total="46" passed="46" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1049" name="VLABProductionCellActivityTests" fullname="VLAB.MainMenu.Tests.VLABProductionCellActivityTests" classname="VLAB.MainMenu.Tests.VLABProductionCellActivityTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.306457" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1052" name="InvalidStructureAndNonFiniteRotationCannotCorruptLesson" fullname="VLAB.MainMenu.Tests.VLABProductionCellActivityTests.InvalidStructureAndNonFiniteRotationCannotCorruptLesson" methodname="InvalidStructureAndNonFiniteRotationCannotCorruptLesson" classname="VLAB.MainMenu.Tests.VLABProductionCellActivityTests" runstate="Runnable" seed="569414905" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.200239" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="PointerCallbacksRespectPause_AndRepeatedBuildKeepsOneModel" fullname="VLAB.MainMenu.Tests.VLABProductionCellActivityTests.PointerCallbacksRespectPause_AndRepeatedBuildKeepsOneModel" methodname="PointerCallbacksRespectPause_AndRepeatedBuildKeepsOneModel" classname="VLAB.MainMenu.Tests.VLABProductionCellActivityTests" runstate="Runnable" seed="1849813062" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.049025" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1050" name="WrongStructureDoesNotAdvance_OrderedFunctionsCompleteAndReset" fullname="VLAB.MainMenu.Tests.VLABProductionCellActivityTests.WrongStructureDoesNotAdvance_OrderedFunctionsCompleteAndReset" methodname="WrongStructureDoesNotAdvance_OrderedFunctionsCompleteAndReset" classname="VLAB.MainMenu.Tests.VLABProductionCellActivityTests" runstate="Runnable" seed="2018122939" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.022892" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1053" name="VLABProductionChemistryTests" fullname="VLAB.MainMenu.Tests.VLABProductionChemistryTests" classname="VLAB.MainMenu.Tests.VLABProductionChemistryTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.086926" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1058" name="QualitativeRequiresPositiveAndNegativeControlThenResetRestoresBoth" fullname="VLAB.MainMenu.Tests.VLABProductionChemistryTests.QualitativeRequiresPositiveAndNegativeControlThenResetRestoresBoth" methodname="QualitativeRequiresPositiveAndNegativeControlThenResetRestoresBoth" classname="VLAB.MainMenu.Tests.VLABProductionChemistryTests" runstate="Runnable" seed="811776065" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.025102" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1057" name="QualitativeTransferNeedsSelectionAndConservesFiniteMaterial" fullname="VLAB.MainMenu.Tests.VLABProductionChemistryTests.QualitativeTransferNeedsSelectionAndConservesFiniteMaterial" methodname="QualitativeTransferNeedsSelectionAndConservesFiniteMaterial" classname="VLAB.MainMenu.Tests.VLABProductionChemistryTests" runstate="Runnable" seed="437541715" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.013187" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1055" name="SharedInteractiveObjectsSelectAndTransferAndRespectPause" fullname="VLAB.MainMenu.Tests.VLABProductionChemistryTests.SharedInteractiveObjectsSelectAndTransferAndRespectPause" methodname="SharedInteractiveObjectsSelectAndTransferAndRespectPause" classname="VLAB.MainMenu.Tests.VLABProductionChemistryTests" runstate="Runnable" seed="130990222" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.012395" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1054" name="WaterRejectsWrongElementAndMissingAtoms" fullname="VLAB.MainMenu.Tests.VLABProductionChemistryTests.WaterRejectsWrongElementAndMissingAtoms" methodname="WaterRejectsWrongElementAndMissingAtoms" classname="VLAB.MainMenu.Tests.VLABProductionChemistryTests" runstate="Runnable" seed="1500393184" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.016662" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1056" name="WaterRequiresBentGeometryAndSupportsDisassemblyAndReset" fullname="VLAB.MainMenu.Tests.VLABProductionChemistryTests.WaterRequiresBentGeometryAndSupportsDisassemblyAndReset" methodname="WaterRequiresBentGeometryAndSupportsDisassemblyAndReset" classname="VLAB.MainMenu.Tests.VLABProductionChemistryTests" runstate="Runnable" seed="1791123111" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.012114" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1059" name="VLABProductionComfortLocomotionTests" fullname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests" classname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.062194" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1063" name="LocomotionRootTurnAndMovePreserveLocalHeadPose" fullname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests.LocomotionRootTurnAndMovePreserveLocalHeadPose" methodname="LocomotionRootTurnAndMovePreserveLocalHeadPose" classname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests" runstate="Runnable" seed="929346091" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.014770" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1062" name="MovementUsesSavedSpeedWithoutDiagonalOrPitchAcceleration" fullname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests.MovementUsesSavedSpeedWithoutDiagonalOrPitchAcceleration" methodname="MovementUsesSavedSpeedWithoutDiagonalOrPitchAcceleration" classname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests" runstate="Runnable" seed="918290262" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.001593" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1064" name="NativeSettingsUpdateValuesButNeverEnableTurnWhilePausedOrLocked" fullname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests.NativeSettingsUpdateValuesButNeverEnableTurnWhilePausedOrLocked" methodname="NativeSettingsUpdateValuesButNeverEnableTurnWhilePausedOrLocked" classname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests" runstate="Runnable" seed="183345541" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.037228" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1061" name="SmoothTurnIsFrameRateIndependentAndRejectsInvalidInput" fullname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests.SmoothTurnIsFrameRateIndependentAndRejectsInvalidInput" methodname="SmoothTurnIsFrameRateIndependentAndRejectsInvalidInput" classname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests" runstate="Runnable" seed="1475246750" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.001034" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1060" name="SnapTurnNeedsNeutralBeforeAnotherStep" fullname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests.SnapTurnNeedsNeutralBeforeAnotherStep" methodname="SnapTurnNeedsNeutralBeforeAnotherStep" classname="VLAB.MainMenu.Tests.VLABProductionComfortLocomotionTests" runstate="Runnable" seed="1692396708" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.000524" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1065" name="VLABProductionControllerRoutingTests" fullname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" classname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.259568" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1072" name="ChemistryUseButtonFiresOncePerPressAndResetsForNewProvider" fullname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests.ChemistryUseButtonFiresOncePerPressAndResetsForNewProvider" methodname="ChemistryUseButtonFiresOncePerPressAndResetsForNewProvider" classname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" runstate="Runnable" seed="831791748" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.051677" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1071" name="ControllerDragChangesActualSlider_AndDeactivationCancelsClick" fullname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests.ControllerDragChangesActualSlider_AndDeactivationCancelsClick" methodname="ControllerDragChangesActualSlider_AndDeactivationCancelsClick" classname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" runstate="Runnable" seed="923543634" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.132186" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1069" name="DisconnectAndProviderSwitchCancelPendingClick" fullname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests.DisconnectAndProviderSwitchCancelPendingClick" methodname="DisconnectAndProviderSwitchCancelPendingClick" classname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" runstate="Runnable" seed="157257683" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.010684" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1066" name="HeadYawDoesNotRotateControllerRay_ExplicitCalibrationRebases" fullname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests.HeadYawDoesNotRotateControllerRay_ExplicitCalibrationRebases" methodname="HeadYawDoesNotRotateControllerRay_ExplicitCalibrationRebases" classname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" runstate="Runnable" seed="1271977346" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.010139" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1068" name="NewlyActivatedModuleRequiresReleaseBeforeFirstClick" fullname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests.NewlyActivatedModuleRequiresReleaseBeforeFirstClick" methodname="NewlyActivatedModuleRequiresReleaseBeforeFirstClick" classname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" runstate="Runnable" seed="990086101" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.013177" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1070" name="PausedUiReceivesRawClickScrollAndDrag_WithoutClickAfterDrag" fullname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests.PausedUiReceivesRawClickScrollAndDrag_WithoutClickAfterDrag" methodname="PausedUiReceivesRawClickScrollAndDrag_WithoutClickAfterDrag" classname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" runstate="Runnable" seed="1121222674" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.016725" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1067" name="TimeoutAcceptsRestartedSequence_InvalidPacketsDoNotReviveConnection" fullname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests.TimeoutAcceptsRestartedSequence_InvalidPacketsDoNotReviveConnection" methodname="TimeoutAcceptsRestartedSequence_InvalidPacketsDoNotReviveConnection" classname="VLAB.MainMenu.Tests.VLABProductionControllerRoutingTests" runstate="Runnable" seed="453013229" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:06Z" duration="0.016834" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1085" name="VLABProductionJourneyTests" fullname="VLAB.MainMenu.Tests.VLABProductionJourneyTests" classname="VLAB.MainMenu.Tests.VLABProductionJourneyTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:45Z" duration="38.835273" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1086" name="ControllerRay_SelectsUiInEveryLabIncludingPause" fullname="VLAB.MainMenu.Tests.VLABProductionJourneyTests.ControllerRay_SelectsUiInEveryLabIncludingPause" methodname="ControllerRay_SelectsUiInEveryLabIncludingPause" classname="VLAB.MainMenu.Tests.VLABProductionJourneyTests" runstate="Runnable" seed="1648367887" result="Passed" start-time="2026-09-12 10:09:06Z" end-time="2026-09-12 10:09:20Z" duration="13.420855" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1087" name="SupplementaryLessons_OpenResetRestoreOriginalAndReturnHome" fullname="VLAB.MainMenu.Tests.VLABProductionJourneyTests.SupplementaryLessons_OpenResetRestoreOriginalAndReturnHome" methodname="SupplementaryLessons_OpenResetRestoreOriginalAndReturnHome" classname="VLAB.MainMenu.Tests.VLABProductionJourneyTests" runstate="Runnable" seed="1615095444" result="Passed" start-time="2026-09-12 10:09:20Z" end-time="2026-09-12 10:09:45Z" duration="25.397180" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Account API did not become accessible within 30 seconds. This may be due to network issues or editor focus.
+]]></output>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1076" name="VLABProductionMechanicsTests" fullname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests" classname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.045420" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1081" name="ActivitiesInvalidateCompletionAndResetTheirPhysicalState" fullname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests.ActivitiesInvalidateCompletionAndResetTheirPhysicalState" methodname="ActivitiesInvalidateCompletionAndResetTheirPhysicalState" classname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests" runstate="Runnable" seed="1922010513" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.035577" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1077" name="GearAssemblyRequiresBothDistinctGearsAndReductionLayout" fullname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests.GearAssemblyRequiresBothDistinctGearsAndReductionLayout" methodname="GearAssemblyRequiresBothDistinctGearsAndReductionLayout" classname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests" runstate="Runnable" seed="690635783" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000623" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1078" name="GearResetRemovesBothGears" fullname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests.GearResetRemovesBothGears" methodname="GearResetRemovesBothGears" classname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests" runstate="Runnable" seed="1165125500" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000230" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1080" name="LeverResetRestoresKnownUnbalancedConfiguration" fullname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests.LeverResetRestoresKnownUnbalancedConfiguration" methodname="LeverResetRestoresKnownUnbalancedConfiguration" classname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests" runstate="Runnable" seed="310142611" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000240" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1079" name="LeverUsesSignedMomentAndRequiresOppositeSides" fullname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests.LeverUsesSignedMomentAndRequiresOppositeSides" methodname="LeverUsesSignedMomentAndRequiresOppositeSides" classname="VLAB.MainMenu.Tests.VLABProductionMechanicsTests" runstate="Runnable" seed="1593611302" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000405" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1073" name="VLABProductionMicroscopeHandoffTests" fullname="VLAB.MainMenu.Tests.VLABProductionMicroscopeHandoffTests" classname="VLAB.MainMenu.Tests.VLABProductionMicroscopeHandoffTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.012011" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1075" name="DisabledDriverInputDoesNotExitInspectionOrDropOriginalItemButExplicitResetStillWorks" fullname="VLAB.MainMenu.Tests.VLABProductionMicroscopeHandoffTests.DisabledDriverInputDoesNotExitInspectionOrDropOriginalItemButExplicitResetStillWorks" methodname="DisabledDriverInputDoesNotExitInspectionOrDropOriginalItemButExplicitResetStillWorks" classname="VLAB.MainMenu.Tests.VLABProductionMicroscopeHandoffTests" runstate="Runnable" seed="1900619272" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.003911" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1074" name="WorldScopeFitsViewWithoutMovingHeadAndRestoresOriginalBoardOnExit" fullname="VLAB.MainMenu.Tests.VLABProductionMicroscopeHandoffTests.WorldScopeFitsViewWithoutMovingHeadAndRestoresOriginalBoardOnExit" methodname="WorldScopeFitsViewWithoutMovingHeadAndRestoresOriginalBoardOnExit" classname="VLAB.MainMenu.Tests.VLABProductionMicroscopeHandoffTests" runstate="Runnable" seed="2040772633" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.003762" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1088" name="VLABProductionMobileVrTests" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.010038" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1099" name="CachedRequestedModeDisablesPhoneViewerWithoutChangingSavedPreference" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.CachedRequestedModeDisablesPhoneViewerWithoutChangingSavedPreference" methodname="CachedRequestedModeDisablesPhoneViewerWithoutChangingSavedPreference" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="243773547" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000669" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1100" name="DevicePoseRejectsMissingOrNonFiniteValuesAndNormalizesValidRotation" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.DevicePoseRejectsMissingOrNonFiniteValuesAndNormalizesValidRotation" methodname="DevicePoseRejectsMissingOrNonFiniteValuesAndNormalizesValidRotation" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="1912537056" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000867" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1098" name="VrModeChangesAreRestrictedToAndroidMainMenu" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.004798" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1089" name="VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;Menu&quot;,True)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;Menu&quot;,True)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="830780878" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000444" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1090" name="VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;PhysicsLab_Base&quot;,False)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;PhysicsLab_Base&quot;,False)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="1727515501" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000085" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1091" name="VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;ChemistryLab&quot;,False)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;ChemistryLab&quot;,False)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="1391956454" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000060" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1092" name="VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;BiologyLab&quot;,False)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;BiologyLab&quot;,False)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="434488710" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000056" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1093" name="VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;EngineeringLab&quot;,False)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;EngineeringLab&quot;,False)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="1150051799" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000054" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1094" name="VrModeChangesAreRestrictedToAndroidMainMenu(WindowsEditor,&quot;Menu&quot;,False)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(WindowsEditor,&quot;Menu&quot;,False)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="1266642663" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000054" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1095" name="VrModeChangesAreRestrictedToAndroidMainMenu(WindowsPlayer,&quot;Menu&quot;,False)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(WindowsPlayer,&quot;Menu&quot;,False)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="1233444702" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000051" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1096" name="VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;menu&quot;,False)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(Android,&quot;menu&quot;,False)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="85187856" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000050" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1097" name="VrModeChangesAreRestrictedToAndroidMainMenu(Android,null,False)" fullname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests.VrModeChangesAreRestrictedToAndroidMainMenu(Android,null,False)" methodname="VrModeChangesAreRestrictedToAndroidMainMenu" classname="VLAB.MainMenu.Tests.VLABProductionMobileVrTests" runstate="Runnable" seed="1043291296" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.000053" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+            </test-suite>
+            <test-suite type="TestFixture" id="1109" name="VLABProductionWorkbenchTests" fullname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests" classname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:46Z" duration="0.212722" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1114" name="CellBoardShowsShortSynopsisAndOffersFullTheory" fullname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests.CellBoardShowsShortSynopsisAndOffersFullTheory" methodname="CellBoardShowsShortSynopsisAndOffersFullTheory" classname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests" runstate="Runnable" seed="207239923" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.018395" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1110" name="OpeningFreezesOriginalPhysicsAndCloseRestoresMotionAndRecovery" fullname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests.OpeningFreezesOriginalPhysicsAndCloseRestoresMotionAndRecovery" methodname="OpeningFreezesOriginalPhysicsAndCloseRestoresMotionAndRecovery" classname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests" runstate="Runnable" seed="1835734814" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.082640" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1115" name="PitchedEntryFramesBoardAndApparatusWithoutMovingCamera" fullname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests.PitchedEntryFramesBoardAndApparatusWithoutMovingCamera" methodname="PitchedEntryFramesBoardAndApparatusWithoutMovingCamera" classname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests" runstate="Runnable" seed="250038111" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:45Z" duration="0.016629" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1111" name="RepeatedOpenClosePreservesControllerVisualsAndOriginallyDisabledObjects" fullname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests.RepeatedOpenClosePreservesControllerVisualsAndOriginallyDisabledObjects" methodname="RepeatedOpenClosePreservesControllerVisualsAndOriginallyDisabledObjects" classname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests" runstate="Runnable" seed="1281345361" result="Passed" start-time="2026-09-12 10:09:45Z" end-time="2026-09-12 10:09:46Z" duration="0.041352" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1112" name="SharedResetInputTargetsActiveActivityOnceAndStopsAfterClose" fullname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests.SharedResetInputTargetsActiveActivityOnceAndStopsAfterClose" methodname="SharedResetInputTargetsActiveActivityOnceAndStopsAfterClose" classname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests" runstate="Runnable" seed="176606595" result="Passed" start-time="2026-09-12 10:09:46Z" end-time="2026-09-12 10:09:46Z" duration="0.025461" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1113" name="VesselHitVolumesAreRegisteredWithTheNativeXrManager" fullname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests.VesselHitVolumesAreRegisteredWithTheNativeXrManager" methodname="VesselHitVolumesAreRegisteredWithTheNativeXrManager" classname="VLAB.MainMenu.Tests.VLABProductionWorkbenchTests" runstate="Runnable" seed="2064371042" result="Passed" start-time="2026-09-12 10:09:46Z" end-time="2026-09-12 10:09:46Z" duration="0.019004" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: TestResults/Production/production.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
