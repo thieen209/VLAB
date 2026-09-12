@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba4cd23169c00340afcafac03a73796, type: 3}
+  m_Name: PinDaniell
+  m_EditorClassIdentifier: VLAB.ChemistryLab::VLAB.ChemistryLab.ChemistryExperimentDefinition
+  experimentId: daniell-cell
+  displayName: Pin Daniell
+  learningObjective: "L\u1EAFp pin \u0111i\u1EC7n h\xF3a Zn-Cu v\xE0 gi\u1EA3i th\xEDch
+    chi\u1EC1u chuy\u1EC3n electron, c\u1EA7u mu\u1ED1i v\xE0 su\u1EA5t \u0111i\u1EC7n
+    \u0111\u1ED9ng."
+  safetyNote: "\u0110eo k\xEDnh/g\u0103ng tay; kh\xF4ng \u0111\u1EC3 dung d\u1ECBch
+    mu\u1ED1i kim lo\u1EA1i ti\u1EBFp x\xFAc da ho\u1EB7c \u0111\u1ED5 ra b\xE0n."
+  requirements:
+  - "Nh\u1EADn di\u1EC7n c\u1EF1c Zn, c\u1EF1c Cu v\xE0 dung d\u1ECBch t\u01B0\u01A1ng
+    \u1EE9ng."
+  - "D\u1EF1 \u0111o\xE1n electron \u0111i t\u1EEB Zn sang Cu."
+  - "\u0110o v\xE0 ghi su\u1EA5t \u0111i\u1EC7n \u0111\u1ED9ng g\u1EA7n 1,10 V."
+  procedureSteps:
+  - "Mang PPE v\xE0 ki\u1EC3m tra hai c\u1ED1c \u0111i\u1EC7n c\u1EF1c."
+  - "\u0110\u1EB7t thanh Zn v\xE0o ZnSO\u2084 v\xE0 thanh Cu v\xE0o CuSO\u2084."
+  - "N\u1ED1i c\u1EA7u mu\u1ED1i v\xE0 d\xE2y d\u1EABn v\u1EDBi v\xF4n k\u1EBF."
+  - "\u0110\u1ECDc \u0111i\u1EC7n \xE1p \u1ED5n \u0111\u1ECBnh v\xE0 ghi chi\u1EC1u
+    chuy\u1EC3n electron."
+  expectedObservation: "V\xF4n k\u1EBF \u0111\u1ECDc x\u1EA5p x\u1EC9 1,10 V; Zn
+    l\xE0 anode, Cu l\xE0 cathode."
+  resultLabel: "Su\u1EA5t \u0111i\u1EC7n \u0111\u1ED9ng"
+  targetResult: "\u2248 1,10 V"

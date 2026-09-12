@@ -36,7 +36,9 @@ namespace VLAB.PhysicsLab.SceneFlow
 
         private IEnumerator Start()
         {
+            if (!enabled || gameObject.scene.name == "Menu") yield break;
             yield return null;
+            if (!enabled || gameObject.scene.name == "Menu") yield break;
             currentContentScene = FindLoadedContentScene();
             if (string.IsNullOrEmpty(currentContentScene))
             {
@@ -107,7 +109,8 @@ namespace VLAB.PhysicsLab.SceneFlow
         private IEnumerator LoadMainMenu()
         {
             yield return FadeTo(1f);
-            SceneManager.LoadScene(PhysicsLabSceneNames.Home, LoadSceneMode.Single);
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("Menu", LoadSceneMode.Single);
         }
 
         private IEnumerator FadeTo(float target)

@@ -64,7 +64,7 @@ namespace VLAB.PhysicsLab.Interaction
             var screenPoint = cursorLocked
                 ? new Vector2(Screen.width * 0.5f, Screen.height * 0.5f)
                 : pointer?.position.ReadValue() ?? Vector2.zero;
-            var ray = viewCamera.ScreenPointToRay(screenPoint);
+            var ray = VLabHeadPose.PhoneViewer ? new Ray(viewCamera.transform.position, viewCamera.transform.forward) : viewCamera.ScreenPointToRay(screenPoint);
             if (!Physics.Raycast(ray, out var hit, maximumDistance, interactionMask, QueryTriggerInteraction.Ignore))
             {
                 SetHovered(null, Vector3.zero);

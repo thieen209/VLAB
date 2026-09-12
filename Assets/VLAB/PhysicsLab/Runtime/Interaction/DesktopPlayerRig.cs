@@ -55,12 +55,14 @@ namespace VLAB.PhysicsLab.Interaction
 
         private void Update()
         {
-            if (inputManager == null || viewCamera == null || XRSettings.isDeviceActive)
+            if (inputManager == null || viewCamera == null)
             {
                 return;
             }
 
             var state = inputManager.CurrentState;
+            if (VLabHeadPose.PhoneViewer) { ApplyMovement(state); return; }
+            if (XRSettings.isDeviceActive) return;
             if (!IsCursorLocked && state.SecondaryPressed && !IsPointerOverUi())
             {
                 SetCursorLocked(true);
@@ -104,7 +106,8 @@ namespace VLAB.PhysicsLab.Interaction
             }
 
             var speed = state.SprintPressed ? sprintSpeed : walkSpeed;
-            var planar = transform.right * state.Move.x + transform.forward * state.Move.y;
+            var forward = Vector3.ProjectOnPlane(viewCamera.transform.forward, Vector3.up).normalized;
+            var planar = Vector3.Cross(Vector3.up, forward) * state.Move.x + forward * state.Move.y;
             if (controller.isGrounded && verticalVelocity < 0f)
             {
                 verticalVelocity = -1.5f;

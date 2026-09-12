@@ -1,0 +1,39 @@
+{
+    "version": 1,
+    "name": "VLAB Desktop Input Actions",
+    "maps": [
+        {
+            "name": "Desktop",
+            "id": "5143f624-196a-4c94-889c-1c6fb9927f6d",
+            "actions": [
+                { "name": "Move", "type": "Value", "id": "3e83eb0a-e326-42e5-a1f4-f2a1a4497dfa", "expectedControlType": "Vector2", "processors": "", "interactions": "", "initialStateCheck": true },
+                { "name": "Look", "type": "Value", "id": "9cc1aecd-2852-4215-b5f6-679d903cefb4", "expectedControlType": "Vector2", "processors": "", "interactions": "", "initialStateCheck": true },
+                { "name": "LookHold", "type": "Button", "id": "531f106f-1112-4c3b-9876-0cc452bacb13", "expectedControlType": "Button", "processors": "", "interactions": "", "initialStateCheck": false },
+                { "name": "Run", "type": "Button", "id": "6b62ce0e-04f0-40d3-ab9f-962018e03d0b", "expectedControlType": "Button", "processors": "", "interactions": "", "initialStateCheck": false },
+                { "name": "Crouch", "type": "Button", "id": "573e96cd-796b-4a0c-aab8-2a6c72045a2e", "expectedControlType": "Button", "processors": "", "interactions": "", "initialStateCheck": false },
+                { "name": "Zoom", "type": "Value", "id": "1eeb5a19-028e-4274-834f-3e8ff07e0f67", "expectedControlType": "Axis", "processors": "", "interactions": "", "initialStateCheck": true },
+                { "name": "Interact", "type": "Button", "id": "2ccbf949-a2f3-4242-aeac-37df6e441b54", "expectedControlType": "Button", "processors": "", "interactions": "", "initialStateCheck": false },
+                { "name": "Cancel", "type": "Button", "id": "9d6945c6-dd15-4896-a85f-b942632cb2c5", "expectedControlType": "Button", "processors": "", "interactions": "", "initialStateCheck": false },
+                { "name": "Use", "type": "Button", "id": "dc00f523-8dc9-45f8-a521-f9dd91684c3b", "expectedControlType": "Button", "initialStateCheck": false },
+                { "name": "Tilt", "type": "Button", "id": "e84ad8de-d2f2-4e94-922f-8a79d6f3e8b7", "expectedControlType": "Button", "initialStateCheck": false }
+            ],
+            "bindings": [
+                { "name": "WASD", "id": "e3cda42b-2286-4c81-8932-9e92de8958d0", "path": "2DVector", "interactions": "", "processors": "", "groups": "", "action": "Move", "isComposite": true, "isPartOfComposite": false },
+                { "name": "up", "id": "558a6c13-9db7-4850-b266-d5fd78842273", "path": "<Keyboard>/w", "interactions": "", "processors": "", "groups": "", "action": "Move", "isComposite": false, "isPartOfComposite": true },
+                { "name": "down", "id": "5f891c3a-17b1-4786-98a3-600c2b1b4644", "path": "<Keyboard>/s", "interactions": "", "processors": "", "groups": "", "action": "Move", "isComposite": false, "isPartOfComposite": true },
+                { "name": "left", "id": "76379db7-9183-4d8f-a0c0-cfa724489148", "path": "<Keyboard>/a", "interactions": "", "processors": "", "groups": "", "action": "Move", "isComposite": false, "isPartOfComposite": true },
+                { "name": "right", "id": "48098088-ad0b-4398-b0a2-aa927e78e8c2", "path": "<Keyboard>/d", "interactions": "", "processors": "", "groups": "", "action": "Move", "isComposite": false, "isPartOfComposite": true },
+                { "name": "", "id": "0ef6394e-7b8d-4e14-9533-69e09c0332f8", "path": "<Mouse>/delta", "interactions": "", "processors": "", "groups": "", "action": "Look", "isComposite": false, "isPartOfComposite": false },
+                { "name": "", "id": "ad2d49e5-cd06-40f1-a54c-06080e70b060", "path": "<Mouse>/rightButton", "interactions": "", "processors": "", "groups": "", "action": "LookHold", "isComposite": false, "isPartOfComposite": false },
+                { "name": "", "id": "9c001fae-76ec-4578-b86a-c07b546eaa45", "path": "<Keyboard>/leftShift", "interactions": "", "processors": "", "groups": "", "action": "Run", "isComposite": false, "isPartOfComposite": false },
+                { "name": "", "id": "e1165640-26a2-4ea7-89ba-cff68e252bc7", "path": "<Keyboard>/c", "interactions": "", "processors": "", "groups": "", "action": "Crouch", "isComposite": false, "isPartOfComposite": false },
+                { "name": "", "id": "46f0d84c-b755-4658-8e17-e54220aee7fc", "path": "<Mouse>/scroll/y", "interactions": "", "processors": "", "groups": "", "action": "Zoom", "isComposite": false, "isPartOfComposite": false },
+                { "name": "", "id": "ba201cbd-7f16-45e1-b21a-9108cbfa4e10", "path": "<Mouse>/leftButton", "interactions": "", "processors": "", "groups": "", "action": "Interact", "isComposite": false, "isPartOfComposite": false },
+                { "name": "", "id": "31976b0c-52f7-41c7-acb6-ccaf2336885e", "path": "<Keyboard>/escape", "interactions": "", "processors": "", "groups": "", "action": "Cancel", "isComposite": false, "isPartOfComposite": false },
+                { "name": "", "id": "3e19d7eb-38f4-48d2-a7bb-e9c8b895da37", "path": "<Keyboard>/f", "action": "Use", "isComposite": false, "isPartOfComposite": false },
+                { "name": "", "id": "57a0b798-afc9-4e81-a266-3ce7dbfd65aa", "path": "<Keyboard>/r", "action": "Tilt", "isComposite": false, "isPartOfComposite": false }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -94,7 +94,7 @@ namespace VLAB.DemoLabs
             var state = Input.CurrentState;
             if (!ViewLocked && !Hud.ModalOpen)
             {
-                if (state.SecondaryPressed && !OverUi)
+                if (!VLabHeadPose.PhoneViewer && state.SecondaryPressed && !OverUi)
                 {
                     yaw += state.Look.x * .13f; pitch = Mathf.Clamp(pitch - state.Look.y * .13f, -55, 75);
                     ViewCamera.transform.rotation = Quaternion.Euler(pitch, yaw, 0);

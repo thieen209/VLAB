@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba4cd23169c00340afcafac03a73796, type: 3}
+  m_Name: DienPhanCuSO4
+  m_EditorClassIdentifier: VLAB.ChemistryLab::VLAB.ChemistryLab.ChemistryExperimentDefinition
+  experimentId: copper-electrolysis
+  displayName: "\u0110i\u1EC7n ph\xE2n CuSO\u2084"
+  learningObjective: "Quan s\xE1t s\u1EF1 \u0111i\u1EC7n ph\xE2n dung d\u1ECBch CuSO\u2084
+    v\u1EDBi \u0111i\u1EC7n c\u1EF1c tr\u01A1 v\xE0 d\u1EF1 \u0111o\xE1n s\u1EA3n
+    ph\u1EA9m \u1EDF m\u1ED7i \u0111i\u1EC7n c\u1EF1c."
+  safetyNote: "\u0110eo k\xEDnh/g\u0103ng tay; ch\u1EC9 thao t\xE1c ngu\u1ED3n \u0111i\u1EC7n
+    \xE1p th\u1EA5p v\xE0 kh\xF4ng ch\u1EA1m \u0111i\u1EC7n c\u1EF1c khi \u0111ang
+    c\u1EA5p \u0111i\u1EC7n."
+  requirements:
+  - "L\u1EAFp \u0111\xFAng anode/cathode."
+  - "D\xF9ng ngu\u1ED3n DC 6,0 V an to\xE0n."
+  - "Ghi m\xE0u dung d\u1ECBch v\xE0 l\u1EDBp \u0111\u1ED3ng b\xE1m \u1EDF cathode."
+  procedureSteps:
+  - "Mang PPE v\xE0 ki\u1EC3m tra ngu\u1ED3n \u0111i\u1EC7n \xE1p th\u1EA5p."
+  - "R\xF3t CuSO\u2084 v\xE0o b\xECnh \u0111i\u1EC7n ph\xE2n."
+  - "\u0110\u1EB7t hai \u0111i\u1EC7n c\u1EF1c tr\u01A1, n\u1ED1i \u0111\xFAng c\u1EF1c
+    ngu\u1ED3n."
+  - "B\u1EADt 6,0 V, quan s\xE1t \u0111\u1ED3ng b\xE1m cathode v\xE0 hi\u1EC7n t\u01B0\u1EE3ng
+    t\u1EA1i anode."
+  expectedObservation: "Cathode c\xF3 l\u1EDBp \u0111\u1ED3ng \u0111\u1ECF n\xE2u;
+    dung d\u1ECBch xanh nh\u1EA1t d\u1EA7n v\xE0 anode c\xF3 b\u1ECDt kh\xED."
+  resultLabel: "Hi\u1EC7n t\u01B0\u1EE3ng"
+  targetResult: "Cu b\xE1m cathode"

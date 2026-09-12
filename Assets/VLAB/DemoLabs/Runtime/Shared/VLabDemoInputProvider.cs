@@ -15,7 +15,7 @@ namespace VLAB.DemoLabs
         private Vector2 pressPointer;
         private bool hasPress;
         private bool previousEventMerging;
-        public Vector2 PressPointer => hasPress ? pressPointer : Pointer;
+        public Vector2 PressPointer => VLabHeadPose.PhoneViewer ? Pointer : hasPress ? pressPointer : Pointer;
         private void OnEnable()
         {
             // Mouse event merging can replace a press position with a later held-motion position.
@@ -56,7 +56,7 @@ namespace VLAB.DemoLabs
         }
         public bool InteractionPressed => Pressed(Mouse.current?.leftButton) || Pressed(Keyboard.current?.eKey);
         public bool ResetPressed => Pressed(Keyboard.current?.rKey);
-        public Vector2 Pointer => Touchscreen.current != null && (Mouse.current == null || !Mouse.current.enabled || Pressed(Touchscreen.current.primaryTouch.press) || Touchscreen.current.primaryTouch.press.wasReleasedThisFrame)
+        public Vector2 Pointer => VLabHeadPose.PhoneViewer ? new Vector2(Screen.width/2f, Screen.height/2f) : Touchscreen.current != null && (Mouse.current == null || !Mouse.current.enabled || Pressed(Touchscreen.current.primaryTouch.press) || Touchscreen.current.primaryTouch.press.wasReleasedThisFrame)
             ? Touchscreen.current.primaryTouch.position.ReadValue()
             : Mouse.current?.position.ReadValue() ?? new Vector2(Screen.width / 2f, Screen.height / 2f);
         public VLABInputState ReadState()

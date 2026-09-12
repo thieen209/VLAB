@@ -27,6 +27,8 @@ namespace VLAB.Core.Input
         public event Action PausePressed;
 
         public VLABInputState CurrentState { get; private set; }
+        public bool BlockExperimentInput { get; set; }
+        public bool TranslationLocked { get; set; }
         public string ActiveProviderName =>
             activeProvider?.ProviderName ?? (providerSource as IVLABInputProvider)?.ProviderName ?? "None";
 
@@ -68,6 +70,13 @@ namespace VLAB.Core.Input
             var nextState = activeProvider.ReadState();
             var interactionPressed = activeProvider.InteractionPressed;
             var resetPressed = activeProvider.ResetPressed;
+            if (BlockExperimentInput)
+            {
+                nextState = new VLABInputState { PausePressed = nextState.PausePressed };
+                interactionPressed = false;
+                resetPressed = false;
+            }
+            if (TranslationLocked) nextState.Move = Vector2.zero;
             CurrentState = nextState;
 
             RaiseEdge(previousInteractionPressed, interactionPressed, InteractionPressed, InteractionReleased);

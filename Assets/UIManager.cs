@@ -95,8 +95,8 @@ public class UIManager : MonoBehaviour
 
     public void ClickChemistryLab()
     {
-        selectedScene = PhysicsLabSceneNames.Base;
-        selectedLabTitle = "Phòng Thí nghiệm Vật lý";
+        selectedScene = "ChemistryLab";
+        selectedLabTitle = "Phòng Thí nghiệm Hóa học";
         OpenLabDetail("PHÒNG THÍ NGHIỆM HÓA HỌC", "Thực hiện các phản ứng hóa học.");
     }
 

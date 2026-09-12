@@ -60,11 +60,12 @@ namespace VLAB.DemoLabs
         public void Enter()
         {
             if (Inspecting) return;
-            Inspecting = true; transitioning = true; transition = 0;
+            Inspecting = true; transitioning = !VLAB.Core.Input.VLabHeadPose.PhoneViewer; transition = 0;
             savedPosition = Experiment.Driver.ViewCamera.transform.position;
             savedRotation = Experiment.Driver.ViewCamera.transform.rotation;
             Experiment.Driver.ReturnHeld(); Experiment.Driver.ViewLocked = true;
             ScopePanel.SetActive(true); ScopeFade.alpha = 0;
+            if (VLAB.Core.Input.VLabHeadPose.PhoneViewer) ScopeFade.alpha = 1;
             Canvas.ForceUpdateCanvases(); FitOpticalField();
         }
         public void Exit()
@@ -72,7 +73,8 @@ namespace VLAB.DemoLabs
             if (!Inspecting) return;
             Inspecting = false; transitioning = false;
             ScopePanel.SetActive(false); Experiment.Driver.ViewLocked = false;
-            Experiment.Driver.ViewCamera.transform.SetPositionAndRotation(savedPosition, savedRotation);
+            if (!VLAB.Core.Input.VLabHeadPose.PhoneViewer)
+                Experiment.Driver.ViewCamera.transform.SetPositionAndRotation(savedPosition, savedRotation);
         }
         private void Update()
         {

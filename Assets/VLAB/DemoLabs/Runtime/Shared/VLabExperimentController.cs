@@ -28,7 +28,7 @@ namespace VLAB.DemoLabs
                 if (component is IVLabResettable resettable) list.Add(resettable);
             resettables = list.ToArray();
             Hud.ResetButton.onClick.AddListener(ResetExperiment);
-            Hud.HomeButton.onClick.AddListener(() => SceneManager.LoadScene("Home"));
+            Hud.HomeButton.onClick.AddListener(() => { Time.timeScale = 1f; SceneManager.LoadScene("Menu"); });
             Hud.CheckButton.onClick.AddListener(Check);
             ResetExperiment();
         }

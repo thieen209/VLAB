@@ -231,7 +231,7 @@ namespace VLAB.DemoLabs.Tests
                 Assert.That(buttons.Single(b => b.name == choice).GetComponentInChildren<TMPro.TMP_Text>().text, Is.Not.EqualTo("Button"));
                 buttons.Single(b => b.name == choice).onClick.Invoke();
                 buttons.Single(b => b.name == "JoinNowButton").onClick.Invoke();
-                var expected = choice == "BiologyLabButton" ? "BiologyLab" : choice == "MechanicalLabButton" ? "EngineeringLab" : "PhysicsLab_Base";
+                var expected = choice == "BiologyLabButton" ? "BiologyLab" : choice == "MechanicalLabButton" ? "EngineeringLab" : choice == "ChemistryLabButton" ? "ChemistryLab" : "PhysicsLab_Base";
                 var timeout = Time.realtimeSinceStartup + 20;
                 while (!SceneManager.GetSceneByName(expected).isLoaded && Time.realtimeSinceStartup < timeout) yield return null;
                 Assert.That(SceneManager.GetSceneByName(expected).isLoaded, Is.True, choice);
