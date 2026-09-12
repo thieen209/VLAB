@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="2" result="Failed(Child)" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-12 17:34:27Z" end-time="2026-09-12 17:34:31Z" duration="4.8060348">
+  <test-suite type="TestSuite" id="1137" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="90" result="Failed" site="Child" start-time="2026-09-12 17:34:27Z" end-time="2026-09-12 17:34:31Z" duration="4.806035" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1119" name="VLAB.MainMenu.Tests.dll" fullname="E:/some of my games/The Complete VLAB/VLAB/Library/ScriptAssemblies/VLAB.MainMenu.Tests.dll" runstate="Runnable" testcasecount="56" result="Failed" site="Child" start-time="2026-09-12 17:34:27Z" end-time="2026-09-12 17:34:31Z" duration="4.786698" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="26292" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1120" name="VLAB" fullname="VLAB" runstate="Runnable" testcasecount="56" result="Failed" site="Child" start-time="2026-09-12 17:34:27Z" end-time="2026-09-12 17:34:31Z" duration="4.782135" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1121" name="MainMenu" fullname="VLAB.MainMenu" runstate="Runnable" testcasecount="56" result="Failed" site="Child" start-time="2026-09-12 17:34:27Z" end-time="2026-09-12 17:34:31Z" duration="4.778409" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1122" name="Tests" fullname="VLAB.MainMenu.Tests" runstate="Runnable" testcasecount="56" result="Failed" site="Child" start-time="2026-09-12 17:34:27Z" end-time="2026-09-12 17:34:31Z" duration="4.774615" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1107" name="VLABStabilizationTests" fullname="VLAB.MainMenu.Tests.VLABStabilizationTests" classname="VLAB.MainMenu.Tests.VLABStabilizationTests" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-09-12 17:34:27Z" end-time="2026-09-12 17:34:31Z" duration="4.767733" total="2" passed="0" failed="2" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1108" name="ChemistryActivitiesKeepFloorRoomMovementAndStation" fullname="VLAB.MainMenu.Tests.VLABStabilizationTests.ChemistryActivitiesKeepFloorRoomMovementAndStation" methodname="ChemistryActivitiesKeepFloorRoomMovementAndStation" classname="VLAB.MainMenu.Tests.VLABStabilizationTests" runstate="Runnable" seed="1544075392" result="Failed" start-time="2026-09-12 17:34:27Z" end-time="2026-09-12 17:34:29Z" duration="2.283228" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Opening a lesson must retain the real floor collider.
+  Expected: True
+  But was:  False
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.MainMenu.Tests.VLABStabilizationTests+<ChemistryActivitiesKeepFloorRoomMovementAndStation>d__1.MoveNext () [0x000ed] in E:\some of my games\The Complete VLAB\VLAB\Assets\VLAB\MainMenu\Tests\VLABStabilizationTests.cs:31
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@1405238725ab\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1109" name="PauseRecentersAfterHeadTurnWithoutMovingPlayer" fullname="VLAB.MainMenu.Tests.VLABStabilizationTests.PauseRecentersAfterHeadTurnWithoutMovingPlayer" methodname="PauseRecentersAfterHeadTurnWithoutMovingPlayer" classname="VLAB.MainMenu.Tests.VLABStabilizationTests" runstate="Runnable" seed="1260053359" result="Failed" start-time="2026-09-12 17:34:29Z" end-time="2026-09-12 17:34:31Z" duration="2.464082" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: less than 10
+  But was:  90.0000076f
+]]></message>
+                  <stack-trace><![CDATA[at VLAB.MainMenu.Tests.VLABStabilizationTests+<PauseRecentersAfterHeadTurnWithoutMovingPlayer>d__2.MoveNext () [0x000ed] in E:\some of my games\The Complete VLAB\VLAB\Assets\VLAB\MainMenu\Tests\VLABStabilizationTests.cs:58
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@1405238725ab\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+                </failure>
+                <output><![CDATA[Saving results to: TestResults/Production/stabilization.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

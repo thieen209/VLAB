@@ -1,0 +1,270 @@
+{
+  "bugs": [
+    {
+      "id": "VLAB-BUG-001",
+      "requirement": "Main Menu is substantially redesigned into polished futuristic VLAB spatial UI inspired by high-quality VR menus.",
+      "pass_when": "It no longer resembles unfinished/default UI, VLAB branding is prominent and controller interaction works.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Fresh captures show elevated VLAB identity, four lab cards and cyan ribbons; existing visible navigation remains live.",
+      "root_cause": "The previous menu lacked the requested visual hierarchy.",
+      "verification": "VLABMenuFlowTests; VLABProductionJourneyTests.ControllerRay_SelectsUiInEveryLabIncludingPause; Menu-controller.png"
+    },
+    {
+      "id": "VLAB-BUG-002",
+      "requirement": "Original intended Physics-style controller concept is restored/canonicalized.",
+      "pass_when": "Physics no longer depends on the mistaken duplicate controller system.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "The original two NearFar hands are reused and active for native devices.",
+      "root_cause": "Fallback detection checked XRRayInteractor and missed NearFarInteractor.",
+      "verification": "VLABStabilizationTests.BothOriginalPhysicsHandsClickSharedUiInEveryScene"
+    },
+    {
+      "id": "VLAB-BUG-003",
+      "requirement": "Every lab uses the same canonical controller architecture.",
+      "pass_when": "Physics, Chemistry, Biology and Engineering/Mechanical all instantiate/use the same shared implementation.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "All five scenes use the same original rig concept, shared resource variant and configuration.",
+      "root_cause": "Other labs retained separate camera and input ownership.",
+      "verification": "VLABStabilizationTests.BothOriginalPhysicsHandsClickSharedUiInEveryScene"
+    },
+    {
+      "id": "VLAB-BUG-004",
+      "requirement": "Controller interacts with menus.",
+      "pass_when": "Main Menu and Pause/Lab Menu can be hovered and selected reliably.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Both native hands click actual shared UI once each; decoded-controller replay also clicks all lab menus.",
+      "root_cause": "Competing native and fallback UI routes prevented reliable selection.",
+      "verification": "BothOriginalPhysicsHandsClickSharedUiInEveryScene; ControllerRay_SelectsUiInEveryLabIncludingPause"
+    },
+    {
+      "id": "VLAB-BUG-005",
+      "requirement": "Pause UI cannot be made unusable by nearby lab geometry.",
+      "pass_when": "Representative wall/bench/cabinet/apparatus placement tests all pass.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Panel volume and five sight lines avoid representative lab geometry and walls at 1.2, 0.65 and 0.35 m.",
+      "root_cause": "A center-only placement ray missed panel corners and could place UI behind geometry.",
+      "verification": "PauseRemainsInFrontOfNearbyGeometryAndItsButtonsStayReachable; supplementary pause captures"
+    },
+    {
+      "id": "VLAB-BUG-006",
+      "requirement": "Pause menu follows/recenters around the user's current view.",
+      "pass_when": "Opening it from different headings produces comfortable view-relative placement instead of stale fixed-world placement.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Pause recenters after a 90-degree head turn using unscaled time.",
+      "root_cause": "Placement happened only when opening the menu.",
+      "verification": "PauseRecentersAfterHeadTurnWithoutMovingPlayer; reproduced-bugs.xml baseline failure"
+    },
+    {
+      "id": "VLAB-BUG-007",
+      "requirement": "ESC does not move the player.",
+      "pass_when": "Opening/closing menu leaves the XR Origin position unchanged except for actual user movement.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Pause/resume preserves camera position and rotation; no rig recenter/teleport is used.",
+      "root_cause": "View placement and player movement required separate invariants.",
+      "verification": "PauseRemainsInFrontOfNearbyGeometryAndItsButtonsStayReachable; PauseRecentersAfterHeadTurnWithoutMovingPlayer"
+    },
+    {
+      "id": "VLAB-BUG-008",
+      "requirement": "Chemistry water molecule assembly no longer traps player below terrain.",
+      "pass_when": "Experiment loads at stable bench/station and movement remains functional.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Water assembly retains the floor, original room and movement; test walks to the permanent workbench.",
+      "root_cause": "Global renderer/collider suspension disabled the floor and locomotion.",
+      "verification": "ChemistryActivitiesKeepFloorRoomMovementAndStation; SupplementaryLessons_OpenResetRestoreOriginalAndReturnHome; reproduced-bugs.xml"
+    },
+    {
+      "id": "VLAB-BUG-009",
+      "requirement": "Chemistry precipitation identification no longer traps player below terrain.",
+      "pass_when": "Experiment loads at stable bench/station and movement remains functional.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Precipitation uses the same permanent anchor with floor and locomotion intact.",
+      "root_cause": "Same global room/locomotion suspension as water assembly.",
+      "verification": "ChemistryActivitiesKeepFloorRoomMovementAndStation; SupplementaryLessons_OpenResetRestoreOriginalAndReturnHome"
+    },
+    {
+      "id": "VLAB-BUG-010",
+      "requirement": "Experiments change apparatus, not player location.",
+      "pass_when": "All refactored experiment selections leave player world pose unchanged.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Apparatus changes at a serialized anchor; Physics changes additive apparatus while the base bench persists.",
+      "root_cause": "Supplementary stations were generated from current gaze and replaced the room.",
+      "verification": "PhysicsSharedSelectionCyclesSixStationsWithoutMovingPlayer; ChemistryActivitiesKeepFloorRoomMovementAndStation; Workbench tests"
+    },
+    {
+      "id": "VLAB-BUG-011",
+      "requirement": "Physics giant entry interface removed.",
+      "pass_when": "Physics starts with clean lab/bench and a compact message directing user to open the menu.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Physics entry shows an empty permanent workbench and compact Menu/Esc prompt.",
+      "root_cause": "The additive hub activated a giant selector console.",
+      "verification": "PhysicsSharedSelectionCyclesSixStationsWithoutMovingPlayer; Physics-entry.png"
+    },
+    {
+      "id": "VLAB-BUG-012",
+      "requirement": "Physics UI updated to shared design system.",
+      "pass_when": "No old Physics UI remains in normal runtime flow.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Six Physics lessons use the shared selector and compact styled instruction/measurement/result panels.",
+      "root_cause": "Physics retained separate legacy selector/settings/help layouts.",
+      "verification": "PhysicsSharedSelectionCyclesSixStationsWithoutMovingPlayer; Physics-01 through Physics-06.png; PhysicsLabSceneFlowPlayModeTests"
+    },
+    {
+      "id": "VLAB-BUG-013",
+      "requirement": "Biology UI updated to shared design system.",
+      "pass_when": "No old Biology UI remains in normal runtime flow.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Biology intro/task/results use the shared compact collapsible side panel; microscope view remains functional.",
+      "root_cause": "Oversized screen HUD obscured the apparatus.",
+      "verification": "DemoLabPlaythroughTests; BiologyLab-controller.png; VLabCellActivity.png"
+    },
+    {
+      "id": "VLAB-BUG-014",
+      "requirement": "Biology room is no longer sparse/unfinished.",
+      "pass_when": "It has coherent Biology-appropriate environment, work area and props while remaining optimized.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "The furnished Biology room, microscope area and storage remain visible during cell exploration.",
+      "root_cause": "The supplementary cell lesson hid the furnished room and created an empty stage.",
+      "verification": "SupplementaryLessons_OpenResetRestoreOriginalAndReturnHome; VLabCellActivity.png"
+    },
+    {
+      "id": "VLAB-BUG-015",
+      "requirement": "Engineering/Mechanical room is no longer sparse/unfinished.",
+      "pass_when": "It has a coherent STEM workbench environment and relevant props while remaining optimized.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Engineering instruments, cabinets and fixed bench remain visible; original apparatus and wires suspend together.",
+      "root_cause": "The supplementary stage hid room details and did not distinguish apparatus from environment.",
+      "verification": "SupplementaryLessons_OpenResetRestoreOriginalAndReturnHome; VLabGearActivity.png; VLabLeverActivity.png"
+    },
+    {
+      "id": "VLAB-BUG-016",
+      "requirement": "All lab instruction/menu UI is visually consistent.",
+      "pass_when": "Typography, panel design, hover/press states, close controls and hierarchy match the common VLAB system.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Shared cyan ribbons, button feedback, licensed fonts and collapsible guides are applied across targeted flows.",
+      "root_cause": "Independent HUD layouts and inconsistent colors/typography.",
+      "verification": "Menu/Physics/Biology/Engineering/supplementary captures; VLABMenuFlowTests; Workbench collapse/reopen test"
+    },
+    {
+      "id": "VLAB-BUG-017",
+      "requirement": "Chemistry's preferred visual quality is preserved.",
+      "pass_when": "Repairs do not unnecessarily degrade its existing strong room/UI presentation.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Original Chemistry room, side stations, titration and scientific lesson logic are retained.",
+      "root_cause": "Global supplementary shutdown hid the preferred room.",
+      "verification": "Chemistry play-mode tests; chemistry-spatial lesson captures; VLabMoleculeActivity.png"
+    },
+    {
+      "id": "VLAB-BUG-018",
+      "requirement": "No duplicate active XR architecture.",
+      "pass_when": "Runtime inspection confirms one player/XR Origin and intended UI/input managers after repeated transitions.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Normal runtime has one active origin, EventSystem and manager through repeated transitions.",
+      "root_cause": "Automatic manager creation and teardown re-enabling caused duplicate or stale ownership.",
+      "verification": "BothOriginalPhysicsHandsClickSharedUiInEveryScene; EveryLab_ReturnsAndReentersWithoutDuplicateOwners"
+    },
+    {
+      "id": "VLAB-BUG-019",
+      "requirement": "No normal-flow Console exceptions.",
+      "pass_when": "Full regression path executes without runtime errors.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "Final normal-flow suite must pass with runtime errors treated as failures.",
+      "root_cause": "Teardown restored interactors whose manager was already being destroyed.",
+      "verification": "TestResults/Production/play.xml; Editor account-service warnings separately retained"
+    },
+    {
+      "id": "VLAB-BUG-020",
+      "requirement": "`bugthatneeedtobefixed` has been completely reviewed.",
+      "pass_when": "Every issue/image from that file has a tracked disposition and verified outcome.",
+      "source": "Master specification",
+      "status": "Verified in Editor; physical hardware not tested",
+      "observed": "All five source screenshots and all seven style references were inspected and mapped.",
+      "root_cause": "The previous tests did not cover all image-reported failures.",
+      "verification": "screenshots below; AUDIT.md; baseline and repaired camera captures"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "Screenshot 2026-09-12 190942.png",
+      "bugs": [
+        "VLAB-BUG-013",
+        "VLAB-BUG-016"
+      ],
+      "observed": "Biology intro obscures worktop, old huge dark HUD and duplicated Menu button.",
+      "status": "Reviewed and compared against repaired Unity captures; reported Editor issue resolved"
+    },
+    {
+      "file": "Screenshot 2026-09-12 191022.png",
+      "bugs": [
+        "VLAB-BUG-005",
+        "VLAB-BUG-006",
+        "VLAB-BUG-014"
+      ],
+      "observed": "Pause intersects cell workbench, dense flat panel, blank room behind.",
+      "status": "Reviewed and compared against repaired Unity captures; reported Editor issue resolved"
+    },
+    {
+      "file": "Screenshot 2026-09-13 000035.png",
+      "bugs": [
+        "VLAB-BUG-005",
+        "VLAB-BUG-008"
+      ],
+      "observed": "Chemistry pause intersects supplementary molecule bench.",
+      "status": "Reviewed and compared against repaired Unity captures; reported Editor issue resolved"
+    },
+    {
+      "file": "Screenshot 2026-09-13 000119.png",
+      "bugs": [
+        "VLAB-BUG-005",
+        "VLAB-BUG-017"
+      ],
+      "observed": "Chemistry worktop and reagent blocks occlude lower pause controls; retain furnished original lab.",
+      "status": "Reviewed and compared against repaired Unity captures; reported Editor issue resolved"
+    },
+    {
+      "file": "Screenshot 2026-09-13 000420.png",
+      "bugs": [
+        "VLAB-BUG-014",
+        "VLAB-BUG-016"
+      ],
+      "observed": "Cell activity has empty walls and a tilted dense instruction board, isolated from original lab.",
+      "status": "Reviewed and compared against repaired Unity captures; reported Editor issue resolved"
+    }
+  ],
+  "references": "All seven provided JPGs inspected: floating restrained cyan gradient headers, thin pointer rays, high branding, compact settings rows, ample surrounding space. Reference 7 repeats reference 1.",
+  "verification_scope": "Unity Editor, native XRI simulated devices and decoded-controller replay. Physical phone/ESP32 behavior remains unverified.",
+  "final_results": {
+    "PlayMode": {
+      "passed": 95,
+      "failed": 0
+    },
+    "EditMode": {
+      "passed": 108,
+      "failed": 0
+    },
+    "ProductionSubsetAfterFinalMaterialFix": {
+      "passed": 46,
+      "failed": 0
+    }
+  },
+  "source_commit": "f175fcbe3ae5514ce06f77fa7c59b98ba45c453c",
+  "android_build": "Development APK succeeded; signature and archive verified; no attached device"
+}

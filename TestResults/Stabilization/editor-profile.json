@@ -1,0 +1,115 @@
+{
+    "context": "Unity Editor development measurements; includes Editor overhead and test runner. Not Android FPS or player memory.",
+    "unity": "6000.5.6f1",
+    "gpu": "NVIDIA GeForce RTX 2050",
+    "samples": [
+        {
+            "scene": "Menu",
+            "paused": false,
+            "editorMeanFrameMs": 2.6106324195861818,
+            "editorP95FrameMs": 3.277395248413086,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 11207,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 328,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        },
+        {
+            "scene": "PhysicsLab_Base",
+            "paused": false,
+            "editorMeanFrameMs": 3.733121156692505,
+            "editorP95FrameMs": 4.4395976066589359,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 11255,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 406,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        },
+        {
+            "scene": "PhysicsLab_Base",
+            "paused": true,
+            "editorMeanFrameMs": 3.6988728046417238,
+            "editorP95FrameMs": 4.412903785705566,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 11264,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 406,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        },
+        {
+            "scene": "ChemistryLab",
+            "paused": false,
+            "editorMeanFrameMs": 5.861159801483154,
+            "editorP95FrameMs": 6.715001583099365,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 20381,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 258,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        },
+        {
+            "scene": "ChemistryLab",
+            "paused": true,
+            "editorMeanFrameMs": 5.308246612548828,
+            "editorP95FrameMs": 6.242403984069824,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 11169,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 258,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        },
+        {
+            "scene": "BiologyLab",
+            "paused": false,
+            "editorMeanFrameMs": 16.647613525390626,
+            "editorP95FrameMs": 17.76580047607422,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 111312,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 336,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        },
+        {
+            "scene": "BiologyLab",
+            "paused": true,
+            "editorMeanFrameMs": 16.66434097290039,
+            "editorP95FrameMs": 17.67390251159668,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 112539,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 336,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        },
+        {
+            "scene": "EngineeringLab",
+            "paused": false,
+            "editorMeanFrameMs": 16.666406631469728,
+            "editorP95FrameMs": 17.739704132080079,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 112167,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 318,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        },
+        {
+            "scene": "EngineeringLab",
+            "paused": true,
+            "editorMeanFrameMs": 16.665220260620118,
+            "editorP95FrameMs": 17.704299926757814,
+            "uiRaycastBytesPerCall": 0,
+            "editorAllocatedBytesPerFrame": 107118,
+            "editorDrawCalls": 0,
+            "sceneRenderers": 318,
+            "allocationCounterAvailable": true,
+            "drawCounterAvailable": false
+        }
+    ]
+}
