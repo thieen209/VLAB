@@ -2,14 +2,13 @@ using UnityEngine;
 using VLAB.ChemistryLab.Input;
 using UnityEngine.InputSystem;
 using VLAB.ChemistryLab.Interaction;
+using VLAB.Core.Input;
 
 namespace VLAB.ChemistryLab
 {
     /// <summary>Grounded mouse-and-keyboard movement for desktop and simulated-VR play.</summary>
     public sealed class DesktopLabNavigator : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 2.5f;
-        [SerializeField] private float runMultiplier = 1.65f;
         [SerializeField] private float gravity = -20f;
         [SerializeField] private float floorEyeHeight = 1.70f;
         [SerializeField] private float seatedEyeHeight = 1.08f;
@@ -28,6 +27,14 @@ namespace VLAB.ChemistryLab
         private GameObject bodyObject;
         private DesktopLabGrabber grabber;
         private LabBuretteTap activeTap;
+        private Transform locomotionRoot;
+        private readonly VLabComfortTurn comfortTurn = new VLabComfortTurn();
+        public VLAB.Core.Input.InputManager SharedInput { get; set; }
+        private bool previousSharedPress;
+        private bool previousSharedUse;
+        private VLAB.Core.Input.IVLABInputProvider previousSharedProvider;
+        private UnityEngine.EventSystems.PointerEventData sharedPointer;
+        private readonly System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult> sharedUiHits=new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>(16);
 
         private void Awake()
         {
@@ -58,6 +65,7 @@ namespace VLAB.ChemistryLab
                 actionSource = gameObject.AddComponent<DesktopInputActionSource>();
             inputSource = actionSource;
             desktopInterface = Object.FindAnyObjectByType<DesktopTitrationInterface>();
+            locomotionRoot = VLabComfortLocomotion.CreateViewRoot(playerCamera, "VLAB Chemistry Locomotion Root");
         }
 
         private void OnEnable()
@@ -68,6 +76,9 @@ namespace VLAB.ChemistryLab
         private void OnDisable()
         {
             StopTap();
+            previousSharedPress = previousSharedUse = false;
+            previousSharedProvider = null;
+            comfortTurn.Reset();
             if (bodyObject != null) bodyObject.SetActive(false);
         }
 
@@ -89,14 +100,22 @@ namespace VLAB.ChemistryLab
                 frame = new VLabDesktopInputFrame
                 {
                     Move = gamepad?.leftStick.ReadValue() ?? Vector2.zero,
+                    Look = gamepad?.rightStick.ReadValue() ?? Vector2.zero,
                     PrimaryHeld = VLAB.Core.Input.PhoneInputProvider.ViewerTouchHeld || gamepad?.buttonSouth.isPressed == true,
                     PrimaryPressed = VLAB.Core.Input.PhoneInputProvider.ViewerTouchPressed || gamepad?.buttonSouth.wasPressedThisFrame == true,
                     UsePressed = gamepad?.buttonWest.wasPressedThisFrame == true,
-                    TiltHeld = gamepad?.rightShoulder.isPressed == true,
-                    ZoomDelta = gamepad?.rightStick.ReadValue().y ?? 0
+                    TiltHeld = gamepad?.rightShoulder.isPressed == true
                 };
                 frame.PointerOverScrollableUi = UnityEngine.EventSystems.EventSystem.current?.IsPointerOverGameObject() == true;
             }
+            bool controller=SharedInput!=null && SharedInput.HasRayProvider;
+            bool mobile = phone || (SharedInput != null && SharedInput.Provider is PhoneInputProvider);
+            bool analog = controller || mobile;
+            if(SharedInput != null && analog)
+            {
+                frame = ReadSharedControllerFrame();
+            }
+            else { previousSharedPress = previousSharedUse = false; previousSharedProvider = null; }
             if (frame.CancelPressed)
             {
                 desktopInterface?.TogglePanel();
@@ -104,11 +123,19 @@ namespace VLAB.ChemistryLab
                 Cursor.visible = true;
             }
             if (!phone) frame.PointerOverScrollableUi = desktopInterface != null && desktopInterface.IsPointerOverScrollableUi;
+            if(UnityEngine.EventSystems.EventSystem.current!=null)
+            {
+                if(sharedPointer==null)sharedPointer=new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+                var point = PointerPosition();
+                var uiRay=SharedInput!=null?SharedInput.PointerRay(playerCamera,point):playerCamera.ScreenPointToRay(point);
+                frame.PointerOverScrollableUi |= VLAB.Core.Input.VLabPointerUi.Raycast(uiRay,sharedPointer,sharedUiHits).gameObject!=null;
+            }
             if (!frame.PrimaryHeld || frame.CancelPressed || frame.PointerOverScrollableUi) StopTap();
             bool wasHolding = grabber != null && grabber.IsHolding;
-            if (frame.PrimaryPressed && !frame.CancelPressed && !frame.PointerOverScrollableUi && playerCamera != null && (phone || Mouse.current != null))
+            if (frame.PrimaryPressed && !frame.CancelPressed && !frame.PointerOverScrollableUi && playerCamera != null && (analog || Mouse.current != null))
             {
-                Ray ray = phone ? new Ray(transform.position, transform.forward) : playerCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+                var point = PointerPosition();
+                Ray ray = SharedInput!=null ? SharedInput.PointerRay(playerCamera,point) : phone ? new Ray(transform.position, transform.forward) : playerCamera.ScreenPointToRay(point);
                 if (wasHolding) grabber.Release();
                 else if (Physics.Raycast(ray, out RaycastHit hit, 8f, ~0, QueryTriggerInteraction.Ignore) && !grabber.TryGrab(hit.collider))
                 {
@@ -121,34 +148,39 @@ namespace VLAB.ChemistryLab
             if (!phone && !wasHolding && (grabber == null || !grabber.IsHolding)) UpdateZoom(frame);
             UpdateSeatedHeight(frame);
 
-            if (frame.LookHeld)
+            var head = playerCamera.GetComponent<VLabHeadPose>();
+            if (analog)
             {
+                VLabComfortLocomotion.TurnRoot(locomotionRoot, transform, comfortTurn.Step(frame.Look.x, Time.deltaTime));
+            }
+            else if (frame.LookHeld && (head == null || !head.OwnsRotation))
+            {
+                comfortTurn.Reset();
+                yaw = transform.eulerAngles.y;
+                pitch = transform.eulerAngles.x;
+                if (pitch > 180) pitch -= 360;
                 yaw += frame.Look.x * LabPreferences.Current.lookSensitivity;
                 pitch = Mathf.Clamp(pitch - frame.Look.y * LabPreferences.Current.lookSensitivity, -80f, 80f);
                 transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
             }
 
-            Vector3 flatForward = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
-            Vector3 flatRight = Vector3.ProjectOnPlane(transform.right, Vector3.up).normalized;
-            Vector2 moveInput = VLabDesktopInputPolicy.NormalizeMove(frame.Move);
-            Vector3 horizontalMove = flatForward * moveInput.y + flatRight * moveInput.x;
-            float speed = frame.RunHeld ? moveSpeed * runMultiplier : moveSpeed;
+            Vector3 horizontalMove = VLabComfortLocomotion.PlanarVelocity(transform.forward, frame.Move, frame.RunHeld);
 
             if (body != null)
             {
                 bool onFloor = body.isGrounded || transform.position.y <= currentEyeHeight + .01f;
                 if (onFloor && verticalVelocity < 0f) verticalVelocity = -2f;
                 verticalVelocity += gravity * Time.deltaTime;
-                Vector3 motion = horizontalMove * speed + Vector3.up * verticalVelocity;
+                Vector3 motion = horizontalMove + Vector3.up * verticalVelocity;
                 body.Move(motion * Time.deltaTime);
-                transform.position = body.transform.position;
+                VLabComfortLocomotion.MoveRootToViewPosition(locomotionRoot, transform, body.transform.position);
                 // The lab has one flat floor. This fallback prevents any physics/import
                 // mismatch from ever letting the player fall below it.
                 if (transform.position.y < currentEyeHeight)
                 {
                     Vector3 safePosition = transform.position;
                     safePosition.y = currentEyeHeight;
-                    transform.position = safePosition;
+                    VLabComfortLocomotion.MoveRootToViewPosition(locomotionRoot, transform, safePosition);
                     verticalVelocity = 0f;
                 }
             }
@@ -158,8 +190,35 @@ namespace VLAB.ChemistryLab
             Vector3 boundedPosition = transform.position;
             boundedPosition.x = Mathf.Clamp(boundedPosition.x, -roomHalfExtent, roomHalfExtent);
             boundedPosition.z = Mathf.Clamp(boundedPosition.z, -roomHalfExtent, roomHalfExtent);
-            transform.position = boundedPosition;
+            VLabComfortLocomotion.MoveRootToViewPosition(locomotionRoot, transform, boundedPosition);
             if (body != null) body.transform.position = boundedPosition;
+        }
+
+        private Vector2 PointerPosition()
+        {
+            var touch = Touchscreen.current?.primaryTouch;
+            if (!VLabHeadPose.PhoneViewer && touch != null && (touch.press.isPressed || touch.press.wasReleasedThisFrame)) return touch.position.ReadValue();
+            return Mouse.current?.position.ReadValue() ?? new Vector2(Screen.width * .5f, Screen.height * .5f);
+        }
+
+        private VLabDesktopInputFrame ReadSharedControllerFrame()
+        {
+            if (!ReferenceEquals(previousSharedProvider, SharedInput.Provider))
+            {
+                previousSharedPress = previousSharedUse = false;
+                previousSharedProvider = SharedInput.Provider;
+            }
+            var state = SharedInput.CurrentState;
+            var frame = new VLabDesktopInputFrame
+            {
+                Move = state.Move, Look = state.Look, RunHeld = state.SprintPressed, PrimaryHeld = state.PrimaryPressed,
+                PrimaryPressed = state.PrimaryPressed && !previousSharedPress,
+                UsePressed = state.SecondaryPressed && !previousSharedUse,
+                TiltHeld = state.RightGrabPressed, ZoomDelta = state.ScrollDelta
+            };
+            previousSharedPress = state.PrimaryPressed;
+            previousSharedUse = state.SecondaryPressed;
+            return frame;
         }
 
         private void UpdateZoom(VLabDesktopInputFrame frame)
@@ -183,7 +242,7 @@ namespace VLAB.ChemistryLab
             }
             Vector3 seatedPosition = transform.position;
             seatedPosition.y = currentEyeHeight;
-            transform.position = seatedPosition;
+            VLabComfortLocomotion.MoveRootToViewPosition(locomotionRoot, transform, seatedPosition);
             if (body != null) body.transform.position = seatedPosition;
             // Sync the resized capsule and its eye-origin transform before CharacterController.Move.
             // Otherwise its sweep can use the previous standing geometry while crouching.

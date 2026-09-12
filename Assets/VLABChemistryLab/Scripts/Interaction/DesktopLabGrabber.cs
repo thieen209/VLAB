@@ -22,6 +22,7 @@ namespace VLAB.ChemistryLab.Interaction
         private DesktopTitrationInterface panel;
         private readonly System.Collections.Generic.Dictionary<XRGrabInteractable, XRInteractionManager> previousManagers = new System.Collections.Generic.Dictionary<XRGrabInteractable, XRInteractionManager>();
         public XRGrabInteractable Held => held;
+        public VLAB.Core.Input.InputManager SharedInput { get; set; }
         public bool IsHolding => held != null && hand != null && hand.IsSelecting(held);
 
         private void Awake()
@@ -85,7 +86,8 @@ namespace VLAB.ChemistryLab.Interaction
             if (frame.UsePressed) held.GetComponent<LabLiquidVessel>()?.Use();
             if (Mathf.Abs(frame.ZoomDelta) > .01f) distance = Mathf.Clamp(distance + Mathf.Sign(frame.ZoomDelta) * .12f, .45f, 2.5f);
             tilt = Mathf.MoveTowards(tilt, frame.TiltHeld ? 115f : 0f, Time.deltaTime * 160f);
-            Ray ray = view.ScreenPointToRay(Mouse.current != null ? Mouse.current.position.ReadValue() : new Vector2(Screen.width / 2f, Screen.height / 2f));
+            var point=Mouse.current != null ? Mouse.current.position.ReadValue() : new Vector2(Screen.width / 2f, Screen.height / 2f);
+            Ray ray = SharedInput!=null ? SharedInput.PointerRay(view,point) : VLAB.Core.Input.VLabHeadPose.PhoneViewer ? new Ray(view.transform.position,view.transform.forward) : view.ScreenPointToRay(point);
             hand.transform.SetPositionAndRotation(ray.GetPoint(distance), Quaternion.Euler(0, transform.eulerAngles.y, tilt));
         }
         private void OnDisable()
@@ -97,7 +99,7 @@ namespace VLAB.ChemistryLab.Interaction
         private void OnDestroy() { if (hand != null) hand.selectExited.RemoveListener(OnReleased); }
         private void OnGUI()
         {
-            if (VLAB.Core.Input.VLabHeadPose.PhoneViewer) return;
+            if (VLAB.Core.Input.VLabHeadPose.PhoneViewer || SharedInput?.HasRayProvider==true) return;
             if (hintStyle == null) hintStyle = new GUIStyle(GUI.skin.box) { fontSize = 16, alignment = TextAnchor.MiddleCenter, wordWrap = true, normal = { textColor = Color.white } };
             var vessel = IsHolding ? held.GetComponent<LabLiquidVessel>() : null;
             string item = vessel != null && vessel.Liquid != null ? vessel.DisplayName + "  |  " + vessel.Liquid.VolumeMl.ToString("F2") + " mL  |  " + (vessel.IsOpen ? "Đang mở" : "Đã đóng nắp") + "\n" : "";

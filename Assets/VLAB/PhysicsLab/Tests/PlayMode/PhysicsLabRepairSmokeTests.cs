@@ -19,16 +19,37 @@ namespace VLAB.PhysicsLab.Tests.PlayMode
         [UnityTest]
         public IEnumerator ExistingMainScenes_LoadWithCameraAndNoMissingScripts()
         {
-            foreach (var path in new[] { "Assets/Home.unity", "Assets/HubWorld.unity", "Assets/PhysicLab.unity" })
+            foreach (var path in new[]
+            {
+                "Assets/VLAB/MainMenu/Scenes/Menu.unity", "Assets/ChemistryLab.unity",
+                "Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity",
+                "Assets/VLAB/DemoLabs/Scenes/BiologyLab.unity", "Assets/VLAB/DemoLabs/Scenes/EngineeringLab.unity"
+            })
             {
                 yield return EditorSceneManager.LoadSceneAsyncInPlayMode(path, new LoadSceneParameters(LoadSceneMode.Single));
                 for (var frame = 0; frame < 30; frame++) yield return null;
-                var scene = SceneManager.GetActiveScene();
+                var scene = SceneManager.GetSceneByPath(path);
+                Assert.That(scene.isLoaded, Is.True, path);
                 Assert.That(scene.path, Is.EqualTo(path));
                 Assert.That(Object.FindAnyObjectByType<Camera>(), Is.Not.Null, path);
-                foreach (var root in scene.GetRootGameObjects())
-                    foreach (var item in root.GetComponentsInChildren<Transform>(true))
-                        Assert.That(GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(item.gameObject), Is.Zero, path + "/" + item.name);
+                if (scene.name == "PhysicsLab_Base")
+                {
+                    var deadline = Time.realtimeSinceStartup + 60;
+                    while ((!SceneManager.GetSceneByName("PhysicsLab_Hub").isLoaded ||
+                            SceneFlow.PhysicsLabSceneFlow.Instance == null || SceneFlow.PhysicsLabSceneFlow.Instance.IsTransitioning) &&
+                           Time.realtimeSinceStartup < deadline) yield return null;
+                    Assert.That(SceneManager.GetSceneByName("PhysicsLab_Hub").isLoaded, Is.True);
+                    Assert.That(SceneFlow.PhysicsLabSceneFlow.Instance, Is.Not.Null);
+                    Assert.That(SceneFlow.PhysicsLabSceneFlow.Instance.IsTransitioning, Is.False);
+                }
+                // Physics intentionally makes its additive content active; inspect every loaded scene.
+                for (var index = 0; index < SceneManager.sceneCount; index++)
+                {
+                    var loaded = SceneManager.GetSceneAt(index);
+                    foreach (var root in loaded.GetRootGameObjects())
+                        foreach (var item in root.GetComponentsInChildren<Transform>(true))
+                            Assert.That(GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(item.gameObject), Is.Zero, loaded.path + "/" + item.name);
+                }
             }
         }
 

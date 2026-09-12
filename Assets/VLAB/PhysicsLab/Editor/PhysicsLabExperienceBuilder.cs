@@ -1273,7 +1273,7 @@ namespace VLAB.PhysicsLab.Editor
         {
             var paths = new List<string>
             {
-                "Assets/Home.unity",
+                "Assets/VLAB/MainMenu/Scenes/Menu.unity",
                 ScenePath(PhysicsLabSceneNames.Base),
                 ScenePath(PhysicsLabSceneNames.Hub),
                 ScenePath(PhysicsLabSceneNames.Pendulum),
@@ -1283,6 +1283,8 @@ namespace VLAB.PhysicsLab.Editor
                 ScenePath(PhysicsLabSceneNames.Spring),
                 ScenePath(PhysicsLabSceneNames.AirTrackMomentum),
             };
+            foreach(var entry in EditorBuildSettings.scenes)
+                if(entry.enabled && File.Exists(entry.path) && !paths.Contains(entry.path))paths.Add(entry.path);
             EditorBuildSettings.scenes = paths.ConvertAll(path => new EditorBuildSettingsScene(path, true)).ToArray();
         }
 

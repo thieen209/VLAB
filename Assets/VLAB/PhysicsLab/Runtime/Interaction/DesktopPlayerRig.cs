@@ -12,14 +12,13 @@ namespace VLAB.PhysicsLab.Interaction
         [SerializeField] private InputManager inputManager;
         [SerializeField] private Camera viewCamera;
         [SerializeField] private GrabController grabController;
-        [SerializeField, Min(0.5f)] private float walkSpeed = 2.8f;
-        [SerializeField, Min(0.5f)] private float sprintSpeed = 4.5f;
         [SerializeField, Range(45f, 89f)] private float pitchLimit = 82f;
         [SerializeField] private float gravity = -9.81f;
 
         private CharacterController controller;
         private float verticalVelocity;
         private float pitch;
+        private readonly VLabComfortTurn comfortTurn = new VLabComfortTurn();
 
         public bool IsCursorLocked { get; private set; }
         public Camera ViewCamera => viewCamera;
@@ -47,6 +46,7 @@ namespace VLAB.PhysicsLab.Interaction
 
         private void OnDisable()
         {
+            comfortTurn.Reset();
             if (inputManager != null)
             {
                 inputManager.PausePressed -= ReleaseCursor;
@@ -61,7 +61,14 @@ namespace VLAB.PhysicsLab.Interaction
             }
 
             var state = inputManager.CurrentState;
-            if (VLabHeadPose.PhoneViewer) { ApplyMovement(state); return; }
+            var headPose = viewCamera.GetComponent<VLabHeadPose>();
+            if (VLabHeadPose.PhoneViewer || VLabComfortLocomotion.UsesAnalogLook(inputManager.Provider) || (headPose != null && headPose.OwnsRotation))
+            {
+                VLabComfortLocomotion.TurnRoot(transform, viewCamera.transform, comfortTurn.Step(state.Look.x, Time.deltaTime));
+                ApplyMovement(state);
+                return;
+            }
+            comfortTurn.Reset();
             if (XRSettings.isDeviceActive) return;
             if (!IsCursorLocked && state.SecondaryPressed && !IsPointerOverUi())
             {
@@ -105,15 +112,13 @@ namespace VLAB.PhysicsLab.Interaction
                 return;
             }
 
-            var speed = state.SprintPressed ? sprintSpeed : walkSpeed;
-            var forward = Vector3.ProjectOnPlane(viewCamera.transform.forward, Vector3.up).normalized;
-            var planar = Vector3.Cross(Vector3.up, forward) * state.Move.x + forward * state.Move.y;
+            var planar = VLabComfortLocomotion.PlanarVelocity(viewCamera.transform.forward, state.Move, state.SprintPressed);
             if (controller.isGrounded && verticalVelocity < 0f)
             {
                 verticalVelocity = -1.5f;
             }
             verticalVelocity += gravity * Time.deltaTime;
-            controller.Move((planar * speed + Vector3.up * verticalVelocity) * Time.deltaTime);
+            controller.Move((planar + Vector3.up * verticalVelocity) * Time.deltaTime);
         }
 
         private static bool IsPointerOverUi() =>

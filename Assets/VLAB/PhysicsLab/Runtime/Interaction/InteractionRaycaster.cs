@@ -16,6 +16,8 @@ namespace VLAB.PhysicsLab.Interaction
 
         private IInteractable hovered;
         private Vector3 hoveredPoint;
+        private PointerEventData uiPointer;
+        private readonly System.Collections.Generic.List<RaycastResult> uiHits = new System.Collections.Generic.List<RaycastResult>(16);
 
         public IInteractable Hovered => hovered;
 
@@ -64,7 +66,12 @@ namespace VLAB.PhysicsLab.Interaction
             var screenPoint = cursorLocked
                 ? new Vector2(Screen.width * 0.5f, Screen.height * 0.5f)
                 : pointer?.position.ReadValue() ?? Vector2.zero;
-            var ray = VLabHeadPose.PhoneViewer ? new Ray(viewCamera.transform.position, viewCamera.transform.forward) : viewCamera.ScreenPointToRay(screenPoint);
+            var ray = inputManager.PointerRay(viewCamera, screenPoint);
+            if(EventSystem.current!=null)
+            {
+                if(uiPointer==null)uiPointer=new PointerEventData(EventSystem.current);
+                if(VLabPointerUi.Raycast(ray,uiPointer,uiHits).gameObject!=null){SetHovered(null,Vector3.zero);return;}
+            }
             if (!Physics.Raycast(ray, out var hit, maximumDistance, interactionMask, QueryTriggerInteraction.Ignore))
             {
                 SetHovered(null, Vector3.zero);
@@ -82,6 +89,7 @@ namespace VLAB.PhysicsLab.Interaction
 
         private void Interact()
         {
+            RefreshHover();
             if (hovered == null || !hovered.CanInteract)
             {
                 return;

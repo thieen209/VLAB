@@ -21,13 +21,14 @@ namespace VLAB.ChemistryLab
         public void Configure(TitrationLessonController target) => controller = target;
         public void ConfigureHub(ChemistryLabLessonHub target) => lessonHub = target;
         public bool IsPanelVisible => isPanelVisible;
+        public bool SpatialOnly { get; set; }
         public void TogglePanel() => isPanelVisible = !isPanelVisible;
         public void OpenSettings() { isPanelVisible = true; showSettings = true; }
         public bool IsPointerOverScrollableUi
         {
             get
             {
-                if (Mouse.current == null)
+                if (SpatialOnly || VLAB.Core.Input.VLabHeadPose.PhoneViewer || Mouse.current == null)
                     return false;
                 Vector2 pointer = Mouse.current.position.ReadValue();
                 pointer.y = Screen.height - pointer.y;
@@ -44,7 +45,7 @@ namespace VLAB.ChemistryLab
 
         private void OnGUI()
         {
-            if (controller == null || controller.Experiment == null) return;
+            if (SpatialOnly || VLAB.Core.Input.VLabHeadPose.PhoneViewer || controller == null || controller.Experiment == null) return;
             CreateStyles();
             if (!isPanelVisible)
             {

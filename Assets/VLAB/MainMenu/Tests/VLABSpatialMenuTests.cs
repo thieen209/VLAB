@@ -188,48 +188,35 @@ namespace VLAB.MainMenu.Tests
             public VLABInputState ReadState()=>new VLABInputState{PausePressed=pause};
         }
 
-        [UnityTest] public IEnumerator LegacyHome_PreservesAvailableLabs_AndNavigationReturns()
+        [UnityTest] public IEnumerator ProductionMenu_PreservesAvailableLabs_AndNavigationReturns()
         {
-            SceneManager.LoadScene("Home");yield return Ready();
-            MonoBehaviour legacy=null;
-            foreach(var item in Object.FindObjectsByType<MonoBehaviour>())if(item.GetType().Name=="UIManager")legacy=item;
-            Assert.That(legacy,Is.Not.Null);
-            foreach(var root in legacy.gameObject.scene.GetRootGameObjects())
-                foreach(var button in root.GetComponentsInChildren<Button>(true))
-                    for(int i=0;i<button.onClick.GetPersistentEventCount();i++)
-                    {
-                        var method=button.onClick.GetPersistentMethodName(i);
-                        if(method=="ClickChemistryLab" || method=="ClickBiologyLab" || method=="ClickMechanicalLab")
-                            Assert.That(button.interactable,Is.True,method);
-                    }
-            LegacyClick(legacy,"OpenLabList");yield return Ready();
-            Assert.That(LegacyPanel(legacy,"labListPanel").activeSelf,Is.True);
-            LegacyClick(legacy,"ClickPhysicsLab");yield return Ready();
-            Assert.That(LegacyPanel(legacy,"labDetailPanel").activeSelf,Is.True);
-            LegacyClick(legacy,"CloseLabDetail");yield return Ready();
-            Assert.That(LegacyPanel(legacy,"labDetailPanel").activeSelf,Is.False);
-            LegacyClick(legacy,"OpenHome");yield return Ready();
-            LegacyClick(legacy,"OpenSettings");yield return Ready();
-            Assert.That(LegacyPanel(legacy,"settingsPanel").activeSelf,Is.True);
-            LegacyClick(legacy,"OpenHome");yield return Ready();
-            LegacyClick(legacy,"OpenLabList");yield return Ready();
-            LegacyClick(legacy,"ClickPhysicsLab");yield return Ready();
-            LegacyClick(legacy,"OnJoinNowClicked");yield return WaitLab();
+            SceneManager.LoadScene("Menu");yield return Ready();
             Assert.That(App,Is.Not.Null);
-        }
-        private static GameObject LegacyPanel(MonoBehaviour owner,string field)=>
-            (GameObject)owner.GetType().GetField(field).GetValue(owner);
-        private static void LegacyClick(MonoBehaviour owner,string method)
-        {
-            foreach(var button in Object.FindObjectsByType<Button>())
-                for(int i=0;i<button.onClick.GetPersistentEventCount();i++)
-                    if(button.onClick.GetPersistentTarget(i)==owner && button.onClick.GetPersistentMethodName(i)==method && button.IsInteractable())
-                    {
-                        ExecuteEvents.Execute(button.gameObject,new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left},ExecuteEvents.pointerClickHandler);
-                        File.AppendAllText("TestResults/SpatialUI/legacy-actions.tsv",button.name+"\t"+method+"\tEXECUTED\n");
-                        return;
-                    }
-            Assert.Fail("No active legacy button for "+method);
+            Assert.That(App.CurrentScreen,Is.EqualTo("home"));
+            yield return RayClick("EnterLabs","labs");
+            foreach(var index in new[]{"01","02","03","04"})
+            {
+                var button=GameObject.Find("Lab_"+index+"/Enter")?.GetComponent<Button>();
+                Assert.That(button,Is.Not.Null,index);
+                Assert.That(button.IsInteractable(),Is.True,index);
+                var title=button.transform.parent.Find("Name").GetComponent<Text>();
+                Assert.That(title.text,Is.Not.Empty);
+                Assert.That(title.text,Is.Not.EqualTo("Button"));
+            }
+            yield return RayClick("Back","home");
+            yield return RayClick("Settings","settings");
+            yield return RayClick("SettingsDone","home");
+            yield return RayClick("EnterLabs","labs");
+            yield return RayClick("Lab_01/Enter");yield return WaitLab();
+            Assert.That(App,Is.Not.Null);
+            Assert.That(SceneManager.GetSceneByName(PhysicsLabSceneNames.Base).isLoaded,Is.True);
+            Assert.That(SceneManager.GetSceneByName(PhysicsLabSceneNames.Hub).isLoaded,Is.True);
+            yield return RayClick("OpenLabMenu","pause");
+            yield return RayClick("ReturnHome","exit");
+            yield return RayClick("ConfirmExit");yield return Ready();
+            Assert.That(SceneManager.GetSceneByName("Menu").isLoaded,Is.True);
+            Assert.That(App.CurrentScreen,Is.EqualTo("home"));
+            Assert.That(Object.FindObjectsByType<EventSystem>().Length,Is.EqualTo(1));
         }
 
         private sealed class TestRay : IUIInteractor

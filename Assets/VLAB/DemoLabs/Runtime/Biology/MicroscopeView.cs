@@ -33,6 +33,11 @@ namespace VLAB.DemoLabs
         private float displayedBlur = .12f, renderedBlur = -1;
         private int lastUiState = -1;
         private Vector2 lastPanelSize;
+        private Transform spatialCanvas;
+        private Camera savedCanvasCamera;
+        private Vector3 savedCanvasPosition, savedCanvasScale;
+        private Quaternion savedCanvasRotation;
+        private bool worldSpaceInspection;
         private void FitOpticalField()
         {
             var size = ((RectTransform)ScopePanel.transform).rect.size;
@@ -54,18 +59,21 @@ namespace VLAB.DemoLabs
         }
         private void OnDestroy()
         {
+            RestoreSpatialCanvas();
             if (Texture != null) { Texture.Release(); Destroy(Texture); }
             if (specimenMaterial != null) Destroy(specimenMaterial);
         }
         public void Enter()
         {
             if (Inspecting) return;
-            Inspecting = true; transitioning = !VLAB.Core.Input.VLabHeadPose.PhoneViewer; transition = 0;
+            Inspecting = true;
+            worldSpaceInspection = PlaceSpatialCanvas();
+            transitioning = !worldSpaceInspection && !VLAB.Core.Input.VLabHeadPose.PhoneViewer; transition = 0;
             savedPosition = Experiment.Driver.ViewCamera.transform.position;
             savedRotation = Experiment.Driver.ViewCamera.transform.rotation;
             Experiment.Driver.ReturnHeld(); Experiment.Driver.ViewLocked = true;
             ScopePanel.SetActive(true); ScopeFade.alpha = 0;
-            if (VLAB.Core.Input.VLabHeadPose.PhoneViewer) ScopeFade.alpha = 1;
+            if (worldSpaceInspection || VLAB.Core.Input.VLabHeadPose.PhoneViewer) ScopeFade.alpha = 1;
             Canvas.ForceUpdateCanvases(); FitOpticalField();
         }
         public void Exit()
@@ -73,8 +81,42 @@ namespace VLAB.DemoLabs
             if (!Inspecting) return;
             Inspecting = false; transitioning = false;
             ScopePanel.SetActive(false); Experiment.Driver.ViewLocked = false;
-            if (!VLAB.Core.Input.VLabHeadPose.PhoneViewer)
+            var restoreLegacyCamera = !worldSpaceInspection && !VLAB.Core.Input.VLabHeadPose.PhoneViewer;
+            RestoreSpatialCanvas();
+            if (restoreLegacyCamera)
                 Experiment.Driver.ViewCamera.transform.SetPositionAndRotation(savedPosition, savedRotation);
+        }
+        private bool PlaceSpatialCanvas()
+        {
+            var canvas = ScopePanel.GetComponentInParent<Canvas>(true);
+            if (canvas == null || canvas.renderMode != RenderMode.WorldSpace) return false;
+            var camera = Experiment.Driver.ViewCamera;
+            spatialCanvas = canvas.transform;
+            savedCanvasPosition = spatialCanvas.position; savedCanvasRotation = spatialCanvas.rotation;
+            savedCanvasScale = spatialCanvas.localScale;
+            savedCanvasCamera = canvas.worldCamera;
+            canvas.worldCamera = camera;
+            var rect = (RectTransform)spatialCanvas;
+            const float distance = 2.1f;
+            var availableHeight = 2 * distance * Mathf.Tan(Mathf.Min(20, camera.fieldOfView * .35f) * Mathf.Deg2Rad);
+            var scale = Mathf.Min(availableHeight / Mathf.Max(1, rect.rect.height),
+                availableHeight * Mathf.Max(.1f, camera.aspect) / Mathf.Max(1, rect.rect.width));
+            var parentScale = spatialCanvas.parent != null ? spatialCanvas.parent.lossyScale : Vector3.one;
+            spatialCanvas.localScale = new Vector3(scale / Mathf.Max(.0001f, Mathf.Abs(parentScale.x)),
+                scale / Mathf.Max(.0001f, Mathf.Abs(parentScale.y)), scale / Mathf.Max(.0001f, Mathf.Abs(parentScale.z)));
+            // Establish the observation board once; natural head motion never makes it chase the viewer.
+            spatialCanvas.SetPositionAndRotation(camera.transform.position + camera.transform.forward * distance, camera.transform.rotation);
+            return true;
+        }
+        private void RestoreSpatialCanvas()
+        {
+            if (spatialCanvas != null)
+            {
+                spatialCanvas.SetPositionAndRotation(savedCanvasPosition, savedCanvasRotation);
+                spatialCanvas.localScale = savedCanvasScale;
+                spatialCanvas.GetComponent<Canvas>().worldCamera = savedCanvasCamera;
+            }
+            spatialCanvas = null; savedCanvasCamera = null; worldSpaceInspection = false;
         }
         private void Update()
         {

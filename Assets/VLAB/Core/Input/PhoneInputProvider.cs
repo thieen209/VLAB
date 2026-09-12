@@ -16,6 +16,8 @@ namespace VLAB.Core.Input
                 var touch=Touchscreen.current?.primaryTouch;
                 if(touch==null)return false;
 #if UNITY_ANDROID && !UNITY_EDITOR
+                if (!VLabHeadPose.PhoneViewer)
+                { acceptedTouch = false; touchFrame = -1; return touch.press.isPressed; }
                 if(touchFrame!=Time.frameCount)
                 {
                     touchFrame=Time.frameCount;

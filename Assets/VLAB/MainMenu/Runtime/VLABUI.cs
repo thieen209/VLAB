@@ -47,7 +47,7 @@ namespace VLAB.MainMenu
         public Text Text(Transform parent,string name,string value,float x,float y,float w,float h,int size,Color? color=null,TextAnchor align=TextAnchor.MiddleLeft)
         {
             var label=Rect(parent,name,x,y,w,h).gameObject.AddComponent<Text>();
-            label.font=font; label.text=value; label.fontSize=size;
+            label.font=font; label.text=value; label.fontSize=Mathf.RoundToInt(size*VLAB.Core.Input.VLabComfortSettings.Current.textScale);
             label.color=color??White; label.alignment=align;
             label.horizontalOverflow=HorizontalWrapMode.Wrap;
             label.verticalOverflow=VerticalWrapMode.Truncate;

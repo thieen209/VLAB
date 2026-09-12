@@ -40,6 +40,7 @@ namespace VLAB.MainMenu
             SceneManager.MoveGameObjectToScene(host, scene);
             host.AddComponent<VLABApplicationUI>().Initialize(menu);
             host.AddComponent<VLabViewerRuntime>();
+            host.AddComponent<VLabSharedPointer>();
             if (menu)
             {
                 foreach (var input in Object.FindObjectsByType<VLAB.Core.Input.InputManager>()) input.TranslationLocked = true;

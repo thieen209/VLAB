@@ -55,6 +55,13 @@ namespace VLAB.MainMenu
         public bool IsPaused => paused;
         public string CurrentScreen => state;
         public bool IsTransitioning => busy;
+        public void BindInput(LabInput source)
+        {
+            if(input==source)return;
+            if(input!=null)input.PausePressed-=NavigateBack;
+            input=source;
+            if(input!=null)input.PausePressed+=NavigateBack;
+        }
         private string L(string vi,string en) => VLABOnboarding.Language=="en" ? en : vi;
 
         public void Initialize(bool isMenu)
@@ -117,8 +124,7 @@ namespace VLAB.MainMenu
             var view=Camera.main;
             canvas.worldCamera=view;
             var camera=view.transform;
-            var forward=Vector3.ProjectOnPlane(camera.forward,Vector3.up).normalized;
-            if(forward.sqrMagnitude<.01f)forward=Vector3.forward;
+            var forward=camera.forward;
             // Base's calibrated eye starts in the open central work zone. Shorten
             // the viewing distance if an actual wall/apparatus is closer on pause.
             float distance=2.7f;
@@ -126,7 +132,7 @@ namespace VLAB.MainMenu
                 distance=Mathf.Max(.45f,hit.distance-.20f);
             float height=2*distance*Mathf.Tan(Mathf.Min(view.fieldOfView*.38f,18f)*Mathf.Deg2Rad);
             canvas.transform.localScale=Vector3.one*(height/900f);
-            canvas.transform.SetPositionAndRotation(camera.position+forward*distance,Quaternion.LookRotation(forward,Vector3.up));
+            canvas.transform.SetPositionAndRotation(camera.position+forward*distance,camera.rotation);
         }
         private void LateUpdate()
         {
@@ -149,7 +155,7 @@ namespace VLAB.MainMenu
             if(state=="hud")
             {
                 ui.Button(screen,"OpenLabMenu",L("Menu","Menu"),.86f,.90f,.11f,.065f,TogglePause);
-                if(VLAB.Core.Input.VLabHeadPose.PhoneViewer && gameObject.scene.name=="ChemistryLab")
+                if(gameObject.scene.name=="ChemistryLab" && GetComponent<VLabActivityWorkbench>()?.Active==null)
                     ui.Button(screen,"OpenChemistryBoard",L("Bảng hóa học","Chemistry controls"),.61f,.90f,.23f,.065f,()=>{PlaceInWorld();Show("chemistry");});
                 return;
             }
@@ -174,6 +180,7 @@ namespace VLAB.MainMenu
                 case "labs": Labs();break;
                 case "settings": Settings();break;
                 case "chemistry": ChemistryBoard();break;
+                case "activities": Activities();break;
                 case "help": Help();break;
                 case "about": About();break;
                 case "pause": PauseView();break;
@@ -186,6 +193,7 @@ namespace VLAB.MainMenu
         }
         private IEnumerator Fade()
         {
+            if(VLAB.Core.Input.VLabComfortSettings.Current.reducedMotion){group.alpha=1;yield break;}
             group.alpha=0;
             for(float t=0;t<.18f;t+=Mathf.Max(Time.unscaledDeltaTime,.004f)){group.alpha=Mathf.Clamp01(t/.18f);yield return null;}
             group.alpha=1; animation=null;
@@ -327,16 +335,36 @@ namespace VLAB.MainMenu
         private void Settings()
         {
             ui.Ribbon(screen,L("CÀI ĐẶT","SETTINGS"),.16f,.72f,.68f,.078f);
-            ui.Button(screen,"LearningTab",L("THỰC HÀNH","LEARNING"),.08f,.615f,.16f,.067f,()=>{settingsTab="learning";Show("settings");},settingsTab=="learning");
-            ui.Button(screen,"SoundTab",L("ÂM THANH","AUDIO"),.25f,.615f,.16f,.067f,()=>{settingsTab="audio";Show("settings");},settingsTab=="audio");
-            ui.Button(screen,"ViewerTab",L("KÍNH VR","VIEWER"),.42f,.615f,.16f,.067f,()=>{settingsTab="viewer";Show("settings");},settingsTab=="viewer");
-            ui.Button(screen,"GraphicsTab",L("ĐỒ HỌA","GRAPHICS"),.59f,.615f,.16f,.067f,()=>{settingsTab="graphics";Show("settings");},settingsTab=="graphics");
-            ui.Button(screen,"LanguageTab",L("NGÔN NGỮ","LANGUAGE"),.76f,.615f,.16f,.067f,()=>{settingsTab="language";Show("settings");},settingsTab=="language");
+            var tabNames=new[]{"LearningTab","SoundTab","ViewerTab","MotionTab","ControllerTab","AccessTab","GraphicsTab","LanguageTab"};
+            var tabIds=new[]{"learning","audio","viewer","motion","controller","access","graphics","language"};
+            var tabLabels=new[]{"THỰC HÀNH","ÂM THANH","KÍNH VR","DI CHUYỂN","TAY CẦM","HIỂN THỊ","ĐỒ HỌA","NGÔN NGỮ"};
+            for(int i=0;i<tabIds.Length;i++)
+            {var id=tabIds[i];ui.Button(screen,tabNames[i],VLABOnboarding.Language=="vi"?tabLabels[i]:id.ToUpperInvariant(),.035f+i*.117f,.615f,.112f,.067f,()=>{settingsTab=id;Show("settings");},settingsTab==id);}
+            var comfort=VLAB.Core.Input.VLabComfortSettings.Current;
             if(settingsTab=="learning")
             {
                 Row(.46f,L("Hướng dẫn thao tác","Action guidance"),OnOff(PhysicsLabPreferences.GuidanceEnabled),()=>PhysicsLabPreferences.GuidanceEnabled=!PhysicsLabPreferences.GuidanceEnabled);
                 Row(.365f,L("Gợi ý khi cần","Contextual hints"),OnOff(PhysicsLabPreferences.GuidanceLevel>0),()=>PhysicsLabPreferences.GuidanceLevel=PhysicsLabPreferences.GuidanceLevel>0?0:1);
                 Row(.27f,L("Độ nhạy chuột","Mouse sensitivity"),PhysicsLabPreferences.MouseSensitivity.ToString("0.00"),()=>PhysicsLabPreferences.MouseSensitivity=PhysicsLabPreferences.MouseSensitivity>=.199f?.02f:PhysicsLabPreferences.MouseSensitivity+.02f);
+            }
+            else if(settingsTab=="motion")
+            {
+                Row(.46f,"Tốc độ di chuyển",comfort.movementSpeed.ToString("F1")+" m/s",()=>ChangeComfort(()=>comfort.movementSpeed=comfort.movementSpeed>=2.5f?1:comfort.movementSpeed+.5f));
+                Row(.365f,"Cách xoay hướng",comfort.smoothTurn?"Xoay liên tục":"Xoay từng nấc",()=>ChangeComfort(()=>comfort.smoothTurn=!comfort.smoothTurn));
+                Row(.27f,"Góc xoay mỗi nấc",comfort.snapAngle.ToString("F0")+"°",()=>ChangeComfort(()=>comfort.snapAngle=comfort.snapAngle>=45?15:comfort.snapAngle+15));
+            }
+            else if(settingsTab=="controller")
+            {
+                ui.Text(screen,"ControllerStatus",input?.ActiveProviderName??"Chuột / bàn phím",.12f,.51f,.76f,.055f,23,VLABUI.Muted);
+                Row(.42f,"Tay trỏ chính",comfort.leftHanded?"Trái":"Phải",()=>ChangeComfort(()=>comfort.leftHanded=!comfort.leftHanded));
+                Row(.335f,"Độ dài tia",comfort.pointerLength.ToString("F0")+" m",()=>ChangeComfort(()=>comfort.pointerLength=comfort.pointerLength>=7?3:comfort.pointerLength+1));
+                Row(.25f,"Hiệu chỉnh hướng", "Đặt lại",()=>{if(input?.Provider is VLAB.Core.Input.VLabControllerReplayProvider replay)replay.Calibrate();else GetComponent<VLabViewerRuntime>()?.Head?.Recenter();});
+            }
+            else if(settingsTab=="access")
+            {
+                Row(.46f,"Chuyển động giao diện",comfort.reducedMotion?"Giảm chuyển động":"Bình thường",()=>ChangeComfort(()=>comfort.reducedMotion=!comfort.reducedMotion));
+                Row(.365f,"Cỡ chữ",comfort.textScale.ToString("F2")+"×",()=>ChangeComfort(()=>comfort.textScale=comfort.textScale>=1.14f?1:comfort.textScale+.05f));
+                Row(.27f,"Tia tương phản cao",OnOff(comfort.highContrast),()=>ChangeComfort(()=>comfort.highContrast=!comfort.highContrast));
             }
             else if(settingsTab=="audio")
             {
@@ -351,8 +379,10 @@ namespace VLAB.MainMenu
             }
             else if(settingsTab=="viewer")
             {
-                Row(.46f,L("Hướng nhìn phía trước","Forward direction"),L("Đặt lại","Recenter"),()=>GetComponent<VLabViewerRuntime>()?.Head?.Recenter());
-                ui.Text(screen,"ViewerHelp",L("Điện thoại: giữ nút kính để đặt lại hướng nhìn.\nBiểu tượng bánh răng mở quét mã kính.\nEditor: chuột phải để nhìn · Home đặt lại · F8 bật/tắt.","Phone: hold the viewer button to recenter.\nThe gear opens the viewer QR scanner.\nEditor: right mouse to look · Home recenter · F8 toggle."),.12f,.27f,.76f,.16f,22,VLABUI.Muted);
+                var vr=VLabMobileVrMode.Instance;
+                Row(.46f,L("Hiển thị kính VR","VR viewer display"),Application.platform==RuntimePlatform.Android?OnOff(VLabMobileVrMode.Enabled):L("Cần điện thoại Android","Requires Android"),()=>vr?.Request(!VLabMobileVrMode.Enabled));
+                Row(.365f,L("Hướng nhìn phía trước","Forward direction"),L("Đặt lại","Recenter"),()=>GetComponent<VLabViewerRuntime>()?.Head?.Recenter());
+                ui.Text(screen,"ViewerHelp",vr?.Status??L("Đổi chế độ kính tại trang chính. Giữ nút kính để đặt lại hướng.","Switch viewer mode from Home. Hold the viewer button to recenter."),.12f,.245f,.76f,.105f,20,VLABUI.Muted);
             }
             else
             {
@@ -363,6 +393,7 @@ namespace VLAB.MainMenu
             ui.Button(screen,"SettingsDone",L("Xong","Done"),.36f,.17f,.28f,.065f,Back,true);
         }
         private string OnOff(bool value)=>value?L("Bật","On"):L("Tắt","Off");
+        private static void ChangeComfort(Action change){change();VLAB.Core.Input.VLabComfortSettings.Save();}
         private void ChemistryBoard()
         {
             var hub=FindAnyObjectByType<VLAB.ChemistryLab.ChemistryLabLessonHub>();
@@ -411,9 +442,118 @@ namespace VLAB.MainMenu
         }
         private void Help()
         {
+            if(!menu)
+            {
+                LabHelp();
+                return;
+            }
             Title(L("Bắt đầu một thí nghiệm","Start an experiment"),L("Quan sát. Thử nghiệm. Rút ra kết luận.","Observe. Experiment. Draw conclusions."));
             ui.Text(screen,"Instructions",L("01   Chọn phòng thí nghiệm và bài thực hành.\n\n02   Đọc mục tiêu và làm theo gợi ý bên cạnh dụng cụ.\n\n03   Thực hiện phép đo, xem kết quả và giải thích.","01   Choose a laboratory and an experiment.\n\n02   Read the objective and follow the apparatus guidance.\n\n03   Take measurements, review results and explanations."),.12f,.30f,.76f,.31f,25);
             ui.Text(screen,"DesktopHelp",L("Trên máy tính: WASD để di chuyển · Chuột phải để nhìn\nE / chuột trái để tương tác · Q để thả · Esc để mở menu", "On desktop: WASD to move · Right mouse to look\nE / left mouse to interact · Q to release · Esc for menu"),.12f,.14f,.76f,.13f,21,VLABUI.Muted);
+        }
+        private void LabHelp()
+        {
+            var activity=GetComponent<VLabActivityWorkbench>()?.Active;
+            if(activity!=null)
+            {
+                Title(activity.Title,activity.Objective);
+                ui.Text(screen,"LabInstructions",activity.Theory+"\n\n"+activity.Instruction+"\n\n"+activity.Result,.12f,.20f,.76f,.43f,24);
+                return;
+            }
+            var physics=FindAnyObjectByType<ExperimentPhysicalController>();
+            var chemistry=FindAnyObjectByType<VLAB.ChemistryLab.ChemistryLabLessonHub>();
+            string objective, instructions;
+            if(physics?.Content!=null)
+            {
+                var content=physics.Content;
+                objective=content.Objective;
+                instructions=content.SetupInstruction+"\n\n"+content.ActionInstruction+"\n\n"+content.Takeaway;
+            }
+            else if(chemistry!=null)
+            {
+                var lesson=chemistry.ActiveConfigurable;
+                objective=lesson?.Definition!=null ? lesson.Definition.learningObjective : "Xác định nồng độ axit bằng phép chuẩn độ và so sánh các lần đo.";
+                instructions=lesson?.Definition!=null ? lesson.CurrentInstruction()+"\n\n"+lesson.Definition.safetyNote : "1. Chọn bảo hộ, nạp burette và lấy mẫu.\n2. Thêm chỉ thị, rót NaOH; gần điểm cuối dùng từng giọt.\n3. Ghi thể tích tại màu hồng nhạt bền và xem kết quả.\n\nBảng hóa học cung cấp cùng thao tác khi dùng kính điện thoại.";
+            }
+            else if(gameObject.scene.name=="BiologyLab")
+            {
+                objective="Chuẩn bị tiêu bản biểu bì hành và nhận biết cấu trúc tế bào.";
+                instructions="1. Đặt lam kính, nhỏ nước, thêm mẫu hành rồi đậy lamen.\n2. Gắn lam vào bàn kính và khóa hai kẹp.\n3. Chọn vật kính 10×, chỉnh nét; sau đó chuyển 40×.\n4. Chọn nhân, thành tế bào và tế bào chất theo yêu cầu.\n\nLấy nét rõ trước khi tăng độ phóng đại.";
+            }
+            else if(gameObject.scene.name=="EngineeringLab")
+            {
+                objective="Lắp mạch LED và giải thích vai trò của điện trở hạn dòng.";
+                instructions="1. Đặt điện trở 220 Ω và LED đúng cực.\n2. Nối nguồn +5 V → điện trở → cực A của LED.\n3. Nối cực K về GND; kiểm tra mạch rồi bật nguồn.\n4. So sánh điện trở 100 Ω, 220 Ω và 1 kΩ.\n\nMô hình dùng I ≈ (5 − 2)/R. Điện trở nhỏ làm dòng lớn hơn.";
+            }
+            else
+            {
+                objective="Chọn một bài thực hành trên bàn điều khiển.";
+                instructions="Đọc mục tiêu, quan sát dụng cụ và làm theo hướng dẫn tại bàn.\nDùng menu để đặt lại bài, chọn bài khác hoặc về menu chính.";
+            }
+            Title("Hướng dẫn · "+LabName(),objective);
+            ui.Text(screen,"LabInstructions",instructions,.12f,.25f,.76f,.37f,24);
+            ui.Text(screen,"LabControlHelp","Trỏ và chọn dụng cụ · Q: trả dụng cụ · Esc: mở/đóng menu",.12f,.14f,.76f,.065f,21,VLABUI.Muted);
+        }
+
+        public void ResetCurrentExperiment()
+        {
+            if(menu || busy)return;
+            RestoreLab();
+            Show("hud");
+            var workbench=GetComponent<VLabActivityWorkbench>();
+            if(workbench?.Active!=null){workbench.ResetActivity();return;}
+            FindAnyObjectByType<GrabController>()?.Release();
+            FindAnyObjectByType<VLAB.ChemistryLab.Interaction.DesktopLabGrabber>()?.Release();
+            var physics=FindAnyObjectByType<ExperimentPhysicalController>();
+            if(physics!=null){physics.RestartExperiment();return;}
+            var demo=FindAnyObjectByType<VLAB.DemoLabs.VLabExperimentController>();
+            if(demo!=null){demo.ResetExperiment();return;}
+            var chemistry=FindAnyObjectByType<VLAB.ChemistryLab.ChemistryLabLessonHub>();
+            if(chemistry!=null)
+            {
+                if(chemistry.ActiveConfigurable!=null)chemistry.ActiveConfigurable.ResetExperiment();
+                else chemistry.Titration.ResetTrial();
+            }
+        }
+
+        public void SelectExperiment()
+        {
+            if(menu || busy)return;
+            if(!paused)TogglePause();
+            Show("activities");
+        }
+        private void Activities()
+        {
+            Title("Chọn bài · "+LabName(),"Mỗi bài có mục tiêu, hướng dẫn và kết quả riêng.");
+            var subject=gameObject.scene.name;
+            var names=subject=="BiologyLab" ? new[]{"Kính hiển vi · tiêu bản hành","Khám phá tế bào 3D"}
+                : subject=="EngineeringLab" ? new[]{"Lắp mạch điện LED","Bộ truyền bánh răng","Cân bằng đòn bẩy"}
+                : subject=="ChemistryLab" ? new[]{"Chuẩn độ · pin · điện phân","Lắp ráp phân tử nước","Nhận biết phản ứng kết tủa"}
+                : new[]{"Bàn chọn sáu thí nghiệm vật lý"};
+            var types=subject=="BiologyLab" ? new[]{"","VLabCellActivity"}
+                : subject=="EngineeringLab" ? new[]{"","VLabGearActivity","VLabLeverActivity"}
+                : subject=="ChemistryLab" ? new[]{"","VLabMoleculeActivity","VLabQualitativeActivity"} : new[]{""};
+            for(int i=0;i<names.Length;i++)
+            {
+                var activityType=types[i];
+                ui.Button(screen,"Activity_"+i,names[i],.20f,.49f-i*.13f,.60f,.095f,()=>StartActivity(activityType),i==0);
+            }
+        }
+        public void StartActivity(string activityType)
+        {
+            if(menu || busy)return;
+            RestoreLab();Show("hud");
+            var workbench=GetComponent<VLabActivityWorkbench>();
+            if(string.IsNullOrEmpty(activityType))
+            {
+                workbench?.Close();
+                if(gameObject.scene.name=="PhysicsLab_Base")PhysicsLabSceneFlow.Instance?.LoadHub();
+                else if(gameObject.scene.name=="ChemistryLab"){PlaceInWorld();Show("chemistry");}
+                return;
+            }
+            if(workbench==null)workbench=gameObject.AddComponent<VLabActivityWorkbench>();
+            workbench.Open(activityType);
+            Show("hud");
         }
         private void About()
         {
@@ -478,10 +618,12 @@ namespace VLAB.MainMenu
         private void PauseView()
         {
             Title(L("Phòng thí nghiệm · " + LabName(), LabName()+" Lab"),L("Đã tạm dừng. Tiếp tục khi bạn sẵn sàng.","Paused. Continue when you are ready."));
-            ui.Button(screen,"Resume",L("Tiếp tục thực hành","Resume experiment"),.29f,.44f,.42f,.10f,Resume,true);
-            ui.Button(screen,"LabHelp",L("Hướng dẫn","Help"),.29f,.335f,.20f,.075f,()=>Show("help"));
-            ui.Button(screen,"LabSettings",L("Cài đặt","Settings"),.51f,.335f,.20f,.075f,()=>Show("settings"));
-            ui.Button(screen,"ReturnHome",L("Về menu chính","Return to Main Menu"),.29f,.215f,.42f,.075f,()=>Show("exit"));
+            ui.Button(screen,"Resume",L("Tiếp tục thực hành","Resume experiment"),.25f,.49f,.50f,.09f,Resume,true);
+            ui.Button(screen,"LabHelp",L("Hướng dẫn","Help"),.25f,.39f,.24f,.075f,()=>Show("help"));
+            ui.Button(screen,"LabSettings",L("Cài đặt","Settings"),.51f,.39f,.24f,.075f,()=>Show("settings"));
+            ui.Button(screen,"ResetExperiment",L("Đặt lại bài","Reset experiment"),.25f,.29f,.24f,.075f,ResetCurrentExperiment);
+            ui.Button(screen,"SelectExperiment",L("Chọn bài","Choose experiment"),.51f,.29f,.24f,.075f,SelectExperiment);
+            ui.Button(screen,"ReturnHome",L("Về menu chính","Return to Main Menu"),.25f,.18f,.50f,.075f,()=>Show("exit"));
         }
         private void ExitView()
         {

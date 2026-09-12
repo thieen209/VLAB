@@ -70,7 +70,7 @@ namespace VLAB.PhysicsLab.Interaction
                 return;
             }
 
-            var targetPosition = viewCamera.transform.position + viewCamera.transform.forward * holdDistance;
+            var targetPosition = inputManager.PointerRay(viewCamera,new Vector2(Screen.width*.5f,Screen.height*.5f)).GetPoint(holdDistance);
             held.Body.MovePosition(targetPosition);
             held.Body.MoveRotation(holdRotation);
         }

@@ -21,6 +21,9 @@ namespace VLAB.DemoLabs
         private float pitch, yaw;
         private Vector3 startPosition;
         private Quaternion startRotation;
+        private Transform locomotionRoot;
+        private Quaternion startRootRotation;
+        private readonly VLabComfortTurn comfortTurn = new VLabComfortTurn();
         private Ray currentRay;
         private Vector2 pressPointer;
         private bool pickedThisPress;
@@ -48,11 +51,13 @@ namespace VLAB.DemoLabs
             Application.targetFrameRate = 60;
             startPosition = ViewCamera.transform.position;
             startRotation = ViewCamera.transform.rotation;
+            locomotionRoot = VLabComfortLocomotion.CreateViewRoot(ViewCamera, "VLAB Demo Locomotion Root");
+            startRootRotation = locomotionRoot.rotation;
             initialized = true;
             SyncAngles();
             Input.PrimaryPressed += Select;
             Input.PrimaryReleased += ReleaseDrag;
-            Input.DropPressed += ReturnHeld;
+            Input.DropPressed += HandleDropInput;
             Input.ResetPressed += ResetExperiment;
             Input.PausePressed += Escape;
 #if UNITY_EDITOR && ENABLE_VR
@@ -68,16 +73,28 @@ namespace VLAB.DemoLabs
 #endif
             if (Input == null) return;
             Input.PrimaryPressed -= Select; Input.PrimaryReleased -= ReleaseDrag;
-            Input.DropPressed -= ReturnHeld; Input.ResetPressed -= ResetExperiment; Input.PausePressed -= Escape;
+            Input.DropPressed -= HandleDropInput; Input.ResetPressed -= ResetExperiment; Input.PausePressed -= Escape;
         }
-        private void SyncAngles() { pitch = ViewCamera.transform.eulerAngles.x; yaw = ViewCamera.transform.eulerAngles.y; }
-        private void Escape() { if (Experiment != null) Experiment.ExitInspection(); ReturnHeld(); }
-        private void ResetExperiment() { Experiment.ResetExperiment(); ResetView(); }
+        private void SyncAngles()
+        {
+            pitch = ViewCamera.transform.eulerAngles.x;
+            if (pitch > 180) pitch -= 360;
+            yaw = ViewCamera.transform.eulerAngles.y;
+        }
+        private void Escape() { if (!isActiveAndEnabled) return; if (Experiment != null) Experiment.ExitInspection(); ReturnHeld(); }
+        private void HandleDropInput() { if (isActiveAndEnabled) ReturnHeld(); }
+        private void ResetExperiment() { if(!isActiveAndEnabled)return; Experiment.ResetExperiment(); ResetView(); }
         public void ResetView()
         {
             ReturnHeld(); ViewLocked = false;
             if (!initialized) return;
-            ViewCamera.transform.SetPositionAndRotation(startPosition, startRotation); SyncAngles();
+            comfortTurn.Reset();
+            locomotionRoot.rotation = startRootRotation;
+            VLabComfortLocomotion.MoveRootToViewPosition(locomotionRoot, ViewCamera.transform, startPosition);
+            var head = ViewCamera.GetComponent<VLabHeadPose>();
+            if (head != null && head.OwnsRotation) head.Recenter();
+            else ViewCamera.transform.rotation = startRotation;
+            SyncAngles();
         }
         private bool OverUi => IsOverUi(PointerProvider != null ? PointerProvider.Pointer : Vector2.zero);
         private bool IsOverUi(Vector2 position)
@@ -85,6 +102,7 @@ namespace VLAB.DemoLabs
                 var events = EventSystem.current;
                 if (events == null || PointerProvider == null) return false;
                 if (uiEventSystem != events) { uiEventSystem = events; uiPointer = new PointerEventData(events); }
+                if(Input.HasRayProvider || VLabHeadPose.PhoneViewer)return VLabPointerUi.Raycast(Input.PointerRay(ViewCamera,position),uiPointer,uiHits).gameObject!=null;
                 uiPointer.Reset(); uiPointer.position = position;
                 uiHits.Clear(); events.RaycastAll(uiPointer, uiHits);
                 return uiHits.Count != 0;
@@ -94,19 +112,26 @@ namespace VLAB.DemoLabs
             var state = Input.CurrentState;
             if (!ViewLocked && !Hud.ModalOpen)
             {
-                if (!VLabHeadPose.PhoneViewer && state.SecondaryPressed && !OverUi)
+                var head = ViewCamera.GetComponent<VLabHeadPose>();
+                bool ownsHead = VLabHeadPose.PhoneViewer || (head != null && head.OwnsRotation);
+                if (VLabComfortLocomotion.UsesAnalogLook(Input.Provider))
                 {
+                    VLabComfortLocomotion.TurnRoot(locomotionRoot, ViewCamera.transform, comfortTurn.Step(state.Look.x, Time.deltaTime));
+                }
+                else if (!ownsHead && state.SecondaryPressed && !OverUi)
+                {
+                    comfortTurn.Reset();
+                    SyncAngles();
                     yaw += state.Look.x * .13f; pitch = Mathf.Clamp(pitch - state.Look.y * .13f, -55, 75);
                     ViewCamera.transform.rotation = Quaternion.Euler(pitch, yaw, 0);
                 }
-                var forward = Vector3.ProjectOnPlane(ViewCamera.transform.forward, Vector3.up).normalized;
-                var move = (forward * state.Move.y + ViewCamera.transform.right * state.Move.x) * (Time.deltaTime * 1.8f);
+                var move = VLabComfortLocomotion.PlanarVelocity(ViewCamera.transform.forward, state.Move, state.SprintPressed) * Time.deltaTime;
                 var p = ViewCamera.transform.position + move;
                 // Keep the viewing rig on the accessible side of the workstation and inside the room.
                 p.x = Mathf.Clamp(p.x, -3.7f, 3.7f); p.z = Mathf.Clamp(p.z, -4.2f, -1.45f);
-                ViewCamera.transform.position = p;
+                VLabComfortLocomotion.MoveRootToViewPosition(locomotionRoot, ViewCamera.transform, p);
             }
-            currentRay = ViewCamera.ScreenPointToRay(PointerProvider != null ? PointerProvider.Pointer : new Vector2(Screen.width / 2f, Screen.height / 2f));
+            currentRay = Input.PointerRay(ViewCamera, PointerProvider != null ? PointerProvider.Pointer : new Vector2(Screen.width / 2f, Screen.height / 2f));
             RefreshRay(currentRay, OverUi || Hud.ModalOpen || ViewLocked);
             if (state.ScrollDelta != 0 && !OverUi && !Hud.ModalOpen)
             {
@@ -181,18 +206,20 @@ namespace VLAB.DemoLabs
             pressPointer = PointerProvider.PressPointer;
             if (IsOverUi(pressPointer) || Hud.ModalOpen || ViewLocked || !Experiment.Started) return;
             var wasEmpty = Held == null;
-            SelectRay(ViewCamera.ScreenPointToRay(pressPointer));
+            SelectRay(Input.PointerRay(ViewCamera, pressPointer));
             pickedThisPress = wasEmpty && Held != null;
         }
         private void ReleaseDrag()
         {
-            if (pickedThisPress && Held != null && !OverUi && Vector2.Distance(pressPointer, PointerProvider.Pointer) > 14f) SelectRay(ViewCamera.ScreenPointToRay(PointerProvider.Pointer));
+            // Click-to-place controller interactions must not inherit an unrelated mouse drag.
+            if (!Input.HasRayProvider && !VLabHeadPose.PhoneViewer && PointerProvider != null && pickedThisPress && Held != null && !OverUi && Vector2.Distance(pressPointer, PointerProvider.Pointer) > 14f)
+                SelectRay(Input.PointerRay(ViewCamera, PointerProvider.Pointer));
             pickedThisPress = false;
         }
         // Controller and test adapters submit world rays through the same selection path.
         public bool SelectRay(Ray ray)
         {
-            if (!Experiment.Started || Hud.ModalOpen || ViewLocked) return false;
+            if (!isActiveAndEnabled || Input.BlockExperimentInput || !Experiment.Started || Hud.ModalOpen || ViewLocked) return false;
             RefreshRay(ray);
             Experiment.MarkActivity();
             if (Held != null)

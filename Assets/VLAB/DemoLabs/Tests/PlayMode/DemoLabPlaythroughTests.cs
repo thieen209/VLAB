@@ -5,6 +5,9 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using VLAB.MainMenu;
 
 namespace VLAB.DemoLabs.Tests
 {
@@ -221,21 +224,38 @@ namespace VLAB.DemoLabs.Tests
             LogAssert.NoUnexpectedReceived();
         }
         [UnityTest]
-        public IEnumerator HomeRoutesBothNewLabsAndKeepsPhysicsAvailable()
+        public IEnumerator MenuRoutesAllLabsAndKeepsPhysicsAvailable()
         {
-            foreach (var choice in new[] { "BiologyLabButton", "MechanicalLabButton", "PhysicsLabButton", "ChemistryLabButton" })
+            var choices = new[] { "03", "04", "01", "02" };
+            var destinations = new[] { "BiologyLab", "EngineeringLab", "PhysicsLab_Base", "ChemistryLab" };
+            for (var route = 0; route < choices.Length; route++)
             {
-                yield return SceneManager.LoadSceneAsync("Home"); yield return null;
-                var buttons = Object.FindObjectsByType<UnityEngine.UI.Button>(FindObjectsInactive.Include);
-                buttons.Single(b => b.name == "LabListButton").onClick.Invoke();
-                Assert.That(buttons.Single(b => b.name == choice).GetComponentInChildren<TMPro.TMP_Text>().text, Is.Not.EqualTo("Button"));
-                buttons.Single(b => b.name == choice).onClick.Invoke();
-                buttons.Single(b => b.name == "JoinNowButton").onClick.Invoke();
-                var expected = choice == "BiologyLabButton" ? "BiologyLab" : choice == "MechanicalLabButton" ? "EngineeringLab" : choice == "ChemistryLabButton" ? "ChemistryLab" : "PhysicsLab_Base";
-                var timeout = Time.realtimeSinceStartup + 20;
+                yield return SceneManager.LoadSceneAsync("Menu");
+                for (var frame = 0; frame < 8; frame++) yield return null;
+                var app = Object.FindAnyObjectByType<VLABApplicationUI>();
+                Assert.That(app, Is.Not.Null);
+                // Route coverage does not change the user's onboarding preferences.
+                app.Show("labs");
+                yield return new WaitForSecondsRealtime(.3f);
+                Canvas.ForceUpdateCanvases();
+                var buttons = app.GetComponentsInChildren<Button>();
+                foreach (var index in new[] { "01", "02", "03", "04" })
+                {
+                    var available = buttons.Single(b => b.name == "Enter" && b.transform.parent.name == "Lab_" + index);
+                    Assert.That(available.IsInteractable(), Is.True, "Lab_" + index);
+                    var title = available.transform.parent.Find("Name").GetComponent<Text>();
+                    Assert.That(title.text, Is.Not.Empty);
+                    Assert.That(title.text, Is.Not.EqualTo("Button"));
+                }
+                var choice = buttons.Single(b => b.name == "Enter" && b.transform.parent.name == "Lab_" + choices[route]);
+                Assert.That(EventSystem.current, Is.Not.Null);
+                ExecuteEvents.Execute(choice.gameObject, new PointerEventData(EventSystem.current)
+                    { button = PointerEventData.InputButton.Left }, ExecuteEvents.pointerClickHandler);
+                var expected = destinations[route];
+                var timeout = Time.realtimeSinceStartup + 60;
                 while (!SceneManager.GetSceneByName(expected).isLoaded && Time.realtimeSinceStartup < timeout) yield return null;
-                Assert.That(SceneManager.GetSceneByName(expected).isLoaded, Is.True, choice);
-                yield return null;
+                Assert.That(SceneManager.GetSceneByName(expected).isLoaded, Is.True, expected);
+                for (var frame = 0; frame < 4; frame++) yield return null;
                 if (expected == "PhysicsLab_Base")
                 {
                     // The real menu waits for Physics' additive hub transition before returning.
@@ -243,10 +263,11 @@ namespace VLAB.DemoLabs.Tests
                     while ((!SceneManager.GetSceneByName("PhysicsLab_Hub").isLoaded || flow == null || flow.IsTransitioning) && Time.realtimeSinceStartup < timeout)
                     { yield return null; flow = VLAB.PhysicsLab.SceneFlow.PhysicsLabSceneFlow.Instance; }
                     Assert.That(SceneManager.GetSceneByName("PhysicsLab_Hub").isLoaded, Is.True);
+                    Assert.That(flow, Is.Not.Null);
                     Assert.That(flow.IsTransitioning, Is.False);
-                    Assert.That(Object.FindObjectsByType<AudioListener>().Count(listener => listener.isActiveAndEnabled), Is.EqualTo(1));
                 }
-                if (choice == "BiologyLabButton" || choice == "MechanicalLabButton") Assert.That(Object.FindAnyObjectByType<VLabExperimentController>(), Is.Not.Null);
+                Assert.That(Object.FindObjectsByType<AudioListener>().Count(listener => listener.isActiveAndEnabled), Is.EqualTo(1), expected);
+                if (expected == "BiologyLab" || expected == "EngineeringLab") Assert.That(Object.FindAnyObjectByType<VLabExperimentController>(), Is.Not.Null);
             }
             LogAssert.NoUnexpectedReceived();
         }

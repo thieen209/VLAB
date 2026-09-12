@@ -6,6 +6,8 @@ namespace VLAB.MainMenu
     public sealed class VLABMenuAssets : ScriptableObject
     {
         public Font font;
+        public TMPro.TMP_FontAsset activityFont;
+        public GameObject controllerVisual;
         public string[] termsVi;
         public string[] termsEn;
         public string[] privacyVi;

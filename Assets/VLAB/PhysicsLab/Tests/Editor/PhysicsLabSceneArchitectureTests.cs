@@ -65,10 +65,11 @@ namespace VLAB.PhysicsLab.Tests
         }
 
         [Test]
-        public void BuildSettings_ContainsHomeBaseHubAndSixExperiments()
+        public void BuildSettings_ContainsMenuBaseHubAndSixExperiments()
         {
             var enabled = EditorBuildSettings.scenes.Where(scene => scene.enabled).Select(scene => scene.path).ToArray();
-            Assert.That(enabled, Does.Contain("Assets/Home.unity"));
+            Assert.That(enabled, Does.Contain("Assets/VLAB/MainMenu/Scenes/Menu.unity"));
+            Assert.That(enabled, Does.Not.Contain("Assets/Home.unity"), "The retired Home scene must not return to build settings.");
             Assert.That(enabled, Does.Contain($"{SceneRoot}/PhysicsLab_Base.unity"));
             foreach (var sceneName in ContentScenes)
             {
