@@ -19,6 +19,8 @@ namespace VLAB.Core.Input
         public bool Connected => received && Time.unscaledTime - receivedAt <= timeout;
         public bool InteractionPressed => Connected && state.PrimaryPressed;
         public bool ResetPressed { get; private set; }
+        // Submit accepts decoded Unity-space orientation; do not invert it again here.
+        public Quaternion WorldRotation => referenceHeading * calibration * rotation;
         public bool Submit(VLABInputState input, Quaternion orientation, uint packetSequence, bool reset = false)
         {
             if (Connected && unchecked((int)(packetSequence - sequence)) <= 0) return false;
@@ -54,7 +56,7 @@ namespace VLAB.Core.Input
             var heading = Quaternion.Euler(0, view.transform.eulerAngles.y, 0);
             lastView = view;
             if (!hasHeading) { referenceHeading = heading; hasHeading = true; }
-            ray = new Ray(view.transform.TransformPoint(new Vector3(VLabComfortSettings.Current.leftHanded?-.20f:.20f, -.17f, .60f)), referenceHeading * calibration * rotation * Vector3.forward);
+            ray = new Ray(view.transform.TransformPoint(new Vector3(VLabComfortSettings.Current.leftHanded?-.20f:.20f, -.17f, .60f)), WorldRotation * Vector3.forward);
             return true;
         }
     }

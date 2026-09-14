@@ -15,6 +15,7 @@ namespace VLAB.MainMenu
         private Camera view;
         private LabInput input;
         private GameObject model, dot;
+        private Quaternion modelAxisCorrection=Quaternion.identity;
         private LineRenderer line;
         private Material material;
         private PointerEventData uiPointer;
@@ -66,7 +67,11 @@ namespace VLAB.MainMenu
             dot.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             dot.transform.localScale=Vector3.one*.012f;
             var assets=Resources.Load<VLABMenuAssets>("VLABMenuAssets");
-            if(assets?.controllerVisual!=null)model=Instantiate(assets.controllerVisual,transform);
+            if(assets?.controllerVisual!=null)
+            {
+                model=Instantiate(assets.controllerVisual,transform);
+                modelAxisCorrection=model.transform.localRotation;
+            }
         }
         private void Update()
         {
@@ -163,9 +168,11 @@ namespace VLAB.MainMenu
             if(handRenderers!=null)foreach(var renderer in handRenderers)if(renderer!=null)renderer.enabled=nativeTracked;
             line.enabled=!nativeTracked;dot.SetActive(!nativeTracked);
             if(model!=null)model.SetActive(!nativeTracked);
-            var heading=Quaternion.Euler(0,view.transform.eulerAngles.y,0);
             var origin=input.HasRayProvider?CurrentRay.origin:view.transform.TransformPoint(new Vector3(VLabComfortSettings.Current.leftHanded?-.20f:.20f,-.17f,.60f));
-            if(model!=null)model.transform.SetPositionAndRotation(origin,Quaternion.LookRotation(endpoint-origin));
+            // Keep the authored model basis separate from tracking. A ray alone loses roll.
+            var orientation=input.Provider is VLabControllerReplayProvider decoded
+                ? decoded.WorldRotation : Quaternion.LookRotation(CurrentRay.direction,view.transform.up);
+            if(model!=null)model.transform.SetPositionAndRotation(origin,orientation*modelAxisCorrection);
             line.SetPosition(0,origin);line.SetPosition(1,endpoint);dot.transform.position=endpoint;
             material.color=VLabComfortSettings.Current.highContrast?Color.white:HasTarget?new Color(.3f,1,.8f):VLABUI.Cyan;
             line.startWidth=VLabComfortSettings.Current.highContrast?.004f:.0024f;

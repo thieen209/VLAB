@@ -99,6 +99,8 @@ namespace VLAB.MainMenu
             safe=ui.Rect(canvas.transform,"Safe area",0,0,1,1);
             input=FindAnyObjectByType<LabInput>();
             if(input!=null)input.PausePressed+=NavigateBack;
+            Cursor.lockState=CursorLockMode.Locked;
+            Cursor.visible=false;
             lastCursorLock=Cursor.lockState;lastCursorVisible=Cursor.visible;
             if(menu)
             {
@@ -175,6 +177,14 @@ namespace VLAB.MainMenu
         private bool IgnoreMenuObstacle(Collider obstacle,Camera view)=>obstacle is CharacterController || obstacle.transform.IsChildOf(transform) || obstacle.transform.IsChildOf(view.transform) || obstacle.GetComponentInParent<Unity.XR.CoreUtils.XROrigin>()!=null;
         private void LateUpdate()
         {
+#if UNITY_EDITOR
+            // Escape releases once for debugging; never fight the editor with a per-frame lock.
+            if(Keyboard.current?.escapeKey.wasPressedThisFrame==true)
+            {
+                Cursor.lockState=CursorLockMode.None;
+                Cursor.visible=true;
+            }
+#endif
             if(paused && Camera.main!=null)
             {
                 var view=Camera.main;
@@ -747,6 +757,14 @@ namespace VLAB.MainMenu
         private void EnterLab(string sceneName)
         {
             if(busy)return;
+            // Hide and lock the desktop cursor as soon as the player starts an experiment.
+            // DesktopPlayerRig applies the same state after the destination scene loads;
+            // doing it here prevents the cursor from briefly remaining visible during loading.
+            if(!VLAB.Core.Input.VLabHeadPose.PhoneViewer && !UnityEngine.XR.XRSettings.isDeviceActive)
+            {
+                Cursor.lockState=CursorLockMode.Locked;
+                Cursor.visible=false;
+            }
             StartCoroutine(LoadScene(sceneName));
         }
         private void ReturnHome()

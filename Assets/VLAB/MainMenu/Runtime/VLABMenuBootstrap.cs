@@ -37,8 +37,6 @@ namespace VLAB.MainMenu
                     foreach(var ray in root.GetComponentsInChildren<InteractionRaycaster>(true)) ray.enabled = false;
                     foreach(var canvas in root.GetComponentsInChildren<Canvas>(true)) canvas.gameObject.SetActive(false);
                 }
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
             }
             var host = new GameObject(menu ? "VLAB Application" : "VLAB Lab Menu");
             SceneManager.MoveGameObjectToScene(host, scene);

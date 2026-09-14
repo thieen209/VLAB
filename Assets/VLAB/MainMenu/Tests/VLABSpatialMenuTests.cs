@@ -25,6 +25,31 @@ namespace VLAB.MainMenu.Tests
         private float sensitivity;
         private static VLABApplicationUI App=>Object.FindAnyObjectByType<VLABApplicationUI>();
 
+        [UnityTest] public IEnumerator ControllerVisual_PreservesAuthoredBasisAndFullCalibratedPose()
+        {
+            SceneManager.LoadScene("Menu");yield return Ready();
+            var pointer=App.GetComponent<VLabSharedPointer>();
+            pointer.ToggleReplay();
+            var provider=App.GetComponent<VLabControllerReplayProvider>();
+            var visual=(GameObject)typeof(VLabSharedPointer).GetField("model",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(pointer);
+            var basis=Resources.Load<VLABMenuAssets>("VLABMenuAssets").controllerVisual.transform.localRotation;
+            // Invoke rendering directly so keyboard replay cannot replace the test packets.
+            var render=typeof(VLabSharedPointer).GetMethod("LateUpdate",BindingFlags.Instance|BindingFlags.NonPublic);
+            uint packet=100;
+            foreach(var angles in new[]{new Vector3(0,30,0),new Vector3(0,-30,0),new Vector3(30,0,0),new Vector3(-30,0,0),new Vector3(0,0,45),new Vector3(0,0,-45),new Vector3(25,40,35),new Vector3(0,179,0),new Vector3(0,181,0)})
+            {
+                var rotation=Quaternion.Euler(angles);
+                Assert.That(provider.Submit(default,rotation,++packet),Is.True);
+                Assert.That(provider.TryGetRay(Camera.main,out var ray),Is.True);
+                render.Invoke(pointer,null);
+                Assert.That(Quaternion.Angle(visual.transform.rotation,provider.WorldRotation*basis),Is.LessThan(.01f));
+                Assert.That(Vector3.Angle(ray.direction,provider.WorldRotation*Vector3.forward),Is.LessThan(.01f));
+            }
+            provider.Calibrate();provider.TryGetRay(Camera.main,out var centered);
+            Assert.That(Vector3.Angle(centered.direction,Quaternion.Euler(0,Camera.main.transform.eulerAngles.y,0)*Vector3.forward),Is.LessThan(.01f));
+            pointer.ToggleReplay();
+        }
+
         [SetUp] public void Setup()
         {
             foreach(var key in new[]{VLABOnboarding.LanguageKey,VLABOnboarding.TermsKey,VLABOnboarding.PrivacyKey})
