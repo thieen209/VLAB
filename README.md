@@ -48,3 +48,7 @@ MIT applies to the project code; third-party assets retain their own licenses. S
 Version0.1.1/code2 uses the same package/signing identity as0.1.0. SHA256: `A7E485C58EF5D2D1E28BEEED003E15EB3F952ADE2060E6FE24A146046C3FAEF0` (114396821 bytes). The previous0.1.0 tag/artifact remains unchanged.
 
 This update fixes retrying the same completed measurement after a local-file failure, adds accurate Vietnamese storage guidance, and lets P03 graph actual recorded normal force. See [correction scope and remaining research gap](docs/PROTOTYPE_011_CORRECTIONS.md). Native fault tests cover prewrite and partial-backup failure; these are not real-device durability tests. P03's two-mass comparison uses data-level fixtures; its native check reopens the existing one actual saved P03 pair. The earlier fresh-clone import/Core333 result applies to commit523fe9d; this follow-up has native compilation, focused UI/data checks, full success-route regression and its new signed Android build, not a second fresh-clone Android rebuild.
+
+## Unresolved final Windows persistence verification
+
+A later fresh-clone Subjects run on the exact0.1.1 code failed offline File.Replace operations; Core333 passed separately. Complete47-record reopen coverage was not achieved (B01/M07/M08 missing). Cause is unresolved. [Read the diagnostic addendum and sanitized evidence](docs/VERIFICATION_119_WINDOWS_PERSISTENCE.md). APK/tag119 remain unchanged; this is not production certification.

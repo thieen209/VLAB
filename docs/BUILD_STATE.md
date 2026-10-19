@@ -63,3 +63,8 @@ The complete research assignment is broader than these32 bounded journeys. P02 g
 ## Final native page-size structure
 
 `Evidence/Release20261019/checks/android-page-size-checks.json` identifies this same final APK SHA256 and verifies ZIP16KB plus required ARM64 ELF LOAD/RELRO alignment. This check does not establish physical installation, launch, head tracking, comfort or performance.
+
+
+## Latest negative verification addendum
+
+Fresh119 Windows Subjects verification failed after the separately successful Core333 run; offline file-replacement errors leave B01/M07/M08 reopened coverage incomplete. Cause remains unresolved. Old47-record success is historical, not current119 clean-clone persistence proof. See [the current negative-evidence report](VERIFICATION_119_WINDOWS_PERSISTENCE.md). The0.1.1 APK/tag/code are unchanged; production readiness is not claimed.

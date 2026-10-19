@@ -23,3 +23,8 @@ M06 (lines321–329) asks for h/beta changes. Delivered `Sources/cam/v001/docs/p
 ## Derived supports in this prototype
 
 Original apparatus meshes and scales are retained. Additional, explicitly named rigid fixtures carry the M01/M04 transmissions, M06 cam/guide/gauge, M08 raised beam/gauge, P07/P08 movable photogates and C02/C03 electrodes; B06/B07 receive split funnel supports. Their provenance and exact contact-test scopes are in DERIVED_M06_FIXTURE.md and DERIVED_SCIENCE_FIXTURES.md. These are prototype integration parts, not supplied original assets or validated mechanical/electrical hardware. Geometry tests do not establish fastener strength, glass stress, friction, torque stability or calibrated flow. Ordinary stored pipettes, droppers, thermometer, stirrer and unused pestle retain original geometry in supported rest poses.
+
+
+## Latest negative verification addendum
+
+Fresh119 Windows Subjects verification failed after the separately successful Core333 run; offline file-replacement errors leave B01/M07/M08 reopened coverage incomplete. Cause remains unresolved. Old47-record success is historical, not current119 clean-clone persistence proof. See [the current negative-evidence report](VERIFICATION_119_WINDOWS_PERSISTENCE.md). The0.1.1 APK/tag/code are unchanged; production readiness is not claimed.
