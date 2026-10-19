@@ -1,0 +1,1612 @@
+{
+  "schema": 1,
+  "illustration": true,
+  "not_micrograph": true,
+  "no_micron_scale": true,
+  "mask_encoding": "R byte=cellID,0=background",
+  "cell_count": 100,
+  "scientific_reference": "https://openstax.org/books/biology-2e/pages/10-2-the-cell-cycle",
+  "limits": "Representative chromosome subset,not2ncount. Interphase outside mitosis. Prometaphase/transition drawings unclassified,not forced into4phase answers. No plant centrioles/asters/cleavagefurrow;telophase depicts reformingnuclei+cellplate. No phasefrequency/mitoticindex inference from designedstage distribution.",
+  "cells": [
+    {
+      "cell_id": 1,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.004999999999999982,
+        0.09699999999999998,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.05,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 2,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.004999999999999982,
+        0.19699999999999998,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.15,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 3,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.004999999999999982,
+        0.297,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.25,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 4,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.004999999999999982,
+        0.39699999999999996,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.35,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 5,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.403,
+        0.004999999999999982,
+        0.497,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.45,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 6,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.503,
+        0.004999999999999982,
+        0.597,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.55,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 7,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.603,
+        0.004999999999999982,
+        0.697,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.65,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 8,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.004999999999999982,
+        0.7969999999999999,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.75,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 9,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.004999999999999982,
+        0.8969999999999999,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.85,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 10,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.004999999999999982,
+        0.9969999999999999,
+        0.09500000000000001
+      ],
+      "center_uv": [
+        0.95,
+        0.05
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 11,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.10499999999999998,
+        0.09699999999999998,
+        0.195
+      ],
+      "center_uv": [
+        0.05,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 12,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.10499999999999998,
+        0.19699999999999998,
+        0.195
+      ],
+      "center_uv": [
+        0.15,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 13,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.10499999999999998,
+        0.297,
+        0.195
+      ],
+      "center_uv": [
+        0.25,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 14,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.10499999999999998,
+        0.39699999999999996,
+        0.195
+      ],
+      "center_uv": [
+        0.35,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 15,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.403,
+        0.10499999999999998,
+        0.497,
+        0.195
+      ],
+      "center_uv": [
+        0.45,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 16,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.503,
+        0.10499999999999998,
+        0.597,
+        0.195
+      ],
+      "center_uv": [
+        0.55,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 17,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.603,
+        0.10499999999999998,
+        0.697,
+        0.195
+      ],
+      "center_uv": [
+        0.65,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 18,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.10499999999999998,
+        0.7969999999999999,
+        0.195
+      ],
+      "center_uv": [
+        0.75,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 19,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.10499999999999998,
+        0.8969999999999999,
+        0.195
+      ],
+      "center_uv": [
+        0.85,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 20,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.10499999999999998,
+        0.9969999999999999,
+        0.195
+      ],
+      "center_uv": [
+        0.95,
+        0.15
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 21,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.205,
+        0.09699999999999998,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.05,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 22,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.205,
+        0.19699999999999998,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.15,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 23,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.205,
+        0.297,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.25,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 24,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.205,
+        0.39699999999999996,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.35,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 25,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.403,
+        0.205,
+        0.497,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.45,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 26,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.503,
+        0.205,
+        0.597,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.55,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 27,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.603,
+        0.205,
+        0.697,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.65,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 28,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.205,
+        0.7969999999999999,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.75,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 29,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.205,
+        0.8969999999999999,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.85,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 30,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.205,
+        0.9969999999999999,
+        0.29500000000000004
+      ],
+      "center_uv": [
+        0.95,
+        0.25
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 31,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.305,
+        0.09699999999999998,
+        0.395
+      ],
+      "center_uv": [
+        0.05,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 32,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.305,
+        0.19699999999999998,
+        0.395
+      ],
+      "center_uv": [
+        0.15,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 33,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.305,
+        0.297,
+        0.395
+      ],
+      "center_uv": [
+        0.25,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 34,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.305,
+        0.39699999999999996,
+        0.395
+      ],
+      "center_uv": [
+        0.35,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 35,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.403,
+        0.305,
+        0.497,
+        0.395
+      ],
+      "center_uv": [
+        0.45,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 36,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.503,
+        0.305,
+        0.597,
+        0.395
+      ],
+      "center_uv": [
+        0.55,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 37,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.603,
+        0.305,
+        0.697,
+        0.395
+      ],
+      "center_uv": [
+        0.65,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 38,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.305,
+        0.7969999999999999,
+        0.395
+      ],
+      "center_uv": [
+        0.75,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 39,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.305,
+        0.8969999999999999,
+        0.395
+      ],
+      "center_uv": [
+        0.85,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 40,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.305,
+        0.9969999999999999,
+        0.395
+      ],
+      "center_uv": [
+        0.95,
+        0.35
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 41,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.40499999999999997,
+        0.09699999999999998,
+        0.495
+      ],
+      "center_uv": [
+        0.05,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 42,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.40499999999999997,
+        0.19699999999999998,
+        0.495
+      ],
+      "center_uv": [
+        0.15,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 43,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.203,
+        0.40499999999999997,
+        0.297,
+        0.495
+      ],
+      "center_uv": [
+        0.25,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 44,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.40499999999999997,
+        0.39699999999999996,
+        0.495
+      ],
+      "center_uv": [
+        0.35,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 45,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.403,
+        0.40499999999999997,
+        0.497,
+        0.495
+      ],
+      "center_uv": [
+        0.45,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 46,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.503,
+        0.40499999999999997,
+        0.597,
+        0.495
+      ],
+      "center_uv": [
+        0.55,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 47,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.603,
+        0.40499999999999997,
+        0.697,
+        0.495
+      ],
+      "center_uv": [
+        0.65,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 48,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.40499999999999997,
+        0.7969999999999999,
+        0.495
+      ],
+      "center_uv": [
+        0.75,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 49,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.40499999999999997,
+        0.8969999999999999,
+        0.495
+      ],
+      "center_uv": [
+        0.85,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 50,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.40499999999999997,
+        0.9969999999999999,
+        0.495
+      ],
+      "center_uv": [
+        0.95,
+        0.45
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 51,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.505,
+        0.09699999999999998,
+        0.595
+      ],
+      "center_uv": [
+        0.05,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 52,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.505,
+        0.19699999999999998,
+        0.595
+      ],
+      "center_uv": [
+        0.15,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 53,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.505,
+        0.297,
+        0.595
+      ],
+      "center_uv": [
+        0.25,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 54,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.505,
+        0.39699999999999996,
+        0.595
+      ],
+      "center_uv": [
+        0.35,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 55,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.403,
+        0.505,
+        0.497,
+        0.595
+      ],
+      "center_uv": [
+        0.45,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 56,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.503,
+        0.505,
+        0.597,
+        0.595
+      ],
+      "center_uv": [
+        0.55,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 57,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.603,
+        0.505,
+        0.697,
+        0.595
+      ],
+      "center_uv": [
+        0.65,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 58,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.505,
+        0.7969999999999999,
+        0.595
+      ],
+      "center_uv": [
+        0.75,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 59,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.505,
+        0.8969999999999999,
+        0.595
+      ],
+      "center_uv": [
+        0.85,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 60,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.505,
+        0.9969999999999999,
+        0.595
+      ],
+      "center_uv": [
+        0.95,
+        0.55
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 61,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.605,
+        0.09699999999999998,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.05,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 62,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.605,
+        0.19699999999999998,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.15,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 63,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.605,
+        0.297,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.25,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 64,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.605,
+        0.39699999999999996,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.35,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 65,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.403,
+        0.605,
+        0.497,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.45,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 66,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.503,
+        0.605,
+        0.597,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.55,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 67,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.603,
+        0.605,
+        0.697,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.65,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 68,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.605,
+        0.7969999999999999,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.75,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 69,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.605,
+        0.8969999999999999,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.85,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 70,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.605,
+        0.9969999999999999,
+        0.6950000000000001
+      ],
+      "center_uv": [
+        0.95,
+        0.65
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 71,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.705,
+        0.09699999999999998,
+        0.795
+      ],
+      "center_uv": [
+        0.05,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 72,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.705,
+        0.19699999999999998,
+        0.795
+      ],
+      "center_uv": [
+        0.15,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 73,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.705,
+        0.297,
+        0.795
+      ],
+      "center_uv": [
+        0.25,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 74,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.705,
+        0.39699999999999996,
+        0.795
+      ],
+      "center_uv": [
+        0.35,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 75,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.403,
+        0.705,
+        0.497,
+        0.795
+      ],
+      "center_uv": [
+        0.45,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 76,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.503,
+        0.705,
+        0.597,
+        0.795
+      ],
+      "center_uv": [
+        0.55,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 77,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.603,
+        0.705,
+        0.697,
+        0.795
+      ],
+      "center_uv": [
+        0.65,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 78,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.705,
+        0.7969999999999999,
+        0.795
+      ],
+      "center_uv": [
+        0.75,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 79,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.705,
+        0.8969999999999999,
+        0.795
+      ],
+      "center_uv": [
+        0.85,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 80,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.705,
+        0.9969999999999999,
+        0.795
+      ],
+      "center_uv": [
+        0.95,
+        0.75
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 81,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.805,
+        0.09699999999999998,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.05,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 82,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.805,
+        0.19699999999999998,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.15,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 83,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.805,
+        0.297,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.25,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 84,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.805,
+        0.39699999999999996,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.35,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 85,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.403,
+        0.805,
+        0.497,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.45,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 86,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.503,
+        0.805,
+        0.597,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.55,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 87,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.603,
+        0.805,
+        0.697,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.65,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 88,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.805,
+        0.7969999999999999,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.75,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 89,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.805,
+        0.8969999999999999,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.85,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 90,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.805,
+        0.9969999999999999,
+        0.8949999999999999
+      ],
+      "center_uv": [
+        0.95,
+        0.85
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 91,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.0030000000000000248,
+        0.905,
+        0.09699999999999998,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.05,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 92,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.10300000000000002,
+        0.905,
+        0.19699999999999998,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.15,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 93,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.203,
+        0.905,
+        0.297,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.25,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 94,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.30300000000000005,
+        0.905,
+        0.39699999999999996,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.35,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 95,
+      "stage": "metaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.403,
+        0.905,
+        0.497,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.45,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 96,
+      "stage": "anaphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.503,
+        0.905,
+        0.597,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.55,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 97,
+      "stage": "telophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.603,
+        0.905,
+        0.697,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.65,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 98,
+      "stage": "unclassified",
+      "scorable": false,
+      "bounds_uv": [
+        0.7030000000000001,
+        0.905,
+        0.7969999999999999,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.75,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 99,
+      "stage": "interphase",
+      "scorable": true,
+      "bounds_uv": [
+        0.8030000000000002,
+        0.905,
+        0.8969999999999999,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.85,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    },
+    {
+      "cell_id": 100,
+      "stage": "prophase",
+      "scorable": true,
+      "bounds_uv": [
+        0.9030000000000001,
+        0.905,
+        0.9969999999999999,
+        0.9949999999999999
+      ],
+      "center_uv": [
+        0.95,
+        0.95
+      ],
+      "chromosomes": "representative subset only; not onion karyotype/count"
+    }
+  ]
+}

@@ -6,41 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/VLAB/MainMenu/Scenes/Menu.unity
-    guid: 2aa8d636759e9264780635499a26490c
+    path: Assets/VLABProduct/Scenes/VLAB_Boot.unity
+    guid: 3bea8fdcfa57929449de1cccc04efffd
   - enabled: 1
-    path: Assets/ChemistryLab.unity
-    guid: 2fe80eae8de5b5c4b8390636d652b0b0
+    path: Assets/Labs/Scenes/Physics.unity
+    guid: a0ef443e84281dc4b876731c733ec1ee
   - enabled: 1
-    path: Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Base.unity
-    guid: 62f14735386bab343952995d0b0aa91d
+    path: Assets/Labs/Scenes/Chemistry.unity
+    guid: 12fe6cb3c2710fa4d9e34e7ad398c452
   - enabled: 1
-    path: Assets/VLAB/PhysicsLab/Scenes/PhysicsLab_Hub.unity
-    guid: ed202fb8883b4af46affbbcd7324e36c
+    path: Assets/Labs/Scenes/Biology.unity
+    guid: e3191eacd18a35b49875b07cd39399c3
   - enabled: 1
-    path: Assets/VLAB/PhysicsLab/Scenes/Physics_Pendulum.unity
-    guid: f42265c615c32e348970a6b24a457457
-  - enabled: 1
-    path: Assets/VLAB/PhysicsLab/Scenes/Physics_Projectile.unity
-    guid: 7e3c717f068a36540910a1741c3dee3b
-  - enabled: 1
-    path: Assets/VLAB/PhysicsLab/Scenes/Physics_Friction.unity
-    guid: 83dd74704183c90459c07b58ab5681b8
-  - enabled: 1
-    path: Assets/VLAB/PhysicsLab/Scenes/Physics_PhotogateMotion.unity
-    guid: 4694e086b75e6614985e0f34382087c4
-  - enabled: 1
-    path: Assets/VLAB/PhysicsLab/Scenes/Physics_Spring.unity
-    guid: 16ae527a8f467164ea01a480e59e11dc
-  - enabled: 1
-    path: Assets/VLAB/PhysicsLab/Scenes/Physics_AirTrackMomentum.unity
-    guid: aa5268de8d29e904eafcba12e84d6c2e
-  - enabled: 1
-    path: Assets/VLAB/DemoLabs/Scenes/EngineeringLab.unity
-    guid: 3660bf9826095ff4b8bfe371944a28a9
-  - enabled: 1
-    path: Assets/VLAB/DemoLabs/Scenes/BiologyLab.unity
-    guid: 12dd2e6387f5ff243b5678ae79e6ab3f
+    path: Assets/Labs/Scenes/Engineering.unity
+    guid: f183f931cb21ab8459db2f688d718a1b
   m_configObjects:
-    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: d6dadd54768dd2e4b93fb1068b424d4e, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e984c9532d5026f4e88a42e6179a23c1, type: 2}

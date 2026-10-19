@@ -1,248 +1,44 @@
-# VLAB — Virtual Laboratory
+# Ngua Man VLAB
 
-**Bản cập nhật 12/09/2026:** xem [báo cáo sửa chữa](docs/VLAB_REPAIR_REPORT.md), [kết quả kiểm thử](docs/VLAB_TEST_MATRIX.md), [hướng dẫn tay cầm](docs/VLAB_CONTROLLER_MAPPING.md) và [ảnh kiểm chứng](docs/Production/review.html). Mở dự án bằng Unity **6000.5.6f1**, chọn `Assets/VLAB/MainMenu/Scenes/Menu.unity` và chạy Play. Trong Editor, **F9** bật mô phỏng hướng tay cầm, **I/J/K/L** để ngắm. Kết nối BLE vật lý, chất lượng hình ảnh trong kính và hiệu năng trên điện thoại vẫn cần thiết bị thực tế để kiểm chứng.
+An offline Vietnamese/English smartphone-VR STEM laboratory built from the supplied FourLabs rooms, instrument library and experiment briefs. Android/Cardboard, touchscreen/mouse/keyboard and OS-paired HID gamepad controls share the same lesson state and local journal.
 
-<p align="center">
-  <img src="docs/assets/banner.png" alt="VLAB Banner" width="100%">
-</p>
+[Download the signed Android prototype APK](https://github.com/thieen209/VLAB/releases/download/v0.1.0-prototype-20261020/NguaManVLAB-0.1.0-android.apk). See the [prototype verification scope and remaining limits](docs/KNOWN_LIMITS.md).
 
-<p align="center">
-Virtual Laboratory là nền tảng phòng thí nghiệm thực tế ảo (VR) được phát triển nhằm phổ cập giáo dục STEM thông qua trải nghiệm thực hành trực quan, an toàn và chi phí thấp.
-</p>
+APK SHA256: `B439B5D8221CBE4CE800131D25A218AAC3E3A74BE0204CD8DBACCE773260B45A`.
 
-<p align="center">
+Open this directory with Unity **6000.6.4f1**, with Android Build Support, SDK/NDK and OpenJDK installed. Open `Assets/VLABProduct/Scenes/VLAB_Boot.unity`. The universal APK is `NguaManVLAB-0.1.0-android.apk`: ARMv7 + ARM64 / IL2CPP, API26 minimum /36 target, ETC2 textures. Package versions and Cardboard 1.36.0 are pinned in `Packages`.
 
-![Unity](https://img.shields.io/badge/Unity-6-black?style=for-the-badge&logo=unity)
-![Android](https://img.shields.io/badge/Android-Supported-3DDC84?style=for-the-badge&logo=android)
-![ESP32](https://img.shields.io/badge/ESP32-BLE-blue?style=for-the-badge)
-![VR](https://img.shields.io/badge/Virtual-Reality-purple?style=for-the-badge)
-![STEM](https://img.shields.io/badge/STEM-Education-orange?style=for-the-badge)
+The first launch runs Language → Privacy → Terms → Safety once; document changes renew only the affected acceptance. Progress, settings, observations and safe preparation checkpoints use checksummed local files with backup recovery. No account or laboratory server is required.
 
-</p>
+Home follows the supplied main.pdf sketch: four equal scientific silhouette cards with centred top titles, an original transparent centred logo and four round utilities. The resting background is a blurred capture of the current project's actual room. Focusing a card gently enlarges/tints its face and chooses the matching current-project laboratory photo without loading another scene; reduced motion keeps card size stable. Browser, results and linked notebook pages follow the relevant laboratory; activity and exploration show the actual 3D room and original instruments. The Home VR action enters Android Cardboard directly using saved or SDK-default viewer optics; optional QR calibration stays in Settings. Unity Editor offers the official XR Device Simulator.
 
----
+Settings categories form one connected rail across the top, with one primary Apply action. They offer language, readable text, audio, graphics, themes, opacity, UI animations On/Off, gaze dwell/auto-selection and mouse sensitivity. Animation preference persists through reducedMotion; Off keeps nonessential motion disabled. Default opacity is80%, adjustable55–100%; saved choices are preserved. Controller mapping shows illustrated front/side views: select a physical control, choose its action, then Apply. Live callouts show the draft and conflicting actions swap safely. Supported input is standard OS-paired HID; the supplied custom ESP32 hardware has no documented GATT/packet implementation and is not certified by the diagram. Every lab browser shows all eight lessons, a current-room image and a dominant Start action. In-room identity uses the supplied transparent white banner and a lab name in the selected language only.
 
-# Giới thiệu
+The notebook opens to writable paper pages with spiral binding, Vietnamese VR typing, optional lesson links and explicit offline saving; recorded measurements, conditions, interpretations and comparison plots have a separate section. Each of32 lessons has study material before measurement: formulas, methods, labelled illustrative examples, applications, reasoned self-checks, mistakes and source references. Answers stay hidden until the learner chooses Reveal answer. Study content is Vietnamese, explicitly labelled under the English interface. Profile schema2 migrates existing consent, settings and measurements without repeating onboarding. Guidance follows the selected stock apparatus variant; the compact titration guide leaves the actual instrument visible and hides the underlying station until closed.
 
-VLAB (Virtual Laboratory) là giải pháp phòng thí nghiệm thực tế ảo được xây dựng nhằm giải quyết tình trạng thiếu điều kiện thực hành STEM tại nhiều trường học, đặc biệt ở khu vực miền núi, vùng sâu, vùng xa và những nơi còn hạn chế về cơ sở vật chất.
+## Verification and limits
 
-Thay vì đầu tư các phòng thí nghiệm truyền thống với chi phí lớn, VLAB tận dụng điện thoại thông minh, kính VR giá rẻ và bộ điều khiển tương tác sử dụng ESP32 để mang đến trải nghiệm thực hành nhập vai ngay trong môi trường thực tế ảo.
+The current required native receipts were checked before this publication checkout was prepared:
 
-Người học không chỉ quan sát mà còn trực tiếp thao tác với các dụng cụ, mô hình và thí nghiệm giống như trong phòng thí nghiệm thật, từ đó nâng cao khả năng tiếp cận giáo dục STEM một cách trực quan, an toàn và hiệu quả.
+- `runtime-smoke.txt`: 2667 recorded checks; UTC 2026-10-19T21:37:19+00:00
+- `visual-review-smoke.txt`: 2640 recorded checks; UTC 2026-10-19T19:39:26+00:00
+- `learning-review-smoke.txt`: 445 recorded checks; UTC 2026-10-19T21:55:56+00:00
+- `guidance-review-smoke.txt`: 1066 recorded checks; UTC 2026-10-19T21:38:35+00:00
+- `appearance-smoke.txt`: 1121 recorded checks; UTC 2026-10-19T20:45:10+00:00
+- `controls-review-smoke.txt`: 1214 recorded checks; UTC 2026-10-19T19:42:50+00:00
+- `branding-review-smoke.txt`: 472 recorded checks; UTC 2026-10-19T18:34:29+00:00
+- `apparatus-layout-smoke.txt`: 3692 recorded checks; UTC 2026-10-19T21:19:35+00:00
+- `rendering-review-smoke.txt`: 103 recorded checks; UTC 2026-10-19T21:10:36+00:00
+- `launcher-mesh-probe.txt`: 4 original-barrel angle checks; UTC 2026-10-19T20:48:09+00:00
 
----
+Receipt counts cover32 bounded journeys and their stated Editor/synthetic scopes. They do not certify complete research coverage, user aesthetic approval or physical Android/headset behavior. Worktop checks cover bounded original apparatus layouts; four representative loose/assembled kit image pairs illustrate that scope. Every `80-*` learner view uses the enabled automatic learner camera. The earlier incorrect manual B04 capture is superseded by image83, its render-state and the rendering receipt; separate inspection views are supplemental. The launcher probe counts only its four angle PASS lines, not source/scene metadata. `docs/BUILD_STATE.md` is the authoritative artifact hash/checkpoint and supersedes historical hashes and numbered-run descriptions. See that file, `docs/KNOWN_LIMITS.md`, `docs/LEARNING_REFERENCE_CHECKS.md` and the sanitized release evidence for exact scope.
 
-# Vấn đề
+Editor checks: `VlabCoreChecks.Run`, `VlabSubjectChecks.Run`, `VlabRuntimeSmoke.Run`, `VlabRuntimeSmoke.Polish` and `VlabRuntimeSmoke.Appearance`. Checks use isolated local profiles, never a learner's production profile. `LabPanoramaCapture.Run` recaptures the Home and four subject room images. Do not run captures over unsaved scene changes.
 
-Trong quá trình khảo sát thực tế tại nhiều trường THPT trên địa bàn tỉnh Cao Bằng, nhóm nhận thấy:
+## Android builds
 
-- Thiếu phòng thí nghiệm STEM.
-- Thiếu thiết bị thực hành.
-- Chi phí đầu tư cao.
-- Một số thí nghiệm tiềm ẩn rủi ro mất an toàn.
-- Nhiều học sinh chỉ được quan sát thay vì trực tiếp thực hành.
-- Học sinh có nhu cầu trải nghiệm công nghệ VR nhưng rất ít cơ hội tiếp cận.
+Use `VlabProductBuild.AndroidDevelopment` for a development APK. For the release build, supply `VLAB_RELEASE_KEYSTORE` and `VLAB_RELEASE_PASSWORD` only in the local build process environment, with alias `nguaman-vlab`, then run `VlabProductBuild.AndroidRelease`. Signing keys/passwords and APK binaries are intentionally excluded from Git. Keep the private signing key backed up so future updates retain access to installed local progress.
 
-Trong khi đó, phần lớn học sinh hiện nay đều đã sở hữu điện thoại thông minh có khả năng đáp ứng nhu cầu học tập bằng công nghệ thực tế ảo.
+The previous main (`df83980a12a241c5f23faf6827ee8c3612c9c247`) remains recoverable through Git history. No ancestor workspace or original supplied Unity project is replaced.
 
----
-
-# Giải pháp
-
-VLAB xây dựng một hệ thống phòng thí nghiệm thực tế ảo dựa trên ba thành phần chính:
-
-- Ứng dụng VR phát triển bằng Unity.
-- Bộ điều khiển tương tác ESP32.
-- Điện thoại thông minh kết hợp kính VR.
-
-Dữ liệu chuyển động từ bộ điều khiển được truyền tới điện thoại thông qua Bluetooth Low Energy (BLE), sau đó đồng bộ với môi trường 3D trong Unity để tạo nên trải nghiệm nhập vai theo thời gian thực.
-
----
-
-# Mục tiêu
-
-VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm ảo có khả năng:
-
-- Phổ cập giáo dục STEM.
-- Giảm chi phí triển khai.
-- Tăng cơ hội thực hành.
-- Đảm bảo an toàn cho học sinh.
-- Dễ dàng mở rộng thêm nhiều bài học trong tương lai.
-
----
-
-# Giá trị cốt lõi
-
-- Tiếp cận
-- Trực quan
-- An toàn
-- Chi phí thấp
-- Khả năng mở rộng
-
----
-
-# Đối tượng sử dụng
-
-- Học sinh THPT
-- Giáo viên
-- Nhà trường
-- Các chương trình giáo dục STEM
-
----
-
-# Công nghệ
-
-## Software
-
-- Unity
-- C
-- Unity XR
-- Android
-
-## Embedded
-
-- ESP32
-- MPU9250
-- Bluetooth Low Energy (BLE)
-- ESP-NOW
-
----
-
-# Cài đặt & sử dụng
-
-VLAB hiện là **project Unity đang trong quá trình phát triển**. Repository cung cấp source code để mở project, xem prototype và tiếp tục phát triển trên môi trường Unity.
-
-## Yêu cầu
-
-| Thành phần | Yêu cầu |
-|---|---|
-| Unity | **Unity 6** |
-| Hệ điều hành | Windows — khuyến nghị |
-| Git | Dùng để clone repository |
-| Thiết bị kiểm thử | Smartphone Android — khi kiểm thử phiên bản Android |
-| VR | Smartphone + kính VR — khi kiểm thử trải nghiệm VR |
-| Hardware | ESP32 + MPU9250 — khi kiểm thử controller |
-
----
-
-## 1. Tải source code
-
-### Cách 1 — Clone bằng Git
-
-Mở Terminal hoặc Git Bash:
-
-```bash
-git clone <https://github.com/thieen209/VLAB/tree/main>
-```
-
-Sau khi tải xong, mở thư mục project:
-
-```bash
-cd <VLAB_PROJECT_FOLDER>
-```
-
-### Cách 2 — Download ZIP
-
-Trên GitHub:
-
-```text
-Code
-→ Download ZIP
-```
-
-Giải nén file ZIP vào thư mục bạn muốn lưu project.
-
-> Không tạo Unity Project mới. Source trong repository đã là một Unity Project.
-
----
-
-## 2. Mở project
-
-Mở **Unity Hub**:
-
-```text
-Add
-→ Add project from disk
-→ Chọn thư mục VLAB
-→ Open
-```
-
-Chọn project bằng **Unity 6**.
-
-Thư mục được chọn phải là thư mục gốc của project và chứa cấu trúc Unity:
-
-```text
-VLAB/
-├── Assets/
-├── Packages/
-├── ProjectSettings/
-└── ...
-```
-
-Khi mở lần đầu, Unity sẽ tự xử lý quá trình import project. Thời gian xử lý phụ thuộc vào máy và dữ liệu của project.
-
----
-
-## 3. Chạy prototype
-
-Sau khi Unity mở project thành công:
-
-1. Mở Scene có sẵn trong project.
-2. Nhấn **Play ▶** trên Unity Editor.
-3. Kiểm tra prototype trực tiếp trong Editor.
-
-Các chức năng phụ thuộc vào thiết bị thực tế không nhất thiết có thể kiểm tra đầy đủ trong Unity Editor.
-
----
-
-## 4. Kiểm thử trên thiết bị
-
-VLAB được thiết kế theo kiến trúc kết hợp:
-
-```text
-ESP32 Controller
-       ↓
-Bluetooth Low Energy
-       ↓
-Smartphone
-       ↓
-Unity XR
-       ↓
-VR Environment
-```
-
-Theo kiến trúc dự án, controller sử dụng ESP32 và cảm biến IMU MPU9250; dữ liệu được truyền tới smartphone thông qua Bluetooth Low Energy để Unity XR xử lý và đồng bộ với môi trường 3D.
-
-Để kiểm thử trải nghiệm đầy đủ, cần có các thành phần phần cứng tương ứng của prototype.
-
----
-
-## Lưu ý
-
-VLAB **chưa phải bản ứng dụng phát hành hoàn chỉnh**. Project hiện được sử dụng cho quá trình phát triển và thử nghiệm prototype.
-
-Một số thành phần của hệ thống, bao gồm môi trường VR, các phòng thí nghiệm và tích hợp hardware, vẫn đang tiếp tục được phát triển.
-
----
-
-# Định hướng
-
-VLAB không chỉ là một ứng dụng mô phỏng mà hướng tới trở thành nền tảng Virtual Laboratory có khả năng mở rộng nhiều lĩnh vực STEM như:
-
-- Physics Lab
-- Chemistry Lab
-- Biology Lab
-- Engineering Lab
-
----
-
-# Tầm nhìn
-
-Mọi học sinh đều có cơ hội tiếp cận phòng thí nghiệm STEM chất lượng cao, bất kể điều kiện cơ sở vật chất của nhà trường.
-
-Thông qua việc kết hợp công nghệ thực tế ảo, thiết bị nhúng và điện thoại thông minh, VLAB hướng tới xây dựng một hệ sinh thái học tập trực quan, hiện đại và có khả năng triển khai rộng rãi trong giáo dục phổ thông.
-
----
-
-> **Samsung Solve for Tomorrow 2026**  
-> **VLAB — Creating Technology for Every Student**
+MIT applies to the project code; third-party assets retain their own licenses. Shipped credits: `Assets/VLABProduct/Resources/Legal/credits.txt`, font notices and package notices. Original VLAB identity and instrument provenance are retained.

@@ -1,0 +1,7 @@
+using System.Globalization;using UnityEngine;
+public sealed class VlabTorqueOverlay:MonoBehaviour{
+ [SerializeField]TextMesh torqueText,powerText;[SerializeField]Transform arrow;[SerializeField]Quaternion arrowRest;public double TorqueNm{get;private set;}=double.NaN;public double PowerW{get;private set;}=double.NaN;
+ void Awake()=>Clear();public bool TrySetModel(double torqueNm,double rpm){double power=torqueNm*rpm*System.Math.PI/30;if(!isActiveAndEnabled||!double.IsFinite(torqueNm)||!double.IsFinite(rpm)||!double.IsFinite(power)||System.Math.Abs(torqueNm)>1e6||System.Math.Abs(rpm)>1e6||(transform.lossyScale-Vector3.one).sqrMagnitude>1e-10f){Clear();return false;}TorqueNm=torqueNm;PowerW=power;torqueText.text="M = "+torqueNm.ToString(System.Math.Abs(torqueNm)<1000?"+0.000;-0.000;0.000":"0.##E+0",CultureInfo.InvariantCulture)+" N m";powerText.text="P = "+power.ToString(System.Math.Abs(power)<1000?"+0.000;-0.000;0.000":"0.##E+0",CultureInfo.InvariantCulture)+" W";arrow.localRotation=Quaternion.AngleAxis(torqueNm<0?180:0,Vector3.up)*arrowRest;arrow.gameObject.SetActive(torqueNm!=0);return true;}
+ public void Clear(){TorqueNm=PowerW=double.NaN;if(torqueText)torqueText.text="";if(powerText)powerText.text="";if(arrow)arrow.gameObject.SetActive(false);}void OnDisable()=>Clear();
+ // shortcut: explicit model torque and RPM, schematic axial sign guide; no sensor, load solver, efficiency or calibrated power measurement.
+}

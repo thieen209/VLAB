@@ -1,0 +1,1880 @@
+{
+  "schemaVersion": 1,
+  "locale": "vi",
+  "provenance": {
+    "briefSource": "VLAB_Research_20261011/research/experiments.py via current Resources/Catalog/experiments.json",
+    "referenceSource": "VLAB_Research_20261011/research/sources.py: SOURCES parsed using AST/literal_eval; never executed",
+    "edits": [
+      "B08 theoryVi: corrected malformed phase-list phrase to prophase/metaphase/anaphase/telophase; existing explicit exclusion of interphase preserved.",
+      "examVi/checkVi: new study tasks and one question with answer reasoning per lesson, grounded in the existing theory and native model boundaries; not claims about exam frequency.",
+      "Added student-facing learnVi/practiceVi/pitfallsVi; developer-oriented raw tests and implementation directions are preserved as source fields, not learning-page copy. Every examplesVi now has an explicit illustrative/not-saved-reading prefix; original numbers preserved.",
+      "sourceBrief preserves every requested raw brief field verbatim, including the original B08 wording. Student examples explicitly separate B01 optical calibration and P05 out-of-kit loads; C03 scale-resolution/M02 lever wording rewritten for students without changing example numbers.",
+      "Independent science QA: C08 distinguishes shared-initial-temperature shortcut from separate acid/base/cup heat sums; C05 defines r as aliquot/final volume, reciprocal of D; M01 labels the torque ratio as magnitudes. Raw sourceBrief unchanged."
+    ],
+    "limits": "Worked examples are illustrative, not saved measurements. Native supported scope remains in EXPERIMENT_FINAL_AUDIT.md and LessonContext/LessonSeries. Source URL resolution is not a new claim that every remote page was freshly verified."
+  },
+  "items": [
+    {
+      "id": "P01",
+      "titleVi": "Con lắc đơn: đo chu kỳ và ước lượng g",
+      "goalVi": "Đo được chu kỳ từ nhiều dao động; giải thích tại sao chiều dài ảnh hưởng chu kỳ còn khối lượng gần như không ảnh hưởng ở góc nhỏ. Học sinh phải lựa chọn điều kiện đo và lập đồ thị, thay vì chỉ đọc công thức đã hiển thị.",
+      "theoryVi": "T = 2π√(L/g), với L từ điểm treo đến tâm quả nặng. Tuyến tính hóa T² = (4π²/g)L. Nếu hệ số góc b có đơn vị s²/m thì g = 4π²/b. Công thức gần đúng khi biên độ góc nhỏ và dây nhẹ, không giãn; góc lớn làm chu kỳ tăng. Năng lượng chuyển đổi giữa động năng và thế năng, nhưng không phải mọi vị trí đều có cùng vận tốc.",
+      "variablesVi": "Biến độc lập L; phụ thuộc T hoặc T²; kiểm soát g, biên độ và cách đếm. Phiếu: L (m), góc (°), N dao động, t1/t2/t3 (s), T trung bình (s), T² (s²), g suy ra. Đo nhiều chu kỳ giảm ảnh hưởng phản xạ bấm giờ.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nDữ liệu lý tưởng minh họa, không phải số đo dự án: g=9,81 m/s²; L=0,40/0,60/0,80/1,00 m cho T≈1,269/1,554/1,794/2,006 s. Ví dụ L=0,60 m, t10=15,54 s: g≈4π²×0,60/(1,554²)≈9,81 m/s².",
+      "mistakesVi": "Đếm một nửa dao động là một chu kỳ; đo dây đến mép quả; trộn nhóm L khác nhau; thả có xung đẩy. Khi lệch, gợi ý kiểm tra mốc và số lần qua mốc trước khi tiết lộ đáp án.",
+      "testsVi": "L tăng bốn lần thì T tăng hai lần trong giới hạn nhỏ; đổi m không đổi T lý tưởng; pause không tăng đồng hồ; reset lượt không xóa bảng; tháo dây phải chặn chạy. Kiểm tra ngoài giới hạn góc bằng mô hình phi tuyến hoặc thông báo gần đúng.",
+      "stepsVi": [
+        "Đặt giá và kẹp chắc vào điểm thao tác; gắn dây, quả nặng và thước, xác định tâm quả.",
+        "Chọn L = 0,40 m; ghi khối lượng và góc ban đầu khoảng 5–10°. Dự đoán chu kỳ trước khi chạy.",
+        "Kéo lệch và thả không đẩy; bắt đầu đo khi quả qua mốc theo một chiều đã chọn.",
+        "Đếm 10 dao động toàn phần, dừng ở cùng trạng thái pha; ghi t và T=t/10. Lặp ba lượt.",
+        "Đổi L sang 0,60; 0,80; 1,00 m, giữ góc và khối lượng; lập từng nhóm riêng.",
+        "Vẽ T² theo L, ước lượng b và g; so sánh kết quả với g cấu hình và nêu sai số.",
+        "Làm một lượt kiểm chứng thay khối lượng, rồi một lượt góc lớn để tìm giới hạn gần đúng."
+      ],
+      "examVi": "Luyện đọc đồ thị T² theo L: giải thích hệ số góc, suy ra g và nhận biết loạt đo nào không còn thuộc gần đúng góc nhỏ.",
+      "checkVi": "Hỏi: Trong gần đúng góc nhỏ, tăng L bốn lần và giữ g thì T đổi thế nào? Đáp: T tăng hai lần vì T tỉ lệ căn bậc hai của L. Đổi khối lượng không làm T đổi trong mô hình lý tưởng này.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S10",
+          "title": "PhET Pendulum Lab",
+          "url": "https://phet.colorado.edu/en/simulations/pendulum-lab"
+        },
+        {
+          "sourceID": "S30",
+          "title": "OpenStax: The Simple Pendulum",
+          "url": "https://openstax.org/books/college-physics-2e/pages/16-4-the-simple-pendulum"
+        }
+      ],
+      "learnVi": "T = 2π√(L/g), với L từ điểm treo đến tâm quả nặng. Tuyến tính hóa T² = (4π²/g)L. Nếu hệ số góc b có đơn vị s²/m thì g = 4π²/b. Công thức gần đúng khi biên độ góc nhỏ và dây nhẹ, không giãn; góc lớn làm chu kỳ tăng. Năng lượng chuyển đổi giữa động năng và thế năng, nhưng không phải mọi vị trí đều có cùng vận tốc.",
+      "practiceVi": "Ghi chiều dài từ điểm treo tới tâm quả, góc, khối lượng, số chu kỳ và thời gian. Lặp cùng điều kiện trước khi đổi chiều dài; so T² theo L.",
+      "pitfallsVi": "Một chu kỳ phải trở về cùng pha và chiều. Không đo tới mép quả, đếm nửa chu kỳ hoặc gộp các chiều dài khác nhau.",
+      "sourceBrief": {
+        "titleVi": "Con lắc đơn: đo chu kỳ và ước lượng g",
+        "goalVi": "Đo được chu kỳ từ nhiều dao động; giải thích tại sao chiều dài ảnh hưởng chu kỳ còn khối lượng gần như không ảnh hưởng ở góc nhỏ. Học sinh phải lựa chọn điều kiện đo và lập đồ thị, thay vì chỉ đọc công thức đã hiển thị.",
+        "theoryVi": "T = 2π√(L/g), với L từ điểm treo đến tâm quả nặng. Tuyến tính hóa T² = (4π²/g)L. Nếu hệ số góc b có đơn vị s²/m thì g = 4π²/b. Công thức gần đúng khi biên độ góc nhỏ và dây nhẹ, không giãn; góc lớn làm chu kỳ tăng. Năng lượng chuyển đổi giữa động năng và thế năng, nhưng không phải mọi vị trí đều có cùng vận tốc.",
+        "variablesVi": "Biến độc lập L; phụ thuộc T hoặc T²; kiểm soát g, biên độ và cách đếm. Phiếu: L (m), góc (°), N dao động, t1/t2/t3 (s), T trung bình (s), T² (s²), g suy ra. Đo nhiều chu kỳ giảm ảnh hưởng phản xạ bấm giờ.",
+        "examplesVi": "Dữ liệu lý tưởng minh họa, không phải số đo dự án: g=9,81 m/s²; L=0,40/0,60/0,80/1,00 m cho T≈1,269/1,554/1,794/2,006 s. Ví dụ L=0,60 m, t10=15,54 s: g≈4π²×0,60/(1,554²)≈9,81 m/s².",
+        "mistakesVi": "Đếm một nửa dao động là một chu kỳ; đo dây đến mép quả; trộn nhóm L khác nhau; thả có xung đẩy. Khi lệch, gợi ý kiểm tra mốc và số lần qua mốc trước khi tiết lộ đáp án.",
+        "testsVi": "L tăng bốn lần thì T tăng hai lần trong giới hạn nhỏ; đổi m không đổi T lý tưởng; pause không tăng đồng hồ; reset lượt không xóa bảng; tháo dây phải chặn chạy. Kiểm tra ngoài giới hạn góc bằng mô hình phi tuyến hoặc thông báo gần đúng.",
+        "stepsVi": [
+          "Đặt giá và kẹp chắc vào điểm thao tác; gắn dây, quả nặng và thước, xác định tâm quả.",
+          "Chọn L = 0,40 m; ghi khối lượng và góc ban đầu khoảng 5–10°. Dự đoán chu kỳ trước khi chạy.",
+          "Kéo lệch và thả không đẩy; bắt đầu đo khi quả qua mốc theo một chiều đã chọn.",
+          "Đếm 10 dao động toàn phần, dừng ở cùng trạng thái pha; ghi t và T=t/10. Lặp ba lượt.",
+          "Đổi L sang 0,60; 0,80; 1,00 m, giữ góc và khối lượng; lập từng nhóm riêng.",
+          "Vẽ T² theo L, ước lượng b và g; so sánh kết quả với g cấu hình và nêu sai số.",
+          "Làm một lượt kiểm chứng thay khối lượng, rồi một lượt góc lớn để tìm giới hạn gần đúng."
+        ],
+        "modelVi": "Giữ hệ thao tác hiện tại. Tách mô hình đo khỏi hoạt ảnh dây; thời gian thực nghiệm dùng đồng hồ mô phỏng, không lệ thuộc khung hình. Thêm chế độ lý tưởng và chế độ sai số dụng cụ có seed; công bố chế độ trên phiếu.",
+        "sources": "S01,S10,S30"
+      }
+    },
+    {
+      "id": "P02",
+      "titleVi": "Ném xiên: góc phóng và tầm xa",
+      "goalVi": "Thiết kế loạt bắn chỉ thay một biến; giải thích điều kiện để góc 45° cho tầm xa lớn nhất và sự khác nhau giữa vận tốc đầu với gia tốc trọng trường.",
+      "theoryVi": "x=v0 cosθ·t; y=h0+v0 sinθ·t−gt²/2. Với h0=0 và nền ngang, R=v0² sin(2θ)/g; H=v0² sin²θ/(2g). Khi h0 khác 0, tìm nghiệm dương của y=0 rồi tính R; không dùng công thức cùng độ cao. Quỹ đạo parabol chỉ trong mô hình không lực cản.",
+      "variablesVi": "Độc lập θ hoặc v0 trong từng loạt; phụ thuộc R, H, thời gian bay. Kiểm soát h0, g, lực cản và mặt hứng. Phiếu có θ, v0, h0, R1/R2/R3, R trung bình, R dự đoán.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa g=9,81; v0=5 m/s, h0=0: R30=R60≈2,207 m; R45≈2,548 m. Nếu v0 tăng từ 5 lên 10 m/s ở 45°, R lý tưởng tăng bốn lần, không tăng hai lần.",
+      "mistakesVi": "Lấy điểm nảy sau cùng làm điểm rơi; quên đơn vị độ/radian; áp dụng 45° cho mọi độ cao; kéo camera khiến nhầm hướng vật. Cần đánh dấu chạm đầu và hiển thị giả thiết ngay cạnh kết quả.",
+      "testsVi": "So sánh R giải tích với chạm mặt; không phóng khi thiếu bi; không ghi thêm mẫu từ các lần nảy; pause và mất kết nối không tạo phát bắn mới; reset xóa đường quỹ đạo lượt hiện tại.",
+      "stepsVi": [
+        "Đặt bộ phóng, thước và tấm hứng; kiểm tra vùng bắn ảo không bị che.",
+        "Cố định v0=5,00 m/s và h0=0; ghi g, dự đoán góc đạt tầm xa lớn.",
+        "Nạp bi và chọn θ=20°, phóng một lần, ghi vị trí chạm đầu tiên.",
+        "Lặp ba lượt; thử 30°,45°,60°,70° với cùng điều kiện.",
+        "Đối chiếu cặp góc bù 30°/60° và 20°/70°; nhận xét độ cao cực đại.",
+        "Giữ góc, tăng v0; lập đồ thị R theo v0².",
+        "Đổi h0 trong phần mở rộng và giải thích vì sao 45° không còn kết luận phổ quát."
+      ],
+      "examVi": "Luyện chọn phương trình chuyển động phù hợp khi điểm phóng và điểm rơi khác độ cao; kiểm tra điều kiện trước khi dùng công thức tầm xa.",
+      "checkVi": "Hỏi: Có thể luôn khẳng định góc 30° và 60° cho cùng tầm xa không? Đáp: Không. Kết luận đó cần cùng tốc độ đầu, cùng độ cao phóng/rơi và bỏ lực cản. Bộ phóng hiện tại đổi cả độ cao nòng khi đổi góc, nên phải dùng y(t) để tìm thời gian chạm đầu.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S31",
+          "title": "OpenStax: Projectile Motion",
+          "url": "https://openstax.org/books/college-physics-2e/pages/3-4-projectile-motion"
+        }
+      ],
+      "learnVi": "x=v0 cosθ·t; y=h0+v0 sinθ·t−gt²/2. Với h0=0 và nền ngang, R=v0² sin(2θ)/g; H=v0² sin²θ/(2g). Khi h0 khác 0, tìm nghiệm dương của y=0 rồi tính R; không dùng công thức cùng độ cao. Quỹ đạo parabol chỉ trong mô hình không lực cản.",
+      "practiceVi": "Ghi góc, tốc độ đầu, độ cao nòng thực và vị trí chạm đầu. Đổi một yếu tố trong từng loạt; độ cao của bộ phóng thay đổi theo góc.",
+      "pitfallsVi": "Không lấy lần nảy sau làm điểm rơi hoặc dùng quy tắc45° cho mọi độ cao. Chưa có chỉnh độ cao độc lập trong bộ này.",
+      "sourceBrief": {
+        "titleVi": "Ném xiên: góc phóng và tầm xa",
+        "goalVi": "Thiết kế loạt bắn chỉ thay một biến; giải thích điều kiện để góc 45° cho tầm xa lớn nhất và sự khác nhau giữa vận tốc đầu với gia tốc trọng trường.",
+        "theoryVi": "x=v0 cosθ·t; y=h0+v0 sinθ·t−gt²/2. Với h0=0 và nền ngang, R=v0² sin(2θ)/g; H=v0² sin²θ/(2g). Khi h0 khác 0, tìm nghiệm dương của y=0 rồi tính R; không dùng công thức cùng độ cao. Quỹ đạo parabol chỉ trong mô hình không lực cản.",
+        "variablesVi": "Độc lập θ hoặc v0 trong từng loạt; phụ thuộc R, H, thời gian bay. Kiểm soát h0, g, lực cản và mặt hứng. Phiếu có θ, v0, h0, R1/R2/R3, R trung bình, R dự đoán.",
+        "examplesVi": "Minh họa g=9,81; v0=5 m/s, h0=0: R30=R60≈2,207 m; R45≈2,548 m. Nếu v0 tăng từ 5 lên 10 m/s ở 45°, R lý tưởng tăng bốn lần, không tăng hai lần.",
+        "mistakesVi": "Lấy điểm nảy sau cùng làm điểm rơi; quên đơn vị độ/radian; áp dụng 45° cho mọi độ cao; kéo camera khiến nhầm hướng vật. Cần đánh dấu chạm đầu và hiển thị giả thiết ngay cạnh kết quả.",
+        "testsVi": "So sánh R giải tích với chạm mặt; không phóng khi thiếu bi; không ghi thêm mẫu từ các lần nảy; pause và mất kết nối không tạo phát bắn mới; reset xóa đường quỹ đạo lượt hiện tại.",
+        "stepsVi": [
+          "Đặt bộ phóng, thước và tấm hứng; kiểm tra vùng bắn ảo không bị che.",
+          "Cố định v0=5,00 m/s và h0=0; ghi g, dự đoán góc đạt tầm xa lớn.",
+          "Nạp bi và chọn θ=20°, phóng một lần, ghi vị trí chạm đầu tiên.",
+          "Lặp ba lượt; thử 30°,45°,60°,70° với cùng điều kiện.",
+          "Đối chiếu cặp góc bù 30°/60° và 20°/70°; nhận xét độ cao cực đại.",
+          "Giữ góc, tăng v0; lập đồ thị R theo v0².",
+          "Đổi h0 trong phần mở rộng và giải thích vì sao 45° không còn kết luận phổ quát."
+        ],
+        "modelVi": "Bộ phóng đã có mesh tách phần; thêm mốc h0 và bảng dự đoán. Có thể dùng nghiệm giải tích cho số đo và CCD cho vật nhìn thấy; nếu dùng PhysX làm nguồn số đo phải khảo sát phụ thuộc timestep.",
+        "sources": "S01,S31"
+      }
+    },
+    {
+      "id": "P03",
+      "titleVi": "Ma sát nghỉ và ma sát trượt",
+      "goalVi": "Phân biệt ma sát nghỉ có độ lớn thích ứng với lực kéo và giới hạn ma sát nghỉ; xác định hệ số ma sát trượt bằng kéo đều.",
+      "theoryVi": "Khi khối đứng yên và chỉ có lực kéo ngang, Fs=Fkéo đến Fs,max=μsN. Khi trượt, gần đúng Fk=μkN và nếu vận tốc đều thì lực kéo bằng ma sát trượt. N=mg chỉ khi lực kéo ngang và không có lực đứng bổ sung. Khi kéo nghiêng góc α, N=mg−F sinα nên cách tính phải đổi.",
+      "variablesVi": "Độc lập N hoặc bề mặt; phụ thuộc đỉnh lực, lực trượt. Kiểm soát tốc độ, hướng kéo, hiệu chuẩn. Phiếu m (kg), N (N), Fs,max (N), Fk (N), μs, μk, ghi chú kéo đều.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa m=0,50 kg, μs=0,40 và μk=0,30: N=4,905 N; Fs,max=1,962 N; Fk=1,472 N. Lực kéo 1,00 N khi đứng yên chỉ tạo ma sát nghỉ 1,00 N, không phải 1,962 N.",
+      "mistakesVi": "Đồng nhất Fs với μsN ở mọi lúc; dùng lực kéo khi tăng tốc thay cho Fk; quả thêm không tính vào m; vẽ biểu đồ từ nhiều vật liệu thành một đường. Bài phải cho thấy ma sát nghỉ bằng lực cân bằng cho tới giới hạn.",
+      "testsVi": "Khối không trượt dưới giới hạn; chuyển nghỉ–trượt liên tục hợp lý; tăng m gấp đôi tăng Fk gấp đôi lý tưởng; mất input đưa lực về 0; không tính mẫu khi kéo lệch nếu bài cơ bản chặn góc.",
+      "stepsVi": [
+        "Gắn móc khối trượt vào lực kế; chọn mặt phẳng và ghi khối lượng tổng kể cả quả đặt thêm.",
+        "Đặt lực kế về 0; kéo đúng phương ngang, tăng lực từ từ khi khối còn đứng yên.",
+        "Ghi đỉnh lực ngay trước chuyển động; quan sát ma sát nghỉ thay đổi theo lực kéo.",
+        "Tiếp tục kéo đều, ghi lực trượt trung bình trong đoạn ổn định.",
+        "Lặp ba lần; tăng khối lượng mà giữ bề mặt và hướng kéo.",
+        "Thay bề mặt trong loạt riêng; vẽ Ftrượt theo N.",
+        "So sánh μs và μk, giải thích một lượt giật mạnh không phù hợp để tính μk."
+      ],
+      "examVi": "Luyện phân biệt lực ma sát nghỉ đang cân bằng lực kéo với giá trị ma sát nghỉ cực đại; xác định đúng phản lực trước khi tính hệ số.",
+      "checkVi": "Hỏi: Khối còn đứng yên khi kéo ngang 1,00 N, trong khi ngưỡng trượt là 1,962 N. Ma sát nghỉ lúc này bằng bao nhiêu? Đáp: 1,00 N, ngược lực kéo; 1,962 N là giới hạn cực đại, không phải giá trị ở mọi trạng thái đứng yên.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S32",
+          "title": "OpenStax: Newton’s second law",
+          "url": "https://openstax.org/books/college-physics-2e/pages/4-3-newtons-second-law-of-motion-concept-of-a-system"
+        }
+      ],
+      "learnVi": "Khi khối đứng yên và chỉ có lực kéo ngang, Fs=Fkéo đến Fs,max=μsN. Khi trượt, gần đúng Fk=μkN và nếu vận tốc đều thì lực kéo bằng ma sát trượt. N=mg chỉ khi lực kéo ngang và không có lực đứng bổ sung. Khi kéo nghiêng góc α, N=mg−F sinα nên cách tính phải đổi.",
+      "practiceVi": "Ghi khối lượng, ngưỡng lực làm vật bắt đầu trượt và lực khi kéo đều. Giữ hướng kéo ngang; tách các nhóm hệ số ma sát.",
+      "pitfallsVi": "Ma sát nghỉ không luôn bằng μsN. Lực kéo lúc tăng tốc không tự bằng ma sát trượt; tính cả tải thêm trong khối lượng.",
+      "sourceBrief": {
+        "titleVi": "Ma sát nghỉ và ma sát trượt",
+        "goalVi": "Phân biệt ma sát nghỉ có độ lớn thích ứng với lực kéo và giới hạn ma sát nghỉ; xác định hệ số ma sát trượt bằng kéo đều.",
+        "theoryVi": "Khi khối đứng yên và chỉ có lực kéo ngang, Fs=Fkéo đến Fs,max=μsN. Khi trượt, gần đúng Fk=μkN và nếu vận tốc đều thì lực kéo bằng ma sát trượt. N=mg chỉ khi lực kéo ngang và không có lực đứng bổ sung. Khi kéo nghiêng góc α, N=mg−F sinα nên cách tính phải đổi.",
+        "variablesVi": "Độc lập N hoặc bề mặt; phụ thuộc đỉnh lực, lực trượt. Kiểm soát tốc độ, hướng kéo, hiệu chuẩn. Phiếu m (kg), N (N), Fs,max (N), Fk (N), μs, μk, ghi chú kéo đều.",
+        "examplesVi": "Minh họa m=0,50 kg, μs=0,40 và μk=0,30: N=4,905 N; Fs,max=1,962 N; Fk=1,472 N. Lực kéo 1,00 N khi đứng yên chỉ tạo ma sát nghỉ 1,00 N, không phải 1,962 N.",
+        "mistakesVi": "Đồng nhất Fs với μsN ở mọi lúc; dùng lực kéo khi tăng tốc thay cho Fk; quả thêm không tính vào m; vẽ biểu đồ từ nhiều vật liệu thành một đường. Bài phải cho thấy ma sát nghỉ bằng lực cân bằng cho tới giới hạn.",
+        "testsVi": "Khối không trượt dưới giới hạn; chuyển nghỉ–trượt liên tục hợp lý; tăng m gấp đôi tăng Fk gấp đôi lý tưởng; mất input đưa lực về 0; không tính mẫu khi kéo lệch nếu bài cơ bản chặn góc.",
+        "stepsVi": [
+          "Gắn móc khối trượt vào lực kế; chọn mặt phẳng và ghi khối lượng tổng kể cả quả đặt thêm.",
+          "Đặt lực kế về 0; kéo đúng phương ngang, tăng lực từ từ khi khối còn đứng yên.",
+          "Ghi đỉnh lực ngay trước chuyển động; quan sát ma sát nghỉ thay đổi theo lực kéo.",
+          "Tiếp tục kéo đều, ghi lực trượt trung bình trong đoạn ổn định.",
+          "Lặp ba lần; tăng khối lượng mà giữ bề mặt và hướng kéo.",
+          "Thay bề mặt trong loạt riêng; vẽ Ftrượt theo N.",
+          "So sánh μs và μk, giải thích một lượt giật mạnh không phù hợp để tính μk."
+        ],
+        "modelVi": "Giữ khối và lực kế hiện có. Điều khiển lực bằng cò hoặc núm ảo, không suy lực từ GRIP nhị phân. Thước kim là phần động riêng. Dùng luật lực có kiểm soát để số đo ổn định; hiệu ứng vật lý chỉ bổ trợ cảm giác.",
+        "sources": "S01,S32"
+      }
+    },
+    {
+      "id": "P04",
+      "titleVi": "Cổng quang: vận tốc và gia tốc",
+      "goalVi": "Lắp hai cổng và sử dụng đúng bề rộng bản chắn để đo vận tốc; phân biệt thời gian che cổng với thời gian di chuyển giữa cổng.",
+      "theoryVi": "v≈d/Δtche, là vận tốc trung bình trong thời gian bản chắn đi qua một cổng; gần vận tốc tại tâm vùng đo nếu biến đổi nhỏ. Gia tốc không đổi: a=(vB²−vA²)/(2s), với s là khoảng cách giữa tâm cổng. Công thức a=(vB−vA)/ΔtAB cần đúng thời gian giữa các thời điểm đo.",
+      "variablesVi": "Độc lập góc nghiêng hoặc lực kéo; phụ thuộc thời gian che, vận tốc, gia tốc. Phiếu d (m), s (m), tA/tB (s), vA/vB (m/s), a (m/s²). Khi d lớn, v là giá trị trung bình trên quãng ngắn chứ không chính xác tuyệt đối tức thời.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa d=0,050 m; tA=0,100 s và tB=0,050 s: vA=0,50 m/s; vB=1,00 m/s. s=0,50 m cho a=0,75 m/s². Nhầm d với s làm vận tốc sai gấp 10.",
+      "mistakesVi": "Cổng đặt sai vùng; đọc lại mẫu cũ; mm chưa đổi m; lấy s/tche; dùng bộ đếm thời gian thực không pause. Phản hồi cần nêu cụ thể đầu vào nào chưa hợp lệ.",
+      "testsVi": "Chạy ở nhiều tốc độ khung hình phải cho cùng kết quả trong dung sai; hai xe không ghi nhầm cùng ID; d=0 bị từ chối; s=0 không chia; xe chạy ngược vẫn có dấu vận tốc theo quy ước bài.",
+      "stepsVi": [
+        "Đo d của bản chắn và s giữa tâm hai cổng; đặt cổng đủ cao để bản đi qua khe.",
+        "Nối A/B vào đồng hồ, chọn chế độ thời gian che; xóa số đo cũ của lượt.",
+        "Đặt ray nằm ngang và cho xe qua hai cổng; ghi ΔtA, ΔtB.",
+        "Tính vA và vB; lặp ba lượt và nhận xét vận tốc gần đều.",
+        "Nâng đầu ray một góc nhỏ; chạy lại một loạt riêng.",
+        "Tính a bằng hai vận tốc và s; đối chiếu đồ thị hoặc mô hình gia tốc.",
+        "Đổi d trong phần kiểm tra: vận tốc đúng phải gần như giữ nguyên khi thay bản chắn nhưng điều kiện chuyển động giữ nguyên."
+      ],
+      "examVi": "Luyện đổi mm sang m, phân biệt thời gian che cổng và thời gian đi giữa hai cổng, rồi kiểm tra đơn vị của vận tốc/gia tốc.",
+      "checkVi": "Hỏi: Bản chắn rộng 0,050 m che cổng trong 0,100 s cho số đo vận tốc nào? Đáp: 0,50 m/s theo d/Δt. Đây là vận tốc trung bình trong khoảng chắn cổng, không phải vận tốc tức thời chính xác nếu xe tăng tốc đáng kể.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S33",
+          "title": "VLAB: PhotogateMath.cs",
+          "url": "https://github.com/thieen209/VLAB/blob/df83980a12a241c5f23faf6827ee8c3612c9c247/Assets/VLAB/PhysicsLab/Runtime/Measurement/PhotogateMath.cs"
+        }
+      ],
+      "learnVi": "v≈d/Δtche, là vận tốc trung bình trong thời gian bản chắn đi qua một cổng; gần vận tốc tại tâm vùng đo nếu biến đổi nhỏ. Gia tốc không đổi: a=(vB²−vA²)/(2s), với s là khoảng cách giữa tâm cổng. Công thức a=(vB−vA)/ΔtAB cần đúng thời gian giữa các thời điểm đo.",
+      "practiceVi": "Ghi bề rộng bản chắn50 mm, khoảng cổng500 mm và thời gian che từng cổng. Đổi đơn vị trước khi tính vận tốc và gia tốc.",
+      "pitfallsVi": "Không dùng khoảng cách giữa cổng chia thời gian che một cổng. Số d/Δt là trung bình trên vùng chắn, không chính xác tức thời khi tăng tốc.",
+      "sourceBrief": {
+        "titleVi": "Cổng quang: vận tốc và gia tốc",
+        "goalVi": "Lắp hai cổng và sử dụng đúng bề rộng bản chắn để đo vận tốc; phân biệt thời gian che cổng với thời gian di chuyển giữa cổng.",
+        "theoryVi": "v≈d/Δtche, là vận tốc trung bình trong thời gian bản chắn đi qua một cổng; gần vận tốc tại tâm vùng đo nếu biến đổi nhỏ. Gia tốc không đổi: a=(vB²−vA²)/(2s), với s là khoảng cách giữa tâm cổng. Công thức a=(vB−vA)/ΔtAB cần đúng thời gian giữa các thời điểm đo.",
+        "variablesVi": "Độc lập góc nghiêng hoặc lực kéo; phụ thuộc thời gian che, vận tốc, gia tốc. Phiếu d (m), s (m), tA/tB (s), vA/vB (m/s), a (m/s²). Khi d lớn, v là giá trị trung bình trên quãng ngắn chứ không chính xác tuyệt đối tức thời.",
+        "examplesVi": "Minh họa d=0,050 m; tA=0,100 s và tB=0,050 s: vA=0,50 m/s; vB=1,00 m/s. s=0,50 m cho a=0,75 m/s². Nhầm d với s làm vận tốc sai gấp 10.",
+        "mistakesVi": "Cổng đặt sai vùng; đọc lại mẫu cũ; mm chưa đổi m; lấy s/tche; dùng bộ đếm thời gian thực không pause. Phản hồi cần nêu cụ thể đầu vào nào chưa hợp lệ.",
+        "testsVi": "Chạy ở nhiều tốc độ khung hình phải cho cùng kết quả trong dung sai; hai xe không ghi nhầm cùng ID; d=0 bị từ chối; s=0 không chia; xe chạy ngược vẫn có dấu vận tốc theo quy ước bài.",
+        "stepsVi": [
+          "Đo d của bản chắn và s giữa tâm hai cổng; đặt cổng đủ cao để bản đi qua khe.",
+          "Nối A/B vào đồng hồ, chọn chế độ thời gian che; xóa số đo cũ của lượt.",
+          "Đặt ray nằm ngang và cho xe qua hai cổng; ghi ΔtA, ΔtB.",
+          "Tính vA và vB; lặp ba lượt và nhận xét vận tốc gần đều.",
+          "Nâng đầu ray một góc nhỏ; chạy lại một loạt riêng.",
+          "Tính a bằng hai vận tốc và s; đối chiếu đồ thị hoặc mô hình gia tốc.",
+          "Đổi d trong phần kiểm tra: vận tốc đúng phải gần như giữ nguyên khi thay bản chắn nhưng điều kiện chuyển động giữ nguyên."
+        ],
+        "modelVi": "Tái sử dụng MC964, bản chắn, xe, ray và PhotogateMath. Tách sự kiện beam-enter/exit của một lượt, gắn timestamp mô phỏng. Cổng hiển thị trạng thái chờ/đo/xong để không cần học sinh đoán.",
+        "sources": "S01,S33"
+      }
+    },
+    {
+      "id": "P05",
+      "titleVi": "Lò xo: Hooke và dao động",
+      "goalVi": "Đo độ cứng bằng cân bằng tĩnh rồi kiểm tra bằng chu kỳ dao động; nhận ra hai phép đo độc lập phải thống nhất trong cùng mô hình.",
+      "theoryVi": "F=kΔl trong vùng đàn hồi tuyến tính; cân bằng đứng mg=kΔl. Dao động quanh cân bằng: T=2π√(m/k) khi bỏ khối lượng lò xo và cản. Đồ thị mg theo Δl có độ dốc k, còn T² theo m có độ dốc 4π²/k. Không đo Δl từ một trạng thái đã mang tải.",
+      "variablesVi": "Độc lập m; phụ thuộc Δl và T; kiểm soát k, g, biên độ, cản. Phiếu l0/l (m), m, Δl, F, t10, T, k tĩnh, k động.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa k=20 N/m, m=0,20 kg, g=9,81: Δl=0,0981 m; T≈0,6283 s; t10≈6,283 s. Tăng m bốn lần làm T tăng hai lần nếu lò xo còn trong vùng làm việc.\n\nTải 0,20 kg của ví dụ lý thuyết không phải cấu hình thực hành được bảo đảm cho lò xo hiện tại. Chỉ chọn tải và biên độ trong hành trình được chấp nhận.",
+      "mistakesVi": "Dùng chiều dài tổng làm độ giãn; quả treo và móc chưa cộng khối lượng; đếm nửa chu kỳ; lấy gốc dao động ở chiều dài tự nhiên thay vì cân bằng.",
+      "testsVi": "k tĩnh/động thống nhất; tháo tải phục hồi chiều dài; pause dừng pha; đầu lò xo bám đúng socket khi thay tải; tải quá giới hạn không sinh kết quả Hooke giả.",
+      "stepsVi": [
+        "Gắn lò xo vào giá; đo chiều dài tự nhiên l0 khi chưa gắn tải.",
+        "Gắn m=0,10 kg và chờ cân bằng; ghi l, tính Δl=l−l0.",
+        "Lặp với 0,20/0,30 kg trong giới hạn đàn hồi; vẽ F–Δl.",
+        "Chọn một m, kéo nhẹ theo trục rồi thả; đo 10 chu kỳ.",
+        "Lặp ba lượt mỗi m; tính k từ T và so sánh k tĩnh.",
+        "Bật tùy chọn cản để quan sát biên độ suy giảm, giữ riêng dữ liệu này.",
+        "Kết luận trong vùng đo; không ngoại suy tới giãn vô hạn."
+      ],
+      "examVi": "Luyện so sánh cách tìm k từ cân bằng mg=kΔl với cách tìm k từ chu kỳ; kiểm tra tải có nằm trong hành trình lò xo trước khi thực hành.",
+      "checkVi": "Hỏi: Giữ k và tăng m bốn lần thì chu kỳ lý tưởng thay đổi thế nào? Đáp: T tăng hai lần vì T=2π√(m/k), với điều kiện tải và biên độ vẫn trong vùng làm việc. Không được dùng kết quả đó để bỏ qua giới hạn hành trình của bộ lò xo.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S34",
+          "title": "OpenStax: Simple harmonic motion",
+          "url": "https://openstax.org/books/university-physics-volume-1/pages/15-1-simple-harmonic-motion"
+        }
+      ],
+      "learnVi": "F=kΔl trong vùng đàn hồi tuyến tính; cân bằng đứng mg=kΔl. Dao động quanh cân bằng: T=2π√(m/k) khi bỏ khối lượng lò xo và cản. Đồ thị mg theo Δl có độ dốc k, còn T² theo m có độ dốc 4π²/k. Không đo Δl từ một trạng thái đã mang tải.",
+      "practiceVi": "Ghi chiều dài không tải, độ giãn có tải và chu kỳ. Dùng tải/biên độ trong hành trình được chấp nhận; so k tĩnh và k từ dao động.",
+      "pitfallsVi": "Độ giãn khác tổng chiều dài. Tính cả móc/tải; đo dao động quanh vị trí cân bằng, không quanh chiều dài tự nhiên.",
+      "sourceBrief": {
+        "titleVi": "Lò xo: Hooke và dao động",
+        "goalVi": "Đo độ cứng bằng cân bằng tĩnh rồi kiểm tra bằng chu kỳ dao động; nhận ra hai phép đo độc lập phải thống nhất trong cùng mô hình.",
+        "theoryVi": "F=kΔl trong vùng đàn hồi tuyến tính; cân bằng đứng mg=kΔl. Dao động quanh cân bằng: T=2π√(m/k) khi bỏ khối lượng lò xo và cản. Đồ thị mg theo Δl có độ dốc k, còn T² theo m có độ dốc 4π²/k. Không đo Δl từ một trạng thái đã mang tải.",
+        "variablesVi": "Độc lập m; phụ thuộc Δl và T; kiểm soát k, g, biên độ, cản. Phiếu l0/l (m), m, Δl, F, t10, T, k tĩnh, k động.",
+        "examplesVi": "Minh họa k=20 N/m, m=0,20 kg, g=9,81: Δl=0,0981 m; T≈0,6283 s; t10≈6,283 s. Tăng m bốn lần làm T tăng hai lần nếu lò xo còn trong vùng làm việc.",
+        "mistakesVi": "Dùng chiều dài tổng làm độ giãn; quả treo và móc chưa cộng khối lượng; đếm nửa chu kỳ; lấy gốc dao động ở chiều dài tự nhiên thay vì cân bằng.",
+        "testsVi": "k tĩnh/động thống nhất; tháo tải phục hồi chiều dài; pause dừng pha; đầu lò xo bám đúng socket khi thay tải; tải quá giới hạn không sinh kết quả Hooke giả.",
+        "stepsVi": [
+          "Gắn lò xo vào giá; đo chiều dài tự nhiên l0 khi chưa gắn tải.",
+          "Gắn m=0,10 kg và chờ cân bằng; ghi l, tính Δl=l−l0.",
+          "Lặp với 0,20/0,30 kg trong giới hạn đàn hồi; vẽ F–Δl.",
+          "Chọn một m, kéo nhẹ theo trục rồi thả; đo 10 chu kỳ.",
+          "Lặp ba lượt mỗi m; tính k từ T và so sánh k tĩnh.",
+          "Bật tùy chọn cản để quan sát biên độ suy giảm, giữ riêng dữ liệu này.",
+          "Kết luận trong vùng đo; không ngoại suy tới giãn vô hạn."
+        ],
+        "modelVi": "Lò xo phải biến đổi chiều dài từ hai đầu, không kéo giãn cả móc và vòng kim loại bằng scale toàn bộ. Giữ asset endpoint-driven trong repo; thêm nhãn vùng đàn hồi và hiển thị tải tổng.",
+        "sources": "S01,S34"
+      }
+    },
+    {
+      "id": "P06",
+      "titleVi": "Va chạm xe: bảo toàn động lượng",
+      "goalVi": "Đo vận tốc trước–sau có dấu và so sánh cả động lượng lẫn động năng; nhận biết va chạm dính không bảo toàn động năng.",
+      "theoryVi": "p=m1v1+m2v2. Hệ gần cô lập theo trục ray bảo toàn p. Va chạm dính: v=(m1u1+m2u2)/(m1+m2). Va chạm đàn hồi một chiều bảo toàn thêm K=Σmv²/2. Khi ngoại lực hoặc ma sát đáng kể, tổng p của hai xe có thể thay đổi.",
+      "variablesVi": "Độc lập kiểu va chạm hoặc tỷ lệ m; phụ thuộc v1/v2 và tổng p/K. Phiếu m1,m2,u1,u2,v1,v2,p0,p1,K0,K1. Khi p0 gần 0 dùng sai lệch tuyệt đối hoặc chuẩn tham chiếu, tránh % chia 0.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa m1=m2=0,20 kg; u1=1 m/s,u2=0. Đàn hồi: v1=0,v2=1. Dính: v=0,50 m/s; p=0,20 kg·m/s trong cả hai; K từ 0,10 xuống 0,05 J ở va chạm dính.",
+      "mistakesVi": "Bỏ dấu vận tốc; chỉ so sánh một xe; giả định K luôn bảo toàn; đếm tiếp xúc nảy nhiều lần thành nhiều thí nghiệm; quên phụ kiện tăng m.",
+      "testsVi": "Kiểm tra m bằng nhau và khác nhau; đổi dấu cả vận tốc đảo kết quả; dính giữ vận tốc chung; p0=0 không NaN; reset giải phóng khóa dính và xóa mẫu dang dở.",
+      "stepsVi": [
+        "Đặt hai xe và cổng; quy định chiều dương sang phải; đo khối lượng kể cả quả thêm và phụ kiện va chạm.",
+        "Chọn va chạm đàn hồi, xe 2 đứng yên; ghi dự đoán hướng sau chạm.",
+        "Cho xe 1 chạy, đo u1/u2 trước và v1/v2 sau.",
+        "Tính p trước/sau và K trước/sau; lặp ba lần cùng cấu hình.",
+        "Thay phụ kiện dính, đặt lại lượt; chạy cùng m và u để so sánh.",
+        "Đổi tỷ lệ m trong loạt riêng, thử xe đối đầu với vận tốc trái dấu.",
+        "Giải thích chênh lệch động năng bằng biến dạng, nhiệt hoặc âm trong thực tế; ở mô phỏng phải ghi năng lượng mất như đại lượng mô hình."
+      ],
+      "examVi": "Luyện bảo toàn động lượng có dấu và so sánh động năng trước/sau va chạm; chọn đúng mô hình đàn hồi hoặc dính hoàn toàn.",
+      "checkVi": "Hỏi: Hai xe cùng khối lượng, một xe có tốc độ u, xe kia đứng yên rồi dính nhau. Vận tốc chung bằng bao nhiêu? Đáp: u/2 từ mu=(2m)v. Động lượng được giữ trong hệ lý tưởng, còn động năng giảm; không áp dụng bảo toàn động năng cho va chạm dính.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S35",
+          "title": "OpenStax: elastic collisions",
+          "url": "https://openstax.org/books/college-physics-2e/pages/8-4-elastic-collisions-in-one-dimension"
+        }
+      ],
+      "learnVi": "p=m1v1+m2v2. Hệ gần cô lập theo trục ray bảo toàn p. Va chạm dính: v=(m1u1+m2u2)/(m1+m2). Va chạm đàn hồi một chiều bảo toàn thêm K=Σmv²/2. Khi ngoại lực hoặc ma sát đáng kể, tổng p của hai xe có thể thay đổi.",
+      "practiceVi": "Ghi khối lượng và vận tốc có dấu của cả hai xe trước/sau tiếp xúc; so tổng động lượng và động năng trong từng kiểu va chạm.",
+      "pitfallsVi": "Không bỏ dấu vận tốc, chỉ xét một xe hoặc mặc định mọi va chạm đều bảo toàn động năng. Số vận tốc là trạng thái xe, không phải cổng quang độc lập.",
+      "sourceBrief": {
+        "titleVi": "Va chạm xe: bảo toàn động lượng",
+        "goalVi": "Đo vận tốc trước–sau có dấu và so sánh cả động lượng lẫn động năng; nhận biết va chạm dính không bảo toàn động năng.",
+        "theoryVi": "p=m1v1+m2v2. Hệ gần cô lập theo trục ray bảo toàn p. Va chạm dính: v=(m1u1+m2u2)/(m1+m2). Va chạm đàn hồi một chiều bảo toàn thêm K=Σmv²/2. Khi ngoại lực hoặc ma sát đáng kể, tổng p của hai xe có thể thay đổi.",
+        "variablesVi": "Độc lập kiểu va chạm hoặc tỷ lệ m; phụ thuộc v1/v2 và tổng p/K. Phiếu m1,m2,u1,u2,v1,v2,p0,p1,K0,K1. Khi p0 gần 0 dùng sai lệch tuyệt đối hoặc chuẩn tham chiếu, tránh % chia 0.",
+        "examplesVi": "Minh họa m1=m2=0,20 kg; u1=1 m/s,u2=0. Đàn hồi: v1=0,v2=1. Dính: v=0,50 m/s; p=0,20 kg·m/s trong cả hai; K từ 0,10 xuống 0,05 J ở va chạm dính.",
+        "mistakesVi": "Bỏ dấu vận tốc; chỉ so sánh một xe; giả định K luôn bảo toàn; đếm tiếp xúc nảy nhiều lần thành nhiều thí nghiệm; quên phụ kiện tăng m.",
+        "testsVi": "Kiểm tra m bằng nhau và khác nhau; đổi dấu cả vận tốc đảo kết quả; dính giữ vận tốc chung; p0=0 không NaN; reset giải phóng khóa dính và xóa mẫu dang dở.",
+        "stepsVi": [
+          "Đặt hai xe và cổng; quy định chiều dương sang phải; đo khối lượng kể cả quả thêm và phụ kiện va chạm.",
+          "Chọn va chạm đàn hồi, xe 2 đứng yên; ghi dự đoán hướng sau chạm.",
+          "Cho xe 1 chạy, đo u1/u2 trước và v1/v2 sau.",
+          "Tính p trước/sau và K trước/sau; lặp ba lần cùng cấu hình.",
+          "Thay phụ kiện dính, đặt lại lượt; chạy cùng m và u để so sánh.",
+          "Đổi tỷ lệ m trong loạt riêng, thử xe đối đầu với vận tốc trái dấu.",
+          "Giải thích chênh lệch động năng bằng biến dạng, nhiệt hoặc âm trong thực tế; ở mô phỏng phải ghi năng lượng mất như đại lượng mô hình."
+        ],
+        "modelVi": "Tái dùng hai xe cùng mesh đổi màu, bumper và đầu dính. Ghi số đo tại mặt cắt xác định trước/sau, không lấy frame tùy ý. Các giá trị m thuộc mô hình khoa học phải khớp Rigidbody nếu còn dùng nó.",
+        "sources": "S01,S35"
+      }
+    },
+    {
+      "id": "P07",
+      "titleVi": "Định luật II Newton với xe và tải treo",
+      "goalVi": "Khảo sát a tăng theo lực và giảm theo khối lượng hệ; hiểu khối lượng tải treo vừa sinh lực kéo vừa thuộc khối lượng quán tính.",
+      "theoryVi": "Hệ xe m1 trên ray ngang và tải m2 qua ròng rọc nhẹ: a=m2g/(m1+m2) nếu bỏ ma sát và quán tính ròng rọc. Lực căng T=m1a, không bằng m2g khi tải đang gia tốc. Có ma sát Ff thì a=(m2g−Ff)/(m1+m2). Nếu ròng rọc có I, thêm I/r² vào mẫu số.",
+      "variablesVi": "Hai loạt phải tách: F thay với M cố định; M thay với F cố định. Phiếu m1,m2,M,d,s,tA,tB,a,Fngoài,T. Cổng đo gia tốc trước khi dây chùng hoặc tải chạm sàn.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa m1=0,45,m2=0,05 kg: a=0,981 m/s²; T=0,44145 N. Nếu M giữ 0,50 và m2=0,10 kg thì a=1,962 m/s². Không dùng a=m2g/m1.",
+      "mistakesVi": "Tăng m2 nhưng gọi M không đổi dù không chuyển quả; lấy trọng lực tải làm lực căng; dây chùng; lấy số đo sau tải chạm đáy. Cần cảnh báo trực tiếp lý do mẫu không hợp lệ.",
+      "testsVi": "F tăng đôi ở M cố định cho a đôi; M tăng đôi ở F cố định cho a nửa; chạm đáy chặn đo; mở dây chặn chạy; chiều dài dây và khối lượng không âm.",
+      "stepsVi": [
+        "Gắn ròng rọc ở cuối ray, nối dây xe–móc tải; giữ tải còn khoảng rơi đủ.",
+        "Đặt m1=0,45 kg,m2=0,05 kg; ghi tổng M và dự đoán a.",
+        "Thả không đẩy, đo vận tốc bằng hai cổng; dừng trước tải chạm đáy.",
+        "Tính a và lặp ba lượt; kiểm tra dây còn căng trong vùng đo.",
+        "Chuyển quả nhỏ từ xe sang móc để tăng m2 nhưng giữ M không đổi; chạy từng cấu hình.",
+        "Giữ lực gần cố định, tăng tải trên xe trong loạt khác để khảo sát 1/M.",
+        "Vẽ a theo m2g ở M cố định; nêu các giả thiết và ảnh hưởng ma sát."
+      ],
+      "examVi": "Luyện chọn hệ xe cộng tải treo để lập phương trình gia tốc, rồi xét riêng xe để tìm lực căng; thiết kế loạt chỉ đổi một biến.",
+      "checkVi": "Hỏi: Vì sao lực căng không bằng trọng lực của tải treo khi tải tăng tốc xuống? Đáp: Với tải, m2g−T=m2a; khi a>0 thì T<m2g. Dùng T=m2g sẽ coi tải cân bằng và dẫn đến phương trình sai.",
+      "sources": [
+        {
+          "sourceID": "S32",
+          "title": "OpenStax: Newton’s second law",
+          "url": "https://openstax.org/books/college-physics-2e/pages/4-3-newtons-second-law-of-motion-concept-of-a-system"
+        },
+        {
+          "sourceID": "S33",
+          "title": "VLAB: PhotogateMath.cs",
+          "url": "https://github.com/thieen209/VLAB/blob/df83980a12a241c5f23faf6827ee8c3612c9c247/Assets/VLAB/PhysicsLab/Runtime/Measurement/PhotogateMath.cs"
+        }
+      ],
+      "learnVi": "Hệ xe m1 trên ray ngang và tải m2 qua ròng rọc nhẹ: a=m2g/(m1+m2) nếu bỏ ma sát và quán tính ròng rọc. Lực căng T=m1a, không bằng m2g khi tải đang gia tốc. Có ma sát Ff thì a=(m2g−Ff)/(m1+m2). Nếu ròng rọc có I, thêm I/r² vào mẫu số.",
+      "practiceVi": "Ghi khối lượng xe/tải treo và gia tốc từ hai cổng trước khi tải chạm đáy. Tách loạt giữ tổng khối lượng và loạt giữ tải treo.",
+      "pitfallsVi": "Tăng tải treo không giữ tổng khối lượng nếu không chuyển bớt từ xe. Không đồng nhất lực căng với trọng lực tải đang tăng tốc.",
+      "sourceBrief": {
+        "titleVi": "Định luật II Newton với xe và tải treo",
+        "goalVi": "Khảo sát a tăng theo lực và giảm theo khối lượng hệ; hiểu khối lượng tải treo vừa sinh lực kéo vừa thuộc khối lượng quán tính.",
+        "theoryVi": "Hệ xe m1 trên ray ngang và tải m2 qua ròng rọc nhẹ: a=m2g/(m1+m2) nếu bỏ ma sát và quán tính ròng rọc. Lực căng T=m1a, không bằng m2g khi tải đang gia tốc. Có ma sát Ff thì a=(m2g−Ff)/(m1+m2). Nếu ròng rọc có I, thêm I/r² vào mẫu số.",
+        "variablesVi": "Hai loạt phải tách: F thay với M cố định; M thay với F cố định. Phiếu m1,m2,M,d,s,tA,tB,a,Fngoài,T. Cổng đo gia tốc trước khi dây chùng hoặc tải chạm sàn.",
+        "examplesVi": "Minh họa m1=0,45,m2=0,05 kg: a=0,981 m/s²; T=0,44145 N. Nếu M giữ 0,50 và m2=0,10 kg thì a=1,962 m/s². Không dùng a=m2g/m1.",
+        "mistakesVi": "Tăng m2 nhưng gọi M không đổi dù không chuyển quả; lấy trọng lực tải làm lực căng; dây chùng; lấy số đo sau tải chạm đáy. Cần cảnh báo trực tiếp lý do mẫu không hợp lệ.",
+        "testsVi": "F tăng đôi ở M cố định cho a đôi; M tăng đôi ở F cố định cho a nửa; chạm đáy chặn đo; mở dây chặn chạy; chiều dài dây và khối lượng không âm.",
+        "stepsVi": [
+          "Gắn ròng rọc ở cuối ray, nối dây xe–móc tải; giữ tải còn khoảng rơi đủ.",
+          "Đặt m1=0,45 kg,m2=0,05 kg; ghi tổng M và dự đoán a.",
+          "Thả không đẩy, đo vận tốc bằng hai cổng; dừng trước tải chạm đáy.",
+          "Tính a và lặp ba lượt; kiểm tra dây còn căng trong vùng đo.",
+          "Chuyển quả nhỏ từ xe sang móc để tăng m2 nhưng giữ M không đổi; chạy từng cấu hình.",
+          "Giữ lực gần cố định, tăng tải trên xe trong loạt khác để khảo sát 1/M.",
+          "Vẽ a theo m2g ở M cố định; nêu các giả thiết và ảnh hưởng ma sát."
+        ],
+        "modelVi": "Chỉ thêm mô-đun ròng rọc, dây và móc tải; ray/xe/cổng/MC964 đã có. Dùng nghiệm ràng buộc dây cho chuyển động và mô hình lực; không buộc dây mềm nhiều đốt để mong tự cho định luật chính xác.",
+        "sources": "S32,S33"
+      }
+    },
+    {
+      "id": "P08",
+      "titleVi": "Công–năng lượng trên mặt phẳng nghiêng",
+      "goalVi": "So sánh thế năng mất với động năng tăng; dùng cùng bố trí để thấy năng lượng cơ giảm khi có ma sát mà tổng năng lượng không tự biến mất.",
+      "theoryVi": "Không ma sát, thả nghỉ ở độ cao h: mgh=mv²/2, v=√(2gh). Có ma sát trượt trên đường s nghiêng θ: Kcuối=mgh−μmg cosθ·s, nếu vật trượt và mô hình μ không đổi. Nếu dùng xe có bánh, động năng quay làm v nhỏ hơn dự đoán vật trượt; chế độ cơ bản chọn glider hoặc bỏ quán tính bánh và công bố.",
+      "variablesVi": "Độc lập h hoặc μ; phụ thuộc v², K, ΔE. Kiểm soát m và kiểu vật. Phiếu h,s,θ,m,μ,tche,v,Ep,K,Ep−K. Trọng lực phụ thuộc h thẳng đứng chứ không dùng s thay h.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa h=0,20 m, không ma sát: v≈1,981 m/s. m=0,20 kg cho Ep≈0,3924 J và K tương ứng. Với s=0,40 m, θ=30°,μ=0,10, công ma sát≈0,06797 J nên K≈0,32443 J.",
+      "mistakesVi": "Thước theo mặt nghiêng dùng như h; vừa thả vừa đẩy; gọi giảm cơ năng là vi phạm bảo toàn năng lượng; dùng xe quay nhưng phương trình bỏ quay không ghi giả thiết.",
+      "testsVi": "h=0 thả nghỉ không tạo K; μ=0 khớp bảo toàn; μ đủ lớn không tự trượt; v²/h nhất quán; reset đưa vật về đúng vị trí đo; không gộp mẫu μ khác nhau.",
+      "stepsVi": [
+        "Chọn ray nghiêng với glider hoặc khối, xác định h bằng thước đứng và đường s theo ray.",
+        "Đặt vật nghỉ ở đầu, bật chế độ không ma sát; dự đoán v ở cổng cuối.",
+        "Thả không đẩy, đo v=d/tche ở cuối; ghi m,h,v.",
+        "Tính Ep=mgh và K=mv²/2; lặp ba lượt.",
+        "Đổi h trong loạt riêng; kiểm tra v² theo h.",
+        "Bật μ xác định, lặp cùng h và đường; tính công ma sát và năng lượng cơ thiếu.",
+        "Nêu yếu tố làm chênh số đo thật: ma sát, quay, lực cản và sai số chiều cao."
+      ],
+      "examVi": "Luyện lập cân bằng năng lượng tại đúng vị trí đo và nhận biết khi nào phải tính công ma sát hoặc động năng quay.",
+      "checkVi": "Hỏi: Xe không trượt qua cổng có nên ghi vận tốc cổng bằng 0 không? Đáp: Không. Chưa có lần qua cổng nên không có số đo d/Δt; ghi trạng thái đứng yên và giữ số đo cổng là thiếu. Mô hình hiện dùng glider, không tính năng lượng quay bánh.",
+      "sources": [
+        {
+          "sourceID": "S31",
+          "title": "OpenStax: Projectile Motion",
+          "url": "https://openstax.org/books/college-physics-2e/pages/3-4-projectile-motion"
+        },
+        {
+          "sourceID": "S32",
+          "title": "OpenStax: Newton’s second law",
+          "url": "https://openstax.org/books/college-physics-2e/pages/4-3-newtons-second-law-of-motion-concept-of-a-system"
+        },
+        {
+          "sourceID": "S35",
+          "title": "OpenStax: elastic collisions",
+          "url": "https://openstax.org/books/college-physics-2e/pages/8-4-elastic-collisions-in-one-dimension"
+        }
+      ],
+      "learnVi": "Không ma sát, thả nghỉ ở độ cao h: mgh=mv²/2, v=√(2gh). Có ma sát trượt trên đường s nghiêng θ: Kcuối=mgh−μmg cosθ·s, nếu vật trượt và mô hình μ không đổi. Nếu dùng xe có bánh, động năng quay làm v nhỏ hơn dự đoán vật trượt; chế độ cơ bản chọn glider hoặc bỏ quán tính bánh và công bố.",
+      "practiceVi": "Ghi độ cao thẳng đứng ứng với vùng cổng, góc, đường đi, khối lượng và điều kiện ma sát. So thế năng mất với động năng và công ma sát.",
+      "pitfallsVi": "Không dùng chiều dài dốc thay độ cao. Cơ năng giảm do ma sát không vi phạm bảo toàn năng lượng; vật chưa qua cổng thì thiếu số đo cổng.",
+      "sourceBrief": {
+        "titleVi": "Công–năng lượng trên mặt phẳng nghiêng",
+        "goalVi": "So sánh thế năng mất với động năng tăng; dùng cùng bố trí để thấy năng lượng cơ giảm khi có ma sát mà tổng năng lượng không tự biến mất.",
+        "theoryVi": "Không ma sát, thả nghỉ ở độ cao h: mgh=mv²/2, v=√(2gh). Có ma sát trượt trên đường s nghiêng θ: Kcuối=mgh−μmg cosθ·s, nếu vật trượt và mô hình μ không đổi. Nếu dùng xe có bánh, động năng quay làm v nhỏ hơn dự đoán vật trượt; chế độ cơ bản chọn glider hoặc bỏ quán tính bánh và công bố.",
+        "variablesVi": "Độc lập h hoặc μ; phụ thuộc v², K, ΔE. Kiểm soát m và kiểu vật. Phiếu h,s,θ,m,μ,tche,v,Ep,K,Ep−K. Trọng lực phụ thuộc h thẳng đứng chứ không dùng s thay h.",
+        "examplesVi": "Minh họa h=0,20 m, không ma sát: v≈1,981 m/s. m=0,20 kg cho Ep≈0,3924 J và K tương ứng. Với s=0,40 m, θ=30°,μ=0,10, công ma sát≈0,06797 J nên K≈0,32443 J.",
+        "mistakesVi": "Thước theo mặt nghiêng dùng như h; vừa thả vừa đẩy; gọi giảm cơ năng là vi phạm bảo toàn năng lượng; dùng xe quay nhưng phương trình bỏ quay không ghi giả thiết.",
+        "testsVi": "h=0 thả nghỉ không tạo K; μ=0 khớp bảo toàn; μ đủ lớn không tự trượt; v²/h nhất quán; reset đưa vật về đúng vị trí đo; không gộp mẫu μ khác nhau.",
+        "stepsVi": [
+          "Chọn ray nghiêng với glider hoặc khối, xác định h bằng thước đứng và đường s theo ray.",
+          "Đặt vật nghỉ ở đầu, bật chế độ không ma sát; dự đoán v ở cổng cuối.",
+          "Thả không đẩy, đo v=d/tche ở cuối; ghi m,h,v.",
+          "Tính Ep=mgh và K=mv²/2; lặp ba lượt.",
+          "Đổi h trong loạt riêng; kiểm tra v² theo h.",
+          "Bật μ xác định, lặp cùng h và đường; tính công ma sát và năng lượng cơ thiếu.",
+          "Nêu yếu tố làm chênh số đo thật: ma sát, quay, lực cản và sai số chiều cao."
+        ],
+        "modelVi": "Thêm đế chỉnh nghiêng và thước chiều cao; dùng ray và cổng hiện có. Hiển thị thanh Ep/K/nhiệt chỉ sau phép đo đầu để học sinh còn dự đoán. Giữ bộ giải năng lượng và hình ảnh đồng bộ.",
+        "sources": "S31,S32,S35"
+      }
+    },
+    {
+      "id": "C01",
+      "titleVi": "Chuẩn độ giấm bằng NaOH",
+      "goalVi": "Xác định nồng độ acid đơn chức trong mẫu giấm pha loãng; phân biệt điểm tương đương hóa học với điểm cuối chỉ thị và thu các lượt lặp nhất quán.",
+      "theoryVi": "CH3COOH+OH−→CH3COO−+H2O. Ở tương đương n acid=n base; Cacid=Cb(Vcuối−Vđầu)/Vmẫu. Nếu mẫu được pha loãng D lần, nồng độ mẫu ban đầu nhân D. Acid yếu–base mạnh có pH tương đương lớn hơn 7; phenolphthalein đổi màu trong một khoảng pH, không tại một thể tích tuyệt đối cho mọi hệ.",
+      "variablesVi": "Độc lập thể tích base; phụ thuộc màu/pH và Vđiểm cuối; kiểm soát Cb, Vmẫu, chỉ thị. Phiếu Vđầu,Vcuối,Vtiêu thụ,Cb,Vmẫu,D,Cacid và lý do loại. Độ chia/độ chính xác phải được thiết kế phù hợp; nút +0,01 mL của mô hình không chứng minh burette thật chính xác 0,01 mL.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa Cb=0,1000 M,Vmẫu=10,00 mL,Vtiêu thụ=8,30 mL: Cacid pha loãng=0,0830 M. Nếu D=10 được quy định thì mẫu gốc=0,830 M. Không dùng 8,30 mL làm giá trị thật của mẫu VLAB chưa đo.",
+      "mistakesVi": "Hồng đậm rồi tiếp tục thêm để tìm màu nhạt; dùng Vcuối thay hiệu số; coi tương đương pH=7; trộn thao tác bảng/dụng cụ cùng lượt; không ghi hệ số pha loãng.",
+      "testsVi": "Kiểm tra chuẩn độ trước/sau tương đương; đổi Vmẫu tỷ lệ Vđiểm cuối; spill mất mẫu không được ghi; pause đóng dòng hoặc dừng tích phân theo quy định; reset lượt giữ bảng, xóa kết quả là hành động riêng.",
+      "stepsVi": [
+        "Trong mô phỏng xác nhận bảo hộ, nhận biết mẫu giấm pha loãng 10,00 mL và NaOH 0,1000 M; không tự thay nồng độ cấu hình.",
+        "Tráng/nạp burette, bảo đảm đầu khóa đã đầy dung dịch; ghi Vđầu bằng mặt khum.",
+        "Dùng pipette lấy đúng mẫu vào bình tam giác; thêm lượng chỉ thị nhỏ theo bài.",
+        "Cho dung dịch từng lượng lớn khi xa điểm cuối, giảm xuống giọt nhỏ khi gần; lắc trộn.",
+        "Đóng khóa khi hồng nhạt theo cửa sổ điểm cuối của mô hình; ghi Vcuối và tính Vtiêu thụ.",
+        "Làm ba lượt hợp lệ; tiêu chí hiện tại ba kết quả gần nhất lệch không quá 0,10 mL.",
+        "Tính Cacid, chỉ nhân hệ số pha loãng khi đã biết D; giải thích lượt quá chuẩn và loại theo lý do, không xóa tùy tiện."
+      ],
+      "examVi": "Luyện tính nồng độ từ hiệu số đọc burette, thể tích aliquot và tỷ lệ phản ứng; phân biệt mẫu pha loãng với mẫu ban đầu.",
+      "checkVi": "Hỏi: Với NaOH 0,1000 M, aliquot acid 10,00 mL và thể tích base tiêu thụ 8,30 mL, nồng độ acid đã pha loãng là bao nhiêu? Đáp: 0,0830 M vì tỷ lệ mol là 1:1. Chỉ nhân hệ số pha loãng khi hệ số ấy đã được xác định; đây là ví dụ giả định, không phải số đo đã lưu.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S12",
+          "title": "ChemCollective Virtual Labs",
+          "url": "https://chemcollective.org/vlabs"
+        },
+        {
+          "sourceID": "S36",
+          "title": "OpenStax: Quantitative Chemical Analysis",
+          "url": "https://openstax.org/books/chemistry-2e/pages/4-5-quantitative-chemical-analysis"
+        }
+      ],
+      "learnVi": "CH3COOH+OH−→CH3COO−+H2O. Ở tương đương n acid=n base; Cacid=Cb(Vcuối−Vđầu)/Vmẫu. Nếu mẫu được pha loãng D lần, nồng độ mẫu ban đầu nhân D. Acid yếu–base mạnh có pH tương đương lớn hơn 7; phenolphthalein đổi màu trong một khoảng pH, không tại một thể tích tuyệt đối cho mọi hệ.",
+      "practiceVi": "Ghi mặt khum đầu/cuối, thể tích tiêu thụ, nồng độ base và aliquot10 mL. Dùng mẫu mới để có ba titre hợp lệ gần nhau; ghi lý do loại lượt quá chuẩn.",
+      "pitfallsVi": "Dùng hiệu số đọc, không chỉ số cuối. Hồng đậm không được sửa bằng cách thêm base; tương đương acid yếu–base mạnh không nhất thiết có pH7.",
+      "sourceBrief": {
+        "titleVi": "Chuẩn độ giấm bằng NaOH",
+        "goalVi": "Xác định nồng độ acid đơn chức trong mẫu giấm pha loãng; phân biệt điểm tương đương hóa học với điểm cuối chỉ thị và thu các lượt lặp nhất quán.",
+        "theoryVi": "CH3COOH+OH−→CH3COO−+H2O. Ở tương đương n acid=n base; Cacid=Cb(Vcuối−Vđầu)/Vmẫu. Nếu mẫu được pha loãng D lần, nồng độ mẫu ban đầu nhân D. Acid yếu–base mạnh có pH tương đương lớn hơn 7; phenolphthalein đổi màu trong một khoảng pH, không tại một thể tích tuyệt đối cho mọi hệ.",
+        "variablesVi": "Độc lập thể tích base; phụ thuộc màu/pH và Vđiểm cuối; kiểm soát Cb, Vmẫu, chỉ thị. Phiếu Vđầu,Vcuối,Vtiêu thụ,Cb,Vmẫu,D,Cacid và lý do loại. Độ chia/độ chính xác phải được thiết kế phù hợp; nút +0,01 mL của mô hình không chứng minh burette thật chính xác 0,01 mL.",
+        "examplesVi": "Minh họa Cb=0,1000 M,Vmẫu=10,00 mL,Vtiêu thụ=8,30 mL: Cacid pha loãng=0,0830 M. Nếu D=10 được quy định thì mẫu gốc=0,830 M. Không dùng 8,30 mL làm giá trị thật của mẫu VLAB chưa đo.",
+        "mistakesVi": "Hồng đậm rồi tiếp tục thêm để tìm màu nhạt; dùng Vcuối thay hiệu số; coi tương đương pH=7; trộn thao tác bảng/dụng cụ cùng lượt; không ghi hệ số pha loãng.",
+        "testsVi": "Kiểm tra chuẩn độ trước/sau tương đương; đổi Vmẫu tỷ lệ Vđiểm cuối; spill mất mẫu không được ghi; pause đóng dòng hoặc dừng tích phân theo quy định; reset lượt giữ bảng, xóa kết quả là hành động riêng.",
+        "stepsVi": [
+          "Trong mô phỏng xác nhận bảo hộ, nhận biết mẫu giấm pha loãng 10,00 mL và NaOH 0,1000 M; không tự thay nồng độ cấu hình.",
+          "Tráng/nạp burette, bảo đảm đầu khóa đã đầy dung dịch; ghi Vđầu bằng mặt khum.",
+          "Dùng pipette lấy đúng mẫu vào bình tam giác; thêm lượng chỉ thị nhỏ theo bài.",
+          "Cho dung dịch từng lượng lớn khi xa điểm cuối, giảm xuống giọt nhỏ khi gần; lắc trộn.",
+          "Đóng khóa khi hồng nhạt theo cửa sổ điểm cuối của mô hình; ghi Vcuối và tính Vtiêu thụ.",
+          "Làm ba lượt hợp lệ; tiêu chí hiện tại ba kết quả gần nhất lệch không quá 0,10 mL.",
+          "Tính Cacid, chỉ nhân hệ số pha loãng khi đã biết D; giải thích lượt quá chuẩn và loại theo lý do, không xóa tùy tiện."
+        ],
+        "modelVi": "Giữ một đường thao tác nhất quán mỗi lượt. Lượng chất trong bình là dữ liệu bảo toàn mol; hạt giọt chỉ là hình ảnh, không dùng số particle collision làm số mol. Cho cửa sổ điểm cuối và trạng thái mất mẫu có giải thích.",
+        "sources": "S01,S12,S36"
+      }
+    },
+    {
+      "id": "C02",
+      "titleVi": "Pin Daniell: lắp và khảo sát điện áp",
+      "goalVi": "Lắp hai nửa pin và cầu muối; đo dấu điện áp khi đảo dây; giải thích dòng electron ngoài mạch và ion trong cầu muối.",
+      "theoryVi": "Zn→Zn²⁺+2e− ở anode; Cu²⁺+2e−→Cu ở cathode. E°cell≈1,10 V trong điều kiện chuẩn. Ở 25°C, E≈E°−(0,05916/2)log10(aZn²⁺/aCu²⁺); dùng nồng độ thay hoạt độ là gần đúng dung dịch lý tưởng. Cầu muối duy trì trung hòa điện, không vận chuyển electron như dây dẫn.",
+      "variablesVi": "Độc lập tỷ lệ hoạt độ/nồng độ hoặc cấu hình cầu muối; phụ thuộc E và dấu. Kiểm soát nhiệt độ, cặp điện cực. Phiếu điện cực,cốc,cầu,dây,CZn,CCu,T,E. Không ghi số 1,10 V cấu hình sẵn như một phép đo độc lập hiện tại.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa nồng độ bằng nhau cho E≈1,10 V; tỷ lệ CZn/CCu=10 cho E≈1,0704 V theo gần đúng 25°C. Đảo dây hiển thị −1,0704 V mà phản ứng tự phát không đổi chiều.",
+      "mistakesVi": "Cầu muối mang electron; cathode luôn âm trong mọi loại pin; tháo cầu vẫn hiển thị cố định 1,10 V như pin hoạt động. Với mô hình chưa có động học, nên báo mạch ion hở thay vì dựng quá trình quá độ giả.",
+      "testsVi": "Sai kim loại/cốc chặn kết quả; tỷ lệ nồng độ bằng nhau không đổi E; đảo dây đổi dấu; nồng độ không dương từ chối; không sinh electron đi qua cầu muối.",
+      "stepsVi": [
+        "Nhận biết cốc ZnSO4 và CuSO4, điện cực Zn/Cu; ghi nồng độ cấu hình.",
+        "Đặt mỗi điện cực vào đúng cốc; nối cầu muối ngập hai đầu.",
+        "Nối Zn tới cổng âm vôn kế và Cu tới cổng dương, đo mạch hở.",
+        "Ghi E; tháo cầu muối và dự đoán rồi quan sát trạng thái của mô hình.",
+        "Lắp lại, đảo đầu vôn kế để kiểm tra dấu.",
+        "Nếu mở rộng đã được triển khai, thay tỷ lệ nồng độ trong từng loạt và đối chiếu Nernst.",
+        "Viết phương trình tổng, hướng electron và ion; phân biệt quan sát bản quy trình hiện có với dữ liệu solver mới."
+      ],
+      "examVi": "Luyện viết bán phản ứng, xác định anode/cathode và giải thích dấu điện áp khi đổi đầu đo; nhận diện vai trò cầu muối.",
+      "checkVi": "Hỏi: Cầu muối có đưa electron từ Zn sang Cu không? Đáp: Không. Electron đi qua dây ngoài; ion trong cầu muối giúp duy trì trung hòa điện của hai dung dịch. Đảo đầu voltmeter đổi dấu số đọc, không tự đảo phản ứng tự phát.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S37",
+          "title": "OpenStax: Galvanic cells",
+          "url": "https://openstax.org/books/chemistry-2e/pages/17-2-galvanic-cells"
+        },
+        {
+          "sourceID": "S38",
+          "title": "OpenStax: electrode and cell potentials",
+          "url": "https://openstax.org/books/chemistry-2e/pages/17-3-electrode-and-cell-potentials"
+        }
+      ],
+      "learnVi": "Zn→Zn²⁺+2e− ở anode; Cu²⁺+2e−→Cu ở cathode. E°cell≈1,10 V trong điều kiện chuẩn. Ở 25°C, E≈E°−(0,05916/2)log10(aZn²⁺/aCu²⁺); dùng nồng độ thay hoạt độ là gần đúng dung dịch lý tưởng. Cầu muối duy trì trung hòa điện, không vận chuyển electron như dây dẫn.",
+      "practiceVi": "Ghi điện cực, dung dịch, nồng độ, cầu muối và dấu điện áp. So khi đảo đầu đo hoặc đổi tỷ lệ nồng độ, giữ điều kiện còn lại.",
+      "pitfallsVi": "Cầu muối dẫn ion, không dẫn electron như dây. Không coi giá trị chuẩn1,10 V là số đo độc lập của mọi cấu hình.",
+      "sourceBrief": {
+        "titleVi": "Pin Daniell: lắp và khảo sát điện áp",
+        "goalVi": "Lắp hai nửa pin và cầu muối; đo dấu điện áp khi đảo dây; giải thích dòng electron ngoài mạch và ion trong cầu muối.",
+        "theoryVi": "Zn→Zn²⁺+2e− ở anode; Cu²⁺+2e−→Cu ở cathode. E°cell≈1,10 V trong điều kiện chuẩn. Ở 25°C, E≈E°−(0,05916/2)log10(aZn²⁺/aCu²⁺); dùng nồng độ thay hoạt độ là gần đúng dung dịch lý tưởng. Cầu muối duy trì trung hòa điện, không vận chuyển electron như dây dẫn.",
+        "variablesVi": "Độc lập tỷ lệ hoạt độ/nồng độ hoặc cấu hình cầu muối; phụ thuộc E và dấu. Kiểm soát nhiệt độ, cặp điện cực. Phiếu điện cực,cốc,cầu,dây,CZn,CCu,T,E. Không ghi số 1,10 V cấu hình sẵn như một phép đo độc lập hiện tại.",
+        "examplesVi": "Minh họa nồng độ bằng nhau cho E≈1,10 V; tỷ lệ CZn/CCu=10 cho E≈1,0704 V theo gần đúng 25°C. Đảo dây hiển thị −1,0704 V mà phản ứng tự phát không đổi chiều.",
+        "mistakesVi": "Cầu muối mang electron; cathode luôn âm trong mọi loại pin; tháo cầu vẫn hiển thị cố định 1,10 V như pin hoạt động. Với mô hình chưa có động học, nên báo mạch ion hở thay vì dựng quá trình quá độ giả.",
+        "testsVi": "Sai kim loại/cốc chặn kết quả; tỷ lệ nồng độ bằng nhau không đổi E; đảo dây đổi dấu; nồng độ không dương từ chối; không sinh electron đi qua cầu muối.",
+        "stepsVi": [
+          "Nhận biết cốc ZnSO4 và CuSO4, điện cực Zn/Cu; ghi nồng độ cấu hình.",
+          "Đặt mỗi điện cực vào đúng cốc; nối cầu muối ngập hai đầu.",
+          "Nối Zn tới cổng âm vôn kế và Cu tới cổng dương, đo mạch hở.",
+          "Ghi E; tháo cầu muối và dự đoán rồi quan sát trạng thái của mô hình.",
+          "Lắp lại, đảo đầu vôn kế để kiểm tra dấu.",
+          "Nếu mở rộng đã được triển khai, thay tỷ lệ nồng độ trong từng loạt và đối chiếu Nernst.",
+          "Viết phương trình tổng, hướng electron và ion; phân biệt quan sát bản quy trình hiện có với dữ liệu solver mới."
+        ],
+        "modelVi": "Thêm validator điện cực/cầu/dây và mô hình E tách khỏi scene. Dùng cốc chung, lá kim loại đổi vật liệu, vôn kế chung bộ điện. Lộ rõ nhãn chế độ minh họa hay đo tính toán.",
+        "sources": "S01,S37,S38"
+      }
+    },
+    {
+      "id": "C03",
+      "titleVi": "Điện phân CuSO4: điện cực trơ và đồng",
+      "goalVi": "Dự đoán sản phẩm ở hai điện cực, đo khối lượng đồng theo điện lượng và so sánh điện cực trơ với điện cực đồng.",
+      "theoryVi": "Cathode: Cu²⁺+2e−→Cu. Anode trơ trong phạm vi bài: 2H2O→O2+4H⁺+4e−. mCu=MCu·I·t/(2F) với F≈96485 C/mol và hiệu suất dòng giả định 100%. Anode đồng: Cu→Cu²⁺+2e−, nên màu CuSO4 có thể gần ổn định thay vì nhạt như điện cực trơ. Điện áp 6,0 V cấu hình không tự xác định dòng I.",
+      "variablesVi": "Độc lập t hoặc I, không đổi cả hai trong cùng so sánh đơn biến; phụ thuộc Δm, lượng khí và màu. Kiểm soát loại điện cực/nồng độ/thể tích. Phiếu I,t,Q,khối lượng trước/sau,loại điện cực. Nếu chỉ có minh họa hiện tại, không tạo số cân giả như đã đo.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa I=0,20 A,t=600 s: Q=120 C,mCu≈0,0395 g. Cân chỉ đọc 0,01 g không phù hợp kiểm tra rất chính xác lượng này; cần cân có độ phân giải phù hợp; không suy độ chính xác cao từ một số đọc bị làm tròn.",
+      "mistakesVi": "Anode mọi loại đều tạo O2; suy m từ 6 V mà thiếu I; tăng lớp kim loại theo số frame; nhầm electron chạy qua dung dịch; cân điện cực còn ướt.",
+      "testsVi": "m tỷ lệ I,t trong điều kiện chưa cạn Cu²⁺; bảo toàn Cu ở chế độ anode đồng; tắt nguồn dừng điện lượng; điện cực chạm gây trạng thái ngắn mạch; cạn chất chặn tích phân âm.",
+      "stepsVi": [
+        "Chọn loại điện cực, đặt cathode/anode ngập dung dịch, giữ không chạm nhau.",
+        "Nối nguồn khi đang tắt; xác nhận cực tính và đọc thể tích/nồng độ.",
+        "Đặt dòng mục tiêu trong mô hình giới hạn, bật nguồn và đồng hồ; ghi I thực mô phỏng.",
+        "Quan sát lớp Cu ở cathode và bọt ở anode trơ; ghi thời gian và màu.",
+        "Dừng nguồn, cân điện cực theo quy trình ảo rửa–làm khô có trạng thái; tính Δm.",
+        "Lặp các khoảng t ở I giữ nguyên; vẽ m theo It.",
+        "Thay anode đồng trong loạt riêng; giải thích sản phẩm và cân bằng ion khác."
+      ],
+      "examVi": "Luyện liên hệ điện lượng với khối lượng bám cathode và chọn độ phân giải cân phù hợp; so sánh anode đồng với anode trơ.",
+      "checkVi": "Hỏi: Giữ dòng điện và hiệu suất dòng, tăng thời gian điện phân hai lần sẽ làm khối lượng đồng lý tưởng đổi thế nào? Đáp: Tăng hai lần theo m=MI t/(2F), miễn Cu²⁺ còn đủ. Chỉ tích phân thời gian nguồn thực sự bật và cân điện cực đã rửa, làm khô.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S17",
+          "title": "RSC: Electrolysis of copper(II) sulfate",
+          "url": "https://edu.rsc.org/experiments/electrolysis-of-copperii-sulfate-solution/476.article"
+        },
+        {
+          "sourceID": "S18",
+          "title": "RSC: Quantitative electrolysis",
+          "url": "https://edu.rsc.org/experiments/quantitative-electrolysis-of-aqueous-copperii-sulfate/1883.article"
+        }
+      ],
+      "learnVi": "Cathode: Cu²⁺+2e−→Cu. Anode trơ trong phạm vi bài: 2H2O→O2+4H⁺+4e−. mCu=MCu·I·t/(2F) với F≈96485 C/mol và hiệu suất dòng giả định 100%. Anode đồng: Cu→Cu²⁺+2e−, nên màu CuSO4 có thể gần ổn định thay vì nhạt như điện cực trơ. Điện áp 6,0 V cấu hình không tự xác định dòng I.",
+      "practiceVi": "Ghi khối lượng điện cực khô trước/sau, dòng, thời gian nguồn bật, điện lượng và loại anode. Chỉ đổi dòng hoặc thời gian trong một loạt.",
+      "pitfallsVi": "Không cân điện cực ướt hoặc suy khối lượng bám từ điện áp mà thiếu dòng. Anode đồng và anode trơ không có cùng phản ứng.",
+      "sourceBrief": {
+        "titleVi": "Điện phân CuSO4: điện cực trơ và đồng",
+        "goalVi": "Dự đoán sản phẩm ở hai điện cực, đo khối lượng đồng theo điện lượng và so sánh điện cực trơ với điện cực đồng.",
+        "theoryVi": "Cathode: Cu²⁺+2e−→Cu. Anode trơ trong phạm vi bài: 2H2O→O2+4H⁺+4e−. mCu=MCu·I·t/(2F) với F≈96485 C/mol và hiệu suất dòng giả định 100%. Anode đồng: Cu→Cu²⁺+2e−, nên màu CuSO4 có thể gần ổn định thay vì nhạt như điện cực trơ. Điện áp 6,0 V cấu hình không tự xác định dòng I.",
+        "variablesVi": "Độc lập t hoặc I, không đổi cả hai trong cùng so sánh đơn biến; phụ thuộc Δm, lượng khí và màu. Kiểm soát loại điện cực/nồng độ/thể tích. Phiếu I,t,Q,khối lượng trước/sau,loại điện cực. Nếu chỉ có minh họa hiện tại, không tạo số cân giả như đã đo.",
+        "examplesVi": "Minh họa I=0,20 A,t=600 s: Q=120 C,mCu≈0,0395 g. Cân chỉ đọc 0,01 g không phù hợp kiểm tra rất chính xác lượng này; cần thiết kế cân 0,001 g hoặc tăng điện lượng trong mô phỏng.",
+        "mistakesVi": "Anode mọi loại đều tạo O2; suy m từ 6 V mà thiếu I; tăng lớp kim loại theo số frame; nhầm electron chạy qua dung dịch; cân điện cực còn ướt.",
+        "testsVi": "m tỷ lệ I,t trong điều kiện chưa cạn Cu²⁺; bảo toàn Cu ở chế độ anode đồng; tắt nguồn dừng điện lượng; điện cực chạm gây trạng thái ngắn mạch; cạn chất chặn tích phân âm.",
+        "stepsVi": [
+          "Chọn loại điện cực, đặt cathode/anode ngập dung dịch, giữ không chạm nhau.",
+          "Nối nguồn khi đang tắt; xác nhận cực tính và đọc thể tích/nồng độ.",
+          "Đặt dòng mục tiêu trong mô hình giới hạn, bật nguồn và đồng hồ; ghi I thực mô phỏng.",
+          "Quan sát lớp Cu ở cathode và bọt ở anode trơ; ghi thời gian và màu.",
+          "Dừng nguồn, cân điện cực theo quy trình ảo rửa–làm khô có trạng thái; tính Δm.",
+          "Lặp các khoảng t ở I giữ nguyên; vẽ m theo It.",
+          "Thay anode đồng trong loạt riêng; giải thích sản phẩm và cân bằng ion khác."
+        ],
+        "modelVi": "VFX bọt và lớp đồng đọc từ lượng mol đã tính; không dùng hiệu ứng làm solver. Điện cực Cu/graphite cùng hình lá hoặc thanh nhưng khác metadata. Thêm cân, ampe kế, nguồn hạn dòng và nhãn thời gian tăng tốc.",
+        "sources": "S01,S17,S18"
+      }
+    },
+    {
+      "id": "C04",
+      "titleVi": "Nhận biết chloride bằng kết tủa AgCl và đối chứng",
+      "goalVi": "Thiết kế đối chứng âm và mô tả kết tủa đúng; phát triển kỹ năng suy luận từ so sánh thay vì màu đẹp.",
+      "theoryVi": "Ag⁺+Cl−→AgCl(s) trắng. Mẫu NaNO3 không cung cấp Cl− nên không tạo AgCl trong điều kiện bài. Ở mô hình định lượng, kết tủa xuất hiện khi Q=[Ag⁺][Cl−]>Ksp; lượng rắn còn phụ thuộc chất giới hạn và hòa tan. Bản hiện tại dùng đơn vị mô phỏng, không phải mL hay mô hình cân bằng.",
+      "variablesVi": "Độc lập loại mẫu; phụ thuộc sự có mặt kết tủa; kiểm soát lượng thuốc thử và độ sạch. Phiếu tên mẫu,thuốc thử,lượng theo đúng đơn vị,hiện tượng,kết luận. Không khẳng định chỉ mọi ion chloride được nhận biết duy nhất nếu chưa xét nhiễu của các ion khác.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa mở rộng, không phải bản hiện có: 10 mL NaCl 0,010 M chứa 1,0×10⁻4 mol Cl−; AgNO3 dư cho gần 0,0143 g AgCl nếu bỏ độ tan. Bài cơ bản chỉ ghi trắng/không trắng.",
+      "mistakesVi": "Chọn cốc khi chưa chọn thuốc thử; nước thêm làm cặn biến mất ngay; chỉ thử mẫu nghi ngờ mà không có đối chứng; gọi bọt khí là kết tủa; đồng nhất đơn vị mô phỏng với thể tích.",
+      "testsVi": "Đối chứng luôn được yêu cầu trước kết luận; thuốc thử được bỏ chọn sau chuyển như hiện tại; reset phục hồi; cốc đầy/hết thuốc không sinh phản ứng; phần mở rộng bảo toàn ion.",
+      "stepsVi": [
+        "Đặt ba cốc sạch có nhãn: mẫu NaCl, đối chứng NaNO3, mẫu trắng nước.",
+        "Dự đoán kết quả của cùng lượng AgNO3 ở mỗi cốc.",
+        "Chọn thuốc thử rồi cốc mẫu; trong bản hiện tại mỗi lần chuyển là 2 đơn vị mô phỏng.",
+        "Ghi chất rắn trắng; chọn lại thuốc thử trước khi chuyển sang đối chứng.",
+        "So sánh cả mẫu trắng và NaNO3; ghi có/không, không bịa số lượng mol.",
+        "Reset trước loạt mới để không giữ cặn từ lượt trước.",
+        "Kết luận dựa đối chứng; nếu nâng cấp thể tích–nồng độ phải thay toàn bộ nhãn và validator."
+      ],
+      "examVi": "Luyện suy luận định tính từ mẫu thử và hai đối chứng, viết phương trình ion rút gọn và giới hạn kết luận về kết tủa.",
+      "checkVi": "Hỏi: Vì sao cần cả mẫu NaNO3 và mẫu nước khi thử chloride bằng AgNO3? Đáp: Chúng là hai đối chứng âm không cung cấp Cl⁻ trong bài. So sánh với NaCl giúp gắn kết tủa trắng với phản ứng Ag⁺+Cl⁻; không suy nồng độ từ lượng cặn trong mô hình chuyển định tính.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S12",
+          "title": "ChemCollective Virtual Labs",
+          "url": "https://chemcollective.org/vlabs"
+        },
+        {
+          "sourceID": "S39",
+          "title": "VLAB: qualitative activity",
+          "url": "https://github.com/thieen209/VLAB/blob/df83980a12a241c5f23faf6827ee8c3612c9c247/Assets/VLAB/MainMenu/Runtime/Activities/Chemistry/VLabQualitativeActivity.cs"
+        }
+      ],
+      "learnVi": "Ag⁺+Cl−→AgCl(s) trắng. Mẫu NaNO3 không cung cấp Cl− nên không tạo AgCl trong điều kiện bài. Ở mô hình định lượng, kết tủa xuất hiện khi Q=[Ag⁺][Cl−]>Ksp; lượng rắn còn phụ thuộc chất giới hạn và hòa tan. Bản hiện tại dùng đơn vị mô phỏng, không phải mL hay mô hình cân bằng.",
+      "practiceVi": "Ghi tên mẫu, thuốc thử, số lần chuyển theo đơn vị mô phỏng và có/không kết tủa. So NaCl với NaNO3 và nước sạch.",
+      "pitfallsVi": "Không gọi bọt khí là kết tủa hoặc bỏ đối chứng. Hai đơn vị chuyển không phải2 mL; hiện tượng này không tự đo nồng độ chloride.",
+      "sourceBrief": {
+        "titleVi": "Nhận biết chloride bằng kết tủa AgCl và đối chứng",
+        "goalVi": "Thiết kế đối chứng âm và mô tả kết tủa đúng; phát triển kỹ năng suy luận từ so sánh thay vì màu đẹp.",
+        "theoryVi": "Ag⁺+Cl−→AgCl(s) trắng. Mẫu NaNO3 không cung cấp Cl− nên không tạo AgCl trong điều kiện bài. Ở mô hình định lượng, kết tủa xuất hiện khi Q=[Ag⁺][Cl−]>Ksp; lượng rắn còn phụ thuộc chất giới hạn và hòa tan. Bản hiện tại dùng đơn vị mô phỏng, không phải mL hay mô hình cân bằng.",
+        "variablesVi": "Độc lập loại mẫu; phụ thuộc sự có mặt kết tủa; kiểm soát lượng thuốc thử và độ sạch. Phiếu tên mẫu,thuốc thử,lượng theo đúng đơn vị,hiện tượng,kết luận. Không khẳng định chỉ mọi ion chloride được nhận biết duy nhất nếu chưa xét nhiễu của các ion khác.",
+        "examplesVi": "Minh họa mở rộng, không phải bản hiện có: 10 mL NaCl 0,010 M chứa 1,0×10⁻4 mol Cl−; AgNO3 dư cho gần 0,0143 g AgCl nếu bỏ độ tan. Bài cơ bản chỉ ghi trắng/không trắng.",
+        "mistakesVi": "Chọn cốc khi chưa chọn thuốc thử; nước thêm làm cặn biến mất ngay; chỉ thử mẫu nghi ngờ mà không có đối chứng; gọi bọt khí là kết tủa; đồng nhất đơn vị mô phỏng với thể tích.",
+        "testsVi": "Đối chứng luôn được yêu cầu trước kết luận; thuốc thử được bỏ chọn sau chuyển như hiện tại; reset phục hồi; cốc đầy/hết thuốc không sinh phản ứng; phần mở rộng bảo toàn ion.",
+        "stepsVi": [
+          "Đặt ba cốc sạch có nhãn: mẫu NaCl, đối chứng NaNO3, mẫu trắng nước.",
+          "Dự đoán kết quả của cùng lượng AgNO3 ở mỗi cốc.",
+          "Chọn thuốc thử rồi cốc mẫu; trong bản hiện tại mỗi lần chuyển là 2 đơn vị mô phỏng.",
+          "Ghi chất rắn trắng; chọn lại thuốc thử trước khi chuyển sang đối chứng.",
+          "So sánh cả mẫu trắng và NaNO3; ghi có/không, không bịa số lượng mol.",
+          "Reset trước loạt mới để không giữ cặn từ lượt trước.",
+          "Kết luận dựa đối chứng; nếu nâng cấp thể tích–nồng độ phải thay toàn bộ nhãn và validator."
+        ],
+        "modelVi": "Tái sử dụng cốc/giá thuốc thử của VLabQualitativeActivity. Kết tủa là mesh/VFX riêng đáy cốc; hỗn hợp và cặn thuộc trạng thái cốc. Bảng phải ghi rõ định tính và hạn chế nhận biết.",
+        "sources": "S01,S12,S39"
+      }
+    },
+    {
+      "id": "C05",
+      "titleVi": "Pha loãng dung dịch và xây dựng dãy nồng độ",
+      "goalVi": "Tính thể tích cần lấy và phân biệt thêm nước với chuyển một thể tích mẫu; tạo dãy để dùng ở các thí nghiệm pH và thẩm thấu.",
+      "theoryVi": "C1V1=C2V2 khi số mol chất tan bảo toàn trong pha loãng; V2 là thể tích cuối sau định mức. Pha loãng nối tiếp theo hệ số r: Cn=C0r^n. Công thức không thay cho trộn phản ứng; nồng độ phần trăm khối lượng có hệ quy đổi khác mol/L.",
+      "variablesVi": "Độc lập tỷ lệ pha; phụ thuộc Ccuối; kiểm soát chất tan,Vcuối,dụng cụ. Phiếu C1,V1,Vnước danh nghĩa,Vcuối,C2,hệ số pha. Không giả định thể tích trộn cộng chính xác cho mọi dung môi; bộ cơ bản giả định dung dịch loãng nước.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa C1=0,100 M,muốn C2=0,0200 M,V2=50,00 mL: V1=10,00 mL. Không lấy 10 mL rồi thêm 50 mL nước, vì thể tích cuối khi đó gần 60 mL và C≈0,0167 M.",
+      "mistakesVi": "Dùng cốc có vạch thô thay bình định mức; đọc mặt khum từ trên; lấy lại cùng pipette chưa tráng và không ghi ảnh hưởng; quên nhãn mẫu.",
+      "testsVi": "Bảo toàn mol; nhận V1>V2 là mục tiêu bất khả thi; pha 5 lần cho C giảm 5; serial sai thao tác ảnh hưởng các mẫu sau; không cho thể tích âm.",
+      "stepsVi": [
+        "Chọn chất tan mô phỏng an toàn như NaCl; ghi C1 và V2 mục tiêu.",
+        "Tính V1 trước khi thao tác; chọn dụng cụ có độ chính xác phù hợp.",
+        "Lấy V1 bằng pipette có quả bóp, đưa vào bình định mức.",
+        "Thêm nước một phần, trộn; đưa đến vạch đúng mặt khum rồi trộn lại.",
+        "Ghi C tính từ mol/thể tích và sai lệch mục tiêu.",
+        "Tạo ba mức bằng các lượt độc lập; thêm bài pha loãng nối tiếp riêng.",
+        "So sánh sai số tích lũy giữa pha trực tiếp và pha nối tiếp; lưu nhãn các mẫu."
+      ],
+      "examVi": "Luyện bảo toàn số mol khi pha loãng, xác định thể tích cuối và truy nguồn mẫu trong pha loãng nối tiếp.",
+      "checkVi": "Hỏi: Chuyển 10,00 mL dung dịch 0,100 M vào bình 50,00 mL rồi định mức cho nồng độ nào? Đáp: 0,0200 M từ C1V1=C2V2. Phải định mức đến tổng 50,00 mL; không thêm riêng 50,00 mL nước vào aliquot.",
+      "sources": [
+        {
+          "sourceID": "S12",
+          "title": "ChemCollective Virtual Labs",
+          "url": "https://chemcollective.org/vlabs"
+        },
+        {
+          "sourceID": "S40",
+          "title": "OpenStax: Molarity",
+          "url": "https://openstax.org/books/chemistry-2e/pages/3-3-molarity"
+        },
+        {
+          "sourceID": "S41",
+          "title": "Klingenberg et al. 2024: Embodiment and transfer",
+          "url": "https://doi.org/10.1007/s10648-024-09956-0"
+        }
+      ],
+      "learnVi": "C1V1=C2V2 khi số mol chất tan bảo toàn trong pha loãng; V2 là thể tích cuối sau định mức. Với các bước pha loãng giống nhau, đặt r=V aliquot/V cuối (0<r≤1), thì sau n bước Cn=C0r^n. Nếu dùng hệ số pha loãng D=V cuối/V aliquot thì D=1/r và Cn=C0/D^n. Công thức không thay cho trộn phản ứng; nồng độ phần trăm khối lượng có hệ quy đổi khác mol/L.",
+      "practiceVi": "Ghi mẫu nguồn, nồng độ gốc, aliquot10 mL, bình50/100 mL và nồng độ sau trộn. Với pha nối tiếp, giữ nhãn và thứ tự nguồn mẫu.",
+      "pitfallsVi": "Thể tích cuối là dung dịch tới vạch, không phải lượng nước thêm. Không bỏ nhãn, đọc mặt khum sai hướng hoặc quên tráng pipette.",
+      "sourceBrief": {
+        "titleVi": "Pha loãng dung dịch và xây dựng dãy nồng độ",
+        "goalVi": "Tính thể tích cần lấy và phân biệt thêm nước với chuyển một thể tích mẫu; tạo dãy để dùng ở các thí nghiệm pH và thẩm thấu.",
+        "theoryVi": "C1V1=C2V2 khi số mol chất tan bảo toàn trong pha loãng; V2 là thể tích cuối sau định mức. Pha loãng nối tiếp theo hệ số r: Cn=C0r^n. Công thức không thay cho trộn phản ứng; nồng độ phần trăm khối lượng có hệ quy đổi khác mol/L.",
+        "variablesVi": "Độc lập tỷ lệ pha; phụ thuộc Ccuối; kiểm soát chất tan,Vcuối,dụng cụ. Phiếu C1,V1,Vnước danh nghĩa,Vcuối,C2,hệ số pha. Không giả định thể tích trộn cộng chính xác cho mọi dung môi; bộ cơ bản giả định dung dịch loãng nước.",
+        "examplesVi": "Minh họa C1=0,100 M,muốn C2=0,0200 M,V2=50,00 mL: V1=10,00 mL. Không lấy 10 mL rồi thêm 50 mL nước, vì thể tích cuối khi đó gần 60 mL và C≈0,0167 M.",
+        "mistakesVi": "Dùng cốc có vạch thô thay bình định mức; đọc mặt khum từ trên; lấy lại cùng pipette chưa tráng và không ghi ảnh hưởng; quên nhãn mẫu.",
+        "testsVi": "Bảo toàn mol; nhận V1>V2 là mục tiêu bất khả thi; pha 5 lần cho C giảm 5; serial sai thao tác ảnh hưởng các mẫu sau; không cho thể tích âm.",
+        "stepsVi": [
+          "Chọn chất tan mô phỏng an toàn như NaCl; ghi C1 và V2 mục tiêu.",
+          "Tính V1 trước khi thao tác; chọn dụng cụ có độ chính xác phù hợp.",
+          "Lấy V1 bằng pipette có quả bóp, đưa vào bình định mức.",
+          "Thêm nước một phần, trộn; đưa đến vạch đúng mặt khum rồi trộn lại.",
+          "Ghi C tính từ mol/thể tích và sai lệch mục tiêu.",
+          "Tạo ba mức bằng các lượt độc lập; thêm bài pha loãng nối tiếp riêng.",
+          "So sánh sai số tích lũy giữa pha trực tiếp và pha nối tiếp; lưu nhãn các mẫu."
+        ],
+        "modelVi": "Lượng chất là record có soluteId,n,V,T. Bình định mức thêm mới nhưng thân dùng họ flask; vạch và mặt khum cần theo tiết diện, không scale chiều cao tuyến tính cho bình hình cầu. Lưu mẫu để dùng liên môn dưới bản lesson version.",
+        "sources": "S12,S40,S41"
+      }
+    },
+    {
+      "id": "C06",
+      "titleVi": "pH, chỉ thị và ảnh hưởng của pha loãng",
+      "goalVi": "So sánh pH của acid mạnh/base mạnh với dung dịch trung tính; hiểu mỗi đơn vị pH tương ứng hệ số 10 của hoạt độ H⁺.",
+      "theoryVi": "pH=−log10(aH⁺), gần đúng −log10[H⁺] ở dung dịch loãng. pH+pOH≈14 tại 25°C trong giả định thích hợp. Với acid mạnh đủ xa miền cực loãng, [H⁺]≈C. Khi gần nước tinh khiết, phải xét tự ion hóa; không cho pha loãng acid tạo pH>7 bằng công thức đơn giản. Acid yếu cần Ka và cân bằng riêng.",
+      "variablesVi": "Độc lập loại chất/nồng độ; phụ thuộc pH và màu. Kiểm soát T và thể tích chỉ thị. Phiếu C,hệ số pha,pH dự đoán,khoảng giấy,pH meter,giả thiết. Không nhận diện hóa chất thật bằng màu minh họa web.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa HCl 0,0100 M lý tưởng pH≈2; pha 10 lần pH≈3. NaOH 0,00100 M ở 25°C có pOH≈3,pH≈11. Tính chỉ trong phạm vi mô hình đã nêu.",
+      "mistakesVi": "pH tăng đôi khi C giảm đôi; mọi acid có cùng pH ở cùng C; pH=7 trung tính ở mọi nhiệt độ; dùng bảng màu một chỉ thị làm thang pH phổ quát.",
+      "testsVi": "Pha acid tiến về trung tính từ phía acid; không vượt vì lỗi log; H2O có kết quả theo T; trộn acid/base phải tính mol dư trước; cảm biến chưa ngập không đọc.",
+      "stepsVi": [
+        "Chuẩn bị cốc mẫu acid/base đã có nhãn và mẫu nước đối chứng.",
+        "Dự đoán thứ tự pH trước khi dùng chỉ thị.",
+        "Dùng giọt chỉ thị hoặc giấy pH, ghi khoảng màu thay vì độ chính xác giả.",
+        "Đo bằng pH meter mô phỏng đã hiệu chuẩn bằng buffer cấu hình.",
+        "Pha loãng acid mạnh 10 lần với dụng cụ C05, đo lại.",
+        "Lặp cho base trong loạt riêng; đối chiếu pH/pOH.",
+        "So sánh một acid yếu nếu solver có Ka; giải thích cùng C không nhất thiết cùng pH."
+      ],
+      "examVi": "Luyện tính pH acid/base mạnh trong miền phù hợp, hiểu thang logarithm và phân biệt giá trị đầu dò với khoảng màu chỉ thị.",
+      "checkVi": "Hỏi: HCl lý tưởng 0,0100 M được pha loãng mười lần cho pH gần bao nhiêu? Đáp: Từ khoảng 2 lên khoảng 3 trong miền acid mạnh đủ xa nước tinh khiết. Khi cực loãng phải xét tự ion hóa nước; không kéo công thức đơn giản tới pH acid lớn hơn 7.",
+      "sources": [
+        {
+          "sourceID": "S02",
+          "title": "VLAB website, trang Phòng lab",
+          "url": "https://vlabwebapp.vercel.app/labs"
+        },
+        {
+          "sourceID": "S36",
+          "title": "OpenStax: Quantitative Chemical Analysis",
+          "url": "https://openstax.org/books/chemistry-2e/pages/4-5-quantitative-chemical-analysis"
+        },
+        {
+          "sourceID": "S42",
+          "title": "OpenStax: pH and pOH",
+          "url": "https://openstax.org/books/chemistry-2e/pages/14-2-ph-and-poh"
+        }
+      ],
+      "learnVi": "pH=−log10(aH⁺), gần đúng −log10[H⁺] ở dung dịch loãng. pH+pOH≈14 tại 25°C trong giả định thích hợp. Với acid mạnh đủ xa miền cực loãng, [H⁺]≈C. Khi gần nước tinh khiết, phải xét tự ion hóa; không cho pha loãng acid tạo pH>7 bằng công thức đơn giản. Acid yếu cần Ka và cân bằng riêng.",
+      "practiceVi": "Ghi nồng độ, hệ số pha, pH đầu dò và khoảng màu BTB. Hiệu chuẩn, rửa và nhúng đầu dò; so hai cách quan sát.",
+      "pitfallsVi": "pH không đổi tuyến tính với nồng độ. Một bảng màu không là thang pH phổ quát; không nhận diện hóa chất thật chỉ bằng màu minh họa.",
+      "sourceBrief": {
+        "titleVi": "pH, chỉ thị và ảnh hưởng của pha loãng",
+        "goalVi": "So sánh pH của acid mạnh/base mạnh với dung dịch trung tính; hiểu mỗi đơn vị pH tương ứng hệ số 10 của hoạt độ H⁺.",
+        "theoryVi": "pH=−log10(aH⁺), gần đúng −log10[H⁺] ở dung dịch loãng. pH+pOH≈14 tại 25°C trong giả định thích hợp. Với acid mạnh đủ xa miền cực loãng, [H⁺]≈C. Khi gần nước tinh khiết, phải xét tự ion hóa; không cho pha loãng acid tạo pH>7 bằng công thức đơn giản. Acid yếu cần Ka và cân bằng riêng.",
+        "variablesVi": "Độc lập loại chất/nồng độ; phụ thuộc pH và màu. Kiểm soát T và thể tích chỉ thị. Phiếu C,hệ số pha,pH dự đoán,khoảng giấy,pH meter,giả thiết. Không nhận diện hóa chất thật bằng màu minh họa web.",
+        "examplesVi": "Minh họa HCl 0,0100 M lý tưởng pH≈2; pha 10 lần pH≈3. NaOH 0,00100 M ở 25°C có pOH≈3,pH≈11. Tính chỉ trong phạm vi mô hình đã nêu.",
+        "mistakesVi": "pH tăng đôi khi C giảm đôi; mọi acid có cùng pH ở cùng C; pH=7 trung tính ở mọi nhiệt độ; dùng bảng màu một chỉ thị làm thang pH phổ quát.",
+        "testsVi": "Pha acid tiến về trung tính từ phía acid; không vượt vì lỗi log; H2O có kết quả theo T; trộn acid/base phải tính mol dư trước; cảm biến chưa ngập không đọc.",
+        "stepsVi": [
+          "Chuẩn bị cốc mẫu acid/base đã có nhãn và mẫu nước đối chứng.",
+          "Dự đoán thứ tự pH trước khi dùng chỉ thị.",
+          "Dùng giọt chỉ thị hoặc giấy pH, ghi khoảng màu thay vì độ chính xác giả.",
+          "Đo bằng pH meter mô phỏng đã hiệu chuẩn bằng buffer cấu hình.",
+          "Pha loãng acid mạnh 10 lần với dụng cụ C05, đo lại.",
+          "Lặp cho base trong loạt riêng; đối chiếu pH/pOH.",
+          "So sánh một acid yếu nếu solver có Ka; giải thích cùng C không nhất thiết cùng pH."
+        ],
+        "modelVi": "Tách bảng màu của từng chỉ thị khỏi pH solver. Thêm pH probe dùng chung nhiệt/điện hóa; bảng số có độ phân giải và hiệu chuẩn. Chế độ giấy pH chỉ trả khoảng, không 3 chữ số thập phân.",
+        "sources": "S02,S36,S42"
+      }
+    },
+    {
+      "id": "C07",
+      "titleVi": "Tốc độ phản ứng CaCO3–acid qua thể tích khí",
+      "goalVi": "Đo đường Vkhí(t) để so sánh tốc độ ban đầu và lượng khí cuối; phân biệt nồng độ, diện tích bề mặt và chất giới hạn.",
+      "theoryVi": "CaCO3+2H⁺→Ca²⁺+CO2+H2O. v quan sát tỷ lệ dVCO2/dt ở cùng T,P; nCO2,max=min(nCaCO3,nH⁺/2). Diện tích hạt nhỏ làm tăng tốc độ khi điều kiện khác giữ nguyên nhưng không tự tăng tổng mol nếu CaCO3 giới hạn. Định luật tốc độ của phản ứng dị thể cần dữ liệu, không đoán bậc từ hệ số phương trình.",
+      "variablesVi": "Độc lập C acid hoặc diện tích; phụ thuộc V(t),độ dốc,plateau. Kiểm soát m,T,P,độ kín. Phiếu t,V,hạt,C,V acid,mCaCO3 và chất giới hạn. Không định danh tốc độ mol/L/s từ mL/s nếu thiếu quy đổi khí và thể tích phản ứng.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa mCaCO3=0,100 g≈0,00100 mol; acid dư; T=298 K,P=1 atm: Vkhí lý tưởng≈24,5 mL. Đây là tính PV=nRT, không phải dữ liệu tốc độ đo thật. Đường thời gian dùng tham số hiệu chỉnh hoặc ghi minh họa.",
+      "mistakesVi": "Rò khí vẫn kết luận ít phản ứng; acid nồng độ thấp thành chất giới hạn mà so plateau như diện tích; đếm bọt bằng mol cố định; dừng quá sớm.",
+      "testsVi": "Plateau không vượt mol chất giới hạn; syringe đầy dừng đo; nút tháo báo rò; cùng khối lượng đổi hạt chỉ đổi kinetics trong giả định; pause không tích thời gian.",
+      "stepsVi": [
+        "Đặt bình tam giác, nút và ống tới syringe khí; kiểm tra kín trong mô phỏng.",
+        "Cân cùng lượng CaCO3, chọn kích thước hạt và acid đã định lượng.",
+        "Bắt đầu đồng hồ khi tiếp xúc chất; ghi V mỗi 10 s theo thời gian mô phỏng.",
+        "Dừng khi V gần plateau; tính độ dốc đoạn đầu đã quy định.",
+        "Lặp ba lượt; đổi nồng độ acid với thể tích phù hợp để giữ CaCO3 giới hạn.",
+        "So sánh hạt lớn/nhỏ ở cùng khối lượng và nồng độ trong loạt khác.",
+        "Giải thích đường nhanh hơn nhưng cùng plateau và trường hợp acid trở thành chất giới hạn."
+      ],
+      "examVi": "Luyện đọc độ dốc đường thể tích khí theo thời gian, xác định chất giới hạn và phân biệt tốc độ phản ứng với tổng lượng khí.",
+      "checkVi": "Hỏi: Giảm kích thước hạt nhưng giữ khối lượng CaCO3 và acid dư có nhất thiết tăng tổng mol CO2 không? Đáp: Không. Diện tích lớn hơn có thể làm phản ứng nhanh hơn, còn tổng mol bị giới hạn bởi số mol CaCO3. Động học của bộ hiện tại là minh họa.",
+      "sources": [
+        {
+          "sourceID": "S19",
+          "title": "RSC: interpreting rate of reaction graphs",
+          "url": "https://edu.rsc.org/lesson-plans/interpreting-rate-of-reaction-graphs-14-16-years/95.article"
+        },
+        {
+          "sourceID": "S43",
+          "title": "RSC: rate of reaction graphs sheet",
+          "url": "https://edu.rsc.org/download?ac=507452"
+        }
+      ],
+      "learnVi": "CaCO3+2H⁺→Ca²⁺+CO2+H2O. v quan sát tỷ lệ dVCO2/dt ở cùng T,P; nCO2,max=min(nCaCO3,nH⁺/2). Diện tích hạt nhỏ làm tăng tốc độ khi điều kiện khác giữ nguyên nhưng không tự tăng tổng mol nếu CaCO3 giới hạn. Định luật tốc độ của phản ứng dị thể cần dữ liệu, không đoán bậc từ hệ số phương trình.",
+      "practiceVi": "Ghi thời gian và thể tích khí, cỡ hạt, lượng CaCO3, acid và độ kín. So độ dốc và mức cuối ở cùng điều kiện, xác định chất giới hạn.",
+      "pitfallsVi": "Không nhầm phản ứng nhanh hơn với nhiều khí cuối hơn. Giữ khối lượng khi so diện tích; không đổi mL/s thành mol/L/s khi thiếu dữ kiện.",
+      "sourceBrief": {
+        "titleVi": "Tốc độ phản ứng CaCO3–acid qua thể tích khí",
+        "goalVi": "Đo đường Vkhí(t) để so sánh tốc độ ban đầu và lượng khí cuối; phân biệt nồng độ, diện tích bề mặt và chất giới hạn.",
+        "theoryVi": "CaCO3+2H⁺→Ca²⁺+CO2+H2O. v quan sát tỷ lệ dVCO2/dt ở cùng T,P; nCO2,max=min(nCaCO3,nH⁺/2). Diện tích hạt nhỏ làm tăng tốc độ khi điều kiện khác giữ nguyên nhưng không tự tăng tổng mol nếu CaCO3 giới hạn. Định luật tốc độ của phản ứng dị thể cần dữ liệu, không đoán bậc từ hệ số phương trình.",
+        "variablesVi": "Độc lập C acid hoặc diện tích; phụ thuộc V(t),độ dốc,plateau. Kiểm soát m,T,P,độ kín. Phiếu t,V,hạt,C,V acid,mCaCO3 và chất giới hạn. Không định danh tốc độ mol/L/s từ mL/s nếu thiếu quy đổi khí và thể tích phản ứng.",
+        "examplesVi": "Minh họa mCaCO3=0,100 g≈0,00100 mol; acid dư; T=298 K,P=1 atm: Vkhí lý tưởng≈24,5 mL. Đây là tính PV=nRT, không phải dữ liệu tốc độ đo thật. Đường thời gian dùng tham số hiệu chỉnh hoặc ghi minh họa.",
+        "mistakesVi": "Rò khí vẫn kết luận ít phản ứng; acid nồng độ thấp thành chất giới hạn mà so plateau như diện tích; đếm bọt bằng mol cố định; dừng quá sớm.",
+        "testsVi": "Plateau không vượt mol chất giới hạn; syringe đầy dừng đo; nút tháo báo rò; cùng khối lượng đổi hạt chỉ đổi kinetics trong giả định; pause không tích thời gian.",
+        "stepsVi": [
+          "Đặt bình tam giác, nút và ống tới syringe khí; kiểm tra kín trong mô phỏng.",
+          "Cân cùng lượng CaCO3, chọn kích thước hạt và acid đã định lượng.",
+          "Bắt đầu đồng hồ khi tiếp xúc chất; ghi V mỗi 10 s theo thời gian mô phỏng.",
+          "Dừng khi V gần plateau; tính độ dốc đoạn đầu đã quy định.",
+          "Lặp ba lượt; đổi nồng độ acid với thể tích phù hợp để giữ CaCO3 giới hạn.",
+          "So sánh hạt lớn/nhỏ ở cùng khối lượng và nồng độ trong loạt khác.",
+          "Giải thích đường nhanh hơn nhưng cùng plateau và trường hợp acid trở thành chất giới hạn."
+        ],
+        "modelVi": "Syringe thu khí có piston riêng và cửa nối; bộ lượng chất bảo toàn mol. Mô hình tốc độ bán thực nghiệm phải công bố k,tham số và phạm vi. Không dùng particle emission rate làm định luật phản ứng.",
+        "sources": "S19,S43"
+      }
+    },
+    {
+      "id": "C08",
+      "titleVi": "Nhiệt lượng phản ứng trung hòa",
+      "goalVi": "Đo nhiệt độ theo thời gian để ước lượng enthalpy trung hòa; giải thích hệ phản ứng tỏa nhiệt khi dung dịch nóng lên.",
+      "theoryVi": "qdd≈mdd cdd ΔT, qcal=Ccal ΔT; qphản ứng≈−(qdd+qcal) trong mô hình cách nhiệt. ΔH=qphản ứng/nphản ứng, với n lấy chất giới hạn. Acid mạnh–base mạnh loãng có enthalpy trung hòa gần −57 kJ/mol, phụ thuộc điều kiện; không áp dụng nguyên số cho acid yếu. Nhiệt thất thoát làm |ΔH| quan sát nhỏ hơn.",
+      "variablesVi": "Độc lập n trung hòa hoặc cách nhiệt; phụ thuộc T(t),q. Kiểm soát T0,Ccal,c,ρ và cách trộn. Phiếu C,V,n giới hạn,m,T0,Tmax,ΔT,Ccal,ΔH và giả định.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa 25,0 mL HCl 0,500 M +25,0 mL NaOH 0,500 M; n=0,0125 mol, q≈712,5 J với −57 kJ/mol. m≈50 g,c=4,18,Ccal=0 cho ΔT≈3,41°C. Nếu Ccal>0 thì ΔT nhỏ hơn.",
+      "mistakesVi": "Dùng tổng mol hai chất làm n; qdd dương nên ΔH dương; bỏ nhiệt dung cốc nhưng báo rất chính xác; trộn hai dung dịch khác T0 mà dùng một T0 tùy chọn.",
+      "testsVi": "Chất giới hạn đổi đúng; không có phản ứng nếu một n=0; hai T đầu khác nhau phải cân bằng nhiệt; tăng Ccal giảm ΔT; bảo toàn năng lượng ở mode loss=0.",
+      "stepsVi": [
+        "Lắp cốc cách nhiệt, nắp và nhiệt kế; ghi Ccal hoặc giả định bỏ qua.",
+        "Định lượng acid và base có T ban đầu gần bằng, ghi C,V.",
+        "Dự đoán chất giới hạn và độ tăng nhiệt; trộn trong mô phỏng, bắt đầu ghi T(t).",
+        "Khuấy với tốc độ định sẵn, ghi Tmax và thời điểm.",
+        "Tính mdd theo giả định ρ, q và ΔH.",
+        "Lặp ba lượt, thay một lượng chất để kiểm tra q phụ thuộc mol.",
+        "Bật chế độ mất nhiệt, giải thích cần ngoại suy đường nguội thay vì luôn lấy Tmax làm nhiệt adiabatic."
+      ],
+      "examVi": "Luyện chọn chất giới hạn, đổi dấu nhiệt của dung dịch sang nhiệt phản ứng và xét nhiệt dung cốc khi suy enthalpy.",
+      "checkVi": "Hỏi: Khi dung dịch và cốc nóng lên trong mô hình cách nhiệt, dấu q phản ứng là gì? Đáp: Âm, vì q phản ứng≈−(q dung dịch+q cốc). Nhiệt dung cốc không bằng 0 phải được tính; chia cho số mol phản ứng của chất giới hạn để suy ΔH.",
+      "sources": [
+        {
+          "sourceID": "S16",
+          "title": "RSC: Exothermic or endothermic",
+          "url": "https://edu.rsc.org/experiments/exothermic-or-endothermic-classifying-reactions/406.article"
+        },
+        {
+          "sourceID": "S20",
+          "title": "RSC: Measuring energy changes",
+          "url": "https://edu.rsc.org/cpd/measuring-energy-changes/4010499.article"
+        },
+        {
+          "sourceID": "S44",
+          "title": "RSC: energy teaching resource",
+          "url": "https://edu.rsc.org/download?ac=506521"
+        }
+      ],
+      "learnVi": "Khi dung dịch và cốc có cùng nhiệt độ đầu T0: q dung dịch≈m c ΔT và q cốc=C cốc ΔT, với ΔT=Tf−T0. Nếu nhiệt độ đầu acid, base và cốc khác nhau, phải cộng riêng: q dung dịch≈m acid c(Tf−T acid0)+m base c(Tf−T base0); q cốc=C cốc(Tf−T cốc0). Không chọn tùy ý một T0 chung. Trong mô hình cách nhiệt, q phản ứng≈−(q dung dịch+q cốc); ΔH=q phản ứng/n phản ứng, với n lấy chất giới hạn. Dùng đơn vị khối lượng và nhiệt dung riêng thống nhất. Acid mạnh–base mạnh loãng có enthalpy trung hòa gần −57 kJ/mol, phụ thuộc điều kiện; không áp dụng nguyên số cho acid yếu. Nhiệt thất thoát làm |ΔH| quan sát nhỏ hơn.",
+      "practiceVi": "Ghi thể tích/nồng độ hai dung dịch, nhiệt độ đầu từng phần, nhiệt dung cốc và nhiệt độ theo thời gian. Tìm chất giới hạn trước khi tính ΔH.",
+      "pitfallsVi": "Không dùng tổng mol acid cộng base làm mol phản ứng. Dung dịch nóng lên cho q phản ứng âm; không bỏ nhiệt dung cốc rồi báo độ chính xác quá cao.",
+      "sourceBrief": {
+        "titleVi": "Nhiệt lượng phản ứng trung hòa",
+        "goalVi": "Đo nhiệt độ theo thời gian để ước lượng enthalpy trung hòa; giải thích hệ phản ứng tỏa nhiệt khi dung dịch nóng lên.",
+        "theoryVi": "qdd≈mdd cdd ΔT, qcal=Ccal ΔT; qphản ứng≈−(qdd+qcal) trong mô hình cách nhiệt. ΔH=qphản ứng/nphản ứng, với n lấy chất giới hạn. Acid mạnh–base mạnh loãng có enthalpy trung hòa gần −57 kJ/mol, phụ thuộc điều kiện; không áp dụng nguyên số cho acid yếu. Nhiệt thất thoát làm |ΔH| quan sát nhỏ hơn.",
+        "variablesVi": "Độc lập n trung hòa hoặc cách nhiệt; phụ thuộc T(t),q. Kiểm soát T0,Ccal,c,ρ và cách trộn. Phiếu C,V,n giới hạn,m,T0,Tmax,ΔT,Ccal,ΔH và giả định.",
+        "examplesVi": "Minh họa 25,0 mL HCl 0,500 M +25,0 mL NaOH 0,500 M; n=0,0125 mol, q≈712,5 J với −57 kJ/mol. m≈50 g,c=4,18,Ccal=0 cho ΔT≈3,41°C. Nếu Ccal>0 thì ΔT nhỏ hơn.",
+        "mistakesVi": "Dùng tổng mol hai chất làm n; qdd dương nên ΔH dương; bỏ nhiệt dung cốc nhưng báo rất chính xác; trộn hai dung dịch khác T0 mà dùng một T0 tùy chọn.",
+        "testsVi": "Chất giới hạn đổi đúng; không có phản ứng nếu một n=0; hai T đầu khác nhau phải cân bằng nhiệt; tăng Ccal giảm ΔT; bảo toàn năng lượng ở mode loss=0.",
+        "stepsVi": [
+          "Lắp cốc cách nhiệt, nắp và nhiệt kế; ghi Ccal hoặc giả định bỏ qua.",
+          "Định lượng acid và base có T ban đầu gần bằng, ghi C,V.",
+          "Dự đoán chất giới hạn và độ tăng nhiệt; trộn trong mô phỏng, bắt đầu ghi T(t).",
+          "Khuấy với tốc độ định sẵn, ghi Tmax và thời điểm.",
+          "Tính mdd theo giả định ρ, q và ΔH.",
+          "Lặp ba lượt, thay một lượng chất để kiểm tra q phụ thuộc mol.",
+          "Bật chế độ mất nhiệt, giải thích cần ngoại suy đường nguội thay vì luôn lấy Tmax làm nhiệt adiabatic."
+        ],
+        "modelVi": "Thêm cốc cách nhiệt từ thân beaker, nắp có socket nhiệt kế/khuấy. Solver nhiệt tính năng lượng và loss theo thời gian; particle chỉ thể hiện trộn. Cấu hình mô phỏng không được trình bày thành chứng nhận an toàn pha hóa chất thật.",
+        "sources": "S16,S20,S44"
+      }
+    },
+    {
+      "id": "B01",
+      "titleVi": "Chuẩn bị và quan sát biểu bì hành",
+      "goalVi": "Chuẩn bị tiêu bản một lớp, lấy nét ở độ phóng đại thấp trước khi tăng; phân biệt hình biểu bì hành với mô hình tế bào lá có lục lạp.",
+      "theoryVi": "Tổng phóng đại = thị kính × vật kính; 10× thị kính và 10×/40× vật kính cho 100×/400×. Độ phóng đại khác độ phân giải. Biểu bì củ hành thường không có lục lạp như tế bào lá quang hợp; thành, nhân và tế bào chất có mức thấy khác nhau tùy nhuộm, ánh sáng và mẫu.",
+      "variablesVi": "Độc lập vật kính hoặc cách chuẩn bị; phụ thuộc độ nét, cấu trúc nhận ra, kích thước quy đổi. Kiểm soát cùng mẫu và nguồn sáng. Phiếu vật kính,thị kính,tổng phóng đại,mốc đo,kích thước,tình trạng bọt/lớp chồng.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa: nếu thước ảnh được hiệu chuẩn 1 vạch=10 μm ở cấu hình nhất định, tế bào rộng 6 vạch có kích thước 60 μm. Khi đổi zoom hình mà không hiệu chuẩn lại không được dùng hệ số cũ.\n\nĐây là ví dụ cần thước chuẩn đã hiệu chuẩn. Tiêu bản sơ đồ hiện tại không có phép đo kích thước thật bằng thước chuẩn.",
+      "mistakesVi": "Mọi tế bào thực vật đều có lục lạp; phóng đại càng cao càng rõ; bọt tròn là nhân; dùng chỉnh thô ở vật kính lớn. Phản hồi phải chỉ đặc điểm giúp phân biệt bọt với tế bào.",
+      "testsVi": "Chưa kẹp đủ hai kẹp không cho bước kiểm tra; lấy nét thay đổi có hiệu lực; 10× rồi 40× giữ tâm hợp lý; cấu trúc chọn đúng vùng; reset phục hồi lam và không gọi texture là ảnh thật.",
+      "stepsVi": [
+        "Đặt lam sạch lên khay chuẩn bị, chọn lớp biểu bì mỏng và nhỏ nước.",
+        "Trải mẫu phẳng, hạ lamen nghiêng để hạn chế bọt; thấm phần nước thừa.",
+        "Đưa tiêu bản lên bàn kính, khóa hai kẹp như quy trình hiện có.",
+        "Chọn 10× vật kính, chỉnh thô rồi tinh để lấy nét và tìm vùng một lớp.",
+        "Chuyển 40×, chỉ chỉnh tinh; quan sát mà không đẩy vật kính vào lam.",
+        "Nhận diện nhân/thành/vùng tế bào chất theo câu hỏi; vẽ ít nhất ba tế bào liên tiếp.",
+        "Nếu đo kích thước, bật thước chuẩn đã hiệu chuẩn theo vật kính; rời thị kính trước khi đổi bài."
+      ],
+      "examVi": "Luyện tính tổng độ phóng đại, phân biệt phóng đại với phân giải và nêu điều kiện cần trước khi suy kích thước thật từ ảnh.",
+      "checkVi": "Hỏi: Thị kính 10× và vật kính 40× cho tổng phóng đại bao nhiêu? Đáp: 400×. Con số này không tự cho kích thước tế bào hay độ phân giải. Tiêu bản hiện tại là sơ đồ, không có thước chuẩn quang học để đo kích thước thật.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S45",
+          "title": "VLAB: microscope workstation, hướng dẫn nhóm",
+          "url": "https://github.com/thieen209/VLAB/tree/main/Assets/VLAB/DemoLabs/Runtime/Biology"
+        },
+        {
+          "sourceID": "S46",
+          "title": "VLAB: cell activity source",
+          "url": "https://github.com/thieen209/VLAB/blob/df83980a12a241c5f23faf6827ee8c3612c9c247/Assets/VLAB/MainMenu/Runtime/Activities/Biology/VLabCellActivity.cs"
+        }
+      ],
+      "learnVi": "Tổng phóng đại = thị kính × vật kính; 10× thị kính và 10×/40× vật kính cho 100×/400×. Độ phóng đại khác độ phân giải. Biểu bì củ hành thường không có lục lạp như tế bào lá quang hợp; thành, nhân và tế bào chất có mức thấy khác nhau tùy nhuộm, ánh sáng và mẫu.",
+      "practiceVi": "Ghi vật kính, cách lấy nét và cấu trúc tự nhận diện. Quan sát cùng tiêu bản; đây là hình sơ đồ, không đo kích thước thật bằng thước chuẩn.",
+      "pitfallsVi": "Không phải mọi tế bào thực vật đều có lục lạp. Phóng đại cao không bảo đảm rõ hơn; bọt tròn không tự là nhân.",
+      "sourceBrief": {
+        "titleVi": "Chuẩn bị và quan sát biểu bì hành",
+        "goalVi": "Chuẩn bị tiêu bản một lớp, lấy nét ở độ phóng đại thấp trước khi tăng; phân biệt hình biểu bì hành với mô hình tế bào lá có lục lạp.",
+        "theoryVi": "Tổng phóng đại = thị kính × vật kính; 10× thị kính và 10×/40× vật kính cho 100×/400×. Độ phóng đại khác độ phân giải. Biểu bì củ hành thường không có lục lạp như tế bào lá quang hợp; thành, nhân và tế bào chất có mức thấy khác nhau tùy nhuộm, ánh sáng và mẫu.",
+        "variablesVi": "Độc lập vật kính hoặc cách chuẩn bị; phụ thuộc độ nét, cấu trúc nhận ra, kích thước quy đổi. Kiểm soát cùng mẫu và nguồn sáng. Phiếu vật kính,thị kính,tổng phóng đại,mốc đo,kích thước,tình trạng bọt/lớp chồng.",
+        "examplesVi": "Minh họa: nếu thước ảnh được hiệu chuẩn 1 vạch=10 μm ở cấu hình nhất định, tế bào rộng 6 vạch có kích thước 60 μm. Khi đổi zoom hình mà không hiệu chuẩn lại không được dùng hệ số cũ.",
+        "mistakesVi": "Mọi tế bào thực vật đều có lục lạp; phóng đại càng cao càng rõ; bọt tròn là nhân; dùng chỉnh thô ở vật kính lớn. Phản hồi phải chỉ đặc điểm giúp phân biệt bọt với tế bào.",
+        "testsVi": "Chưa kẹp đủ hai kẹp không cho bước kiểm tra; lấy nét thay đổi có hiệu lực; 10× rồi 40× giữ tâm hợp lý; cấu trúc chọn đúng vùng; reset phục hồi lam và không gọi texture là ảnh thật.",
+        "stepsVi": [
+          "Đặt lam sạch lên khay chuẩn bị, chọn lớp biểu bì mỏng và nhỏ nước.",
+          "Trải mẫu phẳng, hạ lamen nghiêng để hạn chế bọt; thấm phần nước thừa.",
+          "Đưa tiêu bản lên bàn kính, khóa hai kẹp như quy trình hiện có.",
+          "Chọn 10× vật kính, chỉnh thô rồi tinh để lấy nét và tìm vùng một lớp.",
+          "Chuyển 40×, chỉ chỉnh tinh; quan sát mà không đẩy vật kính vào lam.",
+          "Nhận diện nhân/thành/vùng tế bào chất theo câu hỏi; vẽ ít nhất ba tế bào liên tiếp.",
+          "Nếu đo kích thước, bật thước chuẩn đã hiệu chuẩn theo vật kính; rời thị kính trước khi đổi bài."
+        ],
+        "modelVi": "Tái dùng BIO_Microscope/Slide/Coverslip/Dropper. Ảnh mẫu là texture 2D có metadata tỷ lệ và các vùng cấu trúc; cơ cấu núm chỉ điều khiển mô hình quang học đơn giản. Không tăng cả mesh mẫu cho mọi mức.",
+        "sources": "S01,S45,S46"
+      }
+    },
+    {
+      "id": "B02",
+      "titleVi": "Co và phản co nguyên sinh",
+      "goalVi": "Quan sát cùng tế bào trước/sau môi trường ưu trương rồi phục hồi; ghi tỷ lệ tế bào co thay vì chỉ xem một hoạt ảnh.",
+      "theoryVi": "Nước đi qua màng theo chênh lệch thế nước. Trong môi trường ưu trương, khối nguyên sinh giảm thể tích và tách khỏi thành; thành không co tương ứng như màng. Đưa về môi trường thích hợp có thể phản co nếu tế bào còn sống. Không suy tốc độ thật chỉ từ thời lượng animation.",
+      "variablesVi": "Độc lập nồng độ muối/thời gian; phụ thuộc %co và mức co; kiểm soát mẫu,T,thời gian tiếp xúc. Phiếu C,t,Nđếm,Nco,%co,tình trạng phục hồi. Nồng độ và thời gian của mô hình là tham số bài được giáo viên duyệt.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa dữ liệu giả lập: 6/30 tế bào co là 20%;24/30 là 80%. Những tỷ lệ này chỉ minh họa cách tính, không phải chuẩn sinh học bắt buộc ở 1% hay 5% muối.",
+      "mistakesVi": "Thành tế bào co theo khối; vẽ màng luôn nhìn rõ như ảnh electron; đổi trường nhìn rồi so cùng tế bào; tế bào chết vẫn hồi phục hoàn hảo. Bài nên có sai thao tác và giới hạn sống.",
+      "testsVi": "Muối cao cho mức co theo đường cấu hình; nước đối chứng không co như ưu trương; thay nước kích hoạt phục hồi đúng trạng thái; mỗi tế bào giữ ID; không sinh kết luận từ animation chưa đo.",
+      "stepsVi": [
+        "Chuẩn bị mẫu biểu bì hành tím trong nước và lấy nét theo B01.",
+        "Chọn một trường nhìn, đánh dấu 20–30 tế bào để theo dõi.",
+        "Dự đoán tác động dung dịch muối rồi thêm ở một mép lamen, hút nước ở mép kia bằng giấy.",
+        "Quan sát theo các mốc thời gian mô phỏng; đếm số tế bào co.",
+        "Thay dung dịch bằng nước, theo dõi phản co ở cùng vùng.",
+        "Lặp với các nồng độ muối cấu hình trong nhóm riêng.",
+        "Tính %co và giải thích vì sao đối chứng nước cần thiết."
+      ],
+      "examVi": "Luyện giải thích co và phản co nguyên sinh bằng trao đổi nước, theo dõi đúng mã tế bào và diễn giải tỷ lệ đếm.",
+      "checkVi": "Hỏi: Có 6 trong 30 tế bào được phân loại co nguyên sinh thì tỷ lệ là bao nhiêu? Đáp: 20%. Đây là phép tính từ số đã đếm, không phải tỷ lệ bắt buộc của một nồng độ muối. Bốn hình trạng thái không đủ để suy tốc độ sinh học thật.",
+      "sources": [
+        {
+          "sourceID": "S13",
+          "title": "Practical Biology: co và phản co nguyên sinh",
+          "url": "https://practicalbiology.org/exchange-of-materials/osmosis/observing-osmosis-plasmolysis-and-turgor-in-plant-cells.html"
+        },
+        {
+          "sourceID": "S47",
+          "title": "OpenStax: Passive transport",
+          "url": "https://openstax.org/books/biology-2e/pages/5-2-passive-transport"
+        }
+      ],
+      "learnVi": "Nước đi qua màng theo chênh lệch thế nước. Trong môi trường ưu trương, khối nguyên sinh giảm thể tích và tách khỏi thành; thành không co tương ứng như màng. Đưa về môi trường thích hợp có thể phản co nếu tế bào còn sống. Không suy tốc độ thật chỉ từ thời lượng animation.",
+      "practiceVi": "Theo dõi cùng mã tế bào qua trạng thái ban đầu, thay muối và phục hồi; ghi số đã đếm, số co và lựa chọn chưa rõ.",
+      "pitfallsVi": "Thành tế bào không co giống khối nguyên sinh. Không đổi trường nhìn rồi gọi là cùng tế bào; hình trạng thái không cho đáp ứng định lượng theo nồng độ/thời gian.",
+      "sourceBrief": {
+        "titleVi": "Co và phản co nguyên sinh",
+        "goalVi": "Quan sát cùng tế bào trước/sau môi trường ưu trương rồi phục hồi; ghi tỷ lệ tế bào co thay vì chỉ xem một hoạt ảnh.",
+        "theoryVi": "Nước đi qua màng theo chênh lệch thế nước. Trong môi trường ưu trương, khối nguyên sinh giảm thể tích và tách khỏi thành; thành không co tương ứng như màng. Đưa về môi trường thích hợp có thể phản co nếu tế bào còn sống. Không suy tốc độ thật chỉ từ thời lượng animation.",
+        "variablesVi": "Độc lập nồng độ muối/thời gian; phụ thuộc %co và mức co; kiểm soát mẫu,T,thời gian tiếp xúc. Phiếu C,t,Nđếm,Nco,%co,tình trạng phục hồi. Nồng độ và thời gian của mô hình là tham số bài được giáo viên duyệt.",
+        "examplesVi": "Minh họa dữ liệu giả lập: 6/30 tế bào co là 20%;24/30 là 80%. Những tỷ lệ này chỉ minh họa cách tính, không phải chuẩn sinh học bắt buộc ở 1% hay 5% muối.",
+        "mistakesVi": "Thành tế bào co theo khối; vẽ màng luôn nhìn rõ như ảnh electron; đổi trường nhìn rồi so cùng tế bào; tế bào chết vẫn hồi phục hoàn hảo. Bài nên có sai thao tác và giới hạn sống.",
+        "testsVi": "Muối cao cho mức co theo đường cấu hình; nước đối chứng không co như ưu trương; thay nước kích hoạt phục hồi đúng trạng thái; mỗi tế bào giữ ID; không sinh kết luận từ animation chưa đo.",
+        "stepsVi": [
+          "Chuẩn bị mẫu biểu bì hành tím trong nước và lấy nét theo B01.",
+          "Chọn một trường nhìn, đánh dấu 20–30 tế bào để theo dõi.",
+          "Dự đoán tác động dung dịch muối rồi thêm ở một mép lamen, hút nước ở mép kia bằng giấy.",
+          "Quan sát theo các mốc thời gian mô phỏng; đếm số tế bào co.",
+          "Thay dung dịch bằng nước, theo dõi phản co ở cùng vùng.",
+          "Lặp với các nồng độ muối cấu hình trong nhóm riêng.",
+          "Tính %co và giải thích vì sao đối chứng nước cần thiết."
+        ],
+        "modelVi": "Một texture hoặc hình procedural chia thành thành cố định và khối nguyên sinh có trạng thái; có thể dùng shape keys cho bản 3D. Không cần thêm model kính. WaterPotentialModel cấu hình đáp ứng, nhãn thời gian tăng tốc.",
+        "sources": "S13,S47"
+      }
+    },
+    {
+      "id": "B03",
+      "titleVi": "Thẩm thấu ở miếng khoai tây",
+      "goalVi": "Đo biến đổi khối lượng ở dãy nồng độ và tìm vùng gần đẳng trương; hiểu khối lượng có thể tăng hoặc giảm tùy môi trường.",
+      "theoryVi": "%Δm=100(mcuối−mđầu)/mđầu. Điểm %Δm≈0 cho ước lượng môi trường không có trao đổi nước ròng trong điều kiện đó, không có nghĩa nước ngừng chuyển động. Mẫu khoai có biến thiên sinh học; không khẳng định nồng độ tế bào duy nhất từ một miếng.",
+      "variablesVi": "Độc lập C dung dịch; phụ thuộc %Δm. Kiểm soát nguồn khoai,kích thước,thấm,T,t,V. Phiếu mẫuID,C,m0,m1,Δm%,thời gian,ghi chú. Ba lần cân một miếng là lặp kỹ thuật, không phải ba mẫu sinh học.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa m0=2,00 g,m1=2,16 g cho +8%;m1=1,84 g cho −8%. Nếu trung bình +2% tại 0,20 M và −2% tại 0,30 M, nội suy tuyến tính cục bộ cho 0,25 M; đây là dữ liệu giả định.",
+      "mistakesVi": "Không thấm nước ngoài; cân mẫu khác trước/sau; miếng không đồng cỡ; gọi tăng m là chất tan đi vào chắc chắn; dùng một mẫu suy cả cây.",
+      "testsVi": "m0=0 bị từ chối; time advance ghi đúng thời gian; độ phân tán không đổi seed khi mở bảng; thấm có ảnh hưởng được ghi; thay C mở nhóm mới.",
+      "stepsVi": [
+        "Chuẩn bị các miếng cùng kích thước từ cùng nguồn khoai; ghi chiều dài/đường kính và khối lượng đầu.",
+        "Chuẩn bị cốc nước đối chứng và dãy sucrose bằng C05; nhãn rõ nồng độ.",
+        "Ngâm ít nhất ba miếng độc lập mỗi nồng độ với cùng thời gian,T và thể tích.",
+        "Lấy từng miếng, thấm theo cùng quy định rồi cân.",
+        "Tính %Δm cho từng miếng, trung bình và độ phân tán.",
+        "Vẽ %Δm theo C; nội suy vùng đổi dấu, không ép đường tuyến tính trên toàn miền.",
+        "Thiết kế lượt kiểm chứng gần vùng đổi dấu với mẫu mới."
+      ],
+      "examVi": "Luyện tính phần trăm đổi khối lượng, đọc điểm gần bằng 0 và phân biệt lần cân lại với mẫu lặp độc lập.",
+      "checkVi": "Hỏi: Mẫu từ 2,00 g lên 2,16 g có phần trăm đổi khối lượng nào? Đáp: +8% theo 100(m cuối−m đầu)/m đầu. Cân lại cùng mẫu không tạo thêm mẫu độc lập; so sánh phải giữ cách thấm, thời gian và kích thước.",
+      "sources": [
+        {
+          "sourceID": "S47",
+          "title": "OpenStax: Passive transport",
+          "url": "https://openstax.org/books/biology-2e/pages/5-2-passive-transport"
+        },
+        {
+          "sourceID": "S48",
+          "title": "Practical Biology: potato osmosis",
+          "url": "https://practicalbiology.org/exchange-of-materials/osmosis/investigating-the-effect-of-concentration-of-blackcurrant-squash-on-osmosis-in-chipped-potatoes.html"
+        }
+      ],
+      "learnVi": "%Δm=100(mcuối−mđầu)/mđầu. Điểm %Δm≈0 cho ước lượng môi trường không có trao đổi nước ròng trong điều kiện đó, không có nghĩa nước ngừng chuyển động. Mẫu khoai có biến thiên sinh học; không khẳng định nồng độ tế bào duy nhất từ một miếng.",
+      "practiceVi": "Ghi đúng ba mã mẫu, khối lượng đầu/cuối, nồng độ, thời gian và cách thấm. Tính %Δm riêng từng mẫu rồi mới so nhóm.",
+      "pitfallsVi": "Thấm nước ngoài trước cân; không đổi mã trước/sau. Cân lại một miếng không tạo mẫu sinh học độc lập hay đại diện cho cả cây.",
+      "sourceBrief": {
+        "titleVi": "Thẩm thấu ở miếng khoai tây",
+        "goalVi": "Đo biến đổi khối lượng ở dãy nồng độ và tìm vùng gần đẳng trương; hiểu khối lượng có thể tăng hoặc giảm tùy môi trường.",
+        "theoryVi": "%Δm=100(mcuối−mđầu)/mđầu. Điểm %Δm≈0 cho ước lượng môi trường không có trao đổi nước ròng trong điều kiện đó, không có nghĩa nước ngừng chuyển động. Mẫu khoai có biến thiên sinh học; không khẳng định nồng độ tế bào duy nhất từ một miếng.",
+        "variablesVi": "Độc lập C dung dịch; phụ thuộc %Δm. Kiểm soát nguồn khoai,kích thước,thấm,T,t,V. Phiếu mẫuID,C,m0,m1,Δm%,thời gian,ghi chú. Ba lần cân một miếng là lặp kỹ thuật, không phải ba mẫu sinh học.",
+        "examplesVi": "Minh họa m0=2,00 g,m1=2,16 g cho +8%;m1=1,84 g cho −8%. Nếu trung bình +2% tại 0,20 M và −2% tại 0,30 M, nội suy tuyến tính cục bộ cho 0,25 M; đây là dữ liệu giả định.",
+        "mistakesVi": "Không thấm nước ngoài; cân mẫu khác trước/sau; miếng không đồng cỡ; gọi tăng m là chất tan đi vào chắc chắn; dùng một mẫu suy cả cây.",
+        "testsVi": "m0=0 bị từ chối; time advance ghi đúng thời gian; độ phân tán không đổi seed khi mở bảng; thấm có ảnh hưởng được ghi; thay C mở nhóm mới.",
+        "stepsVi": [
+          "Chuẩn bị các miếng cùng kích thước từ cùng nguồn khoai; ghi chiều dài/đường kính và khối lượng đầu.",
+          "Chuẩn bị cốc nước đối chứng và dãy sucrose bằng C05; nhãn rõ nồng độ.",
+          "Ngâm ít nhất ba miếng độc lập mỗi nồng độ với cùng thời gian,T và thể tích.",
+          "Lấy từng miếng, thấm theo cùng quy định rồi cân.",
+          "Tính %Δm cho từng miếng, trung bình và độ phân tán.",
+          "Vẽ %Δm theo C; nội suy vùng đổi dấu, không ép đường tuyến tính trên toàn miền.",
+          "Thiết kế lượt kiểm chứng gần vùng đổi dấu với mẫu mới."
+        ],
+        "modelVi": "Miếng khoai là biến thể mesh thực vật rất đơn giản; cân chung C03/C07. Mô hình lượng nước đáp ứng nồng độ có độ phân tán seed; chỉ dùng như dữ liệu minh họa nếu chưa hiệu chỉnh thí nghiệm thực.",
+        "sources": "S47,S48"
+      }
+    },
+    {
+      "id": "B04",
+      "titleVi": "Catalase và ảnh hưởng của nhiệt độ",
+      "goalVi": "So sánh tốc độ tạo O2 của dịch thực vật theo nhiệt độ; dùng mẫu đã bất hoạt làm đối chứng, không xem bọt nhiều là đo chính xác.",
+      "theoryVi": "Catalase xúc tác 2H2O2→2H2O+O2. Tốc độ phụ thuộc lượng enzyme,cơ chất,pH,T và tình trạng enzyme. Nhiệt độ tăng không làm tốc độ tăng vô hạn vì biến tính. Mô hình enzyme chỉ minh họa quan hệ; không lấy một đường nhiệt độ làm chuẩn cho mọi sinh vật.",
+      "variablesVi": "Độc lập T; phụ thuộc tốc độ O2. Kiểm soát enzyme,H2O2,pH,V,độ kín. Phiếu T,t,Vkhí,mẫu,tốc độ; nếu dùng phương án đĩa giấy nổi chỉ đo 1/t như chỉ số, không gọi là mol/s.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa thể tích giả lập: 6 mL trong 30 s cho 0,20 mL/s;2 mL cho 0,0667 mL/s. Mỗi giá trị phải mang nhãn dữ liệu mô phỏng; nhiệt độ tối ưu cần cấu hình được duyệt hoặc dữ liệu thật.",
+      "mistakesVi": "CO2 thay O2; nhiều foam đồng nghĩa enzyme nhiều nhưng không kiểm soát khí; mẫu luộc không ghi đối chứng; thay đồng thời nhiệt độ và lượng dịch.",
+      "testsVi": "Không enzyme hoặc không cơ chất cho baseline đúng; sản phẩm không vượt H2O2 giới hạn; nhiệt cao giảm hoạt tính theo model; sửa nhiệt độ giữa lượt được ghi; pause ngừng phản ứng.",
+      "stepsVi": [
+        "Chuẩn bị các aliquot dịch khoai cùng nồng độ enzyme mô phỏng, mẫu nước và mẫu xử lý nhiệt làm đối chứng.",
+        "Đặt mỗi aliquot ở một nhiệt độ bài cấu hình, giữ pH và thể tích cơ chất.",
+        "Nối bình phản ứng với syringe khí; kiểm tra kín và bắt đầu khi tiếp xúc.",
+        "Ghi VO2 trong đoạn đầu cố định, tính ΔV/Δt.",
+        "Lặp ít nhất ba mẫu riêng mỗi nhiệt độ; dùng timer tăng tốc được ghi rõ.",
+        "So sánh mẫu sống/mẫu bất hoạt/nước; giải thích khác biệt.",
+        "Vẽ tốc độ ban đầu theo T và mô tả vùng giảm; không suy bậc phản ứng chỉ từ bọt."
+      ],
+      "examVi": "Luyện giải thích đối chứng bất hoạt/nước, tính tốc độ khí trung bình và phân biệt nhiệt độ bể với nhiệt độ mẫu sau chuyển.",
+      "checkVi": "Hỏi: Thu 6 mL khí trong 30 s cho tốc độ trung bình nào? Đáp: 0,20 mL/s. Đây chưa chắc là tốc độ ban đầu. Sau khi chuyển khỏi bể, mẫu có thể nguội; không coi nhiệt độ bể là nhiệt độ phản ứng không đổi.",
+      "sources": [
+        {
+          "sourceID": "S14",
+          "title": "Practical Biology: catalase ở dịch thực vật",
+          "url": "https://practicalbiology.org/bio-molecules/factors-affecting-enzyme-activity/microscale-investigations-of-catalase-activity-in-plant-extracts"
+        },
+        {
+          "sourceID": "S49",
+          "title": "OpenStax: Enzymes",
+          "url": "https://openstax.org/books/biology-2e/pages/6-5-enzymes"
+        }
+      ],
+      "learnVi": "Catalase xúc tác 2H2O2→2H2O+O2. Tốc độ phụ thuộc lượng enzyme,cơ chất,pH,T và tình trạng enzyme. Nhiệt độ tăng không làm tốc độ tăng vô hạn vì biến tính. Mô hình enzyme chỉ minh họa quan hệ; không lấy một đường nhiệt độ làm chuẩn cho mọi sinh vật.",
+      "practiceVi": "Ghi nhiệt độ mẫu, thời gian và thể tích khí; so với mẫu bất hoạt/nước. Giữ lượng enzyme, cơ chất và cách thu khí giữa các nhóm.",
+      "pitfallsVi": "Khí của phản ứng catalase là O2. Không đổi đồng thời nhiệt độ và lượng mẫu; sau chuyển bể, mẫu nguội nên nhiệt độ bể không là nhiệt độ phản ứng cố định.",
+      "sourceBrief": {
+        "titleVi": "Catalase và ảnh hưởng của nhiệt độ",
+        "goalVi": "So sánh tốc độ tạo O2 của dịch thực vật theo nhiệt độ; dùng mẫu đã bất hoạt làm đối chứng, không xem bọt nhiều là đo chính xác.",
+        "theoryVi": "Catalase xúc tác 2H2O2→2H2O+O2. Tốc độ phụ thuộc lượng enzyme,cơ chất,pH,T và tình trạng enzyme. Nhiệt độ tăng không làm tốc độ tăng vô hạn vì biến tính. Mô hình enzyme chỉ minh họa quan hệ; không lấy một đường nhiệt độ làm chuẩn cho mọi sinh vật.",
+        "variablesVi": "Độc lập T; phụ thuộc tốc độ O2. Kiểm soát enzyme,H2O2,pH,V,độ kín. Phiếu T,t,Vkhí,mẫu,tốc độ; nếu dùng phương án đĩa giấy nổi chỉ đo 1/t như chỉ số, không gọi là mol/s.",
+        "examplesVi": "Minh họa thể tích giả lập: 6 mL trong 30 s cho 0,20 mL/s;2 mL cho 0,0667 mL/s. Mỗi giá trị phải mang nhãn dữ liệu mô phỏng; nhiệt độ tối ưu cần cấu hình được duyệt hoặc dữ liệu thật.",
+        "mistakesVi": "CO2 thay O2; nhiều foam đồng nghĩa enzyme nhiều nhưng không kiểm soát khí; mẫu luộc không ghi đối chứng; thay đồng thời nhiệt độ và lượng dịch.",
+        "testsVi": "Không enzyme hoặc không cơ chất cho baseline đúng; sản phẩm không vượt H2O2 giới hạn; nhiệt cao giảm hoạt tính theo model; sửa nhiệt độ giữa lượt được ghi; pause ngừng phản ứng.",
+        "stepsVi": [
+          "Chuẩn bị các aliquot dịch khoai cùng nồng độ enzyme mô phỏng, mẫu nước và mẫu xử lý nhiệt làm đối chứng.",
+          "Đặt mỗi aliquot ở một nhiệt độ bài cấu hình, giữ pH và thể tích cơ chất.",
+          "Nối bình phản ứng với syringe khí; kiểm tra kín và bắt đầu khi tiếp xúc.",
+          "Ghi VO2 trong đoạn đầu cố định, tính ΔV/Δt.",
+          "Lặp ít nhất ba mẫu riêng mỗi nhiệt độ; dùng timer tăng tốc được ghi rõ.",
+          "So sánh mẫu sống/mẫu bất hoạt/nước; giải thích khác biệt.",
+          "Vẽ tốc độ ban đầu theo T và mô tả vùng giảm; không suy bậc phản ứng chỉ từ bọt."
+        ],
+        "modelVi": "Dùng cốc nước ổn nhiệt/đế heater chung; không cần mô hình phân tử enzyme phức tạp. Kinetics tham số với trạng thái bất hoạt; bọt render theo mol O2. Chọn mẫu thực vật để tránh mẫu người/động vật không cần thiết.",
+        "sources": "S14,S49"
+      }
+    },
+    {
+      "id": "B05",
+      "titleVi": "Lên men nấm men: theo dõi CO2",
+      "goalVi": "So sánh hoạt động nấm men với/không đường và ở các điều kiện nhiệt; hiểu khí CO2 đơn độc không đủ chứng minh mọi khí đến từ lên men.",
+      "theoryVi": "Phương trình giản lược C6H12O6→2C2H5OH+2CO2 biểu diễn lên men ethanol. CO2 cũng có thể sinh từ hô hấp hiếu khí; muốn gọi lên men cần nêu điều kiện và thiết kế. Nấm men có động học, pha thích nghi,ức chế; tăng đường không luôn tăng tốc tuyến tính.",
+      "variablesVi": "Độc lập đường hoặc T; phụ thuộc VCO2(t). Kiểm soát lượng nấm,tuổi mẫu,V và khí. Phiếu sampleID,đường,C,T,t,V,lag,tốc độ. Không xem volume bóng bay là phép đo chính xác như syringe.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa 10 mL khí trong 5 phút cho tốc độ trung bình 2 mL/phút; không phải tốc độ ban đầu nếu có lag. Nhiệt độ/đường tối ưu không khẳng định từ ví dụ này.",
+      "mistakesVi": "Không đường vẫn gọi hoạt động bằng 0 tuyệt đối vì dự trữ có thể có; mọi CO2 là lên men; đóng nút không hệ thu; đường tăng vô hạn hoạt tính tăng.",
+      "testsVi": "Đối chứng được ghi; khí vượt capacity có cảnh báo; cơ chất không âm; đổi T giữa lượt không được trộn nhóm; reset không giữ thể tích syringe cũ.",
+      "stepsVi": [
+        "Chuẩn bị bình nấm men–glucose, nấm men không đường và đối chứng nấm men bất hoạt.",
+        "Giữ khối lượng nấm men,V,T,pH như nhau; đọc điều kiện trao đổi khí của bài.",
+        "Nối hệ thu khí có đường thoát/thu, không tạo bình kín chịu áp không kiểm soát.",
+        "Bắt đầu và ghi VCO2 tại các mốc, chú ý đoạn lag.",
+        "Lặp từng mẫu riêng; đổi nhiệt độ hoặc loại đường trong loạt khác.",
+        "Vẽ V(t), so độ dốc sau lag và plateau.",
+        "Giải thích đối chứng, giới hạn nhận diện khí và sự khác nhau giữa mô hình với lên men thật."
+      ],
+      "examVi": "Luyện đọc đường khí có pha trễ, phân biệt các đối chứng và nêu giới hạn khi dùng khí sinh ra để suy loại chuyển hóa.",
+      "checkVi": "Hỏi: Thu 10 mL khí trong 5 phút có chứng minh tốc độ ban đầu là 2 mL/phút không? Đáp: Không. 2 mL/phút là trung bình cả khoảng, có thể chứa pha trễ. Bản hiện tại giả định khí CO2; không có phép thử định danh khí độc lập.",
+      "sources": [
+        {
+          "sourceID": "S50",
+          "title": "SSERC: Respiration of Sugars by Yeast",
+          "url": "https://www.sserc.org.uk/media/oe0pygrk/respiration-of-sugars-by-yeast.pdf"
+        },
+        {
+          "sourceID": "S51",
+          "title": "Pearson international GCSE core practical guide",
+          "url": "https://qualifications.pearson.com/content/dam/pdf/International%20GCSE/Biology/2017/teaching-and-learning-materials/biology-chemistry-physics-core-practical-guide.pdf"
+        }
+      ],
+      "learnVi": "Phương trình giản lược C6H12O6→2C2H5OH+2CO2 biểu diễn lên men ethanol. CO2 cũng có thể sinh từ hô hấp hiếu khí; muốn gọi lên men cần nêu điều kiện và thiết kế. Nấm men có động học, pha thích nghi,ức chế; tăng đường không luôn tăng tốc tuyến tính.",
+      "practiceVi": "Ghi loại mẫu đối chứng, đường, nhiệt độ, thời gian và ít nhất ba mốc khí. Phân biệt đoạn trễ với đoạn tạo khí để so độ dốc.",
+      "pitfallsVi": "Không đồng nhất mọi khí CO2 với bằng chứng lên men. Tăng đường không làm hoạt tính tăng vô hạn; mẫu không đường có giới hạn giả định riêng.",
+      "sourceBrief": {
+        "titleVi": "Lên men nấm men: theo dõi CO2",
+        "goalVi": "So sánh hoạt động nấm men với/không đường và ở các điều kiện nhiệt; hiểu khí CO2 đơn độc không đủ chứng minh mọi khí đến từ lên men.",
+        "theoryVi": "Phương trình giản lược C6H12O6→2C2H5OH+2CO2 biểu diễn lên men ethanol. CO2 cũng có thể sinh từ hô hấp hiếu khí; muốn gọi lên men cần nêu điều kiện và thiết kế. Nấm men có động học, pha thích nghi,ức chế; tăng đường không luôn tăng tốc tuyến tính.",
+        "variablesVi": "Độc lập đường hoặc T; phụ thuộc VCO2(t). Kiểm soát lượng nấm,tuổi mẫu,V và khí. Phiếu sampleID,đường,C,T,t,V,lag,tốc độ. Không xem volume bóng bay là phép đo chính xác như syringe.",
+        "examplesVi": "Minh họa 10 mL khí trong 5 phút cho tốc độ trung bình 2 mL/phút; không phải tốc độ ban đầu nếu có lag. Nhiệt độ/đường tối ưu không khẳng định từ ví dụ này.",
+        "mistakesVi": "Không đường vẫn gọi hoạt động bằng 0 tuyệt đối vì dự trữ có thể có; mọi CO2 là lên men; đóng nút không hệ thu; đường tăng vô hạn hoạt tính tăng.",
+        "testsVi": "Đối chứng được ghi; khí vượt capacity có cảnh báo; cơ chất không âm; đổi T giữa lượt không được trộn nhóm; reset không giữ thể tích syringe cũ.",
+        "stepsVi": [
+          "Chuẩn bị bình nấm men–glucose, nấm men không đường và đối chứng nấm men bất hoạt.",
+          "Giữ khối lượng nấm men,V,T,pH như nhau; đọc điều kiện trao đổi khí của bài.",
+          "Nối hệ thu khí có đường thoát/thu, không tạo bình kín chịu áp không kiểm soát.",
+          "Bắt đầu và ghi VCO2 tại các mốc, chú ý đoạn lag.",
+          "Lặp từng mẫu riêng; đổi nhiệt độ hoặc loại đường trong loạt khác.",
+          "Vẽ V(t), so độ dốc sau lag và plateau.",
+          "Giải thích đối chứng, giới hạn nhận diện khí và sự khác nhau giữa mô hình với lên men thật."
+        ],
+        "modelVi": "Dùng shader đục nhẹ và sprite nấm men tùy chọn; hệ khí tái dùng C07/B04. Mô hình hữu hạn cơ chất và đáp ứng T cần nguồn tham số; dùng đồng hồ khoa học riêng khi tăng tốc.",
+        "sources": "S50,S51"
+      }
+    },
+    {
+      "id": "B06",
+      "titleVi": "Chiết và sắc ký sắc tố lá",
+      "goalVi": "Tách hỗn hợp màu xanh thành nhiều băng và tính Rf; hiểu màu lá tổng hợp không có nghĩa lá chỉ có một sắc tố.",
+      "theoryVi": "Rf=quãng đường tâm băng/quãng đường mặt trước dung môi, cùng tính từ vạch xuất phát. Sự tách dựa phân bố giữa pha tĩnh và pha động; Rf phụ thuộc dung môi,giấy,nhiệt và điều kiện, không là mã cố định bất biến. Màu và thứ tự băng cần gắn hệ dung môi cụ thể; không định danh chắc chắn chỉ từ màu.",
+      "variablesVi": "Độc lập dung môi hoặc loại lá trong loạt riêng; phụ thuộc băng,Rf. Kiểm soát giấy,mẫu chấm,T,thời gian. Phiếu vị trí gốc,mặt trước,tâm băng,màu,Rf,hệ dung môi.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa mặt trước đi 8,0 cm,băng đi 6,0 cm: Rf=0,75. Nếu băng 3,2 cm thì Rf=0,40. Không gắn những số này thành giá trị chuẩn chlorophyll khi chưa biết hệ.",
+      "mistakesVi": "Chấm dưới dung môi làm mẫu hòa thẳng; vạch bằng mực cũng chạy; đo từ đáy giấy; Rf>1 do sai mốc; tên sắc tố suy từ màu không đối chứng.",
+      "testsVi": "Vạch ngập làm thí nghiệm lỗi; mặt trước không vượt giấy; Rf hợp lệ 0–1; zoom không đổi quãng đường vật lý; giấy reset sạch nhưng bảng lượt đã ghi giữ riêng.",
+      "stepsVi": [
+        "Chọn lá, giã cùng dung môi mô phỏng theo cấu hình giáo viên; lọc vào cốc.",
+        "Kẻ vạch xuất phát bằng bút chì trên giấy; đặt giọt chiết nhỏ và làm khô giữa lần chấm.",
+        "Đặt giấy vào bình có dung môi dưới vạch, đóng nắp.",
+        "Theo dõi mặt trước dung môi; dừng trước mép giấy.",
+        "Đánh dấu mặt trước ngay, đo từ vạch tới tâm từng băng.",
+        "Tính Rf, lặp ba dải giấy cùng điều kiện.",
+        "Thay hệ dung môi ở loạt mở rộng; giải thích Rf thay đổi và vì sao không so trực tiếp số giữa hai hệ."
+      ],
+      "examVi": "Luyện đo cùng vạch gốc để tính Rf, so sánh trong cùng hệ dung môi và tránh định danh sắc tố chỉ bằng màu.",
+      "checkVi": "Hỏi: Tâm băng đi 6,0 cm và mặt trước dung môi đi 8,0 cm từ cùng vạch gốc cho Rf nào? Đáp: 0,75, không có đơn vị. Rf phụ thuộc hệ và điều kiện, nên riêng giá trị này không chứng minh tên sắc tố.",
+      "sources": [
+        {
+          "sourceID": "S52",
+          "title": "SAPS: photosynthetic pigments TLC",
+          "url": "https://www.saps.org.uk/teaching-resources/resources/189/investigating-photosynthetic-pigments-through-tlc/"
+        },
+        {
+          "sourceID": "S53",
+          "title": "SAPS teaching resources",
+          "url": "https://www.saps.org.uk/teaching-resources/"
+        }
+      ],
+      "learnVi": "Rf=quãng đường tâm băng/quãng đường mặt trước dung môi, cùng tính từ vạch xuất phát. Sự tách dựa phân bố giữa pha tĩnh và pha động; Rf phụ thuộc dung môi,giấy,nhiệt và điều kiện, không là mã cố định bất biến. Màu và thứ tự băng cần gắn hệ dung môi cụ thể; không định danh chắc chắn chỉ từ màu.",
+      "practiceVi": "Ghi vạch gốc, vị trí tâm băng, mặt trước dung môi, màu và hệ dung môi. Đo các khoảng từ cùng một gốc để tính Rf.",
+      "pitfallsVi": "Không để vạch mẫu ngập dung môi, đo từ đáy giấy hoặc viết vạch bằng mực hòa tan. Không định danh sắc tố chỉ từ màu/Rf.",
+      "sourceBrief": {
+        "titleVi": "Chiết và sắc ký sắc tố lá",
+        "goalVi": "Tách hỗn hợp màu xanh thành nhiều băng và tính Rf; hiểu màu lá tổng hợp không có nghĩa lá chỉ có một sắc tố.",
+        "theoryVi": "Rf=quãng đường tâm băng/quãng đường mặt trước dung môi, cùng tính từ vạch xuất phát. Sự tách dựa phân bố giữa pha tĩnh và pha động; Rf phụ thuộc dung môi,giấy,nhiệt và điều kiện, không là mã cố định bất biến. Màu và thứ tự băng cần gắn hệ dung môi cụ thể; không định danh chắc chắn chỉ từ màu.",
+        "variablesVi": "Độc lập dung môi hoặc loại lá trong loạt riêng; phụ thuộc băng,Rf. Kiểm soát giấy,mẫu chấm,T,thời gian. Phiếu vị trí gốc,mặt trước,tâm băng,màu,Rf,hệ dung môi.",
+        "examplesVi": "Minh họa mặt trước đi 8,0 cm,băng đi 6,0 cm: Rf=0,75. Nếu băng 3,2 cm thì Rf=0,40. Không gắn những số này thành giá trị chuẩn chlorophyll khi chưa biết hệ.",
+        "mistakesVi": "Chấm dưới dung môi làm mẫu hòa thẳng; vạch bằng mực cũng chạy; đo từ đáy giấy; Rf>1 do sai mốc; tên sắc tố suy từ màu không đối chứng.",
+        "testsVi": "Vạch ngập làm thí nghiệm lỗi; mặt trước không vượt giấy; Rf hợp lệ 0–1; zoom không đổi quãng đường vật lý; giấy reset sạch nhưng bảng lượt đã ghi giữ riêng.",
+        "stepsVi": [
+          "Chọn lá, giã cùng dung môi mô phỏng theo cấu hình giáo viên; lọc vào cốc.",
+          "Kẻ vạch xuất phát bằng bút chì trên giấy; đặt giọt chiết nhỏ và làm khô giữa lần chấm.",
+          "Đặt giấy vào bình có dung môi dưới vạch, đóng nắp.",
+          "Theo dõi mặt trước dung môi; dừng trước mép giấy.",
+          "Đánh dấu mặt trước ngay, đo từ vạch tới tâm từng băng.",
+          "Tính Rf, lặp ba dải giấy cùng điều kiện.",
+          "Thay hệ dung môi ở loạt mở rộng; giải thích Rf thay đổi và vì sao không so trực tiếp số giữa hai hệ."
+        ],
+        "modelVi": "Giấy là plane có texture/UV động và dữ liệu băng; không cần fluid simulation. Cối/chày tách mesh; cốc và dropper dùng lại. Dùng trạng thái giã→lọc→chấm→chạy với thông báo khi giấy đặt quá sâu.",
+        "sources": "S52,S53"
+      }
+    },
+    {
+      "id": "B07",
+      "titleVi": "Tách chiết DNA từ mô quả",
+      "goalVi": "Giải thích vai trò nghiền,chất tẩy,muối,lọc và alcohol; phân biệt sợi kết tủa thô với hình xoắn kép phóng đại.",
+      "theoryVi": "Nghiền phá mô; detergent hỗ trợ phá màng lipid; muối ảnh hưởng tương tác điện tích và kết tủa; alcohol lạnh làm DNA ít tan trong điều kiện chiết. Khối trắng chứa DNA cùng tạp chất, không chứng minh DNA tinh khiết hay nồng độ từ độ đục. Không nhìn thấy từng phân tử xoắn kép bằng mắt thường.",
+      "variablesVi": "Độc lập thành phần quy trình; phụ thuộc sự có mặt kết tủa thô; kiểm soát m mẫu,V,T và cách trộn. Phiếu thao tác,buffer,alcohol,kết tủa,đối chứng. Không gọi độ dài sợi là chiều dài một phân tử.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nVí dụ phân tích định tính: mẫu đủ quy trình có vật liệu trắng, bỏ alcohol khó quan sát sợi hơn trong mô hình. Không gán mg DNA hoặc độ tinh khiết nếu không có phép đo hấp thụ/quy trình định lượng được xác nhận.",
+      "mistakesVi": "Detergent tạo DNA; sợi trắng là một xoắn kép; nhiều foam là nhiều DNA; đảo vai trò lọc và kết tủa. Phản hồi khuyến khích nêu cấu trúc bị tác động và chất được giữ lại.",
+      "testsVi": "Bỏ bước chiết không cho kết quả giống đủ bước; lọc nhầm mất mẫu; nhận lớp alcohol đúng; mọi reset xóa sợi trên đũa; screenshot không nhầm sợi macro với DNA phân tử.",
+      "stepsVi": [
+        "Chọn mẫu quả có khối lượng tương đương giữa các nhóm; nghiền trong túi hoặc cối ảo.",
+        "Thêm buffer chiết theo cấu hình, trộn nhẹ; đọc vai trò từng thành phần.",
+        "Lọc qua phễu–giấy vào bình nhận để loại phần mô lớn.",
+        "Thêm alcohol lạnh tạo lớp phía trên theo thao tác chậm, không trộn mạnh.",
+        "Quan sát vật liệu trắng ở vùng tiếp xúc; cuốn nhẹ bằng đũa ảo.",
+        "So với đối chứng bỏ detergent hoặc không alcohol trong các lượt riêng.",
+        "Viết giải thích và giới hạn sản phẩm; hình DNA xoắn kép chỉ nằm trong bảng lý thuyết có nhãn khác tỷ lệ."
+      ],
+      "examVi": "Luyện giải thích vai trò từng bước chiết, thiết kế đối chứng bỏ một thành phần và giới hạn kết luận từ vật liệu trắng.",
+      "checkVi": "Hỏi: Nhìn thấy vật liệu trắng sau thêm alcohol có chứng minh DNA tinh khiết không? Đáp: Không. Đó là kết tủa thô có thể chứa DNA cùng tạp chất; quan sát này không đo được độ tinh sạch hay khối lượng và không cho thấy từng phân tử xoắn kép.",
+      "sources": [
+        {
+          "sourceID": "S15",
+          "title": "Fred Hutch: Strawberry DNA extraction",
+          "url": "https://www.fredhutch.org/en/education-training/teachers/science-education-partnership/sep-curriculum/strawberry-dna-extraction.html"
+        },
+        {
+          "sourceID": "S54",
+          "title": "James Madison University: strawberry DNA",
+          "url": "https://sites.lib.jmu.edu/chemdemos/2011/06/14/strawberry-dna-extraction/"
+        },
+        {
+          "sourceID": "S55",
+          "title": "Wellcome Genome Academy: DNA extraction",
+          "url": "https://wcscourses.github.io/genomeacademy/modules/visual_assistive_dna_extraction_strawberries.html"
+        }
+      ],
+      "learnVi": "Nghiền phá mô; detergent hỗ trợ phá màng lipid; muối ảnh hưởng tương tác điện tích và kết tủa; alcohol lạnh làm DNA ít tan trong điều kiện chiết. Khối trắng chứa DNA cùng tạp chất, không chứng minh DNA tinh khiết hay nồng độ từ độ đục. Không nhìn thấy từng phân tử xoắn kép bằng mắt thường.",
+      "practiceVi": "Ghi thứ tự nghiền, thêm dung dịch chiết, lọc, thêm alcohol và hiện tượng thô; so đối chứng bỏ thành phần nếu được hỗ trợ.",
+      "pitfallsVi": "Detergent không tạo DNA. Bọt nhiều không chứng minh nhiều DNA; vật liệu trắng không chứng minh độ tinh sạch, khối lượng hay một phân tử xoắn kép.",
+      "sourceBrief": {
+        "titleVi": "Tách chiết DNA từ mô quả",
+        "goalVi": "Giải thích vai trò nghiền,chất tẩy,muối,lọc và alcohol; phân biệt sợi kết tủa thô với hình xoắn kép phóng đại.",
+        "theoryVi": "Nghiền phá mô; detergent hỗ trợ phá màng lipid; muối ảnh hưởng tương tác điện tích và kết tủa; alcohol lạnh làm DNA ít tan trong điều kiện chiết. Khối trắng chứa DNA cùng tạp chất, không chứng minh DNA tinh khiết hay nồng độ từ độ đục. Không nhìn thấy từng phân tử xoắn kép bằng mắt thường.",
+        "variablesVi": "Độc lập thành phần quy trình; phụ thuộc sự có mặt kết tủa thô; kiểm soát m mẫu,V,T và cách trộn. Phiếu thao tác,buffer,alcohol,kết tủa,đối chứng. Không gọi độ dài sợi là chiều dài một phân tử.",
+        "examplesVi": "Ví dụ phân tích định tính: mẫu đủ quy trình có vật liệu trắng, bỏ alcohol khó quan sát sợi hơn trong mô hình. Không gán mg DNA hoặc độ tinh khiết nếu không có phép đo hấp thụ/quy trình định lượng được xác nhận.",
+        "mistakesVi": "Detergent tạo DNA; sợi trắng là một xoắn kép; nhiều foam là nhiều DNA; đảo vai trò lọc và kết tủa. Phản hồi khuyến khích nêu cấu trúc bị tác động và chất được giữ lại.",
+        "testsVi": "Bỏ bước chiết không cho kết quả giống đủ bước; lọc nhầm mất mẫu; nhận lớp alcohol đúng; mọi reset xóa sợi trên đũa; screenshot không nhầm sợi macro với DNA phân tử.",
+        "stepsVi": [
+          "Chọn mẫu quả có khối lượng tương đương giữa các nhóm; nghiền trong túi hoặc cối ảo.",
+          "Thêm buffer chiết theo cấu hình, trộn nhẹ; đọc vai trò từng thành phần.",
+          "Lọc qua phễu–giấy vào bình nhận để loại phần mô lớn.",
+          "Thêm alcohol lạnh tạo lớp phía trên theo thao tác chậm, không trộn mạnh.",
+          "Quan sát vật liệu trắng ở vùng tiếp xúc; cuốn nhẹ bằng đũa ảo.",
+          "So với đối chứng bỏ detergent hoặc không alcohol trong các lượt riêng.",
+          "Viết giải thích và giới hạn sản phẩm; hình DNA xoắn kép chỉ nằm trong bảng lý thuyết có nhãn khác tỷ lệ."
+        ],
+        "modelVi": "Kết tủa sợi là mesh instanced/curve đã bake nhẹ hoặc alpha cards, không dùng thể tích sương. Hai lớp chất lỏng có material riêng, solver chỉ hỗ trợ trình tự quy trình; nếu chưa hiệu chỉnh thì ghi định tính.",
+        "sources": "S15,S54,S55"
+      }
+    },
+    {
+      "id": "B08",
+      "titleVi": "Quan sát nguyên phân và chỉ số phân bào",
+      "goalVi": "Nhận diện các kỳ trên nhiều trường nhìn và tính chỉ số phân bào; tránh xem một ảnh minh họa là bằng chứng tế bào đang chuyển kỳ theo thời gian thật.",
+      "theoryVi": "MI=100×số tế bào đang phân bào/tổng tế bào quan sát. Kỳ đầu, kỳ giữa, kỳ sau, kỳ cuối được phân biệt bằng cấu trúc NST và vị trí; kỳ trung gian thuộc chu kỳ nhưng không phải một kỳ nguyên phân. Ước lượng thời lượng từ tỷ lệ tế bào chỉ phù hợp quần thể không đồng bộ trong điều kiện có giả định.",
+      "variablesVi": "Độc lập trường nhìn hoặc loại vùng mô; phụ thuộc tỷ lệ kỳ và MI. Kiểm soát tiêu bản,cách chọn,phóng đại. Phiếu fieldID,Ntổng,Ntừng kỳ,Nkhông rõ,MI. Không chọn chỉ vùng nhiều phân bào rồi suy toàn bộ rễ.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa Ntổng=120,đầu=10,giữa=5,sau=3,cuối=6: MI=24/120×100=20%. Kỳ trung gian còn 96 nếu tất cả đã phân loại; không cộng 96 vào tử số.",
+      "mistakesVi": "Kỳ trung gian tính vào nguyên phân; mỗi NST là một tế bào; ảnh nhòe vẫn ép gán kỳ; lấy % kỳ làm thời gian chắc chắn. Bảng nên cho lựa chọn chưa rõ và yêu cầu lý do.",
+      "testsVi": "MI 0–100; số nhóm cộng đúng tổng; không ghi cellID hai lần; chuyển trường không mất dữ liệu; những cấu trúc chưa đủ độ nét không chấm sai khoa học vì lỗi input.",
+      "stepsVi": [
+        "Chọn tiêu bản rễ hành chuẩn bị sẵn; không yêu cầu học sinh tự xử lý acid/thuốc nhuộm để hoàn thành bài ảo.",
+        "Lắp lam và tìm vùng mô phân sinh bằng vật kính thấp.",
+        "Chuyển phóng đại cao, chọn nhiều trường nhìn có hệ thống.",
+        "Đếm ít nhất 100 tế bào theo quy tắc mép khung để không đếm đôi.",
+        "Phân loại và ghi số kỳ trung gian,đầu,giữa,sau,cuối; có nhóm chưa rõ.",
+        "Tính MI, lặp trường nhìn khác; báo phần chưa rõ và độ phân tán.",
+        "Đối chiếu mô hình 3D NST chỉ để giải thích, không thay thế việc đọc tiêu bản."
+      ],
+      "examVi": "Luyện tính chỉ số phân bào, phân biệt kỳ trung gian với các kỳ nguyên phân và đếm không trùng các mã trên ảnh.",
+      "checkVi": "Hỏi: Trong ví dụ giả định có 120 tế bào, 10 kỳ đầu, 5 kỳ giữa, 3 kỳ sau và 6 kỳ cuối, MI bằng bao nhiêu? Đáp: (10+5+3+6)/120×100=20%. Không cộng kỳ trung gian vào tử số. Ví dụ 120 tế bào không phải số ô của atlas hiện tại 100 mã.",
+      "sources": [
+        {
+          "sourceID": "S21",
+          "title": "Practical Biology: mitosis root-tip squash",
+          "url": "https://practicalbiology.org/cells-to-systems/cell-division/investigating-mitosis-in-a-root-tip-squash.html"
+        },
+        {
+          "sourceID": "S22",
+          "title": "Pearson: observe mitosis in root tips",
+          "url": "https://qualifications.pearson.com/content/dam/pdf/A%20Level/biology-b/2015/teaching-and-learning-materials/AS-and-A-level-Biology-B-Core-Practical-3---Mitosis-%28Student%2C-Teacher%2C-Technician-Worksheets%29.pdf"
+        },
+        {
+          "sourceID": "S56",
+          "title": "Practical Biology: cell division collection",
+          "url": "https://practicalbiology.org/cells-to-systems/cell-division.html"
+        }
+      ],
+      "learnVi": "MI=100×số tế bào đang phân bào/tổng tế bào quan sát. Kỳ đầu, kỳ giữa, kỳ sau, kỳ cuối được phân biệt bằng cấu trúc NST và vị trí; kỳ trung gian thuộc chu kỳ nhưng không phải một kỳ nguyên phân. Ước lượng thời lượng từ tỷ lệ tế bào chỉ phù hợp quần thể không đồng bộ trong điều kiện có giả định.",
+      "practiceVi": "Phân loại100 mã toàn cục trong atlas, giữ nhóm chưa rõ và tránh đếm trùng khi đổi phần ảnh. Ghi số từng kỳ và tổng để tính MI.",
+      "pitfallsVi": "Không tính kỳ trung gian vào tử số MI, coi mỗi NST là một tế bào hoặc ép gán kỳ cho ảnh chưa rõ. Atlas sơ đồ không đại diện tần suất tự nhiên.",
+      "sourceBrief": {
+        "titleVi": "Quan sát nguyên phân và chỉ số phân bào",
+        "goalVi": "Nhận diện các kỳ trên nhiều trường nhìn và tính chỉ số phân bào; tránh xem một ảnh minh họa là bằng chứng tế bào đang chuyển kỳ theo thời gian thật.",
+        "theoryVi": "MI=100×số tế bào đang phân bào/tổng tế bào quan sát. Kỳ đầu,trung gian kỳ giữa,kỳ sau,kỳ cuối được phân biệt bằng cấu trúc NST và vị trí; kỳ trung gian thuộc chu kỳ nhưng không phải một kỳ nguyên phân. Ước lượng thời lượng từ tỷ lệ tế bào chỉ phù hợp quần thể không đồng bộ trong điều kiện có giả định.",
+        "variablesVi": "Độc lập trường nhìn hoặc loại vùng mô; phụ thuộc tỷ lệ kỳ và MI. Kiểm soát tiêu bản,cách chọn,phóng đại. Phiếu fieldID,Ntổng,Ntừng kỳ,Nkhông rõ,MI. Không chọn chỉ vùng nhiều phân bào rồi suy toàn bộ rễ.",
+        "examplesVi": "Minh họa Ntổng=120,đầu=10,giữa=5,sau=3,cuối=6: MI=24/120×100=20%. Kỳ trung gian còn 96 nếu tất cả đã phân loại; không cộng 96 vào tử số.",
+        "mistakesVi": "Kỳ trung gian tính vào nguyên phân; mỗi NST là một tế bào; ảnh nhòe vẫn ép gán kỳ; lấy % kỳ làm thời gian chắc chắn. Bảng nên cho lựa chọn chưa rõ và yêu cầu lý do.",
+        "testsVi": "MI 0–100; số nhóm cộng đúng tổng; không ghi cellID hai lần; chuyển trường không mất dữ liệu; những cấu trúc chưa đủ độ nét không chấm sai khoa học vì lỗi input.",
+        "stepsVi": [
+          "Chọn tiêu bản rễ hành chuẩn bị sẵn; không yêu cầu học sinh tự xử lý acid/thuốc nhuộm để hoàn thành bài ảo.",
+          "Lắp lam và tìm vùng mô phân sinh bằng vật kính thấp.",
+          "Chuyển phóng đại cao, chọn nhiều trường nhìn có hệ thống.",
+          "Đếm ít nhất 100 tế bào theo quy tắc mép khung để không đếm đôi.",
+          "Phân loại và ghi số kỳ trung gian,đầu,giữa,sau,cuối; có nhóm chưa rõ.",
+          "Tính MI, lặp trường nhìn khác; báo phần chưa rõ và độ phân tán.",
+          "Đối chiếu mô hình 3D NST chỉ để giải thích, không thay thế việc đọc tiêu bản."
+        ],
+        "modelVi": "Thêm atlas ảnh/sơ đồ tế bào từng kỳ với license và metadata; kính hiện có. Dùng texture tiled với cellID và đáp án riêng; nếu dùng ảnh thật phải giữ vùng ảnh không sửa để giả tạo kỳ.",
+        "sources": "S21,S22,S56"
+      }
+    },
+    {
+      "id": "M01",
+      "titleVi": "Bộ truyền bánh răng: tốc độ và chiều quay",
+      "goalVi": "Lắp truyền giảm tốc/tăng tốc, đo tỷ số và giải thích đổi chiều của hai bánh ngoài; phân biệt hình răng minh họa với biên dạng đúng kỹ thuật.",
+      "theoryVi": "nB/nA=−ZA/ZB cho hai bánh ngoài cùng module ăn khớp. Với hiệu suất η, τB/τA≈η·ZB/ZA; không gọi giảm tốc tăng công suất. Đường kính vòng chia d=mZ; khoảng tâm a=m(ZA+ZB)/2. Bánh 12 răng với biên dạng involute tiêu chuẩn có nguy cơ undercut, cần profile shift hoặc ghi mô hình minh họa.",
+      "variablesVi": "Độc lập ZA/ZB hoặc nA; phụ thuộc nB,chiều,τ khi có mô hình. Kiểm soát module,tâm,hiệu suất. Phiếu Z,m,a,n,τ,P; dùng rpm chuyển rad/s để P=τω.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nVí dụ minh họa lý thuyết, không phải số đo đã lưu: Cấu hình hiện có: ZA=12,ZB=24,nA=60 rpm→nB=−30 rpm. Nếu τA=0,10 N·m,η=0,90 thì τB≈0,18 N·m; Pout≈0,565 W so Pin≈0,628 W trong mô hình mở rộng.",
+      "mistakesVi": "Bánh lớn quay nhanh hơn khi bị dẫn; bỏ dấu; mômen tăng nhưng công suất cũng tăng vô nguồn; răng đang xuyên nhau nhưng chỉ đồng bộ góc cho đẹp.",
+      "testsVi": "12→24 tỷ số −0,5; đảo thành −2; pause/reset về mark đầu; sai module bị chặn; không cho đổi khi quay; mesh không xuyên khi chạy chậm toàn vòng.",
+      "stepsVi": [
+        "Đặt bánh 12 răng ở trục A và 24 ở B, kiểm tra module và khoảng tâm.",
+        "Dự đoán tốc độ/chiều khi A=60 rpm trước khi chạy.",
+        "Bật chuyển động chậm, đếm vòng hoặc dùng cảm biến ảo.",
+        "Ghi nA,nB và tỷ số có dấu; lặp ở các nA khác nhau.",
+        "Đổi vị trí hai bánh, chạy tăng tốc; không làm khi đang quay.",
+        "Nếu mở rộng có tải, đo mômen và công suất, ghi hiệu suất giả định.",
+        "Thử sai module/khoảng tâm trong chế độ chẩn đoán, giải thích không thể ăn khớp."
+      ],
+      "examVi": "Luyện tính tỷ số tốc độ có dấu, giải thích tác dụng bánh trung gian và phân biệt giảm tốc với tăng công suất.",
+      "checkVi": "Hỏi: Bánh chủ động 12 răng quay 60 rpm ăn khớp bánh ngoài24 răng cho đầu ra nào? Đáp: −30 rpm theo nB/nA=−ZA/ZB. Dấu âm biểu thị ngược chiều; tỷ số này không tự xác định hiệu suất hay mômen có tải.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S23",
+          "title": "Virtual gear train laboratory, Aziz và cộng sự",
+          "url": "https://doi.org/10.1002/cae.21573"
+        },
+        {
+          "sourceID": "S57",
+          "title": "KHK: calculation of gear dimensions",
+          "url": "https://khkgears.net/gear-knowledge/gear-technical-reference/calculation-gear-dimensions/"
+        }
+      ],
+      "learnVi": "nB/nA=−ZA/ZB cho hai bánh ngoài cùng module ăn khớp. Với hiệu suất η, tỷ số độ lớn mômen đầu ra/đầu vào là |τB|/|τA|≈η·ZB/ZA; không gọi giảm tốc tăng công suất. Đường kính vòng chia d=mZ; khoảng tâm a=m(ZA+ZB)/2. Bánh 12 răng với biên dạng involute tiêu chuẩn có nguy cơ undercut, cần xét hiệu chỉnh biên dạng; không coi hình minh họa là kiểm chứng chế tạo.",
+      "practiceVi": "Ghi bánh chủ động/bị dẫn, số răng, tốc độ và chiều quay. So các cặp12/24/36 răng; dừng trước khi đổi cấu hình.",
+      "pitfallsVi": "Không bỏ dấu chiều quay hoặc cho rằng giảm tốc tự tăng công suất. Tỷ số hình học không đo được mômen có tải hay hiệu suất.",
+      "sourceBrief": {
+        "titleVi": "Bộ truyền bánh răng: tốc độ và chiều quay",
+        "goalVi": "Lắp truyền giảm tốc/tăng tốc, đo tỷ số và giải thích đổi chiều của hai bánh ngoài; phân biệt hình răng minh họa với biên dạng đúng kỹ thuật.",
+        "theoryVi": "nB/nA=−ZA/ZB cho hai bánh ngoài cùng module ăn khớp. Với hiệu suất η, τB/τA≈η·ZB/ZA; không gọi giảm tốc tăng công suất. Đường kính vòng chia d=mZ; khoảng tâm a=m(ZA+ZB)/2. Bánh 12 răng với biên dạng involute tiêu chuẩn có nguy cơ undercut, cần profile shift hoặc ghi mô hình minh họa.",
+        "variablesVi": "Độc lập ZA/ZB hoặc nA; phụ thuộc nB,chiều,τ khi có mô hình. Kiểm soát module,tâm,hiệu suất. Phiếu Z,m,a,n,τ,P; dùng rpm chuyển rad/s để P=τω.",
+        "examplesVi": "Cấu hình hiện có: ZA=12,ZB=24,nA=60 rpm→nB=−30 rpm. Nếu τA=0,10 N·m,η=0,90 thì τB≈0,18 N·m; Pout≈0,565 W so Pin≈0,628 W trong mô hình mở rộng.",
+        "mistakesVi": "Bánh lớn quay nhanh hơn khi bị dẫn; bỏ dấu; mômen tăng nhưng công suất cũng tăng vô nguồn; răng đang xuyên nhau nhưng chỉ đồng bộ góc cho đẹp.",
+        "testsVi": "12→24 tỷ số −0,5; đảo thành −2; pause/reset về mark đầu; sai module bị chặn; không cho đổi khi quay; mesh không xuyên khi chạy chậm toàn vòng.",
+        "stepsVi": [
+          "Đặt bánh 12 răng ở trục A và 24 ở B, kiểm tra module và khoảng tâm.",
+          "Dự đoán tốc độ/chiều khi A=60 rpm trước khi chạy.",
+          "Bật chuyển động chậm, đếm vòng hoặc dùng cảm biến ảo.",
+          "Ghi nA,nB và tỷ số có dấu; lặp ở các nA khác nhau.",
+          "Đổi vị trí hai bánh, chạy tăng tốc; không làm khi đang quay.",
+          "Nếu mở rộng có tải, đo mômen và công suất, ghi hiệu suất giả định.",
+          "Thử sai module/khoảng tâm trong chế độ chẩn đoán, giải thích không thể ăn khớp."
+        ],
+        "modelVi": "Giữ hoạt động 12/24 hiện tại, thêm nhãn module/tâm và mark răng rõ. Thay hình răng giản lược bằng mesh có khoảng hở hợp lý nếu dùng cho giáo dục thiết kế. Số vòng/tốc độ đọc từ solver, không phụ thuộc frame.",
+        "sources": "S01,S23,S57"
+      }
+    },
+    {
+      "id": "M02",
+      "titleVi": "Đòn bẩy và cân bằng mômen",
+      "goalVi": "Đặt tải/điểm tựa/lực để cân bằng, tính cánh tay đòn từ đường tác dụng; đo lợi lực và quãng đường để hiểu bảo toàn công lý tưởng.",
+      "theoryVi": "M=F·d vuông góc; cân bằng ΣM=0 và ΣF=0. Hai lực xuống ở hai bên cho mômen trái dấu. Đòn nhẹ, không ma sát: F1d1=F2d2. Khi xét trọng lượng thanh, thêm mômen của thanh tại trọng tâm; không bỏ nếu thiết kế thanh nặng.",
+      "variablesVi": "Độc lập vị trí lực/điểm tựa; phụ thuộc mômen tổng,góc hoặc trạng thái. Kiểm soát lực,trọng lượng thanh. Phiếu xpivot,xload,xeffort,d1,d2,F1,F2,M1,M2. Vị trí nhãn không tự là mét.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nVí dụ minh họa lý thuyết, không phải số đo đã lưu: Ví dụ lực và cánh tay đòn theo đơn vị N và m: 10×0,20=5×0,40=2,0 N·m. Lực 5 N với cánh tay đòn 0,20 m chỉ cho 1,0 N·m, mất cân bằng. Nếu đổi điểm tựa thì phải tính d từ điểm tựa mới.",
+      "mistakesVi": "Đo từ đầu thanh; dùng khoảng cách xiên thay cánh tay vuông góc; cân bằng mômen nhưng quên lực đỡ; coi một animation nằm ngang là đo lực thực.",
+      "testsVi": "Ví dụ 2 N·m hai bên đạt; mọi vị trí bất hợp lệ chặn; pivot giới hạn giữ; thanh tự có trọng lượng phải thay đáp án; reset không giữ tải cũ.",
+      "stepsVi": [
+        "Đặt điểm tựa ở 0,tải 10 N tại −2; mỗi vạch 0,1 m như bài hiện có.",
+        "Dự đoán nơi đặt lực 5 N để cân bằng.",
+        "Chọn lực rồi vạch +4, bấm kiểm tra và ghi mômen.",
+        "Thử +2 để thấy mất cân bằng, rồi tìm vị trí đúng.",
+        "Đổi điểm tựa trong −1/0/+1, tính lại cánh tay đòn.",
+        "Mở rộng nhiều tải hoặc trọng lượng thanh khi solver hỗ trợ.",
+        "Đo dịch chuyển hai đầu nhỏ quanh điểm cân bằng để so công."
+      ],
+      "examVi": "Luyện chọn trục lấy mômen, đo cánh tay đòn vuông góc và bổ sung mômen trọng lượng thanh khi điểm tựa lệch tâm.",
+      "checkVi": "Hỏi: Chỉ kiểm tra F1d1=F2d2 có đủ cho mọi cấu hình thanh hiện tại không? Đáp: Không. Khi điểm tựa lệch tâm, trọng lượng thanh0,5 N tạo thêm mômen; phải tính tổng mômen quanh đúng điểm tựa và cân bằng lực.",
+      "sources": [
+        {
+          "sourceID": "S01",
+          "title": "VLAB: README, cấu trúc công khai; đối chiếu tài liệu nhóm",
+          "url": "https://github.com/thieen209/VLAB"
+        },
+        {
+          "sourceID": "S58",
+          "title": "VLAB: MechanicsModels",
+          "url": "https://github.com/thieen209/VLAB/blob/df83980a12a241c5f23faf6827ee8c3612c9c247/Assets/VLAB/MainMenu/Runtime/Activities/Mechanics/MechanicsModels.cs"
+        }
+      ],
+      "learnVi": "M=F·d vuông góc; cân bằng ΣM=0 và ΣF=0. Hai lực xuống ở hai bên cho mômen trái dấu. Đòn nhẹ, không ma sát: F1d1=F2d2. Khi xét trọng lượng thanh, thêm mômen của thanh tại trọng tâm; không bỏ nếu thiết kế thanh nặng.",
+      "practiceVi": "Ghi đúng vị trí điểm tựa, lực và khoảng cách vuông góc tới trục; so tổng mômen, kể cả trọng lượng thanh khi lệch tâm.",
+      "pitfallsVi": "Không đo cánh tay đòn từ đầu thanh. Cân bằng mômen còn cần cân bằng lực; hình thanh nằm ngang không tự là phép đo lực.",
+      "sourceBrief": {
+        "titleVi": "Đòn bẩy và cân bằng mômen",
+        "goalVi": "Đặt tải/điểm tựa/lực để cân bằng, tính cánh tay đòn từ đường tác dụng; đo lợi lực và quãng đường để hiểu bảo toàn công lý tưởng.",
+        "theoryVi": "M=F·d vuông góc; cân bằng ΣM=0 và ΣF=0. Hai lực xuống ở hai bên cho mômen trái dấu. Đòn nhẹ, không ma sát: F1d1=F2d2. Khi xét trọng lượng thanh, thêm mômen của thanh tại trọng tâm; không bỏ nếu thiết kế thanh nặng.",
+        "variablesVi": "Độc lập vị trí lực/điểm tựa; phụ thuộc mômen tổng,góc hoặc trạng thái. Kiểm soát lực,trọng lượng thanh. Phiếu xpivot,xload,xeffort,d1,d2,F1,F2,M1,M2. Vị trí nhãn không tự là mét.",
+        "examplesVi": "Hiện tại 10×0,20=5×0,40=2,0 N·m. Lực 5 N ở +2 cho chỉ 1,0 N·m, mất cân bằng. Nếu đổi điểm tựa thì phải tính d từ điểm tựa mới.",
+        "mistakesVi": "Đo từ đầu thanh; dùng khoảng cách xiên thay cánh tay vuông góc; cân bằng mômen nhưng quên lực đỡ; coi một animation nằm ngang là đo lực thực.",
+        "testsVi": "Ví dụ 2 N·m hai bên đạt; mọi vị trí bất hợp lệ chặn; pivot giới hạn giữ; thanh tự có trọng lượng phải thay đáp án; reset không giữ tải cũ.",
+        "stepsVi": [
+          "Đặt điểm tựa ở 0,tải 10 N tại −2; mỗi vạch 0,1 m như bài hiện có.",
+          "Dự đoán nơi đặt lực 5 N để cân bằng.",
+          "Chọn lực rồi vạch +4, bấm kiểm tra và ghi mômen.",
+          "Thử +2 để thấy mất cân bằng, rồi tìm vị trí đúng.",
+          "Đổi điểm tựa trong −1/0/+1, tính lại cánh tay đòn.",
+          "Mở rộng nhiều tải hoặc trọng lượng thanh khi solver hỗ trợ.",
+          "Đo dịch chuyển hai đầu nhỏ quanh điểm cân bằng để so công."
+        ],
+        "modelVi": "Giữ LeverBalanceModel giới hạn vị trí và thông báo rõ. Dựng thanh,điểm tựa,tải tách mesh; hiển thị mũi tên và cánh tay ảo. Phần mở rộng nhiều tải là solver mới, không giả định code hiện có đã xử lý.",
+        "sources": "S01,S58"
+      }
+    },
+    {
+      "id": "M03",
+      "titleVi": "Ròng rọc và lợi lực",
+      "goalVi": "Lắp ròng rọc cố định/động, đo lực và quãng kéo; phân biệt đổi hướng lực với tăng lợi lực.",
+      "theoryVi": "Hệ lý tưởng tải W được N nhánh dây nâng đỡ có F=W/N, quãng kéo s=N·h. Ròng rọc cố định đơn chỉ đổi hướng, N=1; một động đúng luồn thường N=2. Hiệu suất η=W h/(F s). Tải gồm cả khối lượng ròng rọc động và móc nếu đáng kể.",
+      "variablesVi": "Độc lập số nhánh hoặc ma sát; phụ thuộc F,s/h,η. Kiểm soát W,tốc độ,chiều dây. Phiếu sơ đồ,N,W,F,s,h,η. Một hệ ròng rọc nhiều bánh không tự có N bằng số bánh.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa W=10 N,N=2,F=5 N; nâng h=0,10 m cần s=0,20 m, công 1 J. Nếu F=6 N,s=0,20 thì η≈83,3% khi công tải 1 J.",
+      "mistakesVi": "Cố định cho lợi lực 2; đếm bánh thay nhánh; dây xuyên trục; lực kế đo lúc giật; bỏ khối lượng cụm động.",
+      "testsVi": "N=1,2,4 đáp ứng đúng; dây không dài/ngắn tự sinh công; đổi cách luồn cập nhật N; pause/reset; không báo η>100% trong mode có tổn hao do lỗi đơn vị.",
+      "stepsVi": [
+        "Lắp ròng rọc cố định vào giá, dây,móc tải và lực kế; xác định nhánh nâng tải.",
+        "Kéo đều, ghi F,s,h; tránh gia tốc lớn.",
+        "Lắp thêm ròng rọc động theo sơ đồ, đếm nhánh đỡ chứ không đếm bánh.",
+        "Lặp cùng W và độ nâng, so F và s.",
+        "Thử một cấu hình luồn sai trong mô phỏng rồi sửa.",
+        "Bật ma sát/quán tính trong mode mở rộng, đo η.",
+        "Giải thích tiết kiệm lực phải đổi lấy quãng đường."
+      ],
+      "examVi": "Luyện đếm nhánh dây chịu tải, liên hệ lợi lực với quãng kéo và tính hiệu suất bằng công ra/công vào.",
+      "checkVi": "Hỏi: Hệ lý tưởng hai nhánh chịu tải nâng 10 N lên0,10 m cần lực và quãng kéo nào? Đáp: F=5 N và s=0,20 m, cùng công1 J. Đếm nhánh đỡ phần chuyển động, không chỉ đếm số bánh ròng rọc.",
+      "sources": [
+        {
+          "sourceID": "S23",
+          "title": "Virtual gear train laboratory, Aziz và cộng sự",
+          "url": "https://doi.org/10.1002/cae.21573"
+        },
+        {
+          "sourceID": "S58",
+          "title": "VLAB: MechanicsModels",
+          "url": "https://github.com/thieen209/VLAB/blob/df83980a12a241c5f23faf6827ee8c3612c9c247/Assets/VLAB/MainMenu/Runtime/Activities/Mechanics/MechanicsModels.cs"
+        },
+        {
+          "sourceID": "S59",
+          "title": "Gnesdilow & Puntambekar 2025, pulley transfer",
+          "url": "https://doi.org/10.1002/sce.21953"
+        }
+      ],
+      "learnVi": "Hệ lý tưởng tải W được N nhánh dây nâng đỡ có F=W/N, quãng kéo s=N·h. Ròng rọc cố định đơn chỉ đổi hướng, N=1; một động đúng luồn thường N=2. Hiệu suất η=W h/(F s). Tải gồm cả khối lượng ròng rọc động và móc nếu đáng kể.",
+      "practiceVi": "Ghi sơ đồ1/2/4 nhánh, tổng tải, lực kéo, quãng kéo và độ nâng; kéo từng bước đều rồi kiểm tra quan hệ s/h.",
+      "pitfallsVi": "Đếm nhánh đỡ phần chuyển động, không đếm bánh. Ròng rọc cố định chỉ đổi hướng; tính cả phần tải chuyển động theo quy ước.",
+      "sourceBrief": {
+        "titleVi": "Ròng rọc và lợi lực",
+        "goalVi": "Lắp ròng rọc cố định/động, đo lực và quãng kéo; phân biệt đổi hướng lực với tăng lợi lực.",
+        "theoryVi": "Hệ lý tưởng tải W được N nhánh dây nâng đỡ có F=W/N, quãng kéo s=N·h. Ròng rọc cố định đơn chỉ đổi hướng, N=1; một động đúng luồn thường N=2. Hiệu suất η=W h/(F s). Tải gồm cả khối lượng ròng rọc động và móc nếu đáng kể.",
+        "variablesVi": "Độc lập số nhánh hoặc ma sát; phụ thuộc F,s/h,η. Kiểm soát W,tốc độ,chiều dây. Phiếu sơ đồ,N,W,F,s,h,η. Một hệ ròng rọc nhiều bánh không tự có N bằng số bánh.",
+        "examplesVi": "Minh họa W=10 N,N=2,F=5 N; nâng h=0,10 m cần s=0,20 m, công 1 J. Nếu F=6 N,s=0,20 thì η≈83,3% khi công tải 1 J.",
+        "mistakesVi": "Cố định cho lợi lực 2; đếm bánh thay nhánh; dây xuyên trục; lực kế đo lúc giật; bỏ khối lượng cụm động.",
+        "testsVi": "N=1,2,4 đáp ứng đúng; dây không dài/ngắn tự sinh công; đổi cách luồn cập nhật N; pause/reset; không báo η>100% trong mode có tổn hao do lỗi đơn vị.",
+        "stepsVi": [
+          "Lắp ròng rọc cố định vào giá, dây,móc tải và lực kế; xác định nhánh nâng tải.",
+          "Kéo đều, ghi F,s,h; tránh gia tốc lớn.",
+          "Lắp thêm ròng rọc động theo sơ đồ, đếm nhánh đỡ chứ không đếm bánh.",
+          "Lặp cùng W và độ nâng, so F và s.",
+          "Thử một cấu hình luồn sai trong mô phỏng rồi sửa.",
+          "Bật ma sát/quán tính trong mode mở rộng, đo η.",
+          "Giải thích tiết kiệm lực phải đổi lấy quãng đường."
+        ],
+        "modelVi": "Hai phiên bản cùng pulley mesh, socket top/bottom để solver topology dây. Dây vẽ curve/line theo đường đúng và độ dài bảo toàn; hình ảnh không dùng SpringJoint đơn để đo lợi lực.",
+        "sources": "S23,S58,S59"
+      }
+    },
+    {
+      "id": "M04",
+      "titleVi": "Bộ truyền đai: tỷ số và trượt",
+      "goalVi": "Lắp đai mở/đai chéo và đo tốc độ; giải thích tỷ số theo đường kính hữu hiệu, không theo đường kính trang trí ngoài.",
+      "theoryVi": "Không trượt: n2/n1=D1/D2; đai mở quay cùng chiều, đai chéo ngược chiều trong mô hình. Đường kính dùng là pitch diameter thích hợp. Có hệ số trượt s, tỷ số có thể nhân (1−s) theo quy ước. Căng đai ảnh hưởng truyền mômen; không suy τ chỉ từ hoạt ảnh đai.",
+      "variablesVi": "Độc lập tỷ số D hoặc kiểu đai; phụ thuộc n2 và chiều. Kiểm soát tâm,căng,tải. Phiếu Dpitch1/2,n1/2,kiểu,s,tải. Đai chéo phải có khoảng hở tại vùng bắt chéo trong model nhìn thấy.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa D1=40 mm,D2=80 mm,n1=60 rpm: n2=30 rpm cùng chiều đai mở. Trượt theo quy ước s=0,05 cho 28,5 rpm; đây là tham số giả định.",
+      "mistakesVi": "Bánh nhỏ bị dẫn luôn chậm; đai mở đảo chiều; lấy số răng gear dùng cho đai trơn; đai bất kỳ chiều dài đều vừa.",
+      "testsVi": "Đai mở dấu dương/chéo âm; đường kính 0 từ chối; tốc độ tỷ lệ D; belt đúng độ dài và không cắt xuyên; reset bỏ trạng thái trượt lượt.",
+      "stepsVi": [
+        "Thay bánh răng bằng pulley đai trên cùng bảng, chọn D1/D2 và khoảng tâm.",
+        "Lắp đai mở, kiểm tra đủ dài và không chạm vật khác.",
+        "Chạy 60 rpm, đo đầu ra, ghi hướng.",
+        "Đảo đường kính và so tăng/giảm tốc.",
+        "Lắp đai chéo ở tốc độ mô phỏng thấp, ghi đổi chiều.",
+        "Nếu solver hỗ trợ, tăng tải/cài trượt ở loạt riêng.",
+        "Kết luận lý tưởng so thực có trượt, nêu giới hạn bộ đai."
+      ],
+      "examVi": "Luyện dùng tỷ số đường kính để tính tốc độ, phân biệt dấu quay đai mở/chéo và áp dụng đúng quy ước trượt.",
+      "checkVi": "Hỏi: Pulley40 mm kéo pulley80 mm ở60 rpm với đai mở, không trượt cho đầu ra nào? Đáp: 30 rpm cùng chiều. Nếu quy ước trượt đầu ra5% thì còn28,5 rpm; đây là tham số áp đặt, không phải phép đo lực căng đai.",
+      "sources": [
+        {
+          "sourceID": "S57",
+          "title": "KHK: calculation of gear dimensions",
+          "url": "https://khkgears.net/gear-knowledge/gear-technical-reference/calculation-gear-dimensions/"
+        },
+        {
+          "sourceID": "S60",
+          "title": "CMU mechanisms tutorial",
+          "url": "https://www.cs.cmu.edu/~rapidproto/mechanisms/index.html"
+        }
+      ],
+      "learnVi": "Không trượt: n2/n1=D1/D2; đai mở quay cùng chiều, đai chéo ngược chiều trong mô hình. Đường kính dùng là pitch diameter thích hợp. Có hệ số trượt s, tỷ số có thể nhân (1−s) theo quy ước. Căng đai ảnh hưởng truyền mômen; không suy τ chỉ từ hoạt ảnh đai.",
+      "practiceVi": "Ghi đường kính40/80 mm, đai mở/chéo, tốc độ đầu vào/ra và điều kiện trượt. Dùng đúng bộ đai cho khoảng tâm.",
+      "pitfallsVi": "Đai mở cùng chiều, đai chéo ngược chiều trong bài. Không dùng số răng thay đường kính pulley hoặc coi mọi chiều dài đai đều vừa.",
+      "sourceBrief": {
+        "titleVi": "Bộ truyền đai: tỷ số và trượt",
+        "goalVi": "Lắp đai mở/đai chéo và đo tốc độ; giải thích tỷ số theo đường kính hữu hiệu, không theo đường kính trang trí ngoài.",
+        "theoryVi": "Không trượt: n2/n1=D1/D2; đai mở quay cùng chiều, đai chéo ngược chiều trong mô hình. Đường kính dùng là pitch diameter thích hợp. Có hệ số trượt s, tỷ số có thể nhân (1−s) theo quy ước. Căng đai ảnh hưởng truyền mômen; không suy τ chỉ từ hoạt ảnh đai.",
+        "variablesVi": "Độc lập tỷ số D hoặc kiểu đai; phụ thuộc n2 và chiều. Kiểm soát tâm,căng,tải. Phiếu Dpitch1/2,n1/2,kiểu,s,tải. Đai chéo phải có khoảng hở tại vùng bắt chéo trong model nhìn thấy.",
+        "examplesVi": "Minh họa D1=40 mm,D2=80 mm,n1=60 rpm: n2=30 rpm cùng chiều đai mở. Trượt theo quy ước s=0,05 cho 28,5 rpm; đây là tham số giả định.",
+        "mistakesVi": "Bánh nhỏ bị dẫn luôn chậm; đai mở đảo chiều; lấy số răng gear dùng cho đai trơn; đai bất kỳ chiều dài đều vừa.",
+        "testsVi": "Đai mở dấu dương/chéo âm; đường kính 0 từ chối; tốc độ tỷ lệ D; belt đúng độ dài và không cắt xuyên; reset bỏ trạng thái trượt lượt.",
+        "stepsVi": [
+          "Thay bánh răng bằng pulley đai trên cùng bảng, chọn D1/D2 và khoảng tâm.",
+          "Lắp đai mở, kiểm tra đủ dài và không chạm vật khác.",
+          "Chạy 60 rpm, đo đầu ra, ghi hướng.",
+          "Đảo đường kính và so tăng/giảm tốc.",
+          "Lắp đai chéo ở tốc độ mô phỏng thấp, ghi đổi chiều.",
+          "Nếu solver hỗ trợ, tăng tải/cài trượt ở loạt riêng.",
+          "Kết luận lý tưởng so thực có trượt, nêu giới hạn bộ đai."
+        ],
+        "modelVi": "Pulley đai tách groove/rim; dùng chung shaft/bearing/motor. Belt visual theo spline nhưng chuyển động và trượt từ solver; thêm cảnh báo căng thiếu/thừa nếu đã có cơ chế.",
+        "sources": "S57,S60"
+      }
+    },
+    {
+      "id": "M05",
+      "titleVi": "Tay quay–con trượt: chuyển đổi chuyển động",
+      "goalVi": "Lắp cơ cấu và đo hành trình theo bán kính tay quay; quan sát vận tốc không đều dù tay quay đều.",
+      "theoryVi": "Cơ cấu không offset, thanh nối dài l>r: x=r cosθ+√(l²−r²sin²θ), tính x từ tâm quay theo quy ước. Hành trình giữa hai điểm chết=2r. Quan hệ không phải sinus đơn giản khi l hữu hạn; đạo hàm theo t cho v,a. Không gán lực piston bằng mô hình động học chưa có động lực học.",
+      "variablesVi": "Độc lập r hoặc l; phụ thuộc x,stroke,v. Kiểm soát n,offset. Phiếu r,l,θ,x và quy ước gốc. Hành trình 2r chỉ cho cơ cấu không offset trong mô hình này.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa r=0,020 m,l=0,080 m: x0=0,100 m,x180=0,060 m,stroke=0,040 m. x90≈0,07746 m; không đúng l=0,080 m ở giữa do độ xiên thanh.",
+      "mistakesVi": "Hành trình bằng r; coi slider đều; r≥l nhưng vẫn chạy; dùng collider đẩy tự do dẫn rung và sai hình; gọi tốc độ là lực.",
+      "testsVi": "Toàn vòng khép kín không nhảy nhánh căn; x0/x180 đúng; invalid l≤r chặn; pause giữ θ; các chốt không tuột/xuyên khi chạy; mesh theo x solver.",
+      "stepsVi": [
+        "Lắp crank,connecting rod và slider vào đúng trục/chốt/rail; chọn l>r.",
+        "Quay tay chậm toàn vòng, kiểm tra không kẹt.",
+        "Đánh dấu x hai điểm chết, đo stroke.",
+        "Chạy motor tốc độ cố định, ghi x theo góc 0,45,90,135,180° và nửa sau.",
+        "Đổi r ở l cố định, đo lại hành trình.",
+        "Đổi l trong giới hạn, so dạng x(θ).",
+        "Giải thích điểm chết và ứng dụng máy nén/động cơ mà không thêm cháy mô phỏng chưa có."
+      ],
+      "examVi": "Luyện đọc quan hệ hình học tay quay–con trượt, tìm hành trình và nhận biết vì sao thanh truyền hữu hạn làm chuyển động khác sin đơn giản.",
+      "checkVi": "Hỏi: Tay quay bán kính20 mm cho hành trình giữa hai điểm chết bao nhiêu? Đáp: 40 mm theo stroke=2r của cơ cấu không offset. Quan hệ vị trí không tự cung cấp lực piston, lực khớp hay độ bền.",
+      "sources": [
+        {
+          "sourceID": "S57",
+          "title": "KHK: calculation of gear dimensions",
+          "url": "https://khkgears.net/gear-knowledge/gear-technical-reference/calculation-gear-dimensions/"
+        },
+        {
+          "sourceID": "S61",
+          "title": "Ohio University ME301 Kinematics and Dynamics",
+          "url": "https://people.ohio.edu/williams/html/PDF/NotesBook3011.pdf"
+        }
+      ],
+      "learnVi": "Cơ cấu không offset, thanh nối dài l>r: x=r cosθ+√(l²−r²sin²θ), tính x từ tâm quay theo quy ước. Hành trình giữa hai điểm chết=2r. Quan hệ không phải sinus đơn giản khi l hữu hạn; đạo hàm theo t cho v,a. Không gán lực piston bằng mô hình động học chưa có động lực học.",
+      "practiceVi": "Ghi bán kính tay quay, chiều dài thanh nối, góc và vị trí con trượt; so hành trình qua một vòng với2r.",
+      "pitfallsVi": "Hành trình không bằng r; tốc độ con trượt không đều. Quan hệ vị trí không cho lực; phải giữ l>r và quy ước gốc tọa độ.",
+      "sourceBrief": {
+        "titleVi": "Tay quay–con trượt: chuyển đổi chuyển động",
+        "goalVi": "Lắp cơ cấu và đo hành trình theo bán kính tay quay; quan sát vận tốc không đều dù tay quay đều.",
+        "theoryVi": "Cơ cấu không offset, thanh nối dài l>r: x=r cosθ+√(l²−r²sin²θ), tính x từ tâm quay theo quy ước. Hành trình giữa hai điểm chết=2r. Quan hệ không phải sinus đơn giản khi l hữu hạn; đạo hàm theo t cho v,a. Không gán lực piston bằng mô hình động học chưa có động lực học.",
+        "variablesVi": "Độc lập r hoặc l; phụ thuộc x,stroke,v. Kiểm soát n,offset. Phiếu r,l,θ,x và quy ước gốc. Hành trình 2r chỉ cho cơ cấu không offset trong mô hình này.",
+        "examplesVi": "Minh họa r=0,020 m,l=0,080 m: x0=0,100 m,x180=0,060 m,stroke=0,040 m. x90≈0,07746 m; không đúng l=0,080 m ở giữa do độ xiên thanh.",
+        "mistakesVi": "Hành trình bằng r; coi slider đều; r≥l nhưng vẫn chạy; dùng collider đẩy tự do dẫn rung và sai hình; gọi tốc độ là lực.",
+        "testsVi": "Toàn vòng khép kín không nhảy nhánh căn; x0/x180 đúng; invalid l≤r chặn; pause giữ θ; các chốt không tuột/xuyên khi chạy; mesh theo x solver.",
+        "stepsVi": [
+          "Lắp crank,connecting rod và slider vào đúng trục/chốt/rail; chọn l>r.",
+          "Quay tay chậm toàn vòng, kiểm tra không kẹt.",
+          "Đánh dấu x hai điểm chết, đo stroke.",
+          "Chạy motor tốc độ cố định, ghi x theo góc 0,45,90,135,180° và nửa sau.",
+          "Đổi r ở l cố định, đo lại hành trình.",
+          "Đổi l trong giới hạn, so dạng x(θ).",
+          "Giải thích điểm chết và ứng dụng máy nén/động cơ mà không thêm cháy mô phỏng chưa có."
+        ],
+        "modelVi": "Ràng buộc động học giải tích cho bài cơ bản, joints chỉ hỗ trợ thao tác lắp. Mesh và pivot từng phần, socket chốt chính xác. Rail dùng chung family ray nhỏ; stroke có giới hạn.",
+        "sources": "S57,S61"
+      }
+    },
+    {
+      "id": "M06",
+      "titleVi": "Cam–con đội: quy luật nâng và pha nghỉ",
+      "goalVi": "Thiết kế cam với pha nâng–nghỉ–hạ, đo lift và liên hệ chuyển động con đội với góc cam; kiểm tra lực ép giữ tiếp xúc trong chế độ mở rộng.",
+      "theoryVi": "Cam biến chuyển động quay thành chuyển động xác định theo biên dạng. Một luật nâng điều hòa trong pha β: y=h[1−cos(πθ/β)]/2; cần ghép pha nghỉ/hạ trơn. Nếu roller follower, biên dạng cam thực không bằng trực tiếp đồ thị y cộng rb mà còn offset hình học. Phần cơ bản dùng knife-edge hoặc cam minh họa có nhãn.",
+      "variablesVi": "Độc lập profile hoặc h/β; phụ thuộc y(θ),v,a khi tính. Kiểm soát follower,rb,n. Phiếu θ,y,pha,n và contact. Không dùng hoạt ảnh follower để chứng minh lực lò xo đủ.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa h=10 mm,β=120°: tại θ=0/60/120°,y=0/5/10 mm cho pha nâng điều hòa. Các pha còn lại phải quy định riêng, không lặp tự động cosine này toàn vòng.",
+      "mistakesVi": "Cam nhọn gây giật mà gọi đúng gia tốc; y tăng đều theo θ trong mọi profile; dùng convex hull làm mất lõm của cam; roller được chạy trên profile knife-edge mà không ghi gần đúng.",
+      "testsVi": "Pha nối không nhảy y; h=0 không nâng; follower contact được xử lý đúng loại; 360° khép kín; pause/reset không jitter; mesh và đồ thị từ cùng dữ liệu.",
+      "stepsVi": [
+        "Lắp cam lên trục, con đội vào dẫn hướng,lò xo vào socket; nhận biết kiểu đầu tiếp xúc.",
+        "Quay tay một vòng, tìm vùng nâng/nghỉ/hạ.",
+        "Ghi y tại các mốc góc và lift lớn nhất.",
+        "Chạy tốc độ chậm, so đường y(θ) với luật đã chọn.",
+        "Thay h hoặc tỷ lệ pha β rồi dự đoán.",
+        "Nếu phần mở rộng có động lực học, tăng rpm và theo dõi mất tiếp xúc.",
+        "Kết luận ưu nhược luật nâng, giới hạn mô hình và ứng dụng cơ cấu phối khí."
+      ],
+      "examVi": "Luyện đọc các pha nâng/nghỉ/hạ của cam, dùng đúng miền góc của luật nâng và phân biệt con đội dao với con lăn.",
+      "checkVi": "Hỏi: Có thể lặp công thức nâng điều hòa của pha120° cho toàn vòng cam không? Đáp: Không. Phải ghép các pha nâng, nghỉ, hạ và nghỉ theo biên dạng; bộ hiện tại có các pha120°/60°/120°/60° và độ nâng10 mm cố định.",
+      "sources": [
+        {
+          "sourceID": "S57",
+          "title": "KHK: calculation of gear dimensions",
+          "url": "https://khkgears.net/gear-knowledge/gear-technical-reference/calculation-gear-dimensions/"
+        },
+        {
+          "sourceID": "S62",
+          "title": "CMU chapter 6: Cams",
+          "url": "https://www.cs.cmu.edu/~rapidproto/mechanisms/chpt6.html"
+        }
+      ],
+      "learnVi": "Cam biến chuyển động quay thành chuyển động xác định theo biên dạng. Một luật nâng điều hòa trong pha β: y=h[1−cos(πθ/β)]/2; cần ghép pha nghỉ/hạ trơn. Nếu roller follower, biên dạng cam thực không bằng trực tiếp đồ thị y cộng rb mà còn offset hình học. Trong bộ này, cam có độ nâng10 mm và các pha120°/60°/120°/60° cố định; không thay h hoặc β.",
+      "practiceVi": "Ghi góc, pha, độ nâng và loại con đội; so dao/con lăn trên cam10 mm, các pha120°/60°/120°/60° được cung cấp.",
+      "pitfallsVi": "Bộ này không đổi được h hoặc β. Không áp dụng một luật nâng cho cả vòng hoặc coi chuyển động con đội là bằng chứng lực giữ tiếp xúc đủ.",
+      "sourceBrief": {
+        "titleVi": "Cam–con đội: quy luật nâng và pha nghỉ",
+        "goalVi": "Thiết kế cam với pha nâng–nghỉ–hạ, đo lift và liên hệ chuyển động con đội với góc cam; kiểm tra lực ép giữ tiếp xúc trong chế độ mở rộng.",
+        "theoryVi": "Cam biến chuyển động quay thành chuyển động xác định theo biên dạng. Một luật nâng điều hòa trong pha β: y=h[1−cos(πθ/β)]/2; cần ghép pha nghỉ/hạ trơn. Nếu roller follower, biên dạng cam thực không bằng trực tiếp đồ thị y cộng rb mà còn offset hình học. Phần cơ bản dùng knife-edge hoặc cam minh họa có nhãn.",
+        "variablesVi": "Độc lập profile hoặc h/β; phụ thuộc y(θ),v,a khi tính. Kiểm soát follower,rb,n. Phiếu θ,y,pha,n và contact. Không dùng hoạt ảnh follower để chứng minh lực lò xo đủ.",
+        "examplesVi": "Minh họa h=10 mm,β=120°: tại θ=0/60/120°,y=0/5/10 mm cho pha nâng điều hòa. Các pha còn lại phải quy định riêng, không lặp tự động cosine này toàn vòng.",
+        "mistakesVi": "Cam nhọn gây giật mà gọi đúng gia tốc; y tăng đều theo θ trong mọi profile; dùng convex hull làm mất lõm của cam; roller được chạy trên profile knife-edge mà không ghi gần đúng.",
+        "testsVi": "Pha nối không nhảy y; h=0 không nâng; follower contact được xử lý đúng loại; 360° khép kín; pause/reset không jitter; mesh và đồ thị từ cùng dữ liệu.",
+        "stepsVi": [
+          "Lắp cam lên trục, con đội vào dẫn hướng,lò xo vào socket; nhận biết kiểu đầu tiếp xúc.",
+          "Quay tay một vòng, tìm vùng nâng/nghỉ/hạ.",
+          "Ghi y tại các mốc góc và lift lớn nhất.",
+          "Chạy tốc độ chậm, so đường y(θ) với luật đã chọn.",
+          "Thay h hoặc tỷ lệ pha β rồi dự đoán.",
+          "Nếu phần mở rộng có động lực học, tăng rpm và theo dõi mất tiếp xúc.",
+          "Kết luận ưu nhược luật nâng, giới hạn mô hình và ứng dụng cơ cấu phối khí."
+        ],
+        "modelVi": "Cam mesh bake profile theo solver, không dựa collider convex như báo cáo sơ bộ. Follower tách head/body; spring thay chiều dài. Có kiểm tra clearance và label profile type. Dùng cùng pegboard và drive motor.",
+        "sources": "S57,S62"
+      }
+    },
+    {
+      "id": "M07",
+      "titleVi": "Đo kích thước bằng thước kẹp và panme",
+      "goalVi": "Đọc đúng thang chính/phụ, chọn dụng cụ theo kích thước, báo sai số zero và độ chia; phân biệt độ phân giải với độ chính xác.",
+      "theoryVi": "Thước du xích: giá trị=thang chính+vạch trùng×độ chia du xích, sau hiệu chỉnh zero theo quy ước. Panme metric pitch 0,5 mm,thimble 50 vạch cho độ chia 0,01 mm; đọc cả mốc nửa mm. Kích thước đã hiệu chỉnh=chỉ thị−sai lệch zero. Dụng cụ 0,01 mm không đảm bảo accuracy 0,01 mm.",
+      "variablesVi": "Độc lập vị trí đo/dụng cụ; phụ thuộc kích thước chỉ thị. Kiểm soát zero,tư thế,lực tiếp xúc quy định. Phiếu mẫuID,mặt đo,raw,zero,corrected,độ chia. Tay cầm VLAB không đo lực kẹp thực; ratchet là trạng thái ảo.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa thước chính 12 mm,vạch trùng 7,LC=0,02 mm: raw=12,14 mm. Zero=+0,04 mm thì corrected=12,10 mm. Panme 5,5 mm+28×0,01=5,78 mm trước hiệu chỉnh.",
+      "mistakesVi": "Bỏ mốc 0,5 mm; đọc vạch gần nhất không phải trùng; trừ zero sai dấu; ngàm xuyên mẫu để đạt đáp án; thước không có vạch thật mà bảng UI vẫn cho giá trị.",
+      "testsVi": "Zero± đều đúng; 0,5 mm panme đúng; thang ở zoom đọc được; ngàm không xuyên; giá trị ngoài range chặn; repeat cùng sample và pose không đổi dữ liệu vì frame.",
+      "stepsVi": [
+        "Làm sạch mặt đo trong mô phỏng, đóng ngàm nhẹ và kiểm tra zero.",
+        "Chọn mẫu trụ và thước kẹp; đặt đúng mặt ngoài,không xiên.",
+        "Đọc thang chính và vạch trùng; ghi raw và corrected.",
+        "Đo ba vị trí/hướng của mẫu để phát hiện oval hoặc thay đổi.",
+        "Chọn panme, đặt mẫu vào anvil/spindle và siết bằng ratchet theo trạng thái mô phỏng.",
+        "Đọc mốc nửa mm,thimble và zero; so với thước kẹp.",
+        "Báo kết quả với độ chia/dung sai bài; không trung bình các kích thước khác nhau nếu mẫu có chủ ý không đều."
+      ],
+      "examVi": "Luyện đọc thang chính/thang phụ, hiệu chỉnh sai lệch zero có dấu và phân biệt độ chia với độ chính xác.",
+      "checkVi": "Hỏi: Số đọc thô12,14 mm và sai lệch zero+0,04 mm cho kích thước hiệu chỉnh nào? Đáp: 12,10 mm theo corrected=raw−zero. Độ chia nhỏ nhất không bảo đảm độ chính xác bằng đúng độ chia ấy.",
+      "sources": [
+        {
+          "sourceID": "S63",
+          "title": "Mitutoyo quick guide",
+          "url": "https://www.mitutoyo.com/literature/quick-guide-to-precision-measuring-instruments/"
+        },
+        {
+          "sourceID": "S64",
+          "title": "Mitutoyo Vernier caliper section",
+          "url": "https://www.mitutoyo.com/webfoo/wp-content/uploads/D_section.pdf"
+        }
+      ],
+      "learnVi": "Thước du xích: giá trị=thang chính+vạch trùng×độ chia du xích, sau hiệu chỉnh zero theo quy ước. Panme metric pitch 0,5 mm,thimble 50 vạch cho độ chia 0,01 mm; đọc cả mốc nửa mm. Kích thước đã hiệu chỉnh=chỉ thị−sai lệch zero. Dụng cụ 0,01 mm không đảm bảo accuracy 0,01 mm.",
+      "practiceVi": "Ghi mã mẫu, mặt đo, số thô, sai lệch zero, số hiệu chỉnh và độ chia; dùng đúng tiếp xúc/ratchet trước khi đọc.",
+      "pitfallsVi": "Không bỏ mốc nửa mm, chọn vạch gần thay vạch trùng hoặc trừ zero sai dấu. Độ chia nhỏ không bảo đảm chính xác tương đương.",
+      "sourceBrief": {
+        "titleVi": "Đo kích thước bằng thước kẹp và panme",
+        "goalVi": "Đọc đúng thang chính/phụ, chọn dụng cụ theo kích thước, báo sai số zero và độ chia; phân biệt độ phân giải với độ chính xác.",
+        "theoryVi": "Thước du xích: giá trị=thang chính+vạch trùng×độ chia du xích, sau hiệu chỉnh zero theo quy ước. Panme metric pitch 0,5 mm,thimble 50 vạch cho độ chia 0,01 mm; đọc cả mốc nửa mm. Kích thước đã hiệu chỉnh=chỉ thị−sai lệch zero. Dụng cụ 0,01 mm không đảm bảo accuracy 0,01 mm.",
+        "variablesVi": "Độc lập vị trí đo/dụng cụ; phụ thuộc kích thước chỉ thị. Kiểm soát zero,tư thế,lực tiếp xúc quy định. Phiếu mẫuID,mặt đo,raw,zero,corrected,độ chia. Tay cầm VLAB không đo lực kẹp thực; ratchet là trạng thái ảo.",
+        "examplesVi": "Minh họa thước chính 12 mm,vạch trùng 7,LC=0,02 mm: raw=12,14 mm. Zero=+0,04 mm thì corrected=12,10 mm. Panme 5,5 mm+28×0,01=5,78 mm trước hiệu chỉnh.",
+        "mistakesVi": "Bỏ mốc 0,5 mm; đọc vạch gần nhất không phải trùng; trừ zero sai dấu; ngàm xuyên mẫu để đạt đáp án; thước không có vạch thật mà bảng UI vẫn cho giá trị.",
+        "testsVi": "Zero± đều đúng; 0,5 mm panme đúng; thang ở zoom đọc được; ngàm không xuyên; giá trị ngoài range chặn; repeat cùng sample và pose không đổi dữ liệu vì frame.",
+        "stepsVi": [
+          "Làm sạch mặt đo trong mô phỏng, đóng ngàm nhẹ và kiểm tra zero.",
+          "Chọn mẫu trụ và thước kẹp; đặt đúng mặt ngoài,không xiên.",
+          "Đọc thang chính và vạch trùng; ghi raw và corrected.",
+          "Đo ba vị trí/hướng của mẫu để phát hiện oval hoặc thay đổi.",
+          "Chọn panme, đặt mẫu vào anvil/spindle và siết bằng ratchet theo trạng thái mô phỏng.",
+          "Đọc mốc nửa mm,thimble và zero; so với thước kẹp.",
+          "Báo kết quả với độ chia/dung sai bài; không trung bình các kích thước khác nhau nếu mẫu có chủ ý không đều."
+        ],
+        "modelVi": "Thước kẹp cần slider,jaws,pivot và thang texture vector chính xác; panme spindle/thimble/ratchet tách. Dùng hình số chuẩn từ geometry sample; collider mặt đo riêng. Không dùng float Transform position làm duy nhất nguồn phép đo.",
+        "sources": "S63,S64"
+      }
+    },
+    {
+      "id": "M08",
+      "titleVi": "Uốn dầm: tải, độ võng và tiết diện",
+      "goalVi": "So sánh độ võng theo tải và chiều cao tiết diện; hiểu mô hình đàn hồi tuyến tính chỉ trong vùng biến dạng nhỏ, không suy độ bền phá hủy từ độ võng.",
+      "theoryVi": "Dầm đơn giản hai gối, tải giữa: δ=FL³/(48EI). Tiết diện chữ nhật I=bh³/12; tăng h hai lần làm I tăng 8 lần nếu b không đổi. E là môđun đàn hồi; giới hạn chảy/đứt là thông số khác. Công thức cần dầm mảnh,biến dạng nhỏ,gối và tải đúng lý tưởng.",
+      "variablesVi": "Độc lập F,h hoặc L trong loạt riêng; phụ thuộc δ. Kiểm soát E,b,gối,vị trí tải. Phiếu F,L,b,h,E,I,δ,hồi phục. Nếu dùng N và m phải đổi mm đúng trước lũy thừa.",
+      "examplesVi": "[MINH HỌA — KHÔNG PHẢI SỐ ĐO ĐÃ LƯU]\nMinh họa E=2 GPa,b=0,020 m,h=0,005 m,L=0,30 m,F=1 N: I≈2,083×10⁻10 m4;δ≈0,00135 m=1,35 mm. Tăng h lên 10 mm làm δ≈0,169 mm trong giả định.",
+      "mistakesVi": "H gấp đôi δ nửa thay vì 1/8; gán fracture mesh là dự đoán đứt thật; lấy độ võng lớn vẫn dùng tuyến tính; nhầm gối đơn giản với ngàm.",
+      "testsVi": "δ tỷ lệ F,L³,1/E,1/h³; F=0 trở zero; tháo tải hồi trong đàn hồi; nhãn phạm vi chặn khi δ/L lớn; solver và hình dầm khớp độ võng giữa.",
+      "stepsVi": [
+        "Đặt hai gối cách L, chọn thanh có b,h,E; ghi hướng tiết diện.",
+        "Đặt đồng hồ so ở giữa và zero khi chưa tải.",
+        "Thêm từng tải F tại giữa; chờ cân bằng, ghi δ.",
+        "Tháo tải và kiểm tra hồi phục trong mô hình đàn hồi.",
+        "Lặp ba lượt mỗi F trong phạm vi nhỏ; vẽ δ theo F.",
+        "Xoay thanh 90° hoặc thay h ở loạt riêng, so độ võng.",
+        "Giải thích sai số gối,tiếp xúc,tự trọng; chặn kết luận về tải phá hủy khi chưa có dữ liệu vật liệu."
+      ],
+      "examVi": "Luyện suy tỷ lệ độ võng khi đổi tải, nhịp hoặc chiều cao tiết diện; kiểm tra giả định dầm võng nhỏ trước khi kết luận.",
+      "checkVi": "Hỏi: Giữ F,L,E,b và tăng chiều cao tiết diện h hai lần, độ võng lý tưởng đổi thế nào? Đáp: Còn một phần tám vì I=bh³/12 và δ tỉ lệ1/I. Kết quả trong miền đàn hồi võng nhỏ không cho biết tải phá hủy hay độ bền vật liệu.",
+      "sources": [
+        {
+          "sourceID": "S65",
+          "title": "Purdue beam formulas",
+          "url": "https://engineering.purdue.edu/~ce474/Docs/DA6-BeamFormulas.pdf"
+        },
+        {
+          "sourceID": "S66",
+          "title": "Purdue ME323 beam deflection",
+          "url": "https://www.purdue.edu/freeform/me323/wp-content/uploads/sites/2/2018/10/ME323_F18_Hw7_final.pdf"
+        }
+      ],
+      "learnVi": "Dầm đơn giản hai gối, tải giữa: δ=FL³/(48EI). Tiết diện chữ nhật I=bh³/12; tăng h hai lần làm I tăng 8 lần nếu b không đổi. E là môđun đàn hồi; giới hạn chảy/đứt là thông số khác. Công thức cần dầm mảnh,biến dạng nhỏ,gối và tải đúng lý tưởng.",
+      "practiceVi": "Ghi tải, nhịp, bề rộng/cao, E, độ võng và số trở về sau tháo tải; chỉ đổi một yếu tố trong mỗi loạt.",
+      "pitfallsVi": "Đổi mm sang m trước lũy thừa. Tăng h hai lần làm võng còn1/8 trong giả định; không dùng quan hệ võng nhỏ để suy tải phá hủy.",
+      "sourceBrief": {
+        "titleVi": "Uốn dầm: tải, độ võng và tiết diện",
+        "goalVi": "So sánh độ võng theo tải và chiều cao tiết diện; hiểu mô hình đàn hồi tuyến tính chỉ trong vùng biến dạng nhỏ, không suy độ bền phá hủy từ độ võng.",
+        "theoryVi": "Dầm đơn giản hai gối, tải giữa: δ=FL³/(48EI). Tiết diện chữ nhật I=bh³/12; tăng h hai lần làm I tăng 8 lần nếu b không đổi. E là môđun đàn hồi; giới hạn chảy/đứt là thông số khác. Công thức cần dầm mảnh,biến dạng nhỏ,gối và tải đúng lý tưởng.",
+        "variablesVi": "Độc lập F,h hoặc L trong loạt riêng; phụ thuộc δ. Kiểm soát E,b,gối,vị trí tải. Phiếu F,L,b,h,E,I,δ,hồi phục. Nếu dùng N và m phải đổi mm đúng trước lũy thừa.",
+        "examplesVi": "Minh họa E=2 GPa,b=0,020 m,h=0,005 m,L=0,30 m,F=1 N: I≈2,083×10⁻10 m4;δ≈0,00135 m=1,35 mm. Tăng h lên 10 mm làm δ≈0,169 mm trong giả định.",
+        "mistakesVi": "H gấp đôi δ nửa thay vì 1/8; gán fracture mesh là dự đoán đứt thật; lấy độ võng lớn vẫn dùng tuyến tính; nhầm gối đơn giản với ngàm.",
+        "testsVi": "δ tỷ lệ F,L³,1/E,1/h³; F=0 trở zero; tháo tải hồi trong đàn hồi; nhãn phạm vi chặn khi δ/L lớn; solver và hình dầm khớp độ võng giữa.",
+        "stepsVi": [
+          "Đặt hai gối cách L, chọn thanh có b,h,E; ghi hướng tiết diện.",
+          "Đặt đồng hồ so ở giữa và zero khi chưa tải.",
+          "Thêm từng tải F tại giữa; chờ cân bằng, ghi δ.",
+          "Tháo tải và kiểm tra hồi phục trong mô hình đàn hồi.",
+          "Lặp ba lượt mỗi F trong phạm vi nhỏ; vẽ δ theo F.",
+          "Xoay thanh 90° hoặc thay h ở loạt riêng, so độ võng.",
+          "Giải thích sai số gối,tiếp xúc,tự trọng; chặn kết luận về tải phá hủy khi chưa có dữ liệu vật liệu."
+        ],
+        "modelVi": "Mesh dầm biến dạng theo đường uốn tính toán, không chỉ shape key bất kỳ. Gối,load point,gauge là socket. Tránh máy ép thủy lực thêm quá nhiều model; bộ gối và tải đang dùng đáp ứng mục tiêu cơ bản.",
+        "sources": "S65,S66"
+      }
+    }
+  ]
+}

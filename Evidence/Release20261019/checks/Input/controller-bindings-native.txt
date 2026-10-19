@@ -1,0 +1,26 @@
+Standard HID mappings, native virtual-device/control state and isolated persistence only. No paired hardware, custom BLE packets, 6DoF or firmware calibration is certified.
+PASS Unchanged default A still selects and holds
+PASS Default held select does not repeat
+PASS Applying a remap releases an existing hold without a fresh action
+PASS Held old and newly mapped buttons remain suppressed until all release
+PASS Old select button is inactive after remapping
+PASS Old trigger select is inactive after remapping
+PASS Mapped West/X produces select edge and hold only
+PASS Mapped select remains held without repeated edge
+PASS Mapped select releases cleanly
+PASS Mapped analogue trigger waits for the existing half-press threshold
+PASS Mapped left trigger becomes binary grip hold
+PASS Grip hold has one edge
+PASS Grip release ends the held action
+PASS Mapped North/Y opens Menu without selecting
+PASS Mapped Menu does not repeat while held
+PASS Mapped stick press recenters without selection
+PASS Mapped Recenter is an edge
+PASS B produces Back independently of select and menu
+PASS Back does not repeat while held
+PASS Remapped controller disconnect releases and reports loss without actions
+PASS Disconnect is emitted only once
+PASS Fresh mapped X activity discovers actual HID backend and uses configured select
+PASS Live facade remapping releases held equipment without phantom navigation
+PASS Live facade adopts the new mapping after neutral state
+PASS Facade disconnect preserves safe release with configurable bindings

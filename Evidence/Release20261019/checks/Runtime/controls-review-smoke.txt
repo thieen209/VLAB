@@ -1,0 +1,1216 @@
+PASS
+UI callback and synthetic Input System checks; no physical phone/headset evidence.
+Visual review reopens actual47-record isolated profile
+User-facing review uses Vietnamese
+Small positive amounts never display as zero
+Small negative amounts preserve their sign
+Exact zero remains zero
+Vietnamese decimal comma is readable at threshold
+English decimal support remains available
+Card layout input covers original47 saved attempts and32 lesson IDs
+Native card geometry leaves every saved record unchanged
+Native card template fits: instrument VI large=False cards=280 fields=840
+Native card template fits: results VI large=False cards=280 fields=840
+Native card template fits: book VI large=False cards=280 fields=840
+Native card template fits: instrument VI large=True cards=280 fields=840
+Native card template fits: results VI large=True cards=280 fields=840
+Native card template fits: book VI large=True cards=280 fields=840
+Native card template fits: instrument EN large=False cards=280 fields=840
+Native card template fits: results EN large=False cards=280 fields=840
+Native card template fits: book EN large=False cards=280 fields=840
+Native card template fits: instrument EN large=True cards=280 fields=840
+Native card template fits: results EN large=True cards=280 fields=840
+Native card template fits: book EN large=True cards=280 fields=840
+Legacy profile migrates without repeating consent or clearing settings
+Vietnamese notebook page saves atomically
+Title, Unicode, line breaks and lesson association survive reopening
+Writing does not fabricate a measured attempt
+Progress reset preserves personally written pages
+Full reset clears notebook only as part of the explicit full reset
+Post-reset backup cannot resurrect written pages
+Oversized pages are refused without claiming save success
+Duplicate page IDs are refused
+Future notebook schema is preserved and write protected
+Explicitly corrupt notebook data is not silently replaced
+Pure insertion replaces reverse selections
+Pure erase preserves preceding Latin text
+Backspace keeps surrogate pairs intact
+Uppercase circumflex and tone compose to NFC
+Tone changes preserve non-tone combining marks
+Rejected over-limit grapheme does not partially replace selection
+Appearance fixture saves
+Legacy absent opacity migrates to one without discarding 32 records
+Appearance settings save
+Theme, opacity and bilingual record notes round trip
+Draft appearance copy is independent
+Explicit zero opacity is rejected
+Non-finite opacity is rejected
+Theme 0 paragraph contrast
+Theme 0 accent 4C86FF caption contrast
+Theme 0 accent D85BEA caption contrast
+Theme 0 accent 56BF88 caption contrast
+Theme 0 accent F0A34D caption contrast
+Theme 1 paragraph contrast
+Theme 1 accent 4C86FF caption contrast
+Theme 1 accent D85BEA caption contrast
+Theme 1 accent 56BF88 caption contrast
+Theme 1 accent F0A34D caption contrast
+Theme 2 paragraph contrast
+Theme 2 accent 4C86FF caption contrast
+Theme 2 accent D85BEA caption contrast
+Theme 2 accent 56BF88 caption contrast
+Theme 2 accent F0A34D caption contrast
+Journal distinguishes no attempt from an actual saved attempt
+Journal uses attached historical interpretation
+Fresh one-tap entry starts stereo without any saved-profile or scan gate
+Entry enables the real tracked-pose component
+Repeated Enter VR does not initialize or start a second time
+Exit stops/deinitializes and returns to flat pose
+Returning entry still requires no scan
+Cancel optional scan while in VR retains entry and existing profile state
+Optional scan from flat Settings initializes SDK without starting stereo
+Cancel optional flat scan does not enter VR or create saved parameters
+Enter after a canceled optional scan reuses initialized loader
+New optional viewer parameters are reloaded by the per-frame SDK pump
+Cancel later optional scan preserves an already saved viewer profile
+Failed stereo start cleans initialized subsystems and leaves flat mode
+A failed entry can be retried without a stuck switching lock
+Native HID and phone touch gesture checks passed
+Default HID mapping preserves A/RT, shoulders, Start, Select and B
+Physical overlap rejects A or RT reserved by composite Select
+Physical overlap rejects either shoulder reserved by composite Grip
+Back cannot share its B button with Select
+Cycling skips conflicts and retains the other four actions: Select
+Semantic binding label exists in Vietnamese and English: Select
+Cycling skips conflicts and retains the other four actions: Grip
+Semantic binding label exists in Vietnamese and English: Grip
+Cycling skips conflicts and retains the other four actions: Menu
+Semantic binding label exists in Vietnamese and English: Menu
+Cycling skips conflicts and retains the other four actions: Recenter
+Semantic binding label exists in Vietnamese and English: Recenter
+Cycling skips conflicts and retains the other four actions: Back
+Semantic binding label exists in Vietnamese and English: Back
+Every allowed physical binding has bilingual text
+Out-of-range saved binding is rejected: -1
+Out-of-range saved binding is rejected: 14
+Out-of-range saved binding is rejected: 2147483647
+Explicit overlapping saved binding is rejected
+Custom HID bindings save atomically
+All five custom HID mappings reopen exactly
+Custom HID save retains notes, consent, checkpoint and scientific readings
+Conflicting save fails without replacing a valid primary
+Profiles missing all binding fields receive original defaults
+Binding migration retains the complete legacy profile
+Explicit invalid profile mapping is protected rather than defaulted
+Binding checks leave the caller's profile unchanged
+Unchanged default A still selects and holds
+Default held select does not repeat
+Applying a remap releases an existing hold without a fresh action
+Held old and newly mapped buttons remain suppressed until all release
+Old select button is inactive after remapping
+Old trigger select is inactive after remapping
+Mapped West/X produces select edge and hold only
+Mapped select remains held without repeated edge
+Mapped select releases cleanly
+Mapped analogue trigger waits for the existing half-press threshold
+Mapped left trigger becomes binary grip hold
+Grip hold has one edge
+Grip release ends the held action
+Mapped North/Y opens Menu without selecting
+Mapped Menu does not repeat while held
+Mapped stick press recenters without selection
+Mapped Recenter is an edge
+B produces Back independently of select and menu
+Back does not repeat while held
+Remapped controller disconnect releases and reports loss without actions
+Disconnect is emitted only once
+Fresh mapped X activity discovers actual HID backend and uses configured select
+Live facade remapping releases held equipment without phantom navigation
+Live facade adopts the new mapping after neutral state
+Facade disconnect preserves safe release with configurable bindings
+Panel entrance fades presentation without blocking interaction
+Panel entrance completes while lesson time is paused
+Hover eases caption without moving button target
+Press feedback settles at restrained caption scale
+Motion leaves the original Button callback intact
+Turning animations off immediately restores exact caption geometry
+Disabled animations never replay entrance on reopen
+Disabled animations keep hover and press stationary
+Disabling a focused control restores exact visual state
+Reopened control still activates once
+Re-enabling animations replays entrance without changing hit geometry
+Disabling animations mid-entrance snaps fully visible
+M05 80 mm guide selects the active fitted rod
+M05 80 mm other rods remain inactive
+M05 ready guidance uses the SDK Start trial label in both languages
+Requested guidance is read-only: Ready 80
+Requested guidance is read-only: Running 80
+M05 80 mm native guidance fixture completes: 
+M05 100 mm guide selects the active fitted rod
+M05 100 mm other rods remain inactive
+M05 ready guidance uses the SDK Start trial label in both languages
+Requested guidance is read-only: Ready 100
+Requested guidance is read-only: Running 100
+M05 100 mm native guidance fixture completes: 
+M05 120 mm guide selects the active fitted rod
+M05 120 mm other rods remain inactive
+M05 ready guidance uses the SDK Start trial label in both languages
+Requested guidance is read-only: Ready 120
+Requested guidance is read-only: Running 120
+M05 120 mm native guidance fixture completes: 
+M06 knife guide selects the active fitted follower
+M06 roller guide selects the active fitted follower
+M06 returning to knife updates the guide
+M06 native guidance fixture completes: 
+P06 elastic=1 step 2 targets active bumperA
+P06 elastic=1 native variant fixture completes: 
+P06 elastic=0 step 2 targets active latch
+P06 elastic=0 native variant fixture completes: 
+C05 final=50 step 1 targets active vol50
+C05 final=50 native variant fixture completes: 
+C05 final=100 step 1 targets active vol100
+C05 final=100 native variant fixture completes: 
+C05 final=100 step 2 targets active vol100
+C05 final=100 native variant fixture completes: 
+M07 micrometer=0 step 0 targets active caliper
+M07 micrometer=0 native variant fixture completes: 
+M07 micrometer=0 step 2 targets active caliper
+M07 micrometer=0 native variant fixture completes: 
+M07 micrometer=1 step 0 targets active micrometer
+M07 micrometer=1 native variant fixture completes: 
+P08 height=0.2 step 1 targets active ruler
+P08 height=0.2 native variant fixture completes: 
+P01 readiness has concise bilingual measurable objectives
+P02 readiness has concise bilingual measurable objectives
+P03 readiness has concise bilingual measurable objectives
+P04 readiness has concise bilingual measurable objectives
+P05 readiness has concise bilingual measurable objectives
+P06 readiness has concise bilingual measurable objectives
+P07 readiness has concise bilingual measurable objectives
+P08 readiness has concise bilingual measurable objectives
+C01 readiness has concise bilingual measurable objectives
+C02 readiness has concise bilingual measurable objectives
+C03 readiness has concise bilingual measurable objectives
+C04 readiness has concise bilingual measurable objectives
+C05 readiness has concise bilingual measurable objectives
+C06 readiness has concise bilingual measurable objectives
+C07 readiness has concise bilingual measurable objectives
+C08 readiness has concise bilingual measurable objectives
+B01 readiness has concise bilingual measurable objectives
+B02 readiness has concise bilingual measurable objectives
+B03 readiness has concise bilingual measurable objectives
+B04 readiness has concise bilingual measurable objectives
+B05 readiness has concise bilingual measurable objectives
+B06 readiness has concise bilingual measurable objectives
+B07 readiness has concise bilingual measurable objectives
+B08 readiness has concise bilingual measurable objectives
+M01 readiness has concise bilingual measurable objectives
+M02 readiness has concise bilingual measurable objectives
+M03 readiness has concise bilingual measurable objectives
+M04 readiness has concise bilingual measurable objectives
+M05 readiness has concise bilingual measurable objectives
+M06 readiness has concise bilingual measurable objectives
+M07 readiness has concise bilingual measurable objectives
+M08 readiness has concise bilingual measurable objectives
+All 32 preparation sequences have matching bilingual observable success criteria
+P02 room limit explains an actionable adjustment in Vietnamese without changing input
+Microscope focus help coaches observation without revealing a magic focus coordinate
+P03 preparation names declared coefficients instead of an unavailable material selector
+P06 preparation names the supplied track and does not promise photogates
+C01 overshot guidance retains excluded evidence before fresh aliquot
+C01 overshot guidance retains excluded evidence before fresh aliquot
+New profiles use a softer adjustable80percent panel default
+Missing interaction preferences receive defaults without schema change
+Interaction migration retains all 47 scientific records and consent
+Customized interaction preferences save atomically
+Disabled auto-gaze and custom timing/sensitivity round trip
+An explicitly opaque existing choice still saves
+New opacity default preserves explicit existing100percent choice
+Interaction boundary settings remain valid
+Invalid dwell value is rejected: NaN
+Invalid dwell value is rejected: Infinity
+Invalid dwell value is rejected: -Infinity
+Invalid dwell value is rejected: 0
+Invalid dwell value is rejected: 0.59
+Invalid dwell value is rejected: 2.01
+Invalid mouse sensitivity is rejected: NaN
+Invalid mouse sensitivity is rejected: Infinity
+Invalid mouse sensitivity is rejected: -Infinity
+Invalid mouse sensitivity is rejected: 0
+Invalid mouse sensitivity is rejected: 0.49
+Invalid mouse sensitivity is rejected: 2.01
+Explicit invalid saved dwell is protected rather than migrated
+Real gaze timer waits before minimum configured duration
+Real gaze timer selects at configured duration
+Dwell never repeats on a stationary consumed target
+Maximum dwell does not use hardcoded1.2s
+Disabled auto-gaze clears timing and never auto-selects
+Manual trigger still selects with auto-gaze disabled
+Interaction journey begins at Home
+Active PC VR simulator exposes its actual mouse-look sensitivities
+Language draft changes its visible value without committing
+Draft language General: six equal72px hit areas form one connected top rail
+Draft language General: category hit areas have no separate box outlines or seams
+Draft language General: category label also fits large text General
+Draft language General: category label also fits large text Audio
+Draft language General: category label also fits large text Graphics
+Draft language General: category label also fits large text Controls
+Draft language General: category label also fits large text Appearance
+Draft language General: category label also fits large text Interaction
+Draft language General: every action fits the panel with a64px minimum target 
+Draft language General: top categories, content actions and footer do not overlap
+Draft language General: text fits Settings title
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Settings section title
+Draft language General: text fits Settings section hint
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language Audio: six equal72px hit areas form one connected top rail
+Draft language Audio: category hit areas have no separate box outlines or seams
+Draft language Audio: category label also fits large text General
+Draft language Audio: category label also fits large text Audio
+Draft language Audio: category label also fits large text Graphics
+Draft language Audio: category label also fits large text Controls
+Draft language Audio: category label also fits large text Appearance
+Draft language Audio: category label also fits large text Interaction
+Draft language Audio: every action fits the panel with a64px minimum target 
+Draft language Audio: top categories, content actions and footer do not overlap
+Draft language Audio: text fits Settings title
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Settings section title
+Draft language Audio: text fits Settings section hint
+Draft language Audio: text fits Settings volume value
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Graphics: six equal72px hit areas form one connected top rail
+Draft language Graphics: category hit areas have no separate box outlines or seams
+Draft language Graphics: category label also fits large text General
+Draft language Graphics: category label also fits large text Audio
+Draft language Graphics: category label also fits large text Graphics
+Draft language Graphics: category label also fits large text Controls
+Draft language Graphics: category label also fits large text Appearance
+Draft language Graphics: category label also fits large text Interaction
+Draft language Graphics: every action fits the panel with a64px minimum target 
+Draft language Graphics: top categories, content actions and footer do not overlap
+Draft language Graphics: text fits Settings title
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Settings section title
+Draft language Graphics: text fits Settings section hint
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Controls: six equal72px hit areas form one connected top rail
+Draft language Controls: category hit areas have no separate box outlines or seams
+Draft language Controls: category label also fits large text General
+Draft language Controls: category label also fits large text Audio
+Draft language Controls: category label also fits large text Graphics
+Draft language Controls: category label also fits large text Controls
+Draft language Controls: category label also fits large text Appearance
+Draft language Controls: category label also fits large text Interaction
+Draft language Controls: every action fits the panel with a64px minimum target 
+Draft language Controls: top categories, content actions and footer do not overlap
+Draft language Controls: text fits Settings title
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Settings section title
+Draft language Controls: text fits Settings section hint
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Appearance: six equal72px hit areas form one connected top rail
+Draft language Appearance: category hit areas have no separate box outlines or seams
+Draft language Appearance: category label also fits large text General
+Draft language Appearance: category label also fits large text Audio
+Draft language Appearance: category label also fits large text Graphics
+Draft language Appearance: category label also fits large text Controls
+Draft language Appearance: category label also fits large text Appearance
+Draft language Appearance: category label also fits large text Interaction
+Draft language Appearance: every action fits the panel with a64px minimum target 
+Draft language Appearance: top categories, content actions and footer do not overlap
+Draft language Appearance: text fits Settings title
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Settings section title
+Draft language Appearance: text fits Settings section hint
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Settings opacity value
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Interaction: six equal72px hit areas form one connected top rail
+Draft language Interaction: category hit areas have no separate box outlines or seams
+Draft language Interaction: category label also fits large text General
+Draft language Interaction: category label also fits large text Audio
+Draft language Interaction: category label also fits large text Graphics
+Draft language Interaction: category label also fits large text Controls
+Draft language Interaction: category label also fits large text Appearance
+Draft language Interaction: category label also fits large text Interaction
+Draft language Interaction: every action fits the panel with a64px minimum target 
+Draft language Interaction: top categories, content actions and footer do not overlap
+Draft language Interaction: text fits Settings title
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Settings section title
+Draft language Interaction: text fits Settings section hint
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Interaction dwell value
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Interaction mouse value
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+All alternate-language settings layouts preserve committed locale
+Chung: six equal72px hit areas form one connected top rail
+Chung: category hit areas have no separate box outlines or seams
+Chung: category label also fits large text Chung
+Chung: category label also fits large text Âm thanh
+Chung: category label also fits large text Đồ họa
+Chung: category label also fits large text Điều khiển
+Chung: category label also fits large text Giao diện
+Chung: category label also fits large text Tương tác
+Chung: every action fits the panel with a64px minimum target 
+Chung: top categories, content actions and footer do not overlap
+Chung: text fits Settings title
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Settings section title
+Chung: text fits Settings section hint
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Âm thanh: six equal72px hit areas form one connected top rail
+Âm thanh: category hit areas have no separate box outlines or seams
+Âm thanh: category label also fits large text Chung
+Âm thanh: category label also fits large text Âm thanh
+Âm thanh: category label also fits large text Đồ họa
+Âm thanh: category label also fits large text Điều khiển
+Âm thanh: category label also fits large text Giao diện
+Âm thanh: category label also fits large text Tương tác
+Âm thanh: every action fits the panel with a64px minimum target 
+Âm thanh: top categories, content actions and footer do not overlap
+Âm thanh: text fits Settings title
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Settings section title
+Âm thanh: text fits Settings section hint
+Âm thanh: text fits Settings volume value
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Đồ họa: six equal72px hit areas form one connected top rail
+Đồ họa: category hit areas have no separate box outlines or seams
+Đồ họa: category label also fits large text Chung
+Đồ họa: category label also fits large text Âm thanh
+Đồ họa: category label also fits large text Đồ họa
+Đồ họa: category label also fits large text Điều khiển
+Đồ họa: category label also fits large text Giao diện
+Đồ họa: category label also fits large text Tương tác
+Đồ họa: every action fits the panel with a64px minimum target 
+Đồ họa: top categories, content actions and footer do not overlap
+Đồ họa: text fits Settings title
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Settings section title
+Đồ họa: text fits Settings section hint
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Điều khiển: six equal72px hit areas form one connected top rail
+Điều khiển: category hit areas have no separate box outlines or seams
+Điều khiển: category label also fits large text Chung
+Điều khiển: category label also fits large text Âm thanh
+Điều khiển: category label also fits large text Đồ họa
+Điều khiển: category label also fits large text Điều khiển
+Điều khiển: category label also fits large text Giao diện
+Điều khiển: category label also fits large text Tương tác
+Điều khiển: every action fits the panel with a64px minimum target 
+Điều khiển: top categories, content actions and footer do not overlap
+Điều khiển: text fits Settings title
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Settings section title
+Điều khiển: text fits Settings section hint
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+QR control is enabled only on its supported Android host
+PC simulation action is offered only in the Editor
+Phone display choice is always available
+Controller pairing opens only on Android
+Giao diện: six equal72px hit areas form one connected top rail
+Giao diện: category hit areas have no separate box outlines or seams
+Giao diện: category label also fits large text Chung
+Giao diện: category label also fits large text Âm thanh
+Giao diện: category label also fits large text Đồ họa
+Giao diện: category label also fits large text Điều khiển
+Giao diện: category label also fits large text Giao diện
+Giao diện: category label also fits large text Tương tác
+Giao diện: every action fits the panel with a64px minimum target 
+Giao diện: top categories, content actions and footer do not overlap
+Giao diện: text fits Settings title
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Settings section title
+Giao diện: text fits Settings section hint
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Settings opacity value
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Tương tác: six equal72px hit areas form one connected top rail
+Tương tác: category hit areas have no separate box outlines or seams
+Tương tác: category label also fits large text Chung
+Tương tác: category label also fits large text Âm thanh
+Tương tác: category label also fits large text Đồ họa
+Tương tác: category label also fits large text Điều khiển
+Tương tác: category label also fits large text Giao diện
+Tương tác: category label also fits large text Tương tác
+Tương tác: every action fits the panel with a64px minimum target 
+Tương tác: top categories, content actions and footer do not overlap
+Tương tác: text fits Settings title
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Settings section title
+Tương tác: text fits Settings section hint
+Tương tác: text fits Text
+Tương tác: text fits Interaction dwell value
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Interaction mouse value
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Interaction edits remain independent of committed settings
+Dirty Interaction Back offers an explicit decision
+Interaction Cancel preserves original preferences
+Interaction Apply commits preferences and mouse runtime multiplier
+Mouse preference scales actual PC VR simulator pitch/yaw
+Reapplying simulator mouse preference does not compound
+Interaction journey uses an isolated profile
+Actual Apply reopens with custom preferences and unchanged attempts
+Interaction category defaults affect only their own fields
+Interaction checks restore preferences and preserve consent/records/checkpoint
+Restored preference restores simulator's original pitch/yaw
+Appearance category defaults select80percent without committing
+Cancelling appearance defaults preserves the user's opacity
+Settings presentation starts at Home
+Settings category has a readable independent content heading: Chung
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Settings section title / Chung
+Native settings text fits: Settings section hint / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Âm thanh
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Settings section title / Âm thanh
+Native settings text fits: Settings section hint / Âm thanh
+Native settings text fits: Settings volume value / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Đồ họa
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Settings section title / Đồ họa
+Native settings text fits: Settings section hint / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Điều khiển
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Settings section title / Điều khiển
+Native settings text fits: Settings section hint / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Giao diện
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Settings section title / Giao diện
+Native settings text fits: Settings section hint / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Settings opacity value / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Tương tác
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Settings section title / Tương tác
+Native settings text fits: Settings section hint / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Interaction dwell value / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Interaction mouse value / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Settings value controls are grouped with continuous visible tracks
+Settings presentation review leaves every saved preference, note and reading unchanged
+Animation settings review starts at Home
+Animation On/Off caption inversely represents saved reduced motion VI
+Animation switch updates only the unapplied draft VI
+Animation switch caption follows the edited draft VI
+Cancel preserves all learner fields and saved animation state VI
+Animation On/Off caption inversely represents saved reduced motion EN
+Animation switch updates only the unapplied draft EN
+Animation switch caption follows the edited draft EN
+Cancel preserves all learner fields and saved animation state EN
+Apply changes the live UI animation state and no unrelated learner field
+Applied animation state reopens from native local storage
+Reopened Settings displays the applied On/Off state
+Actual toggle-back and Apply restore every preference, note, legal acceptance and scientific record
+Native controller text fits mapping True/False / Text / Gán nút tay cầm
+Native controller text fits mapping True/False / Text / Chạm vào nút trên hình hoặc tên nút để đổi chức năng. Áp dụng trong Cài đặt để lưu.
+Native controller text fits mapping True/False / Text / Tay trái
+Native controller text fits mapping True/False / Text / Tay phải
+Native controller text fits mapping True/False / Text / Mặt trước
+Native controller text fits mapping True/False / Text / Mặt bên
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / A
+Native controller text fits mapping True/False / Controller assigned action / Chọn / xác nhận
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / B
+Native controller text fits mapping True/False / Controller assigned action / Quay lại / hủy
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / MENU
+Native controller text fits mapping True/False / Controller assigned action / Mở menu
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / GRIP
+Native controller text fits mapping True/False / Controller assigned action / Cầm / thả
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / Cò bóp
+Native controller text fits mapping True/False / Controller assigned action / Chưa gán
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / Nhấn cần
+Native controller text fits mapping True/False / Controller assigned action / Chưa gán
+Native controller text fits mapping True/False / Controller mapping scope / Hình minh họa · Gán nút HID. BLE riêng chưa xác minh.
+Native controller text fits mapping True/False / Text / Mặc định nút
+Native controller text fits mapping True/False / Text / Hướng dẫn tay cầm
+Native controller text fits mapping True/False / Text / Quay lại cài đặt
+Actual transparent controller illustration is loaded
+Large physical button target available 4
+Large physical button target available 5
+Large physical button target available 2
+Large physical button target available 8
+Large physical button target available 10
+Large physical button target available 12
+Native controller text fits action picker True/False / Text / LB · vai trái
+Native controller text fits action picker True/False / Text / Chọn chức năng cho nút này. Nếu đã dùng, hai nút sẽ đổi chức năng cho nhau.
+Native controller text fits action picker True/False / Text / Chọn / xác nhận
+Native controller text fits action picker True/False / Text / Giữ / thả dụng cụ
+Native controller text fits action picker True/False / Text / Mở menu
+Native controller text fits action picker True/False / Text / Căn lại phía trước
+Native controller text fits action picker True/False / Text / Quay lại / hủy
+Native controller text fits action picker True/False / Controller assignment message / 
+Native controller text fits action picker True/False / Text / Quay lại hình tay cầm
+Each configurable action is present: Select
+Each configurable action is present: Grip
+Each configurable action is present: Menu
+Each configurable action is present: Recenter
+Each configurable action is present: Back
+Native controller text fits controller help 0/True/False / Text / Dùng tay cầm
+Native controller text fits controller help 0/True/False / Text / Thao tác
+Native controller text fits controller help 0/True/False / Text / Kết nối
+Native controller text fits controller help 0/True/False / Text / Hiệu chỉnh
+Native controller text fits controller help 0/True/False / Text / Trên màn hình: cần trái di chuyển con trỏ; cần phải xoay góc nhìn trong lab. Khi đeo kính: hướng nhìn điều khiển con trỏ.
+
+Trong Gán nút, chọn chức năng Chọn, Giữ, Menu, Căn lại hoặc Quay lại rồi Áp dụng. Thả nút trước khi dùng cấu hình mới. Ngắt kết nối sẽ dừng thao tác đang giữ.
+
+Trigger được dùng như nút theo ngưỡng trên tay cầm HID. Dữ liệu analog và hướng của tay cầm BLE riêng cần đúng giao thức firmware.
+Native controller text fits controller help 0/True/False / Text / Trang trước
+Native controller text fits controller help 0/True/False / Text / Trang sau
+Native controller text fits controller help 0/True/False / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 1/True/False / Text / Dùng tay cầm
+Native controller text fits controller help 1/True/False / Text / Thao tác
+Native controller text fits controller help 1/True/False / Text / Kết nối
+Native controller text fits controller help 1/True/False / Text / Hiệu chỉnh
+Native controller text fits controller help 1/True/False / Text / Tay cầm trong tài liệu dự án: thả các nút, đặt hai tay phẳng; bật tay trái trước rồi tay phải. Tay phải là cổng BLE tên VLAB CONTROLLER; điện thoại không cần tìm hai thiết bị.
+
+Mở Bluetooth để ghép đôi. Saved / Đã lưu chưa có nghĩa đang kết nối và có dữ liệu. Với tay cầm HID, trở lại app và bấm nút để dùng; tên thiết bị nhận được hiện trong Cài đặt.
+
+Firmware BLE riêng chưa được xác minh khi chưa có UUID và định dạng gói. Điện thoại và Cardboard vẫn dùng được khi chưa có tay cầm.
+Native controller text fits controller help 1/True/False / Text / Trang trước
+Native controller text fits controller help 1/True/False / Text / Trang sau
+Native controller text fits controller help 1/True/False / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 2/True/False / Text / Dùng tay cầm
+Native controller text fits controller help 2/True/False / Text / Thao tác
+Native controller text fits controller help 2/True/False / Text / Kết nối
+Native controller text fits controller help 2/True/False / Text / Hiệu chỉnh
+Native controller text fits controller help 2/True/False / Text / Chỉ dùng các tổ hợp sau nếu tay cầm chạy đúng firmware trong hướng dẫn dự án:
+
+Joystick: giữ A+B 3 giây rồi thả; để trung tâm 2,5 giây, sau đó đi hết bốn hướng và vòng biên trong 8 giây. Thả về giữa.
+
+Trigger: giữ GRIP + nhấn cần 3 giây rồi thả; không bóp trong 2,5 giây đầu, sau đó bóp hết hành trình tới khoảng giây thứ 6. Thả và thử mức trung gian.
+
+Hướng tay cầm: giữ MENU+GRIP 2 giây. Đây khác với Căn lại kính VR. App không tự gửi lệnh hiệu chỉnh khi chưa biết giao thức.
+Native controller text fits controller help 2/True/False / Text / Trang trước
+Native controller text fits controller help 2/True/False / Text / Trang sau
+Native controller text fits controller help 2/True/False / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits mapping True/True / Text / Gán nút tay cầm
+Native controller text fits mapping True/True / Text / Chạm vào nút trên hình hoặc tên nút để đổi chức năng. Áp dụng trong Cài đặt để lưu.
+Native controller text fits mapping True/True / Text / Tay trái
+Native controller text fits mapping True/True / Text / Tay phải
+Native controller text fits mapping True/True / Text / Mặt trước
+Native controller text fits mapping True/True / Text / Mặt bên
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / A
+Native controller text fits mapping True/True / Controller assigned action / Chọn / xác nhận
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / B
+Native controller text fits mapping True/True / Controller assigned action / Quay lại / hủy
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / MENU
+Native controller text fits mapping True/True / Controller assigned action / Mở menu
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / GRIP
+Native controller text fits mapping True/True / Controller assigned action / Cầm / thả
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / Cò bóp
+Native controller text fits mapping True/True / Controller assigned action / Chưa gán
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / Nhấn cần
+Native controller text fits mapping True/True / Controller assigned action / Chưa gán
+Native controller text fits mapping True/True / Controller mapping scope / Hình minh họa · Gán nút HID. BLE riêng chưa xác minh.
+Native controller text fits mapping True/True / Text / Mặc định nút
+Native controller text fits mapping True/True / Text / Hướng dẫn tay cầm
+Native controller text fits mapping True/True / Text / Quay lại cài đặt
+Actual transparent controller illustration is loaded
+Large physical button target available 4
+Large physical button target available 5
+Large physical button target available 2
+Large physical button target available 8
+Large physical button target available 10
+Large physical button target available 12
+Native controller text fits action picker True/True / Text / LB · vai trái
+Native controller text fits action picker True/True / Text / Chọn chức năng cho nút này. Nếu đã dùng, hai nút sẽ đổi chức năng cho nhau.
+Native controller text fits action picker True/True / Text / Chọn / xác nhận
+Native controller text fits action picker True/True / Text / Giữ / thả dụng cụ
+Native controller text fits action picker True/True / Text / Mở menu
+Native controller text fits action picker True/True / Text / Căn lại phía trước
+Native controller text fits action picker True/True / Text / Quay lại / hủy
+Native controller text fits action picker True/True / Controller assignment message / 
+Native controller text fits action picker True/True / Text / Quay lại hình tay cầm
+Each configurable action is present: Select
+Each configurable action is present: Grip
+Each configurable action is present: Menu
+Each configurable action is present: Recenter
+Each configurable action is present: Back
+Native controller text fits controller help 0/True/True / Text / Dùng tay cầm
+Native controller text fits controller help 0/True/True / Text / Thao tác
+Native controller text fits controller help 0/True/True / Text / Kết nối
+Native controller text fits controller help 0/True/True / Text / Hiệu chỉnh
+Native controller text fits controller help 0/True/True / Text / Trên màn hình: cần trái di chuyển con trỏ; cần phải xoay góc nhìn trong lab. Khi đeo kính: hướng nhìn điều khiển con trỏ.
+
+Trong Gán nút, chọn chức năng Chọn, Giữ, Menu, Căn lại hoặc Quay lại rồi Áp dụng. Thả nút trước khi dùng cấu hình mới. Ngắt kết nối sẽ dừng thao tác đang giữ.
+
+Trigger được dùng như nút theo ngưỡng trên tay cầm HID. Dữ liệu analog và hướng của tay cầm BLE riêng cần đúng giao thức firmware.
+Native controller text fits controller help 0/True/True / Text / Trang trước
+Native controller text fits controller help 0/True/True / Text / Trang sau
+Native controller text fits controller help 0/True/True / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 1/True/True / Text / Dùng tay cầm
+Native controller text fits controller help 1/True/True / Text / Thao tác
+Native controller text fits controller help 1/True/True / Text / Kết nối
+Native controller text fits controller help 1/True/True / Text / Hiệu chỉnh
+Native controller text fits controller help 1/True/True / Text / Tay cầm trong tài liệu dự án: thả các nút, đặt hai tay phẳng; bật tay trái trước rồi tay phải. Tay phải là cổng BLE tên VLAB CONTROLLER; điện thoại không cần tìm hai thiết bị.
+
+Mở Bluetooth để ghép đôi. Saved / Đã lưu chưa có nghĩa đang kết nối và có dữ liệu. Với tay cầm HID, trở lại app và bấm nút để dùng; tên thiết bị nhận được hiện trong Cài đặt.
+
+Firmware BLE riêng chưa được xác minh khi chưa có UUID và định dạng gói. Điện thoại và Cardboard vẫn dùng được khi chưa có tay cầm.
+Native controller text fits controller help 1/True/True / Text / Trang trước
+Native controller text fits controller help 1/True/True / Text / Trang sau
+Native controller text fits controller help 1/True/True / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 2/True/True / Text / Dùng tay cầm
+Native controller text fits controller help 2/True/True / Text / Thao tác
+Native controller text fits controller help 2/True/True / Text / Kết nối
+Native controller text fits controller help 2/True/True / Text / Hiệu chỉnh
+Native controller text fits controller help 2/True/True / Text / Chỉ dùng các tổ hợp sau nếu tay cầm chạy đúng firmware trong hướng dẫn dự án:
+
+Joystick: giữ A+B 3 giây rồi thả; để trung tâm 2,5 giây, sau đó đi hết bốn hướng và vòng biên trong 8 giây. Thả về giữa.
+
+Trigger: giữ GRIP + nhấn cần 3 giây rồi thả; không bóp trong 2,5 giây đầu, sau đó bóp hết hành trình tới khoảng giây thứ 6. Thả và thử mức trung gian.
+
+Hướng tay cầm: giữ MENU+GRIP 2 giây. Đây khác với Căn lại kính VR. App không tự gửi lệnh hiệu chỉnh khi chưa biết giao thức.
+Native controller text fits controller help 2/True/True / Text / Trang trước
+Native controller text fits controller help 2/True/True / Text / Trang sau
+Native controller text fits controller help 2/True/True / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits mapping False/False / Text / Controller buttons
+Native controller text fits mapping False/False / Text / Choose a button on the image or its callout, then assign an action. Apply in Settings to save.
+Native controller text fits mapping False/False / Text / Left hand
+Native controller text fits mapping False/False / Text / Right hand
+Native controller text fits mapping False/False / Text / Front
+Native controller text fits mapping False/False / Text / Side
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / A
+Native controller text fits mapping False/False / Controller assigned action / Select / confirm
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / B
+Native controller text fits mapping False/False / Controller assigned action / Back / cancel
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / MENU
+Native controller text fits mapping False/False / Controller assigned action / Open menu
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / GRIP
+Native controller text fits mapping False/False / Controller assigned action / Hold / release
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / Trigger
+Native controller text fits mapping False/False / Controller assigned action / Unassigned
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / Stick press
+Native controller text fits mapping False/False / Controller assigned action / Unassigned
+Native controller text fits mapping False/False / Controller mapping scope / Illustration · Standard HID mappings. Custom BLE is unverified.
+Native controller text fits mapping False/False / Text / Default buttons
+Native controller text fits mapping False/False / Text / Controller help
+Native controller text fits mapping False/False / Text / Back to Settings
+Actual transparent controller illustration is loaded
+Large physical button target available 4
+Large physical button target available 5
+Large physical button target available 2
+Large physical button target available 8
+Large physical button target available 10
+Large physical button target available 12
+Native controller text fits action picker False/False / Text / LB · left shoulder
+Native controller text fits action picker False/False / Text / Choose this button's action. An existing assignment is swapped when possible.
+Native controller text fits action picker False/False / Text / Select / confirm
+Native controller text fits action picker False/False / Text / Hold / release equipment
+Native controller text fits action picker False/False / Text / Open menu
+Native controller text fits action picker False/False / Text / Recenter ahead
+Native controller text fits action picker False/False / Text / Back / cancel
+Native controller text fits action picker False/False / Controller assignment message / 
+Native controller text fits action picker False/False / Text / Back to controller
+Each configurable action is present: Select
+Each configurable action is present: Grip
+Each configurable action is present: Menu
+Each configurable action is present: Recenter
+Each configurable action is present: Back
+Native controller text fits controller help 0/False/False / Text / Using the controller
+Native controller text fits controller help 0/False/False / Text / Controls
+Native controller text fits controller help 0/False/False / Text / Connection
+Native controller text fits controller help 0/False/False / Text / Calibration
+Native controller text fits controller help 0/False/False / Text / On screen: left stick moves the pointer; right stick looks around the lab. In a viewer, head direction points.
+
+Choose Select, Grip, Menu, Recenter or Back in Button mapping, then Apply. Release controls before using a new mapping. Disconnect cancels an active hold.
+
+HID triggers use a button threshold. Custom BLE analog and orientation data require the matching firmware protocol.
+Native controller text fits controller help 0/False/False / Text / Page up
+Native controller text fits controller help 0/False/False / Text / Page down
+Native controller text fits controller help 0/False/False / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 1/False/False / Text / Using the controller
+Native controller text fits controller help 1/False/False / Text / Controls
+Native controller text fits controller help 1/False/False / Text / Connection
+Native controller text fits controller help 1/False/False / Text / Calibration
+Native controller text fits controller help 1/False/False / Text / For the project's controller: release controls, rest both hands flat, power the left hand before the right. The right hand is the single BLE gateway named VLAB CONTROLLER.
+
+Pair in Bluetooth Settings. Saved does not prove a live connection or data. For HID, return and press a controller button; Settings shows the detected name.
+
+Custom BLE firmware requires verified UUIDs and packet format. Phone and Cardboard remain available without a controller.
+Native controller text fits controller help 1/False/False / Text / Page up
+Native controller text fits controller help 1/False/False / Text / Page down
+Native controller text fits controller help 1/False/False / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 2/False/False / Text / Using the controller
+Native controller text fits controller help 2/False/False / Text / Controls
+Native controller text fits controller help 2/False/False / Text / Connection
+Native controller text fits controller help 2/False/False / Text / Calibration
+Native controller text fits controller help 2/False/False / Text / Use these combinations only with the firmware described in the project manual:
+
+Joystick: hold A+B for 3 s, release; stay neutral for 2.5 s, then cover all four directions and the rim for 8 s. Return to centre.
+
+Trigger: hold GRIP + stick-click for 3 s, release; no squeeze for 2.5 s, then squeeze fully until about 6 s. Release and test intermediate values.
+
+Controller heading: hold MENU+GRIP for 2 s. This differs from recentering the VR viewer. No calibration command is sent without a defined protocol.
+Native controller text fits controller help 2/False/False / Text / Page up
+Native controller text fits controller help 2/False/False / Text / Page down
+Native controller text fits controller help 2/False/False / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits mapping False/True / Text / Controller buttons
+Native controller text fits mapping False/True / Text / Choose a button on the image or its callout, then assign an action. Apply in Settings to save.
+Native controller text fits mapping False/True / Text / Left hand
+Native controller text fits mapping False/True / Text / Right hand
+Native controller text fits mapping False/True / Text / Front
+Native controller text fits mapping False/True / Text / Side
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / A
+Native controller text fits mapping False/True / Controller assigned action / Select / confirm
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / B
+Native controller text fits mapping False/True / Controller assigned action / Back / cancel
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / MENU
+Native controller text fits mapping False/True / Controller assigned action / Open menu
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / GRIP
+Native controller text fits mapping False/True / Controller assigned action / Hold / release
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / Trigger
+Native controller text fits mapping False/True / Controller assigned action / Unassigned
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / Stick press
+Native controller text fits mapping False/True / Controller assigned action / Unassigned
+Native controller text fits mapping False/True / Controller mapping scope / Illustration · Standard HID mappings. Custom BLE is unverified.
+Native controller text fits mapping False/True / Text / Default buttons
+Native controller text fits mapping False/True / Text / Controller help
+Native controller text fits mapping False/True / Text / Back to Settings
+Actual transparent controller illustration is loaded
+Large physical button target available 4
+Large physical button target available 5
+Large physical button target available 2
+Large physical button target available 8
+Large physical button target available 10
+Large physical button target available 12
+Native controller text fits action picker False/True / Text / LB · left shoulder
+Native controller text fits action picker False/True / Text / Choose this button's action. An existing assignment is swapped when possible.
+Native controller text fits action picker False/True / Text / Select / confirm
+Native controller text fits action picker False/True / Text / Hold / release equipment
+Native controller text fits action picker False/True / Text / Open menu
+Native controller text fits action picker False/True / Text / Recenter ahead
+Native controller text fits action picker False/True / Text / Back / cancel
+Native controller text fits action picker False/True / Controller assignment message / 
+Native controller text fits action picker False/True / Text / Back to controller
+Each configurable action is present: Select
+Each configurable action is present: Grip
+Each configurable action is present: Menu
+Each configurable action is present: Recenter
+Each configurable action is present: Back
+Native controller text fits controller help 0/False/True / Text / Using the controller
+Native controller text fits controller help 0/False/True / Text / Controls
+Native controller text fits controller help 0/False/True / Text / Connection
+Native controller text fits controller help 0/False/True / Text / Calibration
+Native controller text fits controller help 0/False/True / Text / On screen: left stick moves the pointer; right stick looks around the lab. In a viewer, head direction points.
+
+Choose Select, Grip, Menu, Recenter or Back in Button mapping, then Apply. Release controls before using a new mapping. Disconnect cancels an active hold.
+
+HID triggers use a button threshold. Custom BLE analog and orientation data require the matching firmware protocol.
+Native controller text fits controller help 0/False/True / Text / Page up
+Native controller text fits controller help 0/False/True / Text / Page down
+Native controller text fits controller help 0/False/True / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 1/False/True / Text / Using the controller
+Native controller text fits controller help 1/False/True / Text / Controls
+Native controller text fits controller help 1/False/True / Text / Connection
+Native controller text fits controller help 1/False/True / Text / Calibration
+Native controller text fits controller help 1/False/True / Text / For the project's controller: release controls, rest both hands flat, power the left hand before the right. The right hand is the single BLE gateway named VLAB CONTROLLER.
+
+Pair in Bluetooth Settings. Saved does not prove a live connection or data. For HID, return and press a controller button; Settings shows the detected name.
+
+Custom BLE firmware requires verified UUIDs and packet format. Phone and Cardboard remain available without a controller.
+Native controller text fits controller help 1/False/True / Text / Page up
+Native controller text fits controller help 1/False/True / Text / Page down
+Native controller text fits controller help 1/False/True / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 2/False/True / Text / Using the controller
+Native controller text fits controller help 2/False/True / Text / Controls
+Native controller text fits controller help 2/False/True / Text / Connection
+Native controller text fits controller help 2/False/True / Text / Calibration
+Native controller text fits controller help 2/False/True / Text / Use these combinations only with the firmware described in the project manual:
+
+Joystick: hold A+B for 3 s, release; stay neutral for 2.5 s, then cover all four directions and the rim for 8 s. Return to centre.
+
+Trigger: hold GRIP + stick-click for 3 s, release; no squeeze for 2.5 s, then squeeze fully until about 6 s. Release and test intermediate values.
+
+Controller heading: hold MENU+GRIP for 2 s. This differs from recentering the VR viewer. No calibration command is sent without a defined protocol.
+Native controller text fits controller help 2/False/True / Text / Page up
+Native controller text fits controller help 2/False/True / Text / Page down
+Native controller text fits controller help 2/False/True / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Side angle exposes only trigger and grip
+Direct image hotspot opens the function picker
+Returning from picker preserves hand and view
+Mapping edits remain a conflict-free draft
+Controller Back requests a decision for unapplied button changes
+Cancelling button edits preserves every stored learner field
+Applied controller bindings reopen from the actual local profile
+Controller mapping review restores original preferences and all scientific records
+Three illustrated safety instructions True/False
+Safety illustrations do not intercept input True/False
+Safety text fits True/False 1 · Dọn khoảng trống
+Safety text fits True/False Dọn khoảng trống quanh bạn. Ngồi hoặc đứng ổn định.
+Safety text fits True/False 2 · Cố định điện thoại và kính
+Safety text fits True/False Cố định điện thoại và kính. Chỉnh kính trước khi bắt đầu.
+Safety text fits True/False 3 · Nghỉ khi khó chịu
+Safety text fits True/False Dừng và nghỉ nếu chóng mặt hoặc khó chịu.
+Three illustrated safety instructions True/True
+Safety illustrations do not intercept input True/True
+Safety text fits True/True 1 · Dọn khoảng trống
+Safety text fits True/True Dọn khoảng trống quanh bạn. Ngồi hoặc đứng ổn định.
+Safety text fits True/True 2 · Cố định điện thoại và kính
+Safety text fits True/True Cố định điện thoại và kính. Chỉnh kính trước khi bắt đầu.
+Safety text fits True/True 3 · Nghỉ khi khó chịu
+Safety text fits True/True Dừng và nghỉ nếu chóng mặt hoặc khó chịu.
+Three illustrated safety instructions False/False
+Safety illustrations do not intercept input False/False
+Safety text fits False/False 1 · Clear your space
+Safety text fits False/False Clear the space around you. Sit or stand securely.
+Safety text fits False/False 2 · Secure your phone and viewer
+Safety text fits False/False Secure your phone and viewer. Adjust the viewer before starting.
+Safety text fits False/False 3 · Take a break
+Safety text fits False/False Stop and take a break if you feel dizzy or uncomfortable.
+Three illustrated safety instructions False/True
+Safety illustrations do not intercept input False/True
+Safety text fits False/True 1 · Clear your space
+Safety text fits False/True Clear the space around you. Sit or stand securely.
+Safety text fits False/True 2 · Secure your phone and viewer
+Safety text fits False/True Secure your phone and viewer. Adjust the viewer before starting.
+Safety text fits False/True 3 · Take a break
+Safety text fits False/True Stop and take a break if you feel dizzy or uncomfortable.
+Actual safety screen contains all three illustrated instructions
+Reviewing illustrated safety preserves consent, records and settings
+No runtime errors in focused settings and entry review

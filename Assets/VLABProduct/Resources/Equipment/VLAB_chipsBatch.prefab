@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &806868119577467779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3442982816646308089}
+  - component: {fileID: 6252442327189382899}
+  m_Layer: 0
+  m_Name: VLAB_chipsBatch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3442982816646308089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806868119577467779}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6252442327189382899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806868119577467779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d77bcd048230cf4fbf30b5641adf9e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VlabChips
+  variants:
+  - {fileID: 6393447274532982152, guid: c2048a5f2075ffa479cc8b4a24c7d8a3, type: 3}
+  - {fileID: -2392286727978918930, guid: c2048a5f2075ffa479cc8b4a24c7d8a3, type: 3}
+  - {fileID: 4600904400277109627, guid: c2048a5f2075ffa479cc8b4a24c7d8a3, type: 3}
+  materials:
+  - {fileID: 2100000, guid: d021045fddf06cb42a6689e451429028, type: 2}
+  - {fileID: 2100000, guid: 04b00aea63a0b064b8a3f2913e89af27, type: 2}
+  - {fileID: 2100000, guid: 457acf1ab2b08fe458b679eb4f911e63, type: 2}
+  particleMassG:
+  - 0.0007496481892212774
+  - 0.0059971855137702194
+  - 0.047977484110161756
+  particleAreaM2:
+  - 0.000002183996047122605
+  - 0.00000873598418849042
+  - 0.00003494393675396168
+  spans:
+  - 0.001
+  - 0.002
+  - 0.004
+  meshRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071067}

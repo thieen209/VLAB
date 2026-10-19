@@ -1,0 +1,2 @@
+apply plugin: 'com.android.library'
+android { namespace 'com.nguaman.vlablegal'; compileSdk 36; defaultConfig { minSdk 26 }; sourceSets { main { manifest.srcFile 'AndroidManifest.xml'; res.srcDirs = ['res'] } } }

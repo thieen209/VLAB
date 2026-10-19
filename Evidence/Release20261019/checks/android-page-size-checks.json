@@ -1,0 +1,91 @@
+{
+  "apk": "NguaManVLAB-0.1.0-android.apk",
+  "sha256": "b439b5d8221cbe4ce800131d25a218aac3e3a74be0204cd8dbacce773260b45a",
+  "bytes": 114392953,
+  "source": "https://developer.android.com/guide/practices/page-sizes",
+  "relro_method": "16KB-aligned segment end, or isolated RELRO LOAD with no following LOAD overlapping the rounded protection page.",
+  "zipalign16k": true,
+  "zipalign_result": [
+    "113083896 res/zz.png (OK)",
+    "113084824 resources.arsc (OK)",
+    "Verification successful"
+  ],
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libGfxPluginCardboard.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": true
+    },
+    {
+      "path": "lib/arm64-v8a/lib_burst_generated.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": true
+    },
+    {
+      "path": "lib/arm64-v8a/libil2cpp.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": true
+    },
+    {
+      "path": "lib/arm64-v8a/libmain.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": true
+    },
+    {
+      "path": "lib/arm64-v8a/libunity.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": true
+    },
+    {
+      "path": "lib/armeabi-v7a/libGfxPluginCardboard.so",
+      "load_min_alignment": 4096,
+      "load16k": false,
+      "relro16k": false,
+      "required16k": false
+    },
+    {
+      "path": "lib/armeabi-v7a/lib_burst_generated.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": false
+    },
+    {
+      "path": "lib/armeabi-v7a/libil2cpp.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": false
+    },
+    {
+      "path": "lib/armeabi-v7a/libmain.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": false
+    },
+    {
+      "path": "lib/armeabi-v7a/libunity.so",
+      "load_min_alignment": 16384,
+      "load16k": true,
+      "relro16k": true,
+      "required16k": false
+    }
+  ],
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "pass": true,
+  "scope": "APK ZIP and native ELF alignment only; no physical install, launch, head tracking or performance test."
+}

@@ -1,0 +1,28 @@
+Standard HID mappings, native virtual-device/control state and isolated persistence only. No paired hardware, custom BLE packets, 6DoF or firmware calibration is certified.
+PASS Default HID mapping preserves A/RT, shoulders, Start, Select and B
+PASS Physical overlap rejects A or RT reserved by composite Select
+PASS Physical overlap rejects either shoulder reserved by composite Grip
+PASS Back cannot share its B button with Select
+PASS Cycling skips conflicts and retains the other four actions: Select
+PASS Semantic binding label exists in Vietnamese and English: Select
+PASS Cycling skips conflicts and retains the other four actions: Grip
+PASS Semantic binding label exists in Vietnamese and English: Grip
+PASS Cycling skips conflicts and retains the other four actions: Menu
+PASS Semantic binding label exists in Vietnamese and English: Menu
+PASS Cycling skips conflicts and retains the other four actions: Recenter
+PASS Semantic binding label exists in Vietnamese and English: Recenter
+PASS Cycling skips conflicts and retains the other four actions: Back
+PASS Semantic binding label exists in Vietnamese and English: Back
+PASS Every allowed physical binding has bilingual text
+PASS Out-of-range saved binding is rejected: -1
+PASS Out-of-range saved binding is rejected: 14
+PASS Out-of-range saved binding is rejected: 2147483647
+PASS Explicit overlapping saved binding is rejected
+PASS Custom HID bindings save atomically
+PASS All five custom HID mappings reopen exactly
+PASS Custom HID save retains notes, consent, checkpoint and scientific readings
+PASS Conflicting save fails without replacing a valid primary
+PASS Profiles missing all binding fields receive original defaults
+PASS Binding migration retains the complete legacy profile
+PASS Explicit invalid profile mapping is protected rather than defaulted
+PASS Binding checks leave the caller's profile unchanged

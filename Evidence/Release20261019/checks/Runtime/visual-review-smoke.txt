@@ -1,0 +1,2642 @@
+PASS
+UI callback and synthetic Input System checks; no physical phone/headset evidence.
+Visual review reopens actual47-record isolated profile
+User-facing review uses Vietnamese
+Small positive amounts never display as zero
+Small negative amounts preserve their sign
+Exact zero remains zero
+Vietnamese decimal comma is readable at threshold
+English decimal support remains available
+Card layout input covers original47 saved attempts and32 lesson IDs
+Native card geometry leaves every saved record unchanged
+Native card template fits: instrument VI large=False cards=280 fields=840
+Native card template fits: results VI large=False cards=280 fields=840
+Native card template fits: book VI large=False cards=280 fields=840
+Native card template fits: instrument VI large=True cards=280 fields=840
+Native card template fits: results VI large=True cards=280 fields=840
+Native card template fits: book VI large=True cards=280 fields=840
+Native card template fits: instrument EN large=False cards=280 fields=840
+Native card template fits: results EN large=False cards=280 fields=840
+Native card template fits: book EN large=False cards=280 fields=840
+Native card template fits: instrument EN large=True cards=280 fields=840
+Native card template fits: results EN large=True cards=280 fields=840
+Native card template fits: book EN large=True cards=280 fields=840
+Legacy profile migrates without repeating consent or clearing settings
+Vietnamese notebook page saves atomically
+Title, Unicode, line breaks and lesson association survive reopening
+Writing does not fabricate a measured attempt
+Progress reset preserves personally written pages
+Full reset clears notebook only as part of the explicit full reset
+Post-reset backup cannot resurrect written pages
+Oversized pages are refused without claiming save success
+Duplicate page IDs are refused
+Future notebook schema is preserved and write protected
+Explicitly corrupt notebook data is not silently replaced
+Pure insertion replaces reverse selections
+Pure erase preserves preceding Latin text
+Backspace keeps surrogate pairs intact
+Uppercase circumflex and tone compose to NFC
+Tone changes preserve non-tone combining marks
+Rejected over-limit grapheme does not partially replace selection
+Appearance fixture saves
+Legacy absent opacity migrates to one without discarding 32 records
+Appearance settings save
+Theme, opacity and bilingual record notes round trip
+Draft appearance copy is independent
+Explicit zero opacity is rejected
+Non-finite opacity is rejected
+Theme 0 paragraph contrast
+Theme 0 accent 4C86FF caption contrast
+Theme 0 accent D85BEA caption contrast
+Theme 0 accent 56BF88 caption contrast
+Theme 0 accent F0A34D caption contrast
+Theme 1 paragraph contrast
+Theme 1 accent 4C86FF caption contrast
+Theme 1 accent D85BEA caption contrast
+Theme 1 accent 56BF88 caption contrast
+Theme 1 accent F0A34D caption contrast
+Theme 2 paragraph contrast
+Theme 2 accent 4C86FF caption contrast
+Theme 2 accent D85BEA caption contrast
+Theme 2 accent 56BF88 caption contrast
+Theme 2 accent F0A34D caption contrast
+Journal distinguishes no attempt from an actual saved attempt
+Journal uses attached historical interpretation
+Fresh one-tap entry starts stereo without any saved-profile or scan gate
+Entry enables the real tracked-pose component
+Repeated Enter VR does not initialize or start a second time
+Exit stops/deinitializes and returns to flat pose
+Returning entry still requires no scan
+Cancel optional scan while in VR retains entry and existing profile state
+Optional scan from flat Settings initializes SDK without starting stereo
+Cancel optional flat scan does not enter VR or create saved parameters
+Enter after a canceled optional scan reuses initialized loader
+New optional viewer parameters are reloaded by the per-frame SDK pump
+Cancel later optional scan preserves an already saved viewer profile
+Failed stereo start cleans initialized subsystems and leaves flat mode
+A failed entry can be retried without a stuck switching lock
+Native HID and phone touch gesture checks passed
+Default HID mapping preserves A/RT, shoulders, Start, Select and B
+Physical overlap rejects A or RT reserved by composite Select
+Physical overlap rejects either shoulder reserved by composite Grip
+Back cannot share its B button with Select
+Cycling skips conflicts and retains the other four actions: Select
+Semantic binding label exists in Vietnamese and English: Select
+Cycling skips conflicts and retains the other four actions: Grip
+Semantic binding label exists in Vietnamese and English: Grip
+Cycling skips conflicts and retains the other four actions: Menu
+Semantic binding label exists in Vietnamese and English: Menu
+Cycling skips conflicts and retains the other four actions: Recenter
+Semantic binding label exists in Vietnamese and English: Recenter
+Cycling skips conflicts and retains the other four actions: Back
+Semantic binding label exists in Vietnamese and English: Back
+Every allowed physical binding has bilingual text
+Out-of-range saved binding is rejected: -1
+Out-of-range saved binding is rejected: 14
+Out-of-range saved binding is rejected: 2147483647
+Explicit overlapping saved binding is rejected
+Custom HID bindings save atomically
+All five custom HID mappings reopen exactly
+Custom HID save retains notes, consent, checkpoint and scientific readings
+Conflicting save fails without replacing a valid primary
+Profiles missing all binding fields receive original defaults
+Binding migration retains the complete legacy profile
+Explicit invalid profile mapping is protected rather than defaulted
+Binding checks leave the caller's profile unchanged
+Unchanged default A still selects and holds
+Default held select does not repeat
+Applying a remap releases an existing hold without a fresh action
+Held old and newly mapped buttons remain suppressed until all release
+Old select button is inactive after remapping
+Old trigger select is inactive after remapping
+Mapped West/X produces select edge and hold only
+Mapped select remains held without repeated edge
+Mapped select releases cleanly
+Mapped analogue trigger waits for the existing half-press threshold
+Mapped left trigger becomes binary grip hold
+Grip hold has one edge
+Grip release ends the held action
+Mapped North/Y opens Menu without selecting
+Mapped Menu does not repeat while held
+Mapped stick press recenters without selection
+Mapped Recenter is an edge
+B produces Back independently of select and menu
+Back does not repeat while held
+Remapped controller disconnect releases and reports loss without actions
+Disconnect is emitted only once
+Fresh mapped X activity discovers actual HID backend and uses configured select
+Live facade remapping releases held equipment without phantom navigation
+Live facade adopts the new mapping after neutral state
+Facade disconnect preserves safe release with configurable bindings
+Panel entrance fades presentation without blocking interaction
+Panel entrance completes while lesson time is paused
+Hover eases caption without moving button target
+Press feedback settles at restrained caption scale
+Motion leaves the original Button callback intact
+Turning animations off immediately restores exact caption geometry
+Disabled animations never replay entrance on reopen
+Disabled animations keep hover and press stationary
+Disabling a focused control restores exact visual state
+Reopened control still activates once
+Re-enabling animations replays entrance without changing hit geometry
+Disabling animations mid-entrance snaps fully visible
+M05 80 mm guide selects the active fitted rod
+M05 80 mm other rods remain inactive
+M05 ready guidance uses the SDK Start trial label in both languages
+Requested guidance is read-only: Ready 80
+Requested guidance is read-only: Running 80
+M05 80 mm native guidance fixture completes: 
+M05 100 mm guide selects the active fitted rod
+M05 100 mm other rods remain inactive
+M05 ready guidance uses the SDK Start trial label in both languages
+Requested guidance is read-only: Ready 100
+Requested guidance is read-only: Running 100
+M05 100 mm native guidance fixture completes: 
+M05 120 mm guide selects the active fitted rod
+M05 120 mm other rods remain inactive
+M05 ready guidance uses the SDK Start trial label in both languages
+Requested guidance is read-only: Ready 120
+Requested guidance is read-only: Running 120
+M05 120 mm native guidance fixture completes: 
+M06 knife guide selects the active fitted follower
+M06 roller guide selects the active fitted follower
+M06 returning to knife updates the guide
+M06 native guidance fixture completes: 
+P06 elastic=1 step 2 targets active bumperA
+P06 elastic=1 native variant fixture completes: 
+P06 elastic=0 step 2 targets active latch
+P06 elastic=0 native variant fixture completes: 
+C05 final=50 step 1 targets active vol50
+C05 final=50 native variant fixture completes: 
+C05 final=100 step 1 targets active vol100
+C05 final=100 native variant fixture completes: 
+C05 final=100 step 2 targets active vol100
+C05 final=100 native variant fixture completes: 
+M07 micrometer=0 step 0 targets active caliper
+M07 micrometer=0 native variant fixture completes: 
+M07 micrometer=0 step 2 targets active caliper
+M07 micrometer=0 native variant fixture completes: 
+M07 micrometer=1 step 0 targets active micrometer
+M07 micrometer=1 native variant fixture completes: 
+P08 height=0.2 step 1 targets active ruler
+P08 height=0.2 native variant fixture completes: 
+P01 readiness has concise bilingual measurable objectives
+P02 readiness has concise bilingual measurable objectives
+P03 readiness has concise bilingual measurable objectives
+P04 readiness has concise bilingual measurable objectives
+P05 readiness has concise bilingual measurable objectives
+P06 readiness has concise bilingual measurable objectives
+P07 readiness has concise bilingual measurable objectives
+P08 readiness has concise bilingual measurable objectives
+C01 readiness has concise bilingual measurable objectives
+C02 readiness has concise bilingual measurable objectives
+C03 readiness has concise bilingual measurable objectives
+C04 readiness has concise bilingual measurable objectives
+C05 readiness has concise bilingual measurable objectives
+C06 readiness has concise bilingual measurable objectives
+C07 readiness has concise bilingual measurable objectives
+C08 readiness has concise bilingual measurable objectives
+B01 readiness has concise bilingual measurable objectives
+B02 readiness has concise bilingual measurable objectives
+B03 readiness has concise bilingual measurable objectives
+B04 readiness has concise bilingual measurable objectives
+B05 readiness has concise bilingual measurable objectives
+B06 readiness has concise bilingual measurable objectives
+B07 readiness has concise bilingual measurable objectives
+B08 readiness has concise bilingual measurable objectives
+M01 readiness has concise bilingual measurable objectives
+M02 readiness has concise bilingual measurable objectives
+M03 readiness has concise bilingual measurable objectives
+M04 readiness has concise bilingual measurable objectives
+M05 readiness has concise bilingual measurable objectives
+M06 readiness has concise bilingual measurable objectives
+M07 readiness has concise bilingual measurable objectives
+M08 readiness has concise bilingual measurable objectives
+All 32 preparation sequences have matching bilingual observable success criteria
+Microscope focus help coaches observation without revealing a magic focus coordinate
+P03 preparation names declared coefficients instead of an unavailable material selector
+P06 preparation names the supplied track and does not promise photogates
+C01 overshot guidance retains excluded evidence before fresh aliquot
+C01 overshot guidance retains excluded evidence before fresh aliquot
+New profiles use a softer adjustable80percent panel default
+Missing interaction preferences receive defaults without schema change
+Interaction migration retains all 47 scientific records and consent
+Customized interaction preferences save atomically
+Disabled auto-gaze and custom timing/sensitivity round trip
+An explicitly opaque existing choice still saves
+New opacity default preserves explicit existing100percent choice
+Interaction boundary settings remain valid
+Invalid dwell value is rejected: NaN
+Invalid dwell value is rejected: Infinity
+Invalid dwell value is rejected: -Infinity
+Invalid dwell value is rejected: 0
+Invalid dwell value is rejected: 0.59
+Invalid dwell value is rejected: 2.01
+Invalid mouse sensitivity is rejected: NaN
+Invalid mouse sensitivity is rejected: Infinity
+Invalid mouse sensitivity is rejected: -Infinity
+Invalid mouse sensitivity is rejected: 0
+Invalid mouse sensitivity is rejected: 0.49
+Invalid mouse sensitivity is rejected: 2.01
+Explicit invalid saved dwell is protected rather than migrated
+Real gaze timer waits before minimum configured duration
+Real gaze timer selects at configured duration
+Dwell never repeats on a stationary consumed target
+Maximum dwell does not use hardcoded1.2s
+Disabled auto-gaze clears timing and never auto-selects
+Manual trigger still selects with auto-gaze disabled
+Interaction journey begins at Home
+Active PC VR simulator exposes its actual mouse-look sensitivities
+Language draft changes its visible value without committing
+Draft language General: six equal72px hit areas form one connected top rail
+Draft language General: category hit areas have no separate box outlines or seams
+Draft language General: category label also fits large text General
+Draft language General: category label also fits large text Audio
+Draft language General: category label also fits large text Graphics
+Draft language General: category label also fits large text Controls
+Draft language General: category label also fits large text Appearance
+Draft language General: category label also fits large text Interaction
+Draft language General: every action fits the panel with a64px minimum target 
+Draft language General: top categories, content actions and footer do not overlap
+Draft language General: text fits Settings title
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Settings section title
+Draft language General: text fits Settings section hint
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language General: text fits Text
+Draft language Audio: six equal72px hit areas form one connected top rail
+Draft language Audio: category hit areas have no separate box outlines or seams
+Draft language Audio: category label also fits large text General
+Draft language Audio: category label also fits large text Audio
+Draft language Audio: category label also fits large text Graphics
+Draft language Audio: category label also fits large text Controls
+Draft language Audio: category label also fits large text Appearance
+Draft language Audio: category label also fits large text Interaction
+Draft language Audio: every action fits the panel with a64px minimum target 
+Draft language Audio: top categories, content actions and footer do not overlap
+Draft language Audio: text fits Settings title
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Settings section title
+Draft language Audio: text fits Settings section hint
+Draft language Audio: text fits Settings volume value
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Audio: text fits Text
+Draft language Graphics: six equal72px hit areas form one connected top rail
+Draft language Graphics: category hit areas have no separate box outlines or seams
+Draft language Graphics: category label also fits large text General
+Draft language Graphics: category label also fits large text Audio
+Draft language Graphics: category label also fits large text Graphics
+Draft language Graphics: category label also fits large text Controls
+Draft language Graphics: category label also fits large text Appearance
+Draft language Graphics: category label also fits large text Interaction
+Draft language Graphics: every action fits the panel with a64px minimum target 
+Draft language Graphics: top categories, content actions and footer do not overlap
+Draft language Graphics: text fits Settings title
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Settings section title
+Draft language Graphics: text fits Settings section hint
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Graphics: text fits Text
+Draft language Controls: six equal72px hit areas form one connected top rail
+Draft language Controls: category hit areas have no separate box outlines or seams
+Draft language Controls: category label also fits large text General
+Draft language Controls: category label also fits large text Audio
+Draft language Controls: category label also fits large text Graphics
+Draft language Controls: category label also fits large text Controls
+Draft language Controls: category label also fits large text Appearance
+Draft language Controls: category label also fits large text Interaction
+Draft language Controls: every action fits the panel with a64px minimum target 
+Draft language Controls: top categories, content actions and footer do not overlap
+Draft language Controls: text fits Settings title
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Settings section title
+Draft language Controls: text fits Settings section hint
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Controls: text fits Text
+Draft language Appearance: six equal72px hit areas form one connected top rail
+Draft language Appearance: category hit areas have no separate box outlines or seams
+Draft language Appearance: category label also fits large text General
+Draft language Appearance: category label also fits large text Audio
+Draft language Appearance: category label also fits large text Graphics
+Draft language Appearance: category label also fits large text Controls
+Draft language Appearance: category label also fits large text Appearance
+Draft language Appearance: category label also fits large text Interaction
+Draft language Appearance: every action fits the panel with a64px minimum target 
+Draft language Appearance: top categories, content actions and footer do not overlap
+Draft language Appearance: text fits Settings title
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Settings section title
+Draft language Appearance: text fits Settings section hint
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Settings opacity value
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Appearance: text fits Text
+Draft language Interaction: six equal72px hit areas form one connected top rail
+Draft language Interaction: category hit areas have no separate box outlines or seams
+Draft language Interaction: category label also fits large text General
+Draft language Interaction: category label also fits large text Audio
+Draft language Interaction: category label also fits large text Graphics
+Draft language Interaction: category label also fits large text Controls
+Draft language Interaction: category label also fits large text Appearance
+Draft language Interaction: category label also fits large text Interaction
+Draft language Interaction: every action fits the panel with a64px minimum target 
+Draft language Interaction: top categories, content actions and footer do not overlap
+Draft language Interaction: text fits Settings title
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Settings section title
+Draft language Interaction: text fits Settings section hint
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Interaction dwell value
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Interaction mouse value
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+Draft language Interaction: text fits Text
+All alternate-language settings layouts preserve committed locale
+Chung: six equal72px hit areas form one connected top rail
+Chung: category hit areas have no separate box outlines or seams
+Chung: category label also fits large text Chung
+Chung: category label also fits large text Âm thanh
+Chung: category label also fits large text Đồ họa
+Chung: category label also fits large text Điều khiển
+Chung: category label also fits large text Giao diện
+Chung: category label also fits large text Tương tác
+Chung: every action fits the panel with a64px minimum target 
+Chung: top categories, content actions and footer do not overlap
+Chung: text fits Settings title
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Settings section title
+Chung: text fits Settings section hint
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Chung: text fits Text
+Âm thanh: six equal72px hit areas form one connected top rail
+Âm thanh: category hit areas have no separate box outlines or seams
+Âm thanh: category label also fits large text Chung
+Âm thanh: category label also fits large text Âm thanh
+Âm thanh: category label also fits large text Đồ họa
+Âm thanh: category label also fits large text Điều khiển
+Âm thanh: category label also fits large text Giao diện
+Âm thanh: category label also fits large text Tương tác
+Âm thanh: every action fits the panel with a64px minimum target 
+Âm thanh: top categories, content actions and footer do not overlap
+Âm thanh: text fits Settings title
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Settings section title
+Âm thanh: text fits Settings section hint
+Âm thanh: text fits Settings volume value
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Âm thanh: text fits Text
+Đồ họa: six equal72px hit areas form one connected top rail
+Đồ họa: category hit areas have no separate box outlines or seams
+Đồ họa: category label also fits large text Chung
+Đồ họa: category label also fits large text Âm thanh
+Đồ họa: category label also fits large text Đồ họa
+Đồ họa: category label also fits large text Điều khiển
+Đồ họa: category label also fits large text Giao diện
+Đồ họa: category label also fits large text Tương tác
+Đồ họa: every action fits the panel with a64px minimum target 
+Đồ họa: top categories, content actions and footer do not overlap
+Đồ họa: text fits Settings title
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Settings section title
+Đồ họa: text fits Settings section hint
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Đồ họa: text fits Text
+Điều khiển: six equal72px hit areas form one connected top rail
+Điều khiển: category hit areas have no separate box outlines or seams
+Điều khiển: category label also fits large text Chung
+Điều khiển: category label also fits large text Âm thanh
+Điều khiển: category label also fits large text Đồ họa
+Điều khiển: category label also fits large text Điều khiển
+Điều khiển: category label also fits large text Giao diện
+Điều khiển: category label also fits large text Tương tác
+Điều khiển: every action fits the panel with a64px minimum target 
+Điều khiển: top categories, content actions and footer do not overlap
+Điều khiển: text fits Settings title
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Settings section title
+Điều khiển: text fits Settings section hint
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+Điều khiển: text fits Text
+QR control is enabled only on its supported Android host
+PC simulation action is offered only in the Editor
+Phone display choice is always available
+Controller pairing opens only on Android
+Giao diện: six equal72px hit areas form one connected top rail
+Giao diện: category hit areas have no separate box outlines or seams
+Giao diện: category label also fits large text Chung
+Giao diện: category label also fits large text Âm thanh
+Giao diện: category label also fits large text Đồ họa
+Giao diện: category label also fits large text Điều khiển
+Giao diện: category label also fits large text Giao diện
+Giao diện: category label also fits large text Tương tác
+Giao diện: every action fits the panel with a64px minimum target 
+Giao diện: top categories, content actions and footer do not overlap
+Giao diện: text fits Settings title
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Settings section title
+Giao diện: text fits Settings section hint
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Settings opacity value
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Giao diện: text fits Text
+Tương tác: six equal72px hit areas form one connected top rail
+Tương tác: category hit areas have no separate box outlines or seams
+Tương tác: category label also fits large text Chung
+Tương tác: category label also fits large text Âm thanh
+Tương tác: category label also fits large text Đồ họa
+Tương tác: category label also fits large text Điều khiển
+Tương tác: category label also fits large text Giao diện
+Tương tác: category label also fits large text Tương tác
+Tương tác: every action fits the panel with a64px minimum target 
+Tương tác: top categories, content actions and footer do not overlap
+Tương tác: text fits Settings title
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Settings section title
+Tương tác: text fits Settings section hint
+Tương tác: text fits Text
+Tương tác: text fits Interaction dwell value
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Interaction mouse value
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Tương tác: text fits Text
+Interaction edits remain independent of committed settings
+Dirty Interaction Back offers an explicit decision
+Interaction Cancel preserves original preferences
+Interaction Apply commits preferences and mouse runtime multiplier
+Mouse preference scales actual PC VR simulator pitch/yaw
+Reapplying simulator mouse preference does not compound
+Interaction journey uses an isolated profile
+Actual Apply reopens with custom preferences and unchanged attempts
+Interaction category defaults affect only their own fields
+Interaction checks restore preferences and preserve consent/records/checkpoint
+Restored preference restores simulator's original pitch/yaw
+Appearance category defaults select80percent without committing
+Cancelling appearance defaults preserves the user's opacity
+Settings presentation starts at Home
+Settings category has a readable independent content heading: Chung
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Settings section title / Chung
+Native settings text fits: Settings section hint / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Native settings text fits: Text / Chung
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Âm thanh
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Settings section title / Âm thanh
+Native settings text fits: Settings section hint / Âm thanh
+Native settings text fits: Settings volume value / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Native settings text fits: Text / Âm thanh
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Đồ họa
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Settings section title / Đồ họa
+Native settings text fits: Settings section hint / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Native settings text fits: Text / Đồ họa
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Điều khiển
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Settings section title / Điều khiển
+Native settings text fits: Settings section hint / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Native settings text fits: Text / Điều khiển
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Giao diện
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Settings section title / Giao diện
+Native settings text fits: Settings section hint / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Settings opacity value / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Native settings text fits: Text / Giao diện
+Settings value controls are grouped with continuous visible tracks
+Settings category has a readable independent content heading: Tương tác
+Settings Back is in the header, away from footer decisions
+Settings footer has one primary Apply and at most two quiet alternatives
+Native settings text fits: Settings title / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Settings section title / Tương tác
+Native settings text fits: Settings section hint / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Interaction dwell value / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Interaction mouse value / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Native settings text fits: Text / Tương tác
+Visible switch uses the full72px row as its hit target
+Switch thumb remains inside its track
+Settings value controls are grouped with continuous visible tracks
+Settings presentation review leaves every saved preference, note and reading unchanged
+Animation settings review starts at Home
+Animation On/Off caption inversely represents saved reduced motion VI
+Animation switch updates only the unapplied draft VI
+Animation switch caption follows the edited draft VI
+Cancel preserves all learner fields and saved animation state VI
+Animation On/Off caption inversely represents saved reduced motion EN
+Animation switch updates only the unapplied draft EN
+Animation switch caption follows the edited draft EN
+Cancel preserves all learner fields and saved animation state EN
+Apply changes the live UI animation state and no unrelated learner field
+Applied animation state reopens from native local storage
+Reopened Settings displays the applied On/Off state
+Actual toggle-back and Apply restore every preference, note, legal acceptance and scientific record
+Native controller text fits mapping True/False / Text / Gán nút tay cầm
+Native controller text fits mapping True/False / Text / Chạm vào nút trên hình hoặc tên nút để đổi chức năng. Áp dụng trong Cài đặt để lưu.
+Native controller text fits mapping True/False / Text / Tay trái
+Native controller text fits mapping True/False / Text / Tay phải
+Native controller text fits mapping True/False / Text / Mặt trước
+Native controller text fits mapping True/False / Text / Mặt bên
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / A
+Native controller text fits mapping True/False / Controller assigned action / Chọn / xác nhận
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / B
+Native controller text fits mapping True/False / Controller assigned action / Quay lại / hủy
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / MENU
+Native controller text fits mapping True/False / Controller assigned action / Mở menu
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / GRIP
+Native controller text fits mapping True/False / Controller assigned action / Cầm / thả
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / Cò bóp
+Native controller text fits mapping True/False / Controller assigned action / Chưa gán
+Native controller text fits mapping True/False / Text / 
+Native controller text fits mapping True/False / Text / Nhấn cần
+Native controller text fits mapping True/False / Controller assigned action / Chưa gán
+Native controller text fits mapping True/False / Controller mapping scope / Hình minh họa · Gán nút HID. BLE riêng chưa xác minh.
+Native controller text fits mapping True/False / Text / Mặc định nút
+Native controller text fits mapping True/False / Text / Hướng dẫn tay cầm
+Native controller text fits mapping True/False / Text / Quay lại cài đặt
+Actual transparent controller illustration is loaded
+Large physical button target available 4
+Large physical button target available 5
+Large physical button target available 2
+Large physical button target available 8
+Large physical button target available 10
+Large physical button target available 12
+Native controller text fits action picker True/False / Text / LB · vai trái
+Native controller text fits action picker True/False / Text / Chọn chức năng cho nút này. Nếu đã dùng, hai nút sẽ đổi chức năng cho nhau.
+Native controller text fits action picker True/False / Text / Chọn / xác nhận
+Native controller text fits action picker True/False / Text / Giữ / thả dụng cụ
+Native controller text fits action picker True/False / Text / Mở menu
+Native controller text fits action picker True/False / Text / Căn lại phía trước
+Native controller text fits action picker True/False / Text / Quay lại / hủy
+Native controller text fits action picker True/False / Controller assignment message / 
+Native controller text fits action picker True/False / Text / Quay lại hình tay cầm
+Each configurable action is present: Select
+Each configurable action is present: Grip
+Each configurable action is present: Menu
+Each configurable action is present: Recenter
+Each configurable action is present: Back
+Native controller text fits controller help 0/True/False / Text / Dùng tay cầm
+Native controller text fits controller help 0/True/False / Text / Thao tác
+Native controller text fits controller help 0/True/False / Text / Kết nối
+Native controller text fits controller help 0/True/False / Text / Hiệu chỉnh
+Native controller text fits controller help 0/True/False / Text / Trên màn hình: cần trái di chuyển con trỏ; cần phải xoay góc nhìn trong lab. Khi đeo kính: hướng nhìn điều khiển con trỏ.
+
+Trong Gán nút, chọn chức năng Chọn, Giữ, Menu, Căn lại hoặc Quay lại rồi Áp dụng. Thả nút trước khi dùng cấu hình mới. Ngắt kết nối sẽ dừng thao tác đang giữ.
+
+Trigger được dùng như nút theo ngưỡng trên tay cầm HID. Dữ liệu analog và hướng của tay cầm BLE riêng cần đúng giao thức firmware.
+Native controller text fits controller help 0/True/False / Text / Trang trước
+Native controller text fits controller help 0/True/False / Text / Trang sau
+Native controller text fits controller help 0/True/False / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 1/True/False / Text / Dùng tay cầm
+Native controller text fits controller help 1/True/False / Text / Thao tác
+Native controller text fits controller help 1/True/False / Text / Kết nối
+Native controller text fits controller help 1/True/False / Text / Hiệu chỉnh
+Native controller text fits controller help 1/True/False / Text / Tay cầm trong tài liệu dự án: thả các nút, đặt hai tay phẳng; bật tay trái trước rồi tay phải. Tay phải là cổng BLE tên VLAB CONTROLLER; điện thoại không cần tìm hai thiết bị.
+
+Mở Bluetooth để ghép đôi. Saved / Đã lưu chưa có nghĩa đang kết nối và có dữ liệu. Với tay cầm HID, trở lại app và bấm nút để dùng; tên thiết bị nhận được hiện trong Cài đặt.
+
+Firmware BLE riêng chưa được xác minh khi chưa có UUID và định dạng gói. Điện thoại và Cardboard vẫn dùng được khi chưa có tay cầm.
+Native controller text fits controller help 1/True/False / Text / Trang trước
+Native controller text fits controller help 1/True/False / Text / Trang sau
+Native controller text fits controller help 1/True/False / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 2/True/False / Text / Dùng tay cầm
+Native controller text fits controller help 2/True/False / Text / Thao tác
+Native controller text fits controller help 2/True/False / Text / Kết nối
+Native controller text fits controller help 2/True/False / Text / Hiệu chỉnh
+Native controller text fits controller help 2/True/False / Text / Chỉ dùng các tổ hợp sau nếu tay cầm chạy đúng firmware trong hướng dẫn dự án:
+
+Joystick: giữ A+B 3 giây rồi thả; để trung tâm 2,5 giây, sau đó đi hết bốn hướng và vòng biên trong 8 giây. Thả về giữa.
+
+Trigger: giữ GRIP + nhấn cần 3 giây rồi thả; không bóp trong 2,5 giây đầu, sau đó bóp hết hành trình tới khoảng giây thứ 6. Thả và thử mức trung gian.
+
+Hướng tay cầm: giữ MENU+GRIP 2 giây. Đây khác với Căn lại kính VR. App không tự gửi lệnh hiệu chỉnh khi chưa biết giao thức.
+Native controller text fits controller help 2/True/False / Text / Trang trước
+Native controller text fits controller help 2/True/False / Text / Trang sau
+Native controller text fits controller help 2/True/False / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits mapping True/True / Text / Gán nút tay cầm
+Native controller text fits mapping True/True / Text / Chạm vào nút trên hình hoặc tên nút để đổi chức năng. Áp dụng trong Cài đặt để lưu.
+Native controller text fits mapping True/True / Text / Tay trái
+Native controller text fits mapping True/True / Text / Tay phải
+Native controller text fits mapping True/True / Text / Mặt trước
+Native controller text fits mapping True/True / Text / Mặt bên
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / A
+Native controller text fits mapping True/True / Controller assigned action / Chọn / xác nhận
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / B
+Native controller text fits mapping True/True / Controller assigned action / Quay lại / hủy
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / MENU
+Native controller text fits mapping True/True / Controller assigned action / Mở menu
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / GRIP
+Native controller text fits mapping True/True / Controller assigned action / Cầm / thả
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / Cò bóp
+Native controller text fits mapping True/True / Controller assigned action / Chưa gán
+Native controller text fits mapping True/True / Text / 
+Native controller text fits mapping True/True / Text / Nhấn cần
+Native controller text fits mapping True/True / Controller assigned action / Chưa gán
+Native controller text fits mapping True/True / Controller mapping scope / Hình minh họa · Gán nút HID. BLE riêng chưa xác minh.
+Native controller text fits mapping True/True / Text / Mặc định nút
+Native controller text fits mapping True/True / Text / Hướng dẫn tay cầm
+Native controller text fits mapping True/True / Text / Quay lại cài đặt
+Actual transparent controller illustration is loaded
+Large physical button target available 4
+Large physical button target available 5
+Large physical button target available 2
+Large physical button target available 8
+Large physical button target available 10
+Large physical button target available 12
+Native controller text fits action picker True/True / Text / LB · vai trái
+Native controller text fits action picker True/True / Text / Chọn chức năng cho nút này. Nếu đã dùng, hai nút sẽ đổi chức năng cho nhau.
+Native controller text fits action picker True/True / Text / Chọn / xác nhận
+Native controller text fits action picker True/True / Text / Giữ / thả dụng cụ
+Native controller text fits action picker True/True / Text / Mở menu
+Native controller text fits action picker True/True / Text / Căn lại phía trước
+Native controller text fits action picker True/True / Text / Quay lại / hủy
+Native controller text fits action picker True/True / Controller assignment message / 
+Native controller text fits action picker True/True / Text / Quay lại hình tay cầm
+Each configurable action is present: Select
+Each configurable action is present: Grip
+Each configurable action is present: Menu
+Each configurable action is present: Recenter
+Each configurable action is present: Back
+Native controller text fits controller help 0/True/True / Text / Dùng tay cầm
+Native controller text fits controller help 0/True/True / Text / Thao tác
+Native controller text fits controller help 0/True/True / Text / Kết nối
+Native controller text fits controller help 0/True/True / Text / Hiệu chỉnh
+Native controller text fits controller help 0/True/True / Text / Trên màn hình: cần trái di chuyển con trỏ; cần phải xoay góc nhìn trong lab. Khi đeo kính: hướng nhìn điều khiển con trỏ.
+
+Trong Gán nút, chọn chức năng Chọn, Giữ, Menu, Căn lại hoặc Quay lại rồi Áp dụng. Thả nút trước khi dùng cấu hình mới. Ngắt kết nối sẽ dừng thao tác đang giữ.
+
+Trigger được dùng như nút theo ngưỡng trên tay cầm HID. Dữ liệu analog và hướng của tay cầm BLE riêng cần đúng giao thức firmware.
+Native controller text fits controller help 0/True/True / Text / Trang trước
+Native controller text fits controller help 0/True/True / Text / Trang sau
+Native controller text fits controller help 0/True/True / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 1/True/True / Text / Dùng tay cầm
+Native controller text fits controller help 1/True/True / Text / Thao tác
+Native controller text fits controller help 1/True/True / Text / Kết nối
+Native controller text fits controller help 1/True/True / Text / Hiệu chỉnh
+Native controller text fits controller help 1/True/True / Text / Tay cầm trong tài liệu dự án: thả các nút, đặt hai tay phẳng; bật tay trái trước rồi tay phải. Tay phải là cổng BLE tên VLAB CONTROLLER; điện thoại không cần tìm hai thiết bị.
+
+Mở Bluetooth để ghép đôi. Saved / Đã lưu chưa có nghĩa đang kết nối và có dữ liệu. Với tay cầm HID, trở lại app và bấm nút để dùng; tên thiết bị nhận được hiện trong Cài đặt.
+
+Firmware BLE riêng chưa được xác minh khi chưa có UUID và định dạng gói. Điện thoại và Cardboard vẫn dùng được khi chưa có tay cầm.
+Native controller text fits controller help 1/True/True / Text / Trang trước
+Native controller text fits controller help 1/True/True / Text / Trang sau
+Native controller text fits controller help 1/True/True / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 2/True/True / Text / Dùng tay cầm
+Native controller text fits controller help 2/True/True / Text / Thao tác
+Native controller text fits controller help 2/True/True / Text / Kết nối
+Native controller text fits controller help 2/True/True / Text / Hiệu chỉnh
+Native controller text fits controller help 2/True/True / Text / Chỉ dùng các tổ hợp sau nếu tay cầm chạy đúng firmware trong hướng dẫn dự án:
+
+Joystick: giữ A+B 3 giây rồi thả; để trung tâm 2,5 giây, sau đó đi hết bốn hướng và vòng biên trong 8 giây. Thả về giữa.
+
+Trigger: giữ GRIP + nhấn cần 3 giây rồi thả; không bóp trong 2,5 giây đầu, sau đó bóp hết hành trình tới khoảng giây thứ 6. Thả và thử mức trung gian.
+
+Hướng tay cầm: giữ MENU+GRIP 2 giây. Đây khác với Căn lại kính VR. App không tự gửi lệnh hiệu chỉnh khi chưa biết giao thức.
+Native controller text fits controller help 2/True/True / Text / Trang trước
+Native controller text fits controller help 2/True/True / Text / Trang sau
+Native controller text fits controller help 2/True/True / Text / Quay lại gán nút
+Long controller instructions remain reachable through VR page controls
+Native controller text fits mapping False/False / Text / Controller buttons
+Native controller text fits mapping False/False / Text / Choose a button on the image or its callout, then assign an action. Apply in Settings to save.
+Native controller text fits mapping False/False / Text / Left hand
+Native controller text fits mapping False/False / Text / Right hand
+Native controller text fits mapping False/False / Text / Front
+Native controller text fits mapping False/False / Text / Side
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / A
+Native controller text fits mapping False/False / Controller assigned action / Select / confirm
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / B
+Native controller text fits mapping False/False / Controller assigned action / Back / cancel
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / MENU
+Native controller text fits mapping False/False / Controller assigned action / Open menu
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / GRIP
+Native controller text fits mapping False/False / Controller assigned action / Hold / release
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / Trigger
+Native controller text fits mapping False/False / Controller assigned action / Unassigned
+Native controller text fits mapping False/False / Text / 
+Native controller text fits mapping False/False / Text / Stick press
+Native controller text fits mapping False/False / Controller assigned action / Unassigned
+Native controller text fits mapping False/False / Controller mapping scope / Illustration · Standard HID mappings. Custom BLE is unverified.
+Native controller text fits mapping False/False / Text / Default buttons
+Native controller text fits mapping False/False / Text / Controller help
+Native controller text fits mapping False/False / Text / Back to Settings
+Actual transparent controller illustration is loaded
+Large physical button target available 4
+Large physical button target available 5
+Large physical button target available 2
+Large physical button target available 8
+Large physical button target available 10
+Large physical button target available 12
+Native controller text fits action picker False/False / Text / LB · left shoulder
+Native controller text fits action picker False/False / Text / Choose this button's action. An existing assignment is swapped when possible.
+Native controller text fits action picker False/False / Text / Select / confirm
+Native controller text fits action picker False/False / Text / Hold / release equipment
+Native controller text fits action picker False/False / Text / Open menu
+Native controller text fits action picker False/False / Text / Recenter ahead
+Native controller text fits action picker False/False / Text / Back / cancel
+Native controller text fits action picker False/False / Controller assignment message / 
+Native controller text fits action picker False/False / Text / Back to controller
+Each configurable action is present: Select
+Each configurable action is present: Grip
+Each configurable action is present: Menu
+Each configurable action is present: Recenter
+Each configurable action is present: Back
+Native controller text fits controller help 0/False/False / Text / Using the controller
+Native controller text fits controller help 0/False/False / Text / Controls
+Native controller text fits controller help 0/False/False / Text / Connection
+Native controller text fits controller help 0/False/False / Text / Calibration
+Native controller text fits controller help 0/False/False / Text / On screen: left stick moves the pointer; right stick looks around the lab. In a viewer, head direction points.
+
+Choose Select, Grip, Menu, Recenter or Back in Button mapping, then Apply. Release controls before using a new mapping. Disconnect cancels an active hold.
+
+HID triggers use a button threshold. Custom BLE analog and orientation data require the matching firmware protocol.
+Native controller text fits controller help 0/False/False / Text / Page up
+Native controller text fits controller help 0/False/False / Text / Page down
+Native controller text fits controller help 0/False/False / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 1/False/False / Text / Using the controller
+Native controller text fits controller help 1/False/False / Text / Controls
+Native controller text fits controller help 1/False/False / Text / Connection
+Native controller text fits controller help 1/False/False / Text / Calibration
+Native controller text fits controller help 1/False/False / Text / For the project's controller: release controls, rest both hands flat, power the left hand before the right. The right hand is the single BLE gateway named VLAB CONTROLLER.
+
+Pair in Bluetooth Settings. Saved does not prove a live connection or data. For HID, return and press a controller button; Settings shows the detected name.
+
+Custom BLE firmware requires verified UUIDs and packet format. Phone and Cardboard remain available without a controller.
+Native controller text fits controller help 1/False/False / Text / Page up
+Native controller text fits controller help 1/False/False / Text / Page down
+Native controller text fits controller help 1/False/False / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 2/False/False / Text / Using the controller
+Native controller text fits controller help 2/False/False / Text / Controls
+Native controller text fits controller help 2/False/False / Text / Connection
+Native controller text fits controller help 2/False/False / Text / Calibration
+Native controller text fits controller help 2/False/False / Text / Use these combinations only with the firmware described in the project manual:
+
+Joystick: hold A+B for 3 s, release; stay neutral for 2.5 s, then cover all four directions and the rim for 8 s. Return to centre.
+
+Trigger: hold GRIP + stick-click for 3 s, release; no squeeze for 2.5 s, then squeeze fully until about 6 s. Release and test intermediate values.
+
+Controller heading: hold MENU+GRIP for 2 s. This differs from recentering the VR viewer. No calibration command is sent without a defined protocol.
+Native controller text fits controller help 2/False/False / Text / Page up
+Native controller text fits controller help 2/False/False / Text / Page down
+Native controller text fits controller help 2/False/False / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits mapping False/True / Text / Controller buttons
+Native controller text fits mapping False/True / Text / Choose a button on the image or its callout, then assign an action. Apply in Settings to save.
+Native controller text fits mapping False/True / Text / Left hand
+Native controller text fits mapping False/True / Text / Right hand
+Native controller text fits mapping False/True / Text / Front
+Native controller text fits mapping False/True / Text / Side
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / A
+Native controller text fits mapping False/True / Controller assigned action / Select / confirm
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / B
+Native controller text fits mapping False/True / Controller assigned action / Back / cancel
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / MENU
+Native controller text fits mapping False/True / Controller assigned action / Open menu
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / GRIP
+Native controller text fits mapping False/True / Controller assigned action / Hold / release
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / Trigger
+Native controller text fits mapping False/True / Controller assigned action / Unassigned
+Native controller text fits mapping False/True / Text / 
+Native controller text fits mapping False/True / Text / Stick press
+Native controller text fits mapping False/True / Controller assigned action / Unassigned
+Native controller text fits mapping False/True / Controller mapping scope / Illustration · Standard HID mappings. Custom BLE is unverified.
+Native controller text fits mapping False/True / Text / Default buttons
+Native controller text fits mapping False/True / Text / Controller help
+Native controller text fits mapping False/True / Text / Back to Settings
+Actual transparent controller illustration is loaded
+Large physical button target available 4
+Large physical button target available 5
+Large physical button target available 2
+Large physical button target available 8
+Large physical button target available 10
+Large physical button target available 12
+Native controller text fits action picker False/True / Text / LB · left shoulder
+Native controller text fits action picker False/True / Text / Choose this button's action. An existing assignment is swapped when possible.
+Native controller text fits action picker False/True / Text / Select / confirm
+Native controller text fits action picker False/True / Text / Hold / release equipment
+Native controller text fits action picker False/True / Text / Open menu
+Native controller text fits action picker False/True / Text / Recenter ahead
+Native controller text fits action picker False/True / Text / Back / cancel
+Native controller text fits action picker False/True / Controller assignment message / 
+Native controller text fits action picker False/True / Text / Back to controller
+Each configurable action is present: Select
+Each configurable action is present: Grip
+Each configurable action is present: Menu
+Each configurable action is present: Recenter
+Each configurable action is present: Back
+Native controller text fits controller help 0/False/True / Text / Using the controller
+Native controller text fits controller help 0/False/True / Text / Controls
+Native controller text fits controller help 0/False/True / Text / Connection
+Native controller text fits controller help 0/False/True / Text / Calibration
+Native controller text fits controller help 0/False/True / Text / On screen: left stick moves the pointer; right stick looks around the lab. In a viewer, head direction points.
+
+Choose Select, Grip, Menu, Recenter or Back in Button mapping, then Apply. Release controls before using a new mapping. Disconnect cancels an active hold.
+
+HID triggers use a button threshold. Custom BLE analog and orientation data require the matching firmware protocol.
+Native controller text fits controller help 0/False/True / Text / Page up
+Native controller text fits controller help 0/False/True / Text / Page down
+Native controller text fits controller help 0/False/True / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 1/False/True / Text / Using the controller
+Native controller text fits controller help 1/False/True / Text / Controls
+Native controller text fits controller help 1/False/True / Text / Connection
+Native controller text fits controller help 1/False/True / Text / Calibration
+Native controller text fits controller help 1/False/True / Text / For the project's controller: release controls, rest both hands flat, power the left hand before the right. The right hand is the single BLE gateway named VLAB CONTROLLER.
+
+Pair in Bluetooth Settings. Saved does not prove a live connection or data. For HID, return and press a controller button; Settings shows the detected name.
+
+Custom BLE firmware requires verified UUIDs and packet format. Phone and Cardboard remain available without a controller.
+Native controller text fits controller help 1/False/True / Text / Page up
+Native controller text fits controller help 1/False/True / Text / Page down
+Native controller text fits controller help 1/False/True / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Native controller text fits controller help 2/False/True / Text / Using the controller
+Native controller text fits controller help 2/False/True / Text / Controls
+Native controller text fits controller help 2/False/True / Text / Connection
+Native controller text fits controller help 2/False/True / Text / Calibration
+Native controller text fits controller help 2/False/True / Text / Use these combinations only with the firmware described in the project manual:
+
+Joystick: hold A+B for 3 s, release; stay neutral for 2.5 s, then cover all four directions and the rim for 8 s. Return to centre.
+
+Trigger: hold GRIP + stick-click for 3 s, release; no squeeze for 2.5 s, then squeeze fully until about 6 s. Release and test intermediate values.
+
+Controller heading: hold MENU+GRIP for 2 s. This differs from recentering the VR viewer. No calibration command is sent without a defined protocol.
+Native controller text fits controller help 2/False/True / Text / Page up
+Native controller text fits controller help 2/False/True / Text / Page down
+Native controller text fits controller help 2/False/True / Text / Back to button mapping
+Long controller instructions remain reachable through VR page controls
+Side angle exposes only trigger and grip
+Direct image hotspot opens the function picker
+Returning from picker preserves hand and view
+Mapping edits remain a conflict-free draft
+Controller Back requests a decision for unapplied button changes
+Cancelling button edits preserves every stored learner field
+Applied controller bindings reopen from the actual local profile
+Controller mapping review restores original preferences and all scientific records
+Three illustrated safety instructions True/False
+Safety illustrations do not intercept input True/False
+Safety text fits True/False 1 · Dọn khoảng trống
+Safety text fits True/False Dọn khoảng trống quanh bạn. Ngồi hoặc đứng ổn định.
+Safety text fits True/False 2 · Cố định điện thoại và kính
+Safety text fits True/False Cố định điện thoại và kính. Chỉnh kính trước khi bắt đầu.
+Safety text fits True/False 3 · Nghỉ khi khó chịu
+Safety text fits True/False Dừng và nghỉ nếu chóng mặt hoặc khó chịu.
+Three illustrated safety instructions True/True
+Safety illustrations do not intercept input True/True
+Safety text fits True/True 1 · Dọn khoảng trống
+Safety text fits True/True Dọn khoảng trống quanh bạn. Ngồi hoặc đứng ổn định.
+Safety text fits True/True 2 · Cố định điện thoại và kính
+Safety text fits True/True Cố định điện thoại và kính. Chỉnh kính trước khi bắt đầu.
+Safety text fits True/True 3 · Nghỉ khi khó chịu
+Safety text fits True/True Dừng và nghỉ nếu chóng mặt hoặc khó chịu.
+Three illustrated safety instructions False/False
+Safety illustrations do not intercept input False/False
+Safety text fits False/False 1 · Clear your space
+Safety text fits False/False Clear the space around you. Sit or stand securely.
+Safety text fits False/False 2 · Secure your phone and viewer
+Safety text fits False/False Secure your phone and viewer. Adjust the viewer before starting.
+Safety text fits False/False 3 · Take a break
+Safety text fits False/False Stop and take a break if you feel dizzy or uncomfortable.
+Three illustrated safety instructions False/True
+Safety illustrations do not intercept input False/True
+Safety text fits False/True 1 · Clear your space
+Safety text fits False/True Clear the space around you. Sit or stand securely.
+Safety text fits False/True 2 · Secure your phone and viewer
+Safety text fits False/True Secure your phone and viewer. Adjust the viewer before starting.
+Safety text fits False/True 3 · Take a break
+Safety text fits False/True Stop and take a break if you feel dizzy or uncomfortable.
+Actual safety screen contains all three illustrated instructions
+Reviewing illustrated safety preserves consent, records and settings
+Readiness metadata covers all selected lessons
+P01 has concise bilingual readiness copy
+P01 setup uses its actual first preparation
+P02 has concise bilingual readiness copy
+P02 setup uses its actual first preparation
+P03 has concise bilingual readiness copy
+P03 setup uses its actual first preparation
+P04 has concise bilingual readiness copy
+P04 setup uses its actual first preparation
+P05 has concise bilingual readiness copy
+P05 setup uses its actual first preparation
+P06 has concise bilingual readiness copy
+P06 setup uses its actual first preparation
+P07 has concise bilingual readiness copy
+P07 setup uses its actual first preparation
+P08 has concise bilingual readiness copy
+P08 setup uses its actual first preparation
+C01 has concise bilingual readiness copy
+C01 setup uses its actual first preparation
+C02 has concise bilingual readiness copy
+C02 setup uses its actual first preparation
+C03 has concise bilingual readiness copy
+C03 setup uses its actual first preparation
+C04 has concise bilingual readiness copy
+C04 setup uses its actual first preparation
+C05 has concise bilingual readiness copy
+C05 setup uses its actual first preparation
+C06 has concise bilingual readiness copy
+C06 setup uses its actual first preparation
+C07 has concise bilingual readiness copy
+C07 setup uses its actual first preparation
+C08 has concise bilingual readiness copy
+C08 setup uses its actual first preparation
+B01 has concise bilingual readiness copy
+B01 setup uses its actual first preparation
+B02 has concise bilingual readiness copy
+B02 setup uses its actual first preparation
+B03 has concise bilingual readiness copy
+B03 setup uses its actual first preparation
+B04 has concise bilingual readiness copy
+B04 setup uses its actual first preparation
+B05 has concise bilingual readiness copy
+B05 setup uses its actual first preparation
+B06 has concise bilingual readiness copy
+B06 setup uses its actual first preparation
+B07 has concise bilingual readiness copy
+B07 setup uses its actual first preparation
+B08 has concise bilingual readiness copy
+B08 setup uses its actual first preparation
+M01 has concise bilingual readiness copy
+M01 setup uses its actual first preparation
+M02 has concise bilingual readiness copy
+M02 setup uses its actual first preparation
+M03 has concise bilingual readiness copy
+M03 setup uses its actual first preparation
+M04 has concise bilingual readiness copy
+M04 setup uses its actual first preparation
+M05 has concise bilingual readiness copy
+M05 setup uses its actual first preparation
+M06 has concise bilingual readiness copy
+M06 setup uses its actual first preparation
+M07 has concise bilingual readiness copy
+M07 setup uses its actual first preparation
+M08 has concise bilingual readiness copy
+M08 setup uses its actual first preparation
+Lesson-specific readiness route opens
+Readiness uses a natural lesson title
+Readiness has a concise selected-lesson goal
+Readiness never exposes experiment IDs
+Readiness has three illustrated setup tiles and no scrolling wall
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Readiness title
+Readiness text fits: Readiness goal
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Readiness text fits: Text
+Native loading screen exposes Cancel before creating a lesson
+Cancellation communicates waiting for native IO
+Cancelled native load settles once and returns safely to browser
+Duplicate load cannot replace the active native request
+Cancelled entry creates no attempt and preserves the saved checkpoint
+Unavailable scene has an explicit recoverable problem page
+Retry re-enters the actual missing-scene check without a lesson
+Load-error Back retains the selected lesson
+Selection is retained without exposing a lesson code
+Plan-flow checks leave the product at Home without fabricating measurements
+Room branding does not duplicate on repeated adoption
+Room has one repaired primary wall identity
+Room branding adds at most one transparent entrance mark
+Known room lettering and separate backing board are present
+Home hides competing wall lettering while preserving the room board
+Leaving Home retains only localized lettering and preserves the board
+Room has exactly one legible localized laboratory name
+Live room language changes the single laboratory title: EN
+Localized room title contains all native font glyphs
+Localized room title remains centred inside the supplied board: EN
+Live room language changes the single laboratory title: VI
+Localized room title contains all native font glyphs
+Localized room title remains centred inside the supplied board: VI
+Changing locale while branding is hidden does not expose it in a photograph or Home
+VLAB repaired wall identity is attached to a known scene surface
+VLAB repaired wall identity adds no collider or interaction target
+VLAB repaired wall identity has exactly one original logo and no added backing
+VLAB repaired wall identity / Original VLAB artwork uses a supported retained URP shader
+VLAB repaired wall identity / Original VLAB artwork has visible nondegenerate bounds
+VLAB repaired wall identity uses original texture and untinted pixels
+VLAB repaired wall identity has no solid-colour background material
+VLAB repaired wall identity preserves original texture dimensions
+VLAB repaired wall identity original PNG has transparent surrounding pixels
+VLAB repaired wall identity uses the supplied white wordmark rather than the black variant
+VLAB repaired wall identity original white PNG is byte-identical to supplied banner white.png
+VLAB repaired wall identity keeps cropped artwork UVs inside original pixels
+Legacy icon and wordmark cannot double the repaired logo
+Primary white banner aligns above the existing room-name board
+White banner pixels clear both the actual ceiling grid and the room-name board
+VLAB entrance brand mark is attached to a known scene surface
+VLAB entrance brand mark adds no collider or interaction target
+VLAB entrance brand mark has exactly one original logo and no added backing
+VLAB entrance brand mark / Original VLAB artwork uses a supported retained URP shader
+VLAB entrance brand mark / Original VLAB artwork has visible nondegenerate bounds
+VLAB entrance brand mark uses original texture and untinted pixels
+VLAB entrance brand mark has no solid-colour background material
+VLAB entrance brand mark preserves original texture dimensions
+VLAB entrance brand mark original PNG has transparent surrounding pixels
+VLAB entrance brand mark uses the supplied white wordmark rather than the black variant
+VLAB entrance brand mark original white PNG is byte-identical to supplied banner white.png
+VLAB entrance brand mark keeps cropped artwork UVs inside original pixels
+Transparent entrance mark remains on its known wall
+Focused lab has a visible outline with reduced motion: Subject P
+Reduced-motion lab focus does not enlarge the card: Subject P
+Lab focus outline resets on exit: Subject P
+Focused lab has a visible outline with reduced motion: Subject C
+Reduced-motion lab focus does not enlarge the card: Subject C
+Lab focus outline resets on exit: Subject C
+Focused lab has a visible outline with reduced motion: Subject B
+Reduced-motion lab focus does not enlarge the card: Subject B
+Lab focus outline resets on exit: Subject B
+Focused lab has a visible outline with reduced motion: Subject M
+Reduced-motion lab focus does not enlarge the card: Subject M
+Lab focus outline resets on exit: Subject M
+Home review begins in Vietnamese simulator after plan flow
+Resting Home uses a capture from the current project's room
+Home background is its actual current-project wide room photograph
+Original transparent VLAB wordmark is centred at logical x800
+Home has no redundant laboratory-selection heading
+Home title font is an installed Vietnamese-capable bold face
+P card has the same upright baseline plane and logical size
+P complete card stays inside the native view
+P science shape is an opaque native vector mesh without a bitmap
+P full box border is replaced by a native open frame
+P portrait silhouette retains its bounds and follows saved panel opacity
+Native plate retains its opaque title field 0
+Native science contour removes plate triangles rather than painting over them 0
+Lower-right card surface does not return behind the overflowing figure 0
+Plate contains substantial real negative space and a usable body 0
+P lower-right rectangular outline is cut away behind the figure
+P drawn scientific shape crosses the right and bottom frame
+P silhouette overflow stays within half the nominal card gap
+P scientific silhouette remains unclipped
+P card contains only its title and vector elements
+P title uses the actual new bold face without synthetic emboldening
+P title is top-aligned and horizontally centred near the upper edge
+P VI normal title fits its actual TMP rectangle
+P EN normal title fits its actual TMP rectangle
+P VI large title fits its actual TMP rectangle
+P EN large title fits its actual TMP rectangle
+C card has the same upright baseline plane and logical size
+C complete card stays inside the native view
+C science shape is an opaque native vector mesh without a bitmap
+C full box border is replaced by a native open frame
+C portrait silhouette retains its bounds and follows saved panel opacity
+Native plate retains its opaque title field 1
+Native science contour removes plate triangles rather than painting over them 1
+Lower-right card surface does not return behind the overflowing figure 1
+Plate contains substantial real negative space and a usable body 1
+C lower-right rectangular outline is cut away behind the figure
+C drawn scientific shape crosses the right and bottom frame
+C silhouette overflow stays within half the nominal card gap
+C scientific silhouette remains unclipped
+C card contains only its title and vector elements
+C title uses the actual new bold face without synthetic emboldening
+C title is top-aligned and horizontally centred near the upper edge
+C VI normal title fits its actual TMP rectangle
+C EN normal title fits its actual TMP rectangle
+C VI large title fits its actual TMP rectangle
+C EN large title fits its actual TMP rectangle
+B card has the same upright baseline plane and logical size
+B complete card stays inside the native view
+B science shape is an opaque native vector mesh without a bitmap
+B full box border is replaced by a native open frame
+B portrait silhouette retains its bounds and follows saved panel opacity
+Native plate retains its opaque title field 2
+Native science contour removes plate triangles rather than painting over them 2
+Lower-right card surface does not return behind the overflowing figure 2
+Plate contains substantial real negative space and a usable body 2
+B lower-right rectangular outline is cut away behind the figure
+B drawn scientific shape crosses the right and bottom frame
+B silhouette overflow stays within half the nominal card gap
+B scientific silhouette remains unclipped
+B card contains only its title and vector elements
+B title uses the actual new bold face without synthetic emboldening
+B title is top-aligned and horizontally centred near the upper edge
+B VI normal title fits its actual TMP rectangle
+B EN normal title fits its actual TMP rectangle
+B VI large title fits its actual TMP rectangle
+B EN large title fits its actual TMP rectangle
+M card has the same upright baseline plane and logical size
+M complete card stays inside the native view
+M science shape is an opaque native vector mesh without a bitmap
+M full box border is replaced by a native open frame
+M portrait silhouette retains its bounds and follows saved panel opacity
+Native plate retains its opaque title field 3
+Native science contour removes plate triangles rather than painting over them 3
+Lower-right card surface does not return behind the overflowing figure 3
+Plate contains substantial real negative space and a usable body 3
+M lower-right rectangular outline is cut away behind the figure
+M drawn scientific shape crosses the right and bottom frame
+M silhouette overflow stays within half the nominal card gap
+M scientific silhouette remains unclipped
+M card contains only its title and vector elements
+M title uses the actual new bold face without synthetic emboldening
+M title is top-aligned and horizontally centred near the upper edge
+M VI normal title fits its actual TMP rectangle
+M EN normal title fits its actual TMP rectangle
+M VI large title fits its actual TMP rectangle
+M EN large title fits its actual TMP rectangle
+All four resting cards have equal projected top edges, bottom edges and height
+Centred uniform circular Home utility Cài đặt
+Utility has an84px circle and a separate readable label Cài đặt
+Utility label fits below its circle Cài đặt
+Cài đặt normal fits its actual TMP rectangle
+Cài đặt large fits its actual TMP rectangle
+Centred uniform circular Home utility Trợ giúp
+Utility has an84px circle and a separate readable label Trợ giúp
+Utility label fits below its circle Trợ giúp
+Trợ giúp normal fits its actual TMP rectangle
+Trợ giúp large fits its actual TMP rectangle
+Centred uniform circular Home utility Giới thiệu
+Utility has an84px circle and a separate readable label Giới thiệu
+Utility label fits below its circle Giới thiệu
+Giới thiệu normal fits its actual TMP rectangle
+Giới thiệu large fits its actual TMP rectangle
+Centred uniform circular Home utility Sổ tay
+Utility has an84px circle and a separate readable label Sổ tay
+Utility label fits below its circle Sổ tay
+Sổ tay normal fits its actual TMP rectangle
+Sổ tay large fits its actual TMP rectangle
+Notebook is the fourth circular utility without a duplicate lower row
+Home omits the removed continue-lesson button
+Four upright Home cards have positive balanced projected gaps
+P spacing samples the actual rendered vector vertices
+P vector keeps eight logical pixels clear of the next portal
+C spacing samples the actual rendered vector vertices
+C vector keeps eight logical pixels clear of the next portal
+B spacing samples the actual rendered vector vertices
+B vector keeps eight logical pixels clear of the next portal
+Fresh Home VR sample 11000
+VR focus strengthens the actual opaque vector frame P
+Real VR hover tints the inside without fading the figure P
+Hover respects gentle growth and reduced motion P
+Home focus uses a capture of the actual current-project Physics room
+Fresh Home VR sample 11001
+Fresh Home VR sample 11002
+Actual VR ray opens Vật lí through portal animation
+Selected browser retains its matching current-project room capture P
+Browser exposes all eight lessons of the ray-selected subject P
+Browser offers a labelled actual-room photo without another scene load P
+P01 VI normal browser grid title/status fits its actual TMP rectangle
+P01 VI normal browser detail title fits its actual TMP rectangle
+P01 VI normal browser detail goal fits its actual TMP rectangle
+P01 VI large browser grid title/status fits its actual TMP rectangle
+P01 VI large browser detail title fits its actual TMP rectangle
+P01 VI large browser detail goal fits its actual TMP rectangle
+P01 EN normal browser grid title/status fits its actual TMP rectangle
+P01 EN normal browser detail title fits its actual TMP rectangle
+P01 EN normal browser detail goal fits its actual TMP rectangle
+P01 EN large browser grid title/status fits its actual TMP rectangle
+P01 EN large browser detail title fits its actual TMP rectangle
+P01 EN large browser detail goal fits its actual TMP rectangle
+P02 VI normal browser grid title/status fits its actual TMP rectangle
+P02 VI normal browser detail title fits its actual TMP rectangle
+P02 VI normal browser detail goal fits its actual TMP rectangle
+P02 VI large browser grid title/status fits its actual TMP rectangle
+P02 VI large browser detail title fits its actual TMP rectangle
+P02 VI large browser detail goal fits its actual TMP rectangle
+P02 EN normal browser grid title/status fits its actual TMP rectangle
+P02 EN normal browser detail title fits its actual TMP rectangle
+P02 EN normal browser detail goal fits its actual TMP rectangle
+P02 EN large browser grid title/status fits its actual TMP rectangle
+P02 EN large browser detail title fits its actual TMP rectangle
+P02 EN large browser detail goal fits its actual TMP rectangle
+P03 VI normal browser grid title/status fits its actual TMP rectangle
+P03 VI normal browser detail title fits its actual TMP rectangle
+P03 VI normal browser detail goal fits its actual TMP rectangle
+P03 VI large browser grid title/status fits its actual TMP rectangle
+P03 VI large browser detail title fits its actual TMP rectangle
+P03 VI large browser detail goal fits its actual TMP rectangle
+P03 EN normal browser grid title/status fits its actual TMP rectangle
+P03 EN normal browser detail title fits its actual TMP rectangle
+P03 EN normal browser detail goal fits its actual TMP rectangle
+P03 EN large browser grid title/status fits its actual TMP rectangle
+P03 EN large browser detail title fits its actual TMP rectangle
+P03 EN large browser detail goal fits its actual TMP rectangle
+P04 VI normal browser grid title/status fits its actual TMP rectangle
+P04 VI normal browser detail title fits its actual TMP rectangle
+P04 VI normal browser detail goal fits its actual TMP rectangle
+P04 VI large browser grid title/status fits its actual TMP rectangle
+P04 VI large browser detail title fits its actual TMP rectangle
+P04 VI large browser detail goal fits its actual TMP rectangle
+P04 EN normal browser grid title/status fits its actual TMP rectangle
+P04 EN normal browser detail title fits its actual TMP rectangle
+P04 EN normal browser detail goal fits its actual TMP rectangle
+P04 EN large browser grid title/status fits its actual TMP rectangle
+P04 EN large browser detail title fits its actual TMP rectangle
+P04 EN large browser detail goal fits its actual TMP rectangle
+P05 VI normal browser grid title/status fits its actual TMP rectangle
+P05 VI normal browser detail title fits its actual TMP rectangle
+P05 VI normal browser detail goal fits its actual TMP rectangle
+P05 VI large browser grid title/status fits its actual TMP rectangle
+P05 VI large browser detail title fits its actual TMP rectangle
+P05 VI large browser detail goal fits its actual TMP rectangle
+P05 EN normal browser grid title/status fits its actual TMP rectangle
+P05 EN normal browser detail title fits its actual TMP rectangle
+P05 EN normal browser detail goal fits its actual TMP rectangle
+P05 EN large browser grid title/status fits its actual TMP rectangle
+P05 EN large browser detail title fits its actual TMP rectangle
+P05 EN large browser detail goal fits its actual TMP rectangle
+P06 VI normal browser grid title/status fits its actual TMP rectangle
+P06 VI normal browser detail title fits its actual TMP rectangle
+P06 VI normal browser detail goal fits its actual TMP rectangle
+P06 VI large browser grid title/status fits its actual TMP rectangle
+P06 VI large browser detail title fits its actual TMP rectangle
+P06 VI large browser detail goal fits its actual TMP rectangle
+P06 EN normal browser grid title/status fits its actual TMP rectangle
+P06 EN normal browser detail title fits its actual TMP rectangle
+P06 EN normal browser detail goal fits its actual TMP rectangle
+P06 EN large browser grid title/status fits its actual TMP rectangle
+P06 EN large browser detail title fits its actual TMP rectangle
+P06 EN large browser detail goal fits its actual TMP rectangle
+P07 VI normal browser grid title/status fits its actual TMP rectangle
+P07 VI normal browser detail title fits its actual TMP rectangle
+P07 VI normal browser detail goal fits its actual TMP rectangle
+P07 VI large browser grid title/status fits its actual TMP rectangle
+P07 VI large browser detail title fits its actual TMP rectangle
+P07 VI large browser detail goal fits its actual TMP rectangle
+P07 EN normal browser grid title/status fits its actual TMP rectangle
+P07 EN normal browser detail title fits its actual TMP rectangle
+P07 EN normal browser detail goal fits its actual TMP rectangle
+P07 EN large browser grid title/status fits its actual TMP rectangle
+P07 EN large browser detail title fits its actual TMP rectangle
+P07 EN large browser detail goal fits its actual TMP rectangle
+P08 VI normal browser grid title/status fits its actual TMP rectangle
+P08 VI normal browser detail title fits its actual TMP rectangle
+P08 VI normal browser detail goal fits its actual TMP rectangle
+P08 VI large browser grid title/status fits its actual TMP rectangle
+P08 VI large browser detail title fits its actual TMP rectangle
+P08 VI large browser detail goal fits its actual TMP rectangle
+P08 EN normal browser grid title/status fits its actual TMP rectangle
+P08 EN normal browser detail title fits its actual TMP rectangle
+P08 EN normal browser detail goal fits its actual TMP rectangle
+P08 EN large browser grid title/status fits its actual TMP rectangle
+P08 EN large browser detail title fits its actual TMP rectangle
+P08 EN large browser detail goal fits its actual TMP rectangle
+Real browser Home callback restores four cards
+Fresh Home VR sample 11003
+VR focus strengthens the actual opaque vector frame C
+Real VR hover tints the inside without fading the figure C
+Hover respects gentle growth and reduced motion C
+Home focus uses a capture of the actual current-project Chemistry room
+Fresh Home VR sample 11004
+Fresh Home VR sample 11005
+Actual VR ray opens Hóa học through portal animation
+Selected browser retains its matching current-project room capture C
+Browser exposes all eight lessons of the ray-selected subject C
+Browser offers a labelled actual-room photo without another scene load C
+C01 VI normal browser grid title/status fits its actual TMP rectangle
+C01 VI normal browser detail title fits its actual TMP rectangle
+C01 VI normal browser detail goal fits its actual TMP rectangle
+C01 VI large browser grid title/status fits its actual TMP rectangle
+C01 VI large browser detail title fits its actual TMP rectangle
+C01 VI large browser detail goal fits its actual TMP rectangle
+C01 EN normal browser grid title/status fits its actual TMP rectangle
+C01 EN normal browser detail title fits its actual TMP rectangle
+C01 EN normal browser detail goal fits its actual TMP rectangle
+C01 EN large browser grid title/status fits its actual TMP rectangle
+C01 EN large browser detail title fits its actual TMP rectangle
+C01 EN large browser detail goal fits its actual TMP rectangle
+C02 VI normal browser grid title/status fits its actual TMP rectangle
+C02 VI normal browser detail title fits its actual TMP rectangle
+C02 VI normal browser detail goal fits its actual TMP rectangle
+C02 VI large browser grid title/status fits its actual TMP rectangle
+C02 VI large browser detail title fits its actual TMP rectangle
+C02 VI large browser detail goal fits its actual TMP rectangle
+C02 EN normal browser grid title/status fits its actual TMP rectangle
+C02 EN normal browser detail title fits its actual TMP rectangle
+C02 EN normal browser detail goal fits its actual TMP rectangle
+C02 EN large browser grid title/status fits its actual TMP rectangle
+C02 EN large browser detail title fits its actual TMP rectangle
+C02 EN large browser detail goal fits its actual TMP rectangle
+C03 VI normal browser grid title/status fits its actual TMP rectangle
+C03 VI normal browser detail title fits its actual TMP rectangle
+C03 VI normal browser detail goal fits its actual TMP rectangle
+C03 VI large browser grid title/status fits its actual TMP rectangle
+C03 VI large browser detail title fits its actual TMP rectangle
+C03 VI large browser detail goal fits its actual TMP rectangle
+C03 EN normal browser grid title/status fits its actual TMP rectangle
+C03 EN normal browser detail title fits its actual TMP rectangle
+C03 EN normal browser detail goal fits its actual TMP rectangle
+C03 EN large browser grid title/status fits its actual TMP rectangle
+C03 EN large browser detail title fits its actual TMP rectangle
+C03 EN large browser detail goal fits its actual TMP rectangle
+C04 VI normal browser grid title/status fits its actual TMP rectangle
+C04 VI normal browser detail title fits its actual TMP rectangle
+C04 VI normal browser detail goal fits its actual TMP rectangle
+C04 VI large browser grid title/status fits its actual TMP rectangle
+C04 VI large browser detail title fits its actual TMP rectangle
+C04 VI large browser detail goal fits its actual TMP rectangle
+C04 EN normal browser grid title/status fits its actual TMP rectangle
+C04 EN normal browser detail title fits its actual TMP rectangle
+C04 EN normal browser detail goal fits its actual TMP rectangle
+C04 EN large browser grid title/status fits its actual TMP rectangle
+C04 EN large browser detail title fits its actual TMP rectangle
+C04 EN large browser detail goal fits its actual TMP rectangle
+C05 VI normal browser grid title/status fits its actual TMP rectangle
+C05 VI normal browser detail title fits its actual TMP rectangle
+C05 VI normal browser detail goal fits its actual TMP rectangle
+C05 VI large browser grid title/status fits its actual TMP rectangle
+C05 VI large browser detail title fits its actual TMP rectangle
+C05 VI large browser detail goal fits its actual TMP rectangle
+C05 EN normal browser grid title/status fits its actual TMP rectangle
+C05 EN normal browser detail title fits its actual TMP rectangle
+C05 EN normal browser detail goal fits its actual TMP rectangle
+C05 EN large browser grid title/status fits its actual TMP rectangle
+C05 EN large browser detail title fits its actual TMP rectangle
+C05 EN large browser detail goal fits its actual TMP rectangle
+C06 VI normal browser grid title/status fits its actual TMP rectangle
+C06 VI normal browser detail title fits its actual TMP rectangle
+C06 VI normal browser detail goal fits its actual TMP rectangle
+C06 VI large browser grid title/status fits its actual TMP rectangle
+C06 VI large browser detail title fits its actual TMP rectangle
+C06 VI large browser detail goal fits its actual TMP rectangle
+C06 EN normal browser grid title/status fits its actual TMP rectangle
+C06 EN normal browser detail title fits its actual TMP rectangle
+C06 EN normal browser detail goal fits its actual TMP rectangle
+C06 EN large browser grid title/status fits its actual TMP rectangle
+C06 EN large browser detail title fits its actual TMP rectangle
+C06 EN large browser detail goal fits its actual TMP rectangle
+C07 VI normal browser grid title/status fits its actual TMP rectangle
+C07 VI normal browser detail title fits its actual TMP rectangle
+C07 VI normal browser detail goal fits its actual TMP rectangle
+C07 VI large browser grid title/status fits its actual TMP rectangle
+C07 VI large browser detail title fits its actual TMP rectangle
+C07 VI large browser detail goal fits its actual TMP rectangle
+C07 EN normal browser grid title/status fits its actual TMP rectangle
+C07 EN normal browser detail title fits its actual TMP rectangle
+C07 EN normal browser detail goal fits its actual TMP rectangle
+C07 EN large browser grid title/status fits its actual TMP rectangle
+C07 EN large browser detail title fits its actual TMP rectangle
+C07 EN large browser detail goal fits its actual TMP rectangle
+C08 VI normal browser grid title/status fits its actual TMP rectangle
+C08 VI normal browser detail title fits its actual TMP rectangle
+C08 VI normal browser detail goal fits its actual TMP rectangle
+C08 VI large browser grid title/status fits its actual TMP rectangle
+C08 VI large browser detail title fits its actual TMP rectangle
+C08 VI large browser detail goal fits its actual TMP rectangle
+C08 EN normal browser grid title/status fits its actual TMP rectangle
+C08 EN normal browser detail title fits its actual TMP rectangle
+C08 EN normal browser detail goal fits its actual TMP rectangle
+C08 EN large browser grid title/status fits its actual TMP rectangle
+C08 EN large browser detail title fits its actual TMP rectangle
+C08 EN large browser detail goal fits its actual TMP rectangle
+Real browser Home callback restores four cards
+Fresh Home VR sample 11006
+VR focus strengthens the actual opaque vector frame B
+Real VR hover tints the inside without fading the figure B
+Hover respects gentle growth and reduced motion B
+Home focus uses a capture of the actual current-project Biology room
+Fresh Home VR sample 11007
+Fresh Home VR sample 11008
+Actual VR ray opens Sinh học through portal animation
+Selected browser retains its matching current-project room capture B
+Browser exposes all eight lessons of the ray-selected subject B
+Browser offers a labelled actual-room photo without another scene load B
+B01 VI normal browser grid title/status fits its actual TMP rectangle
+B01 VI normal browser detail title fits its actual TMP rectangle
+B01 VI normal browser detail goal fits its actual TMP rectangle
+B01 VI large browser grid title/status fits its actual TMP rectangle
+B01 VI large browser detail title fits its actual TMP rectangle
+B01 VI large browser detail goal fits its actual TMP rectangle
+B01 EN normal browser grid title/status fits its actual TMP rectangle
+B01 EN normal browser detail title fits its actual TMP rectangle
+B01 EN normal browser detail goal fits its actual TMP rectangle
+B01 EN large browser grid title/status fits its actual TMP rectangle
+B01 EN large browser detail title fits its actual TMP rectangle
+B01 EN large browser detail goal fits its actual TMP rectangle
+B02 VI normal browser grid title/status fits its actual TMP rectangle
+B02 VI normal browser detail title fits its actual TMP rectangle
+B02 VI normal browser detail goal fits its actual TMP rectangle
+B02 VI large browser grid title/status fits its actual TMP rectangle
+B02 VI large browser detail title fits its actual TMP rectangle
+B02 VI large browser detail goal fits its actual TMP rectangle
+B02 EN normal browser grid title/status fits its actual TMP rectangle
+B02 EN normal browser detail title fits its actual TMP rectangle
+B02 EN normal browser detail goal fits its actual TMP rectangle
+B02 EN large browser grid title/status fits its actual TMP rectangle
+B02 EN large browser detail title fits its actual TMP rectangle
+B02 EN large browser detail goal fits its actual TMP rectangle
+B03 VI normal browser grid title/status fits its actual TMP rectangle
+B03 VI normal browser detail title fits its actual TMP rectangle
+B03 VI normal browser detail goal fits its actual TMP rectangle
+B03 VI large browser grid title/status fits its actual TMP rectangle
+B03 VI large browser detail title fits its actual TMP rectangle
+B03 VI large browser detail goal fits its actual TMP rectangle
+B03 EN normal browser grid title/status fits its actual TMP rectangle
+B03 EN normal browser detail title fits its actual TMP rectangle
+B03 EN normal browser detail goal fits its actual TMP rectangle
+B03 EN large browser grid title/status fits its actual TMP rectangle
+B03 EN large browser detail title fits its actual TMP rectangle
+B03 EN large browser detail goal fits its actual TMP rectangle
+B04 VI normal browser grid title/status fits its actual TMP rectangle
+B04 VI normal browser detail title fits its actual TMP rectangle
+B04 VI normal browser detail goal fits its actual TMP rectangle
+B04 VI large browser grid title/status fits its actual TMP rectangle
+B04 VI large browser detail title fits its actual TMP rectangle
+B04 VI large browser detail goal fits its actual TMP rectangle
+B04 EN normal browser grid title/status fits its actual TMP rectangle
+B04 EN normal browser detail title fits its actual TMP rectangle
+B04 EN normal browser detail goal fits its actual TMP rectangle
+B04 EN large browser grid title/status fits its actual TMP rectangle
+B04 EN large browser detail title fits its actual TMP rectangle
+B04 EN large browser detail goal fits its actual TMP rectangle
+B05 VI normal browser grid title/status fits its actual TMP rectangle
+B05 VI normal browser detail title fits its actual TMP rectangle
+B05 VI normal browser detail goal fits its actual TMP rectangle
+B05 VI large browser grid title/status fits its actual TMP rectangle
+B05 VI large browser detail title fits its actual TMP rectangle
+B05 VI large browser detail goal fits its actual TMP rectangle
+B05 EN normal browser grid title/status fits its actual TMP rectangle
+B05 EN normal browser detail title fits its actual TMP rectangle
+B05 EN normal browser detail goal fits its actual TMP rectangle
+B05 EN large browser grid title/status fits its actual TMP rectangle
+B05 EN large browser detail title fits its actual TMP rectangle
+B05 EN large browser detail goal fits its actual TMP rectangle
+B06 VI normal browser grid title/status fits its actual TMP rectangle
+B06 VI normal browser detail title fits its actual TMP rectangle
+B06 VI normal browser detail goal fits its actual TMP rectangle
+B06 VI large browser grid title/status fits its actual TMP rectangle
+B06 VI large browser detail title fits its actual TMP rectangle
+B06 VI large browser detail goal fits its actual TMP rectangle
+B06 EN normal browser grid title/status fits its actual TMP rectangle
+B06 EN normal browser detail title fits its actual TMP rectangle
+B06 EN normal browser detail goal fits its actual TMP rectangle
+B06 EN large browser grid title/status fits its actual TMP rectangle
+B06 EN large browser detail title fits its actual TMP rectangle
+B06 EN large browser detail goal fits its actual TMP rectangle
+B07 VI normal browser grid title/status fits its actual TMP rectangle
+B07 VI normal browser detail title fits its actual TMP rectangle
+B07 VI normal browser detail goal fits its actual TMP rectangle
+B07 VI large browser grid title/status fits its actual TMP rectangle
+B07 VI large browser detail title fits its actual TMP rectangle
+B07 VI large browser detail goal fits its actual TMP rectangle
+B07 EN normal browser grid title/status fits its actual TMP rectangle
+B07 EN normal browser detail title fits its actual TMP rectangle
+B07 EN normal browser detail goal fits its actual TMP rectangle
+B07 EN large browser grid title/status fits its actual TMP rectangle
+B07 EN large browser detail title fits its actual TMP rectangle
+B07 EN large browser detail goal fits its actual TMP rectangle
+B08 VI normal browser grid title/status fits its actual TMP rectangle
+B08 VI normal browser detail title fits its actual TMP rectangle
+B08 VI normal browser detail goal fits its actual TMP rectangle
+B08 VI large browser grid title/status fits its actual TMP rectangle
+B08 VI large browser detail title fits its actual TMP rectangle
+B08 VI large browser detail goal fits its actual TMP rectangle
+B08 EN normal browser grid title/status fits its actual TMP rectangle
+B08 EN normal browser detail title fits its actual TMP rectangle
+B08 EN normal browser detail goal fits its actual TMP rectangle
+B08 EN large browser grid title/status fits its actual TMP rectangle
+B08 EN large browser detail title fits its actual TMP rectangle
+B08 EN large browser detail goal fits its actual TMP rectangle
+Real browser Home callback restores four cards
+Fresh Home VR sample 11009
+VR focus strengthens the actual opaque vector frame M
+Real VR hover tints the inside without fading the figure M
+Hover respects gentle growth and reduced motion M
+Home focus uses a capture of the actual current-project Engineering room
+Fresh Home VR sample 11010
+Fresh Home VR sample 11011
+Actual VR ray opens Kỹ thuật through portal animation
+Selected browser retains its matching current-project room capture M
+Browser exposes all eight lessons of the ray-selected subject M
+Browser offers a labelled actual-room photo without another scene load M
+M01 VI normal browser grid title/status fits its actual TMP rectangle
+M01 VI normal browser detail title fits its actual TMP rectangle
+M01 VI normal browser detail goal fits its actual TMP rectangle
+M01 VI large browser grid title/status fits its actual TMP rectangle
+M01 VI large browser detail title fits its actual TMP rectangle
+M01 VI large browser detail goal fits its actual TMP rectangle
+M01 EN normal browser grid title/status fits its actual TMP rectangle
+M01 EN normal browser detail title fits its actual TMP rectangle
+M01 EN normal browser detail goal fits its actual TMP rectangle
+M01 EN large browser grid title/status fits its actual TMP rectangle
+M01 EN large browser detail title fits its actual TMP rectangle
+M01 EN large browser detail goal fits its actual TMP rectangle
+M02 VI normal browser grid title/status fits its actual TMP rectangle
+M02 VI normal browser detail title fits its actual TMP rectangle
+M02 VI normal browser detail goal fits its actual TMP rectangle
+M02 VI large browser grid title/status fits its actual TMP rectangle
+M02 VI large browser detail title fits its actual TMP rectangle
+M02 VI large browser detail goal fits its actual TMP rectangle
+M02 EN normal browser grid title/status fits its actual TMP rectangle
+M02 EN normal browser detail title fits its actual TMP rectangle
+M02 EN normal browser detail goal fits its actual TMP rectangle
+M02 EN large browser grid title/status fits its actual TMP rectangle
+M02 EN large browser detail title fits its actual TMP rectangle
+M02 EN large browser detail goal fits its actual TMP rectangle
+M03 VI normal browser grid title/status fits its actual TMP rectangle
+M03 VI normal browser detail title fits its actual TMP rectangle
+M03 VI normal browser detail goal fits its actual TMP rectangle
+M03 VI large browser grid title/status fits its actual TMP rectangle
+M03 VI large browser detail title fits its actual TMP rectangle
+M03 VI large browser detail goal fits its actual TMP rectangle
+M03 EN normal browser grid title/status fits its actual TMP rectangle
+M03 EN normal browser detail title fits its actual TMP rectangle
+M03 EN normal browser detail goal fits its actual TMP rectangle
+M03 EN large browser grid title/status fits its actual TMP rectangle
+M03 EN large browser detail title fits its actual TMP rectangle
+M03 EN large browser detail goal fits its actual TMP rectangle
+M04 VI normal browser grid title/status fits its actual TMP rectangle
+M04 VI normal browser detail title fits its actual TMP rectangle
+M04 VI normal browser detail goal fits its actual TMP rectangle
+M04 VI large browser grid title/status fits its actual TMP rectangle
+M04 VI large browser detail title fits its actual TMP rectangle
+M04 VI large browser detail goal fits its actual TMP rectangle
+M04 EN normal browser grid title/status fits its actual TMP rectangle
+M04 EN normal browser detail title fits its actual TMP rectangle
+M04 EN normal browser detail goal fits its actual TMP rectangle
+M04 EN large browser grid title/status fits its actual TMP rectangle
+M04 EN large browser detail title fits its actual TMP rectangle
+M04 EN large browser detail goal fits its actual TMP rectangle
+M05 VI normal browser grid title/status fits its actual TMP rectangle
+M05 VI normal browser detail title fits its actual TMP rectangle
+M05 VI normal browser detail goal fits its actual TMP rectangle
+M05 VI large browser grid title/status fits its actual TMP rectangle
+M05 VI large browser detail title fits its actual TMP rectangle
+M05 VI large browser detail goal fits its actual TMP rectangle
+M05 EN normal browser grid title/status fits its actual TMP rectangle
+M05 EN normal browser detail title fits its actual TMP rectangle
+M05 EN normal browser detail goal fits its actual TMP rectangle
+M05 EN large browser grid title/status fits its actual TMP rectangle
+M05 EN large browser detail title fits its actual TMP rectangle
+M05 EN large browser detail goal fits its actual TMP rectangle
+M06 VI normal browser grid title/status fits its actual TMP rectangle
+M06 VI normal browser detail title fits its actual TMP rectangle
+M06 VI normal browser detail goal fits its actual TMP rectangle
+M06 VI large browser grid title/status fits its actual TMP rectangle
+M06 VI large browser detail title fits its actual TMP rectangle
+M06 VI large browser detail goal fits its actual TMP rectangle
+M06 EN normal browser grid title/status fits its actual TMP rectangle
+M06 EN normal browser detail title fits its actual TMP rectangle
+M06 EN normal browser detail goal fits its actual TMP rectangle
+M06 EN large browser grid title/status fits its actual TMP rectangle
+M06 EN large browser detail title fits its actual TMP rectangle
+M06 EN large browser detail goal fits its actual TMP rectangle
+M07 VI normal browser grid title/status fits its actual TMP rectangle
+M07 VI normal browser detail title fits its actual TMP rectangle
+M07 VI normal browser detail goal fits its actual TMP rectangle
+M07 VI large browser grid title/status fits its actual TMP rectangle
+M07 VI large browser detail title fits its actual TMP rectangle
+M07 VI large browser detail goal fits its actual TMP rectangle
+M07 EN normal browser grid title/status fits its actual TMP rectangle
+M07 EN normal browser detail title fits its actual TMP rectangle
+M07 EN normal browser detail goal fits its actual TMP rectangle
+M07 EN large browser grid title/status fits its actual TMP rectangle
+M07 EN large browser detail title fits its actual TMP rectangle
+M07 EN large browser detail goal fits its actual TMP rectangle
+M08 VI normal browser grid title/status fits its actual TMP rectangle
+M08 VI normal browser detail title fits its actual TMP rectangle
+M08 VI normal browser detail goal fits its actual TMP rectangle
+M08 VI large browser grid title/status fits its actual TMP rectangle
+M08 VI large browser detail title fits its actual TMP rectangle
+M08 VI large browser detail goal fits its actual TMP rectangle
+M08 EN normal browser grid title/status fits its actual TMP rectangle
+M08 EN normal browser detail title fits its actual TMP rectangle
+M08 EN normal browser detail goal fits its actual TMP rectangle
+M08 EN large browser grid title/status fits its actual TMP rectangle
+M08 EN large browser detail title fits its actual TMP rectangle
+M08 EN large browser detail goal fits its actual TMP rectangle
+Real browser Home callback restores four cards
+Fresh Home VR sample 11999
+Home exposes exactly one live VR mode control
+Editor mode control describes leaving simulation
+Actual mode callback leaves simulation and offers it again
+Actual mode callback restores the world-space Home
+Mode roundtrip retains Home anchoring P
+Mode roundtrip retains Home anchoring C
+Mode roundtrip retains Home anchoring B
+Mode roundtrip retains Home anchoring M
+Home navigation preserves calibration quaternion
+Home checks preserve notes, measurements and settings
+Writing tests use an isolated smoke profile
+Writable journal starts at Home
+Notebook writing UI: Open journal
+Notebook writing UI: Journal mode notes
+Notebook writing UI: Journal note new
+New page contains no fabricated learner writing
+Writing field uses readable Unicode-capable TMP input
+Actual TMP text events preserve typed Vietnamese and newlines
+Writing field uses readable Unicode-capable TMP input
+Actual TMP text events preserve typed Vietnamese and newlines
+Writing rules are masked, behind ink and do not intercept selection
+Visible writing baseline aligns with its paper rule: 0
+Native typed body has at least 1 measured visible ruled baselines
+Unicode typing updates only the explicit learner draft
+Draft does not claim successful saving
+Notebook writing UI: Journal mode records
+Notebook writing UI: Journal mode notes
+Switching book modes retains unsaved writing
+Notebook writing UI: Journal note new
+Writing field uses readable Unicode-capable TMP input
+Actual TMP text events preserve typed Vietnamese and newlines
+Writing field uses readable Unicode-capable TMP input
+Actual TMP text events preserve typed Vietnamese and newlines
+Writing rules are masked, behind ink and do not intercept selection
+Visible writing baseline aligns with its paper rule: 0
+Native typed body has at least 1 measured visible ruled baselines
+Notebook writing UI: Journal note previous
+Page navigation retains the first draft
+Notebook writing UI: Journal note next
+Notebook writing UI: Journal note save
+Save status follows actual atomic-save success
+Reloading actual profile recovers both authored pages
+Notebook writing UI: Journal note previous
+Notebook writing UI: Journal note lesson
+Notebook writing UI: Journal note link subject B
+Notebook writing UI: Journal note link B01
+Optional lesson link changes metadata without rewriting notes
+Notebook linked to microscopy uses Biology room background rather than the previous room
+Notebook writing UI: Journal note lesson
+Notebook writing UI: Journal note link subject P
+Notebook writing UI: Journal note link P01
+Pendulum showcase note links its matching lesson through the actual picker
+Notebook follows the actual pendulum lesson link back to Physics room background
+Notebook writing UI: Journal note save
+Failure fixture begins with a genuinely unsaved changed body
+Failure fixture owns a previously absent temp path
+Notebook writing UI: Journal note save
+Save failure exposes localized Retry and Back actions
+Save failure retains the unsaved changed draft
+Failed temp write leaves committed primary bytes unchanged
+Notebook writing UI: Thử lưu lại
+Actual Retry reports successful local saving
+Retried save reopens with the newly authored draft and scientific attempts intact
+Notebook writing UI: Journal note save
+Showcase restores its original body through the real field and Save
+Linked notebook background has fully settled before mode change
+Notebook paper and ink reach full contrast after the UI entrance
+Switching notebook view preserves its background without a second fade
+Writing rules are masked, behind ink and do not intercept selection
+Visible writing baseline aligns with its paper rule: 0
+Visible writing baseline aligns with its paper rule: 1
+Visible writing baseline aligns with its paper rule: 2
+Native typed body has at least 3 measured visible ruled baselines
+Showcase paper rules continue across blank rows without skipped geometry
+Notebook writing UI: ‹ Quay lại
+Notebook writing UI: Open journal
+Notebook writing UI: Journal mode notes
+Returning Home and reopening preserves written page
+Notebook writing UI: Journal note delete
+Notebook writing UI: Hủy
+Cancelling deletion retains the page
+Notebook writing UI: Journal note delete
+Notebook writing UI: Xác nhận
+Confirmed deletion removes only selected notebook page
+Deleted page stays deleted after disk reload
+Writing and deletion preserve every scientific attempt
+Notebook writing UI: ‹ Quay lại
+VR writing review begins with a saved personal page
+Existing note does not select all writing on focus
+VR field pointer accepts released pointing sample
+VR field pointer sends a fresh selection edge
+Selecting a VR notebook field opens its real keyboard
+Keyboard backing prevents underlying notebook writing showing through
+Keyboard test controller accepts fresh pointing sample
+Actual VR pointer ray types exactly one character into the authored page
+VR keyboard returns safely to Home after saved writing
+Book review begins at Home
+Book review uses the actual saved47-record dataset
+Book review is Vietnamese first
+Book UI target: Open journal
+Book route: notebook
+Book UI target: Journal mode records
+Book UI target: Journal subject P
+Contents hide internal code: Journal lesson P01
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson P02
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson P03
+Contents title and saved-count caption fit
+Book UI target: Journal index next
+Contents hide internal code: Journal lesson P04
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson P05
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson P06
+Contents title and saved-count caption fit
+Book UI target: Journal index next
+Contents hide internal code: Journal lesson P07
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson P08
+Contents title and saved-count caption fit
+Book UI target: Journal subject C
+Contents hide internal code: Journal lesson C01
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson C02
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson C03
+Contents title and saved-count caption fit
+Book UI target: Journal index next
+Contents hide internal code: Journal lesson C04
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson C05
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson C06
+Contents title and saved-count caption fit
+Book UI target: Journal index next
+Contents hide internal code: Journal lesson C07
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson C08
+Contents title and saved-count caption fit
+Book UI target: Journal subject B
+Contents hide internal code: Journal lesson B01
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson B02
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson B03
+Contents title and saved-count caption fit
+Book UI target: Journal index next
+Contents hide internal code: Journal lesson B04
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson B05
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson B06
+Contents title and saved-count caption fit
+Book UI target: Journal index next
+Contents hide internal code: Journal lesson B07
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson B08
+Contents title and saved-count caption fit
+Book UI target: Journal subject M
+Contents hide internal code: Journal lesson M01
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson M02
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson M03
+Contents title and saved-count caption fit
+Book UI target: Journal index next
+Contents hide internal code: Journal lesson M04
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson M05
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson M06
+Contents title and saved-count caption fit
+Book UI target: Journal index next
+Contents hide internal code: Journal lesson M07
+Contents title and saved-count caption fit
+Contents hide internal code: Journal lesson M08
+Contents title and saved-count caption fit
+Actual contents navigation reaches all32 lessons
+Book UI target: Journal subject P
+Book UI target: Journal lesson P01
+Reading page dominates book contents
+Book title hides experiment codes
+Saved metric value is large and fits: period
+Saved metric label and unit are legible: period
+Saved metric value is large and fits: timedCycles
+Saved metric label and unit are legible: timedCycles
+Book UI target: Journal content next
+Saved metric value is large and fits: measuredTime
+Saved metric label and unit are legible: measuredTime
+Saved metric value is large and fits: gravityEstimate
+Saved metric label and unit are legible: gravityEstimate
+Measurement pages retain every original reading exactly once
+Book UI target: Journal tab 0
+Book UI target: Journal older attempt
+Older record navigation retains actual saved timestamp
+Book UI target: Journal newer attempt
+Newer record navigation returns to original attempt
+Book UI target: Journal tab 1
+Condition retains exact saved value: length
+Condition retains exact saved value: angle
+Book UI target: Journal content next
+Condition retains exact saved value: mass
+Condition retains exact saved value: cycles
+All original parameters remain reachable
+Book UI target: Journal tab 1
+Book UI target: Journal tab 2
+Interpretation page uses readable text without clipping
+Paged interpretation retains attached historical notes without technical model identity
+Technical model identity remains untouched in the saved records
+Book UI target: Journal tab 2
+Book UI target: Journal tab 3
+Book UI target: Journal compare
+Book route: notebook-analysis
+Book UI target: ‹ Quay lại
+Book route: notebook
+Comparison returns to book without discarding records
+Book UI target: Journal subject M
+Book UI target: Journal index next
+Book UI target: Journal index next
+Book UI target: Journal lesson M08
+Book UI target: Journal tab 3
+Checkpoint is explicitly distinguished from completed measurement
+Book UI target: ‹ Quay lại
+Book route: home
+Technical model identities survive all book navigation
+Book navigation does not fabricate or alter records
+Learning guide UI review starts at Vietnamese Home
+Study catalogue contains exactly the32 authoritative lessons
+Study catalogue has eight lessons for P
+Study catalogue has eight lessons for C
+Study catalogue has eight lessons for B
+Study catalogue has eight lessons for M
+Authored study sections are all available: P01
+Resolved offline source titles and URLs are present: P01
+Authored study sections are all available: P02
+Resolved offline source titles and URLs are present: P02
+Authored study sections are all available: P03
+Resolved offline source titles and URLs are present: P03
+Authored study sections are all available: P04
+Resolved offline source titles and URLs are present: P04
+Authored study sections are all available: P05
+Resolved offline source titles and URLs are present: P05
+Authored study sections are all available: P06
+Resolved offline source titles and URLs are present: P06
+Authored study sections are all available: P07
+Resolved offline source titles and URLs are present: P07
+Authored study sections are all available: P08
+Resolved offline source titles and URLs are present: P08
+Authored study sections are all available: C01
+Resolved offline source titles and URLs are present: C01
+Authored study sections are all available: C02
+Resolved offline source titles and URLs are present: C02
+Authored study sections are all available: C03
+Resolved offline source titles and URLs are present: C03
+Authored study sections are all available: C04
+Resolved offline source titles and URLs are present: C04
+Authored study sections are all available: C05
+Resolved offline source titles and URLs are present: C05
+Authored study sections are all available: C06
+Resolved offline source titles and URLs are present: C06
+Authored study sections are all available: C07
+Resolved offline source titles and URLs are present: C07
+Authored study sections are all available: C08
+Resolved offline source titles and URLs are present: C08
+Authored study sections are all available: B01
+Resolved offline source titles and URLs are present: B01
+Authored study sections are all available: B02
+Resolved offline source titles and URLs are present: B02
+Authored study sections are all available: B03
+Resolved offline source titles and URLs are present: B03
+Authored study sections are all available: B04
+Resolved offline source titles and URLs are present: B04
+Authored study sections are all available: B05
+Resolved offline source titles and URLs are present: B05
+Authored study sections are all available: B06
+Resolved offline source titles and URLs are present: B06
+Authored study sections are all available: B07
+Resolved offline source titles and URLs are present: B07
+Authored study sections are all available: B08
+Resolved offline source titles and URLs are present: B08
+Authored study sections are all available: M01
+Resolved offline source titles and URLs are present: M01
+Authored study sections are all available: M02
+Resolved offline source titles and URLs are present: M02
+Authored study sections are all available: M03
+Resolved offline source titles and URLs are present: M03
+Authored study sections are all available: M04
+Resolved offline source titles and URLs are present: M04
+Authored study sections are all available: M05
+Resolved offline source titles and URLs are present: M05
+Authored study sections are all available: M06
+Resolved offline source titles and URLs are present: M06
+Authored study sections are all available: M07
+Resolved offline source titles and URLs are present: M07
+Authored study sections are all available: M08
+Resolved offline source titles and URLs are present: M08
+Native study font contains all formula, unit and Vietnamese source glyphs: 
+Self-check hides the authored answer until deliberate page reveal P01 True False
+Self-check hides the authored answer until deliberate page reveal P02 True False
+Self-check hides the authored answer until deliberate page reveal P03 True False
+Self-check hides the authored answer until deliberate page reveal P04 True False
+Self-check hides the authored answer until deliberate page reveal P05 True False
+Self-check hides the authored answer until deliberate page reveal P06 True False
+Self-check hides the authored answer until deliberate page reveal P07 True False
+Self-check hides the authored answer until deliberate page reveal P08 True False
+Self-check hides the authored answer until deliberate page reveal C01 True False
+Self-check hides the authored answer until deliberate page reveal C02 True False
+Self-check hides the authored answer until deliberate page reveal C03 True False
+Self-check hides the authored answer until deliberate page reveal C04 True False
+Self-check hides the authored answer until deliberate page reveal C05 True False
+Self-check hides the authored answer until deliberate page reveal C06 True False
+Self-check hides the authored answer until deliberate page reveal C07 True False
+Self-check hides the authored answer until deliberate page reveal C08 True False
+Self-check hides the authored answer until deliberate page reveal B01 True False
+Self-check hides the authored answer until deliberate page reveal B02 True False
+Self-check hides the authored answer until deliberate page reveal B03 True False
+Self-check hides the authored answer until deliberate page reveal B04 True False
+Self-check hides the authored answer until deliberate page reveal B05 True False
+Self-check hides the authored answer until deliberate page reveal B06 True False
+Self-check hides the authored answer until deliberate page reveal B07 True False
+Self-check hides the authored answer until deliberate page reveal B08 True False
+Self-check hides the authored answer until deliberate page reveal M01 True False
+Self-check hides the authored answer until deliberate page reveal M02 True False
+Self-check hides the authored answer until deliberate page reveal M03 True False
+Self-check hides the authored answer until deliberate page reveal M04 True False
+Self-check hides the authored answer until deliberate page reveal M05 True False
+Self-check hides the authored answer until deliberate page reveal M06 True False
+Self-check hides the authored answer until deliberate page reveal M07 True False
+Self-check hides the authored answer until deliberate page reveal M08 True False
+All32 four-chapter pages preserve exact non-whitespace source characters VI large=False
+All32 study pages fit native1036x292 at28px or larger VI large=False 
+Self-check hides the authored answer until deliberate page reveal P01 True True
+Self-check hides the authored answer until deliberate page reveal P02 True True
+Self-check hides the authored answer until deliberate page reveal P03 True True
+Self-check hides the authored answer until deliberate page reveal P04 True True
+Self-check hides the authored answer until deliberate page reveal P05 True True
+Self-check hides the authored answer until deliberate page reveal P06 True True
+Self-check hides the authored answer until deliberate page reveal P07 True True
+Self-check hides the authored answer until deliberate page reveal P08 True True
+Self-check hides the authored answer until deliberate page reveal C01 True True
+Self-check hides the authored answer until deliberate page reveal C02 True True
+Self-check hides the authored answer until deliberate page reveal C03 True True
+Self-check hides the authored answer until deliberate page reveal C04 True True
+Self-check hides the authored answer until deliberate page reveal C05 True True
+Self-check hides the authored answer until deliberate page reveal C06 True True
+Self-check hides the authored answer until deliberate page reveal C07 True True
+Self-check hides the authored answer until deliberate page reveal C08 True True
+Self-check hides the authored answer until deliberate page reveal B01 True True
+Self-check hides the authored answer until deliberate page reveal B02 True True
+Self-check hides the authored answer until deliberate page reveal B03 True True
+Self-check hides the authored answer until deliberate page reveal B04 True True
+Self-check hides the authored answer until deliberate page reveal B05 True True
+Self-check hides the authored answer until deliberate page reveal B06 True True
+Self-check hides the authored answer until deliberate page reveal B07 True True
+Self-check hides the authored answer until deliberate page reveal B08 True True
+Self-check hides the authored answer until deliberate page reveal M01 True True
+Self-check hides the authored answer until deliberate page reveal M02 True True
+Self-check hides the authored answer until deliberate page reveal M03 True True
+Self-check hides the authored answer until deliberate page reveal M04 True True
+Self-check hides the authored answer until deliberate page reveal M05 True True
+Self-check hides the authored answer until deliberate page reveal M06 True True
+Self-check hides the authored answer until deliberate page reveal M07 True True
+Self-check hides the authored answer until deliberate page reveal M08 True True
+All32 four-chapter pages preserve exact non-whitespace source characters VI large=True
+All32 study pages fit native1036x292 at28px or larger VI large=True 
+Self-check hides the authored answer until deliberate page reveal P01 False False
+Self-check hides the authored answer until deliberate page reveal P02 False False
+Self-check hides the authored answer until deliberate page reveal P03 False False
+Self-check hides the authored answer until deliberate page reveal P04 False False
+Self-check hides the authored answer until deliberate page reveal P05 False False
+Self-check hides the authored answer until deliberate page reveal P06 False False
+Self-check hides the authored answer until deliberate page reveal P07 False False
+Self-check hides the authored answer until deliberate page reveal P08 False False
+Self-check hides the authored answer until deliberate page reveal C01 False False
+Self-check hides the authored answer until deliberate page reveal C02 False False
+Self-check hides the authored answer until deliberate page reveal C03 False False
+Self-check hides the authored answer until deliberate page reveal C04 False False
+Self-check hides the authored answer until deliberate page reveal C05 False False
+Self-check hides the authored answer until deliberate page reveal C06 False False
+Self-check hides the authored answer until deliberate page reveal C07 False False
+Self-check hides the authored answer until deliberate page reveal C08 False False
+Self-check hides the authored answer until deliberate page reveal B01 False False
+Self-check hides the authored answer until deliberate page reveal B02 False False
+Self-check hides the authored answer until deliberate page reveal B03 False False
+Self-check hides the authored answer until deliberate page reveal B04 False False
+Self-check hides the authored answer until deliberate page reveal B05 False False
+Self-check hides the authored answer until deliberate page reveal B06 False False
+Self-check hides the authored answer until deliberate page reveal B07 False False
+Self-check hides the authored answer until deliberate page reveal B08 False False
+Self-check hides the authored answer until deliberate page reveal M01 False False
+Self-check hides the authored answer until deliberate page reveal M02 False False
+Self-check hides the authored answer until deliberate page reveal M03 False False
+Self-check hides the authored answer until deliberate page reveal M04 False False
+Self-check hides the authored answer until deliberate page reveal M05 False False
+Self-check hides the authored answer until deliberate page reveal M06 False False
+Self-check hides the authored answer until deliberate page reveal M07 False False
+Self-check hides the authored answer until deliberate page reveal M08 False False
+All32 four-chapter pages preserve exact non-whitespace source characters EN large=False
+All32 study pages fit native1036x292 at28px or larger EN large=False 
+Self-check hides the authored answer until deliberate page reveal P01 False True
+Self-check hides the authored answer until deliberate page reveal P02 False True
+Self-check hides the authored answer until deliberate page reveal P03 False True
+Self-check hides the authored answer until deliberate page reveal P04 False True
+Self-check hides the authored answer until deliberate page reveal P05 False True
+Self-check hides the authored answer until deliberate page reveal P06 False True
+Self-check hides the authored answer until deliberate page reveal P07 False True
+Self-check hides the authored answer until deliberate page reveal P08 False True
+Self-check hides the authored answer until deliberate page reveal C01 False True
+Self-check hides the authored answer until deliberate page reveal C02 False True
+Self-check hides the authored answer until deliberate page reveal C03 False True
+Self-check hides the authored answer until deliberate page reveal C04 False True
+Self-check hides the authored answer until deliberate page reveal C05 False True
+Self-check hides the authored answer until deliberate page reveal C06 False True
+Self-check hides the authored answer until deliberate page reveal C07 False True
+Self-check hides the authored answer until deliberate page reveal C08 False True
+Self-check hides the authored answer until deliberate page reveal B01 False True
+Self-check hides the authored answer until deliberate page reveal B02 False True
+Self-check hides the authored answer until deliberate page reveal B03 False True
+Self-check hides the authored answer until deliberate page reveal B04 False True
+Self-check hides the authored answer until deliberate page reveal B05 False True
+Self-check hides the authored answer until deliberate page reveal B06 False True
+Self-check hides the authored answer until deliberate page reveal B07 False True
+Self-check hides the authored answer until deliberate page reveal B08 False True
+Self-check hides the authored answer until deliberate page reveal M01 False True
+Self-check hides the authored answer until deliberate page reveal M02 False True
+Self-check hides the authored answer until deliberate page reveal M03 False True
+Self-check hides the authored answer until deliberate page reveal M04 False True
+Self-check hides the authored answer until deliberate page reveal M05 False True
+Self-check hides the authored answer until deliberate page reveal M06 False True
+Self-check hides the authored answer until deliberate page reveal M07 False True
+Self-check hides the authored answer until deliberate page reveal M08 False True
+All32 four-chapter pages preserve exact non-whitespace source characters EN large=True
+All32 study pages fit native1036x292 at28px or larger EN large=True 
+Study opens through actual tab callback with zero attempts True False
+Study hides unavailable attempt and comparison controls
+Study prioritises reading space over secondary navigation
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Book navigation label fits Ghi chép large=False
+Book navigation label fits Bài học & số đo large=False
+Book navigation label fits Vật lí large=False
+Book navigation label fits Hóa học large=False
+Book navigation label fits Sinh học large=False
+Book navigation label fits Kỹ thuật large=False
+Book navigation label fits Con lắc đơn
+<size=20>Chưa ghi số đo</size> large=False
+Book navigation label fits Ném xiên
+<size=20>Chưa ghi số đo</size> large=False
+Book navigation label fits Ma sát
+<size=20>Chưa ghi số đo</size> large=False
+Book navigation label fits ‹ large=False
+Book navigation label fits › large=False
+Book navigation label fits Xem số đo large=False
+Book navigation label fits Kiến thức large=False
+Book navigation label fits Vận dụng large=False
+Book navigation label fits Tự kiểm tra large=False
+Book navigation label fits Nguồn large=False
+Book navigation label fits ‹ Trang trước large=False
+Book navigation label fits Trang sau › large=False
+Study opens through actual tab callback with zero attempts True True
+Study hides unavailable attempt and comparison controls
+Study prioritises reading space over secondary navigation
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Book navigation label fits Ghi chép large=True
+Book navigation label fits Bài học & số đo large=True
+Book navigation label fits Vật lí large=True
+Book navigation label fits Hóa học large=True
+Book navigation label fits Sinh học large=True
+Book navigation label fits Kỹ thuật large=True
+Book navigation label fits Con lắc đơn
+<size=20>Chưa ghi số đo</size> large=True
+Book navigation label fits Ném xiên
+<size=20>Chưa ghi số đo</size> large=True
+Book navigation label fits Ma sát
+<size=20>Chưa ghi số đo</size> large=True
+Book navigation label fits ‹ large=True
+Book navigation label fits › large=True
+Book navigation label fits Xem số đo large=True
+Book navigation label fits Kiến thức large=True
+Book navigation label fits Vận dụng large=True
+Book navigation label fits Tự kiểm tra large=True
+Book navigation label fits Nguồn large=True
+Book navigation label fits ‹ Trang trước large=True
+Book navigation label fits Trang sau › large=True
+Study opens through actual tab callback with zero attempts False False
+Study hides unavailable attempt and comparison controls
+Study prioritises reading space over secondary navigation
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Book navigation label fits Write notes large=False
+Book navigation label fits Lessons & readings large=False
+Book navigation label fits Physics large=False
+Book navigation label fits Chemistry large=False
+Book navigation label fits Biology large=False
+Book navigation label fits Engineering large=False
+Book navigation label fits Pendulum
+<size=20>No saved readings</size> large=False
+Book navigation label fits Projectile
+<size=20>No saved readings</size> large=False
+Book navigation label fits Friction
+<size=20>No saved readings</size> large=False
+Book navigation label fits ‹ large=False
+Book navigation label fits › large=False
+Book navigation label fits View readings large=False
+Book navigation label fits Knowledge large=False
+Book navigation label fits Application large=False
+Book navigation label fits Self-check large=False
+Book navigation label fits Sources large=False
+Book navigation label fits ‹ Previous page large=False
+Book navigation label fits Next page › large=False
+Study opens through actual tab callback with zero attempts False True
+Study hides unavailable attempt and comparison controls
+Study prioritises reading space over secondary navigation
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Chapter callback selects authored content and resets its page
+Book navigation label fits Write notes large=True
+Book navigation label fits Lessons & readings large=True
+Book navigation label fits Physics large=True
+Book navigation label fits Chemistry large=True
+Book navigation label fits Biology large=True
+Book navigation label fits Engineering large=True
+Book navigation label fits Pendulum
+<size=20>No saved readings</size> large=True
+Book navigation label fits Projectile
+<size=20>No saved readings</size> large=True
+Book navigation label fits Friction
+<size=20>No saved readings</size> large=True
+Book navigation label fits ‹ large=True
+Book navigation label fits › large=True
+Book navigation label fits View readings large=True
+Book navigation label fits Knowledge large=True
+Book navigation label fits Application large=True
+Book navigation label fits Self-check large=True
+Book navigation label fits Sources large=True
+Book navigation label fits ‹ Previous page large=True
+Book navigation label fits Next page › large=True
+Zero-attempt study callbacks leave the isolated profile unchanged
+Learning UI target: Open journal
+Learning UI target: Journal mode records
+Learning UI target: Journal tab 4
+Learning UI target: Journal subject P
+Learning UI target: Journal lesson P01
+Learning UI target: Journal study chapter 0
+Live book learning page is readable and fits
+Learning page navigation remains bounded
+Learning UI target: Journal content next
+Live book learning page is readable and fits
+Learning page navigation remains bounded
+Learning UI target: Journal content next
+Live book learning page is readable and fits
+Actual book page callbacks reach the entire authored chapter P01
+Learning UI target: Journal study chapter 0
+Learning UI target: Journal subject C
+Learning UI target: Journal lesson C01
+Learning UI target: Journal study chapter 1
+Live book learning page is readable and fits
+Learning page navigation remains bounded
+Learning UI target: Journal content next
+Live book learning page is readable and fits
+Actual book page callbacks reach the entire authored chapter C01
+Learning UI target: Journal study chapter 1
+Learning UI target: Journal subject B
+Learning UI target: Journal index next
+Learning UI target: Journal index next
+Learning UI target: Journal lesson B08
+Learning UI target: Journal study chapter 2
+Live book learning page is readable and fits
+Learning page navigation remains bounded
+Learning UI target: Journal content next
+Live book learning page is readable and fits
+Actual book page callbacks reach the entire authored chapter B08
+Learning UI target: Journal study chapter 2
+Learning UI target: Journal study chapter 3
+Sources are available through actual book navigation
+Learning UI target: Return Home
+Study navigation returns Home without fabricating or altering learner data
+B01 presentation starts at actual Home
+B01 UI target: Subject B
+B01 route: browser
+B01 UI target: Browser lesson B01
+B01 UI target: Start experiment
+B01 route: readiness
+Student readiness uses the new code-free title
+B01 UI target: Enter station
+B01 route: activity
+B01 actual native session loaded
+B01 UI target: Open equipment
+B01 UI target: Previous
+B01 UI target: Previous
+B01 UI target: Previous
+B01 UI target: Kính hiển vi
+B01 UI target: Place at installation anchor
+B01 installed microscope
+B01 UI target: Lam kính
+B01 UI target: Place at installation anchor
+B01 installed slide
+B01 UI target: Lamen
+B01 UI target: Place at installation anchor
+B01 installed coverslip
+B01 UI target: Tiêu bản sơ đồ
+B01 UI target: Place at installation anchor
+B01 installed specimen
+B01 UI target: Mẫu hành
+B01 UI target: Place at installation anchor
+B01 installed onion
+B01 UI target: Ống nhỏ giọt
+B01 UI target: Place at installation anchor
+B01 installed dropper
+B01 UI target: Next
+B01 UI target: Giấy thấm
+B01 UI target: Place at installation anchor
+B01 installed paper
+B01 UI target: Kẹp gắp
+B01 UI target: Place at installation anchor
+B01 installed forceps
+B01 UI target: Done
+B01 UI target: Perform current action
+B01 native preparation 1
+B01 UI target: Perform current action
+B01 native preparation 2
+B01 UI target: Perform current action
+B01 native preparation 3
+B01 UI target: Perform current action
+B01 native preparation 4
+B01 test pointer adapter initializes
+B01 UI target: Station tools
+B01 UI target: Equipment
+B01 UI target: Previous
+B01 UI target: Previous
+B01 UI target: Previous
+B01 UI target: Fitted · Microscope
+Actual VR tab target is enabled
+Controller primes released signal for actual VR tab ray
+Controller sends fresh select edge through actual VR tab ray
+Foreground live-reading tab opens through product VR ray despite cabinet
+Live reading page contains the actual science slice
+Live value matches Session.Observe: objective
+Live value/label/unit are large and fit: objective
+Live label uses current locale: objective
+Live value matches Session.Observe: magnification
+Live value/label/unit are large and fit: magnification
+Live label uses current locale: magnification
+Live value matches Session.Observe: focusQuality
+Live value/label/unit are large and fit: focusQuality
+Live label uses current locale: focusQuality
+Live value matches Session.Observe: identifiedStructures
+Live value/label/unit are large and fit: identifiedStructures
+Live label uses current locale: identifiedStructures
+All live readings remain reachable without omissions
+B01 shows all four actual observations on one page
+B01 UI target: Instrument tab view
+B01 objective 0 has expected relative field
+B01 objective 0 maps to the same original source UV
+B01 crop stays inside original atlas
+B01 objective 1 has expected relative field
+B01 objective 1 maps to the same original source UV
+B01 crop stays inside original atlas
+B01 objective 2 has expected relative field
+B01 objective 2 maps to the same original source UV
+B01 crop stays inside original atlas
+B01 presentation reads the actual SDK without mutating lesson state
+B01 presentation preserves original atlas texture
+B01 displayed crop contains a source mask structure
+B01 objective 0 preserves global cell and structure identity
+B01 objective 1 preserves global cell and structure identity
+B01 objective 2 preserves global cell and structure identity
+B01 presentation assertions do not select or classify a cell
+B01 fixture finds source structure near the common field center
+B01 UI target: Vật kính 4×
+Actual microscope SDK objective changed to 4× objective
+4× objective updates actual RawImage crop
+4× objective rendering does not mutate lesson state
+Source fixture is inside displayed crop
+4× objective real image pointer preserves global cell/structure ID
+4× objective source selection does not classify or advance preparation
+4× objective selected source marker remains visible
+B01 UI target: Vật kính 10×
+Actual microscope SDK objective changed to 10× objective
+10× objective updates actual RawImage crop
+10× objective rendering does not mutate lesson state
+Source fixture is inside displayed crop
+10× objective real image pointer preserves global cell/structure ID
+10× objective source selection does not classify or advance preparation
+10× objective selected source marker remains visible
+B01 UI target: Vật kính 40×
+Actual microscope SDK objective changed to 40× objective
+40× objective updates actual RawImage crop
+40× objective rendering does not mutate lesson state
+Source fixture is inside displayed crop
+40× objective real image pointer preserves global cell/structure ID
+40× objective source selection does not classify or advance preparation
+40× objective selected source marker remains visible
+Higher power centers on the learner selected source point
+Existing target6.5mm produces sharp illustrative view
+B01 UI target: Lấy nét +0,5 mm
+First focus UI increment reaches SDK and lesson state
+B01 UI target: Lấy nét +0,5 mm
+Focus SDK movement creates visible illustrative defocus
+Defocus rendering does not change scientific state
+B01 UI target: Lấy nét −0,5 mm
+B01 UI target: Lấy nét −0,5 mm
+Focus returning to existing target clears blur
+Localized illustrative notice is present and fits actual text field
+EN illustrative notice fits the actual template
+VI illustrative notice fits the actual template
+Requested biology control page is reachable: structure:2
+B01 UI target: Next
+B01 UI target: Tế bào chất
+Actual classification button records exactly one manually selected source structure
+B01 UI target: Return to station
+B01 UI target: ‹ Back
+B01 route: pause
+B01 UI target: Leave laboratory
+B01 UI target: Confirm
+B01 route: browser
+B01 UI target: ‹ Home
+B01 route: home
+Native inspection journey retains the review language
+All47 scientific records survive notebook writing and schema2 file reopen
+No runtime errors in Vietnamese visual review
