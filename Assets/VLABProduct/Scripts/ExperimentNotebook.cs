@@ -35,7 +35,7 @@ namespace Vlab.Product
         static readonly CultureInfo Inv=CultureInfo.InvariantCulture;
         static readonly Dictionary<string,string[]> Defaults=new Dictionary<string,string[]>
         {
-            ["P01"]=new[]{"length","periodSquared"},["P02"]=new[]{"angle","range"},["P03"]=new[]{"mass","slidingForce"},["P04"]=new[]{"spacing","acceleration"},
+            ["P01"]=new[]{"length","periodSquared"},["P02"]=new[]{"angle","range"},["P03"]=new[]{"normalForce","slidingForce"},["P04"]=new[]{"spacing","acceleration"},
             ["P05"]=new[]{"mass","periodSquared"},["P06"]=new[]{"m1","momentumAfter"},["P07"]=new[]{"externalForceFromMass","acceleration"},["P08"]=new[]{"height","kineticEnergy"},
             ["C01"]=new[]{"base","meanTitre"},["C02"]=new[]{"copper","voltage"},["C03"]=new[]{"time","massChange"},["C04"]=new[]{"",""},["C05"]=new[]{"stock","concentration"},
             ["C06"]=new[]{"dilutionFactor","pH"},["C07"]=new[]{"@time","gasVolume"},["C08"]=new[]{"@time","temperature"},
@@ -67,6 +67,8 @@ namespace Vlab.Product
                 d.yChoices.Add(new NotebookAxis(r.key,r.labelVi??r.key,r.labelEn??r.key,r.unit));
             if(id=="P01"||id=="P05")d.yChoices.Insert(0,new NotebookAxis("periodSquared","Bình phương chu kỳ đo","Squared measured period","s²"));
             if(id=="P02")d.xChoices.Insert(0,new NotebookAxis("initialSpeedSquared","Bình phương vận tốc đầu","Squared initial speed","m²/s²"));
+            // Supplied research/experiments.py P03: plot measured steady force against N, not merely mass.
+            if(id=="P03")d.xChoices.Insert(0,new NotebookAxis("normalForce","Phản lực đã ghi","Recorded normal force","N"));
             if(id=="P07")
             {d.xChoices.Insert(0,new NotebookAxis("externalForceFromMass","Ngoại lực m tải × g","Hanging-weight external force","N"));d.xChoices.Insert(1,new NotebookAxis("inverseTotalMass","Nghịch đảo tổng khối lượng","Inverse total system mass","kg⁻¹"));}
             if(id=="C06")d.xChoices.Insert(0,new NotebookAxis("dilutionFactor","Hệ số pha loãng đã ghi","Recorded total dilution factor"));
@@ -118,6 +120,8 @@ namespace Vlab.Product
             {d.noticeVi+=" Độ cao là từ nòng thật tới tấm hứng, không phải h₀=0. Khi đổi góc, độ cao có thể đổi theo; xem Độ cao nòng thực trong từng lượt. Đồ thị góc mô tả cấu hình đã lắp, không chứng minh hai góc bù cho cùng tầm xa. Trục v₀² giữ góc và độ cao.";d.noticeEn+=" Height is the actual muzzle-to-mat distance, not h₀=0. Changing angle can change that height; inspect Actual muzzle height in each record. The angle plot describes the assembled geometry and cannot establish equal complementary-angle ranges. The v₀² axis holds angle and height fixed.";}
             if(id=="P07")
             {d.noticeVi+=" Trục ngoại lực giữ M = m xe + m tải cố định; trục 1/M giữ m tải cố định. Chỉ gia tốc có hai khoảng che cổng đã lưu mới được vẽ; dự đoán mô hình không thay số đo.";d.noticeEn+=" The force axis holds M = cart + hanger fixed; 1/M holds hanger mass fixed. Only accelerations backed by two saved blocking intervals are plotted; model predictions never replace measurements.";}
+            if(id=="P03")
+            {d.noticeVi+=" Trục phản lực dùng số N đã lưu cùng lực kéo đều; thiếu số N thì không vẽ điểm. Giữ riêng các hệ số ma sát và mô hình; dụng cụ hiện dùng mặt gỗ, kéo ngang.";d.noticeEn+=" The normal-force axis uses saved N readings paired with steady pull; missing N excludes a point. Friction coefficients and models remain separate. The current apparatus uses wood and a horizontal pull.";}
             if(id=="B02")
             {d.noticeVi="Sơ đồ nguồn có bốn trạng thái do người học chọn, không có quan hệ nồng độ–thời gian được hiệu chuẩn. Giữ bảng số đếm cùng mã trước/muối/sau thay nước; không vẽ đường đáp ứng nồng độ từ các ảnh này.";d.noticeEn="The supplied images are four learner-selected illustrative states, without a calibrated concentration–time response. Retain same-ID baseline/salt/recovery counts in the table; no concentration-response curve is inferred from these images.";}
             if(d.excluded>0){d.noticeVi+=" "+d.excluded+" lượt thiếu dữ liệu hợp lệ cho trục đã chọn; vẫn giữ trong bảng.";d.noticeEn+=" "+d.excluded+" records lack valid selected-axis data and remain in the table.";}
@@ -130,6 +134,7 @@ namespace Vlab.Product
         {if(key=="periodSquared"){if(Reading(a,"period",out double period)&&period>0){value=period*period;return Finite(value);}value=0;return false;}return Reading(a,key,out value);}
         static bool TryX(LessonSpec spec,AttemptRecord a,string key,out double value)
         {
+            if(spec.id=="P03"&&key=="normalForce")return Reading(a,key,out value)&&value>0;
             if(key=="initialSpeedSquared"){if(TryX(spec,a,"speed",out double speed)&&speed>=0){value=speed*speed;return Finite(value);}value=0;return false;}
             if(key=="externalForceFromMass"){if(TryX(spec,a,"hanger",out double mass)&&mass>0){value=mass*ScienceModels.G;return Finite(value);}value=0;return false;}
             if(key=="inverseTotalMass"){if(TryX(spec,a,"cart",out double cart)&&TryX(spec,a,"hanger",out double hanger)&&cart>0&&hanger>0){value=1/(cart+hanger);return Finite(value);}value=0;return false;}
@@ -150,7 +155,7 @@ namespace Vlab.Product
             for(int i=0;i<spec.parameters.Length;i++)
             {
                 var p=spec.parameters[i];
-                if(p.key==independent||independent=="initialSpeedSquared"&&p.key=="speed"||independent=="dilutionFactor"&&p.key=="dilution"||independent=="solventFront"&&p.key=="front"||angleGeometry&&p.key=="height"||forceSeries&&(p.key=="cart"||p.key=="hanger")||massSeries&&p.key=="cart")continue;
+                if(p.key==independent||spec.id=="P03"&&independent=="normalForce"&&p.key=="mass"||independent=="initialSpeedSquared"&&p.key=="speed"||independent=="dilutionFactor"&&p.key=="dilution"||independent=="solventFront"&&p.key=="front"||angleGeometry&&p.key=="height"||forceSeries&&(p.key=="cart"||p.key=="hanger")||massSeries&&p.key=="cart")continue;
                 string number=a.parameterValues!=null&&a.parameterValues.Length>i&&Finite(a.parameterValues[i])?a.parameterValues[i].ToString("R",Inv):"?";
                 Add(p.key,number,p.vi,p.en,p.unit);
             }

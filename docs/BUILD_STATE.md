@@ -1,10 +1,10 @@
 # Ngua Man VLAB delivery state
 
-Authoritative release checkpoint: 2026-10-20T05:01:36+07:00, Asia/Saigon. **The artifact hash and receipt table in this file supersede every earlier build hash, numbered-run checkpoint and release-state description.** Earlier audit entries remain historical evidence, not current acceptance. Unity6000.6.4f1, universal Android ARMv7+ARM64/IL2CPP, min API26 / target36, ETC2 textures, Cardboard1.36.0. The separate Ngua Man VLAB project preserves the original FourLabs project, rooms and supplied apparatus geometry.
+Authoritative release checkpoint: 2026-10-20T06:01:51+07:00, Asia/Saigon. **The artifact hash and receipt table in this file supersede every earlier build hash, numbered-run checkpoint and release-state description.** Earlier audit entries remain historical evidence, not current acceptance. Unity6000.6.4f1, universal Android ARMv7+ARM64/IL2CPP, min API26 / target36, ETC2 textures, Cardboard1.36.0. The separate Ngua Man VLAB project preserves the original FourLabs project, rooms and supplied apparatus geometry.
 
 ## Final source and artifact
 
-Signed universal release APK: `Builds/Android/NguaManVLAB-0.1.0-android.apk`, 114,392,953 bytes. SHA256 `B439B5D8221CBE4CE800131D25A218AAC3E3A74BE0204CD8DBACCE773260B45A`. The build completed with zero errors; `Evidence/android-artifact-checks.txt` records aapt package details, both ABI/IL2CPP entries and apksigner verification. The completed Unity build receipt records both target architectures and ETC2. This artifact supersedes earlier ARM64-only APKs and includes the current menu, notebook, settings, controller diagram and input changes. Private signing material remains outside the project/repository; custom signing settings are restored after building.
+Signed universal release APK: `Builds/Android/NguaManVLAB-0.1.1-android.apk`, 114,396,821 bytes. SHA256 `A7E485C58EF5D2D1E28BEEED003E15EB3F952ADE2060E6FE24A146046C3FAEF0`. The build completed with zero errors; `Evidence/android-artifact-checks.txt` records aapt package details, both ABI/IL2CPP entries and apksigner verification. The completed Unity build receipt records both target architectures and ETC2. This artifact supersedes earlier ARM64-only APKs and includes the current menu, notebook, settings, controller diagram and input changes. Private signing material remains outside the project/repository; custom signing settings are restored after building.
 
 The publication checkout mirrors Assets, Packages, ProjectSettings and docs. Its sanitized `Evidence/Release20261019` contains selected receipts/screenshots and a hash inventory, not learner/test-profile JSON or private credentials. Git publication success is reported separately after remote verification; this file alone is not a remote-push receipt.
 
@@ -13,7 +13,7 @@ The publication checkout mirrors Assets, Packages, ProjectSettings and docs. Its
 - Offline apparatus evidence records all32 bounded native SDK journeys, eight per lab, and 47 coexisting saved/reopened attempts with bidirectional reading snapshot isolation. See EXPERIMENT_FINAL_AUDIT.md.
 - Core: 333 checks; separate Biology integration: 1630 assertions. These are model/lifecycle/SDK evidence, distinct from native UI or physical hardware.
 - Visual review: 2640 recorded checks including saved-profile preservation, actual controller-ray Home routes, bilingual title fit, settings, personal writing and readable B01 outputs. All eight lessons are visible together in each laboratory browser.
-- Learning: 445 recorded checks across32 lesson-specific Vietnamese guides, formula/pagination checks and normal/large text. Illustrative examples are labelled and historical readings preserved; English UI labels explicitly identify Vietnamese content.
+- Learning: 495 recorded checks across32 lesson-specific Vietnamese guides, formula/pagination checks and normal/large text. Illustrative examples are labelled and historical readings preserved; English UI labels explicitly identify Vietnamese content.
 - Appearance: 1121 recorded checks for themes, opacity, saved comparisons, current-project panoramas and guidance cues.
 - Runtime: 2667 recorded checks including first launch, all32 UI launch/equipment paths, direct study entry and correct return to the selected browser item.
 - Guidance: 1066 recorded checks for actual P01/C01 instruction callbacks, manual preparation targets and paused-clock restoration. See GUIDANCE_QUALITY_AUDIT.md.
@@ -26,19 +26,21 @@ Exact receipt file timestamps and mechanically derived counts (not historical ru
 
 | Receipt | Count and scope | Modified UTC |
 | --- | --- | --- |
+| `Runtime/local-storage-ui.txt` | 49 PASS entries | 2026-10-19T22:54:39+00:00 |
+| `Runtime/notebook-data-checks.txt` | 2 PASS entries | 2026-10-19T22:54:32+00:00 |
 | `core-checks.txt` | 333 checks | 2026-10-19T19:51:27+00:00 |
 | `Biology/integration-checks.txt` | 1630 assertions | 2026-10-19T21:11:23+00:00 |
 | `Runtime/visual-review-smoke.txt` | 2640 recorded checks | 2026-10-19T19:39:26+00:00 |
-| `Runtime/learning-review-smoke.txt` | 445 recorded checks | 2026-10-19T21:55:56+00:00 |
+| `Runtime/learning-review-smoke.txt` | 495 recorded checks | 2026-10-19T22:54:56+00:00 |
 | `Runtime/guidance-review-smoke.txt` | 1066 recorded checks | 2026-10-19T21:38:35+00:00 |
 | `Runtime/appearance-smoke.txt` | 1121 recorded checks | 2026-10-19T20:45:10+00:00 |
-| `Runtime/runtime-smoke.txt` | 2667 recorded checks | 2026-10-19T21:37:19+00:00 |
+| `Runtime/runtime-smoke.txt` | 2667 recorded checks | 2026-10-19T22:53:18+00:00 |
 | `Runtime/controls-review-smoke.txt` | 1214 recorded checks | 2026-10-19T19:42:50+00:00 |
 | `Runtime/branding-review-smoke.txt` | 472 recorded checks | 2026-10-19T18:34:29+00:00 |
 | `Runtime/apparatus-layout-smoke.txt` | 3692 recorded checks | 2026-10-19T21:19:35+00:00 |
 | `Runtime/rendering-review-smoke.txt` | 103 recorded checks | 2026-10-19T21:10:36+00:00 |
 | `launcher-mesh-probe.txt` | 4 original-barrel angle checks | 2026-10-19T20:48:09+00:00 |
-| `Runtime/additional-ui.txt` | 2615 recorded checks | 2026-10-19T21:36:49+00:00 |
+| `Runtime/additional-ui.txt` | 2615 recorded checks | 2026-10-19T22:52:48+00:00 |
 | `Runtime/observation-card-layout.txt` | 12 PASS entries | 2026-10-19T19:41:43+00:00 |
 | `Input/controller-bindings-native.txt` | 25 PASS entries | 2026-10-19T19:41:46+00:00 |
 | `Input/controller-bindings-persistence.txt` | 27 PASS entries | 2026-10-19T19:41:46+00:00 |

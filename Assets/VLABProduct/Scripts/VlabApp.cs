@@ -31,6 +31,8 @@ namespace Vlab.Product
         bool changing,dirty,explicitAcceptance,writeProtected,roomEntryCancelled,notebookKeyboardRequested;float inputAfter,nextDisplay;int attemptSeed=1;
         TextMeshProUGUI roomLoadStatus;UnityEngine.UI.Image roomLoadFill;UnityEngine.UI.Button roomLoadBack;AsyncOperation activeRoomLoad;
         TextMeshProUGUI liveReading,liveHint,liveTime,liveStage,liveActionLabel;
+        AttemptRecord pendingMeasurement;ExperimentSession pendingMeasurementSession;SessionCheckpoint pendingMeasurementCheckpoint;
+        bool HasPendingMeasurement=>pendingMeasurement!=null&&ReferenceEquals(pendingMeasurementSession,Session);
         UnityEngine.UI.Button liveAction;RectTransform pointerRoot;
         bool modalAllowsSimulation,modalResumeActivity,activityReturnRunning;ExperimentSession modalSession;
         int equipmentPage,variablePage,instrumentPage,readingPage;string inspectionTab="";EquipmentHandle inspectedItem;RectTransform inspectionOutput;string inspectionReadingKeys="",liveReadingError="";AttemptRecord shownResult;
@@ -57,7 +59,7 @@ namespace Vlab.Product
 #if UNITY_EDITOR
             string testProfile=UnityEditor.SessionState.GetString("VLAB.TestProfile","");if(!string.IsNullOrEmpty(testProfile))profilePath=testProfile;
 #endif
-            store=new ProfileStore(profilePath);var loaded=store.Load();Profile=loaded.profile;status=loaded.message;writeProtected=loaded.writeProtected;
+            store=new ProfileStore(profilePath);var loaded=store.Load();Profile=loaded.profile;ApplyStorageLoadMessage(loaded);
             privacyHash=DocumentHash("privacy");termsHash=DocumentHash("terms");
             origin=new GameObject("Learner Origin").transform;origin.SetParent(transform,false);
             var cameraGo=new GameObject("VLAB Camera",typeof(Camera),typeof(AudioListener),typeof(UniversalAdditionalCameraData));cameraGo.tag="MainCamera";cameraGo.transform.SetParent(origin,false);View=cameraGo.GetComponent<Camera>();View.nearClipPlane=.04f;View.farClipPlane=40;View.fieldOfView=65;
@@ -76,7 +78,17 @@ namespace Vlab.Product
         string DocumentHash(string id)
         {var vi=Resources.Load<TextAsset>("Legal/"+id+"_vi");var en=Resources.Load<TextAsset>("Legal/"+id+"_en");return vi&&en?ProfileStore.Hash(vi.text+"\n"+en.text):"";}
         bool Save()
-        {if(Session!=null&&!Session.Complete)Profile.checkpoint=Session.Checkpoint();if(store.Save(Profile,out var error)){writeProtected=false;return true;}status=error;return false;}
+        {if(HasPendingMeasurement){status=StorageSaveMessage();return false;}if(Session!=null&&!Session.Complete)Profile.checkpoint=Session.Checkpoint();if(store.Save(Profile,out var error)){writeProtected=false;return true;}StorageFailure(error);return false;}
+        string StorageSaveMessage()=>L("Chưa xác nhận lưu. Dữ liệu trong phiên này vẫn được giữ. Kiểm tra dung lượng thiết bị rồi thử lưu lại; nếu có số đo chờ lưu, trở lại trạm và chọn Thử lưu số đo.","Saving is unconfirmed. This session's data is retained. Check device storage and retry; for a pending reading, return to the station and choose Retry saving reading.");
+        void StorageFailure(string diagnostic,bool reset=false)
+        {Debug.LogWarning("VLAB local storage: "+diagnostic);status=reset?L("Chưa xác nhận đặt lại. Trạng thái trên thiết bị có thể đã thay đổi. Không thể bảo đảm dữ liệu cũ còn nguyên; kiểm tra dung lượng và mở lại ứng dụng trước khi quyết định thử lại.","Reset is unconfirmed. Device state may have changed, so old data cannot be guaranteed. Check storage and reopen the application before deciding whether to retry."):StorageSaveMessage();}
+        void StorageToast(){Toast(status);if(page)page.gameObject.SetActive(false);}
+        void ApplyStorageLoadMessage(ProfileLoad loaded)
+        {
+            writeProtected=loaded.writeProtected;if(!string.IsNullOrEmpty(loaded.message))Debug.LogWarning("VLAB local profile load: "+loaded.message);
+            status=loaded.writeProtected?L("Không thể mở hồ sơ đã lưu. Tệp hiện có được bảo vệ; hãy kiểm tra dung lượng hoặc chọn khôi phục hồ sơ. Chưa ghi đè dữ liệu.","The saved profile could not be opened. Existing files are protected; check storage or choose profile recovery. Data has not been overwritten."):loaded.recovered?L("Đã mở bản sao dự phòng hợp lệ. Hãy kiểm tra ghi chép và số đo trước khi tiếp tục lưu.","A valid backup was opened. Check your notes and readings before saving again."):string.IsNullOrEmpty(loaded.message)?"":L("Có vấn đề khi mở dữ liệu trên thiết bị. Hãy kiểm tra hồ sơ trước khi tiếp tục.","A problem occurred while opening local data. Check your profile before continuing.");
+        }
+        void ClearPendingMeasurement(){pendingMeasurement=null;pendingMeasurementSession=null;pendingMeasurementCheckpoint=null;}
         void ShowSetupOrHome(){switch(Profile.NextSetup(privacyHash,termsHash)){case "language":ShowLanguage();break;case "privacy":ShowLegal("privacy",true);break;case "terms":ShowLegal("terms",true);break;case "safety":ShowSafety();break;default:ShowHome();break;}}
         RectTransform NewPage(string route,string backgroundExperiment=null)
         {
@@ -185,7 +197,7 @@ namespace Vlab.Product
             page.gameObject.AddComponent<HomePortalArc>().Cards=cards;
             string[] utility={L("Cài đặt","Settings"),L("Trợ giúp","Help"),L("Giới thiệu","About"),L("Sổ tay","Notebook")};Action[] actions={()=>OpenSettings("home"),()=>ShowHelp("home"),ShowAbout,()=>ShowNotebook("home")};
             for(int i=0;i<4;i++){int n=i;var button=HomePresentation.Utility(ui,page,utility[i],i,()=>{if(Time.unscaledTime>=inputAfter&&!changing)actions[n]();});if(i==3)button.name="Open journal";}
-            HomePresentation.Helper(ui,page,L("Nhìn hoặc trỏ để chọn","Look or point to select"),918);FooterStatus();
+            if(string.IsNullOrEmpty(status))HomePresentation.Helper(ui,page,L("Nhìn hoặc trỏ để chọn","Look or point to select"),918);else FooterStatus();
         }
         IEnumerator Portal(RectTransform selectedCard)
         {
@@ -254,6 +266,8 @@ namespace Vlab.Product
         }
         IEnumerator LoadRoom(bool experiment,bool resume,string sceneOverride=null)
         {
+            if(HasPendingMeasurement){ShowActivity();Toast(StorageSaveMessage());yield break;}
+            ClearPendingMeasurement();
             if(changing)yield break;changing=true;roomEntryCancelled=false;Session?.Pause();NewPage("loading");
             var requested=selected;string scene=sceneOverride??SceneName;
             var box=ui.Panel(page,"Room loading",350,250,900,500);
@@ -371,6 +385,7 @@ namespace Vlab.Product
                     if(!Session.Start(out status))Toast(LessonGuide.ExplainFailure(status,Vi));else{Apparatus.ApplyPreparation(Session.Operation);RefreshActivity();}break;
                 case ExperimentPhase.Paused:Session.Resume();RefreshActivity();break;
                 case ExperimentPhase.Running:RecordMeasurement();break;
+                case ExperimentPhase.Measured:if(HasPendingMeasurement)RecordMeasurement();break;
                 case ExperimentPhase.Invalid:ShowPause();break;
             }
         }
@@ -407,6 +422,8 @@ namespace Vlab.Product
                 liveHint.text=Apparatus.Driver==null?L("Thả nhẹ, không đẩy. Quan sát chuyển động của con lắc.","Release gently without pushing. Observe the pendulum's motion."):L("Dụng cụ đã sẵn sàng. Bắt đầu lượt và thao tác trên dụng cụ.","Start the prepared trial. Select instruments to operate them.");
                 action=Apparatus.Driver==null?L("Thả / Bắt đầu","Release / Start"):L("Bắt đầu lượt đo","Start trial");
             }
+            else if(HasPendingMeasurement)
+            {liveStage.text=L("SỐ ĐO CHỜ LƯU","READING AWAITS SAVE");liveHint.text=L("Số đo đang được giữ. Thử lưu lại cùng lượt; không cần đo lại.","Reading retained. Retry saving this trial; no need to measure again.");action=L("Thử lưu số đo","Retry saving reading");}
             else if(Session.Phase==ExperimentPhase.Running)
             {
                 bool enough=Session.Authority!=null?Session.Authority.CanRecord(out _):Session.Pendulum!=null?Session.Pendulum.Cycles>=(int)Session.parameters["cycles"]:Session.Elapsed>=Session.spec.duration;
@@ -420,7 +437,7 @@ namespace Vlab.Product
                 liveHint.text=Session.Phase==ExperimentPhase.Invalid?Session.Failure:L("Mọi số đo đang được giữ. Tiếp tục khi bạn sẵn sàng.","Your observations are retained. Continue when you are ready.");
                 action=Session.Phase==ExperimentPhase.Invalid?L("Mở tạm dừng","Open pause menu"):L("Tiếp tục","Resume");
             }
-            if(Profile.settings.hints)
+            if(Profile.settings.hints&&!HasPendingMeasurement)
             {
                 var task=CurrentGuide();liveHint.text=GuideCard(task);liveHint.enableAutoSizing=true;liveHint.fontSizeMin=24;liveHint.fontSizeMax=ui.LargeText?29:28;
                 if(Session.Phase==ExperimentPhase.Preparing&&(task.kind=="instrument"||task.kind=="image"))action=L("Mở dụng cụ cần dùng","Open required instrument");
@@ -649,9 +666,14 @@ namespace Vlab.Product
         }
         void RecordMeasurement()
         {
-            if(!Session.Measure(out status)){Toast(LessonGuide.ExplainFailure(status,Vi));RefreshActivity();return;}
-            var record=Session.Record();Profile.attempts.Add(record);Profile.checkpoint=null;
-            if(!store.Save(Profile,out status)){Profile.attempts.Remove(record);Toast(status);return;}ShowResults(record);
+            if(!HasPendingMeasurement)
+            {
+                if(!Session.Measure(out status)){Toast(LessonGuide.ExplainFailure(status,Vi));RefreshActivity();return;}
+                pendingMeasurement=Session.Record();pendingMeasurementSession=Session;pendingMeasurementCheckpoint=Profile.checkpoint;
+            }
+            var record=pendingMeasurement;bool added=!Profile.attempts.Any(attempt=>attempt.attemptId==record.attemptId);if(added)Profile.attempts.Add(record);Profile.checkpoint=null;
+            if(!store.Save(Profile,out var error)){if(added)Profile.attempts.Remove(record);Profile.checkpoint=pendingMeasurementCheckpoint;StorageFailure(error);StorageToast();RefreshActivity();return;}
+            writeProtected=false;ClearPendingMeasurement();status="";ShowResults(record);
         }
         string FormatReadings(IEnumerable<Reading> readings)=>string.Join("\n",readings.Select(r=>ReadingLabel(r)+"   "+ObservationCards.FormatValue(r.value,Vi)+" "+r.unit));
         public static string ReadingCaption(Reading reading,bool vi)
@@ -695,7 +717,7 @@ namespace Vlab.Product
                 var caption=page?page.GetComponentsInChildren<TextMeshProUGUI>().FirstOrDefault(text=>text.name=="Journal note status"):null;if(caption)caption.text=journal.noteStatus;return true;
             }
             Debug.LogWarning("VLAB notebook save failed: "+status);
-            var box=Modal(L("Chưa lưu được ghi chép","Notebook could not be saved"),1000,460);
+            var box=Modal(L("Chưa xác nhận lưu ghi chép","Notebook saving is unconfirmed"),1000,460);
             ui.Text(box,L("Trang viết vẫn được giữ trong phiên này. Kiểm tra dung lượng thiết bị rồi thử lưu lại.","Your draft remains in this session. Check device storage, then retry saving."),40,125,920,140,28);
             Button(box,L("Quay lại trang viết","Back to writing"),40,340,440,70,CloseModal);
             Button(box,L("Thử lưu lại","Retry save"),520,340,440,70,()=>{CloseModal();SaveNotebookNotes();},Accent);return false;
@@ -727,9 +749,9 @@ namespace Vlab.Product
             Button(box,L("Tiếp tục","Resume"),50,70,460,75,()=>{Session?.Resume();if(Session!=null)ShowActivity();else ShowExplore();},Accent);
             Button(box,L("Cài đặt","Settings"),50,175,460,70,()=>OpenSettings("pause"));Button(box,L("Trợ giúp","Help"),50,270,460,70,()=>ShowHelp("pause"));
             Button(box,L("Làm lại lượt","Restart attempt"),50,365,460,70,()=>Confirm(L("Lượt chưa ghi sẽ bị xóa. Lượt trong sổ tay vẫn được giữ.","The unrecorded attempt will be cleared. Notebook entries are retained."),Restart));
-            Button(box,L("Rời phòng","Leave laboratory"),50,460,460,70,()=>Confirm(L("Lưu điểm chuẩn bị và rời phòng?","Save preparation checkpoint and leave?"),()=>{Save();ShowBrowser();}));
+            Button(box,L("Rời phòng","Leave laboratory"),50,460,460,70,()=>Confirm(L("Lưu điểm chuẩn bị và rời phòng?","Save preparation checkpoint and leave?"),()=>{if(Save())ShowBrowser();else Toast(status);}));
         }
-        void Restart(){Session=null;if(Apparatus)Destroy(Apparatus.gameObject);StartCoroutine(LoadRoom(true,false));}
+        void Restart(){if(HasPendingMeasurement){Confirm(L("Số đo chưa xác nhận lưu. Bỏ số đo đang giữ và bắt đầu lại?","Saving is unconfirmed. Discard the retained reading and restart?"),()=>{ClearPendingMeasurement();Restart();});return;}ClearPendingMeasurement();Session=null;if(Apparatus)Destroy(Apparatus.gameObject);StartCoroutine(LoadRoom(true,false));}
         void OpenSettings(string back){settingsReturn=back;draft=Profile.settings.Copy();draftLocale=Profile.locale;dirty=false;settingsTab=0;ShowSettings();}
         void SettingsCategories(RectTransform box,string[] labels)
         {
@@ -850,7 +872,7 @@ namespace Vlab.Product
             if(!dirty){ReturnTo(settingsReturn);return;}var box=Modal(L("Thay đổi chưa áp dụng","Unapplied changes"),1000,430);ui.Text(box,L("Giữ lại, bỏ thay đổi, hoặc áp dụng trước khi quay lại.","Stay here, discard changes, or apply them before returning."),40,120,920,120,26);
             Button(box,L("Ở lại","Stay"),40,320,280,64,CloseModal);Button(box,L("Bỏ thay đổi","Discard"),360,320,280,64,()=>ReturnTo(settingsReturn));Button(box,L("Áp dụng","Apply"),680,320,280,64,ApplyDraft,Accent);
         }
-        void ApplyDraft(){var previous=Profile.settings;string oldLocale=Profile.locale;Profile.settings=draft.Copy();Profile.locale=draftLocale;if(Save()){ApplySettings();dirty=false;ReturnTo(settingsReturn);}else{Profile.settings=previous;Profile.locale=oldLocale;Toast(status);}}
+        void ApplyDraft(){var previous=Profile.settings;string oldLocale=Profile.locale;Profile.settings=draft.Copy();Profile.locale=draftLocale;if(Save()){ApplySettings();dirty=false;ReturnTo(settingsReturn);}else{Profile.settings=previous;Profile.locale=oldLocale;StorageToast();}}
         void ApplySettings()
         {
             RoomBranding.SetLanguage(SceneManager.GetActiveScene(),Profile.locale!="en");
@@ -925,7 +947,7 @@ namespace Vlab.Product
             Button(box,L("Sổ tay","Notebook"),40,425,370,65,()=>ShowNotebook("about"));Button(box,L("Giấy phép và nguồn","Credits and licenses"),450,425,370,65,()=>{var b=Modal(L("Nguồn và giấy phép","Credits and licenses"),1100,800);var credits=Resources.Load<TextAsset>("Legal/credits");ui.Scroll(b,credits?credits.text:L("Đang tổng hợp attribution.","Attribution is being assembled."),40,110,1020,560);Button(b,L("Quay lại","Back"),40,700,240,64,CloseModal);});
             Button(box,L("Xóa tiến độ","Reset progress"),40,520,370,65,()=>Confirm(L("Xóa các lượt đo đã ghi? Trang ghi chép riêng vẫn được giữ.","Clear recorded attempts? Written notebook pages are kept."),()=>ResetProfile(false)));Button(box,L("Đặt lại ứng dụng","Reset application"),450,520,370,65,()=>Confirm(L("Xóa toàn bộ hồ sơ, ghi chép, cài đặt và chấp thuận?","Clear profile, written notes, settings and acknowledgements?"),()=>ResetProfile(true)));
         }
-        void ResetProfile(bool full){if(store.Reset(Profile,full,out var next,out status)){Profile=next;Session=null;ApplySettings();ShowSetupOrHome();}else Toast(status);}
+        void ResetProfile(bool full){if(store.Reset(Profile,full,out var next,out var error)){ClearPendingMeasurement();Profile=next;Session=null;ApplySettings();ShowSetupOrHome();}else{StorageFailure(error,true);StorageToast();}}
         RectTransform Modal(string title,float width,float height,bool live=false)
         {
             ClearGuideCue();

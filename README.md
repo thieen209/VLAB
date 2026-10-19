@@ -2,11 +2,7 @@
 
 An offline Vietnamese/English smartphone-VR STEM laboratory built from the supplied FourLabs rooms, instrument library and experiment briefs. Android/Cardboard, touchscreen/mouse/keyboard and OS-paired HID gamepad controls share the same lesson state and local journal.
 
-[Download the signed Android prototype APK](https://github.com/thieen209/VLAB/releases/download/v0.1.0-prototype-20261020/NguaManVLAB-0.1.0-android.apk). See the [prototype verification scope and remaining limits](docs/KNOWN_LIMITS.md).
-
-APK SHA256: `B439B5D8221CBE4CE800131D25A218AAC3E3A74BE0204CD8DBACCE773260B45A`.
-
-Open this directory with Unity **6000.6.4f1**, with Android Build Support, SDK/NDK and OpenJDK installed. Open `Assets/VLABProduct/Scenes/VLAB_Boot.unity`. The universal APK is `NguaManVLAB-0.1.0-android.apk`: ARMv7 + ARM64 / IL2CPP, API26 minimum /36 target, ETC2 textures. Package versions and Cardboard 1.36.0 are pinned in `Packages`.
+Open this directory with Unity **6000.6.4f1**, with Android Build Support, SDK/NDK and OpenJDK installed. Open `Assets/VLABProduct/Scenes/VLAB_Boot.unity`. The universal APK is `NguaManVLAB-0.1.1-android.apk`: ARMv7 + ARM64 / IL2CPP, API26 minimum /36 target, ETC2 textures. Package versions and Cardboard 1.36.0 are pinned in `Packages`.
 
 The first launch runs Language → Privacy → Terms → Safety once; document changes renew only the affected acceptance. Progress, settings, observations and safe preparation checkpoints use checksummed local files with backup recovery. No account or laboratory server is required.
 
@@ -20,9 +16,11 @@ The notebook opens to writable paper pages with spiral binding, Vietnamese VR ty
 
 The current required native receipts were checked before this publication checkout was prepared:
 
-- `runtime-smoke.txt`: 2667 recorded checks; UTC 2026-10-19T21:37:19+00:00
+- `local-storage-ui.txt`: 49 isolated storage/UI assertions; UTC 2026-10-19T22:54:39+00:00
+- `notebook-data-checks.txt`: 78 data assertions plus actual saved P03 pair verification (see receipt); UTC 2026-10-19T22:54:32+00:00
+- `runtime-smoke.txt`: 2667 recorded checks; UTC 2026-10-19T22:53:18+00:00
 - `visual-review-smoke.txt`: 2640 recorded checks; UTC 2026-10-19T19:39:26+00:00
-- `learning-review-smoke.txt`: 445 recorded checks; UTC 2026-10-19T21:55:56+00:00
+- `learning-review-smoke.txt`: 495 recorded checks; UTC 2026-10-19T22:54:56+00:00
 - `guidance-review-smoke.txt`: 1066 recorded checks; UTC 2026-10-19T21:38:35+00:00
 - `appearance-smoke.txt`: 1121 recorded checks; UTC 2026-10-19T20:45:10+00:00
 - `controls-review-smoke.txt`: 1214 recorded checks; UTC 2026-10-19T19:42:50+00:00
@@ -42,3 +40,11 @@ Use `VlabProductBuild.AndroidDevelopment` for a development APK. For the release
 The previous main (`df83980a12a241c5f23faf6827ee8c3612c9c247`) remains recoverable through Git history. No ancestor workspace or original supplied Unity project is replaced.
 
 MIT applies to the project code; third-party assets retain their own licenses. Shipped credits: `Assets/VLABProduct/Resources/Legal/credits.txt`, font notices and package notices. Original VLAB identity and instrument provenance are retained.
+
+## Android download (0.1.1)
+
+[Download signed Android APK](https://github.com/thieen209/VLAB/releases/download/v0.1.1-prototype-20261020/NguaManVLAB-0.1.1-android.apk) · [Prototype release](https://github.com/thieen209/VLAB/releases/tag/v0.1.1-prototype-20261020)
+
+Version0.1.1/code2 uses the same package/signing identity as0.1.0. SHA256: `A7E485C58EF5D2D1E28BEEED003E15EB3F952ADE2060E6FE24A146046C3FAEF0` (114396821 bytes). The previous0.1.0 tag/artifact remains unchanged.
+
+This update fixes retrying the same completed measurement after a local-file failure, adds accurate Vietnamese storage guidance, and lets P03 graph actual recorded normal force. See [correction scope and remaining research gap](docs/PROTOTYPE_011_CORRECTIONS.md). Native fault tests cover prewrite and partial-backup failure; these are not real-device durability tests. P03's two-mass comparison uses data-level fixtures; its native check reopens the existing one actual saved P03 pair. The earlier fresh-clone import/Core333 result applies to commit523fe9d; this follow-up has native compilation, focused UI/data checks, full success-route regression and its new signed Android build, not a second fresh-clone Android rebuild.

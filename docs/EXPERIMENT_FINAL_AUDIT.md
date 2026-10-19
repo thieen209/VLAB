@@ -1,6 +1,6 @@
 # Final experiment-path audit
 
-Current release scope, 2026-10-20T05:01:36+07:00: the authoritative artifact hash and release checkpoint in BUILD_STATE.md supersede earlier hashes and numbered-run labels. Scientific/source boundaries in the32-row table below remain unchanged; this is evidence for32 bounded journeys, not complete research or physical Android/headset acceptance. Research was parsed with Python AST/literal_eval only; the supplied module was not executed.
+Current release scope, 2026-10-20T06:01:51+07:00: the authoritative artifact hash and release checkpoint in BUILD_STATE.md supersede earlier hashes and numbered-run labels. Scientific/source boundaries in the32-row table below remain unchanged; this is evidence for32 bounded journeys, not complete research or physical Android/headset acceptance. Research was parsed with Python AST/literal_eval only; the supplied module was not executed.
 
 ## Evidence and scope
 
@@ -59,6 +59,6 @@ Integrated sources: `Assets/VLABProduct/Scripts/ExperimentSession.cs` (Record me
 
 ## Verification receipt
 
-Run34 completed the 32 supported native subject journeys and reopened all 47 attempts in one offline profile. `Evidence/Subjects/offline-records.txt` contains 47 file-save/reopen PASS rows, 47 snapshot-isolation PASS rows, and the final all-32-IDs / 47-attempts PASS line. No FAIL entry appears in the two subject receipts or `work/subjects-final-34.log`; the log contains no C# compilation error or unhandled exception. These receipts verify the integrated snapshot correction, not every extension in the research briefs. The 32-row boundaries above remain applicable.
+The current successful subject receipt (UTC 2026-10-19T21:11:28+00:00) covers32 bounded native lesson journeys; the current offline receipt (UTC 2026-10-19T21:11:28+00:00) reopens 47 coexisting attempts with 47 save/reopen and 47 snapshot-isolation checks. These dated receipts supersede historical run34 counts/log references. The32-row research boundaries above remain applicable.
 
 Physical Android/Cardboard interaction, stereo comfort, pause/resume on device and performance remain unverified as already disclosed in KNOWN_LIMITS.md.

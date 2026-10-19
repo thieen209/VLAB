@@ -24,5 +24,5 @@ Synthetic checks cannot establish Android scanner permissions/cancellation, real
 
 
 <!-- RELEASE CHECKPOINT BEGIN -->
-Current release 2026-10-20T05:01:36+07:00: controls 1214 recorded checks and visual review 2640 recorded checks. Exact receipt timestamps are in BUILD_STATE.md. These are native Editor/synthetic checks; Android/viewer installation, optical fit and physical acceptance remain pending.
+Current release 2026-10-20T06:01:51+07:00: controls 1214 recorded checks and visual review 2640 recorded checks. Exact receipt timestamps are in BUILD_STATE.md. These are native Editor/synthetic checks; Android/viewer installation, optical fit and physical acceptance remain pending.
 <!-- RELEASE CHECKPOINT END -->

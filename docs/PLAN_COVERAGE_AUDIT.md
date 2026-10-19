@@ -90,11 +90,11 @@ Polish47 passed1760 assertions; Learning48 passed246; Appearance50 passed252; Ru
 Physical Android/Cardboard acceptance, full research-extension coverage and complete SDK-error localization remain open in KNOWN_LIMITS.md. Study content is Vietnamese under the English interface with an explicit notice. No assertion count establishes a10/10 design or full research/hardware acceptance.
 <!-- RELEASE CHECKPOINT BEGIN -->
 
-## Superseding release checkpoint, 2026-10-20T05:01:36+07:00
+## Superseding release checkpoint, 2026-10-20T06:01:51+07:00
 
 The current universal ARMv7+ARM64 APK uses API26 minimum /36 target and ETC2. Home has top-centred titles and equal scientific silhouette cards; Settings uses connected top categories. Each browser displays all eight lessons. The physical notebook includes32 Vietnamese study guides, writable notes and saved observations. Controller assignment uses live front/side callouts and conflict-safe swaps. UI animations On/Off persists through reducedMotion. Original transparent white room banners and localized lab names are retained; real-worktop layout is checked separately.
 
-Current receipt counts: visual review 2640; learning 445; appearance 1121; runtime 2667; controls 1214; branding 472; layout 3692; rendering 103; launcher 4 angle checks. Offline evidence retains32 bounded lessons/47 coexisting saved attempts. All `80-*` learner-view captures use the automatic enabled learner camera; the earlier incorrect manual B04 image is superseded by image83 and its render-state/receipt. BUILD_STATE.md records exact receipt timestamps, count scopes and the authoritative artifact hash, superseding all earlier hashes and checkpoints.
+Current receipt counts: visual review 2640; learning 495; appearance 1121; runtime 2667; controls 1214; branding 472; layout 3692; rendering 103; launcher 4 angle checks. Offline evidence retains32 bounded lessons/47 coexisting saved attempts. All `80-*` learner-view captures use the automatic enabled learner camera; the earlier incorrect manual B04 image is superseded by image83 and its render-state/receipt. BUILD_STATE.md records exact receipt timestamps, count scopes and the authoritative artifact hash, superseding all earlier hashes and checkpoints.
 
 Physical Android/Cardboard acceptance, research extensions and complete SDK-error localization remain open in KNOWN_LIMITS.md. Vietnamese study content is explicitly labelled in the English interface. The supplied ESP32-S3/BNO055 files contain no custom BLE protocol; diagram hand selection is not proof of firmware hand separation. No assertion count establishes aesthetic approval or hardware readiness.
 

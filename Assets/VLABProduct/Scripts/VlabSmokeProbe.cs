@@ -137,7 +137,7 @@ public sealed class VlabSmokeProbe:MonoBehaviour
             Capture("49-trang-chu-theo-plan-VI");yield return HomePresentationChecks.Run(app,Capture,Check);
             Check("No runtime errors in the focused Home review",errors.Count==0);yield break;
         }
-        if(SessionState.GetBool("VLAB.LearningOnly",false)){yield return GuidanceQualityChecks.Run(Check);yield return LearningGuideChecks.Run(app,Capture,Check);Check("No runtime errors in the focused learning review",errors.Count==0);yield break;}
+        if(SessionState.GetBool("VLAB.LearningOnly",false)){File.WriteAllText(Path.Combine(folder,"notebook-data-checks.txt"),NotebookDataChecks.Run()+"\n"+NotebookDataChecks.RunSavedP03(app.Profile.attempts));Check("Saved-reading notebook regression checks and reopened actual P03 normal-force axis passed",true);yield return LocalStorageUiChecks.Run(app,Capture,Check);yield return GuidanceQualityChecks.Run(Check);yield return LearningGuideChecks.Run(app,Capture,Check);Check("No runtime errors in the focused learning review",errors.Count==0);yield break;}
         ObservationCards.CheckFormatting(Check);ObservationCardLayoutChecks.Run(app.Profile.attempts,Check);NotebookPersistenceChecks.Run(Check);NotebookKeyboardChecks.Pure(Check);VlabAppearanceChecks.Core(Check);
         yield return CardboardEntryChecks.Run(Check);
         GamepadIntegrationChecks.Run();Check("Native HID and phone touch gesture checks passed",true);

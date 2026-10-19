@@ -1,0 +1,50 @@
+Native isolated prewrite/backup faults and actual UI Retry; no device/storage durability certification.
+PASS Original pendulum item installs for storage UI: stand
+PASS Original pendulum item installs for storage UI: clamp
+PASS Original pendulum item installs for storage UI: pendulum
+PASS Original pendulum item installs for storage UI: string
+PASS Original pendulum item installs for storage UI: ruler
+PASS Original pendulum item installs for storage UI: timer
+PASS Storage UI fixture prepares original operation
+PASS Storage UI fixture prepares original operation
+PASS Storage UI fixture prepares original operation
+PASS Storage UI fixture prepares original operation
+PASS Storage UI fixture starts actual pendulum
+PASS Isolated baseline profile commits
+PASS Fault temp path was absent
+PASS Failed reading save stays Measured with retained pending sample
+PASS Failure message is localized and contains no raw storage path
+PASS Storage dialog hides the underlying activity text
+PASS Prewrite failure preserves committed primary and backup bytes
+PASS Closing storage dialog restores the activity card
+PASS Actual visible Retry saves exactly one identical finished reading
+PASS Retry does not remeasure or leave pending state
+PASS Original pendulum item installs for storage UI: stand
+PASS Original pendulum item installs for storage UI: clamp
+PASS Original pendulum item installs for storage UI: pendulum
+PASS Original pendulum item installs for storage UI: string
+PASS Original pendulum item installs for storage UI: ruler
+PASS Original pendulum item installs for storage UI: timer
+PASS Storage UI fixture prepares original operation
+PASS Storage UI fixture prepares original operation
+PASS Storage UI fixture prepares original operation
+PASS Storage UI fixture prepares original operation
+PASS Storage UI fixture starts actual pendulum
+PASS Isolated baseline profile commits
+PASS Fault temp path was absent
+PASS Failed reading save stays Measured with retained pending sample
+PASS Failure message is localized and contains no raw storage path
+PASS Storage dialog hides the underlying activity text
+PASS Backup failure may already commit the same pending sample in primary
+PASS Closing storage dialog restores the activity card
+PASS Actual visible Retry saves exactly one identical finished reading
+PASS Retry does not remeasure or leave pending state
+PASS Failed settings Apply rolls back committed settings and retains draft
+PASS Actual Cancel leaves stored settings unchanged
+PASS Reset failure is localized and does not promise intact old records
+PASS Reset failure fixture proves generation/primary may already change
+PASS Actual damaged local files enter write protection
+PASS Protected-load warning is Vietnamese and excludes diagnostics
+PASS Protected-profile capture waits for visible Home entrance
+PASS Protected-profile status replaces the generic Home hint
+PASS Storage UI fixture restores every original learner field

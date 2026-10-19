@@ -16,16 +16,18 @@ Current receipt inventory; BUILD_STATE.md's current artifact hash/checkpoint sup
 | `Subjects/offline-records.txt` | 95 PASS entries | 2026-10-19T21:11:28+00:00 |
 | `Biology/integration-checks.txt` | 1630 assertions | 2026-10-19T21:11:23+00:00 |
 | `Chemistry/integration-checks.txt` | 231 PASS entries | 2026-10-19T21:11:23+00:00 |
-| `Input/gamepad-integration.txt` | 29 PASS entries | 2026-10-19T21:30:56+00:00 |
-| `Runtime/runtime-smoke.txt` | 2667 recorded checks | 2026-10-19T21:37:19+00:00 |
+| `Input/gamepad-integration.txt` | 29 PASS entries | 2026-10-19T22:46:52+00:00 |
+| `Runtime/runtime-smoke.txt` | 2667 recorded checks | 2026-10-19T22:53:18+00:00 |
 | `Runtime/visual-review-smoke.txt` | 2640 recorded checks | 2026-10-19T19:39:26+00:00 |
-| `Runtime/learning-review-smoke.txt` | 445 recorded checks | 2026-10-19T21:55:56+00:00 |
-| `Runtime/learning-guides.txt` | 360 recorded checks | 2026-10-19T21:55:56+00:00 |
+| `Runtime/learning-review-smoke.txt` | 495 recorded checks | 2026-10-19T22:54:56+00:00 |
+| `Runtime/learning-guides.txt` | 360 recorded checks | 2026-10-19T22:54:56+00:00 |
 | `Runtime/appearance-smoke.txt` | 1121 recorded checks | 2026-10-19T20:45:10+00:00 |
-| `Runtime/additional-ui.txt` | 2615 recorded checks | 2026-10-19T21:36:49+00:00 |
-| `android-release-build.txt` | successful universal build receipt | 2026-10-19T21:58:26+00:00 |
-| `android-artifact-checks.txt` | 1 PASS entries | 2026-10-19T22:01:36+00:00 |
+| `Runtime/additional-ui.txt` | 2615 recorded checks | 2026-10-19T22:52:48+00:00 |
+| `android-release-build.txt` | successful universal build receipt | 2026-10-19T23:00:44+00:00 |
+| `android-artifact-checks.txt` | 1 PASS entries | 2026-10-19T23:01:13+00:00 |
 | `Runtime/guidance-review-smoke.txt` | 1066 recorded checks | 2026-10-19T21:38:35+00:00 |
+| `Runtime/local-storage-ui.txt` | 49 PASS entries | 2026-10-19T22:54:39+00:00 |
+| `Runtime/notebook-data-checks.txt` | 2 PASS entries | 2026-10-19T22:54:32+00:00 |
 | `Input/controller-bindings-native.txt` | 25 PASS entries | 2026-10-19T19:41:46+00:00 |
 | `Input/controller-bindings-persistence.txt` | 27 PASS entries | 2026-10-19T19:41:46+00:00 |
 | `Runtime/controls-review-smoke.txt` | 1214 recorded checks | 2026-10-19T19:42:50+00:00 |
