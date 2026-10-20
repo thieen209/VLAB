@@ -1,0 +1,832 @@
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Stored ruler can be taken into the hand
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Taking again does not lose storage return state
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Cancel restores stored/inactive ruler and original tray pose
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Storage retrieval never advances preparation
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Changing selection returns previously stored ruler to storage
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Stored ruler still uses validated explicit installation
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Cancel after installation cannot re-stow fitted ruler
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 retry rejects reset before tile end
+SCOPED API REGRESSION (not UI journey) FAIL Isolated storage retrieval exception: System.InvalidOperationException: Run the prepared pull before changing force.
+  at SecondTestWorldChecks.FrictionRetry (System.Action`2[T1,T2] check) [0x00166] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestWorldChecks.cs:24 
+  at SecondTestUiProbe+<Start>d__59.MoveNext () [0x005ba] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:528 
+P03 TAP Subject P | Vật lí @ (395.29, 477.32)
+P03 TAP Browser lesson P03 | Ma sát <size=20>Chưa có số đo</size> @ (297.58, 495.25)
+P03 TAP Browser start | Bắt đầu thí nghiệm @ (1159.62, 105.06)
+P03 TAP Readiness enter | Vào trạm @ (1158.60, 179.34)
+P03 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+P03 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+P03 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+P03 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+P03 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+P03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+P03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Equipment item surface | Mặt tiếp xúc @ (460.47, 700.20)
+P03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+P03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Equipment item block | Khối trượt @ (460.47, 578.43)
+P03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+P03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Equipment item meter | Lực kế 10 N @ (460.47, 456.66)
+P03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+P03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Equipment item cord | Dây kéo ngang @ (460.47, 334.89)
+P03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+P03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+P03 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+P03 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+P03 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+P03 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+P03 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+P03 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+P03 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+P03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+P03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+P03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+P03 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control resetPull | Đưa khối về đầu / đo lại @ (1201.94, 339.85)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control resetPull | Đưa khối về đầu / đo lại @ (1201.94, 339.85)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control resetPull | Đưa khối về đầu / đo lại @ (1201.94, 339.85)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control resetPull | Đưa khối về đầu / đo lại @ (1201.94, 339.85)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control resetPull | Đưa khối về đầu / đo lại @ (1201.94, 339.85)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control resetPull | Đưa khối về đầu / đo lại @ (1201.94, 339.85)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control resetPull | Đưa khối về đầu / đo lại @ (1201.94, 339.85)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control resetPull | Đưa khối về đầu / đo lại @ (1201.94, 339.85)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control pull+ | Tăng lực kéo 0,05 N @ (1201.94, 546.49)
+P03 TAP Instrument control steady | Giữ kéo đều @ (1201.94, 443.17)
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 BLOCKED System.Exception: Bounded UI journey timed out before saved result; instrument:meter:pull+ | Lực kế 10 N → Tăng lực kéo 0,05 N
+  at SecondTestUiProbe+<Lesson>d__51.MoveNext () [0x00f1b] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:375 
+  at SecondTestUiProbe+<Guard>d__47.MoveNext () [0x00041] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:244 
+P03 TAP ‹ Quay lại | ‹ Quay lại @ (1007.00, 102.60)
+P03 TAP Rời phòng | Rời phòng @ (800.00, 274.50)
+P03 TAP Xác nhận | Xác nhận @ (686.88, 471.51)
+P03 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+B03 TAP Subject B | Sinh học @ (942.20, 478.80)
+B03 TAP Browser lesson B03 | Thẩm thấu khoai <size=20>Chưa có số đo</size> @ (270.40, 497.70)
+B03 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+B03 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+B03 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+B03 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+B03 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+B03 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+B03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B03 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+B03 SCOPED WORLD entry PASS B03 balance keeps native unit scale
+B03 SCOPED WORLD entry PASS B03 balance pan is level
+B03 SCOPED WORLD entry PASS B03 balance display keeps authored facing
+B03 SCOPED WORLD entry PASS B03 visible balance rests wholly on an actual room bench
+B03 TAP Dụng cụ & hướng dẫn | Dụng cụ & hướng dẫn @ (773.00, 102.60)
+B03 TAP Thông số | Thông số @ (740.34, 685.35)
+B03 SCROLL − target=(1206.63, 147.78) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+B03 SCROLL RESULT − contentAfter=(0.00, 184.99) targetAfter=(1206.63, 422.49)
+B03 TAP − | − @ (1206.63, 422.49)
+B03 UI SOAK CONFIG 600 → 540 seconds via displayed duration minus button
+B03 TAP − | − @ (1206.63, 423.33)
+B03 UI SOAK CONFIG 540 → 480 seconds via displayed duration minus button
+B03 TAP − | − @ (1206.63, 423.33)
+B03 UI SOAK CONFIG 480 → 420 seconds via displayed duration minus button
+B03 TAP − | − @ (1206.63, 423.33)
+B03 UI SOAK CONFIG 420 → 360 seconds via displayed duration minus button
+B03 TAP − | − @ (1206.63, 423.33)
+B03 UI SOAK CONFIG 360 → 300 seconds via displayed duration minus button
+B03 TAP − | − @ (1206.63, 423.33)
+B03 UI SOAK CONFIG 300 → 240 seconds via displayed duration minus button
+B03 TAP − | − @ (1206.63, 423.33)
+B03 UI SOAK CONFIG 240 → 180 seconds via displayed duration minus button
+B03 TAP − | − @ (1206.63, 423.33)
+B03 UI SOAK CONFIG 180 → 120 seconds via displayed duration minus button
+B03 TAP − | − @ (1206.63, 423.33)
+B03 UI SOAK CONFIG 120 → 60 seconds via displayed duration minus button
+B03 TAP Close dialog | × @ (1501.18, 813.06)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item balance | Cân @ (460.47, 700.20)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item solution | Nhóm dung dịch sucrose @ (460.47, 578.43)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item water | Nước đối chứng @ (460.47, 456.66)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item sample0 | Mẫu khoai độc lập 1 @ (460.47, 334.89)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item sample1 | Mẫu khoai độc lập 2 @ (460.47, 213.12)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 SCROLL Equipment item sample2 target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+B03 SCROLL RESULT Equipment item sample2 contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+B03 TAP Equipment item sample2 | Mẫu khoai độc lập 3 @ (460.47, 235.44)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item paper | Giấy thấm @ (460.47, 700.20)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item ruler | Khay · Thước @ (460.47, 578.43)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item timer | Đồng hồ @ (460.47, 456.66)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+B03 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+B03 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+B03 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+B03 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B03 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B03 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+B03 SCOPED WORLD assembled PASS B03 balance keeps native unit scale
+B03 SCOPED WORLD assembled PASS B03 balance pan is level
+B03 SCOPED WORLD assembled PASS B03 balance display keeps authored facing
+B03 SCOPED WORLD assembled PASS B03 visible balance rests wholly on an actual room bench
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighInitial:0 | Cân đầu mẫu 1 @ (1201.94, 546.49)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighInitial:1 | Cân đầu mẫu 2 @ (1201.94, 236.53)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighInitial:2 | Cân đầu mẫu 3 @ (1201.94, 443.17)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B03 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control blot:0 | Thấm mẫu 1 @ (1201.94, 443.17)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighFinal:0 | Cân cuối mẫu 1 @ (1201.94, 339.85)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 SCROLL Instrument control blot:1 target=(1201.94, 133.21) viewport=(x:961.28, y:220.68, width:504.00, height:446.04) from (1213.28, 332.19) to (1213.28, 555.21) contentBefore=(0.00, 0.00)
+B03 SCROLL RESULT Instrument control blot:1 contentAfter=(0.00, 165.95) targetAfter=(1201.94, 342.30)
+B03 TAP Instrument control blot:1 | Thấm mẫu 2 @ (1201.94, 342.30)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighFinal:1 | Cân cuối mẫu 2 @ (1201.94, 546.49)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control blot:2 | Thấm mẫu 3 @ (1201.94, 339.85)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighFinal:2 | Cân cuối mẫu 3 @ (1201.94, 236.53)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Ghi số đo | Ghi số đo @ (350.00, 467.10)
+B03 TAP Danh sách thí nghiệm | Danh sách thí nghiệm @ (735.20, 109.80)
+B03 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+M01 TAP Subject M | Kỹ thuật @ (1226.60, 478.80)
+M01 TAP Browser lesson M01 | Truyền bánh răng <size=20>Chưa có số đo</size> @ (270.40, 667.80)
+M01 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+M01 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+M01 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+M01 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+M01 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+M01 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+M01 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+M01 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+M01 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+M01 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+M01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M01 TAP Equipment item board | Bảng lắp cơ cấu @ (460.47, 700.20)
+M01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M01 TAP Equipment item gears | Bộ 12–24–36 răng @ (460.47, 578.43)
+M01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M01 TAP Equipment item motor | Motor @ (460.47, 456.66)
+M01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M01 TAP Equipment item tach | Tốc kế @ (460.47, 334.89)
+M01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M01 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+M01 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+M01 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+M01 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+M01 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+M01 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+M01 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+M01 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+M01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M01 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+M01 TAP Ghi số đo | Ghi số đo @ (350.00, 467.10)
+M01 TAP Danh sách thí nghiệm | Danh sách thí nghiệm @ (735.20, 109.80)
+M01 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+M02 TAP Subject M | Kỹ thuật @ (1226.60, 478.80)
+M02 TAP Browser lesson M02 | Cân bằng đòn bẩy <size=20>Chưa có số đo</size> @ (727.50, 667.80)
+M02 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+M02 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+M02 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+M02 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+M02 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+M02 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+M02 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+M02 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+M02 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+M02 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+M02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M02 TAP Equipment item fulcrum | Điểm tựa @ (460.47, 700.20)
+M02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M02 TAP Equipment item lever | Thanh đòn @ (460.47, 578.43)
+M02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M02 TAP Equipment item left | Tải trái @ (460.47, 456.66)
+M02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M02 TAP Equipment item right | Tải phải @ (460.47, 334.89)
+M02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M02 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+M02 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+M02 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+M02 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+M02 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+M02 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+M02 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+M02 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+M02 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M02 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M02 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M02 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+M02 TAP Ghi số đo | Ghi số đo @ (350.00, 467.10)
+M02 TAP Danh sách thí nghiệm | Danh sách thí nghiệm @ (735.20, 109.80)
+M02 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+M03 TAP Subject M | Kỹ thuật @ (1226.60, 478.80)
+M03 TAP Browser lesson M03 | Ròng rọc <size=20>Chưa có số đo</size> @ (270.40, 497.70)
+M03 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+M03 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+M03 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+M03 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+M03 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+M03 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+M03 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+M03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+M03 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+M03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+M03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M03 TAP Equipment item stand | Giá đỡ @ (460.47, 700.20)
+M03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M03 TAP Equipment item fixedA | Ròng rọc cố định A @ (460.47, 578.43)
+M03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M03 TAP Equipment item fixedB | Ròng rọc cố định B @ (460.47, 456.66)
+M03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M03 TAP Equipment item movingA | Ròng rọc động A @ (460.47, 334.89)
+M03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M03 TAP Equipment item movingB | Ròng rọc động B @ (460.47, 213.12)
+M03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M03 SCROLL Equipment item load target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+M03 SCROLL RESULT Equipment item load contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+M03 TAP Equipment item load | Tổng tải nâng @ (460.47, 235.44)
+M03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M03 TAP Equipment item meter | Lực kế 10 N @ (460.47, 700.20)
+M03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M03 BLOCKED System.Exception: Place UI did not install meter
+  at SecondTestUiProbe+<Lesson>d__51.MoveNext () [0x00f1b] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:375 
+  at SecondTestUiProbe+<Guard>d__47.MoveNext () [0x00041] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:244 
+M03 TAP ‹ Quay lại | ‹ Quay lại @ (1007.00, 102.60)
+M03 NAVIGATION MISS observed route still activity after actual touch; retrying actual touch once: ‹ Quay lại / ‹ Back
+M03 TAP ‹ Quay lại | ‹ Quay lại @ (1007.00, 102.60)
+M03 TAP Rời phòng | Rời phòng @ (800.00, 274.50)
+M03 TAP Xác nhận | Xác nhận @ (686.88, 471.51)
+M03 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)

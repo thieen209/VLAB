@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Vlab.Product
 {
@@ -12,6 +13,8 @@ namespace Vlab.Product
         static readonly Color Amber=new Color(1f,.69f,.15f,1f);
         static readonly Color Dark=new Color(.055f,.075f,.105f,1f);
         const float Period=1.1f;
+        static readonly int[] OutlineWalk={0,1,2,3,0,4,5,1,5,6,2,6,7,3,7,4};
+        static readonly Vector3[] CornerSigns={new Vector3(-1,-1,-1),new Vector3(1,-1,-1),new Vector3(1,-1,1),new Vector3(-1,-1,1),new Vector3(-1,1,-1),new Vector3(1,1,-1),new Vector3(1,1,1),new Vector3(-1,1,1)};
         Transform target;
         EquipmentHandle equipment;
         bool reducedMotion,stopped,world;
@@ -19,7 +22,10 @@ namespace Vlab.Product
         float started;
         readonly List<Image> borders=new List<Image>();
         RectTransform pointer;
-        LineRenderer ring,rim,path,dot;
+        LineRenderer ring,rim,path,dot,objectOutline,leader;
+        RectTransform callout;
+        TextMeshProUGUI caption;
+        Camera view;
         Material ownedMaterial;
 
         public static GuideCue AttachTo(RectTransform target,bool reducedMotion)
@@ -63,7 +69,65 @@ namespace Vlab.Product
             cue.ring=cue.Line("Amber target",.004f,Amber);
             cue.path=cue.Line("Installation route",.002f,new Color(1f,.69f,.15f,.65f));
             cue.dot=cue.Line("Route dot",.006f,Amber);
+            cue.objectOutline=cue.Line("Object highlight",.003f,Amber);
+            cue.leader=cue.Line("Callout leader",.002f,Amber);
+            cue.CreateCallout();
             cue.Render(0);return cue;
+        }
+
+        // The app supplies localized content from its current, validated guide step.
+        public void SetContext(string label,string instruction,Camera camera)
+        {
+            view=camera;
+            if(!caption)return;
+            callout.sizeDelta=new Vector2(560,270);
+            caption.text=label+(string.IsNullOrWhiteSpace(instruction)?"":"\n"+instruction);
+            caption.ForceMeshUpdate(true,true);
+            callout.sizeDelta=new Vector2(560,Mathf.Clamp(caption.preferredHeight+40,100,270));
+        }
+
+        void CreateCallout()
+        {
+            var go=new GameObject("Object instruction",typeof(RectTransform),typeof(Canvas),typeof(CanvasGroup),typeof(Image));
+            go.layer=2;callout=(RectTransform)go.transform;callout.SetParent(transform,false);
+            go.GetComponent<Canvas>().renderMode=RenderMode.WorldSpace;
+            var group=go.GetComponent<CanvasGroup>();group.blocksRaycasts=false;group.interactable=false;
+            var face=go.GetComponent<Image>();face.color=new Color(Dark.r,Dark.g,Dark.b,.96f);face.raycastTarget=false;
+            var textObject=new GameObject("Localized instruction",typeof(RectTransform),typeof(TextMeshProUGUI));
+            textObject.layer=2;var rect=(RectTransform)textObject.transform;rect.SetParent(callout,false);
+            rect.anchorMin=Vector2.zero;rect.anchorMax=Vector2.one;rect.offsetMin=new Vector2(22,18);rect.offsetMax=new Vector2(-22,-18);
+            caption=textObject.GetComponent<TextMeshProUGUI>();caption.font=Resources.Load<TMP_FontAsset>("UI/VlabBody");
+            caption.fontSize=30;caption.color=Color.white;caption.alignment=TextAlignmentOptions.MidlineLeft;
+            caption.textWrappingMode=TextWrappingModes.Normal;caption.overflowMode=TextOverflowModes.Ellipsis;caption.raycastTarget=false;
+            // No raw asset ID or unlocalized fallback appears before app context is supplied.
+            go.SetActive(false);
+        }
+
+        void RenderObject(Bounds bounds,float phase)
+        {
+            var e=bounds.extents+Vector3.one*.006f;var c=bounds.center;
+            // One continuous edge walk outlines the actual item without copying meshes or altering source shaders.
+            objectOutline.loop=false;objectOutline.positionCount=OutlineWalk.Length;
+            for(int i=0;i<OutlineWalk.Length;i++)objectOutline.SetPosition(i,c+Vector3.Scale(e,CornerSigns[OutlineWalk[i]]));
+            float pulse=reducedMotion?1:.85f+.15f*Mathf.Cos(phase*Mathf.PI*2);
+            objectOutline.startWidth=objectOutline.endWidth=.003f*pulse;
+            if(!view)view=Camera.main;
+            bool show=view&&caption&&!string.IsNullOrWhiteSpace(caption.text)&&Vector3.Dot(view.transform.forward,c-view.transform.position)>0;
+            callout.gameObject.SetActive(show);leader.enabled=show;
+            if(!show)return;
+            var anchor=new Vector3(c.x,bounds.max.y+.035f,c.z);
+            float distance=Vector3.Distance(view.transform.position,anchor);
+            // Keep angular text size readable as the learner moves, with a bounded physical footprint in VR.
+            float scale=Mathf.Clamp(distance*Mathf.Tan(view.fieldOfView*.5f*Mathf.Deg2Rad)*.0012f,.00015f,.0024f);
+            callout.localScale=Vector3.one*scale;
+            callout.position=anchor+Vector3.up*(callout.sizeDelta.y*scale*.5f+.035f);
+            var screen=view.WorldToViewportPoint(callout.position);
+            float halfHeight=callout.sizeDelta.y*scale/(4*Mathf.Max(.01f,screen.z)*Mathf.Tan(view.fieldOfView*.5f*Mathf.Deg2Rad));
+            float halfWidth=halfHeight*callout.sizeDelta.x/callout.sizeDelta.y/view.aspect;
+            screen.x=Mathf.Clamp(screen.x,.03f+halfWidth,.97f-halfWidth);screen.y=Mathf.Clamp(screen.y,.03f+halfHeight,.97f-halfHeight);
+            callout.position=view.ViewportToWorldPoint(screen);
+            callout.rotation=Quaternion.LookRotation(callout.position-view.transform.position,view.transform.up);
+            leader.loop=false;leader.positionCount=2;leader.SetPosition(0,anchor);leader.SetPosition(1,callout.position-callout.up*callout.sizeDelta.y*scale*.5f);
         }
 
         RectTransform Border(RectTransform parent,string name,Vector2 min,Vector2 max,Vector2 offsetMin,Vector2 offsetMax)
@@ -89,6 +153,7 @@ namespace Vlab.Product
         void Update()
         {
             if(stopped)return;
+            if(world&&Time.unscaledTime-started>12){Stop();return;}
             if(!target||!target.gameObject.activeInHierarchy){Stop();return;}
             Render(reducedMotion?0:Mathf.Repeat(Time.unscaledTime-started,Period)/Period);
         }
@@ -104,6 +169,7 @@ namespace Vlab.Product
             }
             if(!equipment||!TryVisibleBounds(equipment,out var bounds)){SetLines(false);return;}
             SetLines(true);
+            RenderObject(bounds,phase);
             if(equipment.installed)
             {
                 // Keep the highlight below the item so it cannot cover a small bob or instrument scale.
@@ -124,7 +190,7 @@ namespace Vlab.Product
         }
 
         void SetLines(bool visible)
-        {if(ring)ring.enabled=visible;if(rim)rim.enabled=visible;if(path)path.enabled=visible;if(dot)dot.enabled=visible;}
+        {if(ring)ring.enabled=visible;if(rim)rim.enabled=visible;if(path)path.enabled=visible;if(dot)dot.enabled=visible;if(objectOutline)objectOutline.enabled=visible;if(leader)leader.enabled=visible;if(!visible&&callout)callout.gameObject.SetActive(false);}
         static void Ellipse(LineRenderer line,Vector3 centre,float x,float z)
         {
             line.loop=true;line.positionCount=40;
@@ -161,6 +227,13 @@ namespace Vlab.Product
             var phase=session?.Phase;var operation=session?.Operation;var elapsed=session?.Elapsed;var dose=session?.Dose;
             var parameters=session==null?null:new Dictionary<string,double>(session.parameters);
             Render(0);
+            if(world)
+            {
+                if(objectOutline.enabled&&objectOutline.positionCount!=OutlineWalk.Length){failure="Object highlight is incomplete.";return false;}
+                foreach(var graphic in callout.GetComponentsInChildren<Graphic>(true))
+                    if(graphic.raycastTarget){failure="Object instruction intercepts input.";return false;}
+                if(GetComponentInChildren<Collider>()){failure="Guide adds a physical obstacle.";return false;}
+            }
             if(reducedMotion)
             {
                 var first=PresentationSnapshot();Render(.5f);var second=PresentationSnapshot();
@@ -179,11 +252,12 @@ namespace Vlab.Product
             var values=new List<Vector4>();
             foreach(var border in borders)if(border)values.Add(border.color);
             if(pointer){var s=pointer.localScale;values.Add(new Vector4(s.x,s.y,s.z,0));}
-            foreach(var line in new[]{ring,rim,path,dot})
+            foreach(var line in new[]{ring,rim,path,dot,objectOutline,leader})
             {
                 if(!line)continue;values.Add(new Vector4(line.enabled?1:0,line.positionCount,line.startWidth,line.endWidth));
                 for(int i=0;i<line.positionCount;i++){var p=line.GetPosition(i);values.Add(new Vector4(p.x,p.y,p.z,0));}
             }
+            if(callout){var p=callout.position;var s=callout.localScale;values.Add(new Vector4(p.x,p.y,p.z,callout.gameObject.activeSelf?1:0));values.Add(new Vector4(s.x,s.y,s.z,0));}
             return values;
         }
 
@@ -193,3 +267,4 @@ namespace Vlab.Product
         void OnDestroy(){if(ownedMaterial)Destroy(ownedMaterial);}
     }
 }
+

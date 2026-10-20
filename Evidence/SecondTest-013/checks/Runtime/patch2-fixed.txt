@@ -1,0 +1,57 @@
+PASS
+Editor synthetic touchscreen/lifecycle only; no physical Android acceptance.
+PASS Isolated Vietnamese Home ready
+PASS Pause false restores actual activity Gameplay without NewPage
+PASS Application return keeps the real experiment explicitly paused
+PASS Application return restores visible phone controls
+PASS Fresh touch after application return moves actual body without resuming science
+PASS Focus false/true retains gameplay but does not auto-resume trial
+PASS Open activity modal blocks fresh touch movement after lifecycle recovery
+PASS Returning to non-play Home keeps gameplay and joystick blocked
+PASS CASE foreground lifecycle
+PASS Actual phone world tap stays selected and held for explicit Place or Return
+PASS Actual PC pointer press still begins legacy drag
+PASS PC missed drag release still returns tray rather than phone latch
+PASS World input does not fabricate experimental steps, time or record
+PASS CASE phone world tap
+PASS Phone input including provider provenance checks
+PASS Existing HID fallback regressions
+PASS Actual flat UGUI pointer and click actions are enabled
+PASS Native queued tap ray reaches actual Home utility 0
+PASS Queued touchscreen DOWN/UP opens actual Settings through InputSystemUIInputModule
+PASS Native queued tap ray reaches actual Settings back
+PASS Queued touchscreen DOWN/UP on actual Back returns Home
+PASS Native touch UI navigation preserves learner data and settings
+PASS CASE existing queued UGUI taps
+PASS Patch1 UI requires explicit isolated profile before app Awake
+PASS Fresh launch reaches Vietnamese Home without accepting legal documents
+PASS Phone settings opens as a closable UI dialog
+PASS Phone UI Apply persists inversion, gyro preference, speed and FOV
+PASS Flat camera applies saved FOV
+PASS Controller diagram remap returns to physical view
+PASS Controller UI assignment survives Apply/reopen with valid complete mapping
+PASS Legal document has full readable offline scroll: Chính sách bảo mật
+PASS Legal Back returns to About without consent mutation
+PASS Legal document has full readable offline scroll: Điều khoản
+PASS Legal Back returns to About without consent mutation
+PASS Feedback Copy uses actual clipboard callback
+PASS P01 real-room load reaches manual setup
+PASS Taking equipment through UI closes dialog and retains selected item
+PASS Take UI plus release input retains item until explicit Place/Return
+PASS HUD refuses unsupported clamp without silently fitting or losing held item
+PASS Universal close exits refusal and returns held item safely
+PASS HUD explicit placement fits selected stand
+PASS Equipment Return callback restores supported loose tray pose
+PASS Hints Off clears automatic snap cues and existing help visuals
+PASS Focus button aims flat-screen learner down toward working table
+PASS Phone joystick is enabled in actual flat-screen gameplay with no modal
+PASS Actual phone joystick renderer is active
+PASS Rendered joystick radius matches input claim radius
+PASS Entire rendered joystick fits actual safe screen
+PASS Phone joystick does not cover current action or clock panel
+PASS Phone joystick does not cover any active action button: 
+PASS Actual phone joystick moves learner through App locomotion without vertical drift
+PASS UI handling and optional guidance do not fabricate preparation/time/results
+PASS Settings/legal/setup callbacks retain old attempts, notes and legal bytes
+PASS CASE existing manual equipment and modal routes
+PASS No unexpected runtime Error/Exception logs

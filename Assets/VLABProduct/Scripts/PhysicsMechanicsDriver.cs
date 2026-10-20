@@ -612,7 +612,7 @@ namespace Vlab.Product
             switch(id)
             {
                 case "P02":r.Add("flightTime",ball.Elapsed,"s","Thời gian bay","Flight time").Add("range",ball.HorizontalRange,"m","Tầm xa chạm đầu","First-impact range").Add("launchHeight",P("height"),"m","Độ cao nòng thực","Actual muzzle height").Add("targetHit",target.HasHit?1:0,"","Vết chạm trên tấm","Impact on mat");r.note="Analytic projectile sampled by the delivered single flight clock; first contact only, no air drag. Height is derived from the seated launcher muzzle and mat, not an unsupported floating-launcher input. Ball-centre offset at launch is retained.";break;
-                case "P03":r.Add("normalForce",P("mass")*ScienceModels.G,"N","Phản lực","Normal force").Add("staticPeak",staticPeak,"N","Đỉnh trước trượt đã quan sát","Observed pre-slide peak").Add("slidingForce",steadyTime>0?steadySum/steadyTime:0,"N","Lực kéo đều trung bình","Mean steady pull").Add("currentPull",pull,"N","Lực kéo hiện tại","Current pull").Add("steadyInterval",steadyTime,"s","Khoảng kéo đều","Steady interval");r.note="Declared Coulomb coefficients and nominal mass; horizontal pull only. The static peak is the last learner-controlled force sample before slip; its increment bounds the threshold resolution.";break;
+                case "P03":r.Add("normalForce",P("mass")*ScienceModels.G,"N","Phản lực","Normal force").Add("staticPeak",staticPeak,"N","Đỉnh trước trượt đã quan sát","Observed pre-slide peak").Add("slidingForce",steadyTime>0?steadySum/steadyTime:0,"N","Lực kéo đều trung bình","Mean steady pull").Add("currentPull",pull,"N","Lực kéo hiện tại","Current pull").Add("steadyInterval",steadyTime,"s","Khoảng kéo đều","Steady interval");r.note="Declared Coulomb coefficients and nominal mass; horizontal pull only. The static peak is the last learner-controlled force sample before slip; its increment bounds the threshold resolution. The explicit slow-steady control idealizes the learner braking to at most 0.05 m/s and matching pull to kinetic friction; this hand-control transient is not dynamically simulated.";break;
                 case "P04":case "P07":
                     r.Add("flagWidth",flag.BlockingWidthM,"m","Bề rộng bản chắn thực","Actual flag width").Add("gateSpacing",ActualGateSpacing,"m","Khoảng tâm cổng thực","Actual gate centre spacing");
                     if(captureA.complete)r.Add("gateA",captureA.blockingSeconds,"s","Thời gian che A","A blocking interval").Add("speedA",captureA.meanSpeed,"m/s","Tốc độ d/t trung bình tại A","Measured mean A speed d/t");
@@ -647,7 +647,7 @@ namespace Vlab.Product
         public override LessonControl[] Controls(string key)
         {
             bool editable=!begun;var a=new List<LessonControl>();
-            if(id=="P03"&&(key=="meter"||key=="block")){a.Add(new LessonControl("pull+","Tăng lực kéo 0,05 N","Raise pull by 0.05 N",begun&&!finished));a.Add(new LessonControl("steady","Giữ kéo đều","Maintain steady sliding",begun&&blockV>0&&!finished));}
+            if(id=="P03"&&(key=="meter"||key=="block")){a.Add(new LessonControl("pull+","Tăng lực kéo 0,05 N","Raise pull by 0.05 N",begun&&!finished));a.Add(new LessonControl("steady","Kéo chậm và đều","Pull slowly and steadily",begun&&blockV>0&&!finished));a.Add(new LessonControl("resetPull","Đưa khối về đầu / đo lại","Return block / repeat pull",begun&&finished));}
             if(id=="M02"&&key=="fulcrum")a.Add(new LessonControl("pivot","Chuyển lỗ điểm tựa −1/0/+1","Cycle actual pivot bores",editable));
             if(id=="M03"&&(key=="meter"||key=="cord"))a.Add(new LessonControl("pull-rope","Kéo đầu dây 10 mm","Pull free end 10 mm",begun&&!finished));
             if(id=="M04"&&key=="belt")a.Add(new LessonControl("belt-span","Chọn bộ đai mở 100/140/180","Cycle fixed open belt length",editable&&P("crossed")<.5));
@@ -662,8 +662,15 @@ namespace Vlab.Product
             {
                 switch(action)
                 {
+                    case "resetPull":
+                        if(id!="P03"||!begun||!finished)return Require(false,"Repeat the pull only after the block reaches the tile end.",out message);
+                        pull=blockX=blockV=staticPeak=steadySum=steadyTime=0;steady=finished=false;samples.Clear();
+                        equipment["block"].transform.position=blockOrigin;Instrument<VlabForceMeter>("meter").SetForce(0);AlignFrictionCord();return true;
                     case "pull+":if(!begun||finished)return Require(false,"Run the prepared pull before changing force.",out message);pull=Math.Min(9.9,pull+.05);steady=false;return true;
-                    case "steady":if(blockV<=0)return Require(false,"Increase pull until the block begins sliding.",out message);pull=P("muK")*P("mass")*ScienceModels.G;steady=true;return true;
+                    case "steady":
+                        if(blockV<=0)return Require(false,"Increase pull until the block begins sliding.",out message);
+                        // The explicit hand-control action slows the block before matching its sliding friction.
+                        blockV=Math.Min(blockV,.05);pull=P("muK")*P("mass")*ScienceModels.G;steady=true;return true;
                     case "pivot":if(begun)return false;pivotMark=pivotMark==1?-1:pivotMark+1;ConfigureLever();return true;
                     case "pull-rope":if(!begun||finished)return false;blockX=Math.Min(P("height"),blockX+.01/P("strands"));RoutePulley(blockX);samples.Add(new Sample(clock,blockX,blockX*P("strands"),Instrument<VlabForceMeter>("meter").ForceN));finished=blockX>=P("height")-1e-8;return true;
                     case "belt-span":if(begun)return false;beltIndex=(beltIndex+1)%3;ConfigureBelt();return true;

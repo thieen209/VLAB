@@ -61,7 +61,7 @@ public static class VlabProductBuild
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene(),Root+"Scenes/VLAB_Boot.unity");
         EditorBuildSettings.scenes=new[]{Root+"Scenes/VLAB_Boot.unity","Assets/Labs/Scenes/Physics.unity","Assets/Labs/Scenes/Chemistry.unity","Assets/Labs/Scenes/Biology.unity","Assets/Labs/Scenes/Engineering.unity"}.Select(x=>new EditorBuildSettingsScene(x,true)).ToArray();
         ConfigureXR();
-        PlayerSettings.productName="VLAB";PlayerSettings.companyName="Ngua Man VLAB";PlayerSettings.bundleVersion="0.1.2";PlayerSettings.Android.bundleVersionCode=3;
+        PlayerSettings.productName="VLAB";PlayerSettings.companyName="Ngua Man VLAB";PlayerSettings.bundleVersion="0.1.3";PlayerSettings.Android.bundleVersionCode=4;
         PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android,"com.nguaman.vlab");PlayerSettings.defaultInterfaceOrientation=UIOrientation.LandscapeLeft;
         PlayerSettings.Android.minSdkVersion=AndroidSdkVersions.AndroidApiLevel26;PlayerSettings.Android.targetSdkVersion=(AndroidSdkVersions)36;
         PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android,ScriptingImplementation.IL2CPP);PlayerSettings.Android.targetArchitectures=AndroidArchitecture.ARMv7|AndroidArchitecture.ARM64;
@@ -109,7 +109,7 @@ public static class VlabProductBuild
         if(string.IsNullOrEmpty(path)||!File.Exists(path)||string.IsNullOrEmpty(password))throw new InvalidOperationException("Release signing must be supplied through the local build environment.");
         var icon=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"Branding/AppIcon.png");if(!icon)throw new InvalidOperationException("The original VLAB application icon is missing.");
         PlayerSettings.SetIcons(NamedBuildTarget.Unknown,new[]{icon},IconKind.Any);
-        PlayerSettings.productName="VLAB";PlayerSettings.bundleVersion="0.1.2";PlayerSettings.Android.bundleVersionCode=3;
+        PlayerSettings.productName="VLAB";PlayerSettings.bundleVersion="0.1.3";PlayerSettings.Android.bundleVersionCode=4;
         PlayerSettings.Android.targetArchitectures=AndroidArchitecture.ARMv7|AndroidArchitecture.ARM64;
         EditorUserBuildSettings.androidBuildSubtarget=MobileTextureSubtarget.ETC2;
         var destination=Path.GetFullPath("Builds/Android/VLAB-"+PlayerSettings.bundleVersion+"-android.apk");Directory.CreateDirectory(Path.GetDirectoryName(destination));

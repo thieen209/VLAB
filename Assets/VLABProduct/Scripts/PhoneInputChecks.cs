@@ -17,6 +17,7 @@ using Vlab.Product;
 public static class PhoneInputChecks
 {
     static readonly List<string> rows=new List<string>();
+    static bool PhonePress(ActionFrame frame){var field=typeof(ActionFrame).GetField("phoneWorldPress");return field!=null&&(bool)field.GetValue(frame);}
     static void Check(bool ok,string name){if(!ok)throw new Exception(name);rows.Add("PASS "+name);}
     static Vector2 At(Rect r,float x,float y)=>new Vector2(r.x+r.width*x,r.y+r.height*y);
     static float Yaw(Quaternion q)=>Mathf.DeltaAngle(0,q.eulerAngles.y);
@@ -69,6 +70,27 @@ public static class PhoneInputChecks
         router.Clear();router.BeginFrame();router.Sample(5,UnityEngine.InputSystem.TouchPhase.Stationary,final,safe,true,true,false,false);router.EndFrame();
         Check(!router.JoystickActive&&!router.LookActive&&!router.WorldHeld,"already-held finger is not acquired after page/mode reset");
         router.Clear();Check(!router.HasTouches&&router.Move==Vector2.zero,"reset clears all touch and movement ownership");
+        var centre=At(safe,PhoneTouchRouter.JoystickCenter.x,PhoneTouchRouter.JoystickCenter.y);
+        float radius=safe.height*PhoneTouchRouter.JoystickRadius;
+        Check(Mathf.Abs(radius-safe.height*.14f)<.01f,"larger joystick radius matches 14% safe height; radius="+radius+", safeHeight="+safe.height);
+        Check(centre.x-radius>=safe.x-.01f&&centre.x+radius<=safe.xMax+.01f&&centre.y-radius>=safe.y-.01f&&centre.y+radius<=safe.yMax+.01f,
+            "larger joystick stays inside safe area; centre="+centre+", radius="+radius+", safe="+safe);
+        router.BeginFrame();router.Sample(6,UnityEngine.InputSystem.TouchPhase.Began,At(safe,.31f,.4f),safe,true,true,false,false);router.EndFrame();
+        Check(!router.JoystickActive&&router.Move==Vector2.zero&&router.LookActive,"lower-left swipe outside visible joystick never becomes unintended movement");
+        router.Clear();router.BeginFrame();router.Sample(7,UnityEngine.InputSystem.TouchPhase.Began,At(safe,.31f,.4f),safe,true,true,false,true);router.EndFrame();
+        Check(router.Pressed&&router.WorldHeld&&!router.JoystickActive,"equipment outside joystick disc remains selectable in lower-left quadrant");
+        foreach(var direction in new[]{Vector2.up,Vector2.down,Vector2.left,Vector2.right})
+        {
+            router.Clear();router.BeginFrame();router.Sample(8,UnityEngine.InputSystem.TouchPhase.Began,centre,safe,true,true,false,false);router.EndFrame();
+            Check(router.JoystickActive&&router.Move==Vector2.zero,"joystick centre begins at rest "+direction);
+            router.BeginFrame();router.Sample(8,UnityEngine.InputSystem.TouchPhase.Moved,centre+direction*radius*2,safe,true,true,false,false);router.EndFrame();
+            Check(Vector2.Distance(router.Move,direction)<.001f&&!router.LookActive&&!router.Pressed,"joystick retains direction and ownership outside disc "+direction);
+            router.BeginFrame();router.EndFrame();Check(router.Move==Vector2.zero&&!router.HasTouches,"missing joystick finger releases movement "+direction);
+        }
+        router.Clear();router.BeginFrame();router.Sample(9,UnityEngine.InputSystem.TouchPhase.Began,centre+Vector2.up*radius*.05f,safe,true,true,false,false);router.EndFrame();
+        Check(router.JoystickActive&&router.Move==Vector2.zero,"joystick dead zone suppresses slight initial finger offset");
+        router.Clear();router.BeginFrame();router.Sample(10,UnityEngine.InputSystem.TouchPhase.Began,centre,safe,true,false,false,false);router.EndFrame();
+        Check(!router.JoystickActive&&router.Move==Vector2.zero&&router.LookActive,"hidden joystick releases its area for normal camera swipes");
     }
     public static IEnumerator RunUiTap(VlabApp app,Action<string> capture,Action<string,bool> check)
     {
@@ -127,18 +149,23 @@ public static class PhoneInputChecks
             var stick=At(safe,PhoneTouchRouter.JoystickCenter.x,PhoneTouchRouter.JoystickCenter.y);var look=At(safe,.7f,.55f);
             Touch(touch,11,UnityEngine.InputSystem.TouchPhase.Began,stick);Touch(touch,12,UnityEngine.InputSystem.TouchPhase.Began,look);InputSystem.Update();input.Read();
             Touch(touch,11,UnityEngine.InputSystem.TouchPhase.Moved,stick+Vector2.up*(safe.height*PhoneTouchRouter.JoystickRadius*1.1f));Touch(touch,12,UnityEngine.InputSystem.TouchPhase.Moved,look+new Vector2(safe.width*.08f,safe.height*.08f));InputSystem.Update();var frame=input.Read();
-            Check(frame.move.y>.9f&&Yaw(camera.transform.rotation)>0&&Pitch(camera.transform.rotation)<0&&!frame.pressed&&!frame.held,"native Input System multitouch joystick and correctly directed look are simultaneous");
+            Check(frame.move.y>.9f&&Yaw(camera.transform.rotation)>0&&Pitch(camera.transform.rotation)<0&&!frame.pressed&&!frame.held&&!PhonePress(frame),"native Input System multitouch joystick and correctly directed look are simultaneous");
             input.SetUiBlocked(true);frame=input.Read();Check(frame.move==Vector2.zero&&!input.PhoneControlsVisible,"modal blocks movement and hides phone controls");
             var rotation=camera.transform.rotation;input.SetUiBlocked(false);frame=input.Read();Check(frame.move==Vector2.zero&&Quaternion.Angle(rotation,camera.transform.rotation)<.001f,"closing modal does not adopt fingers that remain held");
             Touch(touch,11,UnityEngine.InputSystem.TouchPhase.Ended,stick);Touch(touch,12,UnityEngine.InputSystem.TouchPhase.Ended,look);InputSystem.Update();input.Read();
             input.BlocksPhoneGameplay=p=>true;Send(touch,13,UnityEngine.InputSystem.TouchPhase.Began,look);frame=input.Read();
-            Check(!frame.pressed&&!frame.held&&frame.move==Vector2.zero,"UI touch remains exclusively with native UI input module");
+            Check(!frame.pressed&&!frame.held&&!PhonePress(frame)&&frame.move==Vector2.zero,"UI touch remains exclusively with native UI input module");
             input.BlocksPhoneGameplay=p=>false;Send(touch,13,UnityEngine.InputSystem.TouchPhase.Moved,look+Vector2.right*100);input.Read();
             Check(Quaternion.Angle(rotation,camera.transform.rotation)<.001f,"native UI-started drag never rotates camera after leaving control");
             Send(touch,13,UnityEngine.InputSystem.TouchPhase.Ended,look);input.Read();input.BlocksTouchLook=r=>true;
-            Send(touch,14,UnityEngine.InputSystem.TouchPhase.Began,look);frame=input.Read();Check(frame.pressed&&frame.held,"native equipment touch retains grab/inspect selection");
-            input.SetUiBlocked(true);frame=input.Read();Check(frame.lost&&frame.released&&!frame.held,"modal opening releases held apparatus exactly once");
+            Send(touch,14,UnityEngine.InputSystem.TouchPhase.Began,look);frame=input.Read();Check(frame.pressed&&frame.held&&PhonePress(frame),"native equipment touch marks only actual world press edge");
+            Send(touch,14,UnityEngine.InputSystem.TouchPhase.Moved,look+Vector2.right*2);frame=input.Read();Check(frame.held&&!frame.pressed&&!PhonePress(frame),"held equipment finger does not repeat the world press marker");
+            input.SetUiBlocked(true);frame=input.Read();Check(frame.lost&&frame.released&&!frame.held&&!PhonePress(frame),"modal opening releases held apparatus exactly once");
             input.SetUiBlocked(false);Send(touch,14,UnityEngine.InputSystem.TouchPhase.Ended,look);input.Read();input.BlocksTouchLook=r=>false;
+            input.BlocksTouchLook=r=>true;go.SendMessage("OnApplicationFocus",false);Send(touch,16,UnityEngine.InputSystem.TouchPhase.Began,look);frame=input.Read();
+            Check(frame.lost&&!frame.pressed&&!frame.held&&!PhonePress(frame),"pending input loss cancels even a fresh world-touch press marker");
+            Send(touch,16,UnityEngine.InputSystem.TouchPhase.Ended,look);input.Read();input.BlocksTouchLook=r=>false;
+            var mock=new MockControllerProvider();mock.Submit(new ControllerSignal{sequence=1,receivedAt=10,orientation=Quaternion.identity,select=true});var mockFrame=mock.Poll(camera,10);Check(mockFrame.pressed&&!PhonePress(mockFrame),"controller select never claims phone world-touch origin");
             sensor=InputSystem.AddDevice<AttitudeSensor>();InputSystem.EnableDevice(sensor);settings.phoneGyro=true;input.ConfigurePhoneInput(settings);
             Sensor(sensor,Quaternion.Euler(20,30,5));input.Read();rotation=camera.transform.rotation;
             Sensor(sensor,Quaternion.Euler(20,45,5));input.Read();Check(Quaternion.Angle(rotation,camera.transform.rotation)>.5f,"native attitude sensor drives opt-in flat camera");
@@ -153,6 +180,13 @@ public static class PhoneInputChecks
             input.FocusAtWorldTarget(Vector3.right*20);Check(Quaternion.Angle(rotation,camera.transform.rotation)<.001f,"station focus does not overwrite Cardboard tracked head rotation");
             input.SetVr(false);input.Read();rotation=camera.transform.rotation;input.Read();Check(!input.VrMode&&Quaternion.Angle(rotation,camera.transform.rotation)<.001f,"return from Cardboard rebases flat gyro safely");
             Send(touch,15,UnityEngine.InputSystem.TouchPhase.Ended,look);input.Read();
+            settings.phoneGyro=false;input.ConfigurePhoneInput(settings);input.Read();
+            var outsideStick=At(safe,.31f,.4f);rotation=camera.transform.rotation;
+            Send(touch,17,UnityEngine.InputSystem.TouchPhase.Began,outsideStick);frame=input.Read();
+            Check(frame.move==Vector2.zero&&!input.PhoneJoystickActive&&!frame.pressed,"native lower-left touch outside joystick does not move or select");
+            Send(touch,17,UnityEngine.InputSystem.TouchPhase.Moved,outsideStick+Vector2.right*(safe.width*.08f));frame=input.Read();
+            Check(frame.move==Vector2.zero&&Quaternion.Angle(rotation,camera.transform.rotation)>.5f,"native lower-left swipe outside joystick rotates view without unintended walking");
+            Send(touch,17,UnityEngine.InputSystem.TouchPhase.Ended,outsideStick);input.Read();
             go.SendMessage("OnApplicationPause",true);frame=input.Read();Check(frame.move==Vector2.zero&&frame.lost&&!frame.held,"pause cancels phone input without retained movement");
             passed=true;
         }

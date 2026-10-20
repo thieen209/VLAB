@@ -92,7 +92,7 @@ namespace Vlab.Product
         readonly ExperimentSession session;readonly HashSet<string> applied=new HashSet<string>();readonly List<string> actions=new List<string>();
         public LessonGuide(ExperimentSession session){this.session=session;}
         public void Applied(string id)
-        {if(id=="fresh"){applied.Clear();actions.Clear();}if(id=="serial"){applied.Remove("waterMark");applied.Remove("invert");}applied.Add(id);actions.Add(id);}
+        {if(id=="fresh"){applied.Clear();actions.Clear();}if(id=="resetPull"){applied.Remove("pull+");applied.Remove("steady");}if(id=="serial"){applied.Remove("waterMark");applied.Remove("invert");}applied.Add(id);actions.Add(id);}
         public void Variable(string key,double value){if(key=="flow"&&value>0){applied.Remove("swirl");applied.Remove("final");applied.Remove("titre");}}
         public static string ShortTitle(string id,bool vi)=>entries.TryGetValue(id,out var entry)?(vi?entry.vi:entry.en):id;
         public static string[] ValidateMetadata()=>LessonSpec.All.Where(pair=>!entries.ContainsKey(pair.Key)||entries[pair.Key].targets.Length!=pair.Value.operationsEn.Length||!preparationChecks.TryGetValue(pair.Key,out var checks)||checks.Length!=2||checks.Any(text=>text.Split('|').Length!=pair.Value.operationsEn.Length)).Select(pair=>pair.Key).ToArray();
@@ -186,7 +186,11 @@ namespace Vlab.Product
                 if(id=="B07"&&!s.spooled&&Enabled(rig,"rod","spool"))return Control(rig,vi,"rod","spool");
             }
             if(id=="P02")return Wait(vi,"target","Quay về phía sàn theo hướng bộ phóng; quan sát dấu trên tấm hứng.","Look toward the floor along the launch direction; observe the target mark.");
-            if(id=="P03")return Control(rig,vi,"meter",Seen("pull+")&&Enabled(rig,"meter","steady")?"steady":"pull+");
+            if(id=="P03")
+            {
+                if(Enabled(rig,"meter","resetPull"))return Control(rig,vi,"meter","resetPull","Khối đã tới cuối mặt trượt. Đưa về đầu để đo lại; khi vừa bắt đầu trượt, chọn Kéo chậm và đều ngay trong bảng lực kế.","The block reached the tile end. Return it to repeat; select Pull slowly and steadily in the meter panel as soon as sliding starts.");
+                return Control(rig,vi,"meter",Enabled(rig,"meter","steady")?"steady":"pull+","Giữ bảng lực kế mở. Tăng lực từng bước; khi khối bắt đầu trượt, chọn Kéo chậm và đều, rồi quan sát ít nhất 0,5 giây.","Keep the meter panel open. Raise pull step by step; when sliding starts, select Pull slowly and steadily, then observe at least 0.5 seconds.");
+            }
             if(id=="M03")return Control(rig,vi,"meter","pull-rope");
             if(id=="M08"&&Enabled(rig,"gauge","unload"))return Control(rig,vi,"gauge","unload");
             if(id=="C03"&&session.Elapsed>=session.parameters["time"]){if(!Seen("off"))return Control(rig,vi,"supply","off");if(!Seen("rinseCathode"))return Control(rig,vi,"cathode","rinseCathode");if(!Seen("dryCathode"))return Control(rig,vi,"cathode","dryCathode");return Control(rig,vi,"balance","weighFinal");}
@@ -215,9 +219,46 @@ namespace Vlab.Product
             return Task(vi,"image","microscope","","Chọn một ô chưa phân loại trên hình. Mã toàn cục giữ nguyên khi đổi nửa ảnh.","Select an unclassified cell in the image. Its global ID stays the same across crops.","Mã ô đã chọn hiện ra; tiếp theo bạn tự chọn nhãn, ứng dụng không đoán hộ.","The selected ID is shown; you choose its label, without automatic classification.");
         }
         GuideTask Wait(bool vi,string key,string a,string b)=>Task(vi,"observe",key,"",a,b,"Chỉ Ghi số đo sáng khi trạng thái dụng cụ và quan sát đã đủ điều kiện.","Record measurement enables only when apparatus and observation checks pass.");
+        public static string ExplainAction(string raw,bool okay,bool vi)
+        {
+            if(!okay)return ExplainFailure(raw,vi);
+            if(string.IsNullOrWhiteSpace(raw))return vi?"Đã thực hiện.":"Action applied.";
+            if(!vi)return raw;
+            switch(raw.Trim())
+            {
+                case "Structure matches source schematic.":return "Cấu trúc bạn chọn khớp sơ đồ tham chiếu.";
+                case "Reconsider its position and boundary in this schematic; this is not a microscopy-resolution claim.":return "Chưa khớp sơ đồ. Xem lại vị trí và đường bao của cấu trúc rồi chọn lại. Đây là hình minh họa, không phải ảnh đo độ phân giải kính hiển vi.";
+                case "Your classification matches source atlas.":return "Phân loại của bạn khớp atlas tham chiếu.";
+                case "Reconsider chromosome arrangement. Your answer is retained until you edit it.":return "Xem lại cách sắp xếp nhiễm sắc thể rồi cân nhắc chọn lại. Câu trả lời hiện tại vẫn được giữ cho đến khi bạn sửa.";
+                case "Source cell is unscorable; retain unclear and state why.":return "Ô này không đủ căn cứ để chấm theo atlas. Chọn Chưa rõ và ghi lý do quan sát của bạn.";
+                case "Water control: pH 7.00 at 25 °C. Rinse before changing samples.":return "Mẫu nước đối chứng: pH 7,00 ở 25 °C. Rửa đầu dò trước khi chuyển sang mẫu khác.";
+                default:return raw;
+            }
+        }
         public static string ExplainFailure(string raw,bool vi)
         {
             if(!vi)return raw+" Check the setup and required conditions; open Guidance if needed.";
+            switch((raw??"").Trim())
+            {
+                case "Select actual source structure first.":return "Chạm vào cấu trúc cần nhận diện trên hình trước, rồi chọn tên cấu trúc.";
+                case "Select tracked source cell.":return "Chạm chọn một tế bào trong nhóm đang theo dõi rồi phân loại trạng thái của chính mã ô đó.";
+                case "Select actual source cell.":return "Chạm chọn một tế bào trên atlas trước, rồi chọn nhãn kỳ phân bào.";
+                case "Classify cell first.":return "Chọn nhãn kỳ phân bào cho ô đang chọn trước khi kiểm tra. Nếu chưa rõ, giữ Chưa rõ và tiếp tục quan sát.";
+                case "Focus mounted specimen first.":return "Lắp lam lên bàn kính và chỉnh ảnh đủ nét trước khi chọn tế bào trên hình.";
+                case "Mount and focus slide with both clips closed.":return "Lắp lam lên bàn kính, đóng cả hai ngàm giữ và lấy nét ảnh rồi bắt đầu.";
+                case "Find and focus mounted specimen at low power first.":return "Tìm và lấy nét mẫu đã lắp ở vật kính nhỏ trước khi chuyển sang vật kính lớn hơn.";
+                case "Focus travel rejected.":return "Kính chưa nhận được vị trí lấy nét này. Kiểm tra kính đã lắp và đang hoạt động, rồi chỉnh lại trong hành trình cho phép.";
+                case "Objective change rejected.":return "Chưa đổi được vật kính. Kiểm tra lam đã lắp, vị trí lấy nét và giới hạn cơ cấu rồi thử lại.";
+                case "Install apparatus first.":return "Lắp đủ dụng cụ ở trạm trước khi dùng nút thao tác của bài.";
+                case "Apparatus is disconnected.":return "Bộ dụng cụ chưa được lắp đầy đủ hoặc kết nối chưa còn nguyên. Kiểm tra lại bố trí trước khi ghi số đo.";
+                case "Switch off before removing the cathode.":return "Chờ điện phân tạo lớp bám rồi tắt nguồn trước khi tháo cathode để rửa và cân.";
+                case "Start the prepared experiment before switching on the valid circuit.":return "Hoàn tất chuẩn bị, bắt đầu lượt và kiểm tra mạch đúng trước khi bật nguồn. Lượt đã cân cuối không được bật điện lại.";
+                case "Gas port opened after contact: collected gas volume is invalid.":return "Cổng khí đã mở sau khi hai chất tiếp xúc nên thể tích khí thu được không còn hợp lệ. Làm lại lượt với đường khí kín trước khi cho phản ứng.";
+                case "Run prepared experiment before recording.":return "Hoàn tất chuẩn bị và bắt đầu thí nghiệm trước khi ghi số đo.";
+                case "Point inside a cell structure.":return "Chạm vào bên trong cấu trúc tế bào trên hình; tránh nền trống và đường phân cách.";
+                case "Point inside a source atlas cell.":return "Chạm vào bên trong một tế bào của atlas, tránh khoảng trống giữa các ô.";
+                case "Wait for sample temperature to approach bath setting.":return "Chờ nhiệt độ mẫu gần nhiệt độ bể, với độ chênh dưới 0,5 °C, rồi mới trộn để bắt đầu phản ứng.";
+            }
             string text=(raw??"").ToLowerInvariant();
             if(text.Contains("select a loose instrument first"))return "Chọn một dụng cụ chưa lắp trong danh sách hoặc trên bàn trước.";
             if(text.Contains("already fitted"))return "Dụng cụ đã được lắp. Chọn Quan sát hoặc Thao tác để sử dụng; không cần lấy lại.";

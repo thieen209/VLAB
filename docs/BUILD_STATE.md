@@ -1,22 +1,50 @@
-# Current build — PATCH1 0.1.2
+# VLAB 0.1.3 — second-test prototype
 
+Android package `com.nguaman.vlab`, code4, label **VLAB**, unchanged signing identity. ARMv7 + ARM64 IL2CPP, Android8/API26+, ETC2. [Download APK](https://github.com/thieen209/VLAB/releases/download/v0.1.3-secondtest-20261020/VLAB-0.1.3-android.apk).
 
-Current signed prototype: `VLAB-0.1.2-android.apk`, version0.1.2/code3; package `com.nguaman.vlab`; same signing identity as0.1.1.
+Phone UI uses safe-area sheets, separate equipment actions, larger reading cards, settings tabs and scrolling lesson lists. The joystick only claims its visible disc. Stored equipment can be taken and returned correctly. The observation panel can collapse; zoom and Focus workstation are available, and temporary zoom resets between lessons. The workstation view targets actual visible apparatus, preserving supplied model scales. Instrument adjustments retain the same panel and support held adjustment buttons. Guidance marks actual objects and explains observed actions. P03 offers a learner-operated repeat after reaching the end of the tile. Exit fixtures request confirmation; decorative cupboards no longer advertise empty interactions.
 
-SHA256: `1ECA4530CF1EF43E310C0CA9FFFC3C1429568BFCFE7CAF4AB6DDBF72B45F853E`
-Bytes: 117535017
-Prepared UTC: 2026-10-20T01:56:03+00:00
+Actual Editor queued touchscreen journeys reached saved results and fresh profile reopen for **26/32** distinct lessons across the attached runs. The table below records the latest outcome per lesson, including unresolved blockers. These are not physical Android, headset, gyro, BLE or performance acceptance. Presentation receipts separately cover settings persistence, browser layout, camera controls and documents. Older SDK-only coverage is not counted as actual UI completion.
 
-Language is in Settings; privacy and terms are in About. Startup no longer requires setup screens or records acceptance. Phone controls now use consistent swipe direction, independent multitouch movement/look, optional inverted axes and calibrated flat-phone sensor look. Cardboard retains head tracking and its own trigger/gear/close path. Camera/movement preferences persist; controller mapping remains available. Manual apparatus handling exposes Take, Place and Return; guidance remains optional. The notebook has35 offline typeset formula pages for32 lessons, transcribed from the approved Knowledge text; these are learning references, not measured results.
+The final phone reading panel uses a right-side sheet and frames the installed apparatus together. Its final camera framing and removed empty spacing were compiled but not rerun through a complete UI journey; the preceding side-sheet UI run was bounded and is preserved as incomplete. P03 saved/reopened on the earlier full-panel layout; this does not certify the final side-sheet interaction. M03 still has an unresolved intermittent take/place UI failure.
 
-Native Editor validation: Core333;35 phone-input assertions;6 actual queued-touch UI assertions through InputSystemUIInputModule; existing HID disconnect/fallback checks; saved settings and manual apparatus/UI routes; safe-area bounds on four authored viewport fixtures; actual joystick movement and composite coordinates; all32 bounded SDK journeys/47 saved-reopened attempts and snapshot isolation in a NEW persistentDataPath/QA sibling. No learner Profile was accessed. Formula provenance,35 real texture dimensions and native notebook pages checked. These counts do not certify full research protocols or physical phones.
+The APK is provided for the next user test, not as flawless production acceptance. Visual-classification lessons and C01 still need fuller end-to-end review where marked. A timed protocol exceeding a bounded test is recorded as incomplete, never bypassed. Existing local user profiles were not reset. Prior tags and APKs remain unchanged.
 
-Historical Windows project-Evidence `File.Replace`0x80070497 failure remains unresolved; choosing an explicit QA sibling does not repair the storage kernel or erase that negative evidence. See [the original diagnostic](VERIFICATION_119_WINDOWS_PERSISTENCE.md) and [known limits](KNOWN_LIMITS.md).
+Packaging recovery: the initial Unity Gradle packaging attempt failed; a direct retry of the same generated project succeeded with exit0. Both the failure receipt and recovery summary are retained. APK metadata, ABI payload and release certificate were independently verified.
 
-No physical Android installation, gyro orientation/comfort, Cardboard optics/stereo/performance or custom BLE/GATT protocol acceptance has been performed. Normal Android HID support is separate. Android8/API26 minimum; broad device compatibility is not guaranteed by archive checks.
+SHA256 `88AB868AE97599863B5BB549A5AF51D42FBF780282F54F990D2FD8502C67F2B6`; 117639825 bytes.
 
-Changing the product label to VLAB preserves the Android package-based data path. On Windows Editor, Unity now selects `LocalLow/Ngua Man VLAB/VLAB`, while the old `LocalLow/Ngua Man VLAB/Ngua Man VLAB` Profile stays on disk and is not automatically loaded. No private profile migration or deletion was performed.
-
-[Download release](https://github.com/thieen209/VLAB/releases/tag/v0.1.2-patch1-20261020) · [Direct APK](https://github.com/thieen209/VLAB/releases/download/v0.1.2-patch1-20261020/VLAB-0.1.2-android.apk)
-
-Prior0.1.1 source/tag and APK remain immutable; old numbered-run descriptions and hashes are historical. This current block supersedes their current-artifact claims.
+| Bài | Latest completed actual UI outcome |
+|---|---|
+| P01 | UI JOURNEY RECORDED (20261020-030217) |
+| P02 | UI JOURNEY RECORDED (20261020-030217) |
+| P03 | BLOCKED — Bounded UI journey timed out before saved result; instrument:meter:pull+ / Lực kế 10 N → Tăng lực kéo 0,05 N (20261020-035959) |
+| P04 | UI JOURNEY RECORDED (20261020-030217) |
+| P05 | UI JOURNEY RECORDED (20261020-030217) |
+| P06 | UI JOURNEY RECORDED (20261020-030217) |
+| P07 | UI JOURNEY RECORDED (20261020-030217) |
+| P08 | UI JOURNEY RECORDED (20261020-030217) |
+| C01 | BLOCKED — Guide requires manual recovery/configuration: variables:burette: / Mở Thông số, tăng Độ mở khóa ít; lắc bình, đóng khóa để đọc lại. (20261020-030217) |
+| C02 | UI JOURNEY RECORDED (20261020-030217) |
+| C03 | UI JOURNEY RECORDED (20261020-030217) |
+| C04 | UI JOURNEY RECORDED (20261020-030217) |
+| C05 | UI JOURNEY RECORDED (20261020-030217) |
+| C06 | UI JOURNEY RECORDED (20261020-030217) |
+| C07 | UI JOURNEY RECORDED (20261020-030217) |
+| C08 | UI JOURNEY RECORDED (20261020-030217) |
+| B01 | BLOCKED — VISUAL CLASSIFICATION REQUIRED: image and labels need human visual judgment; no model-answer lookup performed (20261020-030217) |
+| B02 | BLOCKED — VISUAL CLASSIFICATION REQUIRED: image and labels need human visual judgment; no model-answer lookup performed (20261020-030217) |
+| B03 | UI JOURNEY RECORDED (20261020-034628) |
+| B04 | UI JOURNEY RECORDED (20261020-030217) |
+| B05 | UI JOURNEY RECORDED (20261020-030217) |
+| B06 | UI JOURNEY RECORDED (20261020-033727) |
+| B07 | UI JOURNEY RECORDED (20261020-033727) |
+| B08 | BLOCKED — Subject tap did not reach browser (20261020-030217) |
+| M01 | UI JOURNEY RECORDED (20261020-034628) |
+| M02 | UI JOURNEY RECORDED (20261020-034628) |
+| M03 | BLOCKED — Take UI did not retain equipment supportA (20261020-035441) |
+| M04 | UI JOURNEY RECORDED (20261020-030217) |
+| M05 | UI JOURNEY RECORDED (20261020-033727) |
+| M06 | UI JOURNEY RECORDED (20261020-030217) |
+| M07 | UI JOURNEY RECORDED (20261020-030217) |
+| M08 | UI JOURNEY RECORDED (20261020-030217) |

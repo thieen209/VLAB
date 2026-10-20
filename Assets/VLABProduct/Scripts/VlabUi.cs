@@ -12,6 +12,12 @@ namespace Vlab.Product
         public bool LargeText,Vietnamese=true;
         public bool ReducedMotion{get;private set;}
         public PhoneUiViewport PhoneViewport{get;private set;}
+        public void ConfigurePhoneDialog(RectTransform dialog)
+        {
+            if(!dialog)return;
+            var layout=dialog.GetComponent<PhoneDialogLayout>();if(!layout)layout=dialog.gameObject.AddComponent<PhoneDialogLayout>();
+            layout.Initialize(this);
+        }
         public void RefreshPhoneLayout(){if(PhoneViewport)PhoneViewport.Refresh();}
         public void SetReducedMotion(bool reduced)
         {
@@ -161,6 +167,7 @@ namespace Vlab.Product
             {
                 var go=new GameObject("Opaque text backing",typeof(RectTransform),typeof(UnityEngine.UI.Image));plate=go.GetComponent<RectTransform>();plate.SetParent(transform.parent,false);plate.anchorMin=Target.rectTransform.anchorMin;plate.anchorMax=Target.rectTransform.anchorMax;plate.pivot=Target.rectTransform.pivot;plate.SetSiblingIndex(transform.GetSiblingIndex());go.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;
             }
+            if(plate.parent!=Target.transform.parent)plate.SetParent(Target.transform.parent,false);plate.SetSiblingIndex(Target.transform.GetSiblingIndex());
             plate.gameObject.SetActive(true);plate.anchoredPosition=Target.rectTransform.anchoredPosition+new Vector2(-5,5);
             Vector2 bounds=Target.rectTransform.rect.size;
             if(measuredText!=Target.text||measuredRect!=bounds||measuredFont!=Target.fontSize||measuredTheme!=UiTheme.Index)
@@ -185,3 +192,4 @@ namespace Vlab.Product
         void Update(){if(ReducedMotion){target=Vector3.one;transform.localScale=Vector3.one;return;}transform.localScale=Vector3.Lerp(transform.localScale,target,1-Mathf.Exp(-Time.unscaledDeltaTime/0.04f));}
     }
 }
+

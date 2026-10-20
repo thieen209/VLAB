@@ -1,0 +1,502 @@
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Stored ruler can be taken into the hand
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Taking again does not lose storage return state
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Cancel restores stored/inactive ruler and original tray pose
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Storage retrieval never advances preparation
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Changing selection returns previously stored ruler to storage
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Stored ruler still uses validated explicit installation
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Cancel after installation cannot re-stow fitted ruler
+P03 TAP Subject P | Vật lí @ (395.29, 477.32)
+P03 TAP Browser lesson P03 | Ma sát <size=20>Chưa có số đo</size> @ (297.58, 495.25)
+P03 TAP Browser start | Bắt đầu thí nghiệm @ (1159.62, 105.06)
+P03 TAP Readiness enter | Vào trạm @ (1158.60, 179.34)
+P03 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+P03 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+P03 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+P03 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+P03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+P03 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+P03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Equipment item surface | Mặt tiếp xúc @ (460.47, 700.20)
+P03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+P03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Equipment item block | Khối trượt @ (460.47, 578.43)
+P03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+P03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Equipment item meter | Lực kế 10 N @ (460.47, 456.66)
+P03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+P03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 TAP Equipment item cord | Dây kéo ngang @ (460.47, 334.89)
+P03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+P03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+P03 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+P03 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+P03 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+P03 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+P03 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+P03 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+P03 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+P03 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+P03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+P03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+P03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+P03 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 HOLD Instrument control pull+ 0.9 seconds @ (1201.94, 546.49) visibleBefore=No visible readings text
+P03 HOLD RESULT visibleAfter=No visible readings text
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 HOLD Instrument control pull+ 0.9 seconds @ (1201.94, 546.49) visibleBefore=No visible readings text
+P03 HOLD RESULT visibleAfter=No visible readings text
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 HOLD Instrument control pull+ 0.9 seconds @ (1201.94, 546.49) visibleBefore=No visible readings text
+P03 HOLD RESULT visibleAfter=No visible readings text
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 HOLD Instrument control pull+ 0.9 seconds @ (1201.94, 546.49) visibleBefore=No visible readings text
+P03 HOLD RESULT visibleAfter=No visible readings text
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 HOLD Instrument control pull+ 0.9 seconds @ (1201.94, 546.49) visibleBefore=No visible readings text
+P03 HOLD RESULT visibleAfter=No visible readings text
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 HOLD Instrument control pull+ 0.9 seconds @ (1201.94, 546.49) visibleBefore=No visible readings text
+P03 HOLD RESULT visibleAfter=No visible readings text
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 HOLD Instrument control pull+ 0.9 seconds @ (1201.94, 546.49) visibleBefore=No visible readings text
+P03 HOLD RESULT visibleAfter=No visible readings text
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+P03 BLOCKED System.Exception: Guided control absent/disabled: meter/pull+
+  at SecondTestUiProbe+<Lesson>d__48.MoveNext () [0x00e74] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:336 
+  at SecondTestUiProbe+<Guard>d__47.MoveNext () [0x00041] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:244 
+P03 TAP Close dialog | × @ (1427.48, 822.96)
+P03 TAP ‹ Quay lại | ‹ Quay lại @ (1007.00, 102.60)
+P03 TAP Rời phòng | Rời phòng @ (800.00, 274.50)
+P03 TAP Xác nhận | Xác nhận @ (686.88, 471.51)
+P03 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+B03 TAP Subject B | Sinh học @ (942.20, 478.80)
+B03 TAP Browser lesson B03 | Thẩm thấu khoai <size=20>Chưa có số đo</size> @ (270.40, 497.70)
+B03 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+B03 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+B03 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+B03 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+B03 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+B03 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+B03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B03 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B03 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+B03 SCOPED WORLD entry PASS B03 balance keeps native unit scale
+B03 SCOPED WORLD entry PASS B03 balance pan is level
+B03 SCOPED WORLD entry PASS B03 balance display keeps authored facing
+B03 SCOPED WORLD entry PASS B03 visible balance rests wholly on an actual room bench
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item balance | Cân @ (460.47, 700.20)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item solution | Nhóm dung dịch sucrose @ (460.47, 578.43)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item water | Nước đối chứng @ (460.47, 456.66)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item sample0 | Mẫu khoai độc lập 1 @ (460.47, 334.89)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item sample1 | Mẫu khoai độc lập 2 @ (460.47, 213.12)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 SCROLL Equipment item sample2 target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+B03 SCROLL RESULT Equipment item sample2 contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+B03 TAP Equipment item sample2 | Mẫu khoai độc lập 3 @ (460.47, 235.44)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item paper | Giấy thấm @ (460.47, 700.20)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item ruler | Khay · Thước @ (460.47, 578.43)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Equipment item timer | Đồng hồ @ (460.47, 456.66)
+B03 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B03 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B03 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B03 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+B03 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+B03 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+B03 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+B03 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B03 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B03 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+B03 SCOPED WORLD assembled PASS B03 balance keeps native unit scale
+B03 SCOPED WORLD assembled PASS B03 balance pan is level
+B03 SCOPED WORLD assembled PASS B03 balance display keeps authored facing
+B03 SCOPED WORLD assembled PASS B03 visible balance rests wholly on an actual room bench
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighInitial:0 | Cân đầu mẫu 1 @ (1201.94, 546.49)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighInitial:1 | Cân đầu mẫu 2 @ (1201.94, 236.53)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B03 TAP Instrument control weighInitial:2 | Cân đầu mẫu 3 @ (1201.94, 443.17)
+B03 TAP Close dialog | × @ (1427.48, 822.96)
+B03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B03 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B03 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+B03 BLOCKED System.Exception: Bounded UI journey timed out before saved result; observe:timer: | Chờ đủ thời gian ngâm trước khi lấy mẫu.
+  at SecondTestUiProbe+<Lesson>d__48.MoveNext () [0x00e74] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:336 
+  at SecondTestUiProbe+<Guard>d__47.MoveNext () [0x00041] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:244 
+B03 TAP ‹ Quay lại | ‹ Quay lại @ (1007.00, 102.60)
+B03 TAP Rời phòng | Rời phòng @ (800.00, 274.50)
+B03 TAP Xác nhận | Xác nhận @ (686.88, 471.51)
+B03 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+B06 TAP Subject B | Sinh học @ (942.20, 478.80)
+B06 TAP Browser lesson B06 | Sắc ký lá <size=20>Chưa có số đo</size> @ (727.50, 327.60)
+B06 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+B06 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+B06 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B06 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+B06 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+B06 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+B06 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+B06 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+B06 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B06 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item mortar | Cối @ (460.47, 700.20)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item pestle | Chày @ (460.47, 578.43)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item tissue | Lá @ (460.47, 456.66)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item extract | Dịch chiết @ (460.47, 334.89)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item receiver | Dịch lọc giữ lại @ (460.47, 213.12)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 SCROLL Equipment item funnel target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+B06 SCROLL RESULT Equipment item funnel contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+B06 TAP Equipment item funnel | Phễu @ (460.47, 235.44)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item filter | Giấy lọc gấp @ (460.47, 700.20)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item capillary | Ống mao dẫn @ (460.47, 578.43)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item strip | Giấy sắc ký @ (460.47, 456.66)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item jar | Bình triển khai @ (460.47, 334.89)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Equipment item ruler | Khay · Thước @ (460.47, 213.12)
+B06 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B06 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B06 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B06 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+B06 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+B06 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+B06 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+B06 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+B06 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B06 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B06 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B06 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Instrument control loadCapillary | Hút 1 µL dịch lọc @ (1201.94, 546.49)
+B06 TAP Close dialog | × @ (1427.48, 822.96)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Instrument control deposit | Chấm 1 µL tại gốc @ (1201.94, 443.17)
+B06 TAP Close dialog | × @ (1427.48, 822.96)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Instrument control dry | Xác nhận vết đã khô @ (1201.94, 339.85)
+B06 TAP Close dialog | × @ (1427.48, 822.96)
+B06 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B06 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B06 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+B06 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B06 TAP Instrument control markFront | Dừng và đánh dấu mặt trước @ (1201.94, 236.53)
+B06 TAP Close dialog | × @ (1427.48, 822.96)
+B06 TAP Ghi số đo | Ghi số đo @ (350.00, 467.10)
+B06 TAP Danh sách thí nghiệm | Danh sách thí nghiệm @ (735.20, 109.80)
+B06 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+B07 TAP Subject B | Sinh học @ (942.20, 478.80)
+B07 TAP Browser lesson B07 | Tách DNA thô <size=20>Chưa có số đo</size> @ (270.40, 157.50)
+B07 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+B07 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+B07 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B07 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+B07 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+B07 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+B07 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+B07 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B07 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B07 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item mortar | Cối @ (460.47, 700.20)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item pestle | Chày @ (460.47, 578.43)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item tissue | Mô quả @ (460.47, 456.66)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item extract | Dịch chiết @ (460.47, 334.89)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item receiver | Dịch lọc giữ lại @ (460.47, 213.12)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 SCROLL Equipment item funnel target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+B07 SCROLL RESULT Equipment item funnel contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+B07 TAP Equipment item funnel | Phễu @ (460.47, 235.44)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item filter | Giấy lọc gấp @ (460.47, 700.20)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item alcohol | Alcohol lạnh @ (460.47, 578.43)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item layer | Lớp alcohol định tính @ (460.47, 456.66)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item rod | Đũa cuốn nhẹ @ (460.47, 334.89)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Equipment item dna | Kết tủa thô @ (460.47, 213.12)
+B07 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B07 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B07 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B07 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+B07 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+B07 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+B07 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+B07 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B07 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B07 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+B07 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B07 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B07 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B07 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B07 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B07 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+B07 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B07 TAP Instrument control spool | Cuốn nhẹ vật liệu thô @ (1201.94, 546.49)
+B07 TAP Close dialog | × @ (1427.48, 822.96)
+B07 TAP Ghi số đo | Ghi số đo @ (350.00, 467.10)
+B07 TAP Danh sách thí nghiệm | Danh sách thí nghiệm @ (735.20, 109.80)
+B07 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+M05 TAP Subject M | Kỹ thuật @ (1226.60, 478.80)
+M05 TAP Browser lesson M05 | Tay quay – con trượt <size=20>Chưa có số đo</size> @ (270.40, 327.60)
+M05 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+M05 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+M05 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+M05 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+M05 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+M05 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+M05 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+M05 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+M05 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+M05 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+M05 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M05 TAP Equipment item motor | Motor @ (460.47, 700.20)
+M05 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M05 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M05 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M05 TAP Equipment item crank | Tay quay @ (460.47, 578.43)
+M05 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M05 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M05 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M05 TAP Equipment item rod80 | Thanh truyền 80 mm @ (460.47, 456.66)
+M05 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M05 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M05 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M05 TAP Equipment item rod100 | Thanh truyền 100 mm @ (460.47, 334.89)
+M05 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M05 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M05 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M05 TAP Equipment item rod120 | Thanh truyền 120 mm @ (460.47, 213.12)
+M05 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M05 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M05 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M05 SCROLL Equipment item rail target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+M05 SCROLL RESULT Equipment item rail contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+M05 TAP Equipment item rail | Ray con trượt @ (460.47, 235.44)
+M05 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M05 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M05 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+M05 TAP Equipment item slider | Con trượt @ (460.47, 700.20)
+M05 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+M05 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+M05 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+M05 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+M05 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+M05 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+M05 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+M05 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+M05 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+M05 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+M05 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M05 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M05 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+M05 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+M05 TAP Ghi số đo | Ghi số đo @ (350.00, 467.10)
+M05 TAP Danh sách thí nghiệm | Danh sách thí nghiệm @ (735.20, 109.80)
+M05 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)

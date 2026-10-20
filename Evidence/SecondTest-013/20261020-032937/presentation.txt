@@ -1,0 +1,33 @@
+Actual queued touchscreen presentation checks; no Android hardware claim.
+Observed resolution 1600x900
+PASS Actual Home Settings touch opens Settings
+PASS Actual Settings category tap 0
+PASS PhoneSettingsLayout geometry: 
+PASS Settings category 0 TMP overflow: 
+PASS Actual Settings category tap 1
+PASS PhoneSettingsLayout geometry: 
+PASS Settings category 1 TMP overflow: 
+PASS Actual Settings category tap 2
+PASS PhoneSettingsLayout geometry: 
+PASS Settings category 2 TMP overflow: 
+PASS Actual Settings category tap 3
+PASS PhoneSettingsLayout geometry: 
+PASS Settings category 3 TMP overflow: 
+PASS Actual Settings category tap 4
+PASS PhoneSettingsLayout geometry: 
+PASS Settings category 4 TMP overflow: 
+PASS Actual Settings category tap 5
+PASS PhoneSettingsLayout geometry: 
+PASS Settings category 5 TMP overflow: 
+PASS Animation and theme Apply change actual profile
+PASS Animation and theme persist on fresh store reopen
+PASS Restore original settings through actual UI
+PASS Restored settings persist on fresh store reopen
+PASS Actual Home subject card reaches browser
+PASS Browser exposes exactly eight Physics lesson buttons
+PASS Actual scroll/tap selects final P08 tile
+FAIL PhoneBrowserLayout geometry: Browser lesson tile sizes differ.
+PASS Browser P08 TMP overflow: 
+PASS Browser Home returns by touch
+NOT CHECKED legal, feedback, phone hardware and VR; this mode covers six Settings categories, theme/animation apply+restore and browser selection.
+PASS No runtime errors during presentation

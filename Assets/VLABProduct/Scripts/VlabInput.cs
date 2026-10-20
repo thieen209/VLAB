@@ -18,7 +18,7 @@ namespace Vlab.Product
         public float adjustment;
     }
     public struct ActionFrame
-    {public Ray pointer;public bool pressed,released,held,grabPressed,menu,recenter,back,lost;public float adjustment;public Vector2 move;} 
+    {public Ray pointer;public bool pressed,released,held,grabPressed,menu,recenter,back,lost,phoneWorldPress;public float adjustment;public Vector2 move;} 
     public interface IVlabInputProvider {ActionFrame Poll(Camera camera,double now);ControllerCapabilities Capabilities{get;}}
     public sealed class MockControllerProvider:IVlabInputProvider
     {
@@ -168,6 +168,8 @@ namespace Vlab.Product
             if(screen!=null)foreach(var touch in screen.touches)
             {
                 var phase=touch.phase.ReadValue();if(phase==UnityEngine.InputSystem.TouchPhase.None)continue;
+                // Ended slots persist in Input System; consume only the actual release edge.
+                if((phase==UnityEngine.InputSystem.TouchPhase.Ended||phase==UnityEngine.InputSystem.TouchPhase.Canceled)&&!touch.press.wasReleasedThisFrame)continue;
                 any=true;var position=touch.position.ReadValue();
                 // Native UI keeps every UI-started touch. Gameplay claims are fixed
                 // at BEGIN, so a swipe across a button cannot acquire its click.
@@ -178,7 +180,7 @@ namespace Vlab.Product
             phoneTouches.EndFrame();
             if(any||phoneTouches.Released)
             {
-                frame.pressed=phoneTouches.Pressed;frame.held=phoneTouches.WorldHeld;frame.released=phoneTouches.Released;frame.grabPressed=false;frame.adjustment=0;
+                frame.phoneWorldPress=phoneTouches.Pressed;frame.pressed=phoneTouches.Pressed;frame.held=phoneTouches.WorldHeld;frame.released=phoneTouches.Released;frame.grabPressed=false;frame.adjustment=0;
                 if(phoneTouches.HasWorldPointer)frame.pointer=View.ScreenPointToRay(phoneTouches.WorldPosition);
             }
             frame.move=allowed?phoneTouches.Move:Vector2.zero;
@@ -282,7 +284,7 @@ namespace Vlab.Product
             bool phoneTouch=ReadPhoneTouches(ref f);
             // In Cardboard raw screen touches belong to the SDK overlay/trigger.
             // They must never bypass its gear/close-button safety filtering.
-            if(VrMode&&phoneTouch){f.pressed=f.held=f.released=f.grabPressed=false;f.move=Vector2.zero;}
+            if(VrMode&&phoneTouch){f.pressed=f.held=f.released=f.grabPressed=f.phoneWorldPress=false;f.move=Vector2.zero;}
             if(SimulatorMode&&keyboard!=null&&keyboard.enterKey.wasPressedThisFrame)f.pressed=true;
             ApplyViewerButtons(ref f);
             if(Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!phoneTouch&&mouse!=null&&mouse.rightButton.isPressed)
@@ -305,7 +307,7 @@ namespace Vlab.Product
         }
         ActionFrame FinishFrame(ActionFrame f)
         {
-            if(pendingLoss){f.lost=true;f.released|=lastPointerHeld;f.held=f.pressed=f.grabPressed=f.menu=f.recenter=f.back=false;f.move=Vector2.zero;pendingLoss=false;}
+            if(pendingLoss){f.lost=true;f.released|=lastPointerHeld;f.held=f.pressed=f.grabPressed=f.menu=f.recenter=f.back=f.phoneWorldPress=false;f.move=Vector2.zero;pendingLoss=false;}
             f.released|=!f.held&&lastPointerHeld;lastPointerHeld=f.held;return f;
         }
         void ApplyViewerButtons(ref ActionFrame f)
@@ -314,7 +316,7 @@ namespace Vlab.Product
             bool close=Google.XR.Cardboard.Api.IsCloseButtonPressed,gear=Google.XR.Cardboard.Api.IsGearButtonPressed;
             if(close||gear)
             {
-                f.pressed=f.held=f.grabPressed=false;f.released=lastPointerHeld;f.lost=true;
+                f.pressed=f.held=f.grabPressed=f.phoneWorldPress=false;f.released=lastPointerHeld;f.lost=true;
                 if(close)SetVr(false);else ScanViewer();
                 return;
             }
@@ -403,8 +405,8 @@ namespace Vlab.Product
         sealed class Finger {public Owner owner;public Vector2 start,previous;public bool dragging,seen;}
         readonly System.Collections.Generic.Dictionary<int,Finger> fingers=new System.Collections.Generic.Dictionary<int,Finger>();
         readonly System.Collections.Generic.List<int> remove=new System.Collections.Generic.List<int>();
-        public static readonly Vector2 JoystickCenter=new Vector2(.16f,.12f);
-        public const float JoystickRadius=.10f;
+        public static readonly Vector2 JoystickCenter=new Vector2(.16f,.18f);
+        public const float JoystickRadius=.14f;
         public Vector2 Move{get;private set;}public Vector2 LookDelta{get;private set;}
         public bool Pressed{get;private set;}public bool Released{get;private set;}
         public bool WorldHeld{get;private set;}public bool HasWorldPointer{get;private set;}
@@ -422,9 +424,11 @@ namespace Vlab.Product
                 // Never acquire a finger already held when the mode/page changed.
                 if(phase==UnityEngine.InputSystem.TouchPhase.Began)
                 {
-                    var normalized=new Vector2((position.x-safe.x)/safe.width,(position.y-safe.y)/safe.height);
+                    var centre=new Vector2(safe.x+safe.width*JoystickCenter.x,safe.y+safe.height*JoystickCenter.y);
+                    float radius=Mathf.Max(1,safe.height*JoystickRadius);
                     if(ui)finger.owner=Owner.Ui;
-                    else if(allowed&&joystick&&normalized.x<=.34f&&normalized.y<=.46f&&!Has(Owner.Move))finger.owner=Owner.Move;
+                    // Claim only the visible disc; an unrelated lower-left swipe must not move backward.
+                    else if(allowed&&joystick&&(position-centre).sqrMagnitude<=radius*radius&&!Has(Owner.Move))finger.owner=Owner.Move;
                     else if(allowed&&world&&!Has(Owner.World)){finger.owner=Owner.World;Pressed=true;}
                     else if(allowed&&!world&&!Has(Owner.Look))finger.owner=Owner.Look;
                 }

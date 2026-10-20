@@ -27,7 +27,7 @@ namespace Vlab.Product
         const float StorageInset=.012f,StorageGap=.018f,StorageLift=.002f;
         public bool UsesSyntheticStorageSurface{get;private set;}
         public int StoredItemCount=>items.Count(x=>!x.installed&&x.stowed);
-        Vector3 centre;double lastAngle;bool carrying,pullingBob,latchedCarry;float carryDistance;
+        Vector3 centre;double lastAngle;bool carrying,pullingBob,latchedCarry,carriedFromStorage;float carryDistance;
         readonly Dictionary<EquipmentHandle,LineRenderer> targets=new Dictionary<EquipmentHandle,LineRenderer>();
         Material targetMaterial;PendulumDynamics timedDynamics;
         Renderer motorRiser;readonly List<Renderer> guideBracket=new List<Renderer>();
@@ -204,7 +204,9 @@ namespace Vlab.Product
             var renderers=go.GetComponentsInChildren<Renderer>().Where(r=>!(r is LineRenderer)&&r.enabled).ToArray();
             if(renderers.Length==0)return;
             Quaternion original=go.transform.rotation,bestRotation=original;Vector3 bestDelta=Vector3.zero;float best=float.PositiveInfinity;
-            foreach(var surface in storageSurfaces)for(int turn=0;turn<2;turn++)
+            // Keep the balance readout facing the learner instead of quarter-turning it to pack.
+            int turns=go.GetComponentInChildren<VlabBalance>()?1:2;
+            foreach(var surface in storageSurfaces)for(int turn=0;turn<turns;turn++)
             {
                 go.transform.rotation=Quaternion.AngleAxis(turn*90,Vector3.up)*original;
                 var b=renderers[0].bounds;foreach(var renderer in renderers.Skip(1))b.Encapsulate(renderer.bounds);if(TryPestleBounds(go,out var pestleBounds))b=pestleBounds;
@@ -692,7 +694,7 @@ namespace Vlab.Product
                 int bestSurface=-1;Rect bestRect=default;Quaternion bestRotation=item.trayRotation;float bestScore=float.PositiveInfinity;Bounds bestBounds=default;
                 // Keep tall originals facing their authored direction; turning a thin pegboard
                 // sideways may pack efficiently but makes the actual instrument unreadable.
-                int turns=item.GetComponentInChildren<VlabCrank>()||(original.size.y>.12f&&original.size.y>Mathf.Min(original.size.x,original.size.z)*1.5f)?1:2;
+                int turns=item.GetComponentInChildren<VlabBalance>()||item.GetComponentInChildren<VlabCrank>()||(original.size.y>.12f&&original.size.y>Mathf.Min(original.size.x,original.size.z)*1.5f)?1:2;
                 for(int surface=0;surface<free.Length;surface++)for(int turn=0;turn<turns;turn++)
                 {
                     item.transform.rotation=Quaternion.AngleAxis(turn*90,Vector3.up)*item.trayRotation;
@@ -801,8 +803,12 @@ namespace Vlab.Product
             if(handle&&!items.Contains(handle))return;
             if(Selected!=handle)
             {
-                if(Selected&&!Selected.installed&&carrying)Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);
-                carrying=pullingBob=latchedCarry=false;
+                if(Selected&&!Selected.installed&&carrying)
+                {
+                    Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);
+                    if(carriedFromStorage){Selected.stowed=true;Selected.gameObject.SetActive(false);}
+                }
+                carrying=pullingBob=latchedCarry=carriedFromStorage=false;
             }
             if(handle&&handle.stowed)ArrangeLooseItems(handle);
             Selected=handle;UpdateTargets();Changed?.Invoke();
@@ -832,9 +838,16 @@ namespace Vlab.Product
             message="";
             if(!Selected||!items.Contains(Selected)||Selected.installed){message="Select a loose instrument first.";return false;}
             if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready){message="Installation is available only during setup.";return false;}
-            if(Selected.stowed){message="This part is stored. Place it using the equipment menu.";return false;}
+            if(IsCarrying)return true;
+            carriedFromStorage=Selected.stowed;
+            if(carriedFromStorage)
+            {
+                // Retrieve directly into the hand; a full tray has no free surface to unpack onto.
+                Selected.stowed=false;Selected.gameObject.SetActive(true);
+                carryDistance=.65f;Selected.transform.SetPositionAndRotation(pointer.GetPoint(carryDistance),Selected.trayRotation);
+            }
+            else carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,Selected.transform.position),.35f,2.5f);
             pullingBob=false;carrying=latchedCarry=true;
-            carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,Selected.transform.position),.35f,2.5f);
             UpdateTargets();Changed?.Invoke();return true;
         }
         public void SetCoachingEnabled(bool enabled){CoachingEnabled=enabled;UpdateTargets();}
@@ -866,7 +879,15 @@ namespace Vlab.Product
                 }
             }
         }
-        public void CancelGrab(){if(Selected&&!Selected.installed)Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);Selected=null;carrying=pullingBob=latchedCarry=false;UpdateTargets();Changed?.Invoke();}
+        public void CancelGrab()
+        {
+            if(Selected&&!Selected.installed)
+            {
+                Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);
+                if(carriedFromStorage){Selected.stowed=true;Selected.gameObject.SetActive(false);}
+            }
+            Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();
+        }
         public bool InstallSelected()
         {
             if(!CanInstallSelected(out _))return false;
@@ -876,7 +897,7 @@ namespace Vlab.Product
                 var spec=Driver.Kit.Single(x=>x.key==item.assetId);
                 if(!string.IsNullOrEmpty(spec.dependsOn)&&!items.Single(x=>x.assetId==spec.dependsOn).installed)return false;
                 item.gameObject.SetActive(true);item.stowed=false;item.transform.SetPositionAndRotation(item.slot,item.rotation);item.installed=true;Driver.Installed(item.assetId);item.slot=item.transform.position;
-                if(Ready){Driver.Configure();SynchronizeDerivedFixtures();}else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;carrying=pullingBob=latchedCarry=false;UpdateTargets();Changed?.Invoke();return true;
+                if(Ready){Driver.Configure();SynchronizeDerivedFixtures();}else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();return true;
             }
             if(item.assetId!="stand"&&!items.First(x=>x.assetId=="stand").installed)return false;
             item.gameObject.SetActive(true);item.stowed=false;item.transform.SetPositionAndRotation(item.slot,item.rotation);item.installed=true;
@@ -898,7 +919,7 @@ namespace Vlab.Product
                 item.slot=item.transform.position;foreach(var part in items)part.slot=Slot(part.assetId);
             }
             if(item.assetId=="ruler"||item.assetId=="timer")PlaceOnSurface(item.gameObject,item.slot);
-            if(Ready)UpdatePendulum(0);else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;carrying=pullingBob=latchedCarry=false;UpdateTargets();Changed?.Invoke();return true;
+            if(Ready)UpdatePendulum(0);else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();return true;
         }
         void CreateTargets()
         {

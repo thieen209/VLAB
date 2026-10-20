@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.EventSystems;
 using UnityEditor;
 using Vlab.Product;
 
@@ -16,6 +17,103 @@ using Vlab.Product;
 // callbacks; does not accept legal documents, reset a profile or fabricate data.
 public static class Patch1AppChecks
 {
+    static void FollowupCheck(Action<string,bool> check,string label,bool ok){check(label,ok);}
+    static bool Isolated(VlabApp app)
+    {
+        string path=SessionState.GetString("VLAB.TestProfile","");
+        return !string.IsNullOrEmpty(path)&&Path.GetFullPath(((ProfileStore)typeof(VlabApp).GetField("store",Private).GetValue(app)).Folder)==Path.GetFullPath(path);
+    }
+    static IEnumerator FreshP01(VlabApp app)
+    {
+        app.ShowHome();yield return Press(app,"Subject P");yield return new WaitForSecondsRealtime(.4f);
+        yield return app.CheckRoomLoad("Physics",true,false);yield return new WaitForSecondsRealtime(.35f);
+        if(app.Route!="activity"||app.Session?.spec.id!="P01"||!app.Apparatus)throw new Exception("Followup requires actual P01 room activity.");
+    }
+    static void Touch(Touchscreen device,int id,UnityEngine.InputSystem.TouchPhase phase,Vector2 point)
+    {InputSystem.QueueStateEvent(device,new TouchState{touchId=id,phase=phase,position=point});}
+    static IEnumerator Stick(VlabApp app,Touchscreen device,int id)
+    {
+        var safe=app.GetComponentsInChildren<PhoneUiViewport>().Single(v=>v.isActiveAndEnabled).SafePixels;var c=app.Input.PhoneJoystickCenter;
+        var point=new Vector2(safe.x+safe.width*c.x,safe.y+safe.height*c.y);var moved=point+Vector2.right*(safe.height*app.Input.PhoneJoystickRadius*.5f);
+        Touch(device,id,UnityEngine.InputSystem.TouchPhase.Began,point);yield return null;
+        Touch(device,id,UnityEngine.InputSystem.TouchPhase.Moved,moved);yield return new WaitForSecondsRealtime(.15f);
+        Touch(device,id,UnityEngine.InputSystem.TouchPhase.Ended,moved);yield return null;yield return null;
+    }
+    // Independent lifecycle case. SendMessage delivers the synthetic OS callback to
+    // BOTH actual App and Input components, without calling NewPage on return.
+    public static IEnumerator RunLifecycle(VlabApp app,Action<string> capture,Action<string,bool> check)
+    {
+        if(!Isolated(app))throw new Exception("Followup requires pre-Awake isolated VLAB.TestProfile.");
+        Touchscreen owned=null;var screen=Touchscreen.current;if(screen==null)screen=owned=InputSystem.AddDevice<Touchscreen>();
+        try
+        {
+            yield return FreshP01(app);
+            var rig=app.Apparatus;
+            while(!rig.Ready){var item=rig.NextInstallableItem();if(!item)throw new Exception("No source installation order.");rig.Select(item);if(!rig.InstallSelected())throw new Exception("Source setup failed for "+item.assetId);}
+            while(app.Session.Phase==ExperimentPhase.Preparing)if(!rig.PrepareNext(out var why))throw new Exception("Source preparation failed: "+why);
+            if(!app.Session.Start(out var startWhy))throw new Exception("Source Start failed: "+startWhy);
+            app.ShowActivity();yield return new WaitForSecondsRealtime(.25f);
+            var page=typeof(VlabApp).GetField("page",Private).GetValue(app);
+            app.gameObject.SendMessage("OnApplicationPause",true,SendMessageOptions.RequireReceiver);yield return null;
+            double stopped=app.Session.Elapsed;app.gameObject.SendMessage("OnApplicationPause",false,SendMessageOptions.RequireReceiver);yield return null;yield return null;
+            FollowupCheck(check,"Pause false restores actual activity Gameplay without NewPage",app.Input.Gameplay&&ReferenceEquals(page,typeof(VlabApp).GetField("page",Private).GetValue(app))&&app.Route=="activity");
+            FollowupCheck(check,"Application return keeps the real experiment explicitly paused",app.Session.Phase==ExperimentPhase.Paused&&app.Session.Elapsed==stopped&&app.Session.Recorded==null);
+            FollowupCheck(check,"Application return restores visible phone controls",app.Input.PhoneControlsVisible&&app.GetComponentsInChildren<RectTransform>().Any(r=>r.name=="Phone movement joystick"&&r.gameObject.activeInHierarchy));
+            var origin=app.View.transform.parent;var before=origin.position;yield return Stick(app,screen,99101);
+            var delta=origin.position-before;FollowupCheck(check,"Fresh touch after application return moves actual body without resuming science",new Vector2(delta.x,delta.z).magnitude>.005f&&Mathf.Abs(delta.y)<.0005f&&app.Session.Phase==ExperimentPhase.Paused&&app.Session.Elapsed==stopped);
+            app.gameObject.SendMessage("OnApplicationFocus",false,SendMessageOptions.RequireReceiver);yield return null;app.gameObject.SendMessage("OnApplicationFocus",true,SendMessageOptions.RequireReceiver);yield return null;yield return null;
+            FollowupCheck(check,"Focus false/true retains gameplay but does not auto-resume trial",app.Input.Gameplay&&app.Session.Phase==ExperimentPhase.Paused&&app.Session.Elapsed==stopped);
+            yield return Press(app,"Dụng cụ & hướng dẫn","Station tools");before=origin.position;yield return Stick(app,screen,99102);
+            FollowupCheck(check,"Open activity modal blocks fresh touch movement after lifecycle recovery",!app.Input.PhoneControlsVisible&&Vector3.Distance(origin.position,before)<.0005f&&app.Session.Phase==ExperimentPhase.Paused);
+            yield return Press(app,"Close dialog");app.ShowHome();yield return new WaitForSecondsRealtime(.25f);
+            app.gameObject.SendMessage("OnApplicationPause",true,SendMessageOptions.RequireReceiver);yield return null;app.gameObject.SendMessage("OnApplicationPause",false,SendMessageOptions.RequireReceiver);yield return null;yield return null;
+            FollowupCheck(check,"Returning to non-play Home keeps gameplay and joystick blocked",app.Route=="home"&&!app.Input.Gameplay&&!app.Input.PhoneControlsVisible&&app.Session.Phase==ExperimentPhase.Paused&&app.Session.Elapsed==stopped);
+            capture?.Invoke("followup-lifecycle-home-blocked");
+        }
+        finally{if(screen!=null&&screen.added){Touch(screen,99101,UnityEngine.InputSystem.TouchPhase.Ended,Vector2.zero);Touch(screen,99102,UnityEngine.InputSystem.TouchPhase.Ended,Vector2.zero);}if(owned!=null&&owned.added)InputSystem.RemoveDevice(owned);}
+    }
+    static EquipmentHandle AccessibleLoose(VlabApp app,out Vector2 point)
+    {
+        point=default;var safe=app.GetComponentsInChildren<PhoneUiViewport>().Single(v=>v.isActiveAndEnabled).SafePixels;
+        foreach(var item in app.Apparatus.items.Where(i=>!i.installed&&i.gameObject.activeInHierarchy&&Vector3.Distance(i.trayPosition,i.slot)>.22f))
+        foreach(var renderer in item.GetComponentsInChildren<MeshRenderer>().Where(r=>r.enabled))
+        {
+            var pixel=app.View.WorldToScreenPoint(renderer.bounds.center);if(pixel.z<=0||!safe.Contains(pixel))continue;
+            var n=new Vector2((pixel.x-safe.x)/safe.width,(pixel.y-safe.y)/safe.height);if(n.x<=.34f&&n.y<=.46f)continue;
+            var hits=new System.Collections.Generic.List<RaycastResult>();EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current){position=pixel},hits);if(hits.Count!=0)continue;
+            if(!Physics.Raycast(app.View.ScreenPointToRay(pixel),out var hit,3.5f)||hit.collider.GetComponentInParent<EquipmentHandle>()!=item)continue;
+            point=pixel;return item;
+        }
+        return null;
+    }
+    // No ActionFrame.phoneWorldPress dependency: this exact test compiles on0.1.2.
+    public static IEnumerator RunWorldTap(VlabApp app,Action<string> capture,Action<string,bool> check)
+    {
+        if(!Isolated(app))throw new Exception("Followup requires pre-Awake isolated VLAB.TestProfile.");
+        Touchscreen ownedTouch=null;Mouse ownedMouse=null;var screen=Touchscreen.current;if(screen==null)screen=ownedTouch=InputSystem.AddDevice<Touchscreen>();
+        var mouse=Mouse.current;Vector2 oldMouse=mouse?.position.ReadValue()??Vector2.zero;
+        try
+        {
+            yield return FreshP01(app);yield return null;yield return null;
+            var rig=app.Apparatus;int operation=app.Session.Operation;
+            var item=AccessibleLoose(app,out var pixel);if(!item)throw new Exception("No actual visible UI-clear loose collider outside joystick claim with tray-slot distance>.22m.");
+            capture?.Invoke("followup-phone-world-before");
+            Touch(screen,99201,UnityEngine.InputSystem.TouchPhase.Began,pixel);yield return null;yield return null;
+            Touch(screen,99201,UnityEngine.InputSystem.TouchPhase.Ended,pixel);yield return null;yield return null;
+            FollowupCheck(check,"Actual phone world tap stays selected and held for explicit Place or Return",rig.Selected==item&&rig.IsCarrying&&!item.installed&&app.Session.Operation==operation&&app.Session.Recorded==null);
+            capture?.Invoke("followup-phone-world-released");rig.CancelGrab();
+            if(mouse==null)mouse=ownedMouse=InputSystem.AddDevice<Mouse>();
+            item=AccessibleLoose(app,out pixel);if(!item)throw new Exception("No source loose collider for PC drag regression.");
+            InputSystem.QueueStateEvent(mouse,new MouseState{position=pixel,buttons=1});yield return null;yield return null;
+            FollowupCheck(check,"Actual PC pointer press still begins legacy drag",rig.IsCarrying&&rig.Selected==item&&!item.installed);
+            var safe=app.GetComponentsInChildren<PhoneUiViewport>().Single(v=>v.isActiveAndEnabled).SafePixels;var released=new Vector2(safe.xMax-20,safe.yMax-20);
+            InputSystem.QueueStateEvent(mouse,new MouseState{position=released,buttons=1});yield return null;
+            InputSystem.QueueStateEvent(mouse,new MouseState{position=released,buttons=0});yield return null;yield return null;
+            FollowupCheck(check,"PC missed drag release still returns tray rather than phone latch",!rig.IsCarrying&&rig.Selected==null&&!item.installed&&Vector3.Distance(item.transform.position,item.trayPosition)<.001f);
+            FollowupCheck(check,"World input does not fabricate experimental steps, time or record",app.Session.Operation==operation&&app.Session.Elapsed==0&&app.Session.Recorded==null);
+        }
+        finally{if(screen!=null&&screen.added)Touch(screen,99201,UnityEngine.InputSystem.TouchPhase.Ended,Vector2.zero);if(mouse!=null&&mouse.added)InputSystem.QueueStateEvent(mouse,new MouseState{position=oldMouse});if(ownedMouse!=null&&ownedMouse.added)InputSystem.RemoveDevice(ownedMouse);if(ownedTouch!=null&&ownedTouch.added)InputSystem.RemoveDevice(ownedTouch);}
+    }
     const BindingFlags Private=BindingFlags.Instance|BindingFlags.NonPublic;
     static Button[] Buttons(VlabApp app)=>app.GetComponentsInChildren<Button>().Where(b=>b.isActiveAndEnabled&&b.interactable).ToArray();
     static string Caption(Button b)=>b.GetComponentInChildren<TextMeshProUGUI>()?.text??"";
@@ -27,7 +125,9 @@ public static class Patch1AppChecks
     static IEnumerator Bar(VlabApp app,float top,bool increase)
     {
         yield return new WaitForSecondsRealtime(.28f);
-        var button=Buttons(app).Single(b=>Caption(b)==(increase?"+":"−")&&Mathf.Abs(((RectTransform)b.transform).anchoredPosition.y+top)<.1f);
+        var label=app.GetComponentsInChildren<TextMeshProUGUI>().Single(t=>top==652?t.text.StartsWith("Góc nhìn: ",StringComparison.Ordinal)||t.text.StartsWith("Field of view: ",StringComparison.Ordinal):t.text.StartsWith("Tốc độ: ",StringComparison.Ordinal)||t.text.StartsWith("Movement speed: ",StringComparison.Ordinal));
+        var candidates=Buttons(app).Where(b=>Caption(b)==(increase?"+":"−")&&b.transform.parent==label.transform.parent);
+        var button=candidates.OrderBy(b=>Mathf.Abs(((RectTransform)b.transform).anchoredPosition.y-label.rectTransform.anchoredPosition.y)).First();
         button.onClick.Invoke();yield return new WaitForSecondsRealtime(.28f);
     }
     static bool Dialog(VlabApp app)=>app.GetComponentsInChildren<RectTransform>().Any(r=>r.gameObject.activeInHierarchy&&r.name=="Dialog");
