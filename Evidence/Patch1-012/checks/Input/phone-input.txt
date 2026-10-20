@@ -1,0 +1,35 @@
+PASS swipe right looks right; swipe up looks up, matching desktop
+PASS invert X affects yaw only
+PASS invert Y affects pitch only
+PASS sensitivity scales both swipe axes
+PASS pitch remains within comfort bounds
+PASS invalid gyro quaternions rejected
+PASS both landscape sensor bases compensate exactly once
+PASS gyro calibration preserves current world heading/pitch without a jump
+PASS relative gyro yaw uses calibrated screen coordinates
+PASS gyro respects invert X and common sensitivity
+PASS UI-started touch takes priority over joystick region
+PASS UI-started finger cannot become look/move after leaving button
+PASS two fingers move and look together without selecting world objects
+PASS joystick cancellation stops movement while other finger retains look
+PASS equipment-started touch emits world press and hold
+PASS equipment drag retains owner across UI and never rotates camera
+PASS canceled equipment touch releases at final real pointer position
+PASS already-held finger is not acquired after page/mode reset
+PASS reset clears all touch and movement ownership
+PASS native Input System multitouch joystick and correctly directed look are simultaneous
+PASS modal blocks movement and hides phone controls
+PASS closing modal does not adopt fingers that remain held
+PASS UI touch remains exclusively with native UI input module
+PASS native UI-started drag never rotates camera after leaving control
+PASS native equipment touch retains grab/inspect selection
+PASS modal opening releases held apparatus exactly once
+PASS native attitude sensor drives opt-in flat camera
+PASS recenter zeros gyro at current view without snapping
+PASS orientation/size transition rebases gyro without camera jump
+PASS station focus rebases gyro so cached pose cannot snap back
+PASS synthetic Cardboard lifecycle entered stereo
+PASS Cardboard ignores raw phone touch, joystick and custom gyro pose
+PASS station focus does not overwrite Cardboard tracked head rotation
+PASS return from Cardboard rebases flat gyro safely
+PASS pause cancels phone input without retained movement

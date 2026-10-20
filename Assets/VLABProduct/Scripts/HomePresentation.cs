@@ -38,7 +38,7 @@ namespace Vlab.Product
             var plate=ui.Rect(card,"Cut portal plate",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();plate.ConfigurePlate(index,VlabUi.Hex("243342"),edge,accent);
             var frame=ui.Rect(card,"Interrupted portal frame",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();frame.Configure(index,VlabUi.Hex("84969F"),true,edge);
             var shape=ui.Rect(card,"Scientific subject shape",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();shape.Configure(index,VlabUi.Hex("E9E4D9"));
-            var heading=ui.Text(card,title,16,20,236,60,36,null,TextAlignmentOptions.Top);var titleFont=Resources.Load<TMP_FontAsset>("UI/VlabTitle");
+            var heading=ui.Text(card,title,16,20,236,60,36,null,TextAlignmentOptions.Top);var titleFont=Resources.Load<TMP_FontAsset>("UI/VlabBodyStrong");if(!titleFont)titleFont=Resources.Load<TMP_FontAsset>("UI/VlabTitle");
             if(titleFont){heading.font=titleFont;heading.fontStyle=FontStyles.Normal;heading.fontWeight=FontWeight.Regular;}else{heading.fontStyle=FontStyles.Bold;heading.fontWeight=FontWeight.Bold;}
             heading.color=VlabUi.Hex("F3EFE6");heading.name="Home subject title";heading.GetComponent<VlabTextBacking>().enabled=false;
             card.pivot=Vector2.one*.5f;card.anchoredPosition+=new Vector2(134,-216);

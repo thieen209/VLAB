@@ -1,3 +1,5 @@
+> Current PATCH1 0.1.2: see [PATCH1_012](PATCH1_012.md). The original Windows project-Evidence replacement failure is still unresolved; current32/47 persistence checks explicitly use a NEW persistentDataPath QA sibling. Physical phone/gyro/Cardboard/BLE acceptance remains unverified. Product-name change selects a separate Windows Editor data directory; old data is preserved, not auto-migrated.
+
 # Acceptance still required
 
 The source SDK journeys and offline-record checks pass, but the complete research assignment is broader than one recordable trial. Bilingual journal follow-ups now list required repeats/controls and current kit limits. These are material limits, not completed requirements:

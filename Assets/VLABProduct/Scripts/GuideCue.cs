@@ -15,6 +15,7 @@ namespace Vlab.Product
         Transform target;
         EquipmentHandle equipment;
         bool reducedMotion,stopped,world;
+        public bool IsStopped=>stopped;
         float started;
         readonly List<Image> borders=new List<Image>();
         RectTransform pointer;
@@ -110,8 +111,7 @@ namespace Vlab.Product
                 Ellipse(ring,installedCentre,bounds.extents.x+.012f,bounds.extents.z+.012f);Ellipse(rim,installedCentre,bounds.extents.x+.012f,bounds.extents.z+.012f);path.enabled=dot.enabled=false;
                 return;
             }
-            Vector3 offset=bounds.center-equipment.transform.position;
-            Vector3 source=equipment.trayPosition+offset;
+            Vector3 source=bounds.center;
             var delta=equipment.rotation*Quaternion.Inverse(equipment.transform.rotation);
             var destination=TransformBounds(bounds,Matrix4x4.TRS(equipment.slot,delta,Vector3.one)*Matrix4x4.Translate(-equipment.transform.position));
             Vector3 anchor=destination.center;float x=Mathf.Max(.025f,destination.extents.x+.012f),z=Mathf.Max(.025f,destination.extents.z+.012f);

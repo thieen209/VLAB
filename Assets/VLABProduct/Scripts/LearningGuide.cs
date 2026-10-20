@@ -42,7 +42,7 @@ namespace Vlab.Product
             }
             return text.ToString().Trim();
         }
-        public static string[] ChapterLabels(bool vi)=>vi?new[]{"Kiến thức","Vận dụng","Tự kiểm tra","Nguồn"}:new[]{"Knowledge","Application","Self-check","Sources"};
+        public static string[] ChapterLabels(bool vi)=>vi?new[]{"Kiến thức","Vận dụng","Tự kiểm tra","Nguồn","Công thức"}:new[]{"Knowledge","Application","Self-check","Sources","Formulas"};
         public static string[] Pages(TMPro.TextMeshProUGUI template,string id,int chapter,bool vi,out int answerPage)
         {
             string source=Chapter(id,chapter,vi);answerPage=-1;int split=chapter==2?source.IndexOf("Đáp:",StringComparison.Ordinal):-1;
@@ -52,8 +52,9 @@ namespace Vlab.Product
         }
         public static void Render(VlabUi ui,RectTransform page,string id,bool vi,JournalState state,Action refresh,Color accent)
         {
-            state.studyChapter=Mathf.Clamp(state.studyChapter,0,3);var labels=ChapterLabels(vi);
-            for(int i=0;i<4;i++){int chapter=i;var tab=ui.Button(page,labels[i],32+i*263,164,247,64,()=>{state.studyChapter=chapter;state.contentPage=0;refresh();},state.studyChapter==i?accent:(Color?)null);tab.name="Journal study chapter "+i;}
+            state.studyChapter=Mathf.Clamp(state.studyChapter,0,4);var labels=ChapterLabels(vi);
+            for(int i=0;i<5;i++){int chapter=i;var tab=ui.Button(page,labels[i],32+i*210,164,196,64,()=>{state.studyChapter=chapter;state.contentPage=0;refresh();},state.studyChapter==i?accent:(Color?)null);tab.name="Journal study chapter "+i;}
+            if(state.studyChapter==4){FormulaSheet.Render(ui,page,id,vi,state,refresh);return;}
             var body=ui.Text(page,"",32,248,1036,292,28);body.name="Journal study page";body.richText=false;
             var pages=Pages(body,id,state.studyChapter,vi,out int answerPage);state.contentPage=Mathf.Clamp(state.contentPage,0,pages.Length-1);body.text=pages[state.contentPage];
             var previous=ui.Button(page,state.contentPage==answerPage?(vi?"‹ Câu hỏi":"‹ Question"):(vi?"‹ Trang trước":"‹ Previous page"),32,552,240,64,()=>{state.contentPage=Math.Max(0,state.contentPage-1);refresh();});previous.name="Journal content previous";previous.interactable=state.contentPage>0;

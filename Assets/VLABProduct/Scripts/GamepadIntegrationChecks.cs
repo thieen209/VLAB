@@ -57,11 +57,11 @@ public static class GamepadIntegrationChecks
             Vector2 origin=new Vector2(Screen.width*.45f,Screen.height*.45f),moved=origin+new Vector2(80,25);
             Action<UnityEngine.InputSystem.TouchPhase,Vector2> send=(phase,position)=>{InputSystem.QueueStateEvent(touch,new TouchState{touchId=1,phase=phase,position=position});InputSystem.Update();};
             input.BlocksTouchLook=ray=>false;send(UnityEngine.InputSystem.TouchPhase.Began,origin);frame=input.Read();
-            Check(frame.pressed&&frame.held,"phone touch begins with one selection edge");rotation=camera.transform.rotation;
+            Check(!frame.pressed&&!frame.held,"empty-space phone look does not select or grab");rotation=camera.transform.rotation;
             send(UnityEngine.InputSystem.TouchPhase.Moved,origin+new Vector2(3,2));input.Read();Check(Quaternion.Angle(rotation,camera.transform.rotation)<.001f,"small touch jitter does not turn the phone camera");
             send(UnityEngine.InputSystem.TouchPhase.Moved,moved);frame=input.Read();Check(Quaternion.Angle(rotation,camera.transform.rotation)>.01f,"phone empty-space swipe rotates flat camera");
             var lastRay=camera.ScreenPointToRay(moved);send(UnityEngine.InputSystem.TouchPhase.Ended,Vector2.zero);frame=input.Read();
-            Check(frame.released&&!frame.held&&Vector3.Angle(frame.pointer.direction,lastRay.direction)<.01f,"touch release retains its last screen ray instead of jumping to mouse/centre");
+            Check(!frame.pressed&&!frame.held,"ending a look gesture never selects equipment");
             input.BlocksTouchLook=ray=>true;send(UnityEngine.InputSystem.TouchPhase.Began,origin);input.Read();rotation=camera.transform.rotation;
             send(UnityEngine.InputSystem.TouchPhase.Moved,moved);input.Read();Check(Quaternion.Angle(rotation,camera.transform.rotation)<.001f,"UI/equipment-blocked swipe does not rotate phone view");
             send(UnityEngine.InputSystem.TouchPhase.Canceled,Vector2.zero);frame=input.Read();Check(frame.released&&!frame.held,"cancelled touch releases a carried object");

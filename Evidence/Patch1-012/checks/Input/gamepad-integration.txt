@@ -1,0 +1,29 @@
+PASS unlabelled virtual gamepad cannot steal production pointer
+PASS neutral provider has no select
+PASS A creates one select edge and hold
+PASS held A does not repeat select edges
+PASS A release ends hold
+PASS right trigger selects
+PASS shoulder creates grip edge and hold
+PASS shoulder release ends grip
+PASS Start pauses and Select recenters
+PASS menu and recenter are edges
+PASS dpad produces positive parameter adjustment
+PASS dpad repeat is rate limited
+PASS left stick moves ordinary cursor
+PASS VR gaze ignores right-stick camera rotation
+PASS ordinary right stick can look
+PASS disconnect emits loss and release without select
+PASS disconnect loss and release occur once
+PASS idle HID connection does not choose controller
+PASS real HID activity selects controller facade
+PASS facade disconnect safely returns to PC pointer
+PASS fresh controller action can choose HID again
+PASS mouse activity restores ordinary mouse provider
+PASS empty-space phone look does not select or grab
+PASS small touch jitter does not turn the phone camera
+PASS phone empty-space swipe rotates flat camera
+PASS ending a look gesture never selects equipment
+PASS UI/equipment-blocked swipe does not rotate phone view
+PASS cancelled touch releases a carried object
+PASS phone menus never rotate the lab camera

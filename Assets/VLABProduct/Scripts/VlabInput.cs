@@ -18,7 +18,7 @@ namespace Vlab.Product
         public float adjustment;
     }
     public struct ActionFrame
-    {public Ray pointer;public bool pressed,released,held,grabPressed,menu,recenter,back,lost;public float adjustment;}
+    {public Ray pointer;public bool pressed,released,held,grabPressed,menu,recenter,back,lost;public float adjustment;public Vector2 move;} 
     public interface IVlabInputProvider {ActionFrame Poll(Camera camera,double now);ControllerCapabilities Capabilities{get;}}
     public sealed class MockControllerProvider:IVlabInputProvider
     {
@@ -109,14 +109,90 @@ namespace Vlab.Product
         public MockControllerProvider Controller{get;}=new MockControllerProvider();
         public bool UseMockController;public bool Gameplay;
         public Func<Ray,bool> BlocksTouchLook;
-        bool touchLooking;Vector2 touchOrigin,touchPrevious;
+        public Func<Vector2,bool> BlocksPhoneGameplay;
+        readonly PhoneTouchRouter phoneTouches=new PhoneTouchRouter();
+        bool uiBlocked,invertLookX,invertLookY,phoneGyro,showPhoneJoystick=true;
+        ScreenOrientation phoneOrientation;int phoneWidth,phoneHeight;
+        AttitudeSensor ownedAttitude;bool enabledAttitude,gyroCalibrated;
+        Quaternion gyroZero,gyroView;double gyroSampleTime=-1;
+        bool PhoneFlatActive=>Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!UseMockController&&!UsingGamepad&&(Application.isMobilePlatform||Touchscreen.current!=null);
+        public bool PhoneControlsVisible=>showPhoneJoystick&&PhoneFlatActive;
+        public bool PhoneJoystickActive=>PhoneControlsVisible&&showPhoneJoystick&&phoneTouches.JoystickActive;
+        public Vector2 PhoneJoystickCenter=>PhoneTouchRouter.JoystickCenter;
+        public Vector2 PhoneJoystickOffset=>phoneTouches.Move;
+        public float PhoneJoystickRadius=>PhoneTouchRouter.JoystickRadius;
+        public bool PhoneGyroAvailable=>AttitudeSensor.current!=null;
+        public bool PhoneGyroActive=>phoneGyro&&gyroCalibrated&&PhoneFlatActive;
+        public void ConfigurePhoneInput(GameSettings settings)
+        {
+            bool changed=invertLookX!=settings.invertLookX||invertLookY!=settings.invertLookY||phoneGyro!=settings.phoneGyro||showPhoneJoystick!=settings.showPhoneJoystick;
+            invertLookX=settings.invertLookX;invertLookY=settings.invertLookY;phoneGyro=settings.phoneGyro;showPhoneJoystick=settings.showPhoneJoystick;
+            if(changed)ResetPhoneInput();
+        }
+        public void SetUiBlocked(bool blocked)
+        {if(uiBlocked==blocked)return;uiBlocked=blocked;ResetPhoneInput();}
+        public void FocusAtWorldTarget(Vector3 target)
+        {
+            if(!View||VrMode||SimulatorMode)return;
+            var direction=target-View.transform.position;if(direction.sqrMagnitude<.000001f)return;
+            float yaw=Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg,pitch=-Mathf.Atan2(direction.y,new Vector2(direction.x,direction.z).magnitude)*Mathf.Rad2Deg;
+            View.transform.rotation=Quaternion.Euler(Mathf.Clamp(pitch,-70,70),yaw,0);RebasePhoneGyro();
+        }
+        static Rect SafePhoneArea()
+        {var area=Screen.safeArea;return area.width>1&&area.height>1?area:new Rect(0,0,Mathf.Max(1,Screen.width),Mathf.Max(1,Screen.height));}
+        void ResetPhoneInput()
+        {if(phoneTouches.WorldHeld)pendingLoss=true;phoneTouches.Clear();gyroCalibrated=false;gyroSampleTime=-1;ReleaseAttitude();}
+        void RebasePhoneGyro(){gyroCalibrated=false;gyroSampleTime=-1;}
+        void ReleaseAttitude()
+        {
+            if(ownedAttitude!=null&&enabledAttitude&&ownedAttitude.added&&ownedAttitude.enabled)InputSystem.DisableDevice(ownedAttitude);
+            ownedAttitude=null;enabledAttitude=false;
+        }
+        void ApplyPhoneGyro()
+        {
+            if(!phoneGyro||!Gameplay||uiBlocked||VrMode||SimulatorMode||UseMockController||UsingGamepad)
+            {gyroCalibrated=false;ReleaseAttitude();return;}
+            var sensor=AttitudeSensor.current;
+            if(sensor==null||!sensor.added){gyroCalibrated=false;ReleaseAttitude();return;}
+            if(sensor!=ownedAttitude){ReleaseAttitude();ownedAttitude=sensor;enabledAttitude=!sensor.enabled;if(enabledAttitude)InputSystem.EnableDevice(sensor);RebasePhoneGyro();}
+            if(!sensor.enabled||sensor.lastUpdateTime<=0||!PhoneLookMath.TryDeviceRotation(sensor.attitude.ReadUnprocessedValue(),Screen.orientation,out var pose))return;
+            if(phoneTouches.LookActive){RebasePhoneGyro();return;}
+            if(!gyroCalibrated){gyroZero=pose;gyroView=View.transform.rotation;gyroSampleTime=sensor.lastUpdateTime;gyroCalibrated=true;return;}
+            if(sensor.lastUpdateTime==gyroSampleTime)return;gyroSampleTime=sensor.lastUpdateTime;
+            View.transform.rotation=PhoneLookMath.RelativeGyro(gyroView,gyroZero,pose,MouseLookSensitivity,invertLookX,invertLookY);
+        }
+        bool ReadPhoneTouches(ref ActionFrame frame)
+        {
+            bool allowed=Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!UseMockController;
+            var screen=Touchscreen.current;bool any=false;phoneTouches.BeginFrame();
+            if(screen!=null)foreach(var touch in screen.touches)
+            {
+                var phase=touch.phase.ReadValue();if(phase==UnityEngine.InputSystem.TouchPhase.None)continue;
+                any=true;var position=touch.position.ReadValue();
+                // Native UI keeps every UI-started touch. Gameplay claims are fixed
+                // at BEGIN, so a swipe across a button cannot acquire its click.
+                bool ui=phase==UnityEngine.InputSystem.TouchPhase.Began&&(BlocksPhoneGameplay?.Invoke(position)??false);
+                bool world=phase==UnityEngine.InputSystem.TouchPhase.Began&&allowed&&!ui&&(BlocksTouchLook?.Invoke(View.ScreenPointToRay(position))??false);
+                phoneTouches.Sample(touch.touchId.ReadValue(),phase,position,SafePhoneArea(),allowed,showPhoneJoystick,ui,world);
+            }
+            phoneTouches.EndFrame();
+            if(any||phoneTouches.Released)
+            {
+                frame.pressed=phoneTouches.Pressed;frame.held=phoneTouches.WorldHeld;frame.released=phoneTouches.Released;frame.grabPressed=false;frame.adjustment=0;
+                if(phoneTouches.HasWorldPointer)frame.pointer=View.ScreenPointToRay(phoneTouches.WorldPosition);
+            }
+            frame.move=allowed?phoneTouches.Move:Vector2.zero;
+            if(allowed&&phoneTouches.LookDelta!=Vector2.zero)
+            {View.transform.rotation=PhoneLookMath.Drag(View.transform.rotation,phoneTouches.LookDelta,SafePhoneArea().size,MouseLookSensitivity,invertLookX,invertLookY);RebasePhoneGyro();}
+            return any;
+        }
         float mouseLookSensitivity=1;
         public float MouseLookSensitivity
         {
             get=>mouseLookSensitivity;
             set
             {
-                mouseLookSensitivity=value;
+                mouseLookSensitivity=float.IsFinite(value)?Mathf.Clamp(value,.5f,2):1;
 #if UNITY_EDITOR
                 ApplySimulatorMouseLook();
 #endif
@@ -175,8 +251,12 @@ namespace Vlab.Product
         public ActionFrame Read()
         {
             if(!View)return default;
+            if(phoneOrientation!=Screen.orientation||phoneWidth!=Screen.width||phoneHeight!=Screen.height)
+            {phoneOrientation=Screen.orientation;phoneWidth=Screen.width;phoneHeight=Screen.height;ResetPhoneInput();}
+            if(!Gameplay||uiBlocked||VrMode||SimulatorMode){if(phoneTouches.HasTouches)ResetPhoneInput();}
+            ApplyPhoneGyro();
             double now=Time.realtimeSinceStartupAsDouble;
-            if(UseMockController)return FinishFrame(Controller.Poll(View,now));
+            if(UseMockController){if(phoneTouches.HasTouches)ResetPhoneInput();return FinishFrame(Controller.Poll(View,now));}
             var keyboard=Keyboard.current;var mouse=Mouse.current;
             bool mouseActivity=mouse!=null&&(mouse.delta.ReadValue().sqrMagnitude>.25f||mouse.scroll.ReadValue().sqrMagnitude>.01f||mouse.leftButton.wasPressedThisFrame||mouse.leftButton.wasReleasedThisFrame||mouse.rightButton.wasPressedThisFrame||mouse.middleButton.wasPressedThisFrame);
             bool touchActivity=Touchscreen.current!=null&&(Touchscreen.current.primaryTouch.press.wasPressedThisFrame||Touchscreen.current.primaryTouch.press.isPressed);
@@ -191,6 +271,7 @@ namespace Vlab.Product
             if(changed)ModeChanged?.Invoke(VrMode,"");
             if(activeGamepad!=null)
             {
+                if(phoneTouches.HasTouches)ResetPhoneInput();
                 var gamepadFrame=activeGamepad.Poll(View,now,VrMode||SimulatorMode,Gameplay);
                 gamepadFrame.menu|=keyboard!=null&&keyboard.escapeKey.wasPressedThisFrame;
                 gamepadFrame.recenter|=keyboard!=null&&(SimulatorMode?keyboard.homeKey.wasPressedThisFrame:keyboard.rKey.wasPressedThisFrame);
@@ -198,29 +279,14 @@ namespace Vlab.Product
             }
             var f=new ActionFrame{pointer=VrMode||SimulatorMode?new Ray(View.transform.position,View.transform.forward):View.ScreenPointToRay(mouse!=null?mouse.position.ReadValue():(Vector2)Screen.safeArea.center),menu=keyboard!=null&&keyboard.escapeKey.wasPressedThisFrame,recenter=keyboard!=null&&(SimulatorMode?keyboard.homeKey.wasPressedThisFrame:keyboard.rKey.wasPressedThisFrame)};
             if(mouse!=null){f.pressed=mouse.leftButton.wasPressedThisFrame;f.released=mouse.leftButton.wasReleasedThisFrame;f.held=mouse.leftButton.isPressed||mouse.middleButton.isPressed;f.grabPressed=mouse.middleButton.wasPressedThisFrame;f.adjustment=mouse.scroll.ReadValue().y/120;}
-            if(Touchscreen.current!=null&&(Touchscreen.current.primaryTouch.press.isPressed||Touchscreen.current.primaryTouch.press.wasReleasedThisFrame))
-            {
-                var touch=Touchscreen.current.primaryTouch;bool pressed=touch.press.isPressed;var position=pressed?touch.position.ReadValue():touchPrevious;
-                if(!VrMode&&!SimulatorMode)
-                {
-                    f.pointer=View.ScreenPointToRay(position);
-                    if(touch.press.wasPressedThisFrame){touchOrigin=touchPrevious=position;touchLooking=Gameplay&&!(BlocksTouchLook?.Invoke(f.pointer)??false);}
-                    if(pressed&&touchLooking&&Gameplay&&!(BlocksTouchLook?.Invoke(f.pointer)??false)&&(position-touchOrigin).sqrMagnitude>=144)
-                    {
-                        var delta=position-touchPrevious;var angles=View.transform.eulerAngles;
-                        angles.y-=delta.x/Mathf.Max(1,Screen.width)*180*MouseLookSensitivity;
-                        angles.x=Mathf.Clamp(Mathf.DeltaAngle(0,angles.x)+delta.y/Mathf.Max(1,Screen.height)*120*MouseLookSensitivity,-70,70);
-                        View.transform.rotation=Quaternion.Euler(angles.x,angles.y,0);
-                    }
-                    touchPrevious=position;
-                }
-                f.pressed=touch.press.wasPressedThisFrame;f.held=pressed;f.released=touch.press.wasReleasedThisFrame;
-            }
-            else touchLooking=false;
+            bool phoneTouch=ReadPhoneTouches(ref f);
+            // In Cardboard raw screen touches belong to the SDK overlay/trigger.
+            // They must never bypass its gear/close-button safety filtering.
+            if(VrMode&&phoneTouch){f.pressed=f.held=f.released=f.grabPressed=false;f.move=Vector2.zero;}
             if(SimulatorMode&&keyboard!=null&&keyboard.enterKey.wasPressedThisFrame)f.pressed=true;
             ApplyViewerButtons(ref f);
-            if(Gameplay&&!VrMode&&!SimulatorMode&&mouse!=null&&mouse.rightButton.isPressed)
-            {var delta=mouse.delta.ReadValue();var a=View.transform.eulerAngles;float speed=.12f*MouseLookSensitivity;a.y+=delta.x*speed;a.x=Mathf.Clamp(Mathf.DeltaAngle(0,a.x)-delta.y*speed,-70,70);View.transform.rotation=Quaternion.Euler(a.x,a.y,0);}
+            if(Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!phoneTouch&&mouse!=null&&mouse.rightButton.isPressed)
+            {var delta=mouse.delta.ReadValue()*.12f;View.transform.rotation=PhoneLookMath.ApplyAngles(View.transform.rotation,delta.x,-delta.y,MouseLookSensitivity,invertLookX,invertLookY);RebasePhoneGyro();}
             return FinishFrame(f);
         }
         Gamepad ActiveGamepadFromRealActivity()
@@ -239,7 +305,7 @@ namespace Vlab.Product
         }
         ActionFrame FinishFrame(ActionFrame f)
         {
-            if(pendingLoss){f.lost=true;f.released|=lastPointerHeld;f.held=f.pressed=f.grabPressed=f.menu=f.recenter=f.back=false;pendingLoss=false;}
+            if(pendingLoss){f.lost=true;f.released|=lastPointerHeld;f.held=f.pressed=f.grabPressed=f.menu=f.recenter=f.back=false;f.move=Vector2.zero;pendingLoss=false;}
             f.released|=!f.held&&lastPointerHeld;lastPointerHeld=f.held;return f;
         }
         void ApplyViewerButtons(ref ActionFrame f)
@@ -275,7 +341,7 @@ namespace Vlab.Product
             var runtime=CardboardRuntime;
             if(enabled&&!runtime.Supported){ModeChanged?.Invoke(false,"Cardboard stereo is available on Android. Use PC simulation here.");yield break;}
             if(enabled&&VrMode)yield break;
-            switching=true;
+            switching=true;ResetPhoneInput();
             try
             {
                 if(enabled)
@@ -305,12 +371,13 @@ namespace Vlab.Product
                 foreach(var canvas in simulator.GetComponentsInChildren<Canvas>(true))canvas.enabled=false;
             }
             if(simulator){ApplySimulatorMouseLook();simulator.SetActive(enabled);}
-            SimulatorMode=enabled;if(trackedPose)trackedPose.enabled=enabled||VrMode;ModeChanged?.Invoke(VrMode,"");
+            ResetPhoneInput();SimulatorMode=enabled;if(trackedPose)trackedPose.enabled=enabled||VrMode;ModeChanged?.Invoke(VrMode,"");
 #else
             ModeChanged?.Invoke(VrMode,"PC simulation runs inside the Unity Editor.");
 #endif
         }
-        public void Recenter(){if(VrMode)Google.XR.Cardboard.Api.Recenter();Controller.Calibrate(View.transform.rotation);}
+        public void Recenter()
+        {if(!View)return;if(VrMode)Google.XR.Cardboard.Api.Recenter();else if(!SimulatorMode)RebasePhoneGyro();Controller.Calibrate(View.transform.rotation);}
         public void ScanViewer(){if(CanScanViewer&&!switching)StartCoroutine(ScanViewerOptional());}
         IEnumerator ScanViewerOptional()
         {
@@ -325,8 +392,96 @@ namespace Vlab.Product
             }
             finally{switching=false;}
         }
-        void OnApplicationPause(bool paused){if(paused){Gameplay=false;pendingLoss=true;activeGamepad?.CancelUntilReleased();}}
-        void OnApplicationFocus(bool focused){if(!focused){pendingLoss=true;activeGamepad?.CancelUntilReleased();}}
+        void OnDisable(){ResetPhoneInput();}
+        void OnApplicationPause(bool paused){if(paused){ResetPhoneInput();Gameplay=false;pendingLoss=true;activeGamepad?.CancelUntilReleased();}}
+        void OnApplicationFocus(bool focused){if(!focused){ResetPhoneInput();pendingLoss=true;activeGamepad?.CancelUntilReleased();}}
+    }
+    // Input-only deterministic state; device sampling stays in VlabInput.
+    internal sealed class PhoneTouchRouter
+    {
+        enum Owner { Ignore,Ui,Move,Look,World }
+        sealed class Finger {public Owner owner;public Vector2 start,previous;public bool dragging,seen;}
+        readonly System.Collections.Generic.Dictionary<int,Finger> fingers=new System.Collections.Generic.Dictionary<int,Finger>();
+        readonly System.Collections.Generic.List<int> remove=new System.Collections.Generic.List<int>();
+        public static readonly Vector2 JoystickCenter=new Vector2(.16f,.12f);
+        public const float JoystickRadius=.10f;
+        public Vector2 Move{get;private set;}public Vector2 LookDelta{get;private set;}
+        public bool Pressed{get;private set;}public bool Released{get;private set;}
+        public bool WorldHeld{get;private set;}public bool HasWorldPointer{get;private set;}
+        public Vector2 WorldPosition{get;private set;}
+        public bool HasTouches=>fingers.Count>0;
+        public bool JoystickActive{get;private set;}public bool LookActive{get;private set;}
+        public void Clear(){fingers.Clear();Move=LookDelta=Vector2.zero;Pressed=Released=WorldHeld=HasWorldPointer=JoystickActive=LookActive=false;}
+        public void BeginFrame(){Move=LookDelta=Vector2.zero;Pressed=Released=WorldHeld=HasWorldPointer=JoystickActive=LookActive=false;foreach(var f in fingers.Values)f.seen=false;}
+        bool Has(Owner owner){foreach(var f in fingers.Values)if(f.owner==owner)return true;return false;}
+        public void Sample(int id,UnityEngine.InputSystem.TouchPhase phase,Vector2 position,Rect safe,bool allowed,bool joystick,bool ui,bool world)
+        {
+            if(!fingers.TryGetValue(id,out var finger))
+            {
+                finger=new Finger{start=position,previous=position,owner=Owner.Ignore};
+                // Never acquire a finger already held when the mode/page changed.
+                if(phase==UnityEngine.InputSystem.TouchPhase.Began)
+                {
+                    var normalized=new Vector2((position.x-safe.x)/safe.width,(position.y-safe.y)/safe.height);
+                    if(ui)finger.owner=Owner.Ui;
+                    else if(allowed&&joystick&&normalized.x<=.34f&&normalized.y<=.46f&&!Has(Owner.Move))finger.owner=Owner.Move;
+                    else if(allowed&&world&&!Has(Owner.World)){finger.owner=Owner.World;Pressed=true;}
+                    else if(allowed&&!world&&!Has(Owner.Look))finger.owner=Owner.Look;
+                }
+                fingers[id]=finger;
+            }
+            finger.seen=true;
+            bool ended=phase==UnityEngine.InputSystem.TouchPhase.Ended||phase==UnityEngine.InputSystem.TouchPhase.Canceled;
+            if(!allowed&&finger.owner!=Owner.Ui){if(finger.owner==Owner.World)Released=true;finger.owner=Owner.Ignore;}
+            if(finger.owner==Owner.World)
+            {
+                HasWorldPointer=true;
+                // Some devices report (0,0) with Ended/Canceled; retain final real ray.
+                WorldPosition=ended?finger.previous:position;WorldHeld=!ended;if(ended)Released=true;
+            }
+            else if(!ended&&finger.owner==Owner.Move)
+            {
+                JoystickActive=true;var centre=new Vector2(safe.x+safe.width*JoystickCenter.x,safe.y+safe.height*JoystickCenter.y);
+                Move=Vector2.ClampMagnitude((position-centre)/Mathf.Max(1,safe.height*JoystickRadius),1);if(Move.magnitude<.12f)Move=Vector2.zero;
+            }
+            else if(!ended&&finger.owner==Owner.Look)
+            {
+                LookActive=true;
+                if(!finger.dragging&&(position-finger.start).sqrMagnitude>=144)finger.dragging=true;
+                if(finger.dragging)LookDelta+=position-finger.previous;
+            }
+            if(!ended)finger.previous=position;else fingers.Remove(id);
+        }
+        public void EndFrame()
+        {
+            remove.Clear();foreach(var pair in fingers)if(!pair.Value.seen){if(pair.Value.owner==Owner.World){Released=true;HasWorldPointer=true;WorldPosition=pair.Value.previous;}remove.Add(pair.Key);}
+            foreach(int id in remove)fingers.Remove(id);
+        }
+    }
+    internal static class PhoneLookMath
+    {
+        public static Quaternion ApplyAngles(Quaternion view,float yaw,float pitch,float sensitivity,bool invertX,bool invertY)
+        {
+            var a=view.eulerAngles;a.y+=yaw*sensitivity*(invertX?-1:1);a.x=Mathf.Clamp(Mathf.DeltaAngle(0,a.x)+pitch*sensitivity*(invertY?-1:1),-70,70);
+            return Quaternion.Euler(a.x,a.y,0);
+        }
+        public static Quaternion Drag(Quaternion view,Vector2 delta,Vector2 size,float sensitivity,bool invertX,bool invertY)
+        {return ApplyAngles(view,delta.x/Mathf.Max(1,size.x)*180,-delta.y/Mathf.Max(1,size.y)*120,sensitivity,invertX,invertY);}
+        public static bool TryDeviceRotation(Quaternion raw,ScreenOrientation orientation,out Quaternion converted)
+        {
+            converted=Quaternion.identity;float norm=raw.x*raw.x+raw.y*raw.y+raw.z*raw.z+raw.w*raw.w;
+            if(!float.IsFinite(norm)||norm<.25f||norm>4)return false;raw=Quaternion.Normalize(raw);
+            // ReadUnprocessedValue avoids Input System's CompensateRotation processor.
+            // Match that processor's screen basis, then convert RH sensor coordinates.
+            float z=orientation==ScreenOrientation.LandscapeLeft?-90:orientation==ScreenOrientation.LandscapeRight?90:orientation==ScreenOrientation.PortraitUpsideDown?180:0;
+            raw*=Quaternion.Euler(0,0,z);converted=Quaternion.Euler(90,0,0)*new Quaternion(raw.x,raw.y,-raw.z,-raw.w);return true;
+        }
+        public static Quaternion RelativeGyro(Quaternion viewZero,Quaternion deviceZero,Quaternion device,float sensitivity,bool invertX,bool invertY)
+        {
+            var direction=Quaternion.Inverse(deviceZero)*device*Vector3.forward;
+            float yaw=Mathf.Atan2(direction.x,direction.z)*Mathf.Rad2Deg,pitch=-Mathf.Asin(Mathf.Clamp(direction.y,-1,1))*Mathf.Rad2Deg;
+            return ApplyAngles(viewZero,yaw,pitch,sensitivity,invertX,invertY);
+        }
     }
     // Narrow boundary for Editor lifecycle checks. The production path always calls the
     // installed Cardboard SDK; synthetic tests cannot certify Android optics or permissions.

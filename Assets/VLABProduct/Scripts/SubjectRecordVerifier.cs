@@ -14,7 +14,11 @@ public static class SubjectRecordVerifier
     static readonly HashSet<string> verifiedIds=new HashSet<string>();
     public static void Begin()
     {
-        folder=Path.GetFullPath("Evidence/Subjects/OfflineProfile-"+DateTime.UtcNow.ToString("yyyyMMdd-HHmmss"));
+        // Opt-in Editor harness context; default retains the historical project-Evidence path.
+        // The explicit token selects a NEW QA sibling, never the real Profile folder.
+        string qaContext=Environment.GetEnvironmentVariable("VLAB_QA_PROFILE_ROOT");
+        if(!string.IsNullOrEmpty(qaContext)&&qaContext!="persistent")throw new InvalidOperationException("Unknown QA profile context.");
+        folder=qaContext=="persistent"?Path.Combine(Application.persistentDataPath,"QA","Subjects-"+Guid.NewGuid().ToString("N")):Path.GetFullPath("Evidence/Subjects/OfflineProfile-"+DateTime.UtcNow.ToString("yyyyMMdd-HHmmss"));
         profile=new LocalProfile{locale="vi",safetyAcknowledged=true};
         string Hash(string id)=>ProfileStore.Hash(Resources.Load<TextAsset>("Legal/"+id+"_vi").text+"\n"+Resources.Load<TextAsset>("Legal/"+id+"_en").text);
         privacyHash=Hash("privacy");termsHash=Hash("terms");

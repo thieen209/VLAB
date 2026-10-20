@@ -67,13 +67,17 @@ namespace Vlab.Product
             {
                 if(modal||PointerHitsUi(ray))return true;
                 return Physics.Raycast(ray,out var hit,3.5f)&&(hit.collider.GetComponentInParent<EquipmentHandle>()||hit.collider.GetComponentInParent<LabFixture>());
-            };Input.ModeChanged+=OnModeChanged;
+            };Input.BlocksPhoneGameplay=PhoneUiOwnsTouch;Input.ModeChanged+=OnModeChanged;
             Preview=gameObject.AddComponent<LabPanoramaPreview>();Preview.Initialize(View,Profile.settings.reducedMotion);
             ui=new VlabUi(transform);var eventGo=new GameObject("VLAB Event System",typeof(EventSystem),typeof(InputSystemUIInputModule));eventGo.transform.SetParent(transform,false);eventGo.GetComponent<InputSystemUIInputModule>().AssignDefaultActions();
             var grading=new GameObject("Daylight grading",typeof(UnityEngine.Rendering.Volume));grading.transform.SetParent(transform,false);var volume=grading.GetComponent<UnityEngine.Rendering.Volume>();volume.isGlobal=true;volume.priority=100;volume.sharedProfile=Resources.Load<UnityEngine.Rendering.VolumeProfile>("UI/VlabColor");
             SceneManager.sceneLoaded+=OnSceneLoaded;
         }
-        void Start(){AdoptScene();ApplySettings();ShowSetupOrHome();}
+        void Start(){
+#if UNITY_ANDROID && !UNITY_EDITOR
+            Screen.autorotateToPortrait=Screen.autorotateToPortraitUpsideDown=false;Screen.autorotateToLandscapeLeft=Screen.autorotateToLandscapeRight=true;Screen.orientation=ScreenOrientation.AutoRotation;
+#endif
+            AdoptScene();ApplySettings();ShowSetupOrHome();}
         void OnDestroy(){if(activeRoomLoad!=null&&!activeRoomLoad.isDone)activeRoomLoad.allowSceneActivation=true;if(Instance==this){SceneManager.sceneLoaded-=OnSceneLoaded;Instance=null;}}
         string DocumentHash(string id)
         {var vi=Resources.Load<TextAsset>("Legal/"+id+"_vi");var en=Resources.Load<TextAsset>("Legal/"+id+"_en");return vi&&en?ProfileStore.Hash(vi.text+"\n"+en.text):"";}
@@ -89,7 +93,7 @@ namespace Vlab.Product
             status=loaded.writeProtected?L("Không thể mở hồ sơ đã lưu. Tệp hiện có được bảo vệ; hãy kiểm tra dung lượng hoặc chọn khôi phục hồ sơ. Chưa ghi đè dữ liệu.","The saved profile could not be opened. Existing files are protected; check storage or choose profile recovery. Data has not been overwritten."):loaded.recovered?L("Đã mở bản sao dự phòng hợp lệ. Hãy kiểm tra ghi chép và số đo trước khi tiếp tục lưu.","A valid backup was opened. Check your notes and readings before saving again."):string.IsNullOrEmpty(loaded.message)?"":L("Có vấn đề khi mở dữ liệu trên thiết bị. Hãy kiểm tra hồ sơ trước khi tiếp tục.","A problem occurred while opening local data. Check your profile before continuing.");
         }
         void ClearPendingMeasurement(){pendingMeasurement=null;pendingMeasurementSession=null;pendingMeasurementCheckpoint=null;}
-        void ShowSetupOrHome(){switch(Profile.NextSetup(privacyHash,termsHash)){case "language":ShowLanguage();break;case "privacy":ShowLegal("privacy",true);break;case "terms":ShowLegal("terms",true);break;case "safety":ShowSafety();break;default:ShowHome();break;}}
+        void ShowSetupOrHome(){if(string.IsNullOrEmpty(Profile.locale)){Profile.locale="vi";if(!writeProtected)Save();}ShowHome();}
         RectTransform NewPage(string route,string backgroundExperiment=null)
         {
             ClearGuideCue();
@@ -155,7 +159,7 @@ namespace Vlab.Product
             NewPage("language");var box=ui.Panel(page,"Language",370,190,860,620);Logo(box,235,35,390,124);ui.Text(box,"Chào mừng / Welcome",40,185,780,65,36,null,TextAlignmentOptions.Center);
             Button(box,(draftLocale=="vi"?"✓ ":"")+"Tiếng Việt",100,290,310,80,()=>{draftLocale="vi";ShowLanguage();},draftLocale=="vi"?Accent:(Color?)null);
             Button(box,(draftLocale=="en"?"✓ ":"")+"English",450,290,310,80,()=>{draftLocale="en";ShowLanguage();},draftLocale=="en"?Accent:(Color?)null);
-            ui.Text(box,"Language → Privacy → Terms → Safety",50,430,760,50,20,VlabUi.Secondary,TextAlignmentOptions.Center);FooterStatus();
+            FooterStatus();
             var next=Button(box,draftLocale=="en"?"Continue":"Tiếp tục",310,510,240,64,()=>ChooseLanguage(draftLocale),Accent);next.interactable=!writeProtected&&(draftLocale=="vi"||draftLocale=="en");next.gameObject.SetActive(!writeProtected);
             if(next.interactable)EventSystem.current.SetSelectedGameObject(next.gameObject);
             if(writeProtected)Button(box,L("Khôi phục hồ sơ","Profile recovery"),180,520,500,64,()=>Confirm(status+"\n"+L("Đặt lại hồ sơ này?","Reset this local profile?"),()=>ResetProfile(true)));
@@ -163,18 +167,19 @@ namespace Vlab.Product
         public void ChooseLanguage(string locale){Profile.locale=locale;if(Save())ShowSetupOrHome();else ShowLanguage();}
         void ShowLegal(string id,bool setup)
         {
-            legalViewing=id;explicitAcceptance=false;NewPage(setup?id:"legal");var box=ui.Panel(page,"Legal",370,150,860,700);
-            ui.Text(box,id=="privacy"?L("Chính sách bảo mật","Privacy policy"):L("Điều khoản sử dụng","Terms of service"),40,30,780,65,36);
+            legalViewing=id;explicitAcceptance=false;NewPage(setup?id:"legal");var box=ui.Panel(page,"Legal",240,70,1120,860);
+            ui.Text(box,id=="privacy"?L("Chính sách bảo mật","Privacy policy"):L("Điều khoản sử dụng","Terms of service"),48,28,1024,68,38);
+            ui.Text(box,L("Tài liệu đầy đủ · Đọc ngoại tuyến trên thiết bị","Full document · Available offline"),48,98,1024,42,24,VlabUi.Secondary);
             var doc=Resources.Load<TextAsset>("Legal/"+id+(Vi?"_vi":"_en"));
             if(!doc){ui.Text(box,L("Không tìm thấy tài liệu. Không thể ghi nhận chấp thuận.","Document unavailable. Acceptance cannot be recorded."),40,130,780,180);Button(box,L("Thử lại","Retry"),40,540,240,64,()=>ShowLegal(id,setup));return;}
-            ui.Scroll(box,doc.text,40,110,780,390);
+            ui.Scroll(box,doc.text,48,158,1024,566,26);
             if(setup)
             {
                 var consent=Button(box,L("[ ] Tôi đã đọc và đồng ý","[ ] I have read and accept"),40,520,780,64,()=>{});
                 consent.onClick.RemoveAllListeners();consent.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter)return;explicitAcceptance=!explicitAcceptance;consent.GetComponentInChildren<TextMeshProUGUI>().text=(explicitAcceptance?"[x] ":"[ ] ")+L("Tôi đã đọc và đồng ý","I have read and accept");});
                 Button(box,L("Tiếp tục","Continue"),580,610,240,64,()=>{if(!explicitAcceptance){Toast(L("Cần xác nhận rõ ràng để tiếp tục.","Explicit acceptance is required."));return;}Profile.Accept(id,id=="privacy"?privacyHash:termsHash,true);if(Save())ShowSetupOrHome();},Accent);
             }
-            else{Button(box,L("Quay lại","Back"),40,610,240,64,ShowAbout);Button(box,"PDF",580,610,240,64,()=>StartCoroutine(LocalDocuments.OpenPdf(id+(Vi?"_vi":"_en")+".pdf",Toast)));}
+            else{Button(box,L("Quay lại","Back"),48,754,300,72,ShowAbout);Button(box,L("Mở tài liệu PDF","Open PDF"),708,754,364,72,()=>StartCoroutine(LocalDocuments.OpenPdf(id+(Vi?"_vi":"_en")+".pdf",Toast)));}
             FooterStatus();
         }
         void ShowSafety()
@@ -185,7 +190,6 @@ namespace Vlab.Product
         }
         public void ShowHome()
         {
-            if(Profile.NextSetup(privacyHash,termsHash)!="home"){ShowSetupOrHome();return;}
             Session?.Pause();NewPage("home");HomePresentation.Backdrop(ui,page);Logo(page,605,65,390,124);ModeButton(page,1290,64,230,72);
             string[] subjects={"P","C","B","M"},namesVi={"Vật lí","Hóa học","Sinh học","Kỹ thuật"},namesEn={"Physics","Chemistry","Biology","Engineering"},desVi={"Chuyển động và năng lượng","Chất và phản ứng","Sự sống và tế bào","Cơ cấu và đo lường"},desEn={"Motion and energy","Matter and reactions","Life and cells","Mechanisms & measurement"},images={"physics","chemistry","biology","engineering"};
             var cards=new RectTransform[4];for(int i=0;i<4;i++)
@@ -307,7 +311,8 @@ namespace Vlab.Product
                     var eye=worktop+new Vector3(-.4f,.75f,-2.5f);var look=worktop+new Vector3(-.55f,.75f,0);
                 if(Session.spec.id=="P02")look.x=Apparatus.items.Single(item=>item.assetId=="launcher").slot.x+.25f;
                 else if(Session.spec.id=="P08")look.x-=.2f;
-                    origin.position=eye;origin.rotation=Quaternion.LookRotation(look-eye,Vector3.up);View.transform.localPosition=Vector3.zero;View.transform.localRotation=Quaternion.identity;
+                    if(Profile.settings.focusAssist&&!Input.VrMode&&!Input.SimulatorMode){eye=worktop+new Vector3(-.25f,.7f,-1.8f);look=worktop+new Vector3(-.15f,.3f,0);}
+                    origin.position=eye;origin.rotation=Quaternion.LookRotation(look-eye,Vector3.up);View.transform.localPosition=Vector3.zero;View.transform.localRotation=Quaternion.identity;Apparatus.SetCoachingEnabled(Profile.settings.hints);Input.FocusAtWorldTarget(look);
                 }
                 catch(Exception error){failure=error.Message;}
                 if(failure!=null)
@@ -360,9 +365,10 @@ namespace Vlab.Product
             liveActionLabel=liveAction.GetComponentInChildren<TextMeshProUGUI>();
             liveActionLabel.fontSize=ui.LargeText?29:26;
             liveTime=ui.Text(box,"",24,414,392,72,24,VlabUi.Secondary);
-            Button(page,L("Dụng cụ & hướng dẫn","Station tools"),80,748,280,70,ShowStationTools);
-            Button(page,L("‹ Quay lại","‹ Back"),376,748,144,70,ShowPause);
-            guideLocate=Button(page,L("Chỉ tôi chỗ này","Show me where"),80,836,440,70,()=>{if(Profile.settings.hints)ShowGuideTarget(CurrentGuide());else{guidePage=-1;ShowGuidance();}});
+            Button(page,L("Dụng cụ & hướng dẫn","Station tools"),620,850,300,72,ShowStationTools);
+            Button(page,L("Nhìn về bàn","Focus station"),1150,840,360,72,FocusStation).name="Focus workstation";
+            Button(page,L("‹ Quay lại","‹ Back"),940,850,180,72,ShowPause);
+            guideLocate=Button(page,L("Chỉ tôi chỗ này","Show me where"),620,750,440,72,()=>{if(Profile.settings.hints)ShowGuideTarget(CurrentGuide());else{guidePage=-1;ShowGuidance();}});
             RefreshActivity();
         }
         LessonGuide Guide(){if(!ReferenceEquals(guideSession,Session)){guideSession=Session;guide=Session==null?null:new LessonGuide(Session);guidePage=-1;}return guide;}
@@ -376,6 +382,7 @@ namespace Vlab.Product
         }
         void PerformContextAction()
         {
+            if(Apparatus.IsCarrying){if(Apparatus.InstallSelected()){Save();RefreshActivity();}else{Apparatus.CanInstallSelected(out var why);Toast(LessonGuide.ExplainFailure(why,Vi));}return;}
             if(!Apparatus.Ready){ShowEquipment();return;}
             if(Profile.settings.hints&&Session.Phase==ExperimentPhase.Preparing){var task=CurrentGuide();if(task.kind=="instrument"||task.kind=="image"){ShowGuideTarget(task);return;}}
             switch(Session.Phase)
@@ -396,7 +403,7 @@ namespace Vlab.Product
             Button(box,L("Thông số","Variables"),376,120,304,88,ShowVariables);
             Button(box,L("Hướng dẫn","Guidance"),40,240,304,88,()=>{guidePage=-1;ShowGuidance();});
             Button(box,L("Sổ tay","Notebook"),376,240,304,88,()=>ShowNotebook("activity"));
-            Button(box,Input.VrMode?L("Thoát VR","Exit VR"):L("Chế độ VR","Enter VR"),40,360,640,70,()=>Input.SetVr(!Input.VrMode));
+            ModeButton(box,40,360,640,70);
             Button(box,L("Trở lại trạm","Return to station"),280,470,400,72,()=>{CloseModal();RefreshActivity();},Accent);
         }
         void RefreshActivity()
@@ -404,10 +411,12 @@ namespace Vlab.Product
             if(Route!="activity"||Session==null||!liveHint)return;
             if(cueStep!=null&&cueStep!=GuideStep(CurrentGuide()))ClearGuideCue();
             string action;bool enabled=true;
-            if(!Apparatus.Ready)
+            if(Apparatus.IsCarrying)
+            {liveStage.text=L("ĐANG CẦM DỤNG CỤ","HOLDING EQUIPMENT");liveHint.text=L("Đặt vào vị trí lắp khi giá đỡ sẵn sàng. Mở Dụng cụ để trả lại khay.","Place at its mounting point when supports are ready. Open Equipment to return it to the tray.");action=L("Đặt dụng cụ","Place equipment");}
+            else if(!Apparatus.Ready)
             {
                 liveStage.text=L("LẮP DỤNG CỤ","ASSEMBLE STATION");
-                liveHint.text=Apparatus.Driver==null?L("Chọn giá đỡ trước, rồi lắp từng dụng cụ vào trạm.","Begin with the stand, then fit each instrument to the station."):L("Lắp dụng cụ tại trạm. Chọn món đã lắp để xem và thao tác.","Fit the station equipment. Select a fitted item to inspect it.");
+                liveHint.text=Apparatus.Driver==null?L("Lắp các dụng cụ còn lại vào trạm. Chọn dụng cụ để xem vị trí lắp.","Fit the remaining equipment. Choose an item to see its mounting point."):L("Lắp dụng cụ tại trạm. Chọn món đã lắp để xem và thao tác.","Fit the station equipment. Select a fitted item to inspect it.");
                 action=L("Mở dụng cụ","Open equipment");
             }
             else if(Session.Phase==ExperimentPhase.Preparing)
@@ -437,11 +446,13 @@ namespace Vlab.Product
                 liveHint.text=Session.Phase==ExperimentPhase.Invalid?Session.Failure:L("Mọi số đo đang được giữ. Tiếp tục khi bạn sẵn sàng.","Your observations are retained. Continue when you are ready.");
                 action=Session.Phase==ExperimentPhase.Invalid?L("Mở tạm dừng","Open pause menu"):L("Tiếp tục","Resume");
             }
-            if(Profile.settings.hints&&!HasPendingMeasurement)
+            if(Profile.settings.hints&&!HasPendingMeasurement&&!Apparatus.IsCarrying)
             {
                 var task=CurrentGuide();liveHint.text=GuideCard(task);liveHint.enableAutoSizing=true;liveHint.fontSizeMin=24;liveHint.fontSizeMax=ui.LargeText?29:28;
                 if(Session.Phase==ExperimentPhase.Preparing&&(task.kind=="instrument"||task.kind=="image"))action=L("Mở dụng cụ cần dùng","Open required instrument");
             }
+            if(!Profile.settings.hints){ClearGuideCue();if(guideLocate)guideLocate.gameObject.SetActive(false);}
+            else if(guideLocate)guideLocate.gameObject.SetActive(true);
             liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;
             if(Session.Pendulum!=null)
             {
@@ -463,7 +474,9 @@ namespace Vlab.Product
                 Button(box,(item.installed?L("Đã lắp · ","Fitted · "):item.stowed?L("Khay · ","Tray · "):"")+EquipmentName(item),40,110+row*75,550,65,()=>
                 {if(item.installed&&Apparatus.Driver!=null){instrumentPage=0;ShowInstrument(item);return;}Apparatus.Select(item);status=L("Đã chọn ","Selected ")+EquipmentName(item);selection.text=status;}).name="Equipment item "+item.assetId;
             }
-            Button(box,L("Đặt vào vị trí lắp","Place at installation anchor"),620,180,340,90,()=>{if(!Apparatus.InstallSelected())Toast(L("Chọn món chưa lắp và lắp dụng cụ hỗ trợ trước.","Select an uninstalled item and fit its supporting equipment first."));else{Save();ShowEquipment();}},Accent);
+            Button(box,L("Lấy dụng cụ đã chọn","Take selected equipment"),620,116,340,80,()=>{var selectedItem=Apparatus.Selected;if(!selectedItem){selection.text=L("Chọn một dụng cụ trong danh sách trước.","Select equipment from the list first.");return;}CloseModal();Apparatus.Select(selectedItem);if(!Apparatus.TakeSelected(View.ViewportPointToRay(new Vector3(.58f,.48f,0)),out var why))Toast(LessonGuide.ExplainFailure(why,Vi));RefreshActivity();},Accent).name="Equipment take selected";
+            Button(box,L("Đặt vào vị trí lắp","Place at installation anchor"),620,210,340,80,()=>{if(!Apparatus.CanInstallSelected(out var why))selection.text=LessonGuide.ExplainFailure(why,Vi);else if(Apparatus.InstallSelected()){Save();ShowEquipment();}}).name="Equipment place selected";
+            Button(box,L("Trả về khay","Return to tray"),620,550,340,72,()=>{Apparatus.CancelGrab();ShowEquipment();}).name="Equipment return selected";
             if(pages>1){Button(box,L("Trang trước","Previous"),40,650,175,64,()=>{equipmentPage=Math.Max(0,equipmentPage-1);ShowEquipment();});ui.Text(box,(equipmentPage+1)+" / "+pages,235,660,140,45,22,VlabUi.Secondary,TextAlignmentOptions.Center);Button(box,L("Trang sau","Next"),395,650,195,64,()=>{equipmentPage=Math.Min(pages-1,equipmentPage+1);ShowEquipment();});}
             Button(box,L("Xong","Done"),620,650,340,65,()=>{CloseModal();RefreshActivity();});
         }
@@ -481,7 +494,7 @@ namespace Vlab.Product
             bool same=inspectedItem==item;if(!same){inspectionTab=texture?"view":"readings";readingPage=0;}
             var box=Modal(EquipmentName(item),1440,900,true);inspectedItem=item;
             var title=box.GetComponentInChildren<TextMeshProUGUI>();title.fontSize=40;title.fontWeight=FontWeight.SemiBold;
-            selectedCellSummary=ui.Text(box,"",1000,24,400,80,26,Accent,TextAlignmentOptions.TopRight);
+            selectedCellSummary=ui.Text(box,"",1000,24,300,80,26,Accent,TextAlignmentOptions.TopRight);
             string[] tabs=texture?new[]{"view","readings","explain"}:new[]{"readings","explain"};
             for(int i=0;i<tabs.Length;i++)
             {
@@ -519,7 +532,7 @@ namespace Vlab.Product
                 int index=instrumentPage*pageSize+row;if(index>=controls.Length)break;var control=controls[index];
                 var button=Button(box,Vi?control.vi:control.en,1000,205+row*76,400,66,()=>
                 {
-                    if(!driver.Controls(item.assetId).Any(c=>c.id==control.id&&control.enabled))return;
+                    if(!driver.Controls(item.assetId).Any(c=>c.id==control.id&&c.enabled))return;
                     bool okay=driver.Operate(control.id,out var message);if(okay){Guide().Applied(control.id);Save();}
                     ShowInstrument(item);if(inspectionStatus)inspectionStatus.text=okay?L("Đã thực hiện.","Action applied."):LessonGuide.ExplainFailure(message,Vi);
                 });button.interactable=control.enabled;button.GetComponentInChildren<TextMeshProUGUI>().fontSize=26;inspectionControls[control.id]=button;
@@ -612,7 +625,7 @@ namespace Vlab.Product
             Button(box,L("Việc hiện tại","Current task"),330,585,250,64,()=>{guidePage=-1;ShowGuidance();});
             Button(box,L("Bước sau","Next step"),620,585,250,64,()=>{guidePage=Math.Min(Session.spec.operationsEn.Length-1,guidePage+1);ShowGuidance();});
             Button(box,L("Chỉ tôi chỗ này","Show me where"),40,690,400,70,()=>ShowGuideTarget(task),Accent);
-            Button(box,L("Gợi ý: ","Hints: ")+(Profile.settings.hints?L("Bật","On"):L("Tắt","Off")),470,690,270,70,()=>{Profile.settings.hints=!Profile.settings.hints;Save();ShowGuidance();});
+            Button(box,L("Gợi ý: ","Hints: ")+(Profile.settings.hints?L("Bật","On"):L("Tắt","Off")),470,690,270,70,()=>{Profile.settings.hints=!Profile.settings.hints;ClearGuideCue();Apparatus?.SetCoachingEnabled(Profile.settings.hints);Save();ShowGuidance();});
             Button(box,L("Quay lại","Back"),770,690,290,70,CloseModal);
         }
         void ShowGuideTarget(GuideTask task)
@@ -777,8 +790,8 @@ namespace Vlab.Product
         {var backing=text.GetComponent<VlabTextBacking>();if(backing)backing.enabled=false;}
         UnityEngine.UI.Button SettingsQuiet(RectTransform box,string label,float x,float y,float width,float height,Action action,bool outline=false)
         {
-            var button=Button(box,label,x,y,width,height,action);var face=button.GetComponent<UnityEngine.UI.Image>();face.color=Color.clear;
-            var opacity=button.GetComponent<VlabPanelOpacity>();opacity.Solid=false;opacity.FlatAlpha=0;
+            var button=Button(box,label,x,y,width,height,action);var face=button.GetComponent<UnityEngine.UI.Image>();face.color=VlabUi.Raised;
+            var opacity=button.GetComponent<VlabPanelOpacity>();opacity.Solid=true;opacity.FlatAlpha=1;
             foreach(var effect in button.GetComponents<UnityEngine.UI.Shadow>())effect.enabled=outline&&effect is UnityEngine.UI.Outline;
             var caption=button.GetComponentInChildren<TextMeshProUGUI>();caption.color=VlabUi.TextColor;SettingsInk(caption);return button;
         }
@@ -806,7 +819,7 @@ namespace Vlab.Product
         {
             NewPage("settings");var box=ui.Panel(page,"Settings",250,110,1100,780);
             var heading=ui.Text(box,L("Cài đặt","Settings"),48,28,540,64,40);heading.name="Settings title";heading.fontStyle=FontStyles.Bold;SettingsInk(heading);
-            var draftHint=ui.Text(box,dirty?L("Chưa áp dụng","Not applied"):L("Thiết lập cá nhân","Personal settings"),600,44,240,38,24,VlabUi.Secondary);SettingsInk(draftHint);
+            var draftHint=ui.Text(box,dirty?L("Chưa áp dụng","Not applied"):L("Thiết lập cá nhân","Personal settings"),600,44,240,48,22,VlabUi.Secondary);SettingsInk(draftHint);
             SettingsQuiet(box,L("Quay lại","Back"),872,28,196,64,SettingsBack).name="Settings back";
             string[] tabs=Vi?new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"}:new[]{"General","Audio","Graphics","Controls","Appearance","Interaction"};
             SettingsCategories(box,tabs);
@@ -837,12 +850,13 @@ namespace Vlab.Product
                 string controllerName=Input.AvailableControllerName;if(controllerName!=null&&controllerName.Length>20)controllerName=controllerName.Substring(0,20)+"…";
                 SettingsSection(box,tabs[3],L("Đổi chế độ ngay · ","Mode changes now · ")+(controllerName==null?L("Chưa nhận HID","No HID detected"):"HID: "+controllerName));
                 foreach(var text in box.GetComponentsInChildren<TextMeshProUGUI>().Where(text=>text.name=="Settings section title"||text.name=="Settings section hint"))text.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,680);
-                SettingsQuiet(box,L("Gán nút tay cầm","Button mapping"),752,206,300,72,ShowControllerBindings).name="Controls button mapping";
+                SettingsQuiet(box,L("Đổi nút tay cầm →","Remap controller →"),752,206,300,72,ShowControllerBindings).name="Controls button mapping";
                 bool headset=Input.VrMode||Input.SimulatorMode;
                 var phone=SettingsQuiet(box,L("Điện thoại thường","Phone screen"),48,310,502,72,()=>{Session?.Pause();if(Input.SimulatorMode)Input.SetSimulator(false);if(Input.VrMode)Input.SetVr(false);ShowSettings();});phone.name="Controls phone";
                 var vr=SettingsQuiet(box,Application.isEditor?L("Mô phỏng kính VR · PC","VR viewer simulation · PC"):L("Kính VR điện thoại","Phone VR viewer"),550,310,502,72,()=>{Session?.Pause();if(Application.isEditor)Input.SetSimulator(!Input.SimulatorMode);else Input.SetVr(!Input.VrMode);ShowSettings();});vr.name=Application.isEditor?"Controls PC simulator":"Controls VR";vr.interactable=Application.isEditor||Input.CanScanViewer;
                 ui.Rule(box,48+(headset?502:0),380,502,4,Accent);
-                var help=ui.Text(box,L("Điện thoại: chạm chọn; vuốt nền lab để nhìn.\nKính: nhìn để trỏ; nút kính hoặc giữ nhìn (khi bật tự chọn).\nChọn: ","Phone: tap to select; drag empty lab space to look.\nViewer: gaze; trigger or dwell (when enabled) selects.\nSelect: ")+ControllerBindings.Label(Profile.settings.controllerSelect,Vi)+L(" · Quay lại: "," · Back: ")+ControllerBindings.Label(Profile.settings.controllerBack,Vi)+L("\nMở Gán nút tay cầm để xem các nút và hướng dẫn cần điều khiển.","\nOpen Button mapping for other actions and stick instructions."),48,402,1004,136,24);SettingsInk(help);
+                Button(box,L("Camera & di chuyển điện thoại","Phone camera & movement"),48,402,1004,82,()=>ShowPhoneSettings(false)).name="Controls phone settings";
+                var help=ui.Text(box,L("Điện thoại: chạm chọn; vuốt nền lab để nhìn.\nKính: nhìn để trỏ; nút kính hoặc giữ nhìn (khi bật tự chọn).\nChọn: ","Phone: tap to select; drag empty lab space to look.\nViewer: gaze; trigger or dwell (when enabled) selects.\nSelect: ")+ControllerBindings.Label(Profile.settings.controllerSelect,Vi)+L(" · Quay lại: "," · Back: ")+ControllerBindings.Label(Profile.settings.controllerBack,Vi)+L("\nMở Gán nút tay cầm để xem các nút và hướng dẫn cần điều khiển.","\nOpen Button mapping for other actions and stick instructions."),48,496,1004,44,22);help.text=L("Gán nút: chạm Đổi nút tay cầm ở trên. Cài đặt được lưu sau khi Áp dụng.","Use Remap controller above. Apply saves your configuration.");SettingsInk(help);
                 Button(box,L("Căn lại","Recenter"),48,554,312,72,()=>{Input.Recenter();RecenterInterface();});
                 var qr=Button(box,Input.CanScanViewer?L("Quét QR kính","Scan viewer QR"):L("QR · Android","QR · Android"),740,554,312,72,Input.ScanViewer);qr.name="Controls viewer QR";qr.interactable=Input.CanScanViewer;
                 var pair=Button(box,Input.CanPairController?L("Kết nối tay cầm","Pair controller"):"Bluetooth · Android",394,554,312,72,()=>{Session?.Pause();if(!Input.OpenControllerPairing())Toast(L("Không mở được cài đặt Bluetooth. Hãy mở từ cài đặt điện thoại.","Bluetooth settings could not open. Use your phone settings."));});pair.name="Controls pair controller";pair.interactable=Input.CanPairController;
@@ -876,7 +890,7 @@ namespace Vlab.Product
         void ApplySettings()
         {
             RoomBranding.SetLanguage(SceneManager.GetActiveScene(),Profile.locale!="en");
-            Input.ConfigureControllerBindings(Profile.settings);
+            Input.ConfigureControllerBindings(Profile.settings);Input.ConfigurePhoneInput(Profile.settings);Apparatus?.SetCoachingEnabled(Profile.settings.hints);if(!Profile.settings.hints)ClearGuideCue();if(!Input.VrMode&&!Input.SimulatorMode)View.fieldOfView=Profile.settings.cameraFov;
             ui.SetReducedMotion(Profile.settings.reducedMotion);
             foreach(var focus in ui.canvas.GetComponentsInChildren<PortalFocus>(true))focus.ReducedMotion=Profile.settings.reducedMotion;
             AudioListener.volume=Profile.settings.muted?0:Profile.settings.volume;ui.LargeText=Profile.settings.largeText;UiTheme.Select(Profile.settings.uiTheme,Profile.settings.uiOpacity);Preview.ReducedMotion=Profile.settings.reducedMotion;Input.MouseLookSensitivity=Profile.settings.mouseLookSensitivity;
@@ -937,13 +951,15 @@ namespace Vlab.Product
         void ShowHelp(string back)
         {
             supportReturn=back;NewPage("help");Header(L("Trợ giúp","Help"),()=>ReturnTo(back));
+            Button(page,L("Gửi phản hồi / báo lỗi","Feedback / report a problem"),250,840,1100,80,ShowFeedback).name="Feedback entry";
             ui.Scroll(page,L("TRỎ VÀ CHỌN\nChọn dụng cụ rồi đặt vào vị trí lắp. Thông số chỉ thay đổi khi đang chuẩn bị; bắt đầu lượt mới để so sánh biến.\n\nTẠM DỪNG VÀ QUAY LẠI\nEsc trên PC hoặc nút Quay lại mở tạm dừng. Hướng dẫn và cài đặt không làm mất số đo đã ghi.\n\nCĂN LẠI\nNhìn về phía trước rồi nhấn R hoặc chọn Căn lại. Giao diện VR đứng trong thế giới, không dán vào mặt.\n\nNGOẠI TUYẾN\nDữ liệu lưu trên thiết bị. Tháo cài đặt hoặc xóa dữ liệu ứng dụng có thể xóa hồ sơ.\n\nLiên hệ: nguamanvlab@gmail.com","POINT AND SELECT\nSelect equipment and place it at its installation anchor. Change controlled variables during preparation; start a new attempt for a comparison.\n\nPAUSE AND RETURN\nEsc on PC or the Back control pauses. Guidance and settings preserve recorded notebook measurements.\n\nRECENTER\nLook forward and press R or choose Recenter. VR panels stay in the world rather than following your face.\n\nOFFLINE\nData is stored on this device. Uninstalling or clearing app data may remove the profile.\n\nSupport: nguamanvlab@gmail.com"),250,170,1100,650,26);
         }
         void ShowAbout()
         {
-            NewPage("about");Header(L("Giới thiệu VLAB","About VLAB"),ShowHome);var box=ui.Panel(page,"About",370,170,860,650);Logo(box,235,25,390,124);
+            NewPage("about");Header(L("Giới thiệu VLAB","About VLAB"),ShowHome);var box=ui.Panel(page,"About",370,140,860,720);Logo(box,235,25,390,124);
             ui.Text(box,L("Phòng thí nghiệm STEM ngoại tuyến\nĐội Ngựa Mán · Trường THPT Chuyên Cao Bằng","Offline STEM laboratory\nĐội Ngựa Mán · Cao Bang High School for the Gifted")+"\n"+Application.version,50,175,760,120,26,null,TextAlignmentOptions.Center);
             Button(box,L("Chính sách bảo mật","Privacy policy"),40,330,370,65,()=>ShowLegal("privacy",false));Button(box,L("Điều khoản","Terms"),450,330,370,65,()=>ShowLegal("terms",false));
+            Button(box,L("Phản hồi","Feedback"),40,610,780,68,ShowFeedback);
             Button(box,L("Sổ tay","Notebook"),40,425,370,65,()=>ShowNotebook("about"));Button(box,L("Giấy phép và nguồn","Credits and licenses"),450,425,370,65,()=>{var b=Modal(L("Nguồn và giấy phép","Credits and licenses"),1100,800);var credits=Resources.Load<TextAsset>("Legal/credits");ui.Scroll(b,credits?credits.text:L("Đang tổng hợp attribution.","Attribution is being assembled."),40,110,1020,560);Button(b,L("Quay lại","Back"),40,700,240,64,CloseModal);});
             Button(box,L("Xóa tiến độ","Reset progress"),40,520,370,65,()=>Confirm(L("Xóa các lượt đo đã ghi? Trang ghi chép riêng vẫn được giữ.","Clear recorded attempts? Written notebook pages are kept."),()=>ResetProfile(false)));Button(box,L("Đặt lại ứng dụng","Reset application"),450,520,370,65,()=>Confirm(L("Xóa toàn bộ hồ sơ, ghi chép, cài đặt và chấp thuận?","Clear profile, written notes, settings and acknowledgements?"),()=>ResetProfile(true)));
         }
@@ -951,17 +967,16 @@ namespace Vlab.Product
         RectTransform Modal(string title,float width,float height,bool live=false)
         {
             ClearGuideCue();
-            Apparatus?.CancelGrab();
             bool resume=ActivityRunIntent();ClearInspection();
             if(modal){modal.gameObject.SetActive(false);Destroy(modal.gameObject);}modal=ui.Page("Modal input blocker");PlaceReadableSurface(modal,true);var blocker=modal.gameObject.AddComponent<UnityEngine.UI.Image>();blocker.color=new Color(0,0,0,.32f);blocker.raycastTarget=true;
             modalSession=Session;modalResumeActivity=resume;modalAllowsSimulation=live;
             if(Route=="activity"){if(live&&resume)Session?.Resume();else if(!live)Session?.Pause();}SyncAuthority();
-            var box=ui.Panel(modal,"Dialog",(1600-width)/2,(1000-height)/2,width,height);ui.Text(box,title,40,25,width-80,70,32);inputAfter=Time.unscaledTime+.2f;return box;
+            var box=ui.Panel(modal,"Dialog",(1600-width)/2,(1000-height)/2,width,height);ui.Text(box,title,40,25,width-180,70,32);Button(box,"×",width-108,20,80,72,CloseModal).name="Close dialog";inputAfter=Time.unscaledTime+.2f;return box;
         }
         bool ActivityRunIntent()=>modal&&ReferenceEquals(modalSession,Session)?modalResumeActivity:Session!=null&&Session.Phase==ExperimentPhase.Running;
         void CloseModal()
         {
-            ClearGuideCue();
+            ClearGuideCue();if(Apparatus&&Apparatus.IsCarrying)Apparatus.CancelGrab();
             if(page&&!page.gameObject.activeSelf)page.gameObject.SetActive(true);
             bool resume=modalResumeActivity&&ReferenceEquals(modalSession,Session);if(modal){modal.gameObject.SetActive(false);Destroy(modal.gameObject);}modal=null;modalAllowsSimulation=modalResumeActivity=false;modalSession=null;ClearInspection();
             if(Route=="activity"&&resume)Session?.Resume();SyncAuthority();inputAfter=Time.unscaledTime+.2f;gazeTarget=null;gazeConsumed=false;
@@ -986,7 +1001,8 @@ namespace Vlab.Product
                 case "activity":case "explore":ShowPause();break;
                 case "pause":Session?.Resume();if(Session!=null)ShowActivity();else ShowExplore();break;
                 case "readiness":ShowBrowser();break;
-                case "browser":case "about":ShowHome();break;
+                case "browser":case "about":case "feedback":ShowHome();break;
+                case "legal":ShowAbout();break;
                 case "notebook":ReturnTo(notebookReturn);break;
                 case "help":ReturnTo(supportReturn);break;
                 case "results":ShowBrowser();break;
@@ -996,8 +1012,8 @@ namespace Vlab.Product
         {
             if(modeLabel)modeLabel.text=ModeLabel;
             bool enteringWorld=ui.canvas.renderMode!=RenderMode.WorldSpace&&(vr||Input.SimulatorMode);
-            Session?.Pause();modalResumeActivity=activityReturnRunning=false;Apparatus?.CancelGrab();ui.SetWorld(vr||Input.SimulatorMode,View);PlaceReadableSurface(page,Route!="explore");PlaceReadableSurface(modal,true);if(enteringWorld)StartCoroutine(AlignAfterTracking());SyncAuthority();
-            var desktopModule=GetComponentInChildren<InputSystemUIInputModule>();if(desktopModule)desktopModule.enabled=!Input.ControllerPointerActive;
+            Session?.Pause();modalResumeActivity=activityReturnRunning=false;Apparatus?.CancelGrab();ui.SetWorld(vr||Input.SimulatorMode,View);if(!vr&&!Input.SimulatorMode)View.fieldOfView=Profile.settings.cameraFov;PlaceReadableSurface(page,Route!="explore");PlaceReadableSurface(modal,true);if(enteringWorld)StartCoroutine(AlignAfterTracking());SyncAuthority();
+            var desktopModule=GetComponentInChildren<InputSystemUIInputModule>();if(desktopModule){desktopModule.enabled=!vr&&!Input.SimulatorMode;if(desktopModule.enabled){desktopModule.move?.action?.Disable();desktopModule.submit?.action?.Disable();desktopModule.cancel?.action?.Disable();}}
             if(!gazeProgress)
             {
                 var pointer=new GameObject("VLAB world pointer",typeof(RectTransform),typeof(Canvas));pointer.transform.SetParent(transform,false);pointerRoot=pointer.GetComponent<RectTransform>();pointerRoot.sizeDelta=new Vector2(48,48);pointerRoot.localScale=Vector3.one*.0006f;
@@ -1021,7 +1037,7 @@ namespace Vlab.Product
         }
         void Update()
         {
-            if(!Input||!View||Profile==null)return;var frame=Input.Read();
+            if(!Input||!View||Profile==null)return;Input.SetUiBlocked(modal||changing||(Route!="activity"&&Route!="explore"));var frame=Input.Read();MovePhone(frame.move);
             if(frame.back&&Time.unscaledTime>=inputAfter)ControllerBack();
             else if(frame.menu&&Route=="loading"&&Time.unscaledTime>=inputAfter)CancelRoomEntry();
             else if(frame.menu&&Route=="load-error")ShowBrowser();
@@ -1035,7 +1051,7 @@ namespace Vlab.Product
             if((Route=="activity"||Route=="explore")&&!modal&&Time.unscaledTime>=inputAfter)
             {
                 if((frame.pressed||frame.grabPressed)&&!PointerHitsUi(frame.pointer)&&Physics.Raycast(frame.pointer,out var hit,3.5f))
-                {var equipment=hit.collider.GetComponentInParent<EquipmentHandle>();if(equipment&&Apparatus){if(equipment.installed&&Apparatus.Driver!=null){instrumentPage=0;ShowInstrument(equipment);}else Apparatus.BeginGrab(equipment,frame.pointer);}else{var fixture=hit.collider.GetComponentInParent<LabFixture>();if(fixture)fixture.Activate();}}
+                {var equipment=hit.collider.GetComponentInParent<EquipmentHandle>();if(equipment&&Apparatus){if(Apparatus.IsCarrying){}else if(equipment.installed&&Apparatus.Driver!=null){instrumentPage=0;ShowInstrument(equipment);}else Apparatus.BeginGrab(equipment,frame.pointer);}else{var fixture=hit.collider.GetComponentInParent<LabFixture>();if(fixture)fixture.Activate();}}
                 if(Apparatus)Apparatus.UpdateGrab(frame);
             }
         }
@@ -1090,6 +1106,63 @@ namespace Vlab.Product
             if(!pressed&&(!dwell||consumed||elapsed<duration))return false;
             consumed=true;return true;
         }
+
+        bool PhoneUiOwnsTouch(Vector2 position)
+        {
+            if(!ui?.canvas||!EventSystem.current)return false;
+            var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current){position=position},hits);
+            return hits.Any(hit=>hit.module is UnityEngine.UI.GraphicRaycaster);
+        }
+        void MovePhone(Vector2 move)
+        {
+            if(move.sqrMagnitude<.0001f||modal||changing||(Route!="activity"&&Route!="explore")||Input.VrMode||Input.SimulatorMode)return;
+            var forward=Vector3.ProjectOnPlane(View.transform.forward,Vector3.up).normalized;var right=Vector3.Cross(Vector3.up,forward);
+            var delta=(right*move.x+forward*move.y)*Profile.settings.moveSpeed*Mathf.Min(Time.unscaledDeltaTime,.05f);
+            var lower=origin.position-Vector3.up*.8f;var upper=origin.position+Vector3.up*.05f;
+            if(!Physics.CapsuleCast(lower,upper,.16f,delta.normalized,out _,delta.magnitude+.015f,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore))origin.position+=delta;
+        }
+        void FocusStation()
+        {
+            if(!Apparatus)return;
+            if(Input.VrMode||Input.SimulatorMode){Input.Recenter();RecenterInterface();return;}
+            var worktop=FindWorktop();origin.position=worktop+new Vector3(-.25f,.7f,-1.8f);Input.FocusAtWorldTarget(worktop+new Vector3(-.15f,.3f,0));
+        }
+        void ShowPhoneSettings(bool movement)
+        {
+            var box=Modal(L("Điện thoại · Góc nhìn & di chuyển","Phone · Camera & movement"),1100,900);page.gameObject.SetActive(false);
+            Button(box,L("Góc nhìn","Camera"),40,108,496,72,()=>ShowPhoneSettings(false),!movement?Accent:(Color?)null);
+            Button(box,L("Di chuyển","Movement"),564,108,496,72,()=>ShowPhoneSettings(true),movement?Accent:(Color?)null);
+            Action<Action> edit=change=>{change();dirty=true;ShowPhoneSettings(movement);};
+            if(!movement)
+            {
+                SettingsSwitch(box,L("Đảo chiều ngang","Invert horizontal look"),draft.invertLookX,204,()=>edit(()=>draft.invertLookX=!draft.invertLookX));
+                SettingsSwitch(box,L("Đảo chiều dọc","Invert vertical look"),draft.invertLookY,290,()=>edit(()=>draft.invertLookY=!draft.invertLookY));
+                SettingsSwitch(box,L("Xoay máy để nhìn (cần cảm biến)","Look by rotating phone (sensor required)"),draft.phoneGyro,376,()=>edit(()=>draft.phoneGyro=!draft.phoneGyro));
+                SettingsSwitch(box,L("Tự hướng về bàn khi vào bài","Face workstation when entering"),draft.focusAssist,462,()=>edit(()=>draft.focusAssist=!draft.focusAssist));
+                SettingsValueBar(box,L("Độ nhạy: ","Look sensitivity: ")+draft.mouseLookSensitivity.ToString("0.0")+"×",null,552,(draft.mouseLookSensitivity-.5f)/1.5f,"−","+",null,null,()=>edit(()=>draft.mouseLookSensitivity=Mathf.Max(.5f,draft.mouseLookSensitivity-.1f)),()=>edit(()=>draft.mouseLookSensitivity=Mathf.Min(2,draft.mouseLookSensitivity+.1f)));
+                SettingsValueBar(box,L("Góc nhìn: ","Field of view: ")+draft.cameraFov.ToString("0")+"°",null,652,(draft.cameraFov-45)/40,"−","+",null,null,()=>edit(()=>draft.cameraFov=Mathf.Max(45,draft.cameraFov-5)),()=>edit(()=>draft.cameraFov=Mathf.Min(85,draft.cameraFov+5)));
+                ui.Text(box,draft.phoneGyro&&!Input.PhoneGyroAvailable?L("Thiết bị chưa cung cấp cảm biến xoay; bạn vẫn có thể vuốt để nhìn.","Rotation sensor unavailable; swipe look remains available."):L("Vuốt để nhìn; Căn lại đặt lại mốc cảm biến. Kính VR dùng theo dõi đầu.","Swipe to look; Recenter resets the sensor reference. VR uses head tracking."),48,742,1004,42,20,VlabUi.Secondary);
+            }
+            else
+            {
+                SettingsSwitch(box,L("Hiện cần di chuyển ảo","Show virtual movement stick"),draft.showPhoneJoystick,230,()=>edit(()=>draft.showPhoneJoystick=!draft.showPhoneJoystick));
+                SettingsValueBar(box,L("Tốc độ: ","Movement speed: ")+draft.moveSpeed.ToString("0.0")+" m/s",null,344,(draft.moveSpeed-.3f)/1.7f,"−","+",null,null,()=>edit(()=>draft.moveSpeed=Mathf.Max(.3f,draft.moveSpeed-.1f)),()=>edit(()=>draft.moveSpeed=Mathf.Min(2,draft.moveSpeed+.1f)));
+                ui.Text(box,L("Giữ cần ở góc dưới trái để di chuyển. Vuốt phần nền bên phải để nhìn. Có thể dùng hai ngón cùng lúc. Khi mở bảng, di chuyển dừng lại.\n\nKính VR dùng hướng đầu; các thiết lập vuốt này chỉ áp dụng màn hình thường.","Hold the lower-left stick to move. Drag the right-side background to look. Two fingers can work together. Movement stops while a dialog is open.\n\nVR uses head tracking; swipe settings apply only to the flat screen."),48,468,1004,250,28,VlabUi.Secondary);
+            }
+            Button(box,L("Mặc định camera","Reset camera defaults"),40,794,496,68,()=>{draft.invertLookX=draft.invertLookY=draft.phoneGyro=false;draft.showPhoneJoystick=draft.focusAssist=true;draft.moveSpeed=1;draft.cameraFov=65;draft.mouseLookSensitivity=1;dirty=true;ShowPhoneSettings(movement);});
+            Button(box,L("Xong · Chưa áp dụng","Done · Apply in Settings"),564,794,496,68,()=>{CloseModal();ShowSettings();},Accent);
+        }
+        void ShowFeedback()
+        {
+            NewPage("feedback");Header(L("Phản hồi & hỗ trợ","Feedback & support"),ShowHome);var box=ui.Panel(page,"Feedback",250,170,1100,670);
+            ui.Text(box,L("Bạn gặp vấn đề ở đâu?","What happened?"),48,38,1004,68,38);
+            ui.Text(box,L("Gửi tên thí nghiệm, bước đang làm, model điện thoại và ảnh hoặc video lỗi. Bạn có thể sao chép email rồi phản hồi khi có mạng.","Include the experiment, current step, phone model, and a screenshot or video. Copy the email and send your report when online."),48,130,1004,160,30,VlabUi.Secondary);
+            ui.Text(box,"nguamanvlab@gmail.com",48,310,1004,72,38,null,TextAlignmentOptions.Center);
+            var copied=ui.Text(box,"",48,510,1004,72,26,VlabUi.Secondary,TextAlignmentOptions.Center);
+            Button(box,L("Sao chép email","Copy email"),48,414,480,80,()=>{GUIUtility.systemCopyBuffer="nguamanvlab@gmail.com";copied.text=L("Đã sao chép email.","Email copied.");}).name="Copy feedback email";
+            Button(box,L("Mở ứng dụng email","Open email app"),572,414,480,80,()=>Application.OpenURL("mailto:nguamanvlab@gmail.com?subject=VLAB%20feedback%20"+Uri.EscapeDataString(Application.version)),Accent);
+        }
+
         void RecenterInterface(){ui.Recenter(View);PlaceReadableSurface(page,Route!="explore");PlaceReadableSurface(modal,true);}
         IEnumerator AlignAfterTracking(){yield return null;yield return null;if(ui.canvas.renderMode==RenderMode.WorldSpace)RecenterInterface();}
         void OnApplicationPause(bool paused){if(paused){Session?.Pause();modalResumeActivity=activityReturnRunning=false;SyncAuthority();Save();}}

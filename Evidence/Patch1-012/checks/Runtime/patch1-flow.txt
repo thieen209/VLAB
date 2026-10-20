@@ -1,0 +1,18 @@
+PASS Explicit Take accepts loose supplied stand: 
+PASS Phone button release retains explicitly taken item without auto-install
+PASS Selecting another item returns old held item to supported tray
+PASS Foreign equipment cannot replace this rig's selection
+PASS Unfitted support blocks clamp placement with actionable reason
+PASS Optional install guidance identifies missing support rather than blocked selection
+PASS Explicit placement fits source stand
+PASS Successful placement clears take state
+PASS Take cannot silently detach an installed instrument
+PASS Missed legacy drag returns to tray rather than leaving floating geometry
+PASS A returned loose instrument can be taken again: 
+PASS Return/cancel always clears held state and restores tray
+PASS Guidance off immediately disables automatic snap arrows
+PASS Automatic assistance can be re-enabled without doing a student action
+PASS Closing optional help hides its presentation immediately
+PASS Take/place/return/coaching do not advance preparation, run time or fabricate observations
+PASS All32 existing guide/authority IDs retain complete preparation metadata
+LIMIT: synthetic native interaction APIs only; actual phone UI/input, all32 authority journeys, profile snapshots and headset must be checked separately.

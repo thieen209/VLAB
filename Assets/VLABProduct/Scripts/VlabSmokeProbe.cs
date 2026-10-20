@@ -32,8 +32,8 @@ public sealed class VlabSmokeProbe:MonoBehaviour
             yield return value;
         }
         Application.logMessageReceived-=Log;
-        File.WriteAllLines(Path.Combine(folder,SessionState.GetBool("VLAB.RenderingOnly",false)?"rendering-review-smoke.txt":SessionState.GetBool("VLAB.LayoutOnly",false)?"apparatus-layout-smoke.txt":SessionState.GetBool("VLAB.BrandingOnly",false)?"branding-review-smoke.txt":SessionState.GetBool("VLAB.LearningOnly",false)?"learning-review-smoke.txt":SessionState.GetBool("VLAB.ControlsOnly",false)?"controls-review-smoke.txt":SessionState.GetBool("VLAB.HomeOnly",false)?"home-review-smoke.txt":SessionState.GetBool("VLAB.PolishOnly",false)?"visual-review-smoke.txt":SessionState.GetBool("VLAB.MicroscopeOnly",false)?"microscope-smoke.txt":SessionState.GetBool("VLAB.AppearanceOnly",false)?"appearance-smoke.txt":SessionState.GetBool("VLAB.SetupAndGuidance",false)?"guidance-review-smoke.txt":"runtime-smoke.txt"),new[]{errors.Count==0?"PASS":"FAILED","UI callback and synthetic Input System checks; no physical phone/headset evidence."}.Concat(checks).Concat(errors));
-        SessionState.SetBool("VLAB.RenderingOnly",false);SessionState.SetBool("VLAB.LayoutOnly",false);SessionState.SetBool("VLAB.BrandingOnly",false);SessionState.SetBool("VLAB.LearningOnly",false);
+        File.WriteAllLines(Path.Combine(folder,SessionState.GetBool("VLAB.Patch1Only",false)?"patch1-review-smoke.txt":SessionState.GetBool("VLAB.RenderingOnly",false)?"rendering-review-smoke.txt":SessionState.GetBool("VLAB.LayoutOnly",false)?"apparatus-layout-smoke.txt":SessionState.GetBool("VLAB.BrandingOnly",false)?"branding-review-smoke.txt":SessionState.GetBool("VLAB.LearningOnly",false)?"learning-review-smoke.txt":SessionState.GetBool("VLAB.ControlsOnly",false)?"controls-review-smoke.txt":SessionState.GetBool("VLAB.HomeOnly",false)?"home-review-smoke.txt":SessionState.GetBool("VLAB.PolishOnly",false)?"visual-review-smoke.txt":SessionState.GetBool("VLAB.MicroscopeOnly",false)?"microscope-smoke.txt":SessionState.GetBool("VLAB.AppearanceOnly",false)?"appearance-smoke.txt":SessionState.GetBool("VLAB.SetupAndGuidance",false)?"guidance-review-smoke.txt":"runtime-smoke.txt"),new[]{errors.Count==0?"PASS":"FAILED","UI callback and synthetic Input System checks; no physical phone/headset evidence."}.Concat(checks).Concat(errors));
+        SessionState.SetBool("VLAB.Patch1Only",false);SessionState.SetBool("VLAB.RenderingOnly",false);SessionState.SetBool("VLAB.LayoutOnly",false);SessionState.SetBool("VLAB.BrandingOnly",false);SessionState.SetBool("VLAB.LearningOnly",false);
         SessionState.SetBool("VLAB.ControlsOnly",false);SessionState.SetBool("VLAB.HomeOnly",false);SessionState.SetBool("NguaManVLAB.ProductSmoke",false);SessionState.SetBool("VLAB.AppearanceOnly",false);SessionState.SetBool("VLAB.SetupAndGuidance",false);SessionState.SetBool("VLAB.MicroscopeOnly",false);SessionState.SetBool("VLAB.PolishOnly",false);SessionState.SetString("VLAB.TestProfile","");
         if(SessionState.GetBool("NguaManVLAB.LiveReview",false)){Debug.Log("VLAB live review checks: "+(errors.Count==0?"PASS":"FAILED")+"; isolated profile remains in memory.");yield break;}
         EditorApplication.Exit(errors.Count==0?0:1);
@@ -44,20 +44,28 @@ public sealed class VlabSmokeProbe:MonoBehaviour
         // Batchmode has no focused Game view; the UI module explicitly skips navigation unless this test-only policy is set.
         InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
         yield return new WaitForSecondsRealtime(1);
-        var app=VlabApp.Instance;Check("Fresh UI starts at language",app&&app.Route=="language");Capture("01-language");
-        var english=Find("English");var keyboard=Keyboard.current??InputSystem.AddDevice<Keyboard>();EventSystem.current.SetSelectedGameObject(english.gameObject);
-        InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.Enter));yield return null;yield return null;InputSystem.QueueStateEvent(keyboard,new KeyboardState());yield return new WaitForSecondsRealtime(.5f);
-        Check("Keyboard Submit selects English without skipping the explicit Continue",app.Route=="language"&&app.Profile.locale=="");Capture("01b-language-selected");
-        Click("Continue");yield return new WaitForSecondsRealtime(.3f);Check("Language Continue opens Privacy",app.Route=="privacy");Capture("02-privacy");
-        Click("Continue");yield return new WaitForSecondsRealtime(.3f);Check("Legal Continue without consent stays at Privacy",app.Route=="privacy");Click("Back");yield return new WaitForSecondsRealtime(.3f);
-        FindContains("I have read and accept").onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);Click("Continue");yield return new WaitForSecondsRealtime(.4f);Check("Separate Terms route",app.Route=="terms");
-        FindContains("I have read and accept").onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);Click("Continue");yield return new WaitForSecondsRealtime(.4f);Check("Safety route follows Terms",app.Route=="safety");
-        Click("I understand · Enter VLAB");yield return new WaitForSecondsRealtime(.4f);Check("Completed setup opens Home",app.Route=="home");Capture("03-home-en");
+        var app=VlabApp.Instance;Check("Fresh installation opens Home directly",app&&app.Route=="home"&&app.Profile.locale=="vi");
+        Check("Skipping setup never fabricates legal consent",app.Profile.legal.Count==0&&!app.Profile.safetyAcknowledged);Capture("01-direct-home-vi");
+        app.ChooseLanguage("en");yield return new WaitForSecondsRealtime(.3f);Check("Language remains changeable without forced setup",app.Route=="home"&&app.Profile.locale=="en");Capture("03-home-en");
         Check("Exactly one active rendering camera",FindObjectsByType<Camera>(FindObjectsSortMode.None).Count(x=>x.enabled)==1);
         Check("Exactly one active audio listener",FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Count(x=>x.enabled)==1);
         Check("Room review controls disabled",FindObjectsByType<LabReview>(FindObjectsSortMode.None).All(x=>!x.enabled));
         var originalRoot=app.gameObject;Destroy(originalRoot);yield return null;yield return SceneManager.LoadSceneAsync("VLAB_Boot");yield return new WaitForSecondsRealtime(.5f);app=VlabApp.Instance;
         Check("Relaunch skips all completed onboarding",app.Route=="home");
+        if(SessionState.GetBool("VLAB.Patch1Only",false))
+        {
+            PhoneInputChecks.Run();Check("Native queued phone input regressions passed",true);
+            GamepadIntegrationChecks.Run();Check("Existing HID disconnect and touch routing regressions passed",true);
+            File.WriteAllText(Path.Combine(folder,"patch1-settings.txt"),Patch1SettingsChecks.Run());
+            File.WriteAllLines(Path.Combine(folder,"patch1-flow.txt"),Patch1FlowChecks.Verify());
+            app.ShowHome();app.ChooseLanguage("vi");yield return new WaitForSecondsRealtime(.3f);
+            yield return PhoneInputChecks.RunUiTap(app,Capture,Check);
+            yield return PhoneUiChecks.Run(app,Capture,Check);
+            yield return FormulaSheetChecks.Run(app,Capture,Check);
+            yield return Patch1AppChecks.Run(app,Capture,Check);
+            Check("No runtime errors during patch1 integration",errors.Count==0);yield break;
+        }
+
         if(SessionState.GetBool("VLAB.RenderingOnly",false)){yield return VlabAdditionalUiChecks.RenderingOnly(app,Capture,Check);Check("No runtime errors during focused B04 rendering",errors.Count==0);yield break;}
         if(SessionState.GetBool("VLAB.MicroscopeOnly",false)){yield return PlanFlowChecks.Run(app,Capture,Check);yield return MicroscopePresentationChecks.Run(app,Capture,Check);Check("No runtime errors after actual microscope presentation checks",errors.Count==0);yield break;}
         if(SessionState.GetBool("VLAB.LayoutOnly",false)){yield return VlabAdditionalUiChecks.LayoutOnly(app,Capture,Check);Check("No runtime errors after all32 real-room worktop layout checks",errors.Count==0);yield break;}
@@ -193,9 +201,19 @@ public sealed class VlabSmokeProbe:MonoBehaviour
     }
     void CaptureSize(string name,int width,int height)
     {
-        var camera=VlabApp.Instance.View;var canvas=VlabApp.Instance.GetComponentInChildren<Canvas>();var oldMode=canvas.renderMode;var oldCamera=canvas.worldCamera;float oldDistance=canvas.planeDistance;
+        var camera=VlabApp.Instance.View;var canvas=VlabApp.Instance.GetComponentInChildren<Canvas>();var oldMode=canvas.renderMode;var oldCamera=canvas.worldCamera;var oldTarget=camera.targetTexture;float oldDistance=canvas.planeDistance;
         var rt=new RenderTexture(width,height,24);camera.targetTexture=rt;if(oldMode!=RenderMode.WorldSpace){canvas.renderMode=RenderMode.ScreenSpaceCamera;canvas.worldCamera=camera;canvas.planeDistance=.2f;}
-        Canvas.ForceUpdateCanvases();LabPanoramaCapture.RenderMono(camera,rt);var old=RenderTexture.active;RenderTexture.active=rt;var texture=new Texture2D(width,height,TextureFormat.RGB24,false);texture.ReadPixels(new Rect(0,0,width,height),0,0);texture.Apply();File.WriteAllBytes(Path.Combine(folder,name+".png"),texture.EncodeToPNG());RenderTexture.active=old;camera.targetTexture=null;canvas.renderMode=oldMode;canvas.worldCamera=oldCamera;canvas.planeDistance=oldDistance;Destroy(texture);Destroy(rt);
+        var layout=canvas.GetComponent<PhoneUiViewport>();if(layout)layout.Refresh();Canvas.ForceUpdateCanvases();
+        var joystick=canvas.GetComponent<PhoneJoystickView>();if(joystick)joystick.Refresh();Canvas.ForceUpdateCanvases();
+        if(name=="patch1-phone-joystick-composite")
+        {
+            var input=VlabApp.Instance.Input;var ring=canvas.GetComponentsInChildren<RectTransform>().Single(x=>x.gameObject.activeInHierarchy&&x.name=="Phone movement joystick");
+            var centre=(Vector2)camera.WorldToScreenPoint(ring.TransformPoint(ring.rect.center));var safe=layout.SafePixels;
+            var expected=new Vector2(safe.x+safe.width*input.PhoneJoystickCenter.x,safe.y+safe.height*input.PhoneJoystickCenter.y);
+            var corners=new Vector3[4];ring.GetWorldCorners(corners);var a=(Vector2)camera.WorldToScreenPoint(corners[0]);var b=(Vector2)camera.WorldToScreenPoint(corners[2]);
+            Check("Captured joystick centre/radius matches safe-area input coordinates in actual RT",Vector2.Distance(centre,expected)<1.1f&&Mathf.Abs((b.x-a.x)*.5f-safe.height*input.PhoneJoystickRadius)<1.1f&&Mathf.Abs((b.y-a.y)*.5f-safe.height*input.PhoneJoystickRadius)<1.1f);
+        }
+        LabPanoramaCapture.RenderMono(camera,rt);var old=RenderTexture.active;RenderTexture.active=rt;var texture=new Texture2D(width,height,TextureFormat.RGB24,false);texture.ReadPixels(new Rect(0,0,width,height),0,0);texture.Apply();File.WriteAllBytes(Path.Combine(folder,name+".png"),texture.EncodeToPNG());RenderTexture.active=old;camera.targetTexture=oldTarget;canvas.renderMode=oldMode;canvas.worldCamera=oldCamera;canvas.planeDistance=oldDistance;if(layout)layout.Refresh();if(joystick)joystick.Refresh();Canvas.ForceUpdateCanvases();Destroy(texture);Destroy(rt);
     }
 }
 
@@ -205,13 +223,14 @@ public sealed class VlabSmokeProbe:MonoBehaviour
     static void State(PlayModeStateChange state){if(state==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("NguaManVLAB.ProductSmoke",false))new GameObject("Isolated VLAB runtime verification",typeof(VlabSmokeProbe));}
     public static void Run()
     {
-        SessionState.SetBool("VLAB.RenderingOnly",false);SessionState.SetBool("VLAB.LayoutOnly",false);SessionState.SetBool("VLAB.BrandingOnly",false);
+        SessionState.SetBool("VLAB.Patch1Only",false);SessionState.SetBool("VLAB.RenderingOnly",false);SessionState.SetBool("VLAB.LayoutOnly",false);SessionState.SetBool("VLAB.BrandingOnly",false);
         SessionState.SetBool("VLAB.HomeOnly",false);
         SessionState.SetBool("VLAB.AppearanceOnly",false);
         SessionState.SetBool("VLAB.SetupAndGuidance",false);SessionState.SetBool("VLAB.MicroscopeOnly",false);SessionState.SetBool("VLAB.PolishOnly",false);
         SessionState.SetBool("NguaManVLAB.LiveReview",false);
         SessionState.SetString("VLAB.TestProfile",Path.GetFullPath("Evidence/TestProfile-"+DateTime.UtcNow.ToString("yyyyMMdd-HHmmss")));SessionState.SetBool("NguaManVLAB.ProductSmoke",true);EditorSceneManager.OpenScene("Assets/VLABProduct/Scenes/VLAB_Boot.unity");EditorApplication.EnterPlaymode();
     }
+    public static void Patch1Review(){VlabPhoneFontSetup.Install();FormulaSheetSetup.Configure();Run();SessionState.SetString("VLAB.TestProfile",Path.Combine(Application.persistentDataPath,"QA","Patch1-"+Guid.NewGuid().ToString("N")));SessionState.SetBool("VLAB.Patch1Only",true);}
     public static void Appearance()
     {
         SessionState.SetBool("VLAB.HomeOnly",false);

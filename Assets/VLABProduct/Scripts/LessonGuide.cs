@@ -133,8 +133,10 @@ namespace Vlab.Product
             string id=session.spec.id;var entry=entries[id];
             if(!rig.Ready)
             {
-                var item=rig.items.FirstOrDefault(x=>!x.installed);string name=item?(rig.EquipmentLabel(item,vi)??item.assetId):"";
-                return Task(vi,"install",item?.assetId??"","",name+": chọn món, rồi nhấn Đặt vào vị trí lắp.",name+": select it, then Place at installation anchor.","Tên món hiện Đã lắp; dụng cụ xuất hiện ở trạm.","Its label changes to Fitted and the instrument appears at the station.");
+                var item=rig.Selected&&!rig.Selected.installed?rig.Selected:rig.NextInstallableItem();
+                var support=rig.InstallSupport(item);if(support&&!support.installed)item=support;
+                string name=item?(rig.EquipmentLabel(item,vi)??item.assetId):"";
+                return Task(vi,"install",item?.assetId??"","",name+": chọn dụng cụ rồi tự đặt vào vị trí lắp. Có thể trả lại khay khi chưa muốn lắp.",name+": select the instrument, then place it at its installation anchor. Return it to the tray if needed.","Tên món hiện Đã lắp; kiểm tra chỗ tiếp xúc và bố trí trước khi chuẩn bị. Chưa có số đo được ghi.","Its label changes to Fitted. Inspect its contact and arrangement before preparation. No measurement is recorded.");
             }
             if(session.Phase==ExperimentPhase.Invalid)return Task(vi,"pause","","","Lượt này chưa hợp lệ. Mở Tạm dừng → Làm lại lượt.","This trial is invalid. Open Pause → Restart attempt.","Bắt đầu lại ở chuẩn bị; các lượt đã ghi vẫn còn.","Preparation restarts; existing notebook entries are retained.");
             if(session.Phase==ExperimentPhase.Paused&&!suspendedRunning)return Task(vi,"resume","","","Đang tạm dừng. Nhấn Tiếp tục khi đã sẵn sàng.","Paused. Select Resume when ready.","Đồng hồ và thí nghiệm chạy tiếp.","The clock and experiment continue.");
@@ -215,8 +217,13 @@ namespace Vlab.Product
         GuideTask Wait(bool vi,string key,string a,string b)=>Task(vi,"observe",key,"",a,b,"Chỉ Ghi số đo sáng khi trạng thái dụng cụ và quan sát đã đủ điều kiện.","Record measurement enables only when apparatus and observation checks pass.");
         public static string ExplainFailure(string raw,bool vi)
         {
-            if(!vi)return raw+" Follow the current guide step, then try again.";
+            if(!vi)return raw+" Check the setup and required conditions; open Guidance if needed.";
             string text=(raw??"").ToLowerInvariant();
+            if(text.Contains("select a loose instrument first"))return "Chọn một dụng cụ chưa lắp trong danh sách hoặc trên bàn trước.";
+            if(text.Contains("already fitted"))return "Dụng cụ đã được lắp. Chọn Quan sát hoặc Thao tác để sử dụng; không cần lấy lại.";
+            if(text.Contains("only during setup"))return "Chỉ lắp dụng cụ trong giai đoạn chuẩn bị. Dừng lượt đang chạy trước khi đổi bố trí.";
+            if(text.Contains("fit supporting instrument first"))return "Lắp dụng cụ đỡ trước, rồi chọn lại món cần gắn lên giá. Các món đã lắp vẫn được giữ.";
+            if(text.Contains("this part is stored"))return "Món này còn trong khay dự trữ. Chọn Đặt vào vị trí lắp trong danh sách dụng cụ.";
             if(text.Contains("predicted shot leaves the supported room area"))return "Quỹ đạo vượt vùng đo hoặc chạm vật cản. Đổi vận tốc hoặc góc phóng rồi thử lại; thông số của bạn vẫn được giữ.";
             if(text.Contains("delivered configurable beam"))return "Cấu hình vượt giới hạn dầm. Giữ nhịp tối đa 30 cm; giảm tải hoặc giảm nhịp để độ võng không quá 1% nhịp, rồi thử lại. Số đo đã lưu vẫn được giữ.";
             if((text.Contains("receiver")||text.Contains("receiving"))&&text.Contains("capacity"))return "Bình hứng chưa đủ chỗ. Chuẩn bị lượt mới với bình hứng trống rồi thử lọc lại. Lần bị từ chối chưa chuyển dung dịch; số đo đã lưu vẫn được giữ.";
@@ -231,7 +238,7 @@ namespace Vlab.Product
             if(text.Contains("20")&&text.Contains("cell"))return "Chưa đủ nhóm ô. Chọn và phân loại cùng 20–30 mã tế bào; không đổi nhóm khi thay dung dịch.";
             if(text.Contains("100")&&text.Contains("id"))return "Chưa đủ 100 mã khác nhau. Tiếp tục phân loại; mã lặp chỉ sửa đáp án, không tăng số ô.";
             if(text.Contains("wait")||text.Contains("continue observing")||text.Contains("at least"))return "Quan sát chưa đủ thời gian hoặc số lần. Tiếp tục bước đang hướng dẫn; đồng hồ chỉ chạy khi không tạm dừng.";
-            return "Thao tác chưa đạt điều kiện. Mở Chỉ tôi chỗ này, làm bước đang hướng dẫn rồi thử lại. Dữ liệu đã ghi vẫn được giữ.";
+            return "Thao tác chưa đạt điều kiện. Kiểm tra bố trí và yêu cầu của bước này; có thể mở Hướng dẫn khi cần. Dữ liệu đã ghi vẫn được giữ.";
         }
     }
 }

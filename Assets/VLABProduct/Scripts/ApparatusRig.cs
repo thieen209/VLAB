@@ -14,6 +14,8 @@ namespace Vlab.Product
         public event Action Changed;
         public bool Ready=>items.Count>0&&items.All(x=>x.installed);
         public EquipmentHandle Selected{get;private set;}
+        public bool IsCarrying=>carrying&&Selected&&!Selected.installed;
+        public bool CoachingEnabled{get;private set;}=true;
         public LessonDriver Driver{get;private set;}
         public ExperimentSession Session=>session;
         ExperimentSession session;Transform bob;VlabString cord;VlabPendulumBob bobController;VlabTimer timer;bool timerCompleted;
@@ -25,7 +27,7 @@ namespace Vlab.Product
         const float StorageInset=.012f,StorageGap=.018f,StorageLift=.002f;
         public bool UsesSyntheticStorageSurface{get;private set;}
         public int StoredItemCount=>items.Count(x=>!x.installed&&x.stowed);
-        Vector3 centre;double lastAngle;bool carrying,pullingBob;float carryDistance;
+        Vector3 centre;double lastAngle;bool carrying,pullingBob,latchedCarry;float carryDistance;
         readonly Dictionary<EquipmentHandle,LineRenderer> targets=new Dictionary<EquipmentHandle,LineRenderer>();
         Material targetMaterial;PendulumDynamics timedDynamics;
         Renderer motorRiser;readonly List<Renderer> guideBracket=new List<Renderer>();
@@ -796,14 +798,52 @@ namespace Vlab.Product
         }
         public void Select(EquipmentHandle handle)
         {
+            if(handle&&!items.Contains(handle))return;
+            if(Selected!=handle)
+            {
+                if(Selected&&!Selected.installed&&carrying)Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);
+                carrying=pullingBob=latchedCarry=false;
+            }
             if(handle&&handle.stowed)ArrangeLooseItems(handle);
             Selected=handle;UpdateTargets();Changed?.Invoke();
         }
+        public EquipmentHandle InstallSupport(EquipmentHandle item)
+        {
+            if(!item||!items.Contains(item))return null;
+            if(Driver==null)return item.assetId=="stand"?null:items.FirstOrDefault(x=>x.assetId=="stand");
+            string key=Driver.Kit.First(x=>x.key==item.assetId).dependsOn;
+            return string.IsNullOrEmpty(key)?null:items.FirstOrDefault(x=>x.assetId==key);
+        }
+        public EquipmentHandle NextInstallableItem()=>items.FirstOrDefault(item=>!item.installed&&(!InstallSupport(item)||InstallSupport(item).installed));
+        public bool CanInstallSelected(out string message)
+        {
+            message="";
+            if(!Selected||!items.Contains(Selected)){message="Select a loose instrument first.";return false;}
+            if(Selected.installed){message="This instrument is already fitted.";return false;}
+            if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready){message="Installation is available only during setup.";return false;}
+            var support=InstallSupport(Selected);
+            if(support&&!support.installed){message="Fit supporting instrument first: "+EquipmentLabel(support,false)+".";return false;}
+            return true;
+        }
+        // Phone/controller click-to-take persists across button release. Placement is a
+        // separate explicit InstallSelected action; this never advances preparation.
+        public bool TakeSelected(Ray pointer,out string message)
+        {
+            message="";
+            if(!Selected||!items.Contains(Selected)||Selected.installed){message="Select a loose instrument first.";return false;}
+            if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready){message="Installation is available only during setup.";return false;}
+            if(Selected.stowed){message="This part is stored. Place it using the equipment menu.";return false;}
+            pullingBob=false;carrying=latchedCarry=true;
+            carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,Selected.transform.position),.35f,2.5f);
+            UpdateTargets();Changed?.Invoke();return true;
+        }
+        public void SetCoachingEnabled(bool enabled){CoachingEnabled=enabled;UpdateTargets();}
         public void BeginGrab(EquipmentHandle item,Ray pointer)
         {
+            if(!item||!items.Contains(item))return;
             if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready)return;
             Select(item);pullingBob=Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Ready;
-            carrying=!item.installed;carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,item.transform.position),.35f,2.5f);
+            carrying=!item.installed;latchedCarry=false;carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,item.transform.position),.35f,2.5f);
         }
         public void UpdateGrab(ActionFrame frame)
         {
@@ -818,20 +858,25 @@ namespace Vlab.Product
             if(carrying)
             {
                 carryDistance=Mathf.Clamp(carryDistance+frame.adjustment*.05f,.35f,2.5f);Selected.transform.position=frame.pointer.GetPoint(carryDistance);
-                if(frame.released){carrying=false;if(Vector3.Distance(Selected.transform.position,Selected.slot)<.22f)InstallSelected();Changed?.Invoke();}
+                if(frame.released&&!latchedCarry)
+                {
+                    // A missed drag returns to its supported tray pose instead of floating.
+                    if(Vector3.Distance(Selected.transform.position,Selected.slot)>=.22f||!InstallSelected())CancelGrab();
+                    else Changed?.Invoke();
+                }
             }
         }
-        public void CancelGrab(){if(Selected&&!Selected.installed)Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);Selected=null;carrying=pullingBob=false;UpdateTargets();Changed?.Invoke();}
+        public void CancelGrab(){if(Selected&&!Selected.installed)Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);Selected=null;carrying=pullingBob=latchedCarry=false;UpdateTargets();Changed?.Invoke();}
         public bool InstallSelected()
         {
-            if(!Selected||Selected.installed)return false;
+            if(!CanInstallSelected(out _))return false;
             var item=Selected;
             if(Driver!=null)
             {
                 var spec=Driver.Kit.Single(x=>x.key==item.assetId);
                 if(!string.IsNullOrEmpty(spec.dependsOn)&&!items.Single(x=>x.assetId==spec.dependsOn).installed)return false;
                 item.gameObject.SetActive(true);item.stowed=false;item.transform.SetPositionAndRotation(item.slot,item.rotation);item.installed=true;Driver.Installed(item.assetId);item.slot=item.transform.position;
-                if(Ready){Driver.Configure();SynchronizeDerivedFixtures();}else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;Changed?.Invoke();return true;
+                if(Ready){Driver.Configure();SynchronizeDerivedFixtures();}else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;carrying=pullingBob=latchedCarry=false;UpdateTargets();Changed?.Invoke();return true;
             }
             if(item.assetId!="stand"&&!items.First(x=>x.assetId=="stand").installed)return false;
             item.gameObject.SetActive(true);item.stowed=false;item.transform.SetPositionAndRotation(item.slot,item.rotation);item.installed=true;
@@ -853,7 +898,7 @@ namespace Vlab.Product
                 item.slot=item.transform.position;foreach(var part in items)part.slot=Slot(part.assetId);
             }
             if(item.assetId=="ruler"||item.assetId=="timer")PlaceOnSurface(item.gameObject,item.slot);
-            if(Ready)UpdatePendulum(0);else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;UpdateTargets();Changed?.Invoke();return true;
+            if(Ready)UpdatePendulum(0);else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;carrying=pullingBob=latchedCarry=false;UpdateTargets();Changed?.Invoke();return true;
         }
         void CreateTargets()
         {
@@ -873,7 +918,7 @@ namespace Vlab.Product
             var active=Selected&&!Selected.installed?Selected:items.FirstOrDefault(x=>!x.installed);
             foreach(var pair in targets)
             {
-                var item=pair.Key;var line=pair.Value;line.enabled=item==active&&!item.installed;
+                var item=pair.Key;var line=pair.Value;line.enabled=CoachingEnabled&&item==active&&!item.installed;
                 bool surface=item.assetId=="stand"||item.assetId=="ruler"||item.assetId=="timer";
                 float radius=surface?.09f:.035f;var origin=item.slot+(surface?Vector3.up*.006f:Vector3.zero);
                 for(int i=0;i<line.positionCount;i++){float a=2*Mathf.PI*i/line.positionCount;line.SetPosition(i,origin+Vector3.right*(Mathf.Cos(a)*radius)+(surface?Vector3.forward:Vector3.up)*(Mathf.Sin(a)*radius));}

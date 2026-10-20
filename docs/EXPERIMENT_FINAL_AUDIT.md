@@ -1,3 +1,5 @@
+> PATCH1 0.1.2 reran all32 bounded native SDK journeys and47 save/reopens in an explicit NEW persistentDataPath QA sibling. This does not clear the historical Windows project-Evidence error or expand the research-coverage boundaries below. Current artifact: [PATCH1_012](PATCH1_012.md).
+
 # Final experiment-path audit
 
 Current release scope, 2026-10-20T06:01:51+07:00: the authoritative artifact hash and release checkpoint in BUILD_STATE.md supersede earlier hashes and numbered-run labels. Scientific/source boundaries in the32-row table below remain unchanged; this is evidence for32 bounded journeys, not complete research or physical Android/headset acceptance. Research was parsed with Python AST/literal_eval only; the supplied module was not executed.

@@ -11,6 +11,8 @@ namespace Vlab.Product
         public TMP_FontAsset font;
         public bool LargeText,Vietnamese=true;
         public bool ReducedMotion{get;private set;}
+        public PhoneUiViewport PhoneViewport{get;private set;}
+        public void RefreshPhoneLayout(){if(PhoneViewport)PhoneViewport.Refresh();}
         public void SetReducedMotion(bool reduced)
         {
             ReducedMotion=reduced;
@@ -43,8 +45,11 @@ namespace Vlab.Product
             canvas=go.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=10;
             var scaler=go.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1600,1000);scaler.matchWidthOrHeight=.5f;
             surface=new GameObject("Safe Area",typeof(RectTransform)).GetComponent<RectTransform>();surface.SetParent(go.transform,false);surface.anchorMin=Vector2.zero;surface.anchorMax=Vector2.one;surface.offsetMin=surface.offsetMax=Vector2.zero;
-            font=Resources.Load<TMP_FontAsset>("UI/VlabInter");
+            font=Resources.Load<TMP_FontAsset>("UI/VlabBody");
+            if(!font)font=Resources.Load<TMP_FontAsset>("UI/VlabInter");
             if(!font){var source=Resources.Load<Font>("UI/Inter-Regular");if(source)font=TMP_FontAsset.CreateFontAsset(source,64,8,UnityEngine.TextCore.LowLevel.GlyphRenderMode.SDFAA,2048,2048,AtlasPopulationMode.Dynamic);}
+            PhoneViewport=go.AddComponent<PhoneUiViewport>();PhoneViewport.Initialize(canvas,surface);RefreshPhoneLayout();
+            go.AddComponent<PhoneJoystickView>().Initialize(canvas,PhoneViewport);
         }
         public RectTransform Page(string name)
         {
@@ -106,6 +111,7 @@ namespace Vlab.Product
                 canvas.renderMode=RenderMode.WorldSpace;canvas.worldCamera=camera;var rect=canvas.GetComponent<RectTransform>();rect.sizeDelta=new Vector2(1600,1000);rect.localScale=Vector3.one*.0016f;scaler.uiScaleMode=CanvasScaler.ScaleMode.ConstantPixelSize;canvas.GetComponent<GraphicRaycaster>().blockingObjects=GraphicRaycaster.BlockingObjects.None;Recenter(camera);
             }
             else{canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.transform.localScale=Vector3.one;scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1600,1000);}
+            RefreshPhoneLayout();
             foreach(var opacity in canvas.GetComponentsInChildren<VlabPanelOpacity>(true))opacity.Apply(world);
         }
         public void Recenter(Camera camera)
