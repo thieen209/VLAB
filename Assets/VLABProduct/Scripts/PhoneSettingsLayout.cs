@@ -35,7 +35,7 @@ namespace Vlab.Product
             float position=scroll?scroll.verticalNormalizedPosition:1;
             Restore();flat=phone;previousSafe=safe;previousUnits=units;previousMode=ui.canvas.renderMode;
             if(!phone)return;
-            Build(safe,units,position);
+            Build(safe,units,position);VlabUi.AddPhoneScrollbar(scroll);
         }
         RectTransform Create(string name,Transform parent)
         {var go=new GameObject(name,typeof(RectTransform));go.transform.SetParent(parent,false);return (RectTransform)go.transform;}

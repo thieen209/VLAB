@@ -25,7 +25,7 @@ namespace Vlab.Product
             var safe=ui.PhoneViewport.SafePixels;float units=Mathf.Max(.001f,ui.PhoneViewport.PixelsPerLogicalUnit);bool phone=ui.canvas.renderMode!=RenderMode.WorldSpace;
             if(phone==flat&&safe==previousSafe&&units==previousUnits&&previousMode==ui.canvas.renderMode)return;
             Restore();flat=phone;previousSafe=safe;previousUnits=units;previousMode=ui.canvas.renderMode;
-            if(phone)Build(safe,units);
+            if(phone){Build(safe,units);VlabUi.AddPhoneScrollbar(scroll);}
         }
         RectTransform Find(string name)=>saved.FirstOrDefault(x=>x.rect&&x.rect.name==name)?.rect;
         static void Place(RectTransform rect,float x,float y,float width,float height)
@@ -45,10 +45,10 @@ namespace Vlab.Product
             var go=new GameObject("Phone browser lesson viewport",typeof(RectTransform),typeof(Image),typeof(RectMask2D),typeof(ScrollRect));viewport=(RectTransform)go.transform;viewport.SetParent(box,false);Place(viewport,22,header,listWidth,viewHeight);go.GetComponent<Image>().color=Color.clear;
             var content=new GameObject("Phone browser equal lesson tiles",typeof(RectTransform));body=(RectTransform)content.transform;body.SetParent(viewport,false);
             var lessons=saved.Where(x=>x.parent==box&&x.rect.GetComponent<Button>()&&x.rect.name.StartsWith("Browser lesson ",System.StringComparison.Ordinal)).OrderBy(x=>x.rect.name,System.StringComparer.Ordinal).ToArray();
-            float tileWidth=(listWidth-gap)/2,tileHeight=112;
+            float tileWidth=(listWidth-gap-20)/2,tileHeight=112;
             for(int i=0;i<lessons.Length;i++)
             {lessons[i].rect.SetParent(body,false);Place(lessons[i].rect,i%2*(tileWidth+gap),i/2*(tileHeight+gap),tileWidth,tileHeight);StretchCaption(lessons[i].rect);}
-            float contentHeight=Mathf.Ceil(lessons.Length/2f)*(tileHeight+gap)-gap;Place(body,0,0,listWidth,Mathf.Max(1,contentHeight));
+            float contentHeight=Mathf.Ceil(lessons.Length/2f)*(tileHeight+gap)-gap;Place(body,0,0,listWidth-20,Mathf.Max(1,contentHeight));
             scroll=go.GetComponent<ScrollRect>();scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=42;scroll.viewport=viewport;scroll.content=body;
             var selected=Find("Browser selected title");Place(selected,rightX,header,rightWidth,78);
             var preview=Find("Browser explore");Place(preview,rightX,header+90,rightWidth,184);
@@ -80,6 +80,15 @@ namespace Vlab.Product
         {
             failure="";if(!captured||!flat)return true;
             if(!scroll||!body||viewport.rect.height<=0){failure="Browser lesson list is unavailable.";return false;}
+            var camera=ui.canvas.renderMode==RenderMode.ScreenSpaceOverlay?null:ui.canvas.worldCamera;
+            var corners=new Vector3[4];box.GetWorldCorners(corners);var safe=ui.PhoneViewport.SafePixels;
+            foreach(var corner in corners)
+            {
+                var point=RectTransformUtility.WorldToScreenPoint(camera,corner);
+                if(point.x<safe.xMin-1||point.x>safe.xMax+1||point.y<safe.yMin-1||point.y>safe.yMax+1)
+                {failure="Browser panel exceeds the actual safe screen.";return false;}
+            }
+            if(!scroll.verticalScrollbar||scroll.verticalScrollbar.direction!=Scrollbar.Direction.BottomToTop){failure="Browser has no functional scroll-position control.";return false;}
             Vector2 tile=Vector2.zero;
             foreach(RectTransform child in body)
             {if(tile==Vector2.zero)tile=child.sizeDelta;if(tile!=child.sizeDelta){failure="Browser lesson tile sizes differ.";return false;}if(child.anchoredPosition.x+child.rect.width>body.rect.width+.1f){failure="Browser lesson exceeds list width.";return false;}}

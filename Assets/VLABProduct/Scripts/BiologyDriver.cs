@@ -608,7 +608,7 @@ namespace Vlab.Product
             }
             else if(Id=="B07")
             {
-                r.Add("crudePrecipitate",CrudePresent()?1:0,"","Vật liệu kết tủa thô","Crude precipitate present").Add("alcoholIncluded",s.alcoholAdded?1:0,"","Có lớp alcohol","Alcohol layered").Add("filtrateRetained",s.filtered?1:0,"","Giữ dịch lọc","Filtrate retained").Add("gentlySpooled",s.spooled?1:0,"","Đã cuốn nhẹ","Gently spooled");
+                r.Add("crudePrecipitate",CrudePresent()?1:0,"presence","Vật liệu kết tủa thô","Crude precipitate present").Add("alcoholIncluded",s.alcoholAdded?1:0,"presence","Có lớp alcohol","Alcohol layered").Add("filtrateRetained",s.filtered?1:0,"presence","Giữ dịch lọc","Filtrate retained").Add("gentlySpooled",s.spooled?1:0,"presence","Đã cuốn nhẹ","Gently spooled");
                 r.note="Qualitative crude material may contain DNA and contaminants; no mass, purity, concentration, molecular length or individual helix is inferred. Omitted alcohol prevents visible strands in this illustration.";
             }
             else if(Id=="B08")

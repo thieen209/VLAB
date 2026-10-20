@@ -101,7 +101,7 @@ namespace Vlab.Product
         }
         public static string RecordText(AttemptRecord record,bool vi,Func<IEnumerable<Reading>,string> readings)
         {
-            var body=new StringBuilder();body.AppendLine(L(vi,"SỐ ĐO ĐÃ LƯU","SAVED OBSERVATIONS")).AppendLine(readings(record.readings));
+            var body=new StringBuilder();body.AppendLine(L(vi,"SỐ ĐO ĐÃ LƯU","SAVED OBSERVATIONS")).AppendLine(readings(ObservationCards.PresentationReadings(record.readings,record.experimentId)));
             body.AppendLine().AppendLine(L(vi,"ĐIỀU KIỆN CỦA LƯỢT","RECORDED CONDITIONS"));var spec=LessonSpec.All[record.experimentId];
             for(int i=0;i<spec.parameters.Length;i++){var parameter=spec.parameters[i];string value=record.parameterValues!=null&&i<record.parameterValues.Length?record.parameterValues[i].ToString("0.###",CultureInfo.InvariantCulture):L(vi,"Không có trong bản ghi","Not recorded");body.AppendLine((vi?parameter.vi:parameter.en)+": "+value+" "+parameter.unit);}
             if(spec.parameters.Length==0)body.AppendLine(L(vi,"Không có tham số số học cho bài này.","This lesson has no numeric parameters."));
@@ -158,7 +158,7 @@ namespace Vlab.Product
             }
             else
             {
-                if(state.contentTab==0){contentPages=ObservationCards.PageCount(record.readings,2);state.contentPage=Mathf.Clamp(state.contentPage,0,contentPages-1);ObservationCards.Render(ui,right,record.readings,vi,state.contentPage,32,246,1036,242,2);}
+                if(state.contentTab==0){contentPages=ObservationCards.PageCount(record.readings,2);state.contentPage=Mathf.Clamp(state.contentPage,0,contentPages-1);ObservationCards.Render(ui,right,ObservationCards.PresentationReadings(record.readings,record.experimentId),vi,state.contentPage,32,246,1036,242,2);}
                 else if(state.contentTab==1)contentPages=ConditionsPage(ui,right,record,vi,state);
                 else if(state.contentTab==2){string explanation=Interpretation(record,vi);if(!string.IsNullOrWhiteSpace(record.observation))explanation+="\n\n"+record.observation;contentPages=TextPage(ui,right,explanation,state,28);}
                 else contentPages=TextPage(ui,right,ContinueText(profile,selected,vi),state,28);

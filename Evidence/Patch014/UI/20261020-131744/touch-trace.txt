@@ -1,0 +1,235 @@
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Only two named active-bench display props are hidden, including their colliders
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Worktop, sink, active lesson equipment, other benches and prior inactive states survive
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Leaving restores original active states
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Disabling scope restores props
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Line-only cord receives a real model outline without changing source
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Stored ruler can be taken into the hand
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Taking again does not lose storage return state
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Cancel restores stored/inactive ruler and original tray pose
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Storage retrieval never advances preparation
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Changing selection returns previously stored ruler to storage
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Stored ruler still uses validated explicit installation
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Cancel after installation cannot re-stow fitted ruler
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 retry rejects reset before tile end
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 missed steady-pull window stays unrecordable and offers retry
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 explicit retry succeeds
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 retry clears old force, peak and steady measurements
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 waiting after reset cannot fabricate a new measurement
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 repeat must genuinely break away before steady control
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 new steady action alone is insufficient
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 slow-steady hand control preserves visible motion at at most 0.05 m/s
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 repeat records only after new peak and measured steady interval
+C01 TAP Subject C | Hóa học @ (657.80, 478.80)
+C01 TAP Browser lesson C01 | Chuẩn độ giấm <size=20>Chưa có số đo</size> @ (263.65, 667.80)
+C01 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+C01 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+C01 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+C01 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+C01 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+C01 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+C01 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+C01 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+C01 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item stand | Giá burette @ (460.47, 700.20)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item clamp | Kẹp burette @ (460.47, 578.43)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item burette | Burette 25 mL @ (460.47, 456.66)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item flask | Bình chuẩn độ @ (460.47, 334.89)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item pipette | Pipette 10 mL @ (460.47, 213.12)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Equipment item bulb target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Equipment item bulb contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+C01 TAP Equipment item bulb | Quả bóp @ (460.47, 235.44)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item sample | Mẫu giấm pha loãng @ (460.47, 700.20)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item base | NaOH @ (460.47, 578.43)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item indicator | Phenolphthalein @ (460.47, 456.66)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 TAP Equipment item waste | Cốc thải @ (460.47, 334.89)
+C01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+C01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+C01 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+C01 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+C01 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+C01 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+C01 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+C01 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+C01 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+C01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+C01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Đọc mặt khum đầu target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Đọc mặt khum đầu contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Đọc mặt khum đầu | Đọc mặt khum đầu @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+C01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+C01 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Lắc trộn bình target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Lắc trộn bình contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Lắc trộn bình | Lắc trộn bình @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 VISUAL REVIEW REQUEST 332dff25bb1c485ba499c9e658f00f10 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-131744\C01-visual-332dff25bb1c485ba499c9e658f00f10.png
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 VISUAL WAIT 25 seconds
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP Close dialog | × @ (1526.92, 834.84)
+C01 TAP Dụng cụ & hướng dẫn | Dụng cụ & hướng dẫn @ (773.00, 102.60)
+C01 TAP Dụng cụ | Dụng cụ @ (1015.14, 749.70)
+C01 TAP Trang trước | Trang trước @ (1231.45, 284.40)
+C01 TAP Equipment item burette | Đã lắp · Burette 25 mL @ (460.47, 600.75)
+C01 TAP Close dialog | × @ (1526.92, 834.84)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Lắc trộn bình target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Lắc trộn bình contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Lắc trộn bình | Lắc trộn bình @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 VISUAL REVIEW REQUEST 6d8cdda0ed51496a8eca2f220676bf85 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-131744\C01-visual-6d8cdda0ed51496a8eca2f220676bf85.png
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 TAP + | + @ (1497.22, 490.32)
+C01 VISUAL WAIT 8 seconds
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP − | − @ (1404.16, 490.32)
+C01 TAP Close dialog | × @ (1526.92, 834.84)
+C01 TAP Dụng cụ & hướng dẫn | Dụng cụ & hướng dẫn @ (773.00, 102.60)
+C01 TAP Dụng cụ | Dụng cụ @ (1015.14, 749.70)
+C01 TAP Equipment item burette | Đã lắp · Burette 25 mL @ (460.47, 456.66)
+C01 TAP Close dialog | × @ (1526.92, 834.84)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Lắc trộn bình target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Lắc trộn bình contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Lắc trộn bình | Lắc trộn bình @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Giữ lượt chuẩn độ target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Giữ lượt chuẩn độ contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Giữ lượt chuẩn độ | Giữ lượt chuẩn độ @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Mẫu mới / lượt kế target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Mẫu mới / lượt kế contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Mẫu mới / lượt kế | Mẫu mới / lượt kế @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Đọc mặt khum đầu target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Đọc mặt khum đầu contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Đọc mặt khum đầu | Đọc mặt khum đầu @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Pipette mẫu 10 mL target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Pipette mẫu 10 mL contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Pipette mẫu 10 mL | Pipette mẫu 10 mL @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Thêm phenolphthalein target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Thêm phenolphthalein contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Thêm phenolphthalein | Thêm phenolphthalein @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 SCROLL Lắc trộn bình target=(380.97, 94.32) viewport=(x:42.39, y:164.16, width:1515.22, height:586.53) from (800.00, 310.79) to (800.00, 604.06) contentBefore=(0.00, 0.00)
+C01 SCROLL RESULT Lắc trộn bình contentAfter=(0.00, 97.03) targetAfter=(380.97, 238.41)
+C01 TAP Lắc trộn bình | Lắc trộn bình @ (380.97, 238.41)
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+C01 VISUAL REVIEW REQUEST 7e3e1b6525c54fc3a3c35dd471289ea8 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-131744\C01-visual-7e3e1b6525c54fc3a3c35dd471289ea8.png
+C01 TAP Close dialog | × @ (1526.92, 834.84)
+C01 TAP Dụng cụ & hướng dẫn | Dụng cụ & hướng dẫn @ (773.00, 102.60)
+C01 TAP Dụng cụ | Dụng cụ @ (1015.14, 749.70)
+C01 VISUAL REVIEW REQUEST de6729f3f66f43e0bdf5e66800e879d1 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-131744\C01-visual-de6729f3f66f43e0bdf5e66800e879d1.png
+C01 TAP Close dialog | × @ (1501.18, 813.06)
+C01 TAP Dụng cụ & hướng dẫn | Dụng cụ & hướng dẫn @ (773.00, 102.60)
+C01 TAP Dụng cụ | Dụng cụ @ (1015.14, 749.70)
+C01 TAP Equipment item flask | Đã lắp · Bình chuẩn độ @ (460.47, 334.89)
+C01 VISUAL REVIEW REQUEST 76554e9ceb014491ab0bab0535548ee3 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-131744\C01-visual-76554e9ceb014491ab0bab0535548ee3.png
+C01 BLOCKED System.Exception: Visible enabled button missing: +
+  at SecondTestUiProbe.Required (System.String[] keys) [0x00000] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:53 
+  at SecondTestUiProbe+<VisualReview>d__45.MoveNext () [0x004d7] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:217 
+  at SecondTestUiProbe+<Guard>d__47.MoveNext () [0x00041] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:244 
+C01 TAP Close dialog | × @ (1526.92, 834.84)
+C01 TAP ‹ Quay lại | ‹ Quay lại @ (1007.00, 102.60)
+C01 TAP Rời phòng | Rời phòng @ (800.00, 274.50)
+C01 TAP Xác nhận | Xác nhận @ (686.88, 471.51)
+C01 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)

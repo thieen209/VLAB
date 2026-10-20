@@ -61,7 +61,7 @@ public static class VlabProductBuild
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene(),Root+"Scenes/VLAB_Boot.unity");
         EditorBuildSettings.scenes=new[]{Root+"Scenes/VLAB_Boot.unity","Assets/Labs/Scenes/Physics.unity","Assets/Labs/Scenes/Chemistry.unity","Assets/Labs/Scenes/Biology.unity","Assets/Labs/Scenes/Engineering.unity"}.Select(x=>new EditorBuildSettingsScene(x,true)).ToArray();
         ConfigureXR();
-        PlayerSettings.productName="VLAB";PlayerSettings.companyName="Ngua Man VLAB";PlayerSettings.bundleVersion="0.1.3";PlayerSettings.Android.bundleVersionCode=4;
+        PlayerSettings.productName="VLAB";PlayerSettings.companyName="Ngua Man VLAB";PlayerSettings.bundleVersion="0.1.4";PlayerSettings.Android.bundleVersionCode=5;
         PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android,"com.nguaman.vlab");PlayerSettings.defaultInterfaceOrientation=UIOrientation.LandscapeLeft;
         PlayerSettings.Android.minSdkVersion=AndroidSdkVersions.AndroidApiLevel26;PlayerSettings.Android.targetSdkVersion=(AndroidSdkVersions)36;
         PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android,ScriptingImplementation.IL2CPP);PlayerSettings.Android.targetArchitectures=AndroidArchitecture.ARMv7|AndroidArchitecture.ARM64;
@@ -109,7 +109,30 @@ public static class VlabProductBuild
         if(string.IsNullOrEmpty(path)||!File.Exists(path)||string.IsNullOrEmpty(password))throw new InvalidOperationException("Release signing must be supplied through the local build environment.");
         var icon=AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"Branding/AppIcon.png");if(!icon)throw new InvalidOperationException("The original VLAB application icon is missing.");
         PlayerSettings.SetIcons(NamedBuildTarget.Unknown,new[]{icon},IconKind.Any);
-        PlayerSettings.productName="VLAB";PlayerSettings.bundleVersion="0.1.3";PlayerSettings.Android.bundleVersionCode=4;
+        string backgroundPath=Root+"Branding/AppIconBackground.png";
+        if(!File.Exists(backgroundPath))
+        {
+            var solid=new Texture2D(2,2,TextureFormat.RGBA32,false);
+            solid.SetPixels(Enumerable.Repeat(new Color(.055f,.10f,.15f,1),4).ToArray());solid.Apply();
+            File.WriteAllBytes(backgroundPath,solid.EncodeToPNG());UnityEngine.Object.DestroyImmediate(solid);
+            AssetDatabase.ImportAsset(backgroundPath,ImportAssetOptions.ForceSynchronousImport);
+        }
+        var background=AssetDatabase.LoadAssetAtPath<Texture2D>(backgroundPath);
+        // Android adaptive slots override the default application icon.
+        foreach(var kind in PlayerSettings.GetSupportedIconKinds(NamedBuildTarget.Android))
+        {
+            var slots=PlayerSettings.GetPlatformIcons(NamedBuildTarget.Android,kind);
+            foreach(var slot in slots)
+            {
+                var layers=Enumerable.Repeat(icon,slot.maxLayerCount).ToArray();
+                if(layers.Length>1)layers[0]=background;
+                slot.SetTextures(layers);
+            }
+            PlayerSettings.SetPlatformIcons(NamedBuildTarget.Android,kind,slots);
+            if(PlayerSettings.GetPlatformIcons(NamedBuildTarget.Android,kind).Any(slot=>slot.GetTexture(slot.maxLayerCount-1)!=icon))
+                throw new InvalidOperationException("Android VLAB icon assignment failed.");
+        }
+        PlayerSettings.productName="VLAB";PlayerSettings.bundleVersion="0.1.4";PlayerSettings.Android.bundleVersionCode=5;
         PlayerSettings.Android.targetArchitectures=AndroidArchitecture.ARMv7|AndroidArchitecture.ARM64;
         EditorUserBuildSettings.androidBuildSubtarget=MobileTextureSubtarget.ETC2;
         var destination=Path.GetFullPath("Builds/Android/VLAB-"+PlayerSettings.bundleVersion+"-android.apk");Directory.CreateDirectory(Path.GetDirectoryName(destination));

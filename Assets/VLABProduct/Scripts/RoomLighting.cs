@@ -10,16 +10,16 @@ namespace Vlab.Product
         public static void Apply()
         {
             RenderSettings.ambientMode=AmbientMode.Trilight;
-            RenderSettings.ambientSkyColor=new Color(.36f,.41f,.47f);
-            RenderSettings.ambientEquatorColor=new Color(.22f,.25f,.29f);
-            RenderSettings.ambientGroundColor=new Color(.13f,.14f,.16f);
+            RenderSettings.ambientSkyColor=new Color(.44f,.48f,.53f);
+            RenderSettings.ambientEquatorColor=new Color(.28f,.31f,.35f);
+            RenderSettings.ambientGroundColor=new Color(.16f,.17f,.19f);
             RenderSettings.reflectionIntensity=.40f;
             foreach(var light in Object.FindObjectsByType<Light>(FindObjectsSortMode.None))
             {
                 if(light.name=="Soft daylight")
                 {light.intensity=1.05f;light.color=new Color(1f,.965f,.91f);light.shadowBias=.015f;light.shadowNormalBias=.03f;}
                 else if(light.name=="Ceiling illumination")
-                {light.intensity=.50f;light.color=new Color(.94f,.97f,1f);light.shadowBias=.015f;light.shadowNormalBias=.03f;}
+                {light.intensity=.60f;light.color=new Color(.94f,.97f,1f);light.shadowBias=.015f;light.shadowNormalBias=.03f;}
             }
         }
     }

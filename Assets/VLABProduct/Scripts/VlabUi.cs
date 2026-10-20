@@ -109,6 +109,20 @@ namespace Vlab.Product
             geometry.Down=Button(host,Vietnamese?"Trang sau":"Page down",28+(width-40)/2,height-76,(width-40)/2,64,()=>geometry.Move(-1));
             geometry.Refresh();return host;
         }
+        public static void AddPhoneScrollbar(ScrollRect scroll)
+        {
+            // Keep the thumb bound to real content so dragging and scroll position stay consistent.
+            var track=new GameObject("Phone scroll position",typeof(RectTransform),typeof(UnityEngine.UI.Image),typeof(UnityEngine.UI.Scrollbar));
+            var rect=(RectTransform)track.transform;rect.SetParent(scroll.viewport,false);
+            rect.anchorMin=new Vector2(1,0);rect.anchorMax=Vector2.one;rect.pivot=new Vector2(1,.5f);
+            rect.sizeDelta=new Vector2(12,-8);rect.anchoredPosition=new Vector2(-2,0);
+            track.GetComponent<UnityEngine.UI.Image>().color=new Color(Secondary.r,Secondary.g,Secondary.b,.18f);
+            var thumb=new GameObject("Scroll thumb",typeof(RectTransform),typeof(UnityEngine.UI.Image));
+            var handle=(RectTransform)thumb.transform;handle.SetParent(rect,false);handle.anchorMin=Vector2.zero;handle.anchorMax=Vector2.one;handle.offsetMin=handle.offsetMax=Vector2.zero;
+            var image=thumb.GetComponent<UnityEngine.UI.Image>();image.color=Secondary;
+            var bar=track.GetComponent<UnityEngine.UI.Scrollbar>();bar.direction=UnityEngine.UI.Scrollbar.Direction.BottomToTop;bar.handleRect=handle;bar.targetGraphic=image;
+            scroll.verticalScrollbar=bar;scroll.verticalScrollbarVisibility=ScrollRect.ScrollbarVisibility.AutoHide;
+        }
         public void SetWorld(bool world,Camera camera)
         {
             var scaler=canvas.GetComponent<CanvasScaler>();
@@ -116,7 +130,7 @@ namespace Vlab.Product
             {
                 canvas.renderMode=RenderMode.WorldSpace;canvas.worldCamera=camera;var rect=canvas.GetComponent<RectTransform>();rect.sizeDelta=new Vector2(1600,1000);rect.localScale=Vector3.one*.0016f;scaler.uiScaleMode=CanvasScaler.ScaleMode.ConstantPixelSize;canvas.GetComponent<GraphicRaycaster>().blockingObjects=GraphicRaycaster.BlockingObjects.None;Recenter(camera);
             }
-            else{canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.transform.localScale=Vector3.one;scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1600,1000);}
+            else{canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.transform.localScale=Vector3.one;}
             RefreshPhoneLayout();
             foreach(var opacity in canvas.GetComponentsInChildren<VlabPanelOpacity>(true))opacity.Apply(world);
         }

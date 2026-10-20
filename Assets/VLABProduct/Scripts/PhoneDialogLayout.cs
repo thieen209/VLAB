@@ -21,6 +21,7 @@ namespace Vlab.Product
         float readingWidth,readingHeight;
         Vector2 authoredSize,authoredPosition,authoredMin,authoredMax,authoredPivot;Vector3 authoredScale;bool captured,phone;
         float lastWidth,lastHeight,restoredScroll=1;Rect lastSafe;RenderMode lastMode;
+        public bool ParameterPanel,CompactControls;
         public float ScrollPosition=>scroll?scroll.verticalNormalizedPosition:restoredScroll;
         public void RestoreScroll(float value){restoredScroll=Mathf.Clamp01(value);if(scroll)scroll.verticalNormalizedPosition=restoredScroll;}
         public void Initialize(VlabUi owner){ui=owner;dialog=(RectTransform)transform;}
@@ -46,7 +47,7 @@ namespace Vlab.Product
             lastWidth=width;lastHeight=height;lastMode=ui.canvas.renderMode;lastSafe=safe;
             if(scroll)restoredScroll=scroll.verticalNormalizedPosition;
             Restore();phone=flat;if(!flat)return;
-            Build(width,height);
+            Build(width,height);if(viewport==ownedViewport)VlabUi.AddPhoneScrollbar(scroll);
         }
         RectTransform Rect(string label,Transform parent)
         {
@@ -56,14 +57,16 @@ namespace Vlab.Product
         void Build(float safeWidth,float safeHeight)
         {
             const float gap=14,header=86,footerHeight=84;
+            bool parameterSide=(ParameterPanel||CompactControls)&&safeWidth>safeHeight;
             bool side=items.Any(x=>x.rect.name=="Instrument observation output")&&!GetComponentInChildren<RawImage>()&&!GetComponentInChildren<VlabScrollContent>()&&safeWidth>safeHeight;
-            float scale=side?1.1f:GetComponentsInChildren<ObservationCardBinding>(true).Length>0?1.4f:1.65f;
-            float width=side?(safeWidth*.48f-24)/scale:Mathf.Min(1100,(safeWidth-48)/scale),height=(safeHeight-48)/scale;
+            float scale=side||parameterSide?1.1f:GetComponentsInChildren<ObservationCardBinding>(true).Length>0?1.4f:1.65f;
+            float width=side||parameterSide?(safeWidth*.48f-24)/scale:Mathf.Min(1100,(safeWidth-48)/scale),height=(safeHeight-48)/scale;
+            if(CompactControls)height=Mathf.Min(height,490);
             dialog.anchorMin=dialog.anchorMax=dialog.pivot=new Vector2(0,1);dialog.sizeDelta=new Vector2(width,height);dialog.localScale=Vector3.one*scale;
             float units=Mathf.Max(.001f,ui.PhoneViewport.PixelsPerLogicalUnit);
             var safe=ui.PhoneViewport.SafePixels;var fitted=ui.PhoneViewport.ContentPixels;
             float left=(safe.xMin-fitted.xMin)/units,top=(fitted.yMax-safe.yMax)/units;
-            dialog.anchoredPosition=new Vector2(left+(side?safeWidth-width*scale-24:(safeWidth-width*scale)/2),-top-24);
+            dialog.anchoredPosition=new Vector2(left+(side||parameterSide?safeWidth-width*scale-24:(safeWidth-width*scale)/2),-top-24);
             var title=items.FirstOrDefault(x=>x.rect.GetComponent<TMP_Text>());
             var close=items.FirstOrDefault(x=>x.rect.name=="Close dialog");
             if(title!=null){Place(title.rect,22,16,width-128,60);}
@@ -73,10 +76,22 @@ namespace Vlab.Product
             body=Rect("Phone dialog flowing content",viewport);body.sizeDelta=new Vector2(width-56,0);
             scroll=viewport.gameObject.AddComponent<ScrollRect>();scroll.viewport=viewport;scroll.content=body;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=42;
             footer=Rect("Phone dialog pinned actions",dialog);Place(footer,22,height-footerHeight,width-44,footerHeight-12);
-            var actions=items.Where(x=>x!=close&&x.rect.GetComponent<Button>()&&x.Top>=authoredSize.y-106).OrderBy(x=>x.position.x).ToArray();
+            var actions=items.Where(x=>x!=close&&x.rect.GetComponent<Button>()&&(x.Top>=authoredSize.y-106||x.rect.name=="Station return")).OrderBy(x=>x.position.x).ToArray();
             float actionWidth=actions.Length==0?0:(width-44-gap*(actions.Length-1))/actions.Length;
             for(int i=0;i<actions.Length;i++){actions[i].rect.SetParent(footer,false);Place(actions[i].rect,i*(actionWidth+gap),4,actionWidth,68);FitCaption(actions[i].rect);}
             var content=items.Where(x=>x!=title&&x!=close&&!actions.Contains(x)).OrderBy(x=>x.Top).ThenBy(x=>x.position.x).ToArray();
+            if(CompactControls)
+            {
+                float y=0,available=width-56;
+                foreach(var row in content.GroupBy(x=>x.Top))
+                {
+                    var controls=row.OrderBy(x=>x.position.x).ToArray();float cell=(available-gap*(controls.Length-1))/controls.Length;
+                    for(int i=0;i<controls.Length;i++){var item=controls[i];item.rect.SetParent(body,false);Place(item.rect,i*(cell+gap),y,cell,88);FitCaption(item.rect);}
+                    y+=102;
+                }
+                body.sizeDelta=new Vector2(available,y);scroll.verticalNormalizedPosition=restoredScroll;return;
+            }
+            if(ParameterPanel){Flow(content,width-56);return;}
             if(side){BuildInstrumentSide(content,width,height,header,footerHeight);return;}
             if(BuildDocument(content,width,height,header,footerHeight))return;
             if(width>=820&&BuildEquipment(content,width,height,header,footerHeight))return;
@@ -98,14 +113,43 @@ namespace Vlab.Product
             else foreach(RectTransform child in output.rect)if(child.GetComponent<TMP_Text>())Place(child,8,8,width-60,94);
             top+=outputHeight+14;
             Place(viewport,22,top,width-44,Mathf.Max(100,height-top-footerHeight-12));
-            Flow(content.Where(x=>x!=output&&!tabs.Contains(x)&&(!x.rect.GetComponent<TMP_Text>()||!string.IsNullOrWhiteSpace(x.rect.GetComponent<TMP_Text>().text))),width-56);
+            Flow(content.Where(x=>x!=output&&!tabs.Contains(x)&&(!x.rect.GetComponent<TMP_Text>()||!string.IsNullOrWhiteSpace(x.rect.GetComponent<TMP_Text>().text))),width-70);
         }
         void Flow(IEnumerable<Item> content,float available)
         {
             const float gap=14;
             float y=0;
-            foreach(var row in content.GroupBy(x=>Mathf.Round(x.Top/24)))
+            var remaining=content.OrderBy(x=>x.Top).ThenBy(x=>x.position.x).ToList();
+            while(remaining.Count>0)
             {
+                // +/- belong to their label even when authored baseline/track offsets cross a 24-unit bucket.
+                float top=remaining[0].Top;
+                var fixedValue=remaining.FirstOrDefault(x=>x.rect.name.StartsWith("Parameter fixed ",System.StringComparison.Ordinal)&&x.Top>=top&&x.Top<=top+16);
+                var fixedLabel=fixedValue==null?null:remaining.FirstOrDefault(x=>x!=fixedValue&&x.rect.GetComponent<TMP_Text>()&&Mathf.Abs(x.Top-top)<1&&x.position.x<fixedValue.position.x);
+                if(fixedLabel!=null)
+                {
+                    float statusWidth=136,labelWidth=available-statusWidth-gap;
+                    var text=fixedLabel.rect.GetComponent<TMP_Text>();float height=Mathf.Max(64,text.GetPreferredValues(text.text,labelWidth,Mathf.Infinity).y+8);
+                    fixedLabel.rect.SetParent(body,false);fixedValue.rect.SetParent(body,false);
+                    Place(fixedLabel.rect,0,y,labelWidth,height);Place(fixedValue.rect,available-statusWidth,y,statusWidth,height);
+                    remaining.Remove(fixedLabel);remaining.Remove(fixedValue);y+=height+gap;continue;
+                }
+                var buttons=remaining.Where(x=>Mathf.Abs(x.Top-top)<1&&x.rect.GetComponent<Button>()).OrderBy(x=>x.position.x).ToArray();
+                var label=remaining.FirstOrDefault(x=>x.rect.GetComponent<TMP_Text>()&&x.Top>=top&&x.Top<=top+16&&buttons.Length==2&&x.position.x<buttons[0].position.x);
+                if(label!=null&&buttons.Length==2&&IsStep(buttons[0],false)&&IsStep(buttons[1],true))
+                {
+                    float buttonWidth=80,labelWidth=available-2*(buttonWidth+gap);
+                    var text=label.rect.GetComponent<TMP_Text>();
+                    float textHeight=Mathf.Max(64,text.GetPreferredValues(text.text,labelWidth,Mathf.Infinity).y+8);
+                    var bars=remaining.Where(x=>(x.rect.name=="Settings value track"||x.rect.name=="Settings value fill")&&Mathf.Abs(x.Top-top-34)<1).ToArray();
+                    label.rect.SetParent(body,false);Place(label.rect,0,y,labelWidth,textHeight);
+                    for(int i=0;i<2;i++){buttons[i].rect.SetParent(body,false);Place(buttons[i].rect,available-(2-i)*buttonWidth-(1-i)*gap,y,buttonWidth,80);FitCaption(buttons[i].rect);remaining.Remove(buttons[i]);}
+                    float trackWidth=bars.FirstOrDefault(x=>x.rect.name=="Settings value track")?.size.x??1;
+                    foreach(var bar in bars){bar.rect.SetParent(body,false);Place(bar.rect,0,y+textHeight+4,labelWidth*bar.size.x/Mathf.Max(1,trackWidth),8);remaining.Remove(bar);}
+                    remaining.Remove(label);y+=Mathf.Max(80,textHeight+(bars.Length>0?12:0))+gap;continue;
+                }
+                var row=remaining.Where(x=>Mathf.Round(x.Top/24)==Mathf.Round(top/24)).ToArray();
+                foreach(var item in row)remaining.Remove(item);
                 float x=0,rowHeight=0;
                 foreach(var item in row)
                 {
@@ -123,6 +167,8 @@ namespace Vlab.Product
             }
             body.sizeDelta=new Vector2(available,y);body.anchoredPosition=Vector2.zero;scroll.verticalNormalizedPosition=restoredScroll;
         }
+        static bool IsStep(Item item,bool plus)
+        {var caption=item.rect.GetComponentInChildren<TMP_Text>();return caption&&(plus?caption.text=="+":caption.text=="−"||caption.text=="-");}
         bool BuildDocument(Item[] content,float width,float height,float header,float footerHeight)
         {
             var documents=content.Where(x=>x.rect.GetComponent<VlabScrollContent>()).ToArray();
@@ -238,7 +284,7 @@ namespace Vlab.Product
                 scroll.verticalNormalizedPosition=restoredScroll;return true;
             }
             // Only controls scroll; the specimen/live readings remain in view during repeated adjustments.
-            Flow(content.Where(x=>x!=output&&x!=summary&&x!=status&&!tabs.Contains(x)),rightWidth-18);
+            Flow(content.Where(x=>x!=output&&x!=summary&&x!=status&&!tabs.Contains(x)),rightWidth-26);
             return true;
         }
 

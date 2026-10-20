@@ -206,8 +206,18 @@ namespace Vlab.Product
             bounds=default;bool found=false;
             foreach(var renderer in item.GetComponentsInChildren<Renderer>(false))
             {
-                if(!renderer.enabled||!(renderer is MeshRenderer||renderer is SkinnedMeshRenderer))continue;
-                if(!found){bounds=renderer.bounds;found=true;}else bounds.Encapsulate(renderer.bounds);
+                if(!renderer.enabled)continue;
+                Bounds visible;
+                if(renderer is LineRenderer line)
+                {
+                    if(line.positionCount==0)continue;
+                    Vector3 point=line.GetPosition(0);if(!line.useWorldSpace)point=line.transform.TransformPoint(point);visible=new Bounds(point,Vector3.zero);
+                    for(int i=1;i<line.positionCount;i++){point=line.GetPosition(i);if(!line.useWorldSpace)point=line.transform.TransformPoint(point);visible.Encapsulate(point);}
+                    visible.Expand(Mathf.Max(line.startWidth,line.endWidth)*line.widthMultiplier);
+                }
+                else if(renderer is MeshRenderer||renderer is SkinnedMeshRenderer)visible=renderer.bounds;
+                else continue;
+                if(!found){bounds=visible;found=true;}else bounds.Encapsulate(visible);
             }
             // Source chips are Graphics.RenderMeshInstanced objects and need their actual mesh matrices.
             foreach(var chips in item.GetComponentsInChildren<VlabChips>(false))

@@ -1,0 +1,504 @@
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Only two named active-bench display props are hidden, including their colliders
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Worktop, sink, active lesson equipment, other benches and prior inactive states survive
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Leaving restores original active states
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Disabling scope restores props
+SCOPED API REGRESSION (not UI journey) PASS Bench displays and line hints: Line-only cord receives a real model outline without changing source
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Stored ruler can be taken into the hand
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Taking again does not lose storage return state
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Cancel restores stored/inactive ruler and original tray pose
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Storage retrieval never advances preparation
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Changing selection returns previously stored ruler to storage
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Stored ruler still uses validated explicit installation
+SCOPED API REGRESSION (not UI journey) PASS Isolated storage retrieval: Cancel after installation cannot re-stow fitted ruler
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 retry rejects reset before tile end
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 missed steady-pull window stays unrecordable and offers retry
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 explicit retry succeeds
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 retry clears old force, peak and steady measurements
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 waiting after reset cannot fabricate a new measurement
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 repeat must genuinely break away before steady control
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 new steady action alone is insufficient
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 slow-steady hand control preserves visible motion at at most 0.05 m/s
+SCOPED API REGRESSION (not UI journey) PASS Isolated friction recovery: P03 repeat records only after new peak and measured steady interval
+B01 TAP Subject B | Sinh học @ (942.20, 478.80)
+B01 TAP Browser lesson B01 | Biểu bì hành <size=20>Chưa có số đo</size> @ (263.65, 667.80)
+B01 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+B01 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+B01 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B01 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+B01 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+B01 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+B01 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+B01 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+B01 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B01 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 TAP Equipment item microscope | Kính hiển vi @ (460.47, 700.20)
+B01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 TAP Equipment item slide | Lam kính @ (460.47, 578.43)
+B01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 TAP Equipment item coverslip | Lamen @ (460.47, 456.66)
+B01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 TAP Equipment item specimen | Tiêu bản sơ đồ @ (460.47, 334.89)
+B01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 TAP Equipment item onion | Mẫu hành @ (460.47, 213.12)
+B01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 SCROLL Equipment item dropper target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+B01 SCROLL RESULT Equipment item dropper contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+B01 TAP Equipment item dropper | Ống nhỏ giọt @ (460.47, 235.44)
+B01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 TAP Equipment item paper | Giấy thấm @ (460.47, 700.20)
+B01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 TAP Equipment item forceps | Kẹp gắp @ (460.47, 578.43)
+B01 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B01 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B01 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B01 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+B01 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+B01 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+B01 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+B01 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+B01 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B01 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B01 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B01 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+B01 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B01 VISUAL REVIEW REQUEST aecedcbf315b428c97e4f6aeb371994d screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B01-visual-aecedcbf315b428c97e4f6aeb371994d.png
+B01 VISUAL TAP (120.00, 600.00)
+B01 VISUAL REVIEW REQUEST 9f47a518c8f34ac183ca3d4b9825cd8d screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B01-visual-9f47a518c8f34ac183ca3d4b9825cd8d.png
+B01 SCROLL Instrument control structure:3 target=(1229.43, 121.91) viewport=(x:951.73, y:256.23, width:594.00, height:372.69) from (1248.73, 349.40) to (1248.73, 535.75) contentBefore=(0.00, 0.00)
+B01 SCROLL RESULT Instrument control structure:3 contentAfter=(0.00, 117.21) targetAfter=(1229.43, 295.97)
+B01 TAP Instrument control structure:3 | Không bào trung tâm @ (1229.43, 295.97)
+B01 VISUAL REVIEW REQUEST 8ba29f6afc754db1bbd7ec2a933d20a9 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B01-visual-8ba29f6afc754db1bbd7ec2a933d20a9.png
+B01 VISUAL TAP (200.00, 600.00)
+B01 VISUAL REVIEW REQUEST 8a5945680a2f411695a8c7a1b166e479 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B01-visual-8a5945680a2f411695a8c7a1b166e479.png
+B01 TAP Instrument control structure:3 | Không bào trung tâm @ (1229.43, 296.52)
+B01 VISUAL TAP (275.00, 600.00)
+B01 TAP Instrument control structure:3 | Không bào trung tâm @ (1229.43, 296.52)
+B01 VISUAL TAP (350.00, 600.00)
+B01 TAP Instrument control structure:3 | Không bào trung tâm @ (1229.43, 296.52)
+B01 VISUAL TAP (425.00, 600.00)
+B01 TAP Instrument control structure:3 | Không bào trung tâm @ (1229.43, 296.52)
+B01 VISUAL TAP (500.00, 600.00)
+B01 TAP Instrument control structure:3 | Không bào trung tâm @ (1229.43, 296.52)
+B01 VISUAL TAP (580.00, 600.00)
+B01 TAP Instrument control structure:3 | Không bào trung tâm @ (1229.43, 296.52)
+B01 VISUAL TAP (650.00, 600.00)
+B01 TAP Instrument control structure:3 | Không bào trung tâm @ (1229.43, 296.52)
+B01 TAP Close dialog | × @ (1501.18, 813.06)
+B01 TAP Ghi số đo | Ghi số đo @ (350.00, 467.10)
+B01 TAP Danh sách thí nghiệm | Danh sách thí nghiệm @ (735.20, 109.80)
+B01 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+B02 TAP Subject B | Sinh học @ (942.20, 478.80)
+B02 TAP Browser lesson B02 | Co nguyên sinh <size=20>Chưa có số đo</size> @ (707.25, 667.80)
+B02 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+B02 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+B02 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B02 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+B02 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+B02 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+B02 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+B02 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B02 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+B02 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 TAP Equipment item microscope | Kính hiển vi @ (460.47, 700.20)
+B02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 TAP Equipment item slide | Lam kính @ (460.47, 578.43)
+B02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 TAP Equipment item coverslip | Lamen @ (460.47, 456.66)
+B02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 TAP Equipment item specimen | Tiêu bản sơ đồ @ (460.47, 334.89)
+B02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 TAP Equipment item onion | Mẫu hành @ (460.47, 213.12)
+B02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 SCROLL Equipment item dropper target=(460.47, 91.35) viewport=(x:54.27, y:164.16, width:830.23, height:586.53) from (469.38, 310.79) to (469.38, 604.06) contentBefore=(0.00, 0.00)
+B02 SCROLL RESULT Equipment item dropper contentAfter=(0.00, 97.03) targetAfter=(460.47, 235.44)
+B02 TAP Equipment item dropper | Ống nhỏ giọt @ (460.47, 235.44)
+B02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 TAP Equipment item paper | Giấy thấm @ (460.47, 700.20)
+B02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 TAP Equipment item forceps | Kẹp gắp @ (460.47, 578.43)
+B02 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B02 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B02 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B02 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+B02 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+B02 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+B02 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+B02 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B02 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+B02 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B02 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 VISUAL REVIEW REQUEST 641a7e36425042279dc0caa4f9b20f24 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B02-visual-641a7e36425042279dc0caa4f9b20f24.png
+B02 VISUAL TAP (270.00, 600.00)
+B02 VISUAL REVIEW REQUEST ab5c1e3613e04ba3b4a65c1bb1407ffc screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B02-visual-ab5c1e3613e04ba3b4a65c1bb1407ffc.png
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 600.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 600.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 600.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 560.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 560.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 560.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 560.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL REVIEW REQUEST 64f65a72d61d4c83b953b2d8cf7fda2e screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B02-visual-64f65a72d61d4c83b953b2d8cf7fda2e.png
+B02 VISUAL TAP (270.00, 522.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 522.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 522.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 522.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 484.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 484.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 484.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 484.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 446.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 446.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 446.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 446.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 408.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 408.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 408.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 408.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 370.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 370.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 370.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 370.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 332.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 332.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 332.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 332.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 TAP Close dialog | × @ (1501.18, 813.06)
+B02 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B02 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B02 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 VISUAL REVIEW REQUEST 10243871d5b24376bc2c792f09b803e1 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B02-visual-10243871d5b24376bc2c792f09b803e1.png
+B02 VISUAL TAP (270.00, 600.00)
+B02 VISUAL REVIEW REQUEST f3751837eb4845f2b16bac7cad344f24 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B02-visual-f3751837eb4845f2b16bac7cad344f24.png
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (345.00, 600.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (425.00, 600.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (500.00, 600.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (270.00, 560.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (345.00, 560.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (425.00, 560.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (500.00, 560.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (270.00, 522.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (345.00, 522.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (425.00, 522.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (500.00, 522.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (270.00, 484.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (345.00, 484.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (425.00, 484.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (500.00, 484.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (270.00, 446.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (345.00, 446.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (425.00, 446.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (500.00, 446.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (270.00, 408.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (345.00, 408.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (425.00, 408.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (500.00, 408.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (270.00, 370.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (345.00, 370.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (425.00, 370.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (500.00, 370.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (270.00, 332.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (345.00, 332.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (425.00, 332.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 VISUAL TAP (500.00, 332.00)
+B02 TAP Instrument control cellContracted | Đã co @ (1229.43, 365.45)
+B02 TAP Close dialog | × @ (1501.18, 813.06)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 TAP Instrument control waterReplace | Thay nước tại mép lamen @ (1229.43, 487.22)
+B02 TAP Close dialog | × @ (1501.18, 813.06)
+B02 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B02 VISUAL REVIEW REQUEST 145ce87fd3cb4ebd83211963944938e9 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B02-visual-145ce87fd3cb4ebd83211963944938e9.png
+B02 VISUAL TAP (270.00, 600.00)
+B02 VISUAL REVIEW REQUEST fdada235257d49ba95e9e60320b8aa4f screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B02-visual-fdada235257d49ba95e9e60320b8aa4f.png
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 600.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 600.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 600.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 560.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 560.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 560.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 560.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 522.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 522.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 522.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 522.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 484.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 484.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 484.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 484.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 446.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 446.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 446.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 446.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 408.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 408.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 408.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 408.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 370.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 370.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 370.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 370.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (270.00, 332.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (345.00, 332.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (425.00, 332.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 VISUAL TAP (500.00, 332.00)
+B02 TAP Instrument control cellNormal | Chưa co @ (1229.43, 487.22)
+B02 TAP Close dialog | × @ (1501.18, 813.06)
+B02 TAP Ghi số đo | Ghi số đo @ (350.00, 467.10)
+B02 TAP Danh sách thí nghiệm | Danh sách thí nghiệm @ (735.20, 109.80)
+B02 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)
+B08 TAP Subject B | Sinh học @ (942.20, 478.80)
+B08 TAP Browser lesson B08 | Đếm kỳ nguyên phân <size=20>Chưa có số đo</size> @ (707.25, 157.50)
+B08 TAP Browser start | Bắt đầu thí nghiệm @ (1179.08, 86.40)
+B08 TAP Readiness enter | Vào trạm @ (1178.00, 164.70)
+B08 SCOPED WORLD entry PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B08 SCOPED WORLD entry PASS Movement preserves wall blocking and slides along its face
+B08 SCOPED WORLD entry PASS Equipment collider cannot become an invisible movement wall
+B08 SCOPED WORLD entry PASS Door hinge motion exit/decoration cannot open the physical fixture
+B08 SCOPED WORLD entry PASS Door hinge motion decoration has no interact affordance
+B08 SCOPED WORLD entry PASS Soft daylight finite nonnegative intensity
+B08 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B08 SCOPED WORLD entry PASS Ceiling illumination finite nonnegative intensity
+B08 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B08 TAP Equipment item microscope | Kính hiển vi @ (460.47, 700.20)
+B08 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B08 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B08 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B08 TAP Equipment item slide | Lam kính @ (460.47, 578.43)
+B08 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B08 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B08 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B08 TAP Equipment item coverslip | Lamen @ (460.47, 456.66)
+B08 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B08 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B08 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B08 TAP Equipment item specimen | Tiêu bản sơ đồ @ (460.47, 334.89)
+B08 TAP Equipment take selected | Lấy dụng cụ đã chọn @ (1231.45, 697.23)
+B08 TAP Đặt dụng cụ | Đặt dụng cụ @ (350.00, 467.10)
+B08 SCOPED WORLD assembled PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+B08 SCOPED WORLD assembled PASS Movement preserves wall blocking and slides along its face
+B08 SCOPED WORLD assembled PASS Equipment collider cannot become an invisible movement wall
+B08 SCOPED WORLD assembled PASS Door hinge motion exit/decoration cannot open the physical fixture
+B08 SCOPED WORLD assembled PASS Door hinge motion decoration has no interact affordance
+B08 SCOPED WORLD assembled PASS Soft daylight finite nonnegative intensity
+B08 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B08 SCOPED WORLD assembled PASS Ceiling illumination finite nonnegative intensity
+B08 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B08 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B08 TAP Thực hiện bước này | Thực hiện bước này @ (350.00, 467.10)
+B08 TAP Bắt đầu lượt đo | Bắt đầu lượt đo @ (350.00, 467.10)
+B08 TAP Chỉ tôi chỗ này | Chỉ tôi chỗ này @ (836.00, 192.60)
+B08 VISUAL REVIEW REQUEST a898f5021a3f47a18721be68043d987e screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B08-visual-a898f5021a3f47a18721be68043d987e.png
+B08 VISUAL TAP (114.00, 603.00)
+B08 VISUAL REVIEW REQUEST 8cb87b57834746b5841b646c73fc0712 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B08-visual-8cb87b57834746b5841b646c73fc0712.png
+B08 SCROLL Trang sau target=(1129.93, -243.40) viewport=(x:951.73, y:256.23, width:594.00, height:372.69) from (1248.73, 349.40) to (1248.73, 535.75) contentBefore=(0.00, 0.00)
+B08 SCROLL RESULT Trang sau contentAfter=(0.00, 118.71) targetAfter=(1129.93, -67.12)
+B08 SCROLL Trang sau target=(1129.93, -67.12) viewport=(x:951.73, y:256.23, width:594.00, height:372.69) from (1248.73, 349.40) to (1248.73, 535.75) contentBefore=(0.00, 118.71)
+B08 SCROLL RESULT Trang sau contentAfter=(0.00, 236.81) targetAfter=(1129.93, 108.27)
+B08 SCROLL Trang sau target=(1129.93, 108.27) viewport=(x:951.73, y:256.23, width:594.00, height:372.69) from (1248.73, 349.40) to (1248.73, 535.75) contentBefore=(0.00, 236.81)
+B08 SCROLL RESULT Trang sau contentAfter=(0.00, 354.80) targetAfter=(1129.93, 283.47)
+B08 TAP Trang sau | Trang sau @ (1129.93, 283.47)
+B08 VISUAL REVIEW REQUEST bc16054ebfed4909ba93c0f24d0b4132 screenshot=<Unity project>\Evidence\SecondTestUI\20261020-132412\B08-visual-bc16054ebfed4909ba93c0f24d0b4132.png
+B08 VISUAL TAP (114.00, 603.00)
+B08 BLOCKED System.Exception: Visible enabled button missing: Instrument control stage:4
+  at SecondTestUiProbe.Required (System.String[] keys) [0x00000] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:53 
+  at SecondTestUiProbe+<VisualReview>d__45.MoveNext () [0x004d7] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:217 
+  at SecondTestUiProbe+<Guard>d__47.MoveNext () [0x00041] in <Unity project>\Assets\VLABProduct\Scripts\SecondTestUiProbe.cs:244 
+B08 TAP Close dialog | × @ (1501.18, 813.06)
+B08 TAP ‹ Quay lại | ‹ Quay lại @ (1007.00, 102.60)
+B08 TAP Rời phòng | Rời phòng @ (800.00, 274.50)
+B08 TAP Xác nhận | Xác nhận @ (686.88, 471.51)
+B08 TAP Browser home | ‹ Trang chủ @ (199.80, 809.55)

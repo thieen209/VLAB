@@ -19,8 +19,62 @@ public static class PhoneDocumentUiChecks
         {
             yield return Fixture(ui,camera,false,tap,check);
             yield return Fixture(ui,camera,true,tap,check);
+            yield return Steppers(ui,tap,check);
+            yield return Compact(ui,tap,check);
         }
         finally{root.SetActive(false);UnityEngine.Object.Destroy(root);}
+    }
+    static IEnumerator Compact(VlabUi ui,Func<Button,IEnumerator> tap,Action<string,bool> check)
+    {
+        var page=ui.Page("Compact station tools fixture");var box=ui.Panel(page,"Dialog",440,205,720,590);
+        ui.Text(box,"Dụng cụ & hướng dẫn",40,25,540,70,32);ui.Button(box,"×",612,20,80,72,()=>{}).name="Close dialog";
+        int selected=-1;var controls=new List<Button>();
+        for(int i=0;i<4;i++){int index=i;controls.Add(ui.Button(box,"Thao tác "+i,40+i%2*336,120+i/2*120,304,88,()=>selected=index));}
+        ui.Button(box,"Vào VR",40,360,640,70,()=>{});
+        var back=ui.Button(box,"Trở lại trạm",280,470,400,72,()=>selected=4);back.name="Station return";
+        ui.ConfigurePhoneDialog(box);box.GetComponent<PhoneDialogLayout>().CompactControls=true;
+        yield return null;yield return null;Canvas.ForceUpdateCanvases();
+        check("Station tools compact height bounded",box.rect.height<=490);
+        check("Station return remains pinned outside scrolling content",!back.GetComponentInParent<ScrollRect>());
+        for(int i=0;i<4;i++)
+        {
+            var rect=(RectTransform)controls[i].transform;
+            if(i%2==1)check("Station controls remain paired",Mathf.Abs(rect.anchoredPosition.y-((RectTransform)controls[i-1].transform).anchoredPosition.y)<1);
+            yield return tap(controls[i]);check("Station control receives actual tap",selected==i);
+        }
+        yield return tap(back);check("Pinned station return receives actual tap",selected==4);
+        page.gameObject.SetActive(false);UnityEngine.Object.Destroy(page.gameObject);yield return null;
+    }
+    static IEnumerator Steppers(VlabUi ui,Func<Button,IEnumerator> tap,Action<string,bool> check)
+    {
+        var page=ui.Page("Stepper layout fixture");var box=ui.Panel(page,"Dialog",250,50,1100,900);
+        ui.Text(box,"Thông số thí nghiệm",40,25,900,70,32);ui.Button(box,"×",992,20,80,72,()=>{}).name="Close dialog";
+        int value=0;var pairs=new List<(RectTransform label,Button minus,Button plus)>();
+        for(int i=0;i<3;i++)
+        {
+            float top=110+i*115;bool settings=i==1;
+            var label=ui.Text(box,settings?"Tốc độ: 1,0 m/s":"Nồng độ mẫu: 0,1 mol/L",40,top+(settings?14:0),settings?500:650,64,26);
+            var minus=ui.Button(box,"−",settings?572:730,top,100,64,()=>value--);
+            var plus=ui.Button(box,"+",settings?924:850,top,100,64,()=>value++);
+            if(settings){ui.Rule(box,716,top+34,192,12,VlabUi.Stroke).name="Settings value track";ui.Rule(box,716,top+34,96,12,VlabUi.Stroke).name="Settings value fill";}
+            pairs.Add((label.rectTransform,minus,plus));
+        }
+        var fixedLabel=ui.Text(box,"Thể tích mẫu 10 mL",40,455,650,64,26);
+        var fixedValue=ui.Text(box,"Cố định",730,465,220,55,22);fixedValue.name="Parameter fixed sampleVolume";
+        ui.Button(box,"Quay lại",40,820,300,64,()=>{});ui.ConfigurePhoneDialog(box);box.GetComponent<PhoneDialogLayout>().ParameterPanel=true;
+        yield return null;yield return null;Canvas.ForceUpdateCanvases();
+        check("Fixed parameter status retains its label row",Mathf.Abs(fixedLabel.rectTransform.anchoredPosition.y-fixedValue.rectTransform.anchoredPosition.y)<1);
+        if(ui.PhoneViewport.SafePixels.width>ui.PhoneViewport.SafePixels.height)
+            check("Parameter sheet leaves at least half of landscape for apparatus",box.rect.width*box.localScale.x*ui.PhoneViewport.PixelsPerLogicalUnit<=ui.PhoneViewport.SafePixels.width*.5f);
+        foreach(var pair in pairs)
+        {
+            var minus=(RectTransform)pair.minus.transform;var plus=(RectTransform)pair.plus.transform;
+            check("Stepper label and both controls retain one row",Mathf.Abs(pair.label.anchoredPosition.y-minus.anchoredPosition.y)<1&&Mathf.Abs(minus.anchoredPosition.y-plus.anchoredPosition.y)<1);
+            check("Stepper controls remain adjacent and tappable size",minus.rect.width>=80&&plus.rect.width>=80&&Mathf.Abs(plus.anchoredPosition.x-minus.anchoredPosition.x-minus.rect.width-14)<1);
+            yield return tap(pair.plus);check("Real plus tap changes associated value",value==1);
+            yield return tap(pair.minus);check("Real minus tap reverses associated value",value==0);
+        }
+        page.gameObject.SetActive(false);UnityEngine.Object.Destroy(page.gameObject);yield return null;
     }
     static IEnumerator Fixture(VlabUi ui,Camera camera,bool instrument,Func<Button,IEnumerator> tap,Action<string,bool> check)
     {

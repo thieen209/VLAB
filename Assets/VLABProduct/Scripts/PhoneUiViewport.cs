@@ -38,6 +38,9 @@ namespace Vlab.Product
             if(canvas.renderMode==RenderMode.ScreenSpaceCamera&&canvas.worldCamera&&canvas.worldCamera.targetTexture)
             {var target=canvas.worldCamera.targetTexture;size=new Vector2(target.width,target.height);safe=new Rect(Vector2.zero,size);}
             if(hasOverride){size=overrideSize;safe=overrideSafe;}
+            // Flat layout already converts logical units to pixels; a second Canvas scale clips it.
+            if(canvas.renderMode!=RenderMode.WorldSpace)
+            {scaler.uiScaleMode=CanvasScaler.ScaleMode.ConstantPixelSize;scaler.scaleFactor=1;canvas.scaleFactor=1;}
             if(ready&&lastSize==size&&lastSafe==safe&&lastMode==canvas.renderMode)return;
             ready=true;lastSize=size;lastSafe=safe;lastMode=canvas.renderMode;
             if(canvas.renderMode==RenderMode.WorldSpace)

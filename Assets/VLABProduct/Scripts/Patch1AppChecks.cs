@@ -125,10 +125,15 @@ public static class Patch1AppChecks
     static IEnumerator Bar(VlabApp app,float top,bool increase)
     {
         yield return new WaitForSecondsRealtime(.28f);
-        var label=app.GetComponentsInChildren<TextMeshProUGUI>().Single(t=>top==652?t.text.StartsWith("Góc nhìn: ",StringComparison.Ordinal)||t.text.StartsWith("Field of view: ",StringComparison.Ordinal):t.text.StartsWith("Tốc độ: ",StringComparison.Ordinal)||t.text.StartsWith("Movement speed: ",StringComparison.Ordinal));
-        var candidates=Buttons(app).Where(b=>Caption(b)==(increase?"+":"−")&&b.transform.parent==label.transform.parent);
-        var button=candidates.OrderBy(b=>Mathf.Abs(((RectTransform)b.transform).anchoredPosition.y-label.rectTransform.anchoredPosition.y)).First();
-        button.onClick.Invoke();yield return new WaitForSecondsRealtime(.28f);
+        var before=((GameSettings)typeof(VlabApp).GetField("draft",Private).GetValue(app)).Copy();
+        string name=(top==652?"Phone FOV ":"Phone movement speed ")+(increase?"plus":"minus");
+        Find(app,name).onClick.Invoke();yield return new WaitForSecondsRealtime(.28f);
+        var after=(GameSettings)typeof(VlabApp).GetField("draft",Private).GetValue(app);
+        float actual=top==652?after.cameraFov:after.moveSpeed;
+        float expected=top==652?Mathf.Clamp(before.cameraFov+(increase?5:-5),45,85):Mathf.Clamp(before.moveSpeed+(increase?.1f:-.1f),.3f,2);
+        string diagnostic=name+" before="+(top==652?before.cameraFov:before.moveSpeed)+" expected="+expected+" actual="+actual+" joystick before="+before.joystickScale+" after="+after.joystickScale;
+        Debug.Log("PATCH1 SETTINGS "+diagnostic);
+        if(Mathf.Abs(actual-expected)>.001f||after.joystickScale!=before.joystickScale)throw new Exception("Settings callback changed wrong value: "+diagnostic);
     }
     static bool Dialog(VlabApp app)=>app.GetComponentsInChildren<RectTransform>().Any(r=>r.gameObject.activeInHierarchy&&r.name=="Dialog");
     static ProfileLoad Reload(VlabApp app)
@@ -233,9 +238,33 @@ public static class Patch1AppChecks
                 string overlap=string.Join(", ",app.GetComponentsInChildren<Button>().Where(b=>b.isActiveAndEnabled&&Overlaps(bounds,ScreenBounds((RectTransform)b.transform))).Select(b=>b.name));
                 check("Phone joystick does not cover any active action button: "+overlap,string.IsNullOrEmpty(overlap));
             }
+            var configured=app.Profile.settings.Copy();var joystickView=app.GetComponentInChildren<PhoneJoystickView>();
+            try
+            {
+                foreach(float scale in new[]{.75f,1f,1.25f})
+                {
+                    var sized=configured.Copy();sized.joystickScale=scale;app.Input.ConfigurePhoneInput(sized);
+                    joystickView.Refresh();Canvas.ForceUpdateCanvases();
+                    var sizedBounds=ScreenBounds(ring);float expected=safe.height*.14f*scale;
+                    check("Rendered joystick radius matches size setting "+scale,Mathf.Abs(sizedBounds.width*.5f-expected)<1.1f&&Mathf.Abs(sizedBounds.height*.5f-expected)<1.1f);
+                    check("Sized joystick remains within safe pixels "+scale,sizedBounds.xMin>=safe.xMin-.5f&&sizedBounds.yMin>=safe.yMin-.5f&&sizedBounds.xMax<=safe.xMax+.5f&&sizedBounds.yMax<=safe.yMax+.5f);
+                    var action=app.GetComponentsInChildren<RectTransform>().Single(r=>r.gameObject.activeInHierarchy&&r.name=="Current laboratory action");
+                    check("Sized joystick clears HUD and all active buttons "+scale,!Overlaps(sizedBounds,ScreenBounds(action))&&!app.GetComponentsInChildren<Button>().Any(b=>b.isActiveAndEnabled&&Overlaps(sizedBounds,ScreenBounds((RectTransform)b.transform))));
+                    var sizedCentre=new Vector2(safe.x+safe.width*app.Input.PhoneJoystickCenter.x,safe.y+safe.height*app.Input.PhoneJoystickCenter.y);
+                    InputSystem.QueueStateEvent(screen,new TouchState{touchId=99001,phase=UnityEngine.InputSystem.TouchPhase.Began,position=sizedCentre});yield return null;
+                    touchEnd=sizedCentre-Vector2.up*expected;
+                    InputSystem.QueueStateEvent(screen,new TouchState{touchId=99001,phase=UnityEngine.InputSystem.TouchPhase.Moved,position=touchEnd});yield return null;
+                    joystickView.Refresh();Canvas.ForceUpdateCanvases();
+                    var thumbBounds=ScreenBounds((RectTransform)ring.Find("Phone joystick thumb"));
+                    check("Full-down joystick input and visible knob stay usable "+scale,app.Input.PhoneJoystickOffset.y<-.99f&&thumbBounds.yMin>=sizedBounds.yMin-.5f&&thumbBounds.xMin>=sizedBounds.xMin-.5f&&thumbBounds.xMax<=sizedBounds.xMax+.5f&&thumbBounds.yMax<=sizedBounds.yMax+.5f);
+                    InputSystem.QueueStateEvent(screen,new TouchState{touchId=99001,phase=UnityEngine.InputSystem.TouchPhase.Ended,position=touchEnd});yield return null;
+                }
+            }
+            finally{app.Input.ConfigurePhoneInput(configured);joystickView.Refresh();}
             var centre=app.Input.PhoneJoystickCenter;float radius=safe.height*app.Input.PhoneJoystickRadius;
             var start=new Vector2(safe.x+safe.width*centre.x,safe.y+safe.height*centre.y);touchEnd=start+Vector2.right*(radius*.5f);
             var origin=app.View.transform.parent;Vector3 beforeMove=origin.position;
+            check("Learner origin remains level for tracked VR axes",Vector3.Dot(origin.up,Vector3.up)>.9999f);
             InputSystem.QueueStateEvent(screen,new TouchState{touchId=99001,phase=UnityEngine.InputSystem.TouchPhase.Began,position=start});yield return null;
             InputSystem.QueueStateEvent(screen,new TouchState{touchId=99001,phase=UnityEngine.InputSystem.TouchPhase.Moved,position=touchEnd});yield return new WaitForSecondsRealtime(.15f);
             InputSystem.QueueStateEvent(screen,new TouchState{touchId=99001,phase=UnityEngine.InputSystem.TouchPhase.Ended,position=touchEnd});yield return null;yield return null;

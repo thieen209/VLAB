@@ -1,3 +1,5 @@
+> Current0.1.4 evidence and remaining verification limits: [PATCH_014](PATCH_014.md). Historical notes below retain their original scope.
+
 > Current0.1.3 second-test prototype: see [latest actual UI outcomes and blockers](SECONDTEST_013.md). Earlier evidence below retains its original scope.
 
 > Current PATCH1 0.1.2: see [PATCH1_012](PATCH1_012.md). The original Windows project-Evidence replacement failure is still unresolved; current32/47 persistence checks explicitly use a NEW persistentDataPath QA sibling. Physical phone/gyro/Cardboard/BLE acceptance remains unverified. Product-name change selects a separate Windows Editor data directory; old data is preserved, not auto-migrated.

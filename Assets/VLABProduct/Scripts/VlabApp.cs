@@ -192,6 +192,7 @@ namespace Vlab.Product
         }
         public void ShowHome()
         {
+            Apparatus?.GetComponent<BenchDisplayVisibility>()?.Restore();
             Session?.Pause();NewPage("home");HomePresentation.Backdrop(ui,page);Logo(page,605,65,390,124);ModeButton(page,1290,64,230,72);
             string[] subjects={"P","C","B","M"},namesVi={"Vật lí","Hóa học","Sinh học","Kỹ thuật"},namesEn={"Physics","Chemistry","Biology","Engineering"},desVi={"Chuyển động và năng lượng","Chất và phản ứng","Sự sống và tế bào","Cơ cấu và đo lường"},desEn={"Motion and energy","Matter and reactions","Life and cells","Mechanisms & measurement"},images={"physics","chemistry","biology","engineering"};
             var cards=new RectTransform[4];for(int i=0;i<4;i++)
@@ -203,7 +204,7 @@ namespace Vlab.Product
             page.gameObject.AddComponent<HomePortalArc>().Cards=cards;
             string[] utility={L("Cài đặt","Settings"),L("Trợ giúp","Help"),L("Giới thiệu","About"),L("Sổ tay","Notebook")};Action[] actions={()=>OpenSettings("home"),()=>ShowHelp("home"),ShowAbout,()=>ShowNotebook("home")};
             for(int i=0;i<4;i++){int n=i;var button=HomePresentation.Utility(ui,page,utility[i],i,()=>{if(Time.unscaledTime>=inputAfter&&!changing)actions[n]();});if(i==3)button.name="Open journal";}
-            if(string.IsNullOrEmpty(status))HomePresentation.Helper(ui,page,L("Nhìn hoặc trỏ để chọn","Look or point to select"),918);else FooterStatus();
+            if(string.IsNullOrEmpty(status))HomePresentation.Helper(ui,page,Input.VrMode||Input.SimulatorMode?L("Nhìn hoặc trỏ để chọn","Look or point to select"):L("Chạm vào phòng để chọn","Tap a laboratory to select"),918);else FooterStatus();
         }
         IEnumerator Portal(RectTransform selectedCard)
         {
@@ -218,6 +219,7 @@ namespace Vlab.Product
         string SceneName=>subject=="P"?"Physics":subject=="C"?"Chemistry":subject=="B"?"Biology":"Engineering";
         public void ShowBrowser()
         {
+            Apparatus?.GetComponent<BenchDisplayVisibility>()?.Restore();
             NewPage("browser");var box=ui.Panel(page,"Experiment browser",140,130,1320,750);
             Button(box,L("‹ Trang chủ","‹ Home"),32,28,220,64,ShowHome).name="Browser home";
             var heading=ui.Text(box,SubjectName,290,28,820,65,40);heading.fontWeight=FontWeight.SemiBold;
@@ -308,13 +310,14 @@ namespace Vlab.Product
                 try
                 {
                     Session=resume&&Profile.checkpoint!=null?ExperimentSession.Restore(Profile.checkpoint):new ExperimentSession(requested.id,attemptSeed++);
-                    rigGo=new GameObject("Experiment apparatus");Apparatus=rigGo.AddComponent<ApparatusRig>();stationFramed=false;
-                    Vector3 worktop=FindWorktop();Apparatus.Build(Session,worktop);Apparatus.Changed+=RefreshActivity;
+                    rigGo=new GameObject("Experiment apparatus");Apparatus=rigGo.AddComponent<ApparatusRig>();stationFramed=false;lastFocusedTaskTarget=null;
+                    Vector3 worktop=FindWorktop();rigGo.AddComponent<BenchDisplayVisibility>().ClearBench(worktop);Apparatus.Build(Session,worktop);Apparatus.Changed+=RefreshActivity;
                     var eye=worktop+new Vector3(-.4f,.75f,-2.5f);var look=worktop+new Vector3(-.55f,.75f,0);
                 if(Session.spec.id=="P02")look.x=Apparatus.items.Single(item=>item.assetId=="launcher").slot.x+.25f;
                 else if(Session.spec.id=="P08")look.x-=.2f;
                     if(Profile.settings.focusAssist&&!Input.VrMode&&!Input.SimulatorMode){eye=worktop+new Vector3(-.25f,.7f,-1.8f);look=worktop+new Vector3(-.15f,.3f,0);}
-                    origin.position=eye;origin.rotation=Quaternion.LookRotation(look-eye,Vector3.up);View.transform.localPosition=Vector3.zero;View.transform.localRotation=Quaternion.identity;Apparatus.SetCoachingEnabled(Profile.settings.hints);Input.FocusAtWorldTarget(look);
+                    // Keep the tracked head's parent level; phone focus owns the bench pitch.
+                    origin.position=eye;origin.rotation=Quaternion.Euler(0,Quaternion.LookRotation(look-eye,Vector3.up).eulerAngles.y,0);View.transform.localPosition=Vector3.zero;View.transform.localRotation=Quaternion.identity;Apparatus.SetCoachingEnabled(Profile.settings.hints);Input.FocusAtWorldTarget(look);
                     if(!Input.VrMode&&!Input.SimulatorMode)
                     {
                         View.fieldOfView=Profile.settings.cameraFov;
@@ -412,15 +415,28 @@ namespace Vlab.Product
                 case ExperimentPhase.Invalid:ShowPause();break;
             }
         }
+        bool toolSheetFocusSaved;
+        Quaternion toolSheetReturnRotation;
+        float toolSheetReturnFov;
+        ExperimentSession toolSheetFocusSession;
+        void FocusPhoneToolSheet()
+        {
+            if(toolSheetFocusSaved||Input.VrMode||Input.SimulatorMode||!Profile.settings.focusAssist||!Apparatus||Route!="activity")return;
+            var task=CurrentGuide();var item=Apparatus.items.FirstOrDefault(x=>x.assetId==task?.key&&x.installed&&x.gameObject.activeInHierarchy);
+            if(!item||!ApparatusRig.TryVisibleBounds(item,out _))return;
+            toolSheetReturnRotation=View.transform.rotation;toolSheetReturnFov=View.fieldOfView;toolSheetFocusSession=Session;toolSheetFocusSaved=true;
+            FocusInstrument(item,true);
+        }
         void ShowStationTools()
         {
-            var box=Modal(L("Dụng cụ & hướng dẫn","Station tools"),720,590,Apparatus.Driver!=null);
+            FocusPhoneToolSheet();
+            var box=Modal(L("Dụng cụ & hướng dẫn","Station tools"),720,590,Apparatus.Driver!=null);box.GetComponent<PhoneDialogLayout>().CompactControls=true;
             Button(box,L("Dụng cụ","Equipment"),40,120,304,88,ShowEquipment);
             Button(box,L("Thông số","Variables"),376,120,304,88,ShowVariables);
             Button(box,L("Hướng dẫn","Guidance"),40,240,304,88,()=>{guidePage=-1;ShowGuidance();});
             Button(box,L("Sổ tay","Notebook"),376,240,304,88,()=>ShowNotebook("activity"));
             ModeButton(box,40,360,640,70);
-            Button(box,L("Trở lại trạm","Return to station"),280,470,400,72,()=>{CloseModal();RefreshActivity();},Accent);
+            Button(box,L("Trở lại trạm","Return to station"),280,470,400,72,()=>{CloseModal();RefreshActivity();},Accent).name="Station return";
         }
         void RefreshActivity()
         {
@@ -428,6 +444,7 @@ namespace Vlab.Product
             if(!stationFramed&&Apparatus.Ready&&Session.spec.id!="P02"&&Profile.settings.focusAssist&&!Input.VrMode&&!Input.SimulatorMode)
             {stationFramed=true;FocusStation();}
             var currentTask=CurrentGuide();string step=GuideStep(currentTask);
+            FocusStepTarget(currentTask);
             if(cueStep!=null&&cueStep!=step)ClearGuideCue();
             if(observedGuideStep!=step){observedGuideStep=step;nextWorldHint=Time.unscaledTime+12;}
             if(Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){nextWorldHint=Time.unscaledTime+25;var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)PointAtEquipment(hinted);}
@@ -613,7 +630,8 @@ namespace Vlab.Product
         void ClearInspection(){inspectedItem=null;inspectionImage=null;inspectionReadings=inspectionStatus=selectedCellSummary=null;inspectionOutput=null;inspectionControls.Clear();}
         void ShowVariables()
         {
-            var box=Modal(L("Thông số thí nghiệm","Experiment variables"),1050,740,Apparatus.Driver!=null);
+            FocusPhoneToolSheet();
+            var box=Modal(L("Thông số thí nghiệm","Experiment variables"),1050,740,Apparatus.Driver!=null);box.GetComponent<PhoneDialogLayout>().ParameterPanel=true;
             int pages=Math.Max(1,(Session.spec.parameters.Length+3)/4);variablePage=Mathf.Clamp(variablePage,0,pages-1);
             for(int row=0;row<4;row++)
             {
@@ -627,7 +645,7 @@ namespace Vlab.Product
                 };
                 bool fixedValue=p.readOnly||Math.Abs(p.max-p.min)<1e-10;
                 bool editable=!fixedValue&&((Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Ready)||(Session.Authority!=null&&Session.Authority.CanEditParameter(p.key)));
-                if(fixedValue)ui.Text(box,L("Cố định","Fixed value"),730,y+10,220,55,22,VlabUi.Secondary);
+                if(fixedValue)ui.Text(box,L("Cố định","Fixed value"),730,y+10,220,55,22,VlabUi.Secondary).name="Parameter fixed "+p.key;
                 else{Button(box,"−",730,y,100,64,()=>set(-1)).interactable=editable;Button(box,"+",850,y,100,64,()=>set(1)).interactable=editable;}
             }
             if(Session.spec.parameters.Length==0)ui.Text(box,L("Bài này dùng thao tác trực tiếp trên dụng cụ.","This lesson uses the instrument controls directly."),40,160,950,180,28,VlabUi.Secondary);
@@ -709,7 +727,7 @@ namespace Vlab.Product
             if(!store.Save(Profile,out var error)){if(added)Profile.attempts.Remove(record);Profile.checkpoint=pendingMeasurementCheckpoint;StorageFailure(error);StorageToast();RefreshActivity();return;}
             writeProtected=false;ClearPendingMeasurement();status="";ShowResults(record);
         }
-        string FormatReadings(IEnumerable<Reading> readings)=>string.Join("\n",readings.Select(r=>ReadingLabel(r)+"   "+ObservationCards.FormatValue(r.value,Vi)+" "+r.unit));
+        string FormatReadings(IEnumerable<Reading> readings)=>string.Join("\n",readings.Select(r=>ReadingLabel(r)+"   "+ObservationCards.FormatValue(r,Vi)+" "+ObservationCards.DisplayUnit(r)));
         public static string ReadingCaption(Reading reading,bool vi)
         {string supplied=vi?reading.labelVi:reading.labelEn;string caption=!string.IsNullOrEmpty(supplied)?supplied:vi&&readingVi.TryGetValue(reading.key,out var label)?label:reading.key;return caption.Replace("SDK ","");}
         string ReadingLabel(Reading reading)=>ReadingCaption(reading,Vi);
@@ -719,7 +737,7 @@ namespace Vlab.Product
             var title=ui.Text(box,L("Đã lưu vào sổ thực hành","Saved to your lab notebook"),40,30,1360,70,40);title.fontWeight=FontWeight.SemiBold;
             ui.Text(box,LessonGuide.ShortTitle(record.experimentId,Vi),40,112,1360,55,30,VlabUi.Secondary);
             int pages=ObservationCards.PageCount(record.readings);readingIndex=Mathf.Clamp(readingIndex,0,pages-1);
-            ObservationCards.Render(ui,box,record.readings,Vi,readingIndex,40,190,1360,400);
+            ObservationCards.Render(ui,box,ObservationCards.PresentationReadings(record.readings,record.experimentId),Vi,readingIndex,40,190,1360,400);
             if(pages>1)
             {
                 Button(box,L("Số đo trước","Previous readings"),40,614,380,64,()=>ShowResults(record,readingIndex-1)).interactable=readingIndex>0;
@@ -999,6 +1017,12 @@ namespace Vlab.Product
         bool ActivityRunIntent()=>modal&&ReferenceEquals(modalSession,Session)?modalResumeActivity:Session!=null&&Session.Phase==ExperimentPhase.Running;
         void CloseModal()
         {
+            if(toolSheetFocusSaved)
+            {
+                if(ReferenceEquals(toolSheetFocusSession,Session)&&!Input.VrMode&&!Input.SimulatorMode)
+                {Input.FocusAtWorldTarget(View.transform.position+toolSheetReturnRotation*Vector3.forward);View.fieldOfView=toolSheetReturnFov;}
+                toolSheetFocusSaved=false;toolSheetFocusSession=null;
+            }
             ClearGuideCue();if(Apparatus&&Apparatus.IsCarrying)Apparatus.CancelGrab();
             if(page&&!page.gameObject.activeSelf)page.gameObject.SetActive(true);
             bool resume=modalResumeActivity&&ReferenceEquals(modalSession,Session);if(modal){modal.gameObject.SetActive(false);Destroy(modal.gameObject);}modal=null;modalAllowsSimulation=modalResumeActivity=false;modalSession=null;ClearInspection();
@@ -1056,6 +1080,8 @@ namespace Vlab.Product
             flatPointerRoot.gameObject.SetActive(Input.ControllerPointerActive&&!vr&&!Input.SimulatorMode);
             if(Route=="notebook"&&page)ShowNotebook(notebookReturn);
             if(Route=="settings"&&page&&settingsTab==3)ShowSettings();
+            if(message==VlabInput.MissingVrGyroscope)message=L("Điện thoại không báo có cảm biến con quay. Chưa thể dùng VR theo hướng đầu; hãy dùng chế độ điện thoại và vuốt để nhìn.",message);
+            else if(message=="Cardboard stereo is available on Android. Use PC simulation here.")message=L("Kính Cardboard dùng trên Android. Trên máy tính, hãy chọn mô phỏng VR.",message);
             if(!string.IsNullOrEmpty(message))Toast(message);
         }
         void Update()
@@ -1152,18 +1178,53 @@ namespace Vlab.Product
             if(Input.VrMode||Input.SimulatorMode)return;
             View.fieldOfView=Mathf.Clamp(View.fieldOfView+amount,20,90);
         }
+        bool TryFocusBounds(EquipmentHandle item,out Bounds bounds)
+        {
+            if(!ApparatusRig.TryVisibleBounds(item,out bounds))return false;
+            // Friction is observed as a connected rig: keep the block and its travel surface beside the force scale.
+            if(Session?.spec.id=="P03")
+                foreach(var linked in Apparatus.items)
+                    if(linked.installed&&linked.gameObject.activeInHierarchy&&(linked.assetId=="surface"||linked.assetId=="block"||linked.assetId=="meter"||linked.assetId=="cord")&&ApparatusRig.TryVisibleBounds(linked,out var part))bounds.Encapsulate(part);
+            return true;
+        }
         void FocusInstrument(EquipmentHandle item,bool besideControls)
         {
-            if(Input.VrMode||Input.SimulatorMode||!item||!ApparatusRig.TryVisibleBounds(item,out var bounds))return;
-            if(besideControls)
-                foreach(var fitted in Apparatus.items)
-                    if(fitted.installed&&fitted.gameObject.activeInHierarchy&&ApparatusRig.TryVisibleBounds(fitted,out var part)&&Vector3.Distance(part.center,bounds.center)<3)bounds.Encapsulate(part);
+            if(Input.VrMode||Input.SimulatorMode||!item||!TryFocusBounds(item,out var bounds))return;
+            FitFocusBounds(bounds,besideControls?new Rect(.03f,.06f,.46f,.88f):new Rect(.04f,.06f,.92f,.88f));
+        }
+        void FitFocusBounds(Bounds bounds,Rect area)
+        {
             Input.FocusAtWorldTarget(bounds.center);
-            float distance=Mathf.Max(.15f,Vector3.Distance(View.transform.position,bounds.center));
-            float span=Mathf.Max(bounds.size.y,bounds.size.x, bounds.size.z);
-            View.fieldOfView=Mathf.Clamp(2*Mathf.Atan(span/(distance*.65f))*Mathf.Rad2Deg,20,Profile.settings.cameraFov);
-            if(besideControls)
-                Input.FocusAtWorldTarget(bounds.center+View.transform.right*(distance*Mathf.Tan(View.fieldOfView*.5f*Mathf.Deg2Rad)*View.aspect*.52f));
+            View.fieldOfView=Mathf.Clamp(Profile.settings.cameraFov,20,90);
+            // Fit projected corners after each aim change: world-axis extents underfit diagonal apparatus.
+            for(int pass=0;pass<48;pass++)
+            {
+                Vector2 min=new Vector2(float.MaxValue,float.MaxValue),max=new Vector2(float.MinValue,float.MinValue);
+                for(int corner=0;corner<8;corner++)
+                {
+                    var world=bounds.center+Vector3.Scale(bounds.extents,new Vector3((corner&1)==0?-1:1,(corner&2)==0?-1:1,(corner&4)==0?-1:1));
+                    var v=View.WorldToViewportPoint(world);min=Vector2.Min(min,v);max=Vector2.Max(max,v);
+                }
+                var center=(min+max)*.5f;var delta=(center-area.center)*.45f;
+                float depth=Mathf.Max(.15f,Vector3.Dot(bounds.center-View.transform.position,View.transform.forward));
+                float tangent=Mathf.Tan(View.fieldOfView*.5f*Mathf.Deg2Rad);
+                var aim=View.transform.position+View.transform.forward*depth+View.transform.right*(delta.x*2*depth*tangent*View.aspect)+View.transform.up*(delta.y*2*depth*tangent);
+                Input.FocusAtWorldTarget(aim);
+                float ratio=Mathf.Max((max.x-min.x)/area.width,(max.y-min.y)/area.height);
+                float target=Mathf.Clamp(2*Mathf.Atan(tangent*Mathf.Max(.25f,ratio)*1.015f)*Mathf.Rad2Deg,20,90);
+                View.fieldOfView=Mathf.Lerp(View.fieldOfView,target,.2f);
+                if(delta.sqrMagnitude<.000001f&&ratio>.96f&&ratio<1)break;
+            }
+        }
+        string lastFocusedTaskTarget;
+        void FocusStepTarget(GuideTask task)
+        {
+            if(task==null||Apparatus==null||!Apparatus.Ready||Apparatus.IsCarrying||modal||changing||Session.spec.id=="P02"||
+                Input.VrMode||Input.SimulatorMode||!Profile.settings.focusAssist||string.IsNullOrEmpty(task.key)||task.key==lastFocusedTaskTarget)return;
+            var item=Apparatus.items.FirstOrDefault(x=>x.assetId==task.key&&x.installed&&x.gameObject.activeInHierarchy);
+            if(!item||!TryFocusBounds(item,out var bounds))return;
+            lastFocusedTaskTarget=task.key;
+            FitFocusBounds(bounds,new Rect(.44f,.08f,.52f,.84f));
         }
         bool stationFramed;
         void FocusStation()
@@ -1196,16 +1257,17 @@ namespace Vlab.Product
                 SettingsSwitch(box,L("Xoay máy để nhìn (cần cảm biến)","Look by rotating phone (sensor required)"),draft.phoneGyro,376,()=>edit(()=>draft.phoneGyro=!draft.phoneGyro));
                 SettingsSwitch(box,L("Tự hướng về bàn khi vào bài","Face workstation when entering"),draft.focusAssist,462,()=>edit(()=>draft.focusAssist=!draft.focusAssist));
                 SettingsValueBar(box,L("Độ nhạy: ","Look sensitivity: ")+draft.mouseLookSensitivity.ToString("0.0")+"×",null,552,(draft.mouseLookSensitivity-.5f)/1.5f,"−","+",null,null,()=>edit(()=>draft.mouseLookSensitivity=Mathf.Max(.5f,draft.mouseLookSensitivity-.1f)),()=>edit(()=>draft.mouseLookSensitivity=Mathf.Min(2,draft.mouseLookSensitivity+.1f)));
-                SettingsValueBar(box,L("Góc nhìn: ","Field of view: ")+draft.cameraFov.ToString("0")+"°",null,652,(draft.cameraFov-45)/40,"−","+",null,null,()=>edit(()=>draft.cameraFov=Mathf.Max(45,draft.cameraFov-5)),()=>edit(()=>draft.cameraFov=Mathf.Min(85,draft.cameraFov+5)));
+                SettingsValueBar(box,L("Góc nhìn: ","Field of view: ")+draft.cameraFov.ToString("0")+"°",null,652,(draft.cameraFov-45)/40,"−","+","Phone FOV minus","Phone FOV plus",()=>edit(()=>draft.cameraFov=Mathf.Max(45,draft.cameraFov-5)),()=>edit(()=>draft.cameraFov=Mathf.Min(85,draft.cameraFov+5)));
                 ui.Text(box,draft.phoneGyro&&!Input.PhoneGyroAvailable?L("Thiết bị chưa cung cấp cảm biến xoay; bạn vẫn có thể vuốt để nhìn.","Rotation sensor unavailable; swipe look remains available."):L("Vuốt để nhìn; Căn lại đặt lại mốc cảm biến. Kính VR dùng theo dõi đầu.","Swipe to look; Recenter resets the sensor reference. VR uses head tracking."),48,742,1004,42,20,VlabUi.Secondary);
             }
             else
             {
                 SettingsSwitch(box,L("Hiện cần di chuyển ảo","Show virtual movement stick"),draft.showPhoneJoystick,230,()=>edit(()=>draft.showPhoneJoystick=!draft.showPhoneJoystick));
-                SettingsValueBar(box,L("Tốc độ: ","Movement speed: ")+draft.moveSpeed.ToString("0.0")+" m/s",null,344,(draft.moveSpeed-.3f)/1.7f,"−","+",null,null,()=>edit(()=>draft.moveSpeed=Mathf.Max(.3f,draft.moveSpeed-.1f)),()=>edit(()=>draft.moveSpeed=Mathf.Min(2,draft.moveSpeed+.1f)));
-                ui.Text(box,L("Giữ cần ở góc dưới trái để di chuyển. Vuốt phần nền bên phải để nhìn. Có thể dùng hai ngón cùng lúc. Khi mở bảng, di chuyển dừng lại.\n\nKính VR dùng hướng đầu; các thiết lập vuốt này chỉ áp dụng màn hình thường.","Hold the lower-left stick to move. Drag the right-side background to look. Two fingers can work together. Movement stops while a dialog is open.\n\nVR uses head tracking; swipe settings apply only to the flat screen."),48,468,1004,250,28,VlabUi.Secondary);
+                SettingsValueBar(box,L("Tốc độ: ","Movement speed: ")+draft.moveSpeed.ToString("0.0")+" m/s",null,344,(draft.moveSpeed-.3f)/1.7f,"−","+","Phone movement speed minus","Phone movement speed plus",()=>edit(()=>draft.moveSpeed=Mathf.Max(.3f,draft.moveSpeed-.1f)),()=>edit(()=>draft.moveSpeed=Mathf.Min(2,draft.moveSpeed+.1f)));
+                SettingsValueBar(box,L("Kích thước cần: ","Stick size: ")+(draft.joystickScale*100).ToString("0")+"%",null,450,(draft.joystickScale-.75f)/.5f,"−","+","Phone joystick size minus","Phone joystick size plus",()=>edit(()=>draft.joystickScale=Mathf.Max(.75f,draft.joystickScale-.05f)),()=>edit(()=>draft.joystickScale=Mathf.Min(1.25f,draft.joystickScale+.05f)));
+                ui.Text(box,L("Giữ cần ở góc dưới trái để di chuyển. Vuốt phần nền bên phải để nhìn. Có thể dùng hai ngón cùng lúc. Khi mở bảng, di chuyển dừng lại.\n\nKính VR dùng hướng đầu; các thiết lập vuốt này chỉ áp dụng màn hình thường.","Hold the lower-left stick to move. Drag the right-side background to look. Two fingers can work together. Movement stops while a dialog is open.\n\nVR uses head tracking; swipe settings apply only to the flat screen."),48,554,1004,220,25,VlabUi.Secondary);
             }
-            Button(box,L("Mặc định camera","Reset camera defaults"),40,794,496,68,()=>{draft.invertLookX=draft.invertLookY=draft.phoneGyro=false;draft.showPhoneJoystick=draft.focusAssist=true;draft.moveSpeed=1;draft.cameraFov=65;draft.mouseLookSensitivity=1;dirty=true;ShowPhoneSettings(movement);});
+            Button(box,L("Mặc định camera","Reset camera defaults"),40,794,496,68,()=>{draft.invertLookX=draft.invertLookY=draft.phoneGyro=false;draft.showPhoneJoystick=draft.focusAssist=true;draft.moveSpeed=1;draft.joystickScale=1;draft.cameraFov=65;draft.mouseLookSensitivity=1;dirty=true;ShowPhoneSettings(movement);});
             Button(box,L("Xong · Chưa áp dụng","Done · Apply in Settings"),564,794,496,68,()=>{CloseModal();ShowSettings();},Accent);
         }
         void ShowFeedback()

@@ -18,7 +18,7 @@ namespace Vlab.Product
         public float adjustment;
     }
     public struct ActionFrame
-    {public Ray pointer;public bool pressed,released,held,grabPressed,menu,recenter,back,lost,phoneWorldPress;public float adjustment;public Vector2 move;} 
+    {public Ray pointer;public bool pressed,released,held,grabPressed,menu,recenter,back,lost,phoneWorldPress;public float adjustment;public Vector2 move;}
     public interface IVlabInputProvider {ActionFrame Poll(Camera camera,double now);ControllerCapabilities Capabilities{get;}}
     public sealed class MockControllerProvider:IVlabInputProvider
     {
@@ -104,6 +104,7 @@ namespace Vlab.Product
     }
     public sealed class VlabInput:MonoBehaviour
     {
+        public const string MissingVrGyroscope="This phone does not report a gyroscope. VR head tracking is unavailable; use phone mode and swipe to look.";
         public bool VrMode{get;private set;}public bool SimulatorMode{get;private set;}
         public Camera View{get;private set;}
         public MockControllerProvider Controller{get;}=new MockControllerProvider();
@@ -112,6 +113,7 @@ namespace Vlab.Product
         public Func<Vector2,bool> BlocksPhoneGameplay;
         readonly PhoneTouchRouter phoneTouches=new PhoneTouchRouter();
         bool uiBlocked,invertLookX,invertLookY,phoneGyro,showPhoneJoystick=true;
+        float joystickScale=1;
         ScreenOrientation phoneOrientation;int phoneWidth,phoneHeight;
         AttitudeSensor ownedAttitude;bool enabledAttitude,gyroCalibrated;
         Quaternion gyroZero,gyroView;double gyroSampleTime=-1;
@@ -120,13 +122,13 @@ namespace Vlab.Product
         public bool PhoneJoystickActive=>PhoneControlsVisible&&showPhoneJoystick&&phoneTouches.JoystickActive;
         public Vector2 PhoneJoystickCenter=>PhoneTouchRouter.JoystickCenter;
         public Vector2 PhoneJoystickOffset=>phoneTouches.Move;
-        public float PhoneJoystickRadius=>PhoneTouchRouter.JoystickRadius;
+        public float PhoneJoystickRadius=>PhoneTouchRouter.JoystickRadius*joystickScale;
         public bool PhoneGyroAvailable=>AttitudeSensor.current!=null;
         public bool PhoneGyroActive=>phoneGyro&&gyroCalibrated&&PhoneFlatActive;
         public void ConfigurePhoneInput(GameSettings settings)
         {
-            bool changed=invertLookX!=settings.invertLookX||invertLookY!=settings.invertLookY||phoneGyro!=settings.phoneGyro||showPhoneJoystick!=settings.showPhoneJoystick;
-            invertLookX=settings.invertLookX;invertLookY=settings.invertLookY;phoneGyro=settings.phoneGyro;showPhoneJoystick=settings.showPhoneJoystick;
+            bool changed=invertLookX!=settings.invertLookX||invertLookY!=settings.invertLookY||phoneGyro!=settings.phoneGyro||showPhoneJoystick!=settings.showPhoneJoystick||joystickScale!=settings.joystickScale;
+            invertLookX=settings.invertLookX;invertLookY=settings.invertLookY;phoneGyro=settings.phoneGyro;showPhoneJoystick=settings.showPhoneJoystick;joystickScale=settings.joystickScale;
             if(changed)ResetPhoneInput();
         }
         public void SetUiBlocked(bool blocked)
@@ -175,7 +177,7 @@ namespace Vlab.Product
                 // at BEGIN, so a swipe across a button cannot acquire its click.
                 bool ui=phase==UnityEngine.InputSystem.TouchPhase.Began&&(BlocksPhoneGameplay?.Invoke(position)??false);
                 bool world=phase==UnityEngine.InputSystem.TouchPhase.Began&&allowed&&!ui&&(BlocksTouchLook?.Invoke(View.ScreenPointToRay(position))??false);
-                phoneTouches.Sample(touch.touchId.ReadValue(),phase,position,SafePhoneArea(),allowed,showPhoneJoystick,ui,world);
+                phoneTouches.Sample(touch.touchId.ReadValue(),phase,position,SafePhoneArea(),allowed,showPhoneJoystick,ui,world,joystickScale);
             }
             phoneTouches.EndFrame();
             if(any||phoneTouches.Released)
@@ -246,7 +248,9 @@ namespace Vlab.Product
             if(!trackedPose)trackedPose=view.gameObject.AddComponent<TrackedPoseDriver>();
             trackedPose.positionInput=new InputActionProperty(new InputAction("Head position",InputActionType.Value,"<XRHMD>/centerEyePosition"));
             trackedPose.rotationInput=new InputActionProperty(new InputAction("Head rotation",InputActionType.Value,"<XRHMD>/centerEyeRotation"));
-            trackedPose.trackingStateInput=new InputActionProperty(new InputAction("Head tracking",InputActionType.Value,"<XRHMD>/trackingState"));
+            // Cardboard sample derives tracking availability from the pose controls; its device need not publish tracking-state flags.
+            trackedPose.trackingStateInput=new InputActionProperty(new InputAction("Head tracking",InputActionType.Value));
+            trackedPose.updateType=TrackedPoseDriver.UpdateType.UpdateAndBeforeRender;
             trackedPose.trackingType=TrackedPoseDriver.TrackingType.RotationOnly;
             trackedPose.enabled=VrMode||SimulatorMode;
         }
@@ -342,6 +346,7 @@ namespace Vlab.Product
         {
             var runtime=CardboardRuntime;
             if(enabled&&!runtime.Supported){ModeChanged?.Invoke(false,"Cardboard stereo is available on Android. Use PC simulation here.");yield break;}
+            if(enabled&&!runtime.HasGyroscope){ModeChanged?.Invoke(false,MissingVrGyroscope);yield break;}
             if(enabled&&VrMode)yield break;
             switching=true;ResetPhoneInput();
             try
@@ -416,7 +421,7 @@ namespace Vlab.Product
         public void Clear(){fingers.Clear();Move=LookDelta=Vector2.zero;Pressed=Released=WorldHeld=HasWorldPointer=JoystickActive=LookActive=false;}
         public void BeginFrame(){Move=LookDelta=Vector2.zero;Pressed=Released=WorldHeld=HasWorldPointer=JoystickActive=LookActive=false;foreach(var f in fingers.Values)f.seen=false;}
         bool Has(Owner owner){foreach(var f in fingers.Values)if(f.owner==owner)return true;return false;}
-        public void Sample(int id,UnityEngine.InputSystem.TouchPhase phase,Vector2 position,Rect safe,bool allowed,bool joystick,bool ui,bool world)
+        public void Sample(int id,UnityEngine.InputSystem.TouchPhase phase,Vector2 position,Rect safe,bool allowed,bool joystick,bool ui,bool world,float joystickScale=1)
         {
             if(!fingers.TryGetValue(id,out var finger))
             {
@@ -425,7 +430,7 @@ namespace Vlab.Product
                 if(phase==UnityEngine.InputSystem.TouchPhase.Began)
                 {
                     var centre=new Vector2(safe.x+safe.width*JoystickCenter.x,safe.y+safe.height*JoystickCenter.y);
-                    float radius=Mathf.Max(1,safe.height*JoystickRadius);
+                    float radius=Mathf.Max(1,safe.height*JoystickRadius*joystickScale);
                     if(ui)finger.owner=Owner.Ui;
                     // Claim only the visible disc; an unrelated lower-left swipe must not move backward.
                     else if(allowed&&joystick&&(position-centre).sqrMagnitude<=radius*radius&&!Has(Owner.Move))finger.owner=Owner.Move;
@@ -446,7 +451,7 @@ namespace Vlab.Product
             else if(!ended&&finger.owner==Owner.Move)
             {
                 JoystickActive=true;var centre=new Vector2(safe.x+safe.width*JoystickCenter.x,safe.y+safe.height*JoystickCenter.y);
-                Move=Vector2.ClampMagnitude((position-centre)/Mathf.Max(1,safe.height*JoystickRadius),1);if(Move.magnitude<.12f)Move=Vector2.zero;
+                Move=Vector2.ClampMagnitude((position-centre)/Mathf.Max(1,safe.height*JoystickRadius*joystickScale),1);if(Move.magnitude<.12f)Move=Vector2.zero;
             }
             else if(!ended&&finger.owner==Owner.Look)
             {
@@ -491,19 +496,21 @@ namespace Vlab.Product
     // installed Cardboard SDK; synthetic tests cannot certify Android optics or permissions.
     public interface ICardboardEntryRuntime
     {
-        bool Supported{get;}bool Initialized{get;}
+        bool Supported{get;}bool HasGyroscope{get;}bool Initialized{get;}
         IEnumerator Initialize();bool Start();void StopAndDeinitialize();void Scan();void TickParameters();
     }
     sealed class NativeCardboardEntryRuntime:ICardboardEntryRuntime
     {
         UnityEngine.XR.Management.XRManagerSettings Manager=>XRGeneralSettings.Instance?XRGeneralSettings.Instance.Manager:null;
         public bool Supported=>Application.platform==RuntimePlatform.Android;
+        public bool HasGyroscope=>SystemInfo.supportsGyroscope;
         public bool Initialized=>Manager&&Manager.activeLoader is Google.XR.Cardboard.XRLoader;
         public IEnumerator Initialize(){var manager=Manager;if(manager&&manager.activeLoader==null)yield return manager.InitializeLoader();}
         public bool Start()
         {
             if(!Initialized)return false;Manager.StartSubsystems();var display=Manager.activeLoader.GetLoadedSubsystem<UnityEngine.XR.XRDisplaySubsystem>();
-            if(display==null||!display.running)return false;
+            var tracking=Manager.activeLoader.GetLoadedSubsystem<UnityEngine.XR.XRInputSubsystem>();
+            if(display==null||!display.running||tracking==null||!tracking.running)return false;
             Google.XR.Cardboard.Api.ReloadDeviceParams();return true;
         }
         public void StopAndDeinitialize(){var manager=Manager;if(manager&&manager.activeLoader!=null){manager.StopSubsystems();manager.DeinitializeLoader();}}

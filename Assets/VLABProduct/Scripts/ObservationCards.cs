@@ -10,6 +10,19 @@ namespace Vlab.Product
     // The same readable instrument values appear live and in the saved notebook.
     public static class ObservationCards
     {
+        public static IEnumerable<Reading> PresentationReadings(IEnumerable<Reading> readings,string experimentId)
+        {
+            foreach(var reading in readings)
+            {
+                // Legacy B07 stored these four boolean observations without their presence metadata.
+                bool legacy=experimentId=="B07"&&string.IsNullOrEmpty(reading.unit)&&(reading.value==0||reading.value==1)&&
+                    (reading.key=="crudePrecipitate"||reading.key=="alcoholIncluded"||reading.key=="filtrateRetained"||reading.key=="gentlySpooled");
+                yield return legacy?new Reading(reading.key,reading.value,"presence",reading.labelVi,reading.labelEn):reading;
+            }
+        }
+        public static string DisplayUnit(Reading reading)=>reading.unit=="presence"?"":reading.unit??"";
+        public static string FormatValue(Reading reading,bool vi)=>reading.unit=="presence"&&(reading.value==0||reading.value==1)
+            ?(reading.value==1?(vi?"Có":"Present"):(vi?"Không":"Absent")):FormatValue(reading.value,vi);
         public static string FormatValue(double value,bool vi)
         {
             var culture=CultureInfo.GetCultureInfo(vi?"vi-VN":"en-US");
@@ -24,6 +37,11 @@ namespace Vlab.Product
             check("Exact zero remains zero",FormatValue(0,true)=="0");
             check("Vietnamese decimal comma is readable at threshold",FormatValue(.001,true)=="0,001");
             check("English decimal support remains available",FormatValue(.001,false)=="0.001");
+            check("Presence displays localized yes and no",FormatValue(new Reading("flag",1,"presence"),true)=="Có"&&FormatValue(new Reading("flag",0,"presence"),true)=="Không"&&FormatValue(new Reading("flag",1,"presence"),false)=="Present");
+            check("Numeric zero and one remain measurements",FormatValue(new Reading("voltage",1,"V"),true)=="1"&&FormatValue(new Reading("ratio",0,""),true)=="0");
+            var old=new Reading("crudePrecipitate",1,"");var original=JsonUtility.ToJson(old);
+            check("Only explicit legacy B07 schema gains display metadata",FormatValue(PresentationReadings(new[]{old},"B07").Single(),true)=="Có"&&FormatValue(PresentationReadings(new[]{old},"P01").Single(),true)=="1"&&FormatValue(PresentationReadings(new[]{new Reading("ratio",1,"")},"B07").Single(),true)=="1");
+            check("Legacy presentation leaves saved reading unchanged",JsonUtility.ToJson(old)==original);
         }
 #endif
         public static int PageCount(IEnumerable<Reading> readings,int pageSize=4)=>Math.Max(1,((readings?.Count()??0)+pageSize-1)/pageSize);
@@ -56,7 +74,7 @@ namespace Vlab.Product
         public void Show(Reading reading,bool vi)
         {
             Label.text=VlabApp.ReadingCaption(reading,vi);Unit.text=reading.unit??"";
-            if(reading.unit=="presence"){Value.text=reading.value>.5?(vi?"Có":"Present"):(vi?"Không":"Absent");Unit.text="";}
+            if(reading.unit=="presence"){Value.text=ObservationCards.FormatValue(reading,vi);Unit.text="";}
             else if(reading.key=="BTBstate"&&reading.unit=="interval")
             {Value.text=reading.value==1?(vi?"≤ 6,0":"≤ 6.0"):reading.value==2?(vi?"6,0–7,6":"6.0–7.6"):reading.value==3?(vi?"≥ 7,6":"≥ 7.6"):(vi?"Chưa đo":"Unread");Unit.text="pH";}
             else Value.text=ObservationCards.FormatValue(reading.value,vi);

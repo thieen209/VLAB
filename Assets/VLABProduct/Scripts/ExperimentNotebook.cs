@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -269,7 +269,7 @@ namespace Vlab.Product
             foreach(var a in group?.records??data.rows)
             {
                 text.AppendLine("\n"+Short(a.attemptId)+" · "+(a.savedAtUtc??"")+" · "+(a.model??""));
-                foreach(var r in a.readings??new List<Reading>())if(r!=null)text.AppendLine((vi?r.labelVi??r.key:r.labelEn??r.key)+": "+F(r.value)+" "+r.unit);
+                foreach(var r in ObservationCards.PresentationReadings((a.readings??new List<Reading>()).Where(r=>r!=null),a.experimentId))text.AppendLine((vi?r.labelVi??r.key:r.labelEn??r.key)+": "+(r.unit=="presence"?ObservationCards.FormatValue(r,vi):F(r.value))+" "+ObservationCards.DisplayUnit(r));
             }
             if(data.rows.Count==0)text.AppendLine(vi?"Hoàn thành và lưu một lượt để bắt đầu so sánh.":"Complete and save an attempt to begin comparing.");
             ui.Scroll(host,text.ToString(),0,tableTop,width,Math.Max(150,height-tableTop),22);

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 using Vlab.Product;
 
@@ -11,7 +12,7 @@ public static class CardboardEntryChecks
 {
     sealed class Runtime:ICardboardEntryRuntime
     {
-        public bool Supported{get;set;}=true;public bool Initialized{get;private set;}
+        public bool Supported{get;set;}=true;public bool HasGyroscope{get;set;}=true;public bool Initialized{get;private set;}
         public bool SavedProfile,Changed,StartSucceeds=true,Scanning;public int Initializes,Starts,Stops,Scans,Ticks,Reloads;
         public IEnumerator Initialize(){Initializes++;yield return null;Initialized=true;}
         public bool Start(){Starts++;return StartSucceeds;}
@@ -26,9 +27,26 @@ public static class CardboardEntryChecks
         var go=new GameObject("Cardboard entry lifecycle check",typeof(Camera),typeof(VlabInput));var camera=go.GetComponent<Camera>();camera.enabled=false;var input=go.GetComponent<VlabInput>();var runtime=new Runtime();input.EntryRuntimeForChecks=runtime;input.Adopt(camera);
         try
         {
+            string failure=null;input.ModeChanged+=(vr,message)=>failure=message;
+            runtime.Supported=false;input.SetVr(true);yield return Settle();
+            check("Unsupported platform stays flat without initializing XR",!input.VrMode&&runtime.Initializes==0&&!string.IsNullOrEmpty(failure));
+            runtime.Supported=true;runtime.HasGyroscope=false;input.SetVr(true);yield return Settle();
+            check("Missing gyro stays flat with truthful reason and no XR startup",!input.VrMode&&runtime.Initializes==0&&runtime.Starts==0&&failure==VlabInput.MissingVrGyroscope&&!go.GetComponent<TrackedPoseDriver>().enabled);
+            runtime.HasGyroscope=true;
             input.SetVr(true);yield return Settle();
             check("Fresh one-tap entry starts stereo without any saved-profile or scan gate",input.VrMode&&runtime.Initializes==1&&runtime.Starts==1&&!runtime.SavedProfile&&runtime.Scans==0);
             check("Entry enables the real tracked-pose component",go.GetComponent<TrackedPoseDriver>().enabled);
+            var hmd=InputSystem.AddDevice<XRHMD>();
+            try
+            {
+                var head=Quaternion.Euler(18,35,-12);
+                InputSystem.QueueDeltaStateEvent(hmd.centerEyeRotation,head);InputSystem.Update();
+                check("Cardboard pose rotates camera in all axes even when HMD supplies no tracking-state flags",hmd.trackingState.ReadValue()==0&&Quaternion.Angle(camera.transform.localRotation,head)<.1f);
+                head=Quaternion.Euler(-20,-40,15);
+                InputSystem.QueueDeltaStateEvent(hmd.centerEyeRotation,head);InputSystem.Update();
+                check("Successive head poses retain pitch yaw and roll without a second gyro transform",Quaternion.Angle(camera.transform.localRotation,head)<.1f);
+            }
+            finally{InputSystem.RemoveDevice(hmd);}
             input.SetVr(true);yield return Settle();check("Repeated Enter VR does not initialize or start a second time",runtime.Initializes==1&&runtime.Starts==1);
             input.SetVr(false);yield return Settle();check("Exit stops/deinitializes and returns to flat pose",!input.VrMode&&!runtime.Initialized&&runtime.Stops==1&&!go.GetComponent<TrackedPoseDriver>().enabled);
             input.SetVr(true);yield return Settle();check("Returning entry still requires no scan",input.VrMode&&runtime.Initializes==2&&runtime.Starts==2&&runtime.Scans==0);

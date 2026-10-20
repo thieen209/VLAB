@@ -91,6 +91,14 @@ public static class PhoneInputChecks
         Check(router.JoystickActive&&router.Move==Vector2.zero,"joystick dead zone suppresses slight initial finger offset");
         router.Clear();router.BeginFrame();router.Sample(10,UnityEngine.InputSystem.TouchPhase.Began,centre,safe,true,false,false,false);router.EndFrame();
         Check(!router.JoystickActive&&router.Move==Vector2.zero&&router.LookActive,"hidden joystick releases its area for normal camera swipes");
+        foreach(float scale in new[]{.75f,1f,1.25f})
+        {
+            float scaledRadius=radius*scale;
+            router.Clear();router.BeginFrame();router.Sample(80,UnityEngine.InputSystem.TouchPhase.Began,centre+Vector2.up*scaledRadius*.9f,safe,true,true,false,false,scale);router.EndFrame();
+            Check(router.JoystickActive&&Mathf.Abs(router.Move.y-.9f)<.001f,"scaled joystick claim and movement use same radius "+scale);
+            router.Clear();router.BeginFrame();router.Sample(81,UnityEngine.InputSystem.TouchPhase.Began,centre+Vector2.up*scaledRadius*1.05f,safe,true,true,false,false,scale);router.EndFrame();
+            Check(!router.JoystickActive&&router.Move==Vector2.zero,"outside scaled joystick stays look-only "+scale);
+        }
     }
     public static IEnumerator RunUiTap(VlabApp app,Action<string> capture,Action<string,bool> check)
     {
@@ -131,7 +139,7 @@ public static class PhoneInputChecks
     }
     sealed class Viewer:ICardboardEntryRuntime
     {
-        public bool Supported=>true;public bool Initialized{get;private set;}=true;
+        public bool Supported=>true;public bool HasGyroscope=>true;public bool Initialized{get;private set;}=true;
         public IEnumerator Initialize(){Initialized=true;yield break;}public bool Start()=>true;
         public void StopAndDeinitialize(){Initialized=false;}public void Scan(){}public void TickParameters(){}
     }

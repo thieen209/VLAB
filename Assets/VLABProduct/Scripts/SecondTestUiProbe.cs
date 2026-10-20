@@ -312,11 +312,12 @@ public sealed class SecondTestUiProbe : MonoBehaviour
             if(repeats>100&&task.kind!="observe")throw new Exception("Same guide task exceeded 100 attempts; inspect visible readings before judging science progress: "+current.lastTask);
             if(task.kind=="image"||task.control.EndsWith(":",StringComparison.Ordinal)||task.control=="cell")
             {
-                if(Modal())yield return Close();
-                yield return Press("Chỉ tôi chỗ này","Show me where");Capture(id+"-visual-classification");
+                if(!Modal())yield return Press("Chỉ tôi chỗ này","Show me where");Capture(id+"-visual-classification");
                 if(!visualReview)throw new Exception("VISUAL CLASSIFICATION REQUIRED: image and labels need human visual judgment; no model-answer lookup performed");
                 yield return VisualReview(task);continue;
             }
+            // Preserve the visible scroll/selection between manual review commands.
+            if(visualReview&&task.kind=="variables"&&Modal()){yield return VisualReview(task);continue;}
             if(Modal())yield return Close();
             if(task.kind=="install")
             {
@@ -351,10 +352,17 @@ public sealed class SecondTestUiProbe : MonoBehaviour
                         var steady=Find("Instrument control steady");
                         if(steady)
                         {
-                            var block=App.Apparatus.items.Single(item=>item.assetId=="block");var beforeMove=block.transform.position;
-                            yield return Tap(steady);yield return new WaitForSecondsRealtime(.6f);
-                            if(Vector3.Distance(beforeMove,block.transform.position)<.001f)throw new Exception("Actual steady-pull UI did not visibly move the native block");
-                            trace.Add(id+" actual steady-pull UI moves original block "+Vector3.Distance(beforeMove,block.transform.position)+" metres");break;
+                            var block=App.Apparatus.items.Single(item=>item.assetId=="block");
+                            yield return Tap(steady);
+                            double beforeSteady=App.Apparatus.Driver.Observe().Get("steadyInterval");
+                            if(beforeSteady<=0)throw new Exception("Actual steady-pull touch was not accepted before the block reached the tile end");
+                            var beforeMove=block.transform.position;
+                            yield return new WaitForSecondsRealtime(.6f);
+                            double afterSteady=App.Apparatus.Driver.Observe().Get("steadyInterval");
+                            float travel=Vector3.Distance(beforeMove,block.transform.position);
+                            if(afterSteady<.5||travel<.001f||travel>.05*(afterSteady-beforeSteady)+.002)
+                                throw new Exception("Actual steady-pull UI did not retain slow measured motion: travel="+travel+", steady="+beforeSteady+" -> "+afterSteady);
+                            trace.Add(id+" actual steady-pull UI moves original block "+travel+" metres with measured steady interval "+afterSteady+" seconds");break;
                         }
                         yield return Tap(Required("Instrument control pull+"));
                     }
@@ -393,7 +401,7 @@ public sealed class SecondTestUiProbe : MonoBehaviour
             trace.Add(current.id+" SCOPED WORLD "+stage+" "+(okay?"PASS ":"FAIL ")+name);
             if(!okay)current.worldFailures=current.worldFailures.Concat(new[]{stage+": "+name}).ToArray();
         }
-        try{SecondTestWorldChecks.Run(App,Check);}catch(Exception ex){Check("Regression check exception: "+ex,false);}
+        try{SecondTestWorldChecks.Run(App,Check);if(assembled&&current.id=="P03")StepFocusChecks.Run(App,Check);}catch(Exception ex){Check("Regression check exception: "+ex,false);}
     }
     IEnumerator Home()
     {
@@ -535,6 +543,7 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         {File.WriteAllText(Path.Combine(folder,"ABORT.txt"),"VLAB_UI_TIMEOUT_SECONDS must be finite between 30 and 600 seconds");SecondTestGameView.Restore();EditorApplication.Exit(2);yield break;}
         try
         {
+            BenchDisplayVisibilityChecks.Run((name,okay)=>scopedRows.Add((okay?"PASS ":"FAIL ")+"Bench displays and line hints: "+name));
             SecondTestWorldChecks.StoredRetrieval((name,okay)=>scopedRows.Add((okay?"PASS ":"FAIL ")+"Isolated storage retrieval: "+name));
             SecondTestWorldChecks.FrictionRetry((name,okay)=>scopedRows.Add((okay?"PASS ":"FAIL ")+"Isolated friction recovery: "+name));
         }

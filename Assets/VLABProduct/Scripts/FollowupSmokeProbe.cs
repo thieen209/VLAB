@@ -40,6 +40,8 @@ public sealed class FollowupSmokeProbe:MonoBehaviour
         try{GamepadIntegrationChecks.Run();Check("Existing HID fallback regressions",true);}catch(Exception ex){rows.Add("FAIL HID "+ex);}
         if(!SessionState.GetBool("VLAB.FollowupBaseline",false))
         {
+            yield return Collect("phone safe-area and repeated mode layout",PhoneUiChecks.Run(app,Capture,Check));
+            yield return Collect("Cardboard pose input",CardboardEntryChecks.Run(Check));
             app.ShowHome();yield return new WaitForSecondsRealtime(.3f);
             yield return Collect("existing queued UGUI taps",PhoneInputChecks.RunUiTap(app,Capture,Check));
             app.ShowHome();yield return new WaitForSecondsRealtime(.3f);

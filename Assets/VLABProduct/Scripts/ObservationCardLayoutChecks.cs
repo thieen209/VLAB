@@ -26,7 +26,7 @@ public static class ObservationCardLayoutChecks
                 ui.Vietnamese=vi;ui.LargeText=large;bool passed=true;int cards=0,fields=0;
                 foreach(var record in saved)for(int page=0;page<ObservationCards.PageCount(record.readings,template.size);page++)
                 {
-                    ObservationCards.Render(ui,host,record.readings,vi,page,0,0,template.width,template.height,template.size);Canvas.ForceUpdateCanvases();
+                    ObservationCards.Render(ui,host,ObservationCards.PresentationReadings(record.readings,record.experimentId),vi,page,0,0,template.width,template.height,template.size);Canvas.ForceUpdateCanvases();
                     var bindings=host.GetComponentsInChildren<ObservationCardBinding>();var expected=record.readings.Skip(page*template.size).Take(template.size).ToArray();
                     if(!bindings.Select(binding=>binding.Key).SequenceEqual(expected.Select(reading=>reading.key))){passed=false;receipt.Add("FAIL missing/reordered readings: "+record.experimentId+" "+template.name+" page="+page);}
                     foreach(var binding in bindings)
