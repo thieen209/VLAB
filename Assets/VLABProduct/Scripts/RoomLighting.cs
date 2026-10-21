@@ -5,22 +5,23 @@ namespace Vlab.Product
 {
     public static class RoomLighting
     {
-        // A warmer daylight key and restrained cool fill give original surfaces depth.
+        // Neutral daylight and soft fill keep instruments readable without extra lights.
         // Keep exposure out of the shared camera so world-space text retains its colors.
-        public static void Apply()
+        public static void Apply(int quality=1)
         {
             RenderSettings.ambientMode=AmbientMode.Trilight;
-            RenderSettings.ambientSkyColor=new Color(.44f,.48f,.53f);
-            RenderSettings.ambientEquatorColor=new Color(.28f,.31f,.35f);
-            RenderSettings.ambientGroundColor=new Color(.16f,.17f,.19f);
-            RenderSettings.reflectionIntensity=.40f;
+            RenderSettings.ambientSkyColor=new Color(.72f,.76f,.80f);
+            RenderSettings.ambientEquatorColor=new Color(.58f,.61f,.64f);
+            RenderSettings.ambientGroundColor=new Color(.37f,.40f,.43f);
+            RenderSettings.reflectionIntensity=.60f;
             foreach(var light in Object.FindObjectsByType<Light>(FindObjectsSortMode.None))
             {
-                if(light.name=="Soft daylight")
-                {light.intensity=1.05f;light.color=new Color(1f,.965f,.91f);light.shadowBias=.015f;light.shadowNormalBias=.03f;}
+                if(light.type==LightType.Directional)
+                {light.intensity=quality==0?.55f:1.05f;light.color=new Color(1f,.985f,.96f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=quality==0?LightShadows.None:quality==2?LightShadows.Soft:LightShadows.Hard;light.shadowCustomResolution=quality==2?1024:512;}
                 else if(light.name=="Ceiling illumination")
-                {light.intensity=.60f;light.color=new Color(.94f,.97f,1f);light.shadowBias=.015f;light.shadowNormalBias=.03f;}
+                {light.intensity=quality==0?2.0f:2.4f;light.color=new Color(.98f,.99f,1f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=LightShadows.None;}
             }
+            QualitySettings.anisotropicFiltering=quality==2?AnisotropicFiltering.ForceEnable:AnisotropicFiltering.Disable;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Vlab.Product
         float readingWidth,readingHeight;
         Vector2 authoredSize,authoredPosition,authoredMin,authoredMax,authoredPivot;Vector3 authoredScale;bool captured,phone;
         float lastWidth,lastHeight,restoredScroll=1;Rect lastSafe;RenderMode lastMode;
-        public bool ParameterPanel,CompactControls;
+        public bool ParameterPanel,CompactControls,QuickEquipment;
         public float ScrollPosition=>scroll?scroll.verticalNormalizedPosition:restoredScroll;
         public void RestoreScroll(float value){restoredScroll=Mathf.Clamp01(value);if(scroll)scroll.verticalNormalizedPosition=restoredScroll;}
         public void Initialize(VlabUi owner){ui=owner;dialog=(RectTransform)transform;}
@@ -57,16 +57,19 @@ namespace Vlab.Product
         void Build(float safeWidth,float safeHeight)
         {
             const float gap=14,header=86,footerHeight=84;
-            bool parameterSide=(ParameterPanel||CompactControls)&&safeWidth>safeHeight;
+            bool equipment=items.Any(x=>x.rect.name.StartsWith("Equipment item ",System.StringComparison.Ordinal));
+            bool equipmentSide=equipment&&safeWidth>safeHeight;
+            bool parameterSide=(ParameterPanel||CompactControls||QuickEquipment)&&safeWidth>safeHeight;
             bool side=items.Any(x=>x.rect.name=="Instrument observation output")&&!GetComponentInChildren<RawImage>()&&!GetComponentInChildren<VlabScrollContent>()&&safeWidth>safeHeight;
-            float scale=side||parameterSide?1.1f:GetComponentsInChildren<ObservationCardBinding>(true).Length>0?1.4f:1.65f;
-            float width=side||parameterSide?(safeWidth*.48f-24)/scale:Mathf.Min(1100,(safeWidth-48)/scale),height=(safeHeight-48)/scale;
-            if(CompactControls)height=Mathf.Min(height,490);
+            float scale=side||parameterSide||equipmentSide?1.1f:GetComponentsInChildren<ObservationCardBinding>(true).Length>0?1.4f:1.65f;
+            float width=QuickEquipment?(safeWidth*.32f-24)/scale:equipmentSide?(safeWidth*.56f-24)/scale:side||parameterSide?(safeWidth*.48f-24)/scale:Mathf.Min(1100,(safeWidth-48)/scale),height=(safeHeight-48)/scale;
+            if(equipmentSide)height=Mathf.Min(height,720);
+            if(CompactControls)height=Mathf.Min(height,490);if(QuickEquipment)height=Mathf.Min(height,490);
             dialog.anchorMin=dialog.anchorMax=dialog.pivot=new Vector2(0,1);dialog.sizeDelta=new Vector2(width,height);dialog.localScale=Vector3.one*scale;
             float units=Mathf.Max(.001f,ui.PhoneViewport.PixelsPerLogicalUnit);
             var safe=ui.PhoneViewport.SafePixels;var fitted=ui.PhoneViewport.ContentPixels;
             float left=(safe.xMin-fitted.xMin)/units,top=(fitted.yMax-safe.yMax)/units;
-            dialog.anchoredPosition=new Vector2(left+(side||parameterSide?safeWidth-width*scale-24:(safeWidth-width*scale)/2),-top-24);
+            dialog.anchoredPosition=new Vector2(left+(equipmentSide||QuickEquipment?24:side||parameterSide?safeWidth-width*scale-24:(safeWidth-width*scale)/2),-top-24);
             var title=items.FirstOrDefault(x=>x.rect.GetComponent<TMP_Text>());
             var close=items.FirstOrDefault(x=>x.rect.name=="Close dialog");
             if(title!=null){Place(title.rect,22,16,width-128,60);}
@@ -76,7 +79,7 @@ namespace Vlab.Product
             body=Rect("Phone dialog flowing content",viewport);body.sizeDelta=new Vector2(width-56,0);
             scroll=viewport.gameObject.AddComponent<ScrollRect>();scroll.viewport=viewport;scroll.content=body;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=42;
             footer=Rect("Phone dialog pinned actions",dialog);Place(footer,22,height-footerHeight,width-44,footerHeight-12);
-            var actions=items.Where(x=>x!=close&&x.rect.GetComponent<Button>()&&(x.Top>=authoredSize.y-106||x.rect.name=="Station return")).OrderBy(x=>x.position.x).ToArray();
+            var actions=items.Where(x=>x!=close&&x.rect.GetComponent<Button>()&&(x.Top>=authoredSize.y-106||x.rect.name=="Station return"||x.rect.name=="Equipment done")).OrderBy(x=>x.position.x).ToArray();
             float actionWidth=actions.Length==0?0:(width-44-gap*(actions.Length-1))/actions.Length;
             for(int i=0;i<actions.Length;i++){actions[i].rect.SetParent(footer,false);Place(actions[i].rect,i*(actionWidth+gap),4,actionWidth,68);FitCaption(actions[i].rect);}
             var content=items.Where(x=>x!=title&&x!=close&&!actions.Contains(x)).OrderBy(x=>x.Top).ThenBy(x=>x.position.x).ToArray();
@@ -94,7 +97,7 @@ namespace Vlab.Product
             if(ParameterPanel){Flow(content,width-56);return;}
             if(side){BuildInstrumentSide(content,width,height,header,footerHeight);return;}
             if(BuildDocument(content,width,height,header,footerHeight))return;
-            if(width>=820&&BuildEquipment(content,width,height,header,footerHeight))return;
+            if((width>=820||equipmentSide)&&BuildEquipment(content,width,height,header,footerHeight))return;
             bool explanation=content.Any(x=>x.rect.name=="Instrument observation output"&&x.rect.GetComponentInChildren<VlabScrollContent>());
             if((width>=1000||explanation)&&BuildInstrument(content,width,height,header,footerHeight))return;
             Flow(content,width-56);
@@ -156,6 +159,8 @@ namespace Vlab.Product
                     item.rect.SetParent(body,false);float w=Mathf.Min(item.size.x,available),h=item.size.y,fit=w/Mathf.Max(1,item.size.x);
                     bool button=item.rect.GetComponent<Button>();var text=item.rect.GetComponent<TMP_Text>();
                     if(button){w=Mathf.Min(Mathf.Max(w,240),available);h=Mathf.Max(68,h);fit=1;}
+                    if(button&&item.rect.name.StartsWith("Equipment item ",System.StringComparison.Ordinal))
+                    {var caption=item.rect.GetComponentInChildren<TMP_Text>();if(caption)h=Mathf.Max(h,caption.GetPreferredValues(caption.text,w-52,Mathf.Infinity).y+12);}
                     else if(text){fit=1;h=Mathf.Max(h,text.GetPreferredValues(text.text,w,h).y+12);}
                     else h*=fit;
                     if(x>0&&x+w>available){y+=rowHeight+gap;x=0;rowHeight=0;}
@@ -216,12 +221,23 @@ namespace Vlab.Product
             float y=header;
             foreach(var action in new[]{take,place,putBack})
             {Place(action.rect,sideX,y,sideWidth,72);FitCaption(action.rect);y+=84;}
-            var information=content.Where(x=>!instruments.Contains(x)&&x!=take&&x!=place&&x!=putBack).ToArray();
+            var previous=content.FirstOrDefault(x=>x.rect.name=="Equipment previous");
+            var next=content.FirstOrDefault(x=>x.rect.name=="Equipment next");
+            var page=content.FirstOrDefault(x=>x.rect.name=="Equipment page");
+            float informationBottom=header+availableHeight;
+            if(previous!=null&&next!=null&&page!=null)
+            {
+                float pagerTop=header+availableHeight-68,buttonWidth=(sideWidth-14)/2;
+                Place(previous.rect,sideX,pagerTop,buttonWidth,68);FitCaption(previous.rect);
+                Place(next.rect,sideX+buttonWidth+14,pagerTop,buttonWidth,68);FitCaption(next.rect);
+                Place(page.rect,sideX,pagerTop-40,sideWidth,36);informationBottom=pagerTop-44;
+            }
+            var information=content.Where(x=>!instruments.Contains(x)&&x!=take&&x!=place&&x!=putBack&&x!=previous&&x!=next&&x!=page).ToArray();
             for(int i=0;i<information.Length;i++)
             {
                 var item=information[i];float reserved=(information.Length-i-1)*44;
-                float textHeight=Mathf.Min(item.size.y,Mathf.Max(36,header+availableHeight-y-reserved));
-                Place(item.rect,sideX,y,sideWidth,textHeight);y+=textHeight+8;
+                float textHeight=Mathf.Min(item.size.y,Mathf.Max(36,informationBottom-y-reserved));
+                Place(item.rect,sideX,y,sideWidth,textHeight);FitCaption(item.rect);y+=textHeight+8;
             }
             return true;
         }
@@ -348,7 +364,7 @@ namespace Vlab.Product
         {
             if(!rect.GetComponent<Button>())return;
             var text=rect.GetComponentInChildren<TMP_Text>();if(!text)return;
-            var caption=text.rectTransform;caption.anchorMin=Vector2.zero;caption.anchorMax=Vector2.one;caption.offsetMin=new Vector2(10,5);caption.offsetMax=new Vector2(-10,-5);
+            var caption=text.rectTransform;caption.anchorMin=Vector2.zero;caption.anchorMax=Vector2.one;caption.offsetMin=new Vector2(rect.Find("Equipment fitted check")?42:10,5);caption.offsetMax=new Vector2(-10,-5);
 
         }
         static void Place(RectTransform rect,float x,float y,float width,float height)

@@ -1,0 +1,50 @@
+{
+  "apk": "E:\\VLAB\\4 LABS\\Ngua Man VLAB\\Builds\\Android\\Candidates\\VLAB-0.1.6-flagship-r9-candidate.apk",
+  "version": "0.1.6",
+  "code": 17,
+  "bytes": 124374343,
+  "sha256": "4687d74810741feab528b9966dcac5622aa85e90d6344041a32e3103d34cd1e4",
+  "package": "com.nguaman.vlab",
+  "label": "VLAB",
+  "minSdk": 26,
+  "targetSdk": 36,
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "signerSha256": "e467ce6c26b59e21c626f4f57cb5ff0d0cd976a4dfcced0efe4594ae03e95798",
+  "buildErrors": 0,
+  "buildWarnings": 42,
+  "handoffReady": true,
+  "acceptanceScope": "Prototype: 4 flagship native journeys in code12; bounded regressions and C04 full repeat in final code17. Not production certification.",
+  "editorComponentChecks": {
+    "pass": 88,
+    "fail": 0,
+    "run": "r31"
+  },
+  "nativeFinalRetest": [
+    "install/upgrade code17",
+    "short joystick right/left/back",
+    "free look and return to bench",
+    "C04 original-contact pickup/three transfers/own record/repeat",
+    "upright clean VR menu after activity",
+    "VLAB launcher icon after install",
+    "checksummed profile survives process restart"
+  ],
+  "unverified": [
+    "physical phone/Cardboard rotation/calibration/latency",
+    "physical BLE/controller",
+    "all28 other full recipes",
+    "phone FPS/thermal",
+    "independent novice usability and final artistic approval"
+  ],
+  "profileCountsAfterRestart": {
+    "P01": 4,
+    "P02": 1,
+    "C04": 4,
+    "M01": 3,
+    "B01": 2
+  },
+  "temporaryDiagnosticAbsent": true,
+  "publiclyPublished": false
+}

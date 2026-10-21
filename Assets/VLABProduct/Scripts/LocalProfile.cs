@@ -75,13 +75,13 @@ namespace Vlab.Product
     {public string documentId,contentHash,languageShown,acceptedAtUtc;}
     [Serializable] public sealed class AttemptRecord
     {
-        public string experimentId,attemptId,savedAtUtc,model,observation,detailJson;
+        public string experimentId,attemptId,savedAtUtc,model,observation,detailJson,assistance;
         public string modelNotesVi,modelNotesEn;
         public int seed; public List<Reading> readings=new List<Reading>();
         public double[] parameterValues;
     }
     [Serializable] public sealed class SessionCheckpoint
-    {public string experimentId,detailJson;public int operation,seed;public double[] values;public bool apparatusReady;}
+    {public string experimentId,detailJson,assistance;public int operation,seed;public double[] values;public bool apparatusReady;}
     [Serializable] public sealed class NotebookPage
     {
         public string id,experimentId="",title="",body="",createdAtUtc,updatedAtUtc;

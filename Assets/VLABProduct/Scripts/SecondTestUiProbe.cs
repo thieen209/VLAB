@@ -289,7 +289,18 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         while(App.Route=="loading"&&Time.realtimeSinceStartupAsDouble<timeout)yield return null;
         if(App.Route!="activity"||App.Session?.spec.id!=id)throw new Exception("Entry failed, route="+App.Route+" lesson="+App.Session?.spec.id);
         current.entered=true;Write(SessionState.GetString("VLAB.TestProfile",""));yield return new WaitForSecondsRealtime(.4f);Capture(id+"-entry");WorldChecks(false);
-        if(id=="B03")yield return ConfigureShortB03();
+                if(Environment.GetEnvironmentVariable("VLAB_UI_ENTRY_ONLY")=="1")
+        {
+            yield return Tap(Read<Button>("liveAction"));
+            if(!Modal())throw new Exception("Inventory did not open through touchscreen");
+            for(int equipmentPage=0;equipmentPage<5;equipmentPage++)
+            {
+                var sheet=Read<RectTransform>("modal");var layout=sheet.GetComponentInChildren<PhoneDialogLayout>();string why="missing layout";if(!layout||!layout.AssertPhoneLayout(out why))throw new Exception("Inventory layout: "+(layout?why:"missing layout"));
+                Capture(id+"-inventory-"+equipmentPage);var next=Find("Equipment next");if(!next)break;yield return Tap(next);
+            }
+            yield return Press("Equipment done","Xong","Done");if(Modal())throw new Exception("Done did not close inventory");current.status="UI ENTRY + INVENTORY ONLY";yield break;
+        }
+if(id=="B03")yield return ConfigureShortB03();
         timeout=Time.realtimeSinceStartupAsDouble+lessonTimeout;int repeats=0;string previousSignature="";
         for(int action=0;action<150&&Time.realtimeSinceStartupAsDouble<timeout;action++)
         {
@@ -567,7 +578,7 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         current=null;Write(profile);Application.logMessageReceived-=Log;
         if(touch!=null&&touch.added)InputSystem.RemoveDevice(touch);if(previous!=null&&previous.added)previous.MakeCurrent();
         SessionState.SetBool("VLAB.SecondTestUI",false);SessionState.SetString("VLAB.TestProfile","");
-        bool complete=results.Count==ids.Length&&results.All(r=>r.status=="UI JOURNEY RECORDED"&&r.worldFailures.Length==0)&&errors.Count==0&&!scopedRows.Any(row=>row.StartsWith("FAIL ",StringComparison.Ordinal))&&!presentationRows.Any(row=>row.StartsWith("FAIL ",StringComparison.Ordinal));
+        bool complete=results.Count==ids.Length&&results.All(r=>(r.status=="UI JOURNEY RECORDED"||Environment.GetEnvironmentVariable("VLAB_UI_ENTRY_ONLY")=="1"&&r.status=="UI ENTRY + INVENTORY ONLY")&&r.worldFailures.Length==0)&&errors.Count==0&&!scopedRows.Any(row=>row.StartsWith("FAIL ",StringComparison.Ordinal))&&!presentationRows.Any(row=>row.StartsWith("FAIL ",StringComparison.Ordinal));
         Debug.Log("VLAB SECOND TEST UI: "+results.Count+" attempted, "+results.Count(r=>r.recorded)+" recorded, evidence="+folder);
         SecondTestGameView.Restore();EditorApplication.Exit(complete?0:1);
     }

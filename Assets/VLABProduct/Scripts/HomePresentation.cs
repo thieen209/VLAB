@@ -76,7 +76,7 @@ namespace Vlab.Product
         }
         public static void Helper(VlabUi ui,RectTransform page,string text,float top)
         {
-            var caption=ui.Text(page,text,400,top,800,32,18,null,TextAlignmentOptions.Center);caption.color=VlabUi.Hex("CAD5DF");caption.GetComponent<VlabTextBacking>().enabled=false;
+            var caption=ui.Text(page,text,400,top,800,32,18,null,TextAlignmentOptions.Center);caption.name="Home selection hint";caption.color=VlabUi.Hex("CAD5DF");caption.GetComponent<VlabTextBacking>().enabled=false;
         }
     }
     public sealed class HomePortalArc:MonoBehaviour

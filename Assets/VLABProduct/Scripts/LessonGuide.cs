@@ -20,7 +20,7 @@ namespace Vlab.Product
         }
         static readonly Dictionary<string,Entry> entries=new Dictionary<string,Entry>
         {
-            ["P01"]=new Entry("Con lắc đơn","Pendulum","stand,pendulum,timer,pendulum","Đếm đủ chu kỳ cùng chiều qua mốc cân bằng.","Count full same-direction crossings at equilibrium."),
+            ["P01"]=new Entry("Con lắc đơn","Pendulum","stand,pendulum,pendulum,pendulum","Đếm đủ chu kỳ cùng chiều qua mốc cân bằng.","Count full same-direction crossings at equilibrium."),
             ["P02"]=new Entry("Ném xiên","Projectile","target,launcher,ball","Quan sát lần chạm đầu; đọc dấu trên tấm hứng.","Observe first impact and the mark on the target."),
             ["P03"]=new Entry("Ma sát","Friction","meter,block,meter","Tăng lực kéo đến khi khối trượt, rồi giữ kéo đều.","Raise pull until the block slides, then maintain steady sliding."),
             ["P04"]=new Entry("Cổng quang","Photogates","track,flag,timer","Chờ bản chắn đi qua cả hai cổng.","Wait for the flag to pass both gates."),
@@ -164,7 +164,7 @@ namespace Vlab.Product
             }
             if(id=="P02"&&session.Phase==ExperimentPhase.Ready)return Task(vi,"start","target","","Xem tấm hứng dưới sàn, rồi nhấn Bắt đầu lượt đo.","Locate the floor mat, then select Start trial.","Viên bi bay về phía tấm hứng; chưa tự ghi kết quả.","The ball flies toward the mat; no result is saved automatically.");
             if(id=="P02"&&session.Authority?.CanRecord(out _)==true)return Task(vi,"record","target","","Nhìn dấu trên tấm hứng dưới sàn, rồi chọn Ghi số đo.","Inspect the mark on the floor mat, then Record measurement.","Lượt đo xuất hiện trong Sổ tay.","The trial appears in Notebook.");
-            if(session.Phase==ExperimentPhase.Ready)return Task(vi,"start",Target(rig,entry,entry.targets.Length-1),"",id=="P01"?"Nhấn Thả / Bắt đầu. Chưa ghi kết quả ở bước này.":"Nhấn Bắt đầu lượt đo. Sau khi quan sát đủ, chọn Ghi số đo để lưu.",id=="P01"?"Select Release / Start. This does not record a result.":"Select Start trial. After completing the observations, select Record measurement to save.","Trạng thái chuyển sang Đang quan sát, đồng hồ chạy.","The phase becomes Observing and its clock advances.");
+            if(session.Phase==ExperimentPhase.Ready)return Task(vi,"start",Target(rig,entry,entry.targets.Length-1),"",id=="P01"?"Giữ quả nặng, kéo lệch nhẹ rồi thả tay để con lắc dao động.":"Nhấn Bắt đầu lượt đo. Sau khi quan sát đủ, chọn Ghi số đo để lưu.",id=="P01"?"Hold the bob, pull it gently to one side, then release it.":"Select Start trial. After completing the observations, select Record measurement to save.","Trạng thái chuyển sang Đang quan sát, đồng hồ chạy.","The phase becomes Observing and its clock advances.");
             if(session.Authority?.CanRecord(out _)==true||(session.Pendulum!=null&&session.Pendulum.Cycles>=session.parameters["cycles"]))return Task(vi,"record","","","Nhấn Ghi số đo để lưu lượt thực hành.","Select Record measurement to save this trial.","Màn hình kết quả mở và lượt xuất hiện trong Sổ tay.","Results opens and the attempt appears in Notebook.");
             var s=Biology(rig);
             if(s!=null)
@@ -238,6 +238,7 @@ namespace Vlab.Product
         public static string ExplainFailure(string raw,bool vi)
         {
             if(!vi)return raw+" Check the setup and required conditions; open Guidance if needed.";
+            if(!string.IsNullOrEmpty(raw)&&raw.Any(c=>c>127&&char.IsLetter(c)))return raw;
             switch((raw??"").Trim())
             {
                 case "Select actual source structure first.":return "Chạm vào cấu trúc cần nhận diện trên hình trước, rồi chọn tên cấu trúc.";

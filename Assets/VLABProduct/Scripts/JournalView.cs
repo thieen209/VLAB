@@ -96,7 +96,7 @@ namespace Vlab.Product
         }
         public static string Interpretation(AttemptRecord record,bool vi)
         {
-            string notes=vi?record.modelNotesVi:record.modelNotesEn;
+            string notes=vi?record.modelNotesVi:record.modelNotesEn; string assistance=record.assistance=="prepared-kit"?L(vi,"Dụng cụ chuẩn bị sẵn; thao tác và số đo từ lượt của bạn.","Prepared apparatus; actions and readings from your own trial."):record.assistance=="guided-preparation"?L(vi,"Chuẩn bị có hỗ trợ; số đo từ lượt thực hành của bạn.","Assisted preparation; readings from your own trial."):string.IsNullOrEmpty(record.assistance)?L(vi,"Bản ghi cũ: chưa ghi mức hỗ trợ.","Older record: assistance not tracked."):L(vi,"Không ghi nhận làm hộ bước chuẩn bị.","No step preparation assistance recorded."); notes=assistance+"\n\n"+(!string.IsNullOrEmpty(notes)?notes:LessonContext.Explanation(record.experimentId,vi));
             return !string.IsNullOrEmpty(notes)?notes:L(vi,"Bản ghi cũ chưa kèm diễn giải. Tham khảo hiện tại dưới đây; số đo và mô hình gốc vẫn được giữ.\n\n","This older record has no attached interpretation. Current reference guidance follows; its original readings and model are retained.\n\n")+LessonContext.Explanation(record.experimentId,vi);
         }
         public static string RecordText(AttemptRecord record,bool vi,Func<IEnumerable<Reading>,string> readings)

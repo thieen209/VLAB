@@ -121,6 +121,7 @@ public static class SecondTestWorldChecks
         var origin=new GameObject("Isolated movement origin");
         var wall=new GameObject("Isolated movement wall");
         var equipment=new GameObject("Isolated movement held equipment");
+        var floor=new GameObject("Isolated movement floor");
         try
         {
             var at=new Vector3(1000,2,1000);origin.transform.position=at;
@@ -135,10 +136,14 @@ public static class SecondTestWorldChecks
             Physics.SyncTransforms();
             moved=PhoneLocomotion.Move(origin.transform,Vector3.right,out hit);
             check("Equipment collider cannot become an invisible movement wall",hit==null&&Vector3.Distance(moved,at+Vector3.right)<.001f);
+            floor.transform.position=new Vector3(1000,-.05f,1000);floor.AddComponent<BoxCollider>().size=new Vector3(20,.1f,20);origin.transform.position=new Vector3(1000,1.1f,1000);Physics.SyncTransforms();
+            moved=PhoneLocomotion.Move(origin.transform,Vector3.right,out hit);check("Low bench camera can walk without floor overlap trapping capsule",hit==null&&Vector3.Distance(moved,origin.transform.position+Vector3.right)<.001f);
+            box.enabled=true;Physics.SyncTransforms();moved=PhoneLocomotion.Move(origin.transform,Vector3.right,out hit);check("Low bench camera still respects real furniture walls",hit==box&&moved.x<origin.transform.position.x+.31f);
+            box.enabled=false;floor.transform.position+=Vector3.up*.6f;Physics.SyncTransforms();moved=PhoneLocomotion.Move(origin.transform,Vector3.right,out hit);check("Low camera walking uses actual raised floor height",hit==null&&Vector3.Distance(moved,origin.transform.position+Vector3.right)<.001f);
         }
         finally
         {
-            UnityEngine.Object.DestroyImmediate(origin);UnityEngine.Object.DestroyImmediate(wall);UnityEngine.Object.DestroyImmediate(equipment);Physics.SyncTransforms();
+            UnityEngine.Object.DestroyImmediate(origin);UnityEngine.Object.DestroyImmediate(wall);UnityEngine.Object.DestroyImmediate(equipment);UnityEngine.Object.DestroyImmediate(floor);Physics.SyncTransforms();
         }
     }
 }

@@ -25,8 +25,8 @@ public static class VlabAppearanceChecks
             envelope.payload=Regex.Replace(envelope.payload,"\\\"uiOpacity\\\"\\s*:\\s*[-+0-9.eE]+,?","").Replace(",}","}");
             envelope.sha256=ProfileStore.Hash(envelope.payload);File.WriteAllText(file,JsonUtility.ToJson(envelope));
             var legacy=new ProfileStore(folder).Load();check("Legacy absent opacity migrates to one without discarding 32 records",!legacy.writeProtected&&!legacy.recovered&&legacy.profile.settings.uiOpacity==1&&legacy.profile.attempts.Count==32);
-            profile.settings.uiTheme=2;profile.settings.uiOpacity=.55f;check("Appearance settings save",store.Save(profile,out _));
-            var loaded=new ProfileStore(folder).Load();check("Theme, opacity and bilingual record notes round trip",loaded.profile.settings.uiTheme==2&&Math.Abs(loaded.profile.settings.uiOpacity-.55f)<.0001f&&loaded.profile.attempts[0].modelNotesEn=="Fixture note");
+            profile.attempts[0].assistance="guided-preparation";profile.settings.uiTheme=2;profile.settings.uiOpacity=.55f;check("Appearance settings save",store.Save(profile,out _));
+            var loaded=new ProfileStore(folder).Load();check("Theme, opacity and bilingual record notes round trip",loaded.profile.settings.uiTheme==2&&Math.Abs(loaded.profile.settings.uiOpacity-.55f)<.0001f&&loaded.profile.attempts[0].modelNotesEn=="Fixture note"&&loaded.profile.attempts[0].assistance=="guided-preparation");
             var copy=loaded.profile.settings.Copy();check("Draft appearance copy is independent",copy!=loaded.profile.settings&&copy.uiTheme==2&&copy.uiOpacity==loaded.profile.settings.uiOpacity);
             bool invalid=false;try{copy.uiOpacity=0;copy.Validate();}catch(InvalidDataException){invalid=true;}check("Explicit zero opacity is rejected",invalid);
             invalid=false;try{copy.uiOpacity=float.NaN;copy.Validate();}catch(InvalidDataException){invalid=true;}check("Non-finite opacity is rejected",invalid);
@@ -36,7 +36,7 @@ public static class VlabAppearanceChecks
                 foreach(string hex in new[]{"4C86FF","D85BEA","56BF88","F0A34D"})check("Theme "+index+" accent "+hex+" caption contrast",UiTheme.Contrast(UiTheme.On(VlabUi.Hex(hex)),VlabUi.Hex(hex))>=4.5f);
             }
             check("Journal distinguishes no attempt from an actual saved attempt",JournalView.Status(new LocalProfile(),"P01",false)=="No saved attempts"&&JournalView.Status(profile,"P01",false)=="1 saved attempt");
-            check("Journal uses attached historical interpretation",JournalView.Interpretation(profile.attempts[0],true)=="Ghi chú kiểm thử");
+            check("Journal uses attached historical interpretation",JournalView.Interpretation(profile.attempts[0],true).EndsWith("Ghi chú kiểm thử")&&JournalView.Interpretation(profile.attempts[0],true).Contains("Chuẩn bị có hỗ trợ"));
         }
         finally {if(Directory.Exists(folder))Directory.Delete(folder,true);}
     }

@@ -441,9 +441,9 @@ namespace Vlab.Product
             message="";
             try
             {
-                if(id=="focus-"||id=="focus+")
+                if(id=="focus-"||id=="focus+"||id=="focusFine-"||id=="focusFine+")
                 {
-                    s.focus=Mathf.Clamp(s.focus+(id=="focus+"?.5f:-.5f),0,13);
+                    float step=id.StartsWith("focusFine",StringComparison.Ordinal)?.05f:.5f;s.focus=Mathf.Clamp(s.focus+(id.EndsWith("+",StringComparison.Ordinal)?step:-step),0,13);
                     if(session.parameters.ContainsKey("focus"))session.parameters["focus"]=s.focus;
                     Check(Instrument<VlabMicroscope>("microscope").TrySetFocus(s.focus),"Focus travel rejected.");return true;
                 }

@@ -186,7 +186,11 @@ namespace Vlab.Product
                     return Pivot;
                 case "pendulum":return Pivot-Vector3.up*(float)session.parameters["length"];
                 case "string":return Pivot;
-                case "ruler":return centre+new Vector3(-.40f,.004f,-.28f);
+                case "ruler":
+                    var restingStand=items.FirstOrDefault(x=>x.assetId=="stand"&&x.installed);
+                    var baseMesh=restingStand?restingStand.GetComponentsInChildren<Renderer>().FirstOrDefault(r=>r.name.EndsWith("_Base_VIS",StringComparison.Ordinal)):null;
+                    // Rest the unchanged 1 m ruler behind the actual base, clear of its footprint.
+                    return new Vector3(centre.x-.40f,hasStationTop?stationTop.max.y+StorageLift:centre.y+.004f,baseMesh?baseMesh.bounds.max.z+StorageGap+.015f:centre.z-.28f);
                 case "timer":return centre+new Vector3(.38f,.004f,-.10f);
                 default:return centre;
             }
@@ -855,6 +859,7 @@ namespace Vlab.Product
         {
             if(!item||!items.Contains(item))return;
             if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready)return;
+            if(Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Preparing&&session.Operation==3&&!PrepareNext(out _))return;
             Select(item);pullingBob=Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Ready;
             carrying=!item.installed;latchedCarry=false;carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,item.transform.position),.35f,2.5f);
         }
@@ -865,7 +870,7 @@ namespace Vlab.Product
             if(pullingBob)
             {
                 var plane=new Plane(Vector3.forward,Pivot);if(plane.Raycast(frame.pointer,out float distance))
-                {var point=frame.pointer.GetPoint(distance)-Pivot;double angle=Math.Max(2,Math.Min(60,Math.Atan2(Math.Max(.001,point.x),-point.y)*180/Math.PI));session.SetParameter("angle",angle,out _);RefreshConfiguration();}
+                {var point=frame.pointer.GetPoint(distance)-Pivot;double angle=Math.Max(2,Math.Min(60,Math.Atan2(Math.Max(.001,Math.Abs(point.x)),-point.y)*180/Math.PI));session.ReleaseDirection=point.x<0?-1:1;session.SetParameter("angle",angle,out _);RefreshConfiguration();}
                 if(frame.released){pullingBob=false;Selected=null;session.Start(out _);Changed?.Invoke();}return;
             }
             if(carrying)
@@ -953,9 +958,9 @@ namespace Vlab.Product
             if(clamp)clamp.SetOpening(.002);
             if(bobController)bobController.TryConfigureMass(session.parameters["mass"]*1000);
             if(timer&&operation==3)timer.ResetTimer();
-            UpdatePendulum(session.Phase==ExperimentPhase.Ready?session.parameters["angle"]*Math.PI/180:0);
+            UpdatePendulum(session.Phase==ExperimentPhase.Ready?session.parameters["angle"]*session.ReleaseDirection*Math.PI/180:0);
         }
-        public void RefreshConfiguration(){if(Driver!=null){Driver.Configure();SynchronizeDerivedFixtures();return;}if(Ready)UpdatePendulum(session.Phase==ExperimentPhase.Ready?session.parameters["angle"]*Math.PI/180:0);}
+        public void RefreshConfiguration(){if(Driver!=null){Driver.Configure();SynchronizeDerivedFixtures();return;}if(Ready)UpdatePendulum(session.Phase==ExperimentPhase.Ready?session.parameters["angle"]*session.ReleaseDirection*Math.PI/180:0);}
         void Update()
         {
             if(session==null||!Ready)return;
@@ -967,7 +972,7 @@ namespace Vlab.Product
                 if(session.Pendulum.TargetCrossing>=0){timer.TryStop(session.Pendulum.TargetCrossing);timerCompleted=true;}
                 else timer.TrySample(session.Pendulum.Time);
             }
-            double angle=session.Pendulum!=null?session.Pendulum.Angle:session.Phase==ExperimentPhase.Ready?session.parameters["angle"]*Math.PI/180:0;
+            double angle=session.Pendulum!=null?session.Pendulum.Angle:session.Phase==ExperimentPhase.Ready?session.parameters["angle"]*session.ReleaseDirection*Math.PI/180:0;
             if(Math.Abs(lastAngle-angle)>.000001||session.Phase==ExperimentPhase.Ready)UpdatePendulum(angle);
         }
         void UpdatePendulum(double angle)

@@ -1,0 +1,69 @@
+PASS swipe right looks right; swipe up looks up, matching desktop
+PASS invert X affects yaw only
+PASS invert Y affects pitch only
+PASS sensitivity scales both swipe axes
+PASS pitch remains within comfort bounds
+PASS invalid gyro quaternions rejected
+PASS both landscape sensor bases compensate exactly once
+PASS gyro calibration preserves current world heading/pitch without a jump
+PASS relative gyro yaw uses calibrated screen coordinates
+PASS gyro respects invert X and common sensitivity
+PASS UI-started touch takes priority over joystick region
+PASS UI-started finger cannot become look/move after leaving button
+PASS two fingers move and look together without selecting world objects
+PASS joystick cancellation stops movement while other finger retains look
+PASS equipment-started touch emits world press and hold
+PASS equipment drag retains owner across UI and never rotates camera
+PASS canceled equipment touch releases at final real pointer position
+PASS already-held finger is not acquired after page/mode reset
+PASS reset clears all touch and movement ownership
+PASS larger joystick radius matches 14% safe height; radius=84, safeHeight=600
+PASS larger joystick stays inside safe area; centre=(185.00, 118.00), radius=84, safe=(x:25.00, y:10.00, width:1000.00, height:600.00)
+PASS lower-left swipe outside visible joystick never becomes unintended movement
+PASS equipment outside joystick disc remains selectable in lower-left quadrant
+PASS joystick centre begins at rest (0.00, 1.00)
+PASS joystick retains direction and ownership outside disc (0.00, 1.00)
+PASS missing joystick finger releases movement (0.00, 1.00)
+PASS joystick centre begins at rest (0.00, -1.00)
+PASS joystick retains direction and ownership outside disc (0.00, -1.00)
+PASS missing joystick finger releases movement (0.00, -1.00)
+PASS joystick centre begins at rest (-1.00, 0.00)
+PASS joystick retains direction and ownership outside disc (-1.00, 0.00)
+PASS missing joystick finger releases movement (-1.00, 0.00)
+PASS joystick centre begins at rest (1.00, 0.00)
+PASS joystick retains direction and ownership outside disc (1.00, 0.00)
+PASS missing joystick finger releases movement (1.00, 0.00)
+PASS joystick dead zone suppresses slight initial finger offset
+PASS hidden joystick releases its area for normal camera swipes
+PASS scaled joystick claim and movement use same radius 0.75
+PASS outside scaled joystick stays look-only 0.75
+PASS scaled joystick claim and movement use same radius 1
+PASS outside scaled joystick stays look-only 1
+PASS scaled joystick claim and movement use same radius 1.25
+PASS outside scaled joystick stays look-only 1.25
+PASS native Input System multitouch joystick and correctly directed look are simultaneous
+PASS modal blocks movement and hides phone controls
+PASS closing modal does not adopt fingers that remain held
+PASS UI touch remains exclusively with native UI input module
+PASS native UI-started drag never rotates camera after leaving control
+PASS same-update quick world tap keeps press and release
+PASS same-update quick UI tap never selects world
+PASS batched begin and move acquires joystick from recorded start
+PASS batched drag beginning on UI remains UI-owned
+PASS batched equipment drag selects original contact before following motion
+PASS native equipment touch marks only actual world press edge
+PASS held equipment finger does not repeat the world press marker
+PASS modal opening releases held apparatus exactly once
+PASS pending input loss cancels even a fresh world-touch press marker
+PASS controller select never claims phone world-touch origin
+PASS native attitude sensor drives opt-in flat camera
+PASS recenter zeros gyro at current view without snapping
+PASS orientation/size transition rebases gyro without camera jump
+PASS station focus rebases gyro so cached pose cannot snap back
+PASS synthetic Cardboard lifecycle entered stereo
+PASS Cardboard ignores raw phone touch, joystick and custom gyro pose
+PASS station focus does not overwrite Cardboard tracked head rotation
+PASS return from Cardboard rebases flat gyro safely
+PASS native lower-left touch outside joystick does not move or select
+PASS native lower-left swipe outside joystick rotates view without unintended walking
+PASS pause cancels phone input without retained movement

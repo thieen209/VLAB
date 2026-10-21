@@ -19,6 +19,13 @@ namespace Vlab.Product
             {
                 var lower = position - Vector3.up * 1.25f;
                 var upper = position - Vector3.up * .12f;
+                // Bench inspection lowers the eye; keep the body above the actual floor instead of embedding its feet.
+                foreach (var ground in Physics.RaycastAll(position, Vector3.down, 3, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+                {
+                    if (ground.normal.y < .6f || ground.collider.transform.IsChildOf(origin.root) || ground.collider.GetComponentInParent<EquipmentHandle>()) continue;
+                    lower.y = Mathf.Max(lower.y, ground.point.y + .2f);
+                }
+                upper.y = Mathf.Max(upper.y, lower.y);
                 float distance = delta.magnitude;
                 var direction = delta / distance;
                 RaycastHit? nearest = null;

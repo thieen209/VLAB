@@ -601,9 +601,14 @@ namespace Vlab.Product
             var drop=I<VlabDropper>("dropper");var b=I<VlabBeaker>(cup);var restPosition=drop.transform.position;var restRotation=drop.transform.rotation;
             drop.transform.rotation=Quaternion.FromToRotation(drop.EmissionDirection,Vector3.down)*drop.transform.rotation;
             drop.transform.position+=b.transform.position+Vector3.up*.11f-drop.Tip.position;
-            Must(Vector3.Dot(drop.EmissionDirection,Vector3.down)>.999f&&drop.SetSqueeze(1),"Aim the dropper outlet downward over the selected beaker.");
-            qualitativeSelection=0;unitsLeft-=2;if(cup=="nacl"){naclUnits=2;naclSolid=true;I<VlabPrecipitate>("solidNaCl").TrySetQualitative(true);}else if(cup=="nitrate"){nitrateUnits=2;I<VlabPrecipitate>("solidNitrate").TrySetQualitative(false);}else {waterUnits=2;I<VlabPrecipitate>("solidWater").TrySetQualitative(false);}
-            drop.SetSqueeze(0);drop.transform.SetPositionAndRotation(restPosition,restRotation);
+            try
+            {
+                Must(Vector3.Dot(drop.EmissionDirection,Vector3.down)>.999f&&drop.SetSqueeze(1),"Aim the dropper outlet downward over the selected beaker.");
+                var solid=I<VlabPrecipitate>(cup=="nacl"?"solidNaCl":cup=="nitrate"?"solidNitrate":"solidWater");
+                Must(solid.TrySetQualitative(cup=="nacl",.8f),"Place the precipitate upright inside its sample cup.");
+                qualitativeSelection=0;unitsLeft-=2;if(cup=="nacl"){naclUnits=2;naclSolid=true;}else if(cup=="nitrate")nitrateUnits=2;else waterUnits=2;
+            }
+            finally{drop.SetSqueeze(0);drop.transform.SetPositionAndRotation(restPosition,restRotation);}
         }
         void MeasureInitialTemperature(bool acid)
         {

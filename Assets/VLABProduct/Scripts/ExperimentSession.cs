@@ -38,7 +38,7 @@ namespace Vlab.Product
     }
     public sealed class ExperimentSession
     {
-        public readonly LessonSpec spec;
+        public string Assistance="";public int ReleaseDirection=1;public readonly LessonSpec spec;
         public readonly Dictionary<string,double> parameters;
         public ExperimentPhase Phase{get;private set;}=ExperimentPhase.Preparing;
         public int Operation{get;private set;}public int Seed{get;private set;}
@@ -84,7 +84,7 @@ namespace Vlab.Product
             if(Authority!=null&&!Authority.CanStart(out message))return false;
             try{if(Authority==null)ScienceModels.Evaluate(spec.id,parameters,0);}
             catch(Exception ex){message=ex.Message;return false;}
-            if(spec.id=="P01")Pendulum=new PendulumDynamics(parameters["length"],parameters["angle"],(int)parameters["cycles"]);
+            if(spec.id=="P01")Pendulum=new PendulumDynamics(parameters["length"],parameters["angle"]*ReleaseDirection,(int)parameters["cycles"]);
             Phase=ExperimentPhase.Running;Authority?.SetPaused(false);return true;
         }
         public void Advance(double seconds)
@@ -136,12 +136,12 @@ namespace Vlab.Product
         {
             var values=new double[spec.parameters.Length];for(int i=0;i<values.Length;i++)values[i]=parameters[spec.parameters[i].key];
             // Running chemistry/physics safely restarts at preparation; recorded notebook entries remain separate.
-            return new SessionCheckpoint{experimentId=spec.id,operation=Authority==null&&Phase==ExperimentPhase.Preparing?Operation:0,values=values,seed=Seed,apparatusReady=false,detailJson=Authority?.SaveState()??""};
+            return new SessionCheckpoint{experimentId=spec.id,operation=Authority==null&&Phase==ExperimentPhase.Preparing?Operation:0,values=values,seed=Seed,apparatusReady=false,detailJson=Authority?.SaveState()??"",assistance=Assistance};
         }
         public static ExperimentSession Restore(SessionCheckpoint checkpoint)
         {
             var s=new ExperimentSession(checkpoint.experimentId,checkpoint.seed);for(int i=0;i<s.spec.parameters.Length;i++)s.parameters[s.spec.parameters[i].key]=checkpoint.values[i];
-            s.Operation=checkpoint.operation;s.ApparatusReady=false;s.RestoredDetailJson=checkpoint.detailJson??"";return s;
+            s.Operation=checkpoint.operation;s.ApparatusReady=false;s.RestoredDetailJson=checkpoint.detailJson??"";s.Assistance=checkpoint.assistance??"";return s;
         }
         public AttemptRecord Record(string observation="")
         {
@@ -150,7 +150,7 @@ namespace Vlab.Product
             // A recorded attempt owns its observations. Copying the list alone would leave
             // mutable Reading objects shared with the live instrument result and other records.
             var readings=new List<Reading>();foreach(var reading in Recorded.readings)readings.Add(new Reading(reading.key,reading.value,reading.unit,reading.labelVi,reading.labelEn));
-            return new AttemptRecord{experimentId=spec.id,attemptId=Guid.NewGuid().ToString("N"),savedAtUtc=DateTime.UtcNow.ToString("O"),model=spec.modelLabel,modelNotesVi=LessonContext.Explanation(spec.id,true,Recorded),modelNotesEn=LessonContext.Explanation(spec.id,false,Recorded),seed=Seed,readings=readings,parameterValues=values,observation=observation,detailJson=Recorded.detailJson};
+            return new AttemptRecord{experimentId=spec.id,attemptId=Guid.NewGuid().ToString("N"),savedAtUtc=DateTime.UtcNow.ToString("O"),model=spec.modelLabel,modelNotesVi=LessonContext.Explanation(spec.id,true,Recorded),modelNotesEn=LessonContext.Explanation(spec.id,false,Recorded),seed=Seed,readings=readings,parameterValues=values,observation=observation,detailJson=Recorded.detailJson,assistance=string.IsNullOrEmpty(Assistance)?"no-step-assist-recorded":Assistance};
         }
     }
 }

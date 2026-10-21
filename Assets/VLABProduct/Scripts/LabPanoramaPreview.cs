@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -13,8 +14,10 @@ namespace Vlab.Product
         public Texture2D CurrentTexture=>texture;
         public Transform Shell=>shell?shell.transform:null;
         public float Alpha=>alpha;
+        public bool ReplacesScene=>shell&&shell.enabled;
         public int TriangleCount=>mesh?mesh.triangles.Length/3:0;
         Camera view;Mesh mesh;MeshRenderer shell;Material material;Texture2D texture;float alpha,target;bool visible=true;
+        readonly List<Renderer> hiddenScene=new List<Renderer>();bool sceneHidden;
         public void Initialize(Camera camera,bool reducedMotion=false)
         {
             view=camera;ReducedMotion=reducedMotion;
@@ -37,6 +40,8 @@ namespace Vlab.Product
                 // Align once at focus; subsequent head yaw does not rotate the photograph.
                 float sourceYaw=pose?.yaw??0;shell.transform.rotation=Quaternion.Euler(0,view.transform.eulerAngles.y-sourceYaw,0);
             }
+            // Returning to menus can reactivate bench props while the panorama is already showing.
+            if(sceneHidden){SetSceneHidden(false);SetSceneHidden(true);}
             target=visible?1:0;return true;
         }
         public void Clear(){CurrentRoom=null;target=0;if(alpha<=0)ReleaseTexture();}
@@ -45,7 +50,19 @@ namespace Vlab.Product
         {
             if(!shell||!view)return;shell.transform.position=view.transform.position;
             alpha=ReducedMotion?target:Mathf.MoveTowards(alpha,target,Time.unscaledDeltaTime/.22f);material.SetFloat("_Opacity",alpha);shell.enabled=alpha>.001f&&texture;
+            SetSceneHidden(shell.enabled);
             if(alpha==0&&CurrentRoom==null)ReleaseTexture();
+        }
+        void SetSceneHidden(bool hide)
+        {
+            if(sceneHidden==hide)return;sceneHidden=hide;
+            if(hide)
+            {
+                // The photograph replaces the room; its live meshes must not cover world-space menus.
+                foreach(var renderer in UnityEngine.Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None))
+                    if(renderer!=shell&&!renderer.forceRenderingOff&&!renderer.GetComponentInParent<Canvas>()){renderer.forceRenderingOff=true;hiddenScene.Add(renderer);}
+            }
+            else{foreach(var renderer in hiddenScene)if(renderer)renderer.forceRenderingOff=false;hiddenScene.Clear();}
         }
         void ReleaseTexture(){if(material)material.mainTexture=null;if(texture){Resources.UnloadAsset(texture);texture=null;}}
         static Mesh BuildSphere()
@@ -59,6 +76,6 @@ namespace Vlab.Product
             }
             var result=new Mesh{name="VLAB 1600-triangle panorama shell"};result.vertices=vertices;result.triangles=triangles;result.RecalculateBounds();return result;
         }
-        void OnDestroy(){ReleaseTexture();if(material)Destroy(material);if(mesh)Destroy(mesh);}
+        void OnDestroy(){SetSceneHidden(false);ReleaseTexture();if(material)Destroy(material);if(mesh)Destroy(mesh);}
     }
 }

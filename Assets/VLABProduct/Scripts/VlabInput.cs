@@ -175,8 +175,12 @@ namespace Vlab.Product
                 any=true;var position=touch.position.ReadValue();
                 // Native UI keeps every UI-started touch. Gameplay claims are fixed
                 // at BEGIN, so a swipe across a button cannot acquire its click.
-                bool ui=phase==UnityEngine.InputSystem.TouchPhase.Began&&(BlocksPhoneGameplay?.Invoke(position)??false);
-                bool world=phase==UnityEngine.InputSystem.TouchPhase.Began&&allowed&&!ui&&(BlocksTouchLook?.Invoke(View.ScreenPointToRay(position))??false);
+                // Android can batch begin with motion or release; claim the recorded start before consuming the latest state.
+                bool began=phase==UnityEngine.InputSystem.TouchPhase.Began||phase!=UnityEngine.InputSystem.TouchPhase.Canceled&&touch.press.wasPressedThisFrame;
+                var start=began?touch.startPosition.ReadValue():position;
+                bool ui=began&&(BlocksPhoneGameplay?.Invoke(start)??false);
+                bool world=began&&allowed&&!ui&&(BlocksTouchLook?.Invoke(View.ScreenPointToRay(start))??false);
+                if(began)phoneTouches.Sample(touch.touchId.ReadValue(),UnityEngine.InputSystem.TouchPhase.Began,start,SafePhoneArea(),allowed,showPhoneJoystick,ui,world,joystickScale);
                 phoneTouches.Sample(touch.touchId.ReadValue(),phase,position,SafePhoneArea(),allowed,showPhoneJoystick,ui,world,joystickScale);
             }
             phoneTouches.EndFrame();
@@ -446,7 +450,7 @@ namespace Vlab.Product
             {
                 HasWorldPointer=true;
                 // Some devices report (0,0) with Ended/Canceled; retain final real ray.
-                WorldPosition=ended?finger.previous:position;WorldHeld=!ended;if(ended)Released=true;
+                WorldPosition=Pressed?finger.start:ended?finger.previous:position;WorldHeld=!ended;if(ended)Released=true;
             }
             else if(!ended&&finger.owner==Owner.Move)
             {

@@ -1,0 +1,96 @@
+Editor component callbacks + native rendered geometry; isolated P01 setup fixture; not physical Android/VR or full recipes.
+PASS Appearance fixture saves
+PASS Legacy absent opacity migrates to one without discarding 32 records
+PASS Appearance settings save
+PASS Theme, opacity and bilingual record notes round trip
+PASS Draft appearance copy is independent
+PASS Explicit zero opacity is rejected
+PASS Non-finite opacity is rejected
+PASS Theme 0 paragraph contrast
+PASS Theme 0 accent 4C86FF caption contrast
+PASS Theme 0 accent D85BEA caption contrast
+PASS Theme 0 accent 56BF88 caption contrast
+PASS Theme 0 accent F0A34D caption contrast
+PASS Theme 1 paragraph contrast
+PASS Theme 1 accent 4C86FF caption contrast
+PASS Theme 1 accent D85BEA caption contrast
+PASS Theme 1 accent 56BF88 caption contrast
+PASS Theme 1 accent F0A34D caption contrast
+PASS Theme 2 paragraph contrast
+PASS Theme 2 accent 4C86FF caption contrast
+PASS Theme 2 accent D85BEA caption contrast
+PASS Theme 2 accent 56BF88 caption contrast
+PASS Theme 2 accent F0A34D caption contrast
+PASS Journal distinguishes no attempt from an actual saved attempt
+PASS Journal uses attached historical interpretation
+PASS Vietnamese recovery preserves concrete authored instruction
+PASS Left and right release preserve measured period
+PASS Native Input System phone regression suite completed
+PASS Movement yaw 0 pitch -89 stays horizontal and camera-relative
+PASS Movement yaw 0 pitch 0 stays horizontal and camera-relative
+PASS Movement yaw 0 pitch 89 stays horizontal and camera-relative
+PASS Movement yaw 90 pitch -89 stays horizontal and camera-relative
+PASS Movement yaw 90 pitch 0 stays horizontal and camera-relative
+PASS Movement yaw 90 pitch 89 stays horizontal and camera-relative
+PASS Movement yaw 180 pitch -89 stays horizontal and camera-relative
+PASS Movement yaw 180 pitch 0 stays horizontal and camera-relative
+PASS Movement yaw 180 pitch 89 stays horizontal and camera-relative
+PASS Movement yaw 270 pitch -89 stays horizontal and camera-relative
+PASS Movement yaw 270 pitch 0 stays horizontal and camera-relative
+PASS Movement yaw 270 pitch 89 stays horizontal and camera-relative
+PASS Movement preserves wall blocking and slides along its face
+PASS Equipment collider cannot become an invisible movement wall
+PASS Low bench camera can walk without floor overlap trapping capsule
+PASS Low bench camera still respects real furniture walls
+PASS Low camera walking uses actual raised floor height
+PASS Returning menu hides newly restored bench prop
+PASS Disabled refreshed preview restores owned renderer
+PASS P01 lighting baseline camera and FOV fixed
+PASS P01 lighting comparison kept gameplay camera
+PASS C04 lighting baseline camera and FOV fixed
+PASS C04 lighting comparison kept gameplay camera
+C04 real phone eye=(1.73, 1.13, 2.37) view=(1.73, 1.13, 2.37)
+C04 move (1.00, 0.00) delta=(0.10, 0.00, 0.03) blocker=none
+C04 move (-1.00, 0.00) delta=(-0.10, 0.00, -0.03) blocker=none
+C04 move (0.00, 1.00) delta=(-0.03, 0.00, 0.10) blocker=none
+C04 move (0.00, -1.00) delta=(0.03, 0.00, -0.10) blocker=none
+C04 ground Floor.001 point=(1.73, 0.00, 2.37) normal=(0.00, 1.00, 0.00)
+PASS C04 complete fixture apparatus
+PASS C04 optional compact inventory
+PASS C04 wrong direct cup action does not prepare or create result
+PASS C04 open cup mouth is a drop target
+PASS C04 refuses drop through intervening solid
+PASS C04 actual dropper moves during learner drag water
+PASS C04 dropper returns to supported rest water
+PASS C04 actual dropper moves during learner drag nitrate
+PASS C04 dropper returns to supported rest nitrate
+PASS C04 actual dropper moves during learner drag nacl
+PASS C04 dropper returns to supported rest nacl
+PASS C04 physical precipitate visible
+C04 sediment bounds=Center: (1.54, 0.86, 3.27), Extents: (0.03, 0.00, 0.03) material=AgClWhite
+PASS C04 actual three transfers start observation
+PASS C04 own controlled observations can record
+PASS C04 recorded actual precipitate and two controls
+PASS B01 lighting baseline camera and FOV fixed
+PASS B01 lighting comparison kept gameplay camera
+PASS B01 complete fixture apparatus
+PASS B01 optional compact inventory
+PASS B01 wrong preparation preserves operation
+PASS B01 model actions prepare and mount slide
+PASS B01 direct fine knob changes actual focus by 0.05 mm
+PASS B01 real eyepiece opens observation interface
+PASS B01 refuses unclassified result
+PASS B01 inspection returns complete working camera pose
+PASS M01 lighting baseline camera and FOV fixed
+PASS M01 lighting comparison kept gameplay camera
+PASS M01 complete fixture apparatus
+PASS M01 optional compact inventory
+PASS M01 gear centre selectable VLAB_gear_set_Gear12_VIS
+PASS M01 gear centre selectable VLAB_gear_set_Gear24_VIS
+PASS M01 gear centre selectable VLAB_gear_set_Gear36_VIS
+PASS M01 actual gear selection configures 36-tooth output
+PASS M01 physical motor starts validated transmission
+PASS M01 controlled gearing cannot change during trial
+PASS M01 motor touch pauses
+PASS M01 motor touch resumes
+PASS M01 own SDK-angle result recorded
