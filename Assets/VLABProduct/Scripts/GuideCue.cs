@@ -19,7 +19,7 @@ namespace Vlab.Product
         EquipmentHandle equipment;
         bool reducedMotion,stopped,world;
         public bool IsStopped=>stopped;
-        float started;
+        float started,topViewport=.97f;
         readonly List<Image> borders=new List<Image>();
         RectTransform pointer;
         LineRenderer ring,rim,path,dot,objectOutline,leader;
@@ -65,8 +65,8 @@ namespace Vlab.Product
                 cue.ownedMaterial=new Material(shader);
             }
             cue.ownedMaterial.name="Guide cue · owned unlit material";
-            cue.rim=cue.Line("Contrast rim",.008f,Dark);
-            cue.ring=cue.Line("Amber target",.004f,Amber);
+            cue.rim=cue.Line("Contrast rim",.003f,Dark);
+            cue.ring=cue.Line("Amber target",.0015f,Amber);
             cue.path=cue.Line("Installation route",.002f,new Color(1f,.69f,.15f,.65f));
             cue.dot=cue.Line("Route dot",.006f,Amber);
             cue.objectOutline=cue.Line("Object highlight",.003f,Amber);
@@ -76,14 +76,14 @@ namespace Vlab.Product
         }
 
         // The app supplies localized content from its current, validated guide step.
-        public void SetContext(string label,string instruction,Camera camera)
+        public void SetContext(string label,string instruction,Camera camera,float clearTop=.97f)
         {
-            view=camera;
+            view=camera;topViewport=Mathf.Clamp(clearTop,.3f,.97f);
             if(!caption)return;
-            callout.sizeDelta=new Vector2(560,270);
+            callout.sizeDelta=new Vector2(360,150);
             caption.text=label+(string.IsNullOrWhiteSpace(instruction)?"":"\n"+instruction);
             caption.ForceMeshUpdate(true,true);
-            callout.sizeDelta=new Vector2(560,Mathf.Clamp(caption.preferredHeight+40,100,270));
+            callout.sizeDelta=new Vector2(360,Mathf.Clamp(caption.preferredHeight+24,80,150));
         }
 
         void CreateCallout()
@@ -97,7 +97,7 @@ namespace Vlab.Product
             textObject.layer=2;var rect=(RectTransform)textObject.transform;rect.SetParent(callout,false);
             rect.anchorMin=Vector2.zero;rect.anchorMax=Vector2.one;rect.offsetMin=new Vector2(22,18);rect.offsetMax=new Vector2(-22,-18);
             caption=textObject.GetComponent<TextMeshProUGUI>();caption.font=Resources.Load<TMP_FontAsset>("UI/VlabBody");
-            caption.fontSize=30;caption.color=Color.white;caption.alignment=TextAlignmentOptions.MidlineLeft;
+            caption.fontSize=26;caption.color=Color.white;caption.alignment=TextAlignmentOptions.MidlineLeft;
             caption.textWrappingMode=TextWrappingModes.Normal;caption.overflowMode=TextOverflowModes.Ellipsis;caption.raycastTarget=false;
             // No raw asset ID or unlocalized fallback appears before app context is supplied.
             go.SetActive(false);
@@ -107,7 +107,7 @@ namespace Vlab.Product
         {
             var e=bounds.extents+Vector3.one*.006f;var c=bounds.center;
             // One continuous edge walk outlines the actual item without copying meshes or altering source shaders.
-            objectOutline.loop=false;objectOutline.positionCount=OutlineWalk.Length;
+            objectOutline.enabled=false;objectOutline.loop=false;objectOutline.positionCount=OutlineWalk.Length;
             for(int i=0;i<OutlineWalk.Length;i++)objectOutline.SetPosition(i,c+Vector3.Scale(e,CornerSigns[OutlineWalk[i]]));
             float pulse=reducedMotion?1:.85f+.15f*Mathf.Cos(phase*Mathf.PI*2);
             objectOutline.startWidth=objectOutline.endWidth=.003f*pulse;
@@ -124,7 +124,7 @@ namespace Vlab.Product
             var screen=view.WorldToViewportPoint(callout.position);
             float halfHeight=callout.sizeDelta.y*scale/(4*Mathf.Max(.01f,screen.z)*Mathf.Tan(view.fieldOfView*.5f*Mathf.Deg2Rad));
             float halfWidth=halfHeight*callout.sizeDelta.x/callout.sizeDelta.y/view.aspect;
-            screen.x=Mathf.Clamp(screen.x,.03f+halfWidth,.97f-halfWidth);screen.y=Mathf.Clamp(screen.y,.03f+halfHeight,.97f-halfHeight);
+            screen.x=Mathf.Clamp(screen.x,.03f+halfWidth,.97f-halfWidth);screen.y=Mathf.Clamp(screen.y,.03f+halfHeight,topViewport-halfHeight);
             callout.position=view.ViewportToWorldPoint(screen);
             callout.rotation=Quaternion.LookRotation(callout.position-view.transform.position,view.transform.up);
             leader.loop=false;leader.positionCount=2;leader.SetPosition(0,anchor);leader.SetPosition(1,callout.position-callout.up*callout.sizeDelta.y*scale*.5f);

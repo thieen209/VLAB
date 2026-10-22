@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
@@ -74,9 +74,9 @@ namespace Vlab.Product
 
             ui.Text(box,L(vi,"TRƯỚC KHI BẮT ĐẦU","BEFORE YOU BEGIN"),616,142,552,35,20,accent);
             var title=ui.Text(box,LessonGuide.ShortTitle(brief.id,vi),616,192,552,108,40);title.name="Readiness title";
-            var goal=ui.Text(box,Goal(brief.id,vi),616,300,552,64,24,VlabUi.Secondary);goal.name="Readiness goal";
+            var goal=ui.Text(box,Goal(brief.id,vi),616,300,552,100,24,VlabUi.Secondary);goal.name="Readiness goal";goal.enableAutoSizing=true;goal.fontSizeMax=goal.fontSize;goal.fontSizeMin=ui.LargeText?24:22;
             ui.Text(box,resume?L(vi,"Số liệu đã lưu vẫn ở trong sổ tay.\nBắt đầu lại từ phần chuẩn bị.","Your saved readings remain in the journal.\nBegin again with preparation."):
-                L(vi,"Làm từng bước, theo nhịp của bạn.","Take each step at your own pace."),616,378,552,58,22,VlabUi.Secondary);
+                L(vi,"Làm từng bước, theo nhịp của bạn.","Take each step at your own pace."),616,412,552,40,22,VlabUi.Secondary);
 
             Tile(ui,box,32,"1","Play",L(vi,"Chuẩn bị dụng cụ","Prepare your kit"),Preparation(brief.id,vi),accent);
             Tile(ui,box,412,"2","Teleport",L(vi,"Trỏ và chọn","Point and select"),L(vi,"Trỏ vào nút muốn chọn.\nChạm hoặc bấm nút chọn.","Point at a button.\nClick, tap or trigger."),accent);

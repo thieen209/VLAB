@@ -229,7 +229,7 @@ namespace Vlab.Product
         public string CurrentInputLabel=>UseMockController?"Orientation adapter (mock)":UsingGamepad?(VrMode||SimulatorMode?"VR gaze + HID gamepad":"HID gamepad cursor"):(VrMode||SimulatorMode?"VR gaze / viewer trigger":"Mouse / touchscreen");
         public ControllerCapabilities Capabilities=>UseMockController?Controller.Capabilities:UsingGamepad?(VrMode||SimulatorMode?activeGamepad.Capabilities&~ControllerCapabilities.Look:activeGamepad.Capabilities):ControllerCapabilities.Select|ControllerCapabilities.Grip|ControllerCapabilities.Adjustment|ControllerCapabilities.Menu|ControllerCapabilities.Pointer;
         public event Action<bool,string> ModeChanged;
-        TrackedPoseDriver trackedPose;bool switching,lastPointerHeld;
+        TrackedPoseDriver trackedPose;bool switching,lastPointerHeld,viewerTriggerHeld;
         GamepadControllerProvider activeGamepad;
         GameSettings controllerBindings=new GameSettings();
         public void ConfigureControllerBindings(GameSettings configuration)
@@ -324,12 +324,18 @@ namespace Vlab.Product
             bool close=Google.XR.Cardboard.Api.IsCloseButtonPressed,gear=Google.XR.Cardboard.Api.IsGearButtonPressed;
             if(close||gear)
             {
+                viewerTriggerHeld=false;
                 f.pressed=f.held=f.grabPressed=f.phoneWorldPress=false;f.released=lastPointerHeld;f.lost=true;
                 if(close)SetVr(false);else ScanViewer();
                 return;
             }
-            if(Google.XR.Cardboard.Api.IsTriggerPressed)f.pressed=true;
+            bool trigger=Google.XR.Cardboard.Api.IsTriggerPressed;
+            if(trigger)f.pressed=true;
+            bool touchDown=false;if(Touchscreen.current!=null)foreach(var touch in Touchscreen.current.touches)touchDown|=touch.press.isPressed;
+            viewerTriggerHeld=ContinueViewerHold(viewerTriggerHeld,trigger,touchDown);
+            f.held|=viewerTriggerHeld;
         }
+        public static bool ContinueViewerHold(bool previous,bool sdkTrigger,bool touchDown)=>(previous||sdkTrigger)&&touchDown;
         ICardboardEntryRuntime nativeCardboard;
 #if UNITY_EDITOR
         public ICardboardEntryRuntime EntryRuntimeForChecks;
@@ -352,7 +358,7 @@ namespace Vlab.Product
             if(enabled&&!runtime.Supported){ModeChanged?.Invoke(false,"Cardboard stereo is available on Android. Use PC simulation here.");yield break;}
             if(enabled&&!runtime.HasGyroscope){ModeChanged?.Invoke(false,MissingVrGyroscope);yield break;}
             if(enabled&&VrMode)yield break;
-            switching=true;ResetPhoneInput();
+            switching=true;viewerTriggerHeld=false;ResetPhoneInput();
             try
             {
                 if(enabled)

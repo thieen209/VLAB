@@ -23,10 +23,9 @@ namespace Vlab.Product
             worktopRenderer.sharedMaterials=ownedSurface;
         }
         void RestoreSurface(){if(worktopRenderer&&originalSurface!=null)worktopRenderer.sharedMaterials=originalSurface;if(ownedSurface!=null)foreach(var material in ownedSurface)if(material)Destroy(material);worktopRenderer=null;originalSurface=ownedSurface=null;}
-        internal static bool IsDisplayProp(string name)
+        public static bool IsDisplayProp(string name)
         {
-            if(name=="Balance-body"||name=="Balance-pan")return true;
-            foreach(var stem in new[]{"Ready-tray","Tray-rim"})
+            foreach(var stem in new[]{"Balance-body","Balance-pan","Ready-tray","Tray-rim"})
                 if(name==stem||(name.Length>stem.Length+1&&name.StartsWith(stem+".",StringComparison.Ordinal)&&name.Substring(stem.Length+1).All(char.IsDigit)))return true;
             return false;
         }

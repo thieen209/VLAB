@@ -22,6 +22,7 @@ namespace Vlab.Product
         // Preserve the delivered 720 mm stand. Height changes use its native carriage only.
         const float RodBottom=.020f,SupportTop=.720f,PendulumClampHeight=.660f;
         Bounds stationTop;bool hasStationTop;
+        public Bounds WorkSurface=>hasStationTop?stationTop:new Bounds(Worktop,new Vector3(1.6f,.04f,.8f));
         sealed class StorageSurface {public Bounds bounds;public string name;}
         readonly List<StorageSurface> storageSurfaces=new List<StorageSurface>();
         const float StorageInset=.012f,StorageGap=.018f,StorageLift=.002f;

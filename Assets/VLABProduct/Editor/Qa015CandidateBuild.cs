@@ -10,13 +10,14 @@ public static class Qa015CandidateBuild
     {
         string key=Environment.GetEnvironmentVariable("VLAB_RELEASE_KEYSTORE"),password=Environment.GetEnvironmentVariable("VLAB_RELEASE_PASSWORD");
         if(string.IsNullOrEmpty(password)||!File.Exists(key))throw new InvalidOperationException("Local signing environment missing");
-        string output=Path.GetFullPath("Builds/Android/Candidates/VLAB-0.1.6-flagship-r9-candidate.apk");Directory.CreateDirectory(Path.GetDirectoryName(output));
+        string output=Path.GetFullPath("Builds/Android/Candidates/VLAB-0.1.7-VR-workstation-code21.apk");Directory.CreateDirectory(Path.GetDirectoryName(output));
         bool custom=PlayerSettings.Android.useCustomKeystore;string name=PlayerSettings.Android.keystoreName,alias=PlayerSettings.Android.keyaliasName;int exit=1;
         try
         {
+            VrWorkstationChecks.AuditDecor();
             PlayerSettings.Android.useCustomKeystore=true;PlayerSettings.Android.keystoreName=key;PlayerSettings.Android.keyaliasName="nguaman-vlab";PlayerSettings.Android.keystorePass=password;PlayerSettings.Android.keyaliasPass=password;
             VlabProductBuild.ConfigureAndroidIcons();
-            PlayerSettings.bundleVersion="0.1.6";PlayerSettings.Android.bundleVersionCode=17;
+            PlayerSettings.bundleVersion="0.1.7";PlayerSettings.Android.bundleVersionCode=21;
             var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=EditorBuildSettings.scenes.Where(s=>s.enabled).Select(s=>s.path).ToArray(),locationPathName=output,target=BuildTarget.Android,subtarget=(int)MobileTextureSubtarget.ETC2,options=BuildOptions.None});
             File.WriteAllText("../work/qa015-vr-lighting/candidate-build.txt",report.summary.result+"\n"+output+"\nErrors: "+report.summary.totalErrors+"\nWarnings: "+report.summary.totalWarnings+"\n");exit=report.summary.result==BuildResult.Succeeded?0:1;
         }

@@ -891,6 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 23479130}
@@ -2125,6 +2126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 108170034}
@@ -2474,6 +2476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Open / close hood cabinet
   movingPart: {fileID: 175332060}
@@ -3066,50 +3069,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: ad83f7b46259b8d4a99177d384ea5f22, type: 2}
---- !u!64 &232467937
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2893819181898935965}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: d27083cdad69d8b478d0de43a93d7106, type: 2}
---- !u!64 &232467938
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681909420787177843}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: b12cca4f1f8649e40bbdb0d2c004104e, type: 2}
 --- !u!1 &236187835
 GameObject:
   m_ObjectHideFlags: 0
@@ -4588,6 +4547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close storage tray
   movingPart: {fileID: 330824313}
@@ -4829,6 +4789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Open / close hood cabinet
   movingPart: {fileID: 354889398}
@@ -5228,6 +5189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 420438474}
@@ -5514,6 +5476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 448164845}
@@ -7443,7 +7406,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7522,6 +7485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Open / close sink cabinet
   movingPart: {fileID: 671570435}
@@ -7894,9 +7858,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 1
   action: 0
   label: Open / close exit door
-  purpose: 1
   movingPart: {fileID: 684931460}
   sink: {fileID: 0}
   shade: {fileID: 0}
@@ -9331,7 +9295,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9474,6 +9438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 2
   label: Tap on / off
   movingPart: {fileID: 0}
@@ -10414,6 +10379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 858301403}
@@ -13060,6 +13026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Open / close sink cabinet
   movingPart: {fileID: 1138685262}
@@ -13234,6 +13201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 1169124279}
@@ -13291,6 +13259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Raise / lower hood sash
   movingPart: {fileID: 1175280052}
@@ -13977,6 +13946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close storage tray
   movingPart: {fileID: 1266993629}
@@ -14939,6 +14909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close storage tray
   movingPart: {fileID: 1333536993}
@@ -15206,7 +15177,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15284,6 +15255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 3
   label: Close / open drain
   movingPart: {fileID: 0}
@@ -16979,6 +16951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Open / close cabinet
   movingPart: {fileID: 1573342965}
@@ -17319,6 +17292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 4
   label: Lower / raise window shade
   movingPart: {fileID: 0}
@@ -17458,6 +17432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 1623315350}
@@ -18101,6 +18076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Open / close cabinet
   movingPart: {fileID: 1670081513}
@@ -20121,6 +20097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close storage tray
   movingPart: {fileID: 1870383087}
@@ -20480,7 +20457,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22618,7 +22595,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23442,8 +23419,6 @@ Transform:
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8211292595644843127}
-  - {fileID: 4567629115598488537}
   - {fileID: 2625382164767121961}
   - {fileID: 3801248044670523516}
   - {fileID: 3657409018983768846}
@@ -23861,7 +23836,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1047143881330078138
 Transform:
   m_ObjectHideFlags: 0
@@ -23986,7 +23961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &1166480790485491029
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -24311,14 +24286,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5476762205875317260}
   m_Mesh: {fileID: 7878730059355503300, guid: 7b1134a68b4321f4a95746b7e8de75a7, type: 3}
---- !u!33 &1594539302228777489
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2893819181898935965}
-  m_Mesh: {fileID: 4300000, guid: d27083cdad69d8b478d0de43a93d7106, type: 2}
 --- !u!4 &1669871573640146990
 Transform:
   m_ObjectHideFlags: 0
@@ -24367,25 +24334,6 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1681909420787177843
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8211292595644843127}
-  - component: {fileID: 2602256670812527158}
-  - component: {fileID: 6064949431555270137}
-  - component: {fileID: 232467938}
-  m_Layer: 0
-  m_Name: Balance-body
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 65
   m_IsActive: 1
 --- !u!23 &1724146958941639199
 MeshRenderer:
@@ -24643,7 +24591,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25192,14 +25140,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6454698798836580356}
   m_Mesh: {fileID: 4300000, guid: 1573011937439c647af4dcc9b4a6cd25, type: 2}
---- !u!33 &2602256670812527158
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681909420787177843}
-  m_Mesh: {fileID: 4300000, guid: b12cca4f1f8649e40bbdb0d2c004104e, type: 2}
 --- !u!33 &2603002973035487139
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -25452,25 +25392,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3712161625185856392}
   m_Mesh: {fileID: -6243769827297929927, guid: 7b1134a68b4321f4a95746b7e8de75a7, type: 3}
---- !u!1 &2893819181898935965
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4567629115598488537}
-  - component: {fileID: 1594539302228777489}
-  - component: {fileID: 6139728076545595189}
-  - component: {fileID: 232467937}
-  m_Layer: 0
-  m_Name: Balance-pan
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 65
-  m_IsActive: 1
 --- !u!23 &2915799108857936279
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26814,7 +26735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &4110041376228204652
 GameObject:
   m_ObjectHideFlags: 0
@@ -27212,21 +27133,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 543450653509700274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4567629115598488537
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2893819181898935965}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.000000053385076, y: 0.7071068, z: 0.70710677, w: 0.00000005338508}
-  m_LocalPosition: {x: -3.87, y: 0.97499996, z: 0.9}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 543450653509700274}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4599524553544744509
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -27280,7 +27186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &4706215381668397310
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28379,104 +28285,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2319831575851960455}
   m_Mesh: {fileID: 4300000, guid: 5165acd150160ac4f8344fb26146905c, type: 2}
---- !u!23 &6064949431555270137
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681909420787177843}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: b7ce9205cacca674d861a6309b1502bc, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!23 &6139728076545595189
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2893819181898935965}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 70207614a944ef7409e8c6134e187c8e, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6144790705838146876
 GameObject:
   m_ObjectHideFlags: 0
@@ -28721,7 +28529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &6329918586073781704
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -29999,7 +29807,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -30318,21 +30126,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
   m_IsActive: 1
---- !u!4 &8211292595644843127
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681909420787177843}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -3.87, y: 0.90999997, z: 0.9}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 543450653509700274}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8225542591171271994
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -30798,4 +30591,3 @@ SceneRoots:
   - {fileID: 267770621}
   - {fileID: 2137302210}
   - {fileID: 1244519471}
-

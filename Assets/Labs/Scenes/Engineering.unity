@@ -577,6 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Open / close cabinet
   movingPart: {fileID: 95662547}
@@ -841,6 +842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close storage tray
   movingPart: {fileID: 224793352}
@@ -1187,6 +1189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 350087484}
@@ -2397,6 +2400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 5
   label: Task light on / off
   movingPart: {fileID: 0}
@@ -4872,6 +4876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 1201396005}
@@ -5062,6 +5067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close storage tray
   movingPart: {fileID: 1249752492}
@@ -5525,6 +5531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Adjust task lamp
   movingPart: {fileID: 472720728}
@@ -5669,6 +5676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 1
   label: Open / close drawer
   movingPart: {fileID: 1501537731}
@@ -6188,6 +6196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 0
   label: Open / close cabinet
   movingPart: {fileID: 1692884067}
@@ -7208,6 +7217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 0
   action: 4
   label: Lower / raise window shade
   movingPart: {fileID: 0}
@@ -8751,7 +8761,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8881,7 +8891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &866569312074953175
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9997,7 +10007,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1976819274271176538
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10248,7 +10258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &2234006743564470440
 GameObject:
   m_ObjectHideFlags: 0
@@ -11822,7 +11832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &3408503554789442525
 GameObject:
   m_ObjectHideFlags: 0
@@ -14142,7 +14152,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16154,7 +16164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 65
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &8536607266825325103
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -16175,9 +16185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0699e613df4bad4dbff3508d8f9880e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LabFixture
+  purpose: 1
   action: 0
   label: Open / close exit door
-  purpose: 1
   movingPart: {fileID: 1691118631507717284}
   sink: {fileID: 0}
   shade: {fileID: 0}
@@ -16614,7 +16624,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7155ba625f228647915623a09c74fa2, type: 2}
+  - {fileID: 2100000, guid: ce4e1ecc1b1164a46869080518b5b930, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17032,4 +17042,3 @@ SceneRoots:
   - {fileID: 93241955}
   - {fileID: 1439249013}
   - {fileID: 1257192159}
-
