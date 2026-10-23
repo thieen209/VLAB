@@ -46,6 +46,11 @@ public sealed class FinalPassHudProbe:MonoBehaviour
             yield return new WaitForSecondsRealtime(1);yield return Capture(id+"-phone");
             Check(id+" prepared station loaded",App.Apparatus&&App.Apparatus.Ready);
             if(baseline)continue;
+            Check(id+" VR entry absent outside Home",!Find("VR mode"));
+            yield return Press("Station tools");
+            Check(id+" tools sheet retains manual guidance and notebook",Find("Hướng dẫn")&&Find("Sổ tay"));
+            Check(id+" tools sheet has no redundant VR entry",!Find("VR mode"));
+            yield return Press("Station return");
             if(id=="P01")foreach(var size in new[]{new Vector2Int(1280,720),new Vector2Int(2340,1080),new Vector2Int(2048,1536)})
             {
                 if(!SecondTestGameView.Configure(out var diagnostic,size.x,size.y))throw new Exception(diagnostic);
@@ -60,16 +65,17 @@ public sealed class FinalPassHudProbe:MonoBehaviour
             foreach(bool world in new[]{false,true,false})
             {
                 App.Input.SetSimulator(world);yield return new WaitForSecondsRealtime(.7f);
-                Check(id+" mode has restore and VR exit controls "+world,Find("HUD visibility")&&Find("VR mode"));
+                Check(id+" mode has restore and VR exit controls "+world,Find("HUD visibility")&&!Find("VR mode")&&(world?Find("VR exit")!=null:Find("VR exit")==null));
                 yield return Press("HUD visibility");
                 Check(id+" hidden HUD has no active contents "+world,!App.GetComponentsInChildren<RectTransform>().Any(x=>x.name=="Activity HUD contents"));
-                Check(id+" hidden HUD still has restore and VR exit "+world,Find("HUD visibility")&&Find("VR mode"));
+                Check(id+" hidden HUD still has restore and VR exit "+world,Find("HUD visibility")&&!Find("VR mode")&&(world?Find("VR exit")!=null:Find("VR exit")==null));
                 var hidden=App.GetComponentsInChildren<RectTransform>(true).First(x=>x.name=="Activity HUD contents");Check(id+" hidden graphics cannot intercept input "+world,!hidden.GetComponentsInChildren<Graphic>(true).Any(g=>g.isActiveAndEnabled&&g.raycastTarget));
                 yield return Capture(id+(world?"-world-hidden":"-phone-hidden"));
                 yield return Press("HUD visibility");
                 Check(id+" restore reactivates contents "+world,App.GetComponentsInChildren<RectTransform>().Any(x=>x.name=="Activity HUD contents"));
                 Canvas.ForceUpdateCanvases();var overflow=App.GetComponentsInChildren<TextMeshProUGUI>().Where(t=>t.isTextOverflowing||t.isTextTruncated).Select(t=>t.text).ToArray();
                 Check(id+" text fits "+world+": "+string.Join(" | ",overflow),overflow.Length==0);
+                if(world){yield return Press("VR exit");Check(id+" exit callback restores phone without entry button",!App.Input.SimulatorMode&&!App.Input.VrMode&&!Find("VR mode")&&!Find("VR exit"));}
             }
         }
     }

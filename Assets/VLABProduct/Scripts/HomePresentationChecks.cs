@@ -192,11 +192,11 @@ namespace Vlab.Product
             Signal(app,11999,Aim(calibration,Vector3.up),false,check);yield return null;yield return null;
             yield return new WaitForSecondsRealtime(.3f);
             check("Home exposes exactly one live VR mode control",app.GetComponentsInChildren<Button>().Count(button=>button.isActiveAndEnabled&&button.name=="VR mode")==1);
-            check("Editor mode control describes leaving simulation",Button(app,"VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="Thoát mô phỏng");
+            check("Editor mode control describes leaving simulation",Button(app,"VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="Thoát VR");
             Button(app,"VR mode").onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);Canvas.ForceUpdateCanvases();
-            check("Actual mode callback leaves simulation and offers it again",!app.Input.SimulatorMode&&Button(app,"VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="Mô phỏng VR");
+            check("Actual mode callback leaves simulation and offers it again",!app.Input.SimulatorMode&&Button(app,"VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="VR");
             Button(app,"VR mode").onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);Canvas.ForceUpdateCanvases();
-            check("Actual mode callback restores the world-space Home",app.Input.SimulatorMode&&Button(app,"Subject P").GetComponentInParent<Canvas>().renderMode==RenderMode.WorldSpace&&Button(app,"VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="Thoát mô phỏng");
+            check("Actual mode callback restores the world-space Home",app.Input.SimulatorMode&&Button(app,"Subject P").GetComponentInParent<Canvas>().renderMode==RenderMode.WorldSpace&&Button(app,"VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="Thoát VR");
             for(int i=0;i<codes.Length;i++)check("Mode roundtrip retains Home anchoring "+codes[i],Vector3.Distance(Button(app,"Subject "+codes[i]).GetComponent<RectTransform>().anchoredPosition3D,new Vector3(326+i*316,-468,0))<.1f);
             check("Home navigation preserves calibration quaternion",Quaternion.Angle(calibration,Calibration(app))<.0001f);
             check("Home checks preserve notes, measurements and settings",JsonUtility.ToJson(app.Profile)==profile);
