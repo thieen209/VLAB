@@ -15,6 +15,7 @@ namespace Vlab.Product
         public bool Ready=>items.Count>0&&items.All(x=>x.installed);
         public EquipmentHandle Selected{get;private set;}
         public bool IsCarrying=>carrying&&Selected&&!Selected.installed;
+        public bool IsPullingBob=>pullingBob;
         public bool CoachingEnabled{get;private set;}=true;
         public LessonDriver Driver{get;private set;}
         public ExperimentSession Session=>session;
@@ -856,13 +857,13 @@ namespace Vlab.Product
             UpdateTargets();Changed?.Invoke();return true;
         }
         public void SetCoachingEnabled(bool enabled){CoachingEnabled=enabled;UpdateTargets();}
-        public void BeginGrab(EquipmentHandle item,Ray pointer)
+        public void BeginGrab(EquipmentHandle item,Ray pointer,bool latch=false)
         {
             if(!item||!items.Contains(item))return;
             if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready)return;
             if(Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Preparing&&session.Operation==3&&!PrepareNext(out _))return;
             Select(item);pullingBob=Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Ready;
-            carrying=!item.installed;latchedCarry=false;carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,item.transform.position),.35f,2.5f);
+            carrying=!item.installed;latchedCarry=latch;carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,item.transform.position),.35f,2.5f);
         }
         public void UpdateGrab(ActionFrame frame)
         {
@@ -872,7 +873,7 @@ namespace Vlab.Product
             {
                 var plane=new Plane(Vector3.forward,Pivot);if(plane.Raycast(frame.pointer,out float distance))
                 {var point=frame.pointer.GetPoint(distance)-Pivot;double angle=Math.Max(2,Math.Min(60,Math.Atan2(Math.Max(.001,Math.Abs(point.x)),-point.y)*180/Math.PI));session.ReleaseDirection=point.x<0?-1:1;session.SetParameter("angle",angle,out _);RefreshConfiguration();}
-                if(frame.released){pullingBob=false;Selected=null;session.Start(out _);Changed?.Invoke();}return;
+                if(frame.released&&!latchedCarry)ReleasePendulum(out _);return;
             }
             if(carrying)
             {
@@ -884,6 +885,12 @@ namespace Vlab.Product
                     else Changed?.Invoke();
                 }
             }
+        }
+        public bool ReleasePendulum(out string message)
+        {
+            message="";if(!pullingBob)return false;
+            if(!session.Start(out message))return false;
+            Selected=null;pullingBob=latchedCarry=false;Changed?.Invoke();return true;
         }
         public void CancelGrab()
         {

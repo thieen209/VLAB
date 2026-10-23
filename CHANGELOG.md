@@ -2,6 +2,13 @@
 
 Ghi riêng thay đổi mã nguồn và APK để tránh tải nhầm phiên bản.
 
+## Chưa phát hành — tương tác và hướng dẫn
+
+- Gaze chọn dụng cụ qua chung luồng hành động; thao tác xung giữ dụng cụ đến khi chủ động thả. Con lắc bắt đầu từ vị trí người học đã kéo.
+- Giữ vị trí thao tác khi trỏ sang UI; hủy thao tác khi mở bảng, mất focus hoặc ứng dụng pause.
+- Gợi ý tại model tăng mức khi chờ/sai, giảm sau tiến bộ; sửa chữ bị cắt và bảo toàn gợi ý đúng dụng cụ sau ba lần chọn sai.
+- Kiểm thử Editor:34 kiểm tra tương tác/cảm ứng và36 kiểm tra hồi quy hộp thoại. [Phạm vi và ảnh](docs/QA/2026-10-23/README.md). Chưa có APK hay xác nhận thiết bị thật cho đợt này.
+
 ## 23/10/2026 — cập nhật source, chưa phát hành APK
 
 - Hộp thoại xác nhận trên điện thoại gọn hơn, căn giữa và giữ các nút hành động cùng hàng; lớp nền tối phủ toàn màn hình.

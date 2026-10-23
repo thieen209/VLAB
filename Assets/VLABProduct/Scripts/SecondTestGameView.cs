@@ -55,8 +55,8 @@ public static class SecondTestGameView
         {
             var view=View();Selected(view).SetValue(view,SessionState.GetInt(Prefix+"previous",0));view.Repaint();
             var group=Group(Sizes(),SessionState.GetString(Prefix+"group","Standalone"));
-            int custom=SessionState.GetInt(Prefix+"created",-1)-(int)Invoke(group,"GetBuiltinCount");
-            if(custom>=0)Invoke(group,"RemoveCustomSize",custom);
+            int created=SessionState.GetInt(Prefix+"created",-1);
+            if(created>=(int)Invoke(group,"GetBuiltinCount")&&created<(int)Invoke(group,"GetTotalCount"))Invoke(group,"RemoveCustomSize",created);
         }
         catch(Exception ex){Debug.LogWarning("VLAB QA could not restore previous Game View: "+ex.Message);}
         finally{SessionState.SetBool(Prefix+"configured",false);}

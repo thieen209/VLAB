@@ -21,3 +21,15 @@
 Các entry point Editor: `FinalPassUiChecks.Run` và `FinalPassLegalChecks.Run`. Probe dùng hồ sơ QA riêng. Kết quả chạy lại được ghi vào `Evidence/FinalPass/`; không dùng hồ sơ học sinh để chạy thử. Các receipt ở trang này được giữ nguyên từ lần chạy đã ghi nhận, trước thay đổi đường dẫn đầu ra của probe.
 
 Giữ nguyên vị trí và GUID các asset Unity. `docs/archive/README-2026-09-12.md` là tài liệu lịch sử, không phải hướng dẫn mở project hiện tại.
+
+## Chưa phát hành — tương tác và hướng dẫn
+
+- [34 PASS, 0 FAIL](interaction-checks.txt) qua UI thực của ứng dụng, pose XR-HMD mô phỏng qua Input System/Tracked Pose Driver và cảm ứng được đưa vào Input System. Không gán sẵn trạng thái hoàn thành.
+- P01: chọn bằng gaze, kéo quả thật theo ràng buộc chiều dài, chọn Thả; kéo/thả bằng cảm ứng. P02: cầm và hủy. C04: chọn/cầm ống nhỏ giọt và hủy khi mở UI. B01: ba thao tác chuẩn bị riêng. M01: chọn motor để chạy. Đây là phạm vi một phần của năm bài, không phải 32 hành trình hoàn chỉnh.
+- Gợi ý tại dụng cụ: nhãn tối giản sau khi chờ, chỉ dẫn mở rộng khi mắc kẹt hoặc sau ba lần sai; thao tác đúng đặt lại mức hỗ trợ. Ô chữ tính đủ khoảng đệm, kiểm tra không cắt chữ.
+- Hồi quy hộp thoại trên source cuối: [36 PASS, 0 FAIL](dialog-checks.txt). Sửa cleanup Game View QA để bỏ đúng mục do test tạo; không xóa các mục của người dùng.
+- [Hash source tại checkpoint](interaction-source-sha256.json). Chưa có APK mới; Android/Cardboard/BLE phần cứng và kiểm thử đầy đủ 32 bài vẫn chưa đạt nghiệm thu.
+
+![Kéo con lắc bằng gaze mô phỏng](P01-manual-pull.png)
+
+![Phone mode sau kéo/thả cảm ứng](P01-phone-drag-release.png)

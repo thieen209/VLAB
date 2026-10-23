@@ -43,7 +43,7 @@ namespace Vlab.Product
         Vector2? selectedInspectionUv;ExperimentSession selectedInspectionSession;TextMeshProUGUI selectedCellSummary;
         RectTransform flatPointerRoot;UnityEngine.UI.Image flatGazeProgress;
         readonly JournalState journal=new JournalState();
-        GuideCue worldGuideCue,buttonGuideCue;string cueStep,observedGuideStep;float nextWorldHint;
+        GuideCue worldGuideCue,buttonGuideCue;string cueStep,observedGuideStep;float nextWorldHint;int guidanceTier;
         readonly List<RaycastResult> uiHits=new List<RaycastResult>();GameObject gazeTarget;float gazeTime;bool gazeConsumed,suppressOpeningGaze;Vector2 gazePosition;
         UnityEngine.UI.Image gazeProgress;UniversalRenderPipelineAsset runtimePipeline;
         static readonly Dictionary<string,string> readingVi=new Dictionary<string,string>{{"period","Chu kỳ"},{"timedCycles","Số chu kỳ"},{"measuredTime","Thời gian đo"},{"gravityEstimate","g suy ra"}};
@@ -98,7 +98,7 @@ namespace Vlab.Product
         {
             CancelFlagshipDrag();ClearGuideCue();
             if(Route=="activity"&&route!="activity"){activityReturnRunning=ActivityRunIntent();Session?.Pause();}
-            observedGuideStep=null;nextWorldHint=Time.unscaledTime+35;
+            observedGuideStep=null;guidanceTier=0;nextWorldHint=Time.unscaledTime+12;
             Route=route;ui.Vietnamese=Vi;inputAfter=Time.unscaledTime+.22f;gazeTarget=null;gazeTime=0;gazeConsumed=false;suppressOpeningGaze=Input&&(Input.VrMode||Input.SimulatorMode);
             RefreshBackground(backgroundExperiment);
             if(route!="activity")Apparatus?.CancelGrab();
@@ -405,6 +405,8 @@ namespace Vlab.Product
         }
         void PerformContextAction()
         {
+            if(Apparatus.IsPullingBob){if(!Apparatus.ReleasePendulum(out var why))ActionFailure(why);else Save();RefreshActivity();return;}
+            if(flagshipDrag){UpdateFlagshipDrag(new ActionFrame{pointer=lastInteractionRay,released=true});RefreshActivity();return;}
             if(Apparatus.IsCarrying){if(Apparatus.InstallSelected()){Save();RefreshActivity();}else{Apparatus.CanInstallSelected(out var why);Toast(LessonGuide.ExplainFailure(why,Vi));}return;}
             if(!Apparatus.Ready){ShowEquipment();return;}
             if(Profile.settings.hints&&Session.Phase==ExperimentPhase.Preparing){var task=CurrentGuide();if(task.kind=="instrument"||task.kind=="image"){ShowGuideTarget(task);return;}}
@@ -445,7 +447,7 @@ namespace Vlab.Product
         void RefreshActivity()
         {
             if(Route!="activity"||Session==null||!liveHint)return;
-            if(Profile.settings.focusAssist&&!flagshipDrag&&!Input.VrMode&&!Input.SimulatorMode&&!Apparatus.IsCarrying&&!modal&&!changing)
+            if(Profile.settings.focusAssist&&!flagshipDrag&&!Apparatus.IsPullingBob&&!Input.VrMode&&!Input.SimulatorMode&&!Apparatus.IsCarrying&&!modal&&!changing)
             {
                 int installed=Apparatus.items.Count(item=>item.installed&&item.gameObject.activeInHierarchy);
                 if(installed!=framedInstalledCount){framedInstalledCount=installed;if(installed>0&&Session.spec.id!="P02")FocusStation();}
@@ -454,10 +456,12 @@ namespace Vlab.Product
 
             FocusStepTarget(currentTask);
             if(cueStep!=null&&cueStep!=step)ClearGuideCue();
-            if(observedGuideStep!=step){observedGuideStep=step;guideMistakes=0;actionFailureUntil=0;nextWorldHint=Time.unscaledTime+35;}
-            if(Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){nextWorldHint=Time.unscaledTime+35;var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)PointAtEquipment(hinted);}
+            if(observedGuideStep!=step){observedGuideStep=step;guideMistakes=0;guidanceTier=0;actionFailureUntil=0;nextWorldHint=Time.unscaledTime+12;}
+            if(Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){guidanceTier++;nextWorldHint=Time.unscaledTime+(guidanceTier==1?23:35);var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)ShowEquipmentCue(hinted,guidanceTier>1);}
             string action;bool enabled=true;
-            if(Apparatus.IsCarrying)
+            if(Apparatus.IsPullingBob||flagshipDrag)
+            {liveStage.text=L("ĐANG THAO TÁC","MANIPULATING");liveHint.text=L("Di chuyển con trỏ để điều chỉnh. Chọn Thả khi đã ở vị trí mong muốn; Quay lại để hủy.","Move the pointer to adjust. Select Release at the intended position; Back cancels.");action=L("Thả dụng cụ","Release");}
+            else if(Apparatus.IsCarrying)
             {liveStage.text=L("ĐANG CẦM DỤNG CỤ","HOLDING EQUIPMENT");liveHint.text=L("Đặt vào vị trí lắp khi giá đỡ sẵn sàng. Mở Dụng cụ để trả lại khay.","Place at its mounting point when supports are ready. Open Equipment to return it to the tray.");action=L("Đặt dụng cụ","Place equipment");}
             else if(!Apparatus.Ready)
             {
@@ -492,14 +496,14 @@ namespace Vlab.Product
                 liveHint.text=Session.Phase==ExperimentPhase.Invalid?Session.Failure:L("Mọi số đo đang được giữ. Tiếp tục khi bạn sẵn sàng.","Your observations are retained. Continue when you are ready.");
                 action=Session.Phase==ExperimentPhase.Invalid?L("Mở tạm dừng","Open pause menu"):L("Tiếp tục","Resume");
             }
-            if(Profile.settings.hints&&!HasPendingMeasurement&&!Apparatus.IsCarrying)
+            if(Profile.settings.hints&&!HasPendingMeasurement&&!Apparatus.IsCarrying&&!Apparatus.IsPullingBob&&!flagshipDrag)
             {
                 var task=CurrentGuide();liveHint.text=GuideCard(task);liveHint.enableAutoSizing=true;liveHint.fontSizeMin=24;liveHint.fontSizeMax=ui.LargeText?29:28;
                 if(Session.Phase==ExperimentPhase.Preparing&&(task.kind=="instrument"||task.kind=="image")&&!Flagship(Session.spec.id))action=L("Mở dụng cụ cần dùng","Open required instrument");
             }
             if(!Profile.settings.hints){ClearGuideCue();if(guideLocate)guideLocate.gameObject.SetActive(false);}
             else if(guideLocate)guideLocate.gameObject.SetActive(!(Flagship(Session.spec.id)&&Session.Phase==ExperimentPhase.Preparing));
-            if(Time.unscaledTime<actionFailureUntil)liveHint.text=actionFailureText;if(Flagship(Session.spec.id)&&Time.unscaledTime>=actionFailureUntil)liveHint.text=FlagshipInstruction();liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;if(compactAction){compactAction.interactable=enabled;compactActionLabel.text=action;}
+            if(Time.unscaledTime<actionFailureUntil)liveHint.text=actionFailureText;if(Flagship(Session.spec.id)&&Time.unscaledTime>=actionFailureUntil&&!Apparatus.IsPullingBob&&!flagshipDrag&&!Apparatus.IsCarrying)liveHint.text=FlagshipInstruction();liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;if(compactAction){compactAction.interactable=enabled;compactActionLabel.text=action;}
             if(Session.Pendulum!=null)
             {
                 var motion=Session.Pendulum;int requested=(int)Session.parameters["cycles"];
@@ -754,7 +758,8 @@ namespace Vlab.Product
         }
         string GuideStep(GuideTask task)=>task==null?null:Session.Operation+":"+Session.Phase+":"+task.kind+":"+task.key+":"+task.control+":"+(Apparatus.IsCarrying?"carrying":"free")+":"+Apparatus.Selected?.assetId;
         void ClearGuideCue(){if(worldGuideCue)worldGuideCue.Stop();if(buttonGuideCue)buttonGuideCue.Stop();worldGuideCue=buttonGuideCue=null;cueStep=null;}
-        void PointAtEquipment(EquipmentHandle item)
+        void PointAtEquipment(EquipmentHandle item){ShowEquipmentCue(item,true);}
+        void ShowEquipmentCue(EquipmentHandle item,bool details)
         {
             float clearTop=.97f;
             if(!Input.VrMode&&!Input.SimulatorMode&&page)
@@ -767,12 +772,11 @@ namespace Vlab.Product
             if(Session.spec.id=="P01")
             {
                 string purpose=item.assetId switch{"stand"=>L("Đỡ và cố định hệ con lắc.","Supports the pendulum assembly."),"clamp"=>L("Giữ dây tại điểm treo.","Secures the cord at its suspension point."),"pendulum"=>L("Vật dao động để đo chu kỳ.","Oscillating mass used to measure the period."),"string"=>L("Nối điểm treo với quả nặng.","Connects the suspension point to the bob."),"ruler"=>L("Đọc chiều dài bằng vạch chia milimét.","Reads length using millimetre graduations."),"timer"=>L("Đo thời gian của các chu kỳ.","Measures the elapsed time of oscillations."),_=>""};
-                if(item.assetId=="pendulum"&&Session.Phase==ExperimentPhase.Ready)instruction=L("Giữ quả nặng, kéo lệch rồi thả để bắt đầu.","Hold the bob, pull it aside and release to start.");
-                instruction=purpose+(CurrentGuide()?.key==item.assetId?"\n"+FlagshipInstruction():"");
+                instruction=Apparatus.IsPullingBob?L("Kéo quả sang bên. Chọn Thả khi sẵn sàng.","Move the bob aside. Select Release when ready."):CurrentGuide()?.key==item.assetId?FlagshipInstruction():purpose;
             }
             if(Flagship(Session.spec.id)&&Session.spec.id!="P01")instruction=FlagshipPurpose(item);
             if(worldGuideCue)worldGuideCue.Stop();
-            worldGuideCue=GuideCue.ShowEquipment(Apparatus.transform,item,Profile.settings.reducedMotion,cord?cord.sharedMaterial:null);worldGuideCue.SetContext(EquipmentName(item),instruction,View,clearTop);cueStep=GuideStep(CurrentGuide());
+            worldGuideCue=GuideCue.ShowEquipment(Apparatus.transform,item,Profile.settings.reducedMotion,cord?cord.sharedMaterial:null);worldGuideCue.SetContext(EquipmentName(item),details?instruction:"",View,clearTop);cueStep=GuideStep(CurrentGuide());
         }
         void RecordMeasurement()
         {
@@ -1065,6 +1069,7 @@ namespace Vlab.Product
         RectTransform Modal(string title,float width,float height,bool live=false)
         {
             CancelFlagshipDrag();
+            if(Apparatus&&(Apparatus.IsCarrying||Apparatus.IsPullingBob))Apparatus.CancelGrab();
             var previousLayout=modal?modal.GetComponentInChildren<PhoneDialogLayout>():null;float previousScroll=previousLayout?previousLayout.ScrollPosition:1;string previousTitle=previousLayout?previousLayout.GetComponentInChildren<TextMeshProUGUI>()?.text:null;
             ClearGuideCue();
             bool resume=ActivityRunIntent();ClearInspection();
@@ -1156,7 +1161,7 @@ namespace Vlab.Product
             SyncAuthority();
             if(Session!=null&&Route=="activity"&&(!modal||modalAllowsSimulation))Session.Advance(Time.unscaledDeltaTime);
             if(Session!=null&&Route=="activity"&&Time.unscaledTime>=nextDisplay){nextDisplay=Time.unscaledTime+.1f;RefreshActivity();RefreshInstrument();}
-            if(Input.ControllerPointerActive&&!frame.lost)ProcessGaze(frame);
+            if(Input.ControllerPointerActive&&!frame.lost)frame=ProcessGaze(frame);
             else if(frame.lost){gazeTime=0;gazeConsumed=true;}
             if((Route=="activity"||Route=="explore")&&!modal&&Time.unscaledTime>=inputAfter)
             {
@@ -1165,18 +1170,20 @@ namespace Vlab.Product
                     var equipment=hit.collider.GetComponentInParent<EquipmentHandle>();
                     if(equipment&&Apparatus)
                     {
-                        bool free=!Apparatus.IsCarrying;
+                        bool free=!Apparatus.IsCarrying&&!Apparatus.IsPullingBob&&!flagshipDrag;
                         if(free)
                         {
                             if(equipment.installed&&BeginFlagship(equipment,hit,frame)){}else if(equipment.installed&&Apparatus.Driver!=null){instrumentPage=0;ShowInstrument(equipment);}
-                            else if(frame.phoneWorldPress&&!equipment.installed){Apparatus.Select(equipment);if(!Apparatus.TakeSelected(frame.pointer,out var why))Toast(LessonGuide.ExplainFailure(why,Vi));}
-                            else Apparatus.BeginGrab(equipment,frame.pointer);
-                            if(Session.spec.id=="P01"&&Profile.settings.hints&&!modal){if(worldGuideCue&&worldGuideCue.name=="Guide cue · "+equipment.assetId)ClearGuideCue();else PointAtEquipment(equipment);}
+                            else if((frame.phoneWorldPress||!frame.held)&&!equipment.installed){Apparatus.Select(equipment);if(!Apparatus.TakeSelected(frame.pointer,out var why))Toast(LessonGuide.ExplainFailure(why,Vi));}
+                            else Apparatus.BeginGrab(equipment,frame.pointer,!frame.held);
+                            if(Session.spec.id=="P01"&&Profile.settings.hints&&!modal&&guideMistakes<3)PointAtEquipment(equipment);
                         }
                     }
                     else{var fixture=hit.collider.GetComponentInParent<LabFixture>();if(fixture&&fixture.CanInteract)ActivateFixture(fixture);}
                 }
-                UpdateFlagshipDrag(frame);if(Apparatus)Apparatus.UpdateGrab(frame);
+                if(!PointerHitsUi(frame.pointer))
+                {lastInteractionRay=frame.pointer;UpdateFlagshipDrag(frame);if(Apparatus)Apparatus.UpdateGrab(frame);}
+                else if(frame.released){CancelFlagshipDrag();Apparatus?.CancelGrab();}
             }
         }
         bool PointerHitsUi(Ray ray)
@@ -1195,7 +1202,7 @@ namespace Vlab.Product
             Vector3 screen=View.WorldToScreenPoint(point);pointer=new PointerEventData(EventSystem.current){position=new Vector2(screen.x,screen.y)};
             if(screen.z>0&&!blocked)EventSystem.current.RaycastAll(pointer,uiHits);
         }
-        void ProcessGaze(ActionFrame frame)
+        ActionFrame ProcessGaze(ActionFrame frame)
         {
             RaycastInterface(frame.pointer,out var pointer);
             if(flatPointerRoot&&flatPointerRoot.gameObject.activeSelf)
@@ -1214,6 +1221,9 @@ namespace Vlab.Product
             }
             var target=uiHits.Count>0?ExecuteEvents.GetEventHandler<IPointerClickHandler>(uiHits[0].gameObject):null;
             if(target){var button=target.GetComponent<UnityEngine.UI.Button>();if(button&&!button.IsInteractable())target=null;}
+            bool worldTarget=false;
+            if(uiHits.Count==0&&!modal&&!changing&&(Route=="activity"||Route=="explore")&&Apparatus&&!Apparatus.IsCarrying&&!Apparatus.IsPullingBob&&!flagshipDrag&&Physics.Raycast(frame.pointer,out var worldHit,3.5f))
+            {var item=worldHit.collider.GetComponentInParent<EquipmentHandle>();if(item){target=worldHit.collider.gameObject;worldTarget=true;}}
             if(target!=gazeTarget){if(gazeTarget)ExecuteEvents.Execute(gazeTarget,pointer,ExecuteEvents.pointerExitHandler);gazeTarget=target;gazeTime=0;gazeConsumed=false;gazePosition=pointer.position;if(target)ExecuteEvents.Execute(target,pointer,ExecuteEvents.pointerEnterHandler);}
             else if(target&&target.GetComponent<InstrumentInspection>()&&Vector2.Distance(gazePosition,pointer.position)>12){gazePosition=pointer.position;gazeTime=0;gazeConsumed=false;}
             // A replacement page must not auto-activate the button that appears under the same gaze.
@@ -1224,7 +1234,8 @@ namespace Vlab.Product
             float progress=dwell&&ready?Mathf.Clamp01(gazeTime/Profile.settings.gazeDwellSeconds):0;
             if(gazeProgress)gazeProgress.fillAmount=progress;
             if(flatGazeProgress)flatGazeProgress.fillAmount=progress;
-            if(click)ExecuteEvents.Execute(target,pointer,ExecuteEvents.pointerClickHandler);
+            if(click){if(worldTarget)frame.pressed=true;else ExecuteEvents.Execute(target,pointer,ExecuteEvents.pointerClickHandler);}
+            return frame;
         }
         internal static bool AdvanceGazeTimer(ref float elapsed,ref bool consumed,bool dwell,bool pressed,float duration,float deltaSeconds)
         {
@@ -1263,7 +1274,7 @@ namespace Vlab.Product
             return "";
         }
         static bool Flagship(string id)=>id=="P01"||id=="C04"||id=="B01"||id=="M01";
-        EquipmentHandle flagshipDrag;Vector3 flagshipRest;Quaternion flagshipRotation;Plane flagshipPlane;Vector3 flagshipLast;float flagshipDistance;bool flagshipFine;
+        EquipmentHandle flagshipDrag;Vector3 flagshipRest;Quaternion flagshipRotation;Plane flagshipPlane;Vector3 flagshipLast;float flagshipDistance;bool flagshipFine;Ray lastInteractionRay;
         void CancelFlagshipDrag(){if(flagshipDrag&&Session?.spec.id=="C04")flagshipDrag.transform.SetPositionAndRotation(flagshipRest,flagshipRotation);flagshipDrag=null;}
         bool FlagshipOperate(string action)
         {
@@ -1443,7 +1454,7 @@ namespace Vlab.Product
         string lastFocusedTaskTarget;
         void FocusStepTarget(GuideTask task)
         {
-            if(flagshipDrag||task==null||Apparatus==null||!Apparatus.Ready||Apparatus.IsCarrying||modal||changing||Session.spec.id=="P02"||
+            if(flagshipDrag||task==null||Apparatus==null||!Apparatus.Ready||Apparatus.IsCarrying||Apparatus.IsPullingBob||modal||changing||Session.spec.id=="P02"||
                 Input.VrMode||Input.SimulatorMode||!Profile.settings.focusAssist||string.IsNullOrEmpty(task.key)||task.key==lastFocusedTaskTarget)return;
             var item=Apparatus.items.FirstOrDefault(x=>x.assetId==task.key&&x.installed&&x.gameObject.activeInHierarchy);
             if(!item||!TryFocusBounds(item,out var bounds))return;
@@ -1531,8 +1542,8 @@ namespace Vlab.Product
         void RecenterHead(){Input.Recenter();StartCoroutine(AlignUiAfterRecenter());}
         IEnumerator AlignUiAfterRecenter(){yield return null;yield return null;RecenterInterface();}
         IEnumerator AlignAfterTracking(){yield return null;yield return null;if(ui.canvas.renderMode==RenderMode.WorldSpace){if(Apparatus&&(Route=="activity"||Route=="pause"||Route=="settings"))MoveToWorkstation();RecenterInterface();}}
-        void OnApplicationPause(bool paused){if(paused){Session?.Pause();modalResumeActivity=activityReturnRunning=false;SyncAuthority();Save();}else if(Input)Input.Gameplay=!changing&&(Route=="activity"||Route=="explore");}
-        void OnApplicationFocus(bool focused){if(!focused){Session?.InputLost();modalResumeActivity=activityReturnRunning=false;SyncAuthority();Save();}}
+        void OnApplicationPause(bool paused){if(paused){Session?.Pause();CancelFlagshipDrag();Apparatus?.CancelGrab();modalResumeActivity=activityReturnRunning=false;SyncAuthority();Save();}else if(Input)Input.Gameplay=!changing&&(Route=="activity"||Route=="explore");}
+        void OnApplicationFocus(bool focused){if(!focused){Session?.InputLost();CancelFlagshipDrag();Apparatus?.CancelGrab();modalResumeActivity=activityReturnRunning=false;SyncAuthority();Save();}}
         void OnApplicationQuit(){Session?.Pause();Save();}
     }
 }

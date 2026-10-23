@@ -82,8 +82,8 @@ namespace Vlab.Product
             if(!caption)return;
             callout.sizeDelta=new Vector2(360,150);
             caption.text=label+(string.IsNullOrWhiteSpace(instruction)?"":"\n"+instruction);
+            callout.sizeDelta=new Vector2(360,Mathf.Clamp(Mathf.Ceil(caption.GetPreferredValues(caption.text,316,float.PositiveInfinity).y)+36,80,280));
             caption.ForceMeshUpdate(true,true);
-            callout.sizeDelta=new Vector2(360,Mathf.Clamp(caption.preferredHeight+24,80,150));
         }
 
         void CreateCallout()
