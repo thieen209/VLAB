@@ -8,7 +8,7 @@
 
 [Cài APK](#chơi-trên-android--không-cần-cài-unity) · [Mở project Unity](#mở-và-phát-triển-mã-nguồn) · [Tài liệu](docs/README.md) · [Nhật ký thay đổi](CHANGELOG.md)
 
-> **Trạng thái 23/10/2026:** source mới hơn APK. Các cập nhật gồm tương tác, gợi ý, góc nhìn điện thoại, hộp thoại, PDF pháp lý và bảng kính hiển vi. APK công khai vẫn là **0.1.4 / code5**; candidate riêng là **0.1.7 / code21**. Chưa có APK chứa các sửa đổi source mới nhất. [Kết quả kiểm thử và giới hạn](docs/QA/2026-10-23/README.md).
+> **Trạng thái 23/10/2026:** Bản thử riêng đã bàn giao gần nhất là **0.1.9 / code28**. Đợt nâng cấp tiếp theo bổ sung nhận diện bốn phòng, phản hồi menu, hint, bảng phác thảo và âm thanh. **Code29 đang đóng gói; chưa phải bản phát hành công khai.** [Tiến độ và giới hạn kiểm chứng](docs/FinalPass/MIDNIGHT-20261023.md).
 
 
 <p align="center">

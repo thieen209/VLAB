@@ -1,0 +1,17 @@
+PASS whiteboard bounded coordinate, point, stroke, undo and clear checks; pointer and visual acceptance require runtime.
+PASS C06 repeat-rinse order
+PASS Legacy profile migrates without repeating consent or clearing settings
+PASS Vietnamese notebook page saves atomically
+PASS Title, Unicode, line breaks and lesson association survive reopening
+PASS Writing does not fabricate a measured attempt
+PASS Backup failure preserves successful primary commit and current writing on reload
+PASS Progress reset preserves personally written pages
+PASS Full reset clears notebook only as part of the explicit full reset
+PASS Post-reset backup cannot resurrect written pages
+PASS Oversized pages are refused without claiming save success
+PASS Duplicate page IDs are refused
+PASS Future notebook schema is preserved and write protected
+PASS Explicitly corrupt notebook data is not silently replaced
+Sketch-board | 2340x1080
+PASS board reachable, native pointer stroke, undo, modal close; audio sample checks. Speaker/headset quality not tested.
+Home-current-rooms | 2340x1080

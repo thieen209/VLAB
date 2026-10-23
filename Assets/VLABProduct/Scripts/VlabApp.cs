@@ -65,6 +65,7 @@ namespace Vlab.Product
             privacyHash=DocumentHash("privacy");termsHash=DocumentHash("terms");
             origin=new GameObject("Learner Origin").transform;origin.SetParent(transform,false);
             var cameraGo=new GameObject("VLAB Camera",typeof(Camera),typeof(AudioListener),typeof(UniversalAdditionalCameraData));cameraGo.tag="MainCamera";cameraGo.transform.SetParent(origin,false);View=cameraGo.GetComponent<Camera>();View.nearClipPlane=.04f;View.farClipPlane=40;View.fieldOfView=65;
+            gameObject.AddComponent<VlabAudio>();
             Input=gameObject.AddComponent<VlabInput>();Input.Adopt(View);Input.BlocksTouchLook=ray=>
             {
                 if(modal||PointerHitsUi(ray))return true;
@@ -431,7 +432,7 @@ namespace Vlab.Product
             {
                 case ExperimentPhase.Preparing:if(Flagship(Session.spec.id))ShowGuideTarget(CurrentGuide());else PrepareAction();break;
                 case ExperimentPhase.Ready:
-                    if(!Session.Start(out status))ActionFailure(status);else{Apparatus.ApplyPreparation(Session.Operation);RefreshActivity();}break;
+                    if(!Session.Start(out status))ActionFailure(status);else{VlabAudio.Play(VlabSound.Experiment);Apparatus.ApplyPreparation(Session.Operation);RefreshActivity();}break;
                 case ExperimentPhase.Paused:Session.Resume();RefreshActivity();break;
                 case ExperimentPhase.Running:RecordMeasurement();break;
                 case ExperimentPhase.Measured:if(HasPendingMeasurement)RecordMeasurement();break;
@@ -458,7 +459,8 @@ namespace Vlab.Product
             Button(box,L("Thông số","Variables"),376,120,304,88,ShowVariables);
             Button(box,L("Hướng dẫn","Guidance"),40,240,304,88,()=>{guidePage=-1;ShowGuidance();});
             Button(box,L("Sổ tay","Notebook"),376,240,304,88,()=>ShowNotebook("activity"));
-            Button(box,L("Ánh sáng","Lighting"),40,360,640,72,ShowRoomLighting).name="Room lighting";
+            Button(box,L("Ánh sáng","Lighting"),40,360,304,72,ShowRoomLighting).name="Room lighting";
+            Button(box,L("Bảng phác thảo","Sketch board"),376,360,304,72,ShowWhiteboard).name="Sketch board";
             Button(box,L("Trở lại trạm","Return to station"),280,480,400,72,()=>{CloseModal();RefreshActivity();},Accent).name="Station return";
         }
         void ShowRoomLighting()
@@ -503,7 +505,7 @@ namespace Vlab.Product
             FocusStepTarget(currentTask);
             if(cueStep!=null&&cueStep!=step)ClearGuideCue();
             if(observedGuideStep!=step){observedGuideStep=step;guideMistakes=0;guidanceTier=0;actionFailureUntil=0;nextWorldHint=Time.unscaledTime+12;}
-            if(!hudHidden&&Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){guidanceTier++;nextWorldHint=Time.unscaledTime+(guidanceTier==1?23:35);var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)ShowEquipmentCue(hinted,guidanceTier>1);}
+            if(!hudHidden&&Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){guidanceTier++;nextWorldHint=Time.unscaledTime+(guidanceTier==1?23:35);var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)ShowEquipmentCue(hinted,true);}
             string action;bool enabled=true;
             if(Apparatus.IsPullingBob||flagshipDrag)
             {liveStage.text=L("ĐANG THAO TÁC","MANIPULATING");liveHint.text=L("Di chuyển con trỏ để điều chỉnh. Chọn Thả khi đã ở vị trí mong muốn; Quay lại để hủy.","Move the pointer to adjust. Select Release at the intended position; Back cancels.");action=L("Thả dụng cụ","Release");}
@@ -567,7 +569,7 @@ namespace Vlab.Product
         }
         int guideMistakes;
         string actionFailureText;float actionFailureUntil;
-        void ActionFailure(string reason){actionFailureText=LessonGuide.ExplainFailure(reason,Vi);actionFailureUntil=Time.unscaledTime+8;if(Route!="activity"||modal){Toast(actionFailureText);return;}if(liveHint)liveHint.text=actionFailureText;if(Profile.settings.hints&&++guideMistakes>=3){var item=Apparatus?.items.FirstOrDefault(x=>x.assetId==CurrentGuide()?.key);if(item)PointAtEquipment(item);}}
+        void ActionFailure(string reason){VlabAudio.Play(VlabSound.Warning);actionFailureText=LessonGuide.ExplainFailure(reason,Vi);actionFailureUntil=Time.unscaledTime+8;if(Route!="activity"||modal){Toast(actionFailureText);return;}if(liveHint)liveHint.text=actionFailureText;if(Profile.settings.hints&&++guideMistakes>=3){var item=Apparatus?.items.FirstOrDefault(x=>x.assetId==CurrentGuide()?.key);if(item)PointAtEquipment(item);}}
         void PrepareAction(){if(Apparatus.PrepareNext(out status)){Session.Assistance="guided-preparation";Save();}else ActionFailure(status);RefreshActivity();}
         void ShowEquipment()
         {
@@ -833,12 +835,12 @@ namespace Vlab.Product
             }
             var cord=Resources.Load<GameObject>("Equipment/VLAB_string").GetComponentInChildren<LineRenderer>();
             string instruction=Apparatus.IsCarrying?(Apparatus.CanInstallSelected(out _)?L("Đưa dụng cụ tới vùng đánh dấu rồi chọn Đặt dụng cụ.","Move the equipment to its marked position, then select Place equipment."):L("Cần lắp giá đỡ trước. Mở Dụng cụ để trả món đang cầm về khay.","Fit the support first. Open Equipment to return the held part.")):CurrentGuide()?.action;
-            if(Session.spec.id=="P01")
+            if(Session.spec.id=="P01"&&!Apparatus.IsCarrying)
             {
                 string purpose=item.assetId switch{"stand"=>L("Đỡ và cố định hệ con lắc.","Supports the pendulum assembly."),"clamp"=>L("Giữ dây tại điểm treo.","Secures the cord at its suspension point."),"pendulum"=>L("Vật dao động để đo chu kỳ.","Oscillating mass used to measure the period."),"string"=>L("Nối điểm treo với quả nặng.","Connects the suspension point to the bob."),"ruler"=>L("Đọc chiều dài bằng vạch chia milimét.","Reads length using millimetre graduations."),"timer"=>L("Đo thời gian của các chu kỳ.","Measures the elapsed time of oscillations."),_=>""};
                 instruction=Apparatus.IsPullingBob?L("Kéo quả sang bên. Chọn Thả khi sẵn sàng.","Move the bob aside. Select Release when ready."):CurrentGuide()?.key==item.assetId?FlagshipInstruction():purpose;
             }
-            if(Flagship(Session.spec.id)&&Session.spec.id!="P01")instruction=FlagshipPurpose(item);
+            if(Flagship(Session.spec.id)&&Session.spec.id!="P01"&&!Apparatus.IsCarrying)instruction=CurrentGuide()?.key==item.assetId?FlagshipInstruction():FlagshipPurpose(item);
             if(worldGuideCue)worldGuideCue.Stop();
             worldGuideCue=GuideCue.ShowEquipment(Apparatus.transform,item,Profile.settings.reducedMotion,cord?cord.sharedMaterial:null);worldGuideCue.SetContext(EquipmentName(item),details?instruction:"",View,clearTop,!Input.VrMode&&!Input.SimulatorMode&&Route=="activity"?ActivityObservationArea():(Rect?)null);cueStep=GuideStep(CurrentGuide());
         }
@@ -851,7 +853,7 @@ namespace Vlab.Product
             }
             var record=pendingMeasurement;bool added=!Profile.attempts.Any(attempt=>attempt.attemptId==record.attemptId);if(added)Profile.attempts.Add(record);Profile.checkpoint=null;
             if(!store.Save(Profile,out var error)){if(added)Profile.attempts.Remove(record);Profile.checkpoint=pendingMeasurementCheckpoint;StorageFailure(error);StorageToast();RefreshActivity();return;}
-            writeProtected=false;ClearPendingMeasurement();status="";ShowResults(record);
+            writeProtected=false;ClearPendingMeasurement();status="";VlabAudio.Play(VlabSound.Success);ShowResults(record);
         }
         string FormatReadings(IEnumerable<Reading> readings)=>string.Join("\n",readings.Select(r=>ReadingLabel(r)+"   "+ObservationCards.FormatValue(r,Vi)+" "+ObservationCards.DisplayUnit(r)));
         public static string ReadingCaption(Reading reading,bool vi)
@@ -1300,7 +1302,7 @@ namespace Vlab.Product
             if(uiHits.Count==0&&!modal&&!changing&&(Route=="activity"||Route=="explore")&&(!Apparatus||(!Apparatus.IsCarrying&&!Apparatus.IsPullingBob))&&!flagshipDrag&&Physics.Raycast(frame.pointer,out var worldHit,3.5f))
             {var item=worldHit.collider.GetComponentInParent<EquipmentHandle>();if(item||(worldHit.collider.GetComponentInParent<LabFixture>() is LabFixture fixture&&fixture.CanInteract)){target=worldHit.collider.gameObject;worldTarget=true;}}
             if(target!=gazeTarget){if(gazeTarget)ExecuteEvents.Execute(gazeTarget,pointer,ExecuteEvents.pointerExitHandler);gazeTarget=target;gazeTime=0;gazeConsumed=false;gazePosition=pointer.position;if(target)ExecuteEvents.Execute(target,pointer,ExecuteEvents.pointerEnterHandler);}
-            else if(target&&target.GetComponent<InstrumentInspection>()&&Vector2.Distance(gazePosition,pointer.position)>12){gazePosition=pointer.position;gazeTime=0;gazeConsumed=false;}
+            else if(target&&(target.GetComponent<InstrumentInspection>()||target.GetComponent<VlabWhiteboard>())&&Vector2.Distance(gazePosition,pointer.position)>12){gazePosition=pointer.position;gazeTime=0;gazeConsumed=false;}
             // A replacement page must not auto-activate the button that appears under the same gaze.
             if(suppressOpeningGaze){gazeConsumed=target;suppressOpeningGaze=false;}
             bool dwell=(Input.VrMode||Input.SimulatorMode)&&Profile.settings.gazeAutoSelect;
@@ -1359,7 +1361,7 @@ namespace Vlab.Product
         bool StartObservedFlagship()
         {
             for(int n=0;n<Session.spec.operationsEn.Length&&Session.Phase==ExperimentPhase.Preparing;n++)if(!Apparatus.PrepareNext(out var why)){ActionFailure(why);return false;}
-            if(!Session.Start(out var error)){ActionFailure(error);return false;}Save();RefreshActivity();return true;
+            if(!Session.Start(out var error)){ActionFailure(error);return false;}VlabAudio.Play(VlabSound.Experiment);Save();RefreshActivity();return true;
         }
         bool BeginMicroscopeObservation()
         {

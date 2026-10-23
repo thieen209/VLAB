@@ -89,6 +89,7 @@ namespace Vlab.Product
             b.onClick.AddListener(()=>action?.Invoke());var caption=Text(rect,label,12,6,width-24,height-12,22,null,TextAlignmentOptions.Center);caption.color=UiTheme.On(accent??Raised);caption.fontWeight=FontWeight.SemiBold;
             var outline=rect.GetComponent<UnityEngine.UI.Outline>();outline.effectColor=new Color(Stroke.r,Stroke.g,Stroke.b,.8f);outline.effectDistance=new Vector2(2,-2);outline.useGraphicAlpha=true;
             rect.gameObject.AddComponent<UiButtonMotion>().Initialize(b,caption.rectTransform,ReducedMotion);
+            rect.gameObject.AddComponent<UiAudioCue>().Initialize(b);
             return b;
         }
         public RawImage Picture(Transform parent,Texture texture,float x,float y,float width,float height,bool contain=false)
@@ -213,11 +214,13 @@ namespace Vlab.Product
         }
         void OnDestroy(){if(plate)Destroy(plate.gameObject);}
     }
-    public sealed class PortalFocus:MonoBehaviour,UnityEngine.EventSystems.IPointerEnterHandler,UnityEngine.EventSystems.IPointerExitHandler,UnityEngine.EventSystems.ISelectHandler,UnityEngine.EventSystems.IDeselectHandler
+    public sealed class PortalFocus:MonoBehaviour,UnityEngine.EventSystems.IPointerEnterHandler,UnityEngine.EventSystems.IPointerExitHandler,UnityEngine.EventSystems.IPointerDownHandler,UnityEngine.EventSystems.IPointerUpHandler,UnityEngine.EventSystems.ISelectHandler,UnityEngine.EventSystems.IDeselectHandler
     {
         public Action<bool> Focus;public bool ReducedMotion;public Color FocusColor=Color.white;Vector3 target=Vector3.one;
         public void OnPointerEnter(UnityEngine.EventSystems.PointerEventData e){target=Vector3.one*(ReducedMotion?1:1.035f);Border(true);Focus?.Invoke(true);}
         public void OnPointerExit(UnityEngine.EventSystems.PointerEventData e){target=Vector3.one;Border(false);Focus?.Invoke(false);}
+        public void OnPointerDown(UnityEngine.EventSystems.PointerEventData e){if(e.button==UnityEngine.EventSystems.PointerEventData.InputButton.Left)target=Vector3.one*(ReducedMotion?1:.985f);}
+        public void OnPointerUp(UnityEngine.EventSystems.PointerEventData e){target=Vector3.one;}
         void Border(bool focused){var edge=GetComponent<UnityEngine.UI.Outline>();if(!edge)return;edge.effectColor=focused?FocusColor:new Color(FocusColor.r,FocusColor.g,FocusColor.b,.35f);edge.effectDistance=focused?new Vector2(3,-3):new Vector2(2,-2);}
         public void OnSelect(UnityEngine.EventSystems.BaseEventData e){OnPointerEnter(null);}
         public void OnDeselect(UnityEngine.EventSystems.BaseEventData e){OnPointerExit(null);}

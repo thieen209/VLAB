@@ -10,15 +10,15 @@ namespace Vlab.Product
     {
         public int Subject{get;private set;}public bool IsFrame{get;private set;}public bool IsPlate{get;private set;}
         public int DrawnVertexCount{get;private set;}public Rect DrawnBounds{get;private set;}
-        Outline focus;bool focused;Color restingFill,focusedFill;VertexHelper mesh;
+        Outline focus;bool focused;Color restingFill,focusedFill,restingFrame;VertexHelper mesh;
         public void Configure(int subject,Color accent,bool frame=false,Outline focusEdge=null)
-        {Subject=subject;IsFrame=frame;focus=focusEdge;accent.a=1;color=accent;raycastTarget=false;SetVerticesDirty();}
+        {Subject=subject;IsFrame=frame;focus=focusEdge;accent.a=1;color=restingFrame=accent;raycastTarget=false;SetVerticesDirty();}
         public void ConfigurePlate(int subject,Color ink,Outline focusEdge,Color accent){Subject=subject;IsPlate=true;focus=focusEdge;ink.a=accent.a=UiTheme.Opacity;restingFill=ink;focusedFill=Color.Lerp(ink,accent,.18f);color=ink;raycastTarget=false;SetVerticesDirty();}
         void LateUpdate()
         {
             if((!IsFrame&&!IsPlate)||!focus)return;bool next=focus.effectDistance.sqrMagnitude>8;
-            if(IsPlate){var target=next?focusedFill:restingFill;target.a=UiTheme.Opacity;var value=Color.Lerp(color,target,1-Mathf.Exp(-Time.unscaledDeltaTime/.1f));value.a=UiTheme.Opacity;if(Mathf.Abs(value.r-color.r)+Mathf.Abs(value.g-color.g)+Mathf.Abs(value.b-color.b)+Mathf.Abs(value.a-color.a)>.0001f)color=value;return;}
-            if(next!=focused){focused=next;SetVerticesDirty();}
+            if(IsPlate){var target=next?focusedFill:restingFill;target.a=UiTheme.Opacity;var motion=focus.GetComponent<PortalFocus>();var value=motion&&motion.ReducedMotion?target:Color.Lerp(color,target,1-Mathf.Exp(-Time.unscaledDeltaTime/.1f));value.a=UiTheme.Opacity;if(Mathf.Abs(value.r-color.r)+Mathf.Abs(value.g-color.g)+Mathf.Abs(value.b-color.b)+Mathf.Abs(value.a-color.a)>.0001f)color=value;return;}
+            if(next!=focused){focused=next;color=focused?Color.Lerp(restingFrame,focus.effectColor,.8f):restingFrame;SetVerticesDirty();}
         }
         Vector2 P(Vector2 point)
         {var r=rectTransform.rect;return new Vector2(r.xMin+point.x*r.width/268,r.yMax-point.y*r.height/432);}

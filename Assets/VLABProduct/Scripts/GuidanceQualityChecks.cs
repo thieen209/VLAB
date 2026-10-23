@@ -10,6 +10,10 @@ public static class GuidanceQualityChecks
 {
     public static IEnumerator Run(Action<string,bool> check)
     {
+        var probeGuide=new LessonGuide(new ExperimentSession("C06"));
+        foreach(string action in new[]{"buffer4","rinseProbe","rinseProbe","buffer7"})probeGuide.Applied(action);
+        bool needsFinalRinse=probeGuide.NeedsFinalProbeRinse;probeGuide.Applied("rinseProbe");
+        check("C06 repeated early rinses cannot replace the rinse after pH 7 buffer",needsFinalRinse&&!probeGuide.NeedsFinalProbeRinse);
         foreach(int length in new[]{80,100,120})
         {
             var root=new GameObject("Guidance stock rod "+length);ApparatusRig rig=null;ExperimentSession session=null;string failure="";

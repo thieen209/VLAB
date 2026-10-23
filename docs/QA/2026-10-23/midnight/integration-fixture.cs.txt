@@ -1,0 +1,178 @@
+#if UNITY_EDITOR
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.UI;
+using Vlab.Product;
+
+// Temporary photography fixture. Never writes production scenes, settings, or a learner profile.
+public sealed class LaunchPhotoSession:MonoBehaviour
+{
+    const BindingFlags Hidden=BindingFlags.Instance|BindingFlags.NonPublic;
+    readonly List<string> rows=new List<string>();
+    VlabApp App=>VlabApp.Instance;
+    string output;
+    void Set(string name,object value)=>typeof(VlabApp).GetField(name,Hidden).SetValue(App,value);
+    void Open(string name,params object[] args)=>typeof(VlabApp).GetMethod(name,Hidden).Invoke(App,args);
+    IEnumerator Start()
+    {
+        Application.runInBackground=true;Time.captureFramerate=30;DontDestroyOnLoad(gameObject);output=Environment.GetEnvironmentVariable("VLAB_POSTER_OUTPUT");
+        if(string.IsNullOrEmpty(output)){EditorApplication.Exit(2);yield break;}
+        Directory.CreateDirectory(output);yield return new WaitForSecondsRealtime(1);
+        var routine=Shoot();var stack=new Stack<IEnumerator>();stack.Push(routine);bool failed=false;
+        while(stack.Count>0)
+        {
+            bool next=false;object value=null;Exception error=null;
+            try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception ex){error=ex;}
+            if(error!=null){rows.Add("ERROR "+error);failed=true;break;}
+            if(!next){(stack.Pop() as IDisposable)?.Dispose();continue;}
+            if(value is IEnumerator nested&&!(value is CustomYieldInstruction)){stack.Push(nested);continue;}yield return value;
+        }
+        while(stack.Count>0)(stack.Pop() as IDisposable)?.Dispose();
+        File.WriteAllLines(Path.Combine(output,"CAPTURE_LOG.txt"),rows);
+        SessionState.SetBool("VLAB.LaunchPhotos",false);SessionState.SetString("VLAB.TestProfile","");SecondTestGameView.Restore();if(!failed&&Environment.GetEnvironmentVariable("VLAB_BUILD_AFTER_CAPTURE")=="1"){SessionState.SetBool("VLAB.BuildAfterCapture",true);EditorApplication.isPlaying=false;}else EditorApplication.Exit(failed?1:0);
+    }
+    IEnumerator Shoot()
+    {
+        float until=Time.realtimeSinceStartup+60;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<until)yield return null;
+        if(!App)throw new Exception("App not ready");App.Profile.locale="vi";App.Input.SetSimulator(false);App.enabled=false;
+        VlabAudioChecks.Run();rows.Add(WhiteboardChecks.Run());var rinse=new LessonGuide(new ExperimentSession("C06"));foreach(var step in new[]{"buffer4","rinseProbe","rinseProbe","buffer7"})rinse.Applied(step);if(!rinse.NeedsFinalProbeRinse)throw new Exception("C06 skipped final rinse");rinse.Applied("rinseProbe");if(rinse.NeedsFinalProbeRinse)throw new Exception("C06 rinse did not finish");rows.Add("PASS C06 repeat-rinse order");
+        NotebookPersistenceChecks.Run((label,pass)=>{if(!pass)throw new Exception(label);rows.Add("PASS "+label);});
+        var catalog=JsonUtility.FromJson<BriefCatalog>(Resources.Load<TextAsset>("Catalog/experiments").text);
+        Set("subject","P");Set("selected",catalog.items.Single(item=>item.id=="P01"));yield return App.CheckRoomLoad("Physics",true,false);
+        Open("ShowStationTools");yield return new WaitForSecondsRealtime(.3f);
+        var entry=App.GetComponentsInChildren<Button>().Single(b=>b.name=="Sketch board");entry.onClick.Invoke();yield return new WaitForSecondsRealtime(.4f);
+        var board=App.GetComponentInChildren<VlabWhiteboard>();if(!board)throw new Exception("Sketch board entry did not open");
+        var rect=board.rectTransform;var corners=new Vector3[4];rect.GetWorldCorners(corners);var canvas=board.canvas;
+        var camera=canvas.renderMode==RenderMode.ScreenSpaceOverlay?null:canvas.worldCamera;
+        Vector2 from=RectTransformUtility.WorldToScreenPoint(camera,Vector3.Lerp(corners[0],corners[2],.25f));
+        Vector2 to=RectTransformUtility.WorldToScreenPoint(camera,Vector3.Lerp(corners[0],corners[2],.75f));
+        var pointer=new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){position=from,pointerId=0};
+        var hits=new List<UnityEngine.EventSystems.RaycastResult>();UnityEngine.EventSystems.EventSystem.current.RaycastAll(pointer,hits);
+        if(hits.Count==0||hits[0].gameObject!=board.gameObject)throw new Exception("Empty board raycast is blocked");
+        board.OnPointerDown(pointer);pointer.position=to;board.OnDrag(pointer);board.OnPointerUp(pointer);yield return null;
+        var data=(VlabWhiteboard.Drawing)typeof(VlabWhiteboard).GetField("drawing",Hidden).GetValue(board);
+        if(data.strokes.Count!=1||data.strokes[0].Count<2)throw new Exception("Board pointer drawing failed");
+        yield return Shot("Sketch-board",true,2340,1080);
+        App.GetComponentsInChildren<Button>().Single(b=>b.name=="Hoàn tác nét").onClick.Invoke();if(data.strokes.Count!=0)throw new Exception("Board undo failed");
+        pointer.position=from;board.OnPointerDown(pointer);pointer.position=to;board.OnDrag(pointer);board.OnPointerUp(pointer);
+        var clear=App.GetComponentsInChildren<Button>().Single(b=>b.name=="Xóa bảng");clear.onClick.Invoke();if(data.strokes.Count==0)throw new Exception("Clear lacked confirmation");clear.onClick.Invoke();if(data.strokes.Count!=0)throw new Exception("Board clear failed");
+        Open("CloseModal");yield return null;if(App.HasOpenModal)throw new Exception("Board did not close");
+        float volume=AudioListener.volume;AudioListener.volume=0;VlabAudio.Play(VlabSound.Click);AudioListener.volume=volume;
+        rows.Add("PASS board reachable, native pointer stroke, undo, modal close; audio sample checks. Speaker/headset quality not tested.");
+        App.ShowHome();yield return new WaitForSecondsRealtime(.4f);yield return Shot("Home-current-rooms",true,2340,1080);
+    }    void CapturePanorama(string room)
+    {
+        var camera=App.View;var canvas=App.GetComponentInChildren<Canvas>();bool enabled=canvas.enabled;var rotation=camera.transform.rotation;var active=RenderTexture.active;
+        var cube=new RenderTexture(512,512,24,RenderTextureFormat.ARGB32){dimension=UnityEngine.Rendering.TextureDimension.Cube};
+        var panorama=new RenderTexture(2048,1024,0,RenderTextureFormat.ARGB32);Texture2D pixels=null;
+        try
+        {
+            canvas.enabled=false;camera.transform.rotation=Quaternion.identity;cube.Create();panorama.Create();
+            if(!camera.RenderToCubemap(cube,63,Camera.MonoOrStereoscopicEye.Mono))throw new Exception("Panorama failed "+room);
+            cube.ConvertToEquirect(panorama,Camera.MonoOrStereoscopicEye.Mono);
+            typeof(LabPanoramaCapture).GetMethod("BlurPhotograph",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,new object[]{panorama});
+            RenderTexture.active=panorama;pixels=new Texture2D(2048,1024,TextureFormat.RGB24,false);pixels.ReadPixels(new Rect(0,0,2048,1024),0,0);pixels.Apply();
+            File.WriteAllBytes(Path.Combine(output,"Panorama_"+room+".png"),pixels.EncodeToPNG());
+            File.WriteAllText(Path.Combine(output,"Panorama_"+room+"_pose.json"),JsonUtility.ToJson(new LabPanoramaPreview.CapturePose{room=room,position=camera.transform.position,yaw=rotation.eulerAngles.y},true));
+        }
+        finally{camera.transform.rotation=rotation;canvas.enabled=enabled;RenderTexture.active=active;if(pixels)Destroy(pixels);cube.Release();panorama.Release();Destroy(cube);Destroy(panorama);}
+    }
+    Bounds KitBounds()
+    {
+        Bounds result=default;bool found=false;
+        foreach(var item in App.Apparatus.items)
+        {
+            if(!item.gameObject.activeInHierarchy||!ApparatusRig.TryVisibleBounds(item,out var b)||b.max.y<App.Apparatus.Worktop.y-.1f)continue;
+            if(found)result.Encapsulate(b);else{result=b;found=true;}
+        }
+        if(!found||result.size.magnitude>12)throw new Exception("Unsafe photography bounds");return result;
+    }
+    IEnumerator ShootMotion()
+    {
+        var catalog=JsonUtility.FromJson<BriefCatalog>(Resources.Load<TextAsset>("Catalog/experiments").text);
+        foreach(string id in new[]{"P01","P05","M01","M05","M06"})
+        {
+            Set("subject",id.Substring(0,1));Set("selected",catalog.items.Single(item=>item.id==id));
+            yield return App.CheckRoomLoad(id[0]=='P'?"Physics":"Engineering",true,false);
+            int guard=0;
+            while(!App.Apparatus.Ready&&guard++<40){var item=App.Apparatus.NextInstallableItem();if(!item)throw new Exception("Motion assembly blocked");App.Apparatus.Select(item);if(!App.Apparatus.InstallSelected())throw new Exception("Motion install rejected");}
+            string reason="";
+            while(App.Session.Phase==ExperimentPhase.Preparing&&guard++<60)if(!App.Apparatus.PrepareNext(out reason))break;
+            if(App.Session.Phase!=ExperimentPhase.Ready||!App.Session.Start(out reason)){rows.Add("Motion not photographed "+id+": "+reason);continue;}
+            App.ShowActivity();yield return new WaitForSecondsRealtime(.8f);
+            var bounds=KitBounds();Frame(bounds,true);yield return Shot("05_Dang_thuc_hien/"+id+"_Dang_chay_sach",false);
+            filmSimulation=true;yield return Clip("07_Simulation/"+id+"_Native_motion",App.View.transform.position,App.View.transform.position,bounds.center,true);filmSimulation=false;
+            yield return new WaitForSecondsRealtime(.35f);Frame(bounds,false);yield return Shot("05_Dang_thuc_hien/"+id+"_Dang_chay_giao_dien",true);
+            var target=App.Apparatus.items.FirstOrDefault(item=>item.assetId==(id=="P01"?"pendulum":id=="P05"?"spring":id=="M01"?"gears":id=="M05"?"crank":"cam"));
+            if(target){Open("PointAtEquipment",target);yield return Shot("05_Dang_thuc_hien/"+id+"_Goi_y_tai_dung_cu",false);Open("ClearGuideCue");}
+            rows.Add("REAL RUNNING STATE "+id+" elapsed="+App.Session.Elapsed+"; native preparation/start, no saved result generated");
+        }
+    }
+    void Frame(Bounds b,bool diagonal)
+    {
+        float distance=Mathf.Max(.5f,Mathf.Max(b.size.y,b.size.x/1.45f)*1.22f+b.size.z*.45f);
+        var offset=diagonal?new Vector3(.65f,.5f,-1):new Vector3(0,.32f,-1);
+        App.View.fieldOfView=48;App.View.transform.position=b.center+offset*distance;
+        App.View.transform.rotation=Quaternion.LookRotation(b.center-App.View.transform.position,Vector3.up);
+    }
+    bool filmSimulation;
+    IEnumerator Clip(string name,Vector3 from,Vector3 to,Vector3 target,bool orbit)
+    {
+        const int width=1920,height=1080,frames=240;string path=Path.Combine(output,name+".mp4");Directory.CreateDirectory(Path.GetDirectoryName(path));
+        var canvas=App.GetComponentInChildren<Canvas>();bool was=canvas.enabled;float aspect=App.View.aspect;canvas.enabled=false;App.View.aspect=16f/9;
+        var rt=new RenderTexture(width,height,24);var pixels=new Texture2D(width,height,TextureFormat.RGBA32,false);var active=RenderTexture.active;
+        try
+        {
+            using(var encoder=new UnityEditor.Media.MediaEncoder(path,new UnityEditor.Media.VideoTrackAttributes{width=width,height=height,frameRate=new UnityEditor.Media.MediaRational(30),includeAlpha=false}))
+            for(int frame=0;frame<frames;frame++)
+            {
+                if(filmSimulation)App.Session.Advance(1d/30);
+                yield return new WaitForEndOfFrame();float t=frame/(float)(frames-1);t=t*t*(3-2*t);
+                Vector3 position=orbit?target+Quaternion.Euler(0,Mathf.Lerp(-14,14,t),0)*(from-target):Vector3.Lerp(from,to,t);
+                App.View.transform.SetPositionAndRotation(position,Quaternion.LookRotation(target-position));
+                LabPanoramaCapture.RenderMono(App.View,rt);RenderTexture.active=rt;pixels.ReadPixels(new Rect(0,0,width,height),0,0);pixels.Apply();
+                if(!encoder.AddFrame(pixels,new UnityEditor.Media.MediaTime(frame,30)))throw new Exception("Encoder rejected frame "+frame);
+                if(frame==0)File.WriteAllBytes(path+".preview.png",pixels.EncodeToPNG());
+            }
+            rows.Add(name+" | 1920x1080 30fps 8s | actual Unity rendering, staged camera move, silent footage");File.WriteAllLines(Path.Combine(output,"CAPTURE_LOG.txt"),rows);
+        }
+        finally{canvas.enabled=was;App.View.aspect=aspect;RenderTexture.active=active;Destroy(pixels);Destroy(rt);}
+    }
+    IEnumerator Shot(string name,bool withUi,int width=3840,int height=2160)
+    {
+        yield return new WaitForSecondsRealtime(.3f);
+        var canvas=App.GetComponentInChildren<Canvas>();var mode=canvas.renderMode;var oldCamera=canvas.worldCamera;float plane=canvas.planeDistance,aspect=App.View.aspect;bool enabled=canvas.enabled;
+        var rt=new RenderTexture(width,height,24);var active=RenderTexture.active;Texture2D pixels=null;
+        try
+        {
+            canvas.enabled=withUi;App.View.aspect=(float)width/height;
+            if(withUi){canvas.renderMode=RenderMode.ScreenSpaceCamera;canvas.worldCamera=App.View;canvas.planeDistance=.2f;}
+            Canvas.ForceUpdateCanvases();LabPanoramaCapture.RenderMono(App.View,rt);RenderTexture.active=rt;
+            pixels=new Texture2D(width,height,TextureFormat.RGB24,false);pixels.ReadPixels(new Rect(0,0,width,height),0,0);pixels.Apply();
+            string path=Path.Combine(output,name+".png");Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllBytes(path,pixels.EncodeToPNG());
+            rows.Add(name+" | "+width+"x"+height);Debug.Log("POSTER PHOTO "+name);
+        }
+        finally{RenderTexture.active=active;App.View.aspect=aspect;canvas.enabled=enabled;canvas.renderMode=mode;canvas.worldCamera=oldCamera;canvas.planeDistance=plane;if(pixels)Destroy(pixels);Destroy(rt);Canvas.ForceUpdateCanvases();}
+    }
+}
+[InitializeOnLoad] public static class VlabLaunchPhotos
+{
+    static VlabLaunchPhotos(){EditorApplication.playModeStateChanged+=state=>{if(state==PlayModeStateChange.EnteredEditMode&&SessionState.GetBool("VLAB.BuildAfterCapture",false)){SessionState.SetBool("VLAB.BuildAfterCapture",false);EditorApplication.delayCall+=()=>Type.GetType("FinalPassCandidateBuild, Assembly-CSharp-Editor",true).GetMethod("Run").Invoke(null,null);}if(state==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("VLAB.LaunchPhotos",false))new GameObject("Temporary product photography",typeof(LaunchPhotoSession));};}
+    [Serializable] sealed class PreviousRun{public string profile;}
+    public static void Run()
+    {
+        if(!SecondTestGameView.Configure(out var error))throw new Exception(error);
+        SessionState.SetBool("NguaManVLAB.ProductSmoke",false);SessionState.SetBool("VLAB.FollowupRun",false);SessionState.SetBool("VLAB.SecondTestUI",false);SessionState.SetBool("VLAB.LaunchPhotos",true);
+        string profile=Path.Combine(Application.persistentDataPath,"QA","PosterPhotos-"+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(profile);
+        SessionState.SetString("VLAB.TestProfile",profile);EditorSceneManager.OpenScene("Assets/VLABProduct/Scenes/VLAB_Boot.unity");EditorApplication.EnterPlaymode();
+    }
+}
+#endif
+

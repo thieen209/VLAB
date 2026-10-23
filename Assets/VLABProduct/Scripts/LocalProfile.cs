@@ -220,8 +220,11 @@ namespace Vlab.Product
                 profile.Validate();Directory.CreateDirectory(folder);
                 if(profile.generation<MinimumGeneration())throw new InvalidDataException("Refusing to restore data predating an explicit reset.");
                 string payload=JsonUtility.ToJson(profile),data=JsonUtility.ToJson(new Envelope{payload=payload,sha256=Hash(payload)},true);
-                // Both copies contain the current committed profile: resets cannot resurrect stale backup data.
-                AtomicReplace(primary,data);Decode(primary);AtomicReplace(backup,data);Decode(backup);return true;
+                AtomicReplace(primary,data);Decode(primary);
+                // The verified primary is committed; a backup failure must not roll back callers.
+                try{AtomicReplace(backup,data);Decode(backup);}
+                catch(Exception ex) when(ex is IOException||ex is InvalidDataException||ex is UnauthorizedAccessException||ex is InvalidOperationException||ex is ArgumentException){Debug.LogWarning("VLAB profile saved; backup update failed: "+ex.Message);}
+                return true;
             }
             catch(Exception ex) when(ex is IOException||ex is InvalidDataException||ex is UnauthorizedAccessException||ex is InvalidOperationException||ex is ArgumentException){error="Could not save locally: "+ex.Message;return false;}
         }

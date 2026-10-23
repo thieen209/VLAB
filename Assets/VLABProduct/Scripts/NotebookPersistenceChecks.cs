@@ -24,6 +24,9 @@ namespace Vlab.Product
             check("Vietnamese notebook page saves atomically",store.Save(profile,out _));
             var reopened=new ProfileStore(folder).Load().profile;check("Title, Unicode, line breaks and lesson association survive reopening",reopened.notebookPages.Count==1&&JsonUtility.ToJson(reopened.notebookPages[0])==JsonUtility.ToJson(profile.notebookPages[0]));
             check("Writing does not fabricate a measured attempt",reopened.attempts.Count==0);
+            string backupFailure=Path.Combine(folder,"backup-failure");Directory.CreateDirectory(Path.Combine(backupFailure,"profile.backup.json.tmp"));
+            bool committed=new ProfileStore(backupFailure).Save(reopened,out var backupError);var committedLoad=new ProfileStore(backupFailure).Load();
+            check("Backup failure preserves successful primary commit and current writing on reload",committed&&string.IsNullOrEmpty(backupError)&&!committedLoad.writeProtected&&committedLoad.profile.notebookPages.Count==1&&committedLoad.profile.notebookPages[0].body==reopened.notebookPages[0].body);
             check("Progress reset preserves personally written pages",store.Reset(reopened,false,out var progress,out _)&&progress.notebookPages.Count==1&&progress.notebookPages[0].body==reopened.notebookPages[0].body);
             check("Full reset clears notebook only as part of the explicit full reset",store.Reset(progress,true,out var empty,out _)&&empty.notebookPages.Count==0);
             check("Post-reset backup cannot resurrect written pages",new ProfileStore(folder).Load().profile.notebookPages.Count==0);

@@ -91,6 +91,7 @@ namespace Vlab.Product
         };
         readonly ExperimentSession session;readonly HashSet<string> applied=new HashSet<string>();readonly List<string> actions=new List<string>();
         public LessonGuide(ExperimentSession session){this.session=session;}
+        internal bool NeedsFinalProbeRinse=>actions.LastIndexOf("rinseProbe")<actions.LastIndexOf("buffer7");
         public void Applied(string id)
         {if(id=="fresh"){applied.Clear();actions.Clear();}if(id=="resetPull"){applied.Remove("pull+");applied.Remove("steady");}if(id=="serial"){applied.Remove("waterMark");applied.Remove("invert");}applied.Add(id);actions.Add(id);}
         public void Variable(string key,double value){if(key=="flow"&&value>0){applied.Remove("swirl");applied.Remove("final");applied.Remove("titre");}}
@@ -149,7 +150,7 @@ namespace Vlab.Product
                 {
                     if(!Seen("buffer4"))return Control(rig,vi,"probe","buffer4");
                     int count=actions.Count(x=>x=="rinseProbe");if(count<1)return Control(rig,vi,"probe","rinseProbe");
-                    if(!Seen("buffer7"))return Control(rig,vi,"probe","buffer7");if(count<2)return Control(rig,vi,"probe","rinseProbe");
+                    if(!Seen("buffer7"))return Control(rig,vi,"probe","buffer7");if(NeedsFinalProbeRinse)return Control(rig,vi,"probe","rinseProbe");
                 }
                 if(id=="C06"&&op==2){if(!Seen("probeSample"))return Control(rig,vi,"probe","probeSample");if(!Seen("paper"))return Control(rig,vi,"paper","paper");}
                 if(id=="C08"&&op==1){if(!Seen("acidT"))return Control(rig,vi,"thermometer","acidT");if(!Seen("baseT"))return Control(rig,vi,"thermometer","baseT");}

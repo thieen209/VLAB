@@ -83,7 +83,7 @@ namespace Vlab.Product
             clearArea=observationArea??new Rect(.03f,.03f,.94f,.94f);
             if(!caption)return;
             callout.sizeDelta=new Vector2(360,150);
-            caption.text=label+(string.IsNullOrWhiteSpace(instruction)?"":"\n"+instruction);
+            caption.text=string.IsNullOrWhiteSpace(instruction)?label:"<size=80%><color=#B9CEDD>"+label+"</color></size>\n"+instruction;
             callout.sizeDelta=new Vector2(360,Mathf.Clamp(Mathf.Ceil(caption.GetPreferredValues(caption.text,316,float.PositiveInfinity).y)+36,80,280));
             caption.ForceMeshUpdate(true,true);
         }
