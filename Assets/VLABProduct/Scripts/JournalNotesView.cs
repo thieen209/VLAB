@@ -71,7 +71,13 @@ namespace Vlab.Product
             // Edit the journal field directly; the Android overlay can discard its separate buffer on Back.
             input.restoreOriginalTextOnEscape=false;input.onFocusSelectAll=false;input.shouldHideSoftKeyboard=keyboard!=null;input.shouldHideMobileInput=true;
             if(multiline)viewport.gameObject.AddComponent<NotebookRuling>().Bind(input);
-            input.onValueChanged.AddListener(value=>changed(value));if(keyboard!=null)input.onSelect.AddListener(_=>keyboard(input));return input;
+            string draft=value??"";
+            input.onValueChanged.AddListener(edited=>
+            {
+                // TMP copies Android's canceled keyboard buffer before firing its status event.
+                if(input.touchScreenKeyboard!=null&&input.touchScreenKeyboard.status==TouchScreenKeyboard.Status.Canceled){input.SetTextWithoutNotify(draft);return;}
+                draft=edited;changed(edited);
+            });if(keyboard!=null)input.onSelect.AddListener(_=>keyboard(input));return input;
         }
         static void LessonPicker(VlabUi ui,RectTransform page,LocalProfile profile,bool vi,JournalState state,NotebookPage note,Action refresh,Action changed)
         {
