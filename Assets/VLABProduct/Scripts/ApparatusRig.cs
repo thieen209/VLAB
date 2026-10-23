@@ -193,7 +193,7 @@ namespace Vlab.Product
                     var baseMesh=restingStand?restingStand.GetComponentsInChildren<Renderer>().FirstOrDefault(r=>r.name.EndsWith("_Base_VIS",StringComparison.Ordinal)):null;
                     // Rest the unchanged 1 m ruler behind the actual base, clear of its footprint.
                     return new Vector3(centre.x-.40f,hasStationTop?stationTop.max.y+StorageLift:centre.y+.004f,baseMesh?baseMesh.bounds.max.z+StorageGap+.015f:centre.z-.28f);
-                case "timer":return centre+new Vector3(.38f,.004f,-.10f);
+                case "timer":return centre+new Vector3(.16f,.004f,-.10f);
                 default:return centre;
             }
         }

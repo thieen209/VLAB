@@ -840,7 +840,7 @@ namespace Vlab.Product
             }
             if(Flagship(Session.spec.id)&&Session.spec.id!="P01")instruction=FlagshipPurpose(item);
             if(worldGuideCue)worldGuideCue.Stop();
-            worldGuideCue=GuideCue.ShowEquipment(Apparatus.transform,item,Profile.settings.reducedMotion,cord?cord.sharedMaterial:null);worldGuideCue.SetContext(EquipmentName(item),details?instruction:"",View,clearTop);cueStep=GuideStep(CurrentGuide());
+            worldGuideCue=GuideCue.ShowEquipment(Apparatus.transform,item,Profile.settings.reducedMotion,cord?cord.sharedMaterial:null);worldGuideCue.SetContext(EquipmentName(item),details?instruction:"",View,clearTop,!Input.VrMode&&!Input.SimulatorMode&&Route=="activity"?ActivityObservationArea():(Rect?)null);cueStep=GuideStep(CurrentGuide());
         }
         void RecordMeasurement()
         {
@@ -1505,6 +1505,11 @@ namespace Vlab.Product
                     bounds.Encapsulate(rest);bounds.Encapsulate(arc+Vector3.right*(Mathf.Sin(angle)*length));bounds.Encapsulate(arc-Vector3.right*(Mathf.Sin(angle)*length));
                 }
                 bounds.Expand(.06f);
+                if(includeSetup&&Session.Phase==ExperimentPhase.Running)
+                {
+                    var timer=Apparatus.items.FirstOrDefault(x=>x.assetId=="timer"&&x.installed);
+                    if(timer&&ApparatusRig.TryVisibleBounds(timer,out var clock))bounds.Encapsulate(clock);
+                }
             }
             // Friction is observed as a connected rig: keep the block and its travel surface beside the force scale.
             if(Session?.spec.id=="P03")

@@ -280,6 +280,18 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         yield return PhoneInputChecks.RunUiTap(App,name=>ScreenCapture.CaptureScreenshot("Evidence/FinalPass/"+name+".png"),Check);
     }
     bool biologyFocusOnly,pendulumOnly;
+    IEnumerator CheckCueVisible(string key)
+    {
+        Call("ShowEquipmentCue",Item(key),true);yield return new WaitForSecondsRealtime(.3f);
+        var cue=App.Apparatus.GetComponentsInChildren<GuideCue>().First(c=>!c.IsStopped);
+        var note=cue.GetComponentsInChildren<RectTransform>().First(r=>r.name=="Object instruction");
+        var corners=new Vector3[4];note.GetWorldCorners(corners);bool clear=true;
+        foreach(var point in corners.Concat(new[]{note.position}))
+            clear&=!Physics.Linecast(App.View.transform.position,point,out _,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore);
+        Check("P01 "+key+" instruction is not behind apparatus",clear);
+        Check("P01 "+key+" cue changes no apparatus or lesson state",cue.AssertPresentationOnly(App.Session,out _));
+        yield return Capture("P01-"+key+"-clear-cue");
+    }
     IEnumerator PendulumJourney()
     {
         float until=Time.realtimeSinceStartup+50;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<until)yield return null;
@@ -288,8 +300,11 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         var touch=InputSystem.AddDevice<Touchscreen>();yield return null;
         for(int trial=0;trial<2;trial++)
         {
-            yield return TapModel(touch,Item("stand"));yield return TapModel(touch,Item("pendulum"));yield return TapModel(touch,Item("pendulum"));
+            yield return TapModel(touch,Item("stand"));if(trial==0)yield return CheckCueVisible("stand");
+            yield return TapModel(touch,Item("pendulum"));yield return TapModel(touch,Item("pendulum"));
+            if(trial==0)yield return CheckCueVisible("pendulum");
             Check("P01 model touches prepare each new trial "+trial,App.Session.Operation==3);
+            Check("P01 compact timer placement preserves assembly and surface clearances "+trial,App.Apparatus.ValidateAssembly(out _));
             Vector2 start=App.View.WorldToScreenPoint(VisiblePoint(Item("pendulum")));
             Touch(touch,UnityEngine.InputSystem.TouchPhase.Began,start);yield return new WaitForSecondsRealtime(.15f);
             Touch(touch,UnityEngine.InputSystem.TouchPhase.Canceled,start);yield return new WaitForSecondsRealtime(.3f);
@@ -301,6 +316,16 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
             for(int step=1;step<=5;step++){Touch(touch,UnityEngine.InputSystem.TouchPhase.Moved,Vector2.Lerp(start,end,step/5f));yield return new WaitForSecondsRealtime(.06f);}
             Touch(touch,UnityEngine.InputSystem.TouchPhase.Ended,end);yield return new WaitForSecondsRealtime(.3f);
             Check("P01 deliberate release starts motion "+trial,App.Session.Phase==ExperimentPhase.Running&&App.Session.Pendulum!=null);
+            var clearArea=(Rect)Call("ActivityObservationArea");ApparatusRig.TryVisibleBounds(Item("timer"),out var timerBounds);
+            bool clockVisible=true;
+            for(int corner=0;corner<8;corner++)
+            {
+                var point=App.View.WorldToViewportPoint(timerBounds.center+Vector3.Scale(timerBounds.extents,new Vector3((corner&1)==0?-1:1,(corner&2)==0?-1:1,(corner&4)==0?-1:1)));
+                clockVisible&=point.z>0&&clearArea.Contains(new Vector2(point.x,point.y));
+            }
+            Check("P01 running timer remains outside HUD "+trial,clockVisible);
+            Check("P01 running bob remains readable "+trial,ScreenWidth(Item("pendulum"))>=Screen.height*.035f);
+            if(trial==0)yield return Capture("P01-running-timer-clear");
             var ready=Time.realtimeSinceStartup+60;int requested=(int)App.Session.parameters["cycles"];
             while(App.Session.Pendulum!=null&&App.Session.Pendulum.Cycles<requested&&Time.realtimeSinceStartup<ready)yield return null;
             Check("P01 completes the requested observed cycles "+trial,App.Session.Pendulum!=null&&App.Session.Pendulum.Cycles>=requested);

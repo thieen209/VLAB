@@ -20,6 +20,7 @@ namespace Vlab.Product
         bool reducedMotion,stopped,world;
         public bool IsStopped=>stopped;
         float started,topViewport=.97f;
+        Rect clearArea=new Rect(.03f,.03f,.94f,.94f);
         readonly List<Image> borders=new List<Image>();
         RectTransform pointer;
         LineRenderer ring,rim,path,dot,objectOutline,leader;
@@ -76,9 +77,10 @@ namespace Vlab.Product
         }
 
         // The app supplies localized content from its current, validated guide step.
-        public void SetContext(string label,string instruction,Camera camera,float clearTop=.97f)
+        public void SetContext(string label,string instruction,Camera camera,float clearTop=.97f,Rect? observationArea=null)
         {
             view=camera;topViewport=Mathf.Clamp(clearTop,.3f,.97f);
+            clearArea=observationArea??new Rect(.03f,.03f,.94f,.94f);
             if(!caption)return;
             callout.sizeDelta=new Vector2(360,150);
             caption.text=label+(string.IsNullOrWhiteSpace(instruction)?"":"\n"+instruction);
@@ -127,10 +129,22 @@ namespace Vlab.Product
             var screen=view.WorldToViewportPoint(callout.position);
             float halfHeight=callout.sizeDelta.y*scale/(4*Mathf.Max(.01f,screen.z)*Mathf.Tan(view.fieldOfView*.5f*Mathf.Deg2Rad));
             float halfWidth=halfHeight*callout.sizeDelta.x/callout.sizeDelta.y/view.aspect;
-            screen.x=Mathf.Clamp(screen.x,.03f+halfWidth,.97f-halfWidth);screen.y=Mathf.Clamp(screen.y,.03f+halfHeight,topViewport-halfHeight);
+            float left=1,right=0;
+            for(int corner=0;corner<8;corner++)
+            {
+                var point=view.WorldToViewportPoint(c+Vector3.Scale(bounds.extents,CornerSigns[corner]));
+                if(point.z>0){left=Mathf.Min(left,point.x);right=Mathf.Max(right,point.x);}
+            }
+            // Put the note beside the apparatus, rather than clamping it behind a tall stand.
+            float beside=left-halfWidth-.015f;
+            if(beside>=clearArea.xMin+halfWidth)screen.x=beside;
+            else if(right+halfWidth+.015f<=clearArea.xMax-halfWidth)screen.x=right+halfWidth+.015f;
+            screen.x=Mathf.Clamp(screen.x,clearArea.xMin+halfWidth,clearArea.xMax-halfWidth);screen.y=Mathf.Clamp(screen.y,.03f+halfHeight,topViewport-halfHeight);
             callout.position=view.ViewportToWorldPoint(screen);
-            callout.rotation=Quaternion.LookRotation(callout.position-view.transform.position,view.transform.up);
-            leader.loop=false;leader.positionCount=2;leader.SetPosition(0,anchor);leader.SetPosition(1,callout.position-callout.up*callout.sizeDelta.y*scale*.5f);
+            callout.rotation=view.transform.rotation;
+            var localAnchor=callout.InverseTransformPoint(anchor);float edgeRatio=Mathf.Max(Mathf.Abs(localAnchor.x)/(callout.sizeDelta.x*.5f),Mathf.Abs(localAnchor.y)/(callout.sizeDelta.y*.5f));
+            var edge=edgeRatio>0?new Vector3(localAnchor.x/edgeRatio,localAnchor.y/edgeRatio,0):Vector3.zero;
+            leader.loop=false;leader.positionCount=2;leader.SetPosition(0,anchor);leader.SetPosition(1,callout.TransformPoint(edge));
         }
 
         RectTransform Border(RectTransform parent,string name,Vector2 min,Vector2 max,Vector2 offsetMin,Vector2 offsetMax)
