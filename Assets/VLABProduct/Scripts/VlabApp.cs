@@ -1187,7 +1187,8 @@ namespace Vlab.Product
                 case "readiness":ShowBrowser();break;
                 case "browser":case "about":case "feedback":ShowHome();break;
                 case "legal":ShowAbout();break;
-                case "notebook":ReturnTo(notebookReturn);break;
+                case "notebook":if(SaveNotebookNotes())ReturnTo(notebookReturn);break;
+                case "notebook-analysis":ShowNotebook(notebookReturn);break;
                 case "help":ReturnTo(supportReturn);break;
                 case "results":ShowBrowser();break;
             }
@@ -1230,7 +1231,7 @@ namespace Vlab.Product
             if(frame.back&&Time.unscaledTime>=inputAfter)ControllerBack();
             else if(frame.menu&&Route=="loading"&&Time.unscaledTime>=inputAfter)CancelRoomEntry();
             else if(frame.menu&&Route=="load-error")ShowBrowser();
-            else if(frame.menu&&Route!="language"&&Route!="privacy"&&Route!="terms"&&Route!="safety"&&Route!="loading"){if(modal)CloseModal();else if(Route=="activity"||Route=="explore")ShowPause();else ShowHome();}
+            else if(frame.menu&&Route!="language"&&Route!="privacy"&&Route!="terms"&&Route!="safety"&&Route!="loading"){if(modal)CloseModal();else if(Route=="activity"||Route=="explore")ShowPause();else if((Route!="notebook"&&Route!="notebook-analysis")||SaveNotebookNotes())ShowHome();}
             if(frame.recenter)RecenterHead();if(frame.lost){Session?.InputLost();modalResumeActivity=activityReturnRunning=false;CancelFlagshipDrag();Apparatus?.CancelGrab();}
             SyncAuthority();
             if(Session!=null&&Route=="activity"&&(!modal||modalAllowsSimulation))Session.Advance(Time.unscaledDeltaTime);

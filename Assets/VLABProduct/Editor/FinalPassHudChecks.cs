@@ -18,13 +18,14 @@ public static class FinalPassHudChecks
     public static void Baseline(){SessionState.SetBool("VLAB.HudBaseline",true);Run();}
     public static void Layout(){SessionState.SetBool("VLAB.HudLayoutOnly",true);Run();}
     public static void GearLighting(){SessionState.SetBool("VLAB.GearLighting",true);Run();}
+    public static void NotebookExit(){SessionState.SetBool("VLAB.NotebookExit",true);Run();}
     public static void Home(){SessionState.SetBool("VLAB.HudHomeOnly",true);Run();}
     public static void FlagshipLayouts(){SessionState.SetBool("VLAB.HudFourLayouts",true);Layout();}
     public static void Run(){Directory.CreateDirectory("Evidence/FinalPass/Hud");SecondTestGameView.Configure(out _);SessionState.SetString("VLAB.TestProfile",Path.Combine(Application.persistentDataPath,"QA","Hud-"+Guid.NewGuid().ToString("N")));SessionState.SetBool("VLAB.HudQa",true);EditorSceneManager.OpenScene("Assets/VLABProduct/Scenes/VLAB_Boot.unity");EditorApplication.EnterPlaymode();}
 }
 public sealed class FinalPassHudProbe:MonoBehaviour
 {
-    readonly List<string> rows=new List<string>();int failures;bool baseline,layoutOnly,fourLayouts,homeOnly,gearLighting;
+    readonly List<string> rows=new List<string>();int failures;bool baseline,layoutOnly,fourLayouts,homeOnly,gearLighting,notebookExit;
     VlabApp App=>VlabApp.Instance;
     Button Find(string name)=>App.GetComponentsInChildren<Button>().FirstOrDefault(x=>x.name==name&&x.IsInteractable());
     void Check(string name,bool pass){rows.Add((pass?"PASS ":"FAIL ")+name);if(!pass)failures++;}
@@ -37,9 +38,10 @@ public sealed class FinalPassHudProbe:MonoBehaviour
         fourLayouts=SessionState.GetBool("VLAB.HudFourLayouts",false);SessionState.SetBool("VLAB.HudFourLayouts",false);
         homeOnly=SessionState.GetBool("VLAB.HudHomeOnly",false);SessionState.SetBool("VLAB.HudHomeOnly",false);
         gearLighting=SessionState.GetBool("VLAB.GearLighting",false);SessionState.SetBool("VLAB.GearLighting",false);
+        notebookExit=SessionState.GetBool("VLAB.NotebookExit",false);SessionState.SetBool("VLAB.NotebookExit",false);
         var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){rows.Add("FAIL "+e);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
-        File.WriteAllLines("Evidence/FinalPass/Hud/"+(gearLighting?"gear-lighting":homeOnly?"home-checks":layoutOnly?"layout-checks":baseline?"baseline":"checks")+".txt",new[]{"Editor UI callbacks and raycast/layout checks; no Android touch or physical tracking claim."}.Concat(rows));SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
+        File.WriteAllLines("Evidence/FinalPass/Hud/"+(notebookExit?"notebook-exit":gearLighting?"gear-lighting":homeOnly?"home-checks":layoutOnly?"layout-checks":baseline?"baseline":"checks")+".txt",new[]{"Editor UI callbacks and raycast/layout checks; no Android touch or physical tracking claim."}.Concat(rows));SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
     }
     IEnumerator Run()
     {
@@ -52,6 +54,34 @@ public sealed class FinalPassHudProbe:MonoBehaviour
         foreach(string hex in new[]{"3B82F6","8B5CF6"}){var color=VlabUi.Hex(hex);Check("Accent caption contrast "+hex,UiTheme.Contrast(UiTheme.On(color),color)>=4.5f);}
         float deadline=Time.realtimeSinceStartup+60;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<deadline)yield return null;
         if(!App||App.Route!="home")throw new Exception("Home timeout");App.Profile.settings.gazeAutoSelect=false;
+        if(notebookExit)
+        {
+            void Call(string method,params object[] args)=>typeof(VlabApp).GetMethod(method,System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(App,args);
+            TMP_InputField Body()=>App.GetComponentsInChildren<TMP_InputField>(true).Single(f=>f.name=="Journal note body");
+            string folder=SessionState.GetString("VLAB.TestProfile","");string blocked=Path.Combine(folder,"profile.json.tmp");
+            yield return Press("Open journal");yield return Press("Journal mode notes");yield return Press("Journal note new");
+            Body().text="Ghi chép cần giữ — tiếng Việt";string id=App.Profile.notebookPages.Last().id;
+            Call("ControllerBack");yield return null;
+            Check("Back saves actual notebook field before leaving",App.Route=="home"&&new ProfileStore(folder).Load().profile.notebookPages.Any(p=>p.id==id&&p.body=="Ghi chép cần giữ — tiếng Việt"));
+            yield return Press("Open journal");Body().text="Bản nháp khi ổ lưu không ghi được";
+            if(File.Exists(blocked)||Directory.Exists(blocked))throw new Exception("Temporary path already occupied");Directory.CreateDirectory(blocked);
+            try
+            {
+                Call("ControllerBack");yield return null;
+                Check("Back on save failure retains notebook and draft",App.Route=="notebook"&&Body().text=="Bản nháp khi ổ lưu không ghi được"&&Find("Close dialog"));
+                yield return Press("Close dialog");
+                App.Input.UseMockController=true;
+                App.Input.Controller.Submit(new ControllerSignal{sequence=1,receivedAt=Time.realtimeSinceStartupAsDouble,orientation=Quaternion.identity,menu=true});
+                yield return new WaitForSecondsRealtime(.1f);
+                Check("Controller Menu also refuses to discard unsaved draft",App.Route=="notebook"&&Find("Close dialog")&&Body().text=="Bản nháp khi ổ lưu không ghi được");
+                App.Input.Controller.Submit(new ControllerSignal{sequence=2,receivedAt=Time.realtimeSinceStartupAsDouble,orientation=Quaternion.identity});yield return null;
+                yield return Press("Close dialog");
+            }
+            finally{App.Input.UseMockController=false;Directory.Delete(blocked);}
+            Call("ControllerBack");yield return null;
+            Check("Retry Back persists recovered draft",App.Route=="home"&&new ProfileStore(folder).Load().profile.notebookPages.Any(p=>p.id==id&&p.body=="Bản nháp khi ổ lưu không ghi được"));
+            yield break;
+        }
         if(!baseline){yield return Press("VR mode");Check("Home round VR label updates on entry",Find("VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="Thoát VR");yield return Press("VR mode");Check("Home round VR label updates on exit",Find("VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="VR");}
         if(homeOnly)
         {
