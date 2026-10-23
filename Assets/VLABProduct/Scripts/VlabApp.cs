@@ -639,10 +639,10 @@ namespace Vlab.Product
             for(int i=0;i<tabs.Length;i++)
             {
                 string tab=tabs[i];string label=tab=="view"?(classifier?L("Phân loại mẫu","Classify sample"):L("Hình quan sát","Observation")):tab=="tools"?L("Chỉnh kính","Microscope tools"):tab=="readings"?L("Số đo trực tiếp","Live readings"):L("Hiểu kết quả","Interpretation");
-                float tabWidth=classifier?326:288;var button=Button(box,label,40+i*(tabWidth+16),116,tabWidth,64,()=>{inspectionTab=tab;instrumentPage=0;ShowInstrument(item);},inspectionTab==tab?Accent:(Color?)null);button.name="Instrument tab "+tab;
+                float tabWidth=classifier?326:288;var button=Button(box,label,40+i*(tabWidth+16),116,tabWidth,64,()=>{if(tab=="view"&&Session.spec.id=="B01"&&!BeginMicroscopeObservation())return;inspectionTab=tab;instrumentPage=0;ShowInstrument(item);},inspectionTab==tab?Accent:(Color?)null);button.name="Instrument tab "+tab;
                 button.GetComponentInChildren<TextMeshProUGUI>().fontSize=26;
             }
-            if(!classification)ui.Text(box,L("THAO TÁC","CONTROLS"),1000,132,400,45,26,VlabUi.Secondary);
+
             inspectionOutput=ui.Rect(box,"Instrument observation output",40,205,920,classifier&&Session.spec.id!="B01"&&(inspectionTab=="view"||inspectionTab=="tools")?450:515);
             if((inspectionTab=="view"||inspectionTab=="tools")&&texture)
             {
@@ -655,6 +655,7 @@ namespace Vlab.Product
                 var selection=inspectionImage.gameObject.AddComponent<InstrumentInspection>();selection.MarkerColor=VlabUi.Hex("F0A34D");if(ReferenceEquals(selectedInspectionSession,Session))selection.SetSelection(selectedInspectionUv);
                 selection.Selected=sourceUv=>
                 {
+                    if(Session.spec.id=="B01"&&Session.Phase==ExperimentPhase.Preparing&&!BeginMicroscopeObservation())return;
                     if(!driver.PointOnInspection(item.assetId,sourceUv,out var message)){inspectionStatus.text=LessonGuide.ExplainFailure(message,Vi);return;}
                     selectedInspectionUv=sourceUv;selectedInspectionSession=Session;Save();selection.SetSelection(sourceUv);
                     if(classifier&&inspectionTab!="view"){inspectionTab="view";instrumentPage=0;ShowInstrument(item);}else RefreshInstrument();
@@ -1334,9 +1335,9 @@ namespace Vlab.Product
             string id=Session.spec.id;
             if(id=="P01")return Session.Phase==ExperimentPhase.Preparing?(Session.Operation==0?L("Chạm giá đỡ để kiểm tra giá và kẹp.","Touch the stand to check its support and clamp."):Session.Operation==1?L("Chạm quả nặng để kiểm tra dây nối tới tâm quả.","Touch the bob to check the pivot-to-centre suspension."):Session.Operation==2?L("Chạm quả ở vị trí cân bằng để đặt mốc đo.","Touch the bob at equilibrium to set the timing mark."):L("Giữ quả nặng, kéo sang bên rồi thả tay.","Hold the bob, pull it aside, then release.")):Session.Phase==ExperimentPhase.Running?L("Đếm đủ chu kỳ cùng chiều qua mốc cân bằng rồi ghi số đo.","Count full same-direction cycles, then record."):L("Giữ quả nặng, kéo sang bên rồi thả tay.","Hold the bob, pull it aside, then release.");
             if(!Apparatus.Ready)return L("Chọn và lắp dụng cụ. Có thể tự lấy trên bàn hoặc mở danh sách.","Select and install the apparatus, directly or from the equipment list.");
-            if(id=="C04")return Session.Phase==ExperimentPhase.Preparing?L("Chọn AgNO₃. Kéo ống nhỏ giọt tới từng cốc rồi thả.","Select AgNO₃. Drag the dropper to each cup and release."):L("Quan sát cặn trong ba cốc. Mở cốc để đọc kết quả; Ghi số đo lưu lượt của bạn.","Observe all three cups. Select a cup to inspect; Record saves your own trial.");
+            if(id=="C04")return Session.Phase==ExperimentPhase.Preparing?L("Chạm chai AgNO₃ để chọn thuốc thử. Giữ ống nhỏ giọt, kéo và thả trên cốc. So sánh với hai mẫu đối chứng.","Select AgNO3. Hold the dropper, drag it and release over a cup. Compare both controls."):L("Quan sát cặn trong ba cốc. Mở cốc để đọc kết quả; Ghi số đo lưu lượt của bạn.","Observe all three cups. Select a cup to inspect; Record saves your own trial.");
             if(id=="B01")return Session.Phase==ExperimentPhase.Preparing?(Session.Operation==0?L("Chạm mẫu hành để lấy lớp biểu bì mỏng trên lam có nước.","Touch the onion to prepare a thin wet epidermis layer."):Session.Operation==1?L("Chạm lamen để hạ nghiêng lên mẫu và thấm phần dư.","Touch the coverslip to lower it at an angle and blot excess liquid."):Session.Operation==2?L("Chạm lam kính để đặt vào bàn kính và đóng hai kẹp.","Touch the slide to mount it and close both stage clips."):L("Giữ ốc lấy nét, kéo lên/xuống. Chạm thị kính để nhìn mẫu.","Drag a focus knob up/down. Select the eyepiece to observe.")):L("Qua thị kính, chạm vùng quan sát rồi tự chọn tên cấu trúc. Chỉnh nét trước khi đổi vật kính.","In the eyepiece, select a region and identify its structure. Focus before changing objectives.");
-            return Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Ready?L("Chọn đầu vào 12/24 răng, đầu ra 36. Chạm motor để chạy.","Select the 12/24-tooth input and 36-tooth output. Touch the motor to run."):L("Quan sát chiều quay và tốc kế. Chạm motor để tạm dừng/tiếp tục. Ghi lượt rồi làm lại để đổi bộ răng.","Observe direction and speed. Touch the motor to pause/resume. Record, then repeat to change the gears.");
+            return Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Ready?L("Chạm bánh 12/24 răng để chọn đầu vào, bánh 36 để chọn đầu ra. Chạm motor để chạy; chọn tốc kế để đọc.","Select the 12/24-tooth input or 36-tooth output gear. Touch the motor to run; inspect the tachometer."):L("Quan sát chiều quay và tốc kế. Chạm motor để tạm dừng/tiếp tục. Ghi lượt rồi làm lại để đổi bộ răng.","Observe direction and speed. Touch the motor to pause/resume. Record, then repeat to change the gears.");
         }
         string FlagshipPurpose(EquipmentHandle item)
         {
@@ -1358,6 +1359,17 @@ namespace Vlab.Product
         {
             for(int n=0;n<Session.spec.operationsEn.Length&&Session.Phase==ExperimentPhase.Preparing;n++)if(!Apparatus.PrepareNext(out var why)){ActionFailure(why);return false;}
             if(!Session.Start(out var error)){ActionFailure(error);return false;}Save();RefreshActivity();return true;
+        }
+        bool BeginMicroscopeObservation()
+        {
+            bool Reject(string message){if(modal&&inspectionStatus)inspectionStatus.text=message;else Toast(message);return false;}
+            if(Session.Phase==ExperimentPhase.Preparing)
+            {
+                if(Session.Operation!=3)return Reject(L("Chuẩn bị và đặt lam lên kính trước khi quan sát.","Prepare and mount the slide before observing."));
+                if(!Apparatus.PrepareNext(out var why))return Reject(LessonGuide.ExplainFailure(why,Vi));
+            }
+            if(Session.Phase==ExperimentPhase.Ready&&!Session.Start(out var error))return Reject(LessonGuide.ExplainFailure(error,Vi));
+            Save();RefreshActivity();return true;
         }
         bool BeginFlagship(EquipmentHandle item,RaycastHit hit,ActionFrame frame)
         {
@@ -1389,7 +1401,7 @@ namespace Vlab.Product
                 if(key=="microscope"&&(part.Contains("Fine")||part.Contains("Coarse")))
                 {flagshipDrag=item;flagshipFine=part.Contains("Fine");flagshipPlane=new Plane(View.transform.forward,hit.point);flagshipLast=hit.point;return true;}
                 if(key=="microscope"&&part.Contains("Eyepiece"))
-                {if(Session.Operation>=3&&Session.Phase==ExperimentPhase.Preparing&&Apparatus.PrepareNext(out _))Session.Start(out _);ShowInstrument(item);return true;}
+                {ShowInstrument(item);if(BeginMicroscopeObservation()){inspectionTab="view";ShowInstrument(item);}return true;}
             }
             if(id=="M01")
             {

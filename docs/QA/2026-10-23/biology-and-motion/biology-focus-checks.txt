@@ -1,0 +1,13 @@
+Unity Editor: application UI callbacks, synthetic XR-HMD poses through InputSystem/TrackedPoseDriver for world gaze, and mock-controller button regression. No sensor, Android or BLE hardware claim.
+PASS B01 actual touches prepare and mount the slide
+PASS B01 unfocused observation does not bypass preparation
+PASS B01 unfocused image selection retains focus controls
+PASS B01 focused view starts observation without closing microscope
+PASS B01 observation tabs have no overlapping controls heading
+PASS B01 cannot record an unclassified observation
+PASS B01 classification edits do not duplicate structure 1
+PASS B01 classification edits do not duplicate structure 2
+PASS B01 classification edits do not duplicate structure 3
+PASS B01 observation survives returning to station
+PASS B01 observed classifications save a result
+PASS B01 reset clears classification and preserves notebook

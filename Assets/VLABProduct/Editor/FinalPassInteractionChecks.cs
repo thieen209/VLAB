@@ -20,6 +20,7 @@ public static class FinalPassInteractionChecks
 {
     static FinalPassInteractionChecks(){EditorApplication.playModeStateChanged+=s=>{if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("VLAB.FinalPassInteraction",false)){SessionState.SetBool("VLAB.FinalPassInteraction",false);new GameObject("Direct interaction checks",typeof(FinalPassInteractionProbe));}};}
     public static void RunRecorded(){SessionState.SetBool("VLAB.RecordGameplay",true);Run();}
+    public static void BiologyFocus(){SessionState.SetBool("VLAB.BiologyFocusOnly",true);Run();}
     public static void Run()
     {
         Directory.CreateDirectory("Evidence/FinalPass");SecondTestGameView.Configure(out _);
@@ -127,11 +128,13 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         recordGameplay=SessionState.GetBool("VLAB.RecordGameplay",false);SessionState.SetBool("VLAB.RecordGameplay",false);Application.runInBackground=true;DontDestroyOnLoad(gameObject);var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;Exception error=null;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){error=e;}if(error!=null){rows.Add("BLOCKER "+error);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
         yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Evidence/FinalPass/interaction-last-frame.png");yield return null;
-        EndVideo();File.WriteAllLines("Evidence/FinalPass/interaction-checks.txt",new[]{"Unity Editor: application UI callbacks, synthetic XR-HMD poses through InputSystem/TrackedPoseDriver for world gaze, and mock-controller button regression. No sensor, Android or BLE hardware claim."}.Concat(rows));
+        EndVideo();File.WriteAllLines("Evidence/FinalPass/"+(biologyFocusOnly?"biology-focus-checks":"interaction-checks")+".txt",new[]{"Unity Editor: application UI callbacks, synthetic XR-HMD poses through InputSystem/TrackedPoseDriver for world gaze, and mock-controller button regression. No sensor, Android or BLE hardware claim."}.Concat(rows));
         InputSystem.settings.backgroundBehavior=oldBackground;InputSystem.settings.editorInputBehaviorInPlayMode=oldEditorInput;SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
     }
     IEnumerator Run()
     {
+        biologyFocusOnly=SessionState.GetBool("VLAB.BiologyFocusOnly",false);SessionState.SetBool("VLAB.BiologyFocusOnly",false);
+        if(biologyFocusOnly){yield return BiologyFocusJourney();yield break;}
         var hidden=GameObject.CreatePrimitive(PrimitiveType.Cube);var handle=hidden.AddComponent<EquipmentHandle>();handle.assetId="qa-hidden";
         Check("Visible-bounds query includes rendered apparatus",ApparatusRig.TryVisibleBounds(handle,out _));hidden.GetComponent<Renderer>().forceRenderingOff=true;
         Check("Visible-bounds query excludes force-hidden apparatus",!ApparatusRig.TryVisibleBounds(handle,out _));Destroy(hidden);
@@ -272,6 +275,51 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         }
         InputSystem.RemoveDevice(touch);
         yield return PhoneInputChecks.RunUiTap(App,name=>ScreenCapture.CaptureScreenshot("Evidence/FinalPass/"+name+".png"),Check);
+    }
+    bool biologyFocusOnly;
+    IEnumerator BiologyFocusJourney()
+    {
+        float until=Time.realtimeSinceStartup+50;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<until)yield return null;
+        if(!App||App.Route!="home")throw new Exception("Home timeout");
+        App.Profile.settings.gazeAutoSelect=false;yield return Enter("B01");headGaze=false;App.Input.UseMockController=false;
+        var touch=InputSystem.AddDevice<Touchscreen>();yield return null;
+        yield return TapModel(touch,Item("onion"));yield return TapModel(touch,Item("coverslip"));yield return TapModel(touch,Item("slide"));
+        Check("B01 actual touches prepare and mount the slide",App.Session.Operation==3);
+        Call("ShowInstrument",Item("microscope"));yield return new WaitForSecondsRealtime(.4f);
+        yield return Press("Instrument tab tools");var biology=(BiologyDriver)App.Apparatus.Driver;
+        for(int i=0;i<26&&Mathf.Abs(biology.MicroscopeFocusMm-6.5f)>.1f;i++)yield return Press("Instrument control "+(biology.MicroscopeFocusMm>6.5f?"focus-":"focus+"));
+        for(int i=0;i<4;i++)yield return Press("Instrument control focus-");
+        yield return Press("Instrument tab view");Check("B01 unfocused observation does not bypass preparation",App.Session.Operation==3&&App.Session.Phase==ExperimentPhase.Preparing);
+        App.GetComponentInChildren<InstrumentInspection>().Selected(new Vector2(.5f,.5f));yield return null;
+        Check("B01 unfocused image selection retains focus controls",App.GetComponentsInChildren<Button>().Any(b=>b.name=="Instrument control focus+"&&b.IsInteractable()));
+        for(int i=0;i<4;i++)yield return Press("Instrument control focus+");
+        yield return Press("Instrument tab view");Check("B01 focused view starts observation without closing microscope",App.Session.Phase==ExperimentPhase.Running);
+        Canvas.ForceUpdateCanvases();Check("B01 observation tabs have no overlapping controls heading",!App.GetComponentsInChildren<TextMeshProUGUI>().Any(t=>t.text=="THAO TÁC"));
+        Check("B01 cannot record an unclassified observation",!App.Session.Authority.CanRecord(out _));
+        for(int structure=1;structure<=3;structure++)
+        {
+            Vector2 uv=Vector2.zero;bool found=false;
+            for(int y=0;y<128&&!found;y++)for(int x=0;x<128&&!found;x++)
+            {
+                var candidate=new Vector2((x+.5f)/128,(y+.5f)/128);
+                if(biology.TryB01SourceIdentity(candidate,out _,out int region)&&region==structure){uv=candidate;found=true;}
+            }
+            if(!found)throw new Exception("Missing source structure fixture "+structure);
+            var inspection=App.GetComponentInChildren<InstrumentInspection>();var rect=(RectTransform)inspection.transform;
+            var point=rect.TransformPoint(new Vector3(rect.rect.xMin+uv.x*rect.rect.width,rect.rect.yMin+uv.y*rect.rect.height));
+            inspection.OnPointerClick(new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(null,point)});
+            yield return null;
+            if(structure==1)yield return Press("Instrument control structure:1");
+            yield return Press("Instrument control structure:"+(structure-1));
+            Check("B01 classification edits do not duplicate structure "+structure,App.Session.Observe().readings.Single(r=>r.key=="identifiedStructures").value==structure);
+        }
+        yield return Capture("B01-classified-observation");
+        yield return Press("Trở lại trạm");Check("B01 observation survives returning to station",App.Route=="activity"&&App.Session.Phase==ExperimentPhase.Running);
+        int saved=App.Profile.attempts.Count;
+        yield return Press("Ghi số đo");Check("B01 observed classifications save a result",App.Route=="results"&&App.Profile.attempts.Count==saved+1);
+        yield return Press("Làm lại");float ready=Time.realtimeSinceStartup+45;while(App.Route!="activity"&&Time.realtimeSinceStartup<ready)yield return null;
+        Check("B01 reset clears classification and preserves notebook",App.Route=="activity"&&App.Session.Operation==0&&App.Profile.attempts.Count==saved+1&&!App.Session.Authority.CanRecord(out _));
+        InputSystem.RemoveDevice(touch);
     }
 }
 #endif

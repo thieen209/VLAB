@@ -9,6 +9,32 @@ using UnityEditor.SceneManagement;
 public static class FinalPassShadeUpgrade
 {
     const string Folder="Assets/Labs/Upgrade/RollerBlind/";
+    public static void CheckMotion()
+    {
+        var rows=new List<string>();int exit=0;
+        try
+        {
+            foreach(string room in new[]{"Physics","Chemistry","Biology","Engineering"})
+            {
+                EditorSceneManager.OpenScene("Assets/Labs/Scenes/"+room+".unity");
+                var shade=UnityEngine.Object.FindAnyObjectByType<LabShade>();
+                shade.lowered=false;shade.Step(10);shade.Toggle();shade.Step(.1f);float first=1-shade.OpenFraction;
+                shade.Step(.1f);float second=1-shade.OpenFraction-first;
+                if(!(first>0&&second>first))throw new Exception(room+" no eased acceleration");
+                float before=shade.OpenFraction;shade.Toggle();
+                if(shade.OpenFraction!=before)throw new Exception(room+" toggle jumps");
+                shade.Step(1f/60);if(Mathf.Abs(shade.OpenFraction-before)>.02f)throw new Exception(room+" reversal jumps");
+                shade.Step(2);if(shade.OpenFraction!=1)throw new Exception(room+" opening endpoint");
+                shade.Toggle();shade.Step(2);if(shade.OpenFraction!=0||shade.daylight.Any(l=>l.intensity!=0))throw new Exception(room+" closing endpoint/light");
+                shade.Toggle();shade.Step(2);
+                if(shade.OpenFraction!=1||shade.daylight.Where((l,i)=>!Mathf.Approximately(l.intensity,shade.daylightOpenIntensities[i])).Any())throw new Exception(room+" daylight restore");
+                rows.Add("PASS "+room+" eased travel, reversal continuity, exact endpoints, synchronized daylight");
+            }
+        }
+        catch(Exception e){rows.Add("FAIL "+e);exit=1;}
+        Directory.CreateDirectory("Evidence/FinalPass/Rooms");File.WriteAllLines("Evidence/FinalPass/Rooms/shade-motion.txt",rows);
+        EditorApplication.Exit(exit);
+    }
     public static void Run()
     {
         var rows=new List<string>();string output="Evidence/FinalPass/Rooms";Directory.CreateDirectory(output+"/BeforeShade");

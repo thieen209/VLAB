@@ -247,6 +247,7 @@ namespace Vlab.Product
                 case "Classify cell first.":return "Chọn nhãn kỳ phân bào cho ô đang chọn trước khi kiểm tra. Nếu chưa rõ, giữ Chưa rõ và tiếp tục quan sát.";
                 case "Focus mounted specimen first.":return "Lắp lam lên bàn kính và chỉnh ảnh đủ nét trước khi chọn tế bào trên hình.";
                 case "Mount and focus slide with both clips closed.":return "Lắp lam lên bàn kính, đóng cả hai ngàm giữ và lấy nét ảnh rồi bắt đầu.";
+                case "Focus at actual 4× objective first using microscope controls.":return "Chọn vật kính 4× và lấy nét đến khi cấu trúc rõ, rồi mở Phân loại mẫu.";
                 case "Find and focus mounted specimen at low power first.":return "Tìm và lấy nét mẫu đã lắp ở vật kính nhỏ trước khi chuyển sang vật kính lớn hơn.";
                 case "Focus travel rejected.":return "Kính chưa nhận được vị trí lấy nét này. Kiểm tra kính đã lắp và đang hoạt động, rồi chỉnh lại trong hành trình cho phép.";
                 case "Objective change rejected.":return "Chưa đổi được vật kính. Kiểm tra lam đã lắp, vị trí lấy nét và giới hạn cơ cấu rồi thử lại.";
