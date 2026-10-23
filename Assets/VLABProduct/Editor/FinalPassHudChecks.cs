@@ -17,13 +17,14 @@ public static class FinalPassHudChecks
     static FinalPassHudChecks(){EditorApplication.playModeStateChanged+=s=>{if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("VLAB.HudQa",false)){SessionState.SetBool("VLAB.HudQa",false);new GameObject("HUD checks",typeof(FinalPassHudProbe));}};}
     public static void Baseline(){SessionState.SetBool("VLAB.HudBaseline",true);Run();}
     public static void Layout(){SessionState.SetBool("VLAB.HudLayoutOnly",true);Run();}
+    public static void GearLighting(){SessionState.SetBool("VLAB.GearLighting",true);Run();}
     public static void Home(){SessionState.SetBool("VLAB.HudHomeOnly",true);Run();}
     public static void FlagshipLayouts(){SessionState.SetBool("VLAB.HudFourLayouts",true);Layout();}
     public static void Run(){Directory.CreateDirectory("Evidence/FinalPass/Hud");SecondTestGameView.Configure(out _);SessionState.SetString("VLAB.TestProfile",Path.Combine(Application.persistentDataPath,"QA","Hud-"+Guid.NewGuid().ToString("N")));SessionState.SetBool("VLAB.HudQa",true);EditorSceneManager.OpenScene("Assets/VLABProduct/Scenes/VLAB_Boot.unity");EditorApplication.EnterPlaymode();}
 }
 public sealed class FinalPassHudProbe:MonoBehaviour
 {
-    readonly List<string> rows=new List<string>();int failures;bool baseline,layoutOnly,fourLayouts,homeOnly;
+    readonly List<string> rows=new List<string>();int failures;bool baseline,layoutOnly,fourLayouts,homeOnly,gearLighting;
     VlabApp App=>VlabApp.Instance;
     Button Find(string name)=>App.GetComponentsInChildren<Button>().FirstOrDefault(x=>x.name==name&&x.IsInteractable());
     void Check(string name,bool pass){rows.Add((pass?"PASS ":"FAIL ")+name);if(!pass)failures++;}
@@ -35,9 +36,10 @@ public sealed class FinalPassHudProbe:MonoBehaviour
         layoutOnly=SessionState.GetBool("VLAB.HudLayoutOnly",false);SessionState.SetBool("VLAB.HudLayoutOnly",false);
         fourLayouts=SessionState.GetBool("VLAB.HudFourLayouts",false);SessionState.SetBool("VLAB.HudFourLayouts",false);
         homeOnly=SessionState.GetBool("VLAB.HudHomeOnly",false);SessionState.SetBool("VLAB.HudHomeOnly",false);
+        gearLighting=SessionState.GetBool("VLAB.GearLighting",false);SessionState.SetBool("VLAB.GearLighting",false);
         var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){rows.Add("FAIL "+e);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
-        File.WriteAllLines("Evidence/FinalPass/Hud/"+(homeOnly?"home-checks":layoutOnly?"layout-checks":baseline?"baseline":"checks")+".txt",new[]{"Editor UI callbacks and raycast/layout checks; no Android touch or physical tracking claim."}.Concat(rows));SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
+        File.WriteAllLines("Evidence/FinalPass/Hud/"+(gearLighting?"gear-lighting":homeOnly?"home-checks":layoutOnly?"layout-checks":baseline?"baseline":"checks")+".txt",new[]{"Editor UI callbacks and raycast/layout checks; no Android touch or physical tracking claim."}.Concat(rows));SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
     }
     IEnumerator Run()
     {
@@ -72,13 +74,31 @@ public sealed class FinalPassHudProbe:MonoBehaviour
             Check("Constrained notch still respected",constrained.xMin>=139.9f&&constrained.xMax<=1600.1f);
             yield break;
         }
-        foreach(string id in layoutOnly&&!fourLayouts?new[]{"P01"}:new[]{"P01","C04","B01","M01"})
+        foreach(string id in gearLighting?new[]{"M01"}:layoutOnly&&!fourLayouts?new[]{"P01"}:new[]{"P01","C04","B01","M01"})
         {
             App.ShowHome();yield return Press("Subject "+id[0]);yield return Press("Browser lesson "+id);yield return Press("Browser start");yield return Press("Readiness enter");
             deadline=Time.realtimeSinceStartup+60;while(App.Route!="activity"&&Time.realtimeSinceStartup<deadline)yield return null;
             if(App.Route!="activity"||App.Session.spec.id!=id)throw new Exception("Activity timeout "+id);
             yield return new WaitForSecondsRealtime(1);yield return Capture(id+"-phone");
             Check(id+" prepared station loaded",App.Apparatus&&App.Apparatus.Ready);
+            if(gearLighting)
+            {
+                var shade=UnityEngine.Object.FindAnyObjectByType<LabShade>();
+                var painted=App.Apparatus.GetComponentsInChildren<Renderer>().SelectMany(r=>r.sharedMaterials).Distinct().Where(m=>m.name=="GearTeal"||m.name=="MotorTeal"||m.name=="MotorDark").ToArray();
+                Check("Coated surfaces use nonmetallic paint",painted.Length==3&&painted.All(m=>m.GetFloat("_Metallic")==0&&Mathf.Approximately(m.GetFloat("_Smoothness"),.35f)));
+                Check("Bronze bore keeps metallic response",App.Apparatus.GetComponentsInChildren<Renderer>().SelectMany(r=>r.sharedMaterials).Any(m=>m.name=="BoreBronze"&&m.GetFloat("_Metallic")>.7f));
+                var position=App.View.transform.position;var rotation=App.View.transform.rotation;
+                var lamps=UnityEngine.Object.FindObjectsByType<Light>().Where(l=>l.name=="Ceiling illumination").ToArray();
+                Check("Ceiling intensity preserved",lamps.Length>0&&lamps.All(l=>l.intensity==1));
+                yield return Capture("M01-painted-open");
+                shade.Toggle();yield return new WaitForSecondsRealtime(2);
+                Check("Shade closes without disabling room lamps",shade.lowered&&shade.daylight.All(l=>l.intensity==0)&&lamps.All(l=>l.enabled));
+                yield return Capture("M01-painted-closed");
+                shade.Toggle();yield return new WaitForSecondsRealtime(2);
+                Check("Open shade restores daylight",!shade.lowered&&shade.daylight.Select((l,i)=>Mathf.Approximately(l.intensity,shade.daylightOpenIntensities[i])).All(v=>v));
+                Check("Lighting leaves camera pose unchanged",Vector3.Distance(position,App.View.transform.position)<.001f&&Quaternion.Angle(rotation,App.View.transform.rotation)<.01f);
+                yield break;
+            }
             if(layoutOnly)
             {
                 bool hints=App.Profile.settings.hints;App.Profile.settings.hints=false;
