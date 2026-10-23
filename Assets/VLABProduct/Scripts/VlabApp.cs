@@ -565,6 +565,7 @@ namespace Vlab.Product
         }
         string EquipmentName(EquipmentHandle item)=>Apparatus.EquipmentLabel(item,Vi);
         int InstrumentPageSize()=>Apparatus?.Driver is BiologyDriver?5:6;
+        internal static bool IsClassificationControl(string id)=>id.StartsWith("structure:",StringComparison.Ordinal)||id.StartsWith("stage:",StringComparison.Ordinal)||id=="cellNormal"||id=="cellContracted";
         Reading[] LiveReadings()
         {
             liveReadingError="";if(Apparatus?.Driver==null||!Apparatus.Ready)return Array.Empty<Reading>();
@@ -574,33 +575,39 @@ namespace Vlab.Product
         {
             if(!item||!item.installed||Apparatus?.Driver==null)return;
             var driver=Apparatus.Driver;var texture=driver.Inspection(item.assetId);
-            bool same=inspectedItem==item;if(!same){inspectionTab=texture?"view":"readings";readingPage=0;}
+            bool classifier=driver is BiologyDriver&&item.assetId=="microscope"&&(Session.spec.id=="B01"||Session.spec.id=="B02"||Session.spec.id=="B08");
+            bool same=inspectedItem==item;if(!same){inspectionTab=classifier&&Session.Phase==ExperimentPhase.Preparing?"tools":texture?"view":"readings";readingPage=0;}
+            bool classification=classifier&&inspectionTab=="view";
             if(!toolSheetFocusSaved&&!Input.VrMode&&!Input.SimulatorMode&&Profile.settings.focusAssist&&Route=="activity"){toolSheetReturnPosition=origin.position;toolSheetReturnRotation=View.transform.rotation;toolSheetReturnFov=View.fieldOfView;toolSheetFocusSession=Session;toolSheetFocusSaved=true;}
             FocusInstrument(item,inspectionTab=="readings"&&Screen.width>Screen.height);var box=Modal(EquipmentName(item),1440,900,true);inspectedItem=item;
             var title=box.GetComponentInChildren<TextMeshProUGUI>();title.fontSize=40;title.fontWeight=FontWeight.SemiBold;
-            selectedCellSummary=ui.Text(box,"",1000,24,300,80,26,Accent,TextAlignmentOptions.TopRight);
-            string[] tabs=texture?new[]{"view","readings","explain"}:new[]{"readings","explain"};
+            selectedCellSummary=ui.Text(box,"",1000,24,300,80,26,Accent,TextAlignmentOptions.TopRight);selectedCellSummary.lineSpacing=0;
+            string[] tabs=classifier?new[]{"view","tools","readings","explain"}:texture?new[]{"view","readings","explain"}:new[]{"readings","explain"};
             for(int i=0;i<tabs.Length;i++)
             {
-                string tab=tabs[i];string label=tab=="view"?L("Hình quan sát","Observation"):tab=="readings"?L("Số đo trực tiếp","Live readings"):L("Hiểu kết quả","Interpretation");
-                var button=Button(box,label,40+i*304,116,288,64,()=>{inspectionTab=tab;ShowInstrument(item);},inspectionTab==tab?Accent:(Color?)null);button.name="Instrument tab "+tab;
+                string tab=tabs[i];string label=tab=="view"?(classifier?L("Phân loại mẫu","Classify sample"):L("Hình quan sát","Observation")):tab=="tools"?L("Chỉnh kính","Microscope tools"):tab=="readings"?L("Số đo trực tiếp","Live readings"):L("Hiểu kết quả","Interpretation");
+                float tabWidth=classifier?326:288;var button=Button(box,label,40+i*(tabWidth+16),116,tabWidth,64,()=>{inspectionTab=tab;instrumentPage=0;ShowInstrument(item);},inspectionTab==tab?Accent:(Color?)null);button.name="Instrument tab "+tab;
                 button.GetComponentInChildren<TextMeshProUGUI>().fontSize=26;
             }
-            ui.Text(box,L("THAO TÁC","CONTROLS"),1000,132,400,45,26,VlabUi.Secondary);
-            inspectionOutput=ui.Rect(box,"Instrument observation output",40,205,920,515);
-            if(inspectionTab=="view"&&texture)
+            if(!classification)ui.Text(box,L("THAO TÁC","CONTROLS"),1000,132,400,45,26,VlabUi.Secondary);
+            inspectionOutput=ui.Rect(box,"Instrument observation output",40,205,920,classifier&&Session.spec.id!="B01"&&(inspectionTab=="view"||inspectionTab=="tools")?450:515);
+            if((inspectionTab=="view"||inspectionTab=="tools")&&texture)
             {
                 var frame=ui.Panel(inspectionOutput,"Schematic view",0,0,920,450,VlabUi.Raised);Rect uv=driver.InspectionUv(item.assetId);
                 float aspect=Mathf.Abs(texture.width*uv.width/(texture.height*uv.height)),width=Mathf.Min(880,420*aspect),height=width/aspect;
+                if(driver is BiologyDriver layers&&layers.PlasmolysisWallTexture)
+                {var wall=ui.Picture(frame,layers.PlasmolysisWallTexture,20+(880-width)/2,15+(420-height)/2,width,height);wall.name="Fixed cell wall";wall.uvRect=uv;}
                 inspectionImage=ui.Picture(frame,texture,20+(880-width)/2,15+(420-height)/2,width,height);inspectionImage.uvRect=uv;inspectionImage.raycastTarget=true;
                 if(driver is BiologyDriver biology&&biology.HasB01Presentation)inspectionImage.gameObject.AddComponent<MicroscopePresentation>().Bind(inspectionImage,biology);
                 var selection=inspectionImage.gameObject.AddComponent<InstrumentInspection>();selection.MarkerColor=VlabUi.Hex("F0A34D");if(ReferenceEquals(selectedInspectionSession,Session))selection.SetSelection(selectedInspectionUv);
                 selection.Selected=sourceUv=>
                 {
                     if(!driver.PointOnInspection(item.assetId,sourceUv,out var message)){inspectionStatus.text=LessonGuide.ExplainFailure(message,Vi);return;}
-                    selectedInspectionUv=sourceUv;selectedInspectionSession=Session;Save();var choice=Array.FindIndex(driver.Controls(item.assetId),c=>c.id.StartsWith("structure:",StringComparison.Ordinal)||c.id.StartsWith("stage:",StringComparison.Ordinal)||c.id=="cellNormal");if(choice>=0)instrumentPage=choice/InstrumentPageSize();ShowInstrument(item);if(inspectionStatus)inspectionStatus.text=L("Đã đánh dấu. Chọn tên cấu trúc bạn quan sát được.","Marked. Choose the structure you observed.");
+                    selectedInspectionUv=sourceUv;selectedInspectionSession=Session;Save();selection.SetSelection(sourceUv);
+                    if(classifier&&inspectionTab!="view"){inspectionTab="view";instrumentPage=0;ShowInstrument(item);}else RefreshInstrument();
+                    if(inspectionStatus)inspectionStatus.text=Session.spec.id=="B08"?L("Chọn kỳ phân bào vừa quan sát.","Choose the stage you observed."):Session.spec.id=="B02"?L("Tế bào đã co hay chưa co?","Is this cell plasmolysed?"):L("Chọn tên cấu trúc vừa quan sát.","Choose the structure you observed.");
                 };
-                ui.Text(inspectionOutput,Session.spec.id=="B01"?MicroscopePresentation.Notice(Vi):L("Chọn một vị trí trên hình để quan sát và tự phân loại.","Select a location to observe and classify it yourself."),0,468,920,50,24,VlabUi.Secondary);
+                if(!classifier||Session.spec.id=="B01")ui.Text(inspectionOutput,Session.spec.id=="B01"?MicroscopePresentation.Notice(Vi):L("Chọn một vị trí trên hình để quan sát và tự phân loại.","Select a location to observe and classify it yourself."),0,468,920,50,24,VlabUi.Secondary);
             }
             else if(inspectionTab=="readings")
             {
@@ -610,11 +617,11 @@ namespace Vlab.Product
             {
                 var reader=ui.Scroll(inspectionOutput,InstrumentReadings(),0,0,920,515,28);inspectionReadings=reader.GetComponentInChildren<TextMeshProUGUI>();
             }
-            var controls=driver.Controls(item.assetId);int pageSize=InstrumentPageSize(),pages=Math.Max(1,(controls.Length+pageSize-1)/pageSize);instrumentPage=Mathf.Clamp(instrumentPage,0,pages-1);
+            var controls=driver.Controls(item.assetId);if(classifier)controls=controls.Where(c=>IsClassificationControl(c.id)==classification).ToArray();int pageSize=classification?6:InstrumentPageSize(),pages=Math.Max(1,(controls.Length+pageSize-1)/pageSize);instrumentPage=Mathf.Clamp(instrumentPage,0,pages-1);
             for(int row=0;row<pageSize;row++)
             {
                 int index=instrumentPage*pageSize+row;if(index>=controls.Length)break;var control=controls[index];
-                var button=Button(box,Vi?control.vi:control.en,1000,205+row*76,400,66,()=>
+                var button=Button(box,Vi?control.vi:control.en,1000+(classification?row%2*208:0),205+(classification?row/2*88:row*76),classification?192:400,classification?80:66,()=>
                 {
                     if(!driver.Controls(item.assetId).Any(c=>c.id==control.id&&c.enabled))return;
                     bool okay=driver.Operate(control.id,out var message);if(okay){Guide().Applied(control.id);Save();}
@@ -627,7 +634,7 @@ namespace Vlab.Product
                 Button(box,L("Trang trước","Previous"),1000,675,190,64,()=>{instrumentPage=Math.Max(0,instrumentPage-1);ShowInstrument(item);}).interactable=instrumentPage>0;
                 Button(box,L("Trang sau","Next"),1210,675,190,64,()=>{instrumentPage=Math.Min(pages-1,instrumentPage+1);ShowInstrument(item);}).interactable=instrumentPage+1<pages;
             }
-            inspectionStatus=ui.Text(box,L("Chọn thao tác ở bên phải; xem các giá trị ở thẻ Số đo trực tiếp.","Choose a control on the right; open Live readings for the values."),40,746,1360,54,24,VlabUi.Secondary);
+            inspectionStatus=ui.Text(box,classification?L("Chạm vị trí trên hình, rồi chọn nhãn.","Select an image location, then its label."):L("Chọn thao tác ở bên phải; xem các giá trị ở thẻ Số đo trực tiếp.","Choose a control on the right; open Live readings for the values."),40,746,1360,54,24,VlabUi.Secondary);
             Button(box,L("Dụng cụ khác","Other equipment"),40,820,400,64,ShowEquipment);
             Button(box,L("Hướng dẫn","Guidance"),480,820,400,64,()=>{guidePage=-1;ShowGuidance();});
             Button(box,L("Trở lại trạm","Return to station"),920,820,480,64,()=>{CloseModal();RefreshActivity();},Accent);
@@ -727,12 +734,15 @@ namespace Vlab.Product
             {
                 var controls=Apparatus.Driver.Controls(item.assetId);int index=Array.FindIndex(controls,c=>!string.IsNullOrEmpty(task.control)&&(c.id==task.control||c.id.StartsWith(task.control,StringComparison.Ordinal)));
                 if(Session.spec.id=="C01"&&index>=0){ShowTitrationGuide(item,task,controls[index].id);return;}
-                instrumentPage=Math.Max(0,index)/InstrumentPageSize();inspectionTab=task.kind=="image"||task.control.EndsWith(":",StringComparison.Ordinal)||task.control=="cell"?"view":inspectionTab;ShowInstrument(item);
+                bool microscope=Apparatus.Driver is BiologyDriver&&item.assetId=="microscope"&&(Session.spec.id=="B01"||Session.spec.id=="B02"||Session.spec.id=="B08");
+                if(microscope){bool classify=task.kind=="image"||task.control.EndsWith(":",StringComparison.Ordinal)||task.control=="cell";inspectionTab=classify?"view":"tools";var visible=controls.Where(c=>IsClassificationControl(c.id)==classify).ToArray();int visibleIndex=Array.FindIndex(visible,c=>!string.IsNullOrEmpty(task.control)&&(c.id==task.control||c.id.StartsWith(task.control,StringComparison.Ordinal)));instrumentPage=Math.Max(0,visibleIndex)/(classify?6:InstrumentPageSize());}
+                else{instrumentPage=Math.Max(0,index)/InstrumentPageSize();inspectionTab=task.kind=="image"||task.control.EndsWith(":",StringComparison.Ordinal)||task.control=="cell"?"view":inspectionTab;}
+                if(microscope)inspectedItem=item;ShowInstrument(item);
                 bool classification=task.control.EndsWith(":",StringComparison.Ordinal)||task.control=="cell";
                 if(index>=0&&!classification&&inspectionControls.TryGetValue(controls[index].id,out var button)){button.GetComponent<UnityEngine.UI.Image>().color=Accent;button.GetComponentInChildren<TextMeshProUGUI>().color=UiTheme.On(Accent);buttonGuideCue=GuideCue.AttachTo(button.transform,Profile.settings.reducedMotion);}
                 else if(classification&&inspectionImage)buttonGuideCue=GuideCue.AttachTo(inspectionImage.transform,Profile.settings.reducedMotion);
                 cueStep=GuideStep(CurrentGuide());
-                if(inspectionStatus)inspectionStatus.text=classification?L("Tự chọn nhãn phù hợp với hình; không có đáp án chọn sẵn.","Choose the label matching the image; no answer is preselected."):index>=0?L("Chọn nút được tô sáng. Ứng dụng chưa làm hộ thao tác.","Select the highlighted button. No action has been performed for you."):L("Quan sát dụng cụ; Quay lại để dùng nút bước trên bảng.","Inspect the instrument; return to the station card for its task button.");return;
+                if(inspectionStatus)inspectionStatus.text=classification?L("Quan sát rồi tự chọn nhãn.","Observe, then choose a label."):index>=0?L("Chọn nút được tô sáng. Ứng dụng chưa làm hộ thao tác.","Select the highlighted button. No action has been performed for you."):L("Quan sát dụng cụ; Quay lại để dùng nút bước trên bảng.","Inspect the instrument; return to the station card for its task button.");return;
             }
             CloseModal();if(item){Apparatus.Select(item);PointAtEquipment(item);}if(liveAction)buttonGuideCue=GuideCue.AttachTo(liveAction.transform,Profile.settings.reducedMotion);cueStep=GuideStep(CurrentGuide());RefreshActivity();
         }
@@ -1072,7 +1082,7 @@ namespace Vlab.Product
             if(Apparatus&&(Apparatus.IsCarrying||Apparatus.IsPullingBob))Apparatus.CancelGrab();
             var previousLayout=modal?modal.GetComponentInChildren<PhoneDialogLayout>():null;float previousScroll=previousLayout?previousLayout.ScrollPosition:1;string previousTitle=previousLayout?previousLayout.GetComponentInChildren<TextMeshProUGUI>()?.text:null;
             ClearGuideCue();
-            bool resume=ActivityRunIntent();ClearInspection();
+            bool resume=ActivityRunIntent();ClearInspection();gazeTarget=null;gazeTime=0;gazeConsumed=false;suppressOpeningGaze=Input&&(Input.VrMode||Input.SimulatorMode);
             if(modal){modal.gameObject.SetActive(false);Destroy(modal.gameObject);}modal=ui.Page("Modal input blocker");PlaceReadableSurface(modal,true);var blocker=modal.gameObject.AddComponent<UnityEngine.UI.Image>();blocker.color=new Color(0,0,0,.32f);blocker.raycastTarget=true;modal.gameObject.AddComponent<VlabModalBackdrop>().Initialize(ui,blocker);
             modalSession=Session;modalResumeActivity=resume;modalAllowsSimulation=live;if(page)page.gameObject.SetActive(false);
             if(Route=="activity"){if(live&&resume)Session?.Resume();else if(!live)Session?.Pause();}SyncAuthority();

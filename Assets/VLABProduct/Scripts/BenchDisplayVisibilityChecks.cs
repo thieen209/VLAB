@@ -32,6 +32,9 @@ public static class BenchDisplayVisibilityChecks
             var item=cord.GetComponent<EquipmentHandle>();item.assetId="cord";item.installed=true;
             var cue=GuideCue.ShowEquipment(root.transform,item,true);
             check("Line-only cord receives a real model outline without changing source",cue.AssertPresentationOnly(null,out _)&&cue.transform.Find("Object highlight").GetComponent<LineRenderer>().enabled&&line.GetPosition(1)==Vector3.up*.3f);
+            cue.Dispose();var mesh=Cube("Visible source mesh",cord.transform.position,new Vector3(.03f,.03f,.03f));mesh.transform.SetParent(cord.transform,true);
+            var originalMesh=mesh.GetComponent<MeshFilter>().sharedMesh;cue=GuideCue.ShowEquipment(root.transform,item,true);
+            check("Mixed mesh and cord keeps the source mesh unobscured and unchanged",!cue.transform.Find("Object highlight").GetComponent<LineRenderer>().enabled&&mesh.GetComponent<MeshFilter>().sharedMesh==originalMesh);
 
         }
         finally{UnityEngine.Object.DestroyImmediate(root);}

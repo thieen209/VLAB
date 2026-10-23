@@ -107,7 +107,10 @@ namespace Vlab.Product
         {
             var e=bounds.extents+Vector3.one*.006f;var c=bounds.center;
             // One continuous edge walk outlines the actual item without copying meshes or altering source shaders.
-            objectOutline.enabled=false;objectOutline.loop=false;objectOutline.positionCount=OutlineWalk.Length;
+            bool hasLine=false,hasMesh=false;
+            foreach(var renderer in equipment.GetComponentsInChildren<Renderer>(false))if(renderer.enabled)
+            {hasLine|=renderer is LineRenderer;hasMesh|=renderer is MeshRenderer||renderer is SkinnedMeshRenderer;}
+            objectOutline.enabled=hasLine&&!hasMesh;objectOutline.loop=false;objectOutline.positionCount=OutlineWalk.Length;
             for(int i=0;i<OutlineWalk.Length;i++)objectOutline.SetPosition(i,c+Vector3.Scale(e,CornerSigns[OutlineWalk[i]]));
             float pulse=reducedMotion?1:.85f+.15f*Mathf.Cos(phase*Mathf.PI*2);
             objectOutline.startWidth=objectOutline.endWidth=.003f*pulse;

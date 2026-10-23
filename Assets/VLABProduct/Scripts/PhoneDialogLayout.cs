@@ -109,7 +109,7 @@ namespace Vlab.Product
             var output=content.First(x=>x.rect.name=="Instrument observation output");
             var tabs=content.Where(x=>x.rect.name.StartsWith("Instrument tab ",System.StringComparison.Ordinal)).ToArray();
             float tabWidth=(width-44-14*(tabs.Length-1))/tabs.Length;
-            for(int i=0;i<tabs.Length;i++)Place(tabs[i].rect,22+i*(tabWidth+14),header,tabWidth,68);
+            for(int i=0;i<tabs.Length;i++){Place(tabs[i].rect,22+i*(tabWidth+14),header,tabWidth,68);FitCaption(tabs[i].rect);}
             float top=header+82;
             bool readings=output.rect.GetComponentInChildren<ObservationCardBinding>();
             float outputHeight=readings?336:110;
@@ -161,6 +161,10 @@ namespace Vlab.Product
                     item.rect.SetParent(body,false);float w=Mathf.Min(item.size.x,available),h=item.size.y,fit=w/Mathf.Max(1,item.size.x);
                     bool button=item.rect.GetComponent<Button>();var text=item.rect.GetComponent<TMP_Text>();
                     if(button){w=Mathf.Min(Mathf.Max(w,240),available);h=Mathf.Max(68,h);fit=1;}
+                    bool classificationPair=row.Length==2&&row.All(r=>r.rect.name.StartsWith("Instrument control ",System.StringComparison.Ordinal)&&VlabApp.IsClassificationControl(r.rect.name.Substring("Instrument control ".Length)));
+                    if(classificationPair)w=(available-gap)/2;
+                    if(button&&item.rect.name.StartsWith("Instrument control ",System.StringComparison.Ordinal))
+                    {var caption=item.rect.GetComponentInChildren<TMP_Text>();if(caption)h=Mathf.Max(h,caption.GetPreferredValues(caption.text,w-20,Mathf.Infinity).y+10);}
                     if(button&&item.rect.name.StartsWith("Equipment item ",System.StringComparison.Ordinal))
                     {var caption=item.rect.GetComponentInChildren<TMP_Text>();if(caption)h=Mathf.Max(h,caption.GetPreferredValues(caption.text,w-52,Mathf.Infinity).y+12);}
                     else if(text){fit=1;h=Mathf.Max(h,text.GetPreferredValues(text.text,w,h).y+12);}
@@ -253,22 +257,23 @@ namespace Vlab.Product
             bool hasControls=controls.Length>0;if(!hasControls&&!explanation)return false;
             var tabs=content.Where(x=>x.rect.name.StartsWith("Instrument tab ",System.StringComparison.Ordinal)).ToArray();
             float tabWidth=(width-44-14*Mathf.Max(0,tabs.Length-1))/Mathf.Max(1,tabs.Length);
-            for(int i=0;i<tabs.Length;i++)Place(tabs[i].rect,22+i*(tabWidth+14),header,tabWidth,68);
-            float top=header+82,availableHeight=height-top-footerHeight-12,rightWidth=hasControls?400:0,leftWidth=hasControls?width-rightWidth-66:width-44;
+            for(int i=0;i<tabs.Length;i++){Place(tabs[i].rect,22+i*(tabWidth+14),header,tabWidth,68);FitCaption(tabs[i].rect);}
+            bool classification=controls.Length>0&&controls.All(c=>VlabApp.IsClassificationControl(c.rect.name.Substring("Instrument control ".Length)));
+            float top=header+82,availableHeight=height-top-footerHeight-12,rightWidth=hasControls?(classification?480:400):0,leftWidth=hasControls?width-rightWidth-66:width-44;
             if(hasControls)Place(viewport,width-rightWidth-22,top,rightWidth,availableHeight);
             var status=content.FirstOrDefault(x=>x.rect.GetComponent<TMP_Text>()&&x.Top>730);
             var summary=content.FirstOrDefault(x=>x.rect.GetComponent<TMP_Text>()&&x.Top<100);
             bool nativeReadings=output.rect.GetComponentsInChildren<ObservationCardBinding>().Length>0;
-            float statusHeight=status!=null?62:0;
-            if(status!=null)Place(status.rect,22,top+availableHeight-statusHeight,width-44,statusHeight);
+            float statusHeight=status!=null?(classification?72:62):0;
+            if(status!=null)Place(status.rect,22,top+availableHeight-statusHeight,classification?leftWidth:width-44,statusHeight);
             availableHeight-=statusHeight;
-            if(hasControls)Place(viewport,width-rightWidth-22,top,rightWidth,availableHeight);
+            if(hasControls)Place(viewport,width-rightWidth-22,top,rightWidth,availableHeight+(classification?statusHeight:0));
             bool hasSummary=summary!=null&&!string.IsNullOrWhiteSpace(summary.rect.GetComponent<TMP_Text>().text);
             if(summary!=null)
             {
                 if(hasSummary)
                 {
-                    Place(summary.rect,width-402,18,290,60);
+                    Place(summary.rect,width-402,10,290,72);
                     var title=items.FirstOrDefault(x=>x.rect.GetComponent<TMP_Text>());
                     if(title!=null)Place(title.rect,22,16,width-456,60);
                 }

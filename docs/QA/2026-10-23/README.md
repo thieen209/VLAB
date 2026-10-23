@@ -43,3 +43,32 @@ Giữ nguyên vị trí và GUID các asset Unity. `docs/archive/README-2026-09-
 - Receipt giữ nguyên kết quả; riêng đường dẫn tuyệt đối đến hồ sơ QA được thay bằng `<isolated QA profile>` khi đưa vào tài liệu công khai. Không có hồ sơ người học trong repo.
 
 [SHA256 source tại checkpoint](visibility-source-sha256.json). Đây là các lần chạy Editor đã hoàn tất, không phải kết quả Android/Cardboard/BLE phần cứng hay APK mới.
+
+## Chưa phát hành — bảng kính hiển vi và tương tác
+
+- Tách **Phân loại mẫu / Chỉnh kính**: sáu nhãn B01/B08 hiện cùng lúc, B02 có hai lựa chọn; chỉnh nét/vật kính vẫn truy cập được. Chạm ô giữ nguyên bảng và ảnh; sửa caption tab, nhãn dài và phần thống kê bị cắt.
+- B02 trước đó chỉ lấy texture chất nguyên sinh, bỏ mất lớp thành tế bào có sẵn. Ô quan sát nay xếp cả hai lớp cùng UV; thành cố định, chất nguyên sinh thay đổi bên trong. Không sửa model, texture hay GUID nguồn.
+- [24 kiểm tra UI](classifier-layout-checks.txt), [38 hồi quy tương tác](classifier-input-checks.txt), [36 hồi quy hộp thoại](classifier-dialog-checks.txt): không FAIL trong các receipt này. UI kính hiển vi mới được kiểm tra ở VI1600×900; chưa chứng minh EN, mọi aspect ratio, native Android hay stereo.
+- Lượt [C04/C07](classifier-chemistry-matrix.json), [B01/B08 trước sửa typography cuối](classifier-biology-pre-wall-matrix.json), [B02 sau sửa wall](classifier-B02-matrix.json) đã lưu/mở lại kết quả theo phạm vi riêng. B02 của receipt trước-wall vẫn BLOCKED và được giữ nguyên. Một số chuẩn bị có hỗ trợ; không coi đây là chứng nhận32bài tự thao tác hoàn chỉnh.
+- Các thao tác phân loại dùng điểm/nhãn quan sát từ PNG runtime rồi đưa vào UGUI bằng touch; không đọc đáp án ẩn hay gán trạng thái hoàn thành. B02 vẫn là các trạng thái hình minh họa từ SDK, chưa phải mô hình động học thẩm thấu đã hiệu chuẩn.
+- [SHA256 source](classifier-source-sha256.json). Chưa có APK mới từ batch này.
+
+![B01: đủ nhãn và chữ không bị cắt](microscope-B01.png)
+
+![B08: sáu lựa chọn cùng hiện](microscope-B08.png)
+
+B02 cùng trạng thái muối minh họa1 trong Editor, trước/sau sửa lớp hiển thị (layout field có thay đổi nhỏ):
+
+![Trước: thiếu thành tế bào](B02-wall-before.png)
+
+![Sau: thành cố định và chất nguyên sinh tách bên trong](B02-wall-after.png)
+
+### C01 và phạm vi tổng hợp
+
+[C01](classifier-C01-matrix.json) đã đạt ba lượt hợp lệ và lưu/mở lại kết quả qua UI, không có runtime error hay scoped regression FAIL trong lượt này. Kịch bản dùng van qua UI, trộn, chờ chỉ thị đủ30giây theo đồng hồ mô phỏng, đọc mặt khum và giữ từng lượt. [Ảnh kết quả](C01-results.png) hiện ba lượt hợp lệ.
+
+[Ma trận tổng hợp](ui-journeys-aggregate.json) ghi nhận **32/32 bài có lượt lưu/mở lại** qua nhiều checkpoint Editor. Đây không phải một lượt hồi quy32bài trên cùng source cuối; chuẩn bị có hỗ trợ và các giới hạn khoa học vẫn được giữ. Không dùng số32này thay nghiệm thu Guided Freedom hoặc phần cứng.
+
+Những lần C01 điều hướng nhầm caption/trang hoặc hết bound600giây vẫn nằm trong các thư mục evidence gốc. Lượt thành công dùng bound1200giây; runner cho phép chọn30–1800giây, mặc định180giây. Các điều kiện vật lý, ba lượt chuẩn độ và lưu kết quả không bị nới.
+
+[UI operator C01](drive_c01_ui.py) chỉ dành cho fixture VI mặc định đã kiểm tra(0.1mol/L,10mL). Nó đưa thao tác chạm vào protocol hiện có, dựa trên lưu lượng đã quan sát trên UI; chỉ lặp khi receipt có thao tác giữ lượt/mẫu mới, tối đa ba pulse rồi dừng để rà soát nếu chưa đạt. Không đọc trạng thái hóa học, gán đáp án hay gán hoàn thành; không phải kiểm thử tay cầm/điện thoại thật.

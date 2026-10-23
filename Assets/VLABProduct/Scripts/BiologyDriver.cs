@@ -346,6 +346,7 @@ namespace Vlab.Product
             if(Id=="B07")Instrument<VlabDnaPrecipitate>("dna").SetPresent(CrudePresent());
         }
         bool CrudePresent()=>s.ground&&s.bufferAdded&&s.filtered&&s.alcoholAdded&&!s.noAlcohol&&V("detergent")>.5&&V("salt")>.5&&s.clock-s.reactionAt>=8;
+        public Texture PlasmolysisWallTexture=>Id=="B02"&&s.mounted?Image("_WallLayer_VIS"):null;
         public override Texture Inspection(string key)
         {
             if((key!="microscope"&&key!="specimen")||!s.mounted)return null;

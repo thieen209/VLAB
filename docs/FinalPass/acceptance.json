@@ -1,0 +1,656 @@
+{
+  "sourcePdf": "C:/Users/busyt/Downloads/BUGs apk mới nhất.pdf",
+  "sourcePdfSha256": "2769423e7b6e790795a2e9097286fc36553b7e35990f3593f16f486d282746cc",
+  "model": "gpt-6.1-sol",
+  "effort": "high",
+  "quotaRemainingStart": 99,
+  "publicationBaseline": "fc7a477f579be8984ff4895b29653913672074e0",
+  "requirements": [
+    {
+      "id": "Q01",
+      "expected": "VR-first trên Android Google Cardboard; phone mode là chế độ phụ nhưng vẫn dùng được, responsive và không che thí nghiệm. Quyết định này thay thế yêu cầu VR-only cũ.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q02",
+      "expected": "Guided Freedom: người học tự thao tác, thử sai và khám phá; có hỗ trợ đúng lúc, không biến thí nghiệm thành chuỗi nút bấm chạy animation.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q03",
+      "expected": "Adaptive Smart Guidance: mặc định gợi ý tối giản tại dụng cụ; tăng trợ giúp khi người dùng mắc kẹt; có thể bỏ qua, giảm hoặc tắt hỗ trợ.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q04",
+      "expected": "Premium Professional Laboratory: bốn phòng Vật lý, Hóa học, Sinh học, Kỹ thuật chân thực, sáng sủa, bố trí khoa học. Không sci-fi, không chạy theo hiệu ứng cinematic làm giảm khả năng quan sát.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q05",
+      "expected": "Full Autonomy with Quality Gates: được sửa sâu hoặc thay hệ thống chưa đạt khi có căn cứ; bảo vệ những phần đang tốt và kiểm thử hồi quy.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q06",
+      "expected": "Maximum Autonomous QA: dùng mọi phương pháp kiểm thử phù hợp đang khả dụng; phân biệt rõ kiểm thử code, Editor, giả lập và thiết bị thật.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q07",
+      "expected": "Advanced Controller Ecosystem: BLE thực, remapping, calibration joystick, nhiều profile, chẩn đoán kết nối, khả năng mở rộng và bộ kiểm thử giả lập.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q08",
+      "expected": "Adaptive Quality System: Low, Medium, High, Ultra có cấu hình thực sự khác nhau; đề xuất mức phù hợp, cho phép đổi thủ công và lưu lựa chọn.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q09",
+      "expected": "Beat Saber × Premium Scientific: menu cuốn hút với cards, hover glow và animation có chủ đích; trong lab tối giản, rõ ràng, ưu tiên thí nghiệm. Giữ thương hiệu VLAB.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q10",
+      "expected": "Balanced Final Release: lỗi nghiêm trọng và UX cốt lõi trước, phủ đủ mọi phòng và thí nghiệm, rồi hoàn thiện hình ảnh; không đánh đổi độ ổn định lấy polish.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "Q11",
+      "expected": "Universal Hybrid Interaction: gaze/dwell dự phòng, nút Cardboard nếu có, gamepad tương thích và ESP32 BLE qua cùng hệ thống hành động; cầm, kéo, điều chỉnh phù hợp khả năng 3DoF.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "R01_XR_rendering",
+      "expected": "PDF trang 1: điều tra và sửa hình VR mờ, nhạt màu và chữ flicker. Kiểm tra đường render, camera, UI và cấu hình thực tế trước khi sửa; không dùng tăng saturation hay hiệu ứng để che nguyên nhân. Hai mắt phải đọc được chữ, không nhấp nháy, không lệch lớp; so sánh phone/VR bằng capture và thiết bị khi có.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "work/final-pass-20261023/color-flat.png",
+        "work/final-pass-20261023/color-world.png",
+        "Controlled opaque RGB swatch: flat/world maxRGB delta0 in Editor. Does not prove Cardboard output; no color-space changes justified yet."
+      ]
+    },
+    {
+      "id": "R02_responsive_UI_and_modals",
+      "expected": "PDF trang 1, 3, 4: sửa UI điện thoại sau thoát VR, căn giữa menu, tỷ lệ canvas, safe area và bố trí theo kích thước màn hình. Dialog xác nhận phải vừa vặn, không block xám thừa hay lớp vô hình chặn input. Kiểm thử đủ Ở lại/Bỏ thay đổi/Áp dụng và đóng dialog. Giữ vùng thao tác giữa màn hình thông thoáng; không chữa bằng thu nhỏ toàn bộ chữ.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/dialog-checks.txt:36PASS0FAIL after interaction changes, including all3confirmation branches and10Editor mode roundtrips. Still native/resolution coverage pending.",
+        "Classifier batch: Evidence/SecondTestUI/20261023-044042/classifier-layout.txt24PASS0FAIL, VI1600x900 actual queued touches. Six B01/B08 labels visible together, B02 two labels, image/modal preserved on selection, tools accessible, no TMP overflow. Other aspect ratios, EN and native stereo still open."
+      ]
+    },
+    {
+      "id": "R03_main_menu_and_identity",
+      "expected": "PDF trang 1, 3: làm lại cards, phân cấp tiêu đề/logo, khoảng cách, bố cục nút, trạng thái focus/hover/selected/disabled và animation. Dùng tinh thần Beat Saber, không sao chép tài sản của họ. Thay nút VR cũ bằng một nút tròn icon kính, trạng thái rõ, vào/thoát VR truy cập được bằng input đang dùng; không để nút trùng hay kẹt trong VR. Nền lab sáng, rõ hơn, giữ nhận diện; dùng preview nhẹ nếu phù hợp. Nhiều theme đồng bộ, lưu lựa chọn; tránh gradient/glow tùy tiện và hiệu ứng gây khó đọc.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "R04_lab_architecture_and_assets",
+      "expected": "PDF trang 1–3: nâng cả bốn phòng thành lab chuyên nghiệp. Sửa cửa sổ lệch, rèm sơ sài, ánh sáng thiếu sức sống; bổ sung đèn trong phòng hợp lý, cải thiện materials nghèo và bố cục làm thí nghiệm khó thấy. Tham khảo lighting, cây/bóng đổ của THE NEW VLAB khi nguồn thực sự có; chọn lọc cách bày bàn VLAB cũ. Giữ phần tốt và nhận diện phòng; điều chỉnh layout khi cản trở thao tác. Ưu tiên tài sản sẵn có/free phù hợp giấy phép, rồi chỉnh hoặc tạo trong Blender; chỉ dựng trực tiếp trong Unity khi phù hợp hơn. VLAB phi thương mại nhưng vẫn phải giữ điều kiện giấy phép và attribution.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "R05_real_experiment_interaction",
+      "expected": "PDF trang 1–2: mọi thí nghiệm trong phạm vi phải thao tác thực sự với dụng cụ, phản hồi rõ và chạy từ đầu tới kết luận. Sửa việc khó chọn đồ, bấm không phản hồi, đặc biệt quả nặng/con lắc không di chuyển. Cho phép chọn, cầm/kéo, thả, nối hoặc điều chỉnh tùy dụng cụ; trợ giúp snap hợp lý nhưng không giả thao tác. Có reset/retry và phục hồi khi làm sai. Mô phỏng phục vụ mục tiêu học, không cần vật lý toàn năng; không thay bài bằng slideshow hoặc nút tự làm.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification.",
+        "Additional scoped UI receipts: C04/C07 saved/reopened in20261023-041701; B01/B08 saved/reopened in20261023-042435 before final typography changes; B02 saved/reopened after wall fix in20261023-044332. Explicit assisted preparation used where documented. Not complete unassisted32protocol acceptance.",
+        "Evidence/SecondTestUI/20261023-051833/matrix.json: C01 three valid titres, saved/reopened,0runtimeErrors,0scopedFAIL. Actual queued UI valve/mixing/30s indicator/final reading/retention actions. Selected bound1200s, no completed-state injection. Basic aggregate now32/32 across checkpoints; not all unassisted or final-source/native acceptance."
+      ]
+    },
+    {
+      "id": "R06_visibility_and_navigation",
+      "expected": "PDF trang 1–2: xử lý dụng cụ quá nhỏ bằng bố trí bàn, tỷ lệ hợp lý, vị trí quan sát và vùng tương tác dễ chọn; không phóng đại tùy tiện làm sai tương quan khoa học. Cho di chuyển trong VR bằng điểm đứng/teleport phù hợp và recenter, không khóa cứng một chỗ. Smooth movement chỉ khi input hỗ trợ và người dùng chọn. Phone mode có thể dùng zoom/focus camera. Trong VR không tự kéo, xoay hoặc khóa camera theo thí nghiệm trái chuyển động đầu; dùng vị trí quan sát do người dùng chủ động chọn.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "work/final-pass-20261023/visibility-checks.txt:37PASS0FAIL. Real queued phone drags: projected bob width17.37036 ->67.3407px at1600x900, original model scale unchanged; phone camera fixed throughout hold. SyntheticXR pose journey confirms no experiment-driven tracking-origin translation/rotation. Broader per-lesson view/teleport/native acceptance remains open."
+      ]
+    },
+    {
+      "id": "R07_adaptive_guidance_and_learning",
+      "expected": "PDF trang 1–2 và Q3: hướng dẫn ngắn gọn, vòng tròn/mũi tên/highlight ngay dụng cụ và vị trí thực hiện. Tăng trợ giúp theo trạng thái thực: chờ lâu, thao tác sai lặp lại hoặc yêu cầu trợ giúp; giảm khi làm đúng. Cơ chế nhẹ, offline, không cần gọi AI trên cloud. Hiện số liệu, đơn vị, vector lực và công thức có liên quan đúng thời điểm; không đổ mọi nội dung lên màn hình. Bảng tổng hợp và kết luận ở cuối, không buộc mở sổ để xem số liệu tức thời. Diễn đạt thao tác đơn giản như hướng dẫn học sinh lớp 5, nhưng giữ đúng nội dung khoa học THPT, không hạ sai kiến thức. Gắn nhãn theo object/state, không tự hứa có computer vision hay tracking phần cứng không tồn tại.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification.",
+        "Fresh32UI runner found existing scopedFAIL: line-only cord Object highlight stays disabled in GuideCue.RenderObject. Actual source renderer is untouched. Pending targeted fix and rerun; no broad PASS.",
+        "Fixed line-only equipment outline without obscuring mixed mesh sources; BenchDisplayVisibilityChecks now covers both. B02 microscope now includes the supplied fixed wall texture below changing protoplast texture so plasmolysis can be observed relative to a stationary wall. Illustrative states remain uncalibrated."
+      ]
+    },
+    {
+      "id": "R08_notebook_math_keyboard",
+      "expected": "PDF trang 1–2: sửa hoặc thay thiết kế ghi chú bám dụng cụ đang lỗi, giữ liên kết ghi chú và dữ liệu. Sổ tay có cấu trúc khoa học, scroll/drag hoạt động, công thức LaTeX hoặc cách render tương đương chính xác, không hiện mã thô. Sửa bàn phím lặp ký tự: một thao tác chủ ý sinh một ký tự; repeat chỉ khi cố ý, có ngưỡng rõ và hủy khi mất focus. Kiểm thử dấu tiếng Việt, xóa, con trỏ, focus và lưu; thao tác trên UI không đồng thời kích hoạt dụng cụ.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "R09_unified_input",
+      "expected": "Q1, Q2, Q11: một lớp hành động dùng chung cho touch, gaze/dwell, nút Cardboard nếu có, gamepad tương thích và ESP32. Hiện trạng thái focus/selection/holding, xác nhận/cancel rõ và chuyển nguồn input không bị double-fire hoặc stuck. Gaze phải đủ để đi hết flow chính khi chưa có tay cầm: chọn, thao tác theo ràng buộc phù hợp, thả, chỉnh, reset và mở/đóng UI. Không giả định gaze thay thế được hand tracking 6DoF.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Interaction batch: VlabApp.ProcessGaze previously resolved only UI click handlers, no world dwell dispatch. Added world target dispatch, impulse latching, explicit release/cancel and UI freeze. FinalPassInteractionChecks runtime verification in progress; no PASS yet.",
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification.",
+        "Final classifier source regression:38PASS0FAIL in Evidence/FinalPass/interaction-checks.txt, logwork/final-pass-20261023/classifier-input-regression-editor.log. Synthetic XR HMD/mock-controller and queued nativeUGUI touches; not physical sensors/BLE."
+      ]
+    },
+    {
+      "id": "R10_BLE_controller_ecosystem",
+      "expected": "PDF trang 1 và Q7: đọc bản dự thi, tài liệu và firmware tay cầm ESP32 SuperMini để xác định đúng board, cảm biến, số tay cầm, GATT UUID, payload, endian, tần số và mapping. Không tự đoán rồi gọi là tương thích. Triển khai BLE Android thực từ scan/connect/subscribe tới Unity actions; quyền theo phiên bản Android, trạng thái kết nối, reconnect, mất gói/input timeout, release nút khi mất kết nối và cleanup khi pause/quit. Có remapping, joystick deadzone/calibration, profiles, diagnostics và lưu cài đặt. Test packet sai/trễ/trùng, disconnect/reconnect bằng simulator. Nếu giao thức chưa có, tách adapter cấu hình được và tài liệu đề xuất protocol, đánh dấu tích hợp phần cứng chưa xác minh; không dùng mock thay transport thật. Không suy ra vị trí 6DoF từ dữ liệu chưa chứng minh được.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "work/final-pass-20261023/controller-source-review.json: supplied KiCadREADME/manual and both actual-board photos inspected. Current docs describeESP32-S3/BNO055, leftESP-NOW->rightBLEgateway, VLABCONTROLLER; do not reuse olderMPU9250 assumption. Firmware/GATTUUID/payload/endian/frequency not supplied in inspected hardware folder. NativeBLE transport not yet implemented; real hardware absent."
+      ]
+    },
+    {
+      "id": "R11_graphics_and_observability",
+      "expected": "PDF trang 1 và Q8: từng quality tier phải áp dụng cài đặt thực, khác biệt có thể kiểm tra; High/Ultra đẹp hơn nhưng không làm sai hiện tượng hay khiến chữ mờ. Profile trước khi chọn tối ưu, dùng các kỹ thuật phù hợp pipeline đang có; không nâng Unity/đổi pipeline chỉ để làm đẹp. Tự đề xuất mức phù hợp, người dùng có quyền chọn, lưu và khôi phục. Thêm toggle FPS/frame time và thông số độ trễ đo được; ghi đúng loại đo. Không gắn nhãn frame time hoặc BLE ping là motion-to-photon latency. Chỉ đo được gì thì hiện cái đó, không hiển thị số giả.",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "R12_localization_and_documents",
+      "expected": "PDF trang 2: rà soát VN/EN toàn bộ UI, hướng dẫn, dụng cụ, thuật ngữ, đơn vị và công thức; không sót key, chữ tràn hay thiếu glyph. PP/TOS phải hiển thị đúng các PDF được cung cấp, giữ nội dung/bố cục gốc, đọc và điều hướng được offline; không chép lại hay tự viết văn bản pháp lý thay thế. Dùng bản tiếng Anh được cung cấp/duyệt; nếu thiếu thì báo rõ, không giả vờ có bản dịch chính thức.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "work/final-pass-20261023/legal-source-inventory.json:VI privacy17pages/EN18pages, VI/EN terms6pages each; distinct source hashes and actual language headers inspected",
+        "LegalPdfView.cs and original-layout resources implemented; docs/QA/2026-10-23/legal-checks.txt verifies 47 pages in Editor. Global bilingual UI audit and native APK still pending."
+      ]
+    },
+    {
+      "id": "R13_project_hygiene_and_preservation",
+      "expected": "PDF trang 1–2: giữ những phần đang tốt, offline-first, dữ liệu sổ tay/tiến trình và settings. Dọn project có mục tiêu, không di chuyển asset hàng loạt chỉ để đẹp folder. Bảo toàn .meta/GUID/serialized references và tương thích save; có migration khi bắt buộc. Kiểm tra lỗi cấu hình, secrets và rủi ro rõ trong phần sửa, không tuyên bố không còn lỗ hổng nếu chưa có bằng chứng. Cập nhật hướng dẫn build và attribution cần thiết, chuẩn bị thay đổi để commit.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Explicit user README/latest-source publishing task completed: remote main 9ddcedf58037c1bdcd0fc2f796a598889260c229; 44 documentation paths verified, private signing stays out of publishing checkout, no bulk Unity asset moves. Full save migration/regression audit remains open.",
+        "SecondTestGameView.Restore used a custom-relative index where currentUnity expects absolute size index; restored bounds check now removes only the created QA size. Fresh dialog regression36PASS0FAIL and no InvalidIndex error. Existing user GameView sizes not bulk-cleaned."
+      ]
+    },
+    {
+      "id": "PDF-01",
+      "expected": "VR blur/desaturation",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-02",
+      "expected": "VR text flicker",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-03",
+      "expected": "confirmation compact size",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "evidence": [
+        "dialog-editor-checks.txt:36PASS, 0FAIL;1600x900 Editor screenshot visually reviewed; native acceptance pending",
+        "work/final-pass-20261023/dialog-stay.png"
+      ]
+    },
+    {
+      "id": "PDF-04",
+      "expected": "confirmation redundant gray layer",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "evidence": [
+        "dialog-editor-checks.txt:36PASS, 0FAIL;1600x900 Editor screenshot visually reviewed; native acceptance pending",
+        "work/final-pass-20261023/dialog-stay.png"
+      ]
+    },
+    {
+      "id": "PDF-05",
+      "expected": "note attachment redesign",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-06",
+      "expected": "phone layout after VR exit",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-07",
+      "expected": "menu centered across safe areas",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-08",
+      "expected": "journal structure",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-09",
+      "expected": "math formatting",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-10",
+      "expected": "journal scroll/drag",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-11",
+      "expected": "keyboard one action one character",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-12",
+      "expected": "Vietnamese keyboard editing/focus/save",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-13",
+      "expected": "hands-on independent experiment actions",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Interaction batch: VlabApp.ProcessGaze previously resolved only UI click handlers, no world dwell dispatch. Added world target dispatch, impulse latching, explicit release/cancel and UI freeze. FinalPassInteractionChecks runtime verification in progress; no PASS yet.",
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification."
+      ]
+    },
+    {
+      "id": "PDF-14",
+      "expected": "small apparatus visibility",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "P01 step-specific phone framing verified in Editor by visible-width metric and actual touch drag. Other small apparatus and device ergonomics remain unverified."
+      ]
+    },
+    {
+      "id": "PDF-15",
+      "expected": "graphics tiers visibly distinct",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-16",
+      "expected": "FPS/frame-time diagnostics",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-17",
+      "expected": "windows alignment",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-18",
+      "expected": "curtains model",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-19",
+      "expected": "interior lighting",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-20",
+      "expected": "reference lab review",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-21",
+      "expected": "VR user-selected movement",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-22",
+      "expected": "room architecture materials",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-23",
+      "expected": "menu card shape/hover/title",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-24",
+      "expected": "menu buttons layout",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-25",
+      "expected": "theme consistency/persistence",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-26",
+      "expected": "UI animation toggle",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-27",
+      "expected": "pendulum bob dragging",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt: original bob displacement, constant length, pointer-derived22degree release, explicit gaze release and queued phone touch drag/release verified in Editor. APK/physical phone pending.",
+        "Evidence/FinalPass/P01-manual-pull.png",
+        "Evidence/FinalPass/P01-phone-drag-release.png"
+      ]
+    },
+    {
+      "id": "PDF-28",
+      "expected": "in-context hints",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification."
+      ]
+    },
+    {
+      "id": "PDF-29",
+      "expected": "BLE transport and firmware mapping",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-30",
+      "expected": "immediate experiment values/vectors/formulae",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-31",
+      "expected": "end-of-experiment summary",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-32",
+      "expected": "project GUID/save preservation",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-33",
+      "expected": "offline PP original PDF",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "evidence": [
+        "docs/QA/2026-10-23/legal-checks.txt:135 PASS 0 FAIL, all 47 pages; original PDF SHA matched for VI/EN privacy/terms; actual Editor screenshot inspected. APK/native offline verification remains pending."
+      ]
+    },
+    {
+      "id": "PDF-34",
+      "expected": "offline TOS original PDF",
+      "status": "IMPLEMENTED_UNVERIFIED",
+      "evidence": [
+        "docs/QA/2026-10-23/legal-checks.txt:135 PASS 0 FAIL, all 47 pages; original PDF SHA matched for VI/EN privacy/terms; actual Editor screenshot inspected. APK/native offline verification remains pending."
+      ]
+    },
+    {
+      "id": "PDF-35",
+      "expected": "English terminology and approved legal translation",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "PDF-36",
+      "expected": "round VR icon replaces old button",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-B01",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification.",
+        "Evidence/SecondTestUI/20261023-042435/matrix.json: UI journey saved/reopened; actual visible-image selections and label buttons, no hidden answer-state lookup or completion injection. Scientific classification correctness/native/unassisted protocol not certified. B02 includes source wall/protoplast layers; B01/B08 final typography retested separately with classifier-only checks."
+      ]
+    },
+    {
+      "id": "EXP-B02",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/SecondTestUI/20261023-044332/matrix.json: UI journey saved/reopened; actual visible-image selections and label buttons, no hidden answer-state lookup or completion injection. Scientific classification correctness/native/unassisted protocol not certified. B02 includes source wall/protoplast layers; B01/B08 final typography retested separately with classifier-only checks."
+      ]
+    },
+    {
+      "id": "EXP-B03",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-B04",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-B05",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-B06",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-B07",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-B08",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/SecondTestUI/20261023-042435/matrix.json: UI journey saved/reopened; actual visible-image selections and label buttons, no hidden answer-state lookup or completion injection. Scientific classification correctness/native/unassisted protocol not certified. B02 includes source wall/protoplast layers; B01/B08 final typography retested separately with classifier-only checks."
+      ]
+    },
+    {
+      "id": "EXP-C01",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/SecondTestUI/20261023-051833/matrix.json: C01 three valid titres, saved/reopened,0runtimeErrors,0scopedFAIL. Actual queued UI valve/mixing/30s indicator/final reading/retention actions. Selected bound1200s, no completed-state injection. Basic aggregate now32/32 across checkpoints; not all unassisted or final-source/native acceptance."
+      ]
+    },
+    {
+      "id": "EXP-C02",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-C03",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-C04",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification.",
+        "Evidence/SecondTestUI/20261023-041701/matrix.json: actual queued touchscreen C04/C07 saved and reopened, zero runtime errors. C04 direct reagent/dropper actions; C07 uses explicit assisted preparation and a real observation interval. Not unassisted full-protocol or Android/hardware certification. Previous blockers were runner routing/HUD refresh timing, not proven product failures."
+      ]
+    },
+    {
+      "id": "EXP-C05",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-C06",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-C07",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/SecondTestUI/20261023-041701/matrix.json: actual queued touchscreen C04/C07 saved and reopened, zero runtime errors. C04 direct reagent/dropper actions; C07 uses explicit assisted preparation and a real observation interval. Not unassisted full-protocol or Android/hardware certification. Previous blockers were runner routing/HUD refresh timing, not proven product failures."
+      ]
+    },
+    {
+      "id": "EXP-C08",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-M01",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification."
+      ]
+    },
+    {
+      "id": "EXP-M02",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-M03",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-M04",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-M05",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-M06",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-M07",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-M08",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-P01",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification."
+      ]
+    },
+    {
+      "id": "EXP-P02",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/interaction-checks.txt:34PASS0FAIL. Editor only: actual app UI, single official simulated HMD via InputSystem/TrackedPoseDriver, real queued touchscreen and mock button regression. P01 manual pull/release; P02 carry/cancel; C04 select/dropper/cancel; B01 three preparation actions; M01 start. Not complete32experiment journeys, native input or hardware certification."
+      ]
+    },
+    {
+      "id": "EXP-P03",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-P04",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-P05",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-P06",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-P07",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "EXP-P08",
+      "expected": "enter, select, first task, manual operation, phenomenon/readings, recover from error, conclude, save, reset, back",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "R02-CLASSIFIER-VI-1600",
+      "expected": "VI phone1600x900: all6B01/B08 labels and2B02 labels are visible/directly touchable; selecting image preserves modal/image; tools reachable; no TMP overflow.",
+      "status": "PASS",
+      "evidence": [
+        "Evidence/SecondTestUI/20261023-044042/classifier-layout.txt:24PASS0FAIL; B01/B02/B08-classifier-layout.png."
+      ]
+    },
+    {
+      "id": "R05-B02-WALL-DISPLAY",
+      "expected": "B02 microscope inspection shows the supplied fixed wall under the changing protoplast, same UV/rectangle, no extra ray blocking.",
+      "status": "PASS",
+      "evidence": [
+        "Evidence/SecondTestUI/20261023-044332/classifier-layout.txt and matrix.json; baseline, salt and recovery screenshots/commands; component source and authored wall material verified. Scope is the illustrative source model in Editor."
+      ]
+    },
+    {
+      "id": "R07-LINE-ONLY-CUE",
+      "expected": "Line-only equipment receives visible outline while mixed mesh/cord retains source geometry and no mesh outline.",
+      "status": "PASS",
+      "evidence": [
+        "Evidence/SecondTestUI/20261023-044332/matrix.json scopedRegressions; isolated component fixtures, not native appearance acceptance."
+      ]
+    }
+  ]
+}

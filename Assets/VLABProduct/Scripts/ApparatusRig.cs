@@ -804,7 +804,8 @@ namespace Vlab.Product
             }
             failure="";return true;
         }
-        public void Select(EquipmentHandle handle,bool notify=true)
+        public void Select(EquipmentHandle handle)=>Select(handle,true);
+        void Select(EquipmentHandle handle,bool notify)
         {
             if(handle&&!items.Contains(handle))return;
             if(Selected!=handle)

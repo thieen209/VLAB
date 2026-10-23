@@ -242,14 +242,37 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         Touch(UnityEngine.InputSystem.TouchPhase.Stationary,to,id);yield return new WaitForSecondsRealtime(.25f);
         Touch(UnityEngine.InputSystem.TouchPhase.Ended,to,id);yield return null;yield return null;yield return new WaitForSecondsRealtime(.25f);
     }
+    IEnumerator ClassifierLayout()
+    {
+        yield return Press("Instrument tab view");yield return new WaitForSecondsRealtime(.3f);Canvas.ForceUpdateCanvases();
+        var image=Read<RawImage>("inspectionImage");var dialog=Read<RectTransform>("modal");
+        var imageBounds=Bounds(image.rectTransform);Vector2 point=new Vector2(imageBounds.xMin+imageBounds.width*.05f,imageBounds.yMin+imageBounds.height*.95f);int id=++serial;Touch(UnityEngine.InputSystem.TouchPhase.Began,point,id);yield return new WaitForSecondsRealtime(.12f);Touch(UnityEngine.InputSystem.TouchPhase.Ended,point,id);yield return new WaitForSecondsRealtime(.3f);
+        PresentationCheck(current.id+" actual image touch preserves modal and microscope image",ReferenceEquals(Read<RectTransform>("modal"),dialog)&&ReferenceEquals(Read<RawImage>("inspectionImage"),image));
+        string[] ids=current.id=="B02"?new[]{"cellNormal","cellContracted"}:Enumerable.Range(0,6).Select(i=>(current.id=="B01"?"structure:":"stage:")+i).ToArray();
+        foreach(string key in ids)
+        {
+            var button=Find("Instrument control "+key);
+            PresentationCheck(current.id+" classification choice visible and directly touchable: "+key,button&&HitButton(Point((RectTransform)button.transform))==button&&Bounds((RectTransform)button.transform).yMin>=0);
+        }
+        if(current.id=="B02")
+        {
+            var wall=App.GetComponentsInChildren<RawImage>().SingleOrDefault(i=>i.name=="Fixed cell wall");
+            PresentationCheck("B02 supplied fixed wall and protoplast share source UV and viewport",wall&&wall.texture==((BiologyDriver)App.Apparatus.Driver).PlasmolysisWallTexture&&wall.uvRect==image.uvRect&&Bounds(wall.rectTransform)==Bounds(image.rectTransform)&&wall.transform.GetSiblingIndex()<image.transform.GetSiblingIndex()&&!wall.raycastTarget);
+        }
+        PresentationText(current.id+" classifier");Capture(current.id+"-classifier-layout");
+        yield return Press("Instrument tab tools");PresentationCheck(current.id+" focus and objective tools remain accessible",Find("Instrument control focus-")&&Find("Instrument control obj4"));
+        yield return Press("Instrument tab view");
+        File.WriteAllLines(Path.Combine(folder,"classifier-layout.txt"),new[]{"Actual queued-touch UI observations, no classifier answers or completion state injected."}.Concat(presentationRows));
+    }
     IEnumerator VisualReview(GuideTask task)
     {
+        if((current.id=="B01"||current.id=="B02"||current.id=="B08")&&!presentationRows.Any(row=>row.Contains(current.id+" actual image touch")))yield return ClassifierLayout();
         yield return new WaitForSecondsRealtime(.3f);Canvas.ForceUpdateCanvases();
         string requestId=Guid.NewGuid().ToString("N"),stem=current.id+"-visual-"+requestId;Capture(stem);
         var request=new VisualRequest
         {
             requestId=requestId,experimentId=current.id,task=task.action,screenshot=Path.Combine(folder,stem+".png"),screenWidth=Screen.width,screenHeight=Screen.height,
-            instructions="Inspect screenshot pixels. Write visual-command.json with matching requestId and actions (kind=button with exact button name or caption, kind=tap with x/y, kind=drag with x/y/toX/toY, kind=wait with seconds within 0.1–30). Coordinates use Unity screen bottom-left origin. No answer/model-state information is exposed. Wait limit 120 seconds. stopReason records unresolved visual judgment.",
+            instructions="Inspect screenshot pixels. Write visual-command.json with matching requestId and actions (kind=button with exact button name or caption, kind=tap with x/y, kind=drag with x/y/toX/toY, kind=wait with seconds within 0.1–30). Coordinates use Unity screen bottom-left origin. No answer/model-state information is exposed. Wait limit up to 300 seconds within the lesson deadline. stopReason records unresolved visual judgment.",
             buttons=Buttons().Select(b=>new VisualButton{name=b.name,caption=Caption(b),bounds=Bounds((RectTransform)b.transform),centreTouchable=HitButton(Point((RectTransform)b.transform))==b}).ToArray(),
             images=App.GetComponentsInChildren<RawImage>().Where(i=>i.isActiveAndEnabled).Select(i=>new VisualImage{name=i.name,bounds=Bounds((RectTransform)i.transform),uvRect=i.uvRect,width=i.texture?i.texture.width:0,height=i.texture?i.texture.height:0}).ToArray(),
             scrollViewports=App.GetComponentsInChildren<ScrollRect>().Where(s=>s.isActiveAndEnabled&&s.viewport).Select(s=>Bounds(s.viewport)).ToArray()
@@ -258,7 +281,7 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         File.WriteAllText(Path.Combine(folder,stem+".json"),JsonUtility.ToJson(request,true));
         current.status="AWAITING VISUAL REVIEW";trace.Add(current.id+" VISUAL REVIEW REQUEST "+requestId+" screenshot="+request.screenshot);Write(SessionState.GetString("VLAB.TestProfile",""));
         Debug.Log("VLAB VISUAL REVIEW REQUEST "+requestId+" "+Path.Combine(folder,"visual-request.json"));
-        double deadline=Time.realtimeSinceStartupAsDouble+120;VisualCommand command=null;string commandPath=Path.Combine(folder,"visual-command.json");
+        double deadline=Time.realtimeSinceStartupAsDouble+Math.Min(300,lessonTimeout);VisualCommand command=null;string commandPath=Path.Combine(folder,"visual-command.json");
         while(Time.realtimeSinceStartupAsDouble<deadline)
         {
             if(File.Exists(commandPath))
@@ -270,7 +293,7 @@ public sealed class SecondTestUiProbe : MonoBehaviour
             }
             yield return new WaitForSecondsRealtime(.2f);
         }
-        if(command==null)throw new Exception("VISUAL REVIEW TIMEOUT: no matching manual command within 120 seconds; request="+requestId);
+        if(command==null)throw new Exception("VISUAL REVIEW TIMEOUT: no matching manual command within the bounded review deadline; request="+requestId);
         if(!string.IsNullOrWhiteSpace(command.stopReason))throw new Exception("VISUAL REVIEW UNRESOLVED: "+command.stopReason);
         if(command.actions==null||command.actions.Length==0||command.actions.Length>128)throw new Exception("Visual command requires 1–128 actual UI actions");
         File.WriteAllText(Path.Combine(folder,stem+"-command.json"),JsonUtility.ToJson(command,true));int applied=0;
@@ -386,7 +409,7 @@ if(id=="B03")yield return ConfigureShortB03();
             // A repeated guide can still progress (P03 pull+ needs roughly 60 physical UI presses).
             if(repeats>100&&task.kind!="observe")throw new Exception("Same guide task exceeded 100 attempts; inspect visible readings before judging science progress: "+current.lastTask);
             bool direct=(id=="P01"&&(App.Session.Phase==ExperimentPhase.Preparing||App.Session.Phase==ExperimentPhase.Ready))||
-                (id=="C04"&&App.Session.Phase==ExperimentPhase.Preparing&&task.kind=="instrument")||
+                (id=="C04"&&App.Session.Phase==ExperimentPhase.Preparing)||
                 (id=="B01"&&App.Session.Phase==ExperimentPhase.Preparing)||
                 (id=="M01"&&(App.Session.Phase==ExperimentPhase.Preparing||App.Session.Phase==ExperimentPhase.Ready));
             if(direct){if(Modal())yield return Close();yield return DirectShowcase(task);continue;}
@@ -394,6 +417,8 @@ if(id=="B03")yield return ConfigureShortB03();
             {
                 if(!Modal())yield return Press("Chỉ tôi chỗ này","Show me where");Capture(id+"-visual-classification");
                 if(!visualReview)throw new Exception("VISUAL CLASSIFICATION REQUIRED: image and labels need human visual judgment; no model-answer lookup performed");
+                if(Environment.GetEnvironmentVariable("VLAB_UI_CLASSIFIER_LAYOUT_ONLY")=="1")
+                {yield return ClassifierLayout();current.status="UI CLASSIFIER ONLY";yield break;}
                 yield return VisualReview(task);continue;
             }
             // Preserve the visible scroll/selection between manual review commands.
@@ -464,8 +489,9 @@ if(id=="B03")yield return ConfigureShortB03();
             else if(task.kind=="pause")throw new Exception("Guide requires manual recovery: "+current.lastTask);
             else
             {
-                var primary=Read<Button>("liveAction");
-                if(!primary||!primary.interactable)throw new Exception("Primary task control disabled: "+current.lastTask);
+                var primary=Read<Button>("liveAction");double enabledUntil=Time.realtimeSinceStartupAsDouble+1;
+                while(primary&&!primary.interactable&&Time.realtimeSinceStartupAsDouble<enabledUntil){yield return null;primary=Read<Button>("liveAction");}
+                if(!primary||!primary.interactable)throw new Exception("Primary task control remained disabled after UI refresh: "+current.lastTask);
                 yield return Tap(primary);
                 bool wasStarted=current.started;current.started|=App.Session.Phase==ExperimentPhase.Running||App.Session.Phase==ExperimentPhase.Measured;if(current.started&&!wasStarted)Write(SessionState.GetString("VLAB.TestProfile",""));
             }
@@ -518,7 +544,7 @@ if(id=="B03")yield return ConfigureShortB03();
         Canvas.ForceUpdateCanvases();
         var texts=App.GetComponentsInChildren<TextMeshProUGUI>().Where(t=>t.isActiveAndEnabled).ToArray();
         foreach(var text in texts)text.ForceMeshUpdate();
-        var overflow=texts.Where(t=>t.isTextOverflowing).Select(t=>t.name+" | "+t.text.Replace('\n',' ')).ToArray();
+        var overflow=texts.Where(t=>t.isTextOverflowing).Select(t=>t.name+" | "+t.text.Replace('\n',' ')+" rect="+t.rectTransform.rect.size+" preferred="+t.GetPreferredValues(t.text,t.rectTransform.rect.width,Mathf.Infinity)).ToArray();
         PresentationCheck(context+" TMP overflow: "+string.Join("; ",overflow),overflow.Length==0);
     }
     IEnumerator Presentation()
@@ -619,8 +645,8 @@ if(id=="B03")yield return ConfigureShortB03();
         {File.WriteAllText(Path.Combine(folder,"ABORT.txt"),"VLAB_UI_IDS contains an invalid experiment ID");SecondTestGameView.Restore();EditorApplication.Exit(2);yield break;}
         selection=string.Join(",",ids);
         string duration=Environment.GetEnvironmentVariable("VLAB_UI_TIMEOUT_SECONDS");
-        if(!string.IsNullOrWhiteSpace(duration)&&(!float.TryParse(duration,System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out lessonTimeout)||!float.IsFinite(lessonTimeout)||lessonTimeout<30||lessonTimeout>600))
-        {File.WriteAllText(Path.Combine(folder,"ABORT.txt"),"VLAB_UI_TIMEOUT_SECONDS must be finite between 30 and 600 seconds");SecondTestGameView.Restore();EditorApplication.Exit(2);yield break;}
+        if(!string.IsNullOrWhiteSpace(duration)&&(!float.TryParse(duration,System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out lessonTimeout)||!float.IsFinite(lessonTimeout)||lessonTimeout<30||lessonTimeout>1800))
+        {File.WriteAllText(Path.Combine(folder,"ABORT.txt"),"VLAB_UI_TIMEOUT_SECONDS must be finite between 30 and 1800 seconds");SecondTestGameView.Restore();EditorApplication.Exit(2);yield break;}
         try
         {
             BenchDisplayVisibilityChecks.Run((name,okay)=>scopedRows.Add((okay?"PASS ":"FAIL ")+"Bench displays and line hints: "+name));
@@ -647,7 +673,7 @@ if(id=="B03")yield return ConfigureShortB03();
         current=null;Write(profile);Application.logMessageReceived-=Log;
         if(touch!=null&&touch.added)InputSystem.RemoveDevice(touch);if(previous!=null&&previous.added)previous.MakeCurrent();
         SessionState.SetBool("VLAB.SecondTestUI",false);SessionState.SetString("VLAB.TestProfile","");
-        bool complete=results.Count==ids.Length&&results.All(r=>(r.status=="UI JOURNEY RECORDED"||Environment.GetEnvironmentVariable("VLAB_UI_ENTRY_ONLY")=="1"&&r.status=="UI ENTRY + INVENTORY ONLY")&&r.worldFailures.Length==0)&&errors.Count==0&&!scopedRows.Any(row=>row.StartsWith("FAIL ",StringComparison.Ordinal))&&!presentationRows.Any(row=>row.StartsWith("FAIL ",StringComparison.Ordinal));
+        bool complete=results.Count==ids.Length&&results.All(r=>(r.status=="UI JOURNEY RECORDED"||Environment.GetEnvironmentVariable("VLAB_UI_CLASSIFIER_LAYOUT_ONLY")=="1"&&r.status=="UI CLASSIFIER ONLY"||Environment.GetEnvironmentVariable("VLAB_UI_ENTRY_ONLY")=="1"&&r.status=="UI ENTRY + INVENTORY ONLY")&&r.worldFailures.Length==0)&&errors.Count==0&&!scopedRows.Any(row=>row.StartsWith("FAIL ",StringComparison.Ordinal))&&!presentationRows.Any(row=>row.StartsWith("FAIL ",StringComparison.Ordinal));
         Debug.Log("VLAB SECOND TEST UI: "+results.Count+" attempted, "+results.Count(r=>r.recorded)+" recorded, evidence="+folder);
         SecondTestGameView.Restore();EditorApplication.Exit(complete?0:1);
     }

@@ -95,6 +95,7 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
     }
     IEnumerator Run()
     {
+        Check("Original public one-argument apparatus selection API is preserved",typeof(ApparatusRig).GetMethod("Select",new[]{typeof(EquipmentHandle)})!=null);
         float until=Time.realtimeSinceStartup+50;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<until)yield return null;if(!App||App.Route!="home")throw new Exception("Home timeout");
         App.Profile.settings.gazeAutoSelect=false;App.Profile.settings.gazeDwellSeconds=.6f;App.Input.SetSimulator(true);App.Input.UseMockController=true;yield return Away();
         var simulator=UnityEngine.Object.FindFirstObjectByType<XRDeviceSimulator>();if(!simulator)throw new Exception("Official simulator not initialized");simulator.enabled=false;simulatedHead=InputSystem.devices.OfType<XRSimulatedHMD>().Single();yield return null;
