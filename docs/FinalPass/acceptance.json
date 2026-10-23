@@ -142,7 +142,8 @@
       "expected": "PDF trang 1–2: sửa hoặc thay thiết kế ghi chú bám dụng cụ đang lỗi, giữ liên kết ghi chú và dữ liệu. Sổ tay có cấu trúc khoa học, scroll/drag hoạt động, công thức LaTeX hoặc cách render tương đương chính xác, không hiện mã thô. Sửa bàn phím lặp ký tự: một thao tác chủ ý sinh một ký tự; repeat chỉ khi cố ý, có ngưỡng rõ và hủy khi mất focus. Kiểm thử dấu tiếng Việt, xóa, con trỏ, focus và lưu; thao tác trên UI không đồng thời kích hoạt dụng cụ.",
       "status": "IN_PROGRESS",
       "evidence": [
-        "docs/QA/2026-10-23/notebook-exit/checks.txt: scoped Editor Back/Menu save guard, real persistence and injected write failure; does not close full notebook/math/keyboard scope."
+        "docs/QA/2026-10-23/notebook-exit/checks.txt: scoped Editor Back/Menu save guard, real persistence and injected write failure; does not close full notebook/math/keyboard scope.",
+        "docs/QA/2026-10-23/code26-android/README.md: Android keyboard Back loses native-overlay draft despite Editor Cancel passing. Native cancellation FAIL remains open; inline-field source fix79f9c7f awaits code27 verification."
       ]
     },
     {

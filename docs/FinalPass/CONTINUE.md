@@ -1,3 +1,7 @@
+## Latest live checkpoint — code27 (supersedes older notes)
+
+Code26 built and installed but native keyboard Back still discarded text; receipt docs/QA/2026-10-23/code26-android/README.md records FAIL. Source79f9c7f switches notebook to inline mobile input; do not claim fixed until native check. Code27 build started21:35:46VN, Unity PID26896, exec session69198; state/log work/final-pass-20261023/android-code27-build-run.json and android-code27-build.log. Revalidate live process; no editing Assets or second Unity until terminal. APK candidate-code27; no emulator currently running. Last quota65% used. Full goal active; major defects/quick wrap-up priority, local-only commits. Next verify build/signature/identity then type in notebook, press Android Back, confirm draft plus save/restart. Code25 remains prior handoff; code26 is not a verified cancellation fix.
+
 ## Current checkpoint — code26 build in progress (2026-10-23 21:21 VN)
 
 This section supersedes historical artifact/process notes below. Full goal remains active, not achieved. Latest user priority: major defects only, quick wrap-up; no cosmetic expansion or broad repeated test runs. Last measured usage62% used. Latest direct budget override permits work until above91% used; do not use older quota snapshots below.
