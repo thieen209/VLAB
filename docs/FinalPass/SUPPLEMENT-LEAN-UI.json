@@ -1,0 +1,70 @@
+{
+  "task": "VLAB — điều chỉnh goal: ưu tiên sửa và cải thiện, giảm kiểm thử lặp, thiết kế lại UI",
+  "mode": "Bổ sung vào goal hiện hành, không mở phiên/worker mới và không bỏ các yêu cầu đã chốt.",
+  "priority_override": {
+    "focus": "Dành phần lớn công sức cho fix và improve thực tế. Không tiếp tục chạy test toàn bộ hoặc quay/chụp bằng chứng lặp lại khi chưa có thay đổi liên quan.",
+    "testing": "Kiểm thử gọn, theo rủi ro; không bỏ kiểm tra tối thiểu để rồi bàn giao bản hỏng.",
+    "scope": "Hoàn thiện ALL-IN bốn thí nghiệm chính trước. Chỉ nhân rộng sau khi các phần dùng chung đã ổn. BLE hardware vẫn deferred vì chưa có tay cầm."
+  },
+  "ui_direction": {
+    "feedback": "Người dùng đánh giá UI mới còn AI-slop hơn trước. Không tiếp tục vá bằng thêm gradient, glow, hộp hoặc animation trang trí.",
+    "first_step": "Xem UI runtime mới nhất và đối chiếu ảnh trước. Chỉ ra ngắn gọn vấn đề thực tế về hierarchy, typography, spacing, màu, mật độ và vùng nhìn thí nghiệm. Không tự nhận đẹp nếu chưa nhìn bản chạy.",
+    "style": "Giao diện sản phẩm khoa học hiện đại, có chủ đích, gọn và dễ điều khiển. Lấy sự rõ ràng và phản hồi của Beat Saber, không sao chép neon khắp màn hình.",
+    "color": [
+      "Bỏ xanh rêu đang bị chê nhưng cũng không mặc định thay bằng gradient xanh-tím generic.",
+      "Dùng nền trung tính, chữ tương phản rõ và một màu nhấn chủ đạo phù hợp logo VLAB.",
+      "Gradient/fade chỉ dùng rất tiết chế khi thực sự giúp phân cấp; nếu làm giao diện rẻ tiền hoặc rối hơn thì bỏ.",
+      "Không dùng bloom/glow dày, glassmorphism mờ khó đọc hoặc viền sáng trên mọi thành phần."
+    ],
+    "layout": [
+      "Thí nghiệm và dụng cụ là nội dung chính; UI không được chiếm ưu thế hơn vùng thao tác.",
+      "Gom nút bên phải thành một hệ điều khiển nhất quán, căn hàng và khoảng cách rõ; không rải các nút nổi độc lập.",
+      "Chỉ hiện chức năng phù hợp bước hiện tại. Chi tiết và thao tác ít dùng mở theo yêu cầu.",
+      "Hint ngắn, đặt ngoài vùng dụng cụ; không dùng panel lớn chứa quá ít thông tin.",
+      "Chữ đủ lớn và có phân cấp, không autosize xuống nhỏ để nhét nội dung.",
+      "Giảm khung hộp, padding thừa và icon vô nghĩa. Mỗi nút phải có nhãn hoặc cách hiểu rõ.",
+      "Giữ hide/unhide UI với cách hiện lại dễ tìm; phần ẩn không chặn raycast.",
+      "Nút Vào VR vẫn là nút tròn nhỏ đồng bộ bốn nút còn lại, icon rõ và vùng bấm đủ dùng.",
+      "Điều khiển rèm/đèn nằm trong nhóm Ánh sáng, trạng thái dễ hiểu; không nhồi tất cả tùy chọn thành một bảng dài."
+    ],
+    "implementation": [
+      "Chốt một hướng thiết kế ngắn, rồi sửa UI dùng chung trên một thí nghiệm đại diện.",
+      "Xem bản chạy ở kích thước điện thoại thực tế trước khi áp dụng sang bốn thí nghiệm.",
+      "Sửa cấu trúc layout và hệ thống style thay vì chồng override hoặc tạo phiên bản UI song song.",
+      "Không chỉ làm mockup đẹp: phải tích hợp vào UI thật, giữ thao tác và dữ liệu.",
+      "Giữ nhất quán font, kích thước, spacing, icon và trạng thái trên mọi panel."
+    ],
+    "motion": "Phản hồi bấm phải nhanh; fade/chuyển panel ngắn và tinh tế. Không bắt người dùng chờ animation hoặc dùng chuyển động để che bố cục xấu."
+  },
+  "fix_and_improve": [
+    "Tiếp tục xử lý toàn bộ bug và cải thiện trong goal/PDF; không lấy task UI mới làm lý do quên các mục cũ.",
+    "Ưu tiên lỗi cản thao tác, layout phone↔VR, dụng cụ khó chọn, camera quá xa, chữ khó đọc và panel che thí nghiệm.",
+    "Giữ nhiệm vụ bánh răng dễ quan sát, direct interaction, hint theo ngữ cảnh, animation đúng hiện tượng, rèm/lighting chuyển mượt và cân bố cục phòng.",
+    "Không dành nhiều thời gian viết báo cáo dài, dựng test framework mới hoặc thu bằng chứng trùng lặp."
+  ],
+  "lean_validation": {
+    "after_each_change": "Chỉ kiểm tra đường thao tác bị ảnh hưởng và lỗi liên quan trực tiếp. Gom thay đổi cùng nhóm trước khi chạy lại.",
+    "minimum_checks": [
+      "Compile không lỗi sau thay đổi code.",
+      "UI không chồng/cắt chữ; nút chính, hide/unhide và raycast hoạt động.",
+      "Nếu sửa UI/VR: kiểm tra một vòng vào–thoát VR và khôi phục layout.",
+      "Nếu sửa thí nghiệm: chạy đoạn tương tác bị ảnh hưởng và reset.",
+      "Nếu sửa rèm/lighting: đóng–mở và đảo hướng một lần, kiểm tra ánh sáng đồng bộ.",
+      "Trước bàn giao: smoke test ngắn bốn thí nghiệm chính, lưu dữ liệu/settings và khởi chạy APK candidate."
+    ],
+    "avoid": [
+      "Không chạy lại full suite sau mỗi chỉnh màu hoặc spacing.",
+      "Không build APK liên tục cho từng sửa thẩm mỹ nhỏ; dùng preview/runtime phù hợp, build ở mốc tích hợp.",
+      "Không quay clip dài hoặc chụp hàng chục ảnh giống nhau.",
+      "Không kiểm thử phần cứng BLE chưa có và không giả vờ đã pass."
+    ],
+    "escalation": "Chỉ mở rộng kiểm thử khi xuất hiện regression, thay đổi hệ thống dùng chung có rủi ro hoặc bằng chứng cho thấy smoke test chưa đủ.",
+    "report": "Báo ngắn đã sửa gì, kiểm tra tối thiểu nào đã chạy và phần chưa kiểm chứng; giảm test không có nghĩa được tuyên bố 100% ổn."
+  },
+  "completion": {
+    "deliver": "UI tích hợp thực sự tốt hơn về bố cục/readability/thao tác, các bug ưu tiên được xử lý và bản candidate không có lỗi rõ ràng trong kiểm tra tối thiểu.",
+    "proof": "Một bộ ảnh trước/sau đại diện, cùng kích thước/góc nhìn; clip ngắn chỉ cho thay đổi animation cần chứng minh.",
+    "limits": "Giữ ngân sách/model hiện hành, bảo toàn saves và phần đang tốt, không tạo worker mới, không tự public release.",
+    "instruction": "Bắt đầu sửa ngay sau kiểm tra hiện trạng ngắn. Tập trung làm sản phẩm tốt hơn thay vì kéo dài vòng test hoặc tự chấm điểm."
+  }
+}

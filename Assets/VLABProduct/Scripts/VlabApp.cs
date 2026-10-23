@@ -50,7 +50,7 @@ namespace Vlab.Product
         static readonly Dictionary<string,string> readingVi=new Dictionary<string,string>{{"period","Chu kỳ"},{"timedCycles","Số chu kỳ"},{"measuredTime","Thời gian đo"},{"gravityEstimate","g suy ra"}};
         bool Vi=>(Route=="settings"?draftLocale:Profile.locale)!="en";
         string L(string vi,string en)=>Vi?vi:en;
-        Color Accent=>VlabUi.Hex(subject=="C"||subject=="M"?"8B5CF6":"3B82F6");
+        Color Accent=>VlabUi.Hex("3B82F6");
         public string Status=>status;
         internal bool HasOpenModal=>modal;
         void Awake()
@@ -202,7 +202,7 @@ namespace Vlab.Product
             string[] subjects={"P","C","B","M"},namesVi={"Vật lí","Hóa học","Sinh học","Kỹ thuật"},namesEn={"Physics","Chemistry","Biology","Engineering"},desVi={"Chuyển động và năng lượng","Chất và phản ứng","Sự sống và tế bào","Cơ cấu và đo lường"},desEn={"Motion and energy","Matter and reactions","Life and cells","Mechanisms & measurement"},images={"physics","chemistry","biology","engineering"};
             var cards=new RectTransform[4];for(int i=0;i<4;i++)
             {
-                int n=i;Color color=VlabUi.Hex(new[]{"3B82F6","8B5CF6","3B82F6","8B5CF6"}[i]);var card=HomePresentation.Card(ui,page,"Subject "+subjects[i],images[i],Vi?namesVi[i]:namesEn[i],Vi?desVi[i]:desEn[i],color,i);cards[i]=card;
+                int n=i;Color color=Accent;var card=HomePresentation.Card(ui,page,"Subject "+subjects[i],images[i],Vi?namesVi[i]:namesEn[i],Vi?desVi[i]:desEn[i],color,i);cards[i]=card;
                 var button=card.gameObject.AddComponent<UnityEngine.UI.Button>();button.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter||changing)return;subject=subjects[n];selected=catalog.items.First(x=>x.id.StartsWith(subject));StartCoroutine(Portal(card));});
                 var focus=card.gameObject.AddComponent<PortalFocus>();focus.FocusColor=color;focus.ReducedMotion=Profile.settings.reducedMotion;focus.Focus=on=>{if(on)Preview.Show(namesEn[n]);else RefreshBackground();};
             }
@@ -380,31 +380,32 @@ namespace Vlab.Product
         {
             NewPage("activity");bool world=ui.canvas.renderMode==RenderMode.WorldSpace;
             var contents=ui.Rect(page,"Activity HUD contents",0,0,1600,1000);
-            var identity=ui.Panel(contents,"Experiment identity",36,32,560,116);
-            ui.Text(identity,LessonGuide.ShortTitle(selected.id,Vi),20,12,520,48,32);
-            liveStage=ui.Text(identity,"",20,68,520,36,24,Accent);
-            var box=ui.Panel(contents,"Current laboratory action",36,168,400,362);activityCard=box;
-            liveHint=ui.Text(box,"",20,20,360,174,26);
+            var box=ui.Panel(contents,"Current laboratory action",36,32,400,362);activityCard=box;
+            var title=ui.Text(box,LessonGuide.ShortTitle(selected.id,Vi),20,16,360,80,30);title.fontWeight=FontWeight.SemiBold;
+            float titleHeight=Mathf.Max(40,title.GetPreferredValues(title.text,360,Mathf.Infinity).y);
+            title.rectTransform.sizeDelta=new Vector2(360,titleHeight);
+            liveStage=ui.Text(box,"",20,titleHeight+28,360,36,22,VlabUi.Secondary);
+            liveHint=ui.Text(box,"",20,titleHeight+80,360,174,26);
             liveAction=Button(box,"",20,210,360,70,PerformContextAction,Accent);
             liveActionLabel=liveAction.GetComponentInChildren<TextMeshProUGUI>();liveActionLabel.fontSize=ui.LargeText?28:26;
             liveTime=ui.Text(box,"",20,294,360,56,22,VlabUi.Secondary);
             compactAction=Button(contents,"",560,858,480,72,PerformContextAction,Accent);compactAction.name="Compact current action";compactActionLabel=compactAction.GetComponentInChildren<TextMeshProUGUI>();
-            float toolsY=world?150:226;
-            var tools=ui.Panel(contents,"Station control rail",1272,180,292,toolsY+174);
-            ui.Text(tools,L("QUAN SÁT","OBSERVE"),20,16,252,32,22,VlabUi.Secondary);
-            Button(tools,world?L("Tới bàn thao tác","Go to workbench"):L("Nhìn về bàn","Focus station"),16,58,260,64,FocusStation).name="Focus workstation";
+            float toolsY=world?100:176;
+            float railY=world?180:32;
+            var tools=ui.Panel(contents,"Station control rail",1272,railY,292,toolsY+240);
+            Button(tools,world?L("Tới bàn thao tác","Go to workbench"):L("Nhìn về bàn","Focus station"),16,16,260,64,FocusStation).name="Focus workstation";
             if(!world)
             {
-                Button(tools,L("Gần +","Near +"),16,134,124,64,()=>ZoomPhone(-8)).name="Phone zoom in";
-                Button(tools,L("Xa −","Far −"),152,134,124,64,()=>ZoomPhone(8)).name="Phone zoom out";
+                Button(tools,L("Gần +","Near +"),16,92,124,64,()=>ZoomPhone(-8)).name="Phone zoom in";
+                Button(tools,L("Xa −","Far −"),152,92,124,64,()=>ZoomPhone(8)).name="Phone zoom out";
             }
             ui.Rule(tools,20,toolsY-12,252,1,VlabUi.Stroke);
             Button(tools,L("Dụng cụ & trợ giúp","Tools & help"),16,toolsY,260,64,ShowStationTools).name="Station tools";
-            Button(tools,L("‹ Quay lại","‹ Back"),16,toolsY+88,260,64,ShowPause);
-            var fold=Button(contents,"",36,546,400,60,null);activityFold=fold;
+            Button(tools,L("‹ Quay lại","‹ Back"),16,toolsY+152,260,64,ShowPause);
+            var fold=Button(tools,"",16,toolsY+76,260,64,null);activityFold=fold;
             Action foldPanel=()=>{activityCard.gameObject.SetActive(!compactActivity);compactAction.gameObject.SetActive(compactActivity);string label=L(compactActivity?"Hiện bảng":"Thu gọn bảng",compactActivity?"Show panel":"Hide panel");fold.name=label;fold.GetComponentInChildren<TextMeshProUGUI>().text=label;};
             fold.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter||changing)return;compactActivity=!compactActivity;foldPanel();});foldPanel();
-            var visibility=Button(page,"",world?1176:1392,44,172,72,null);visibility.name="HUD visibility";
+            var visibility=Button(page,"",world?1176:1272,world?44:railY+toolsY+252,world?172:292,72,null);visibility.name="HUD visibility";
             Action showHud=()=>{contents.gameObject.SetActive(!hudHidden);visibility.GetComponentInChildren<TextMeshProUGUI>().text=L(hudHidden?"Hiện UI":"Ẩn UI",hudHidden?"Show UI":"Hide UI");if(hudHidden)ClearGuideCue();};
             visibility.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter||changing)return;hudHidden=!hudHidden;showHud();});showHud();
             ModeButton(page,1364,44,200,72);
@@ -543,17 +544,19 @@ namespace Vlab.Product
             }
             if(Profile.settings.hints&&!HasPendingMeasurement&&!Apparatus.IsCarrying&&!Apparatus.IsPullingBob&&!flagshipDrag)
             {
-                var task=CurrentGuide();liveHint.text=GuideCard(task);liveHint.enableAutoSizing=true;liveHint.fontSizeMin=24;liveHint.fontSizeMax=ui.LargeText?29:28;
+                var task=CurrentGuide();liveHint.text=GuideCard(task);
                 if(Session.Phase==ExperimentPhase.Preparing&&(task.kind=="instrument"||task.kind=="image")&&!Flagship(Session.spec.id))action=L("Mở dụng cụ cần dùng","Open required instrument");
             }
             if(!Profile.settings.hints)ClearGuideCue();
-            if(Time.unscaledTime<actionFailureUntil)liveHint.text=actionFailureText;if(Flagship(Session.spec.id)&&Time.unscaledTime>=actionFailureUntil&&!Apparatus.IsPullingBob&&!flagshipDrag&&!Apparatus.IsCarrying)liveHint.text=FlagshipInstruction();liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;if(compactAction){compactAction.interactable=enabled;compactActionLabel.text=action;}
+            if(Time.unscaledTime<actionFailureUntil)liveHint.text=actionFailureText;if(Profile.settings.hints&&Flagship(Session.spec.id)&&Time.unscaledTime>=actionFailureUntil&&!Apparatus.IsPullingBob&&!flagshipDrag&&!Apparatus.IsCarrying)liveHint.text=FlagshipInstruction();liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;if(compactAction){compactAction.interactable=enabled;compactActionLabel.text=action;}
             float hintHeight=Mathf.Max(64,liveHint.GetPreferredValues(liveHint.text,360,Mathf.Infinity).y+8);
+            float actionY=-liveHint.rectTransform.anchoredPosition.y+hintHeight+16;
+            bool showReadings=Session.Phase==ExperimentPhase.Running||Session.Phase==ExperimentPhase.Paused||HasPendingMeasurement;
             liveHint.rectTransform.sizeDelta=new Vector2(360,hintHeight);
-            ((RectTransform)liveAction.transform).anchoredPosition=new Vector2(20,-(hintHeight+36));
-            liveTime.rectTransform.anchoredPosition=new Vector2(20,-(hintHeight+120));
-            activityCard.sizeDelta=new Vector2(400,hintHeight+188);
-            if(activityFold)((RectTransform)activityFold.transform).anchoredPosition=new Vector2(36,-(compactActivity?168:hintHeight+370));
+            ((RectTransform)liveAction.transform).anchoredPosition=new Vector2(20,-actionY);
+            liveTime.gameObject.SetActive(showReadings);
+            liveTime.rectTransform.anchoredPosition=new Vector2(20,-(actionY+82));
+            activityCard.sizeDelta=new Vector2(400,actionY+(showReadings?154:90));
             if(Session.Pendulum!=null)
             {
                 var motion=Session.Pendulum;int requested=(int)Session.parameters["cycles"];
@@ -1331,9 +1334,9 @@ namespace Vlab.Product
             string id=Session.spec.id;
             if(id=="P01")return Session.Phase==ExperimentPhase.Preparing?(Session.Operation==0?L("Chạm giá đỡ để kiểm tra giá và kẹp.","Touch the stand to check its support and clamp."):Session.Operation==1?L("Chạm quả nặng để kiểm tra dây nối tới tâm quả.","Touch the bob to check the pivot-to-centre suspension."):Session.Operation==2?L("Chạm quả ở vị trí cân bằng để đặt mốc đo.","Touch the bob at equilibrium to set the timing mark."):L("Giữ quả nặng, kéo sang bên rồi thả tay.","Hold the bob, pull it aside, then release.")):Session.Phase==ExperimentPhase.Running?L("Đếm đủ chu kỳ cùng chiều qua mốc cân bằng rồi ghi số đo.","Count full same-direction cycles, then record."):L("Giữ quả nặng, kéo sang bên rồi thả tay.","Hold the bob, pull it aside, then release.");
             if(!Apparatus.Ready)return L("Chọn và lắp dụng cụ. Có thể tự lấy trên bàn hoặc mở danh sách.","Select and install the apparatus, directly or from the equipment list.");
-            if(id=="C04")return Session.Phase==ExperimentPhase.Preparing?L("Chạm chai AgNO₃ để chọn thuốc thử. Giữ ống nhỏ giọt, kéo và thả trên cốc. So sánh với hai mẫu đối chứng.","Select AgNO3. Hold the dropper, drag it and release over a cup. Compare both controls."):L("Quan sát cặn trong ba cốc. Mở cốc để đọc kết quả; Ghi số đo lưu lượt của bạn.","Observe all three cups. Select a cup to inspect; Record saves your own trial.");
+            if(id=="C04")return Session.Phase==ExperimentPhase.Preparing?L("Chọn AgNO₃. Kéo ống nhỏ giọt tới từng cốc rồi thả.","Select AgNO₃. Drag the dropper to each cup and release."):L("Quan sát cặn trong ba cốc. Mở cốc để đọc kết quả; Ghi số đo lưu lượt của bạn.","Observe all three cups. Select a cup to inspect; Record saves your own trial.");
             if(id=="B01")return Session.Phase==ExperimentPhase.Preparing?(Session.Operation==0?L("Chạm mẫu hành để lấy lớp biểu bì mỏng trên lam có nước.","Touch the onion to prepare a thin wet epidermis layer."):Session.Operation==1?L("Chạm lamen để hạ nghiêng lên mẫu và thấm phần dư.","Touch the coverslip to lower it at an angle and blot excess liquid."):Session.Operation==2?L("Chạm lam kính để đặt vào bàn kính và đóng hai kẹp.","Touch the slide to mount it and close both stage clips."):L("Giữ ốc lấy nét, kéo lên/xuống. Chạm thị kính để nhìn mẫu.","Drag a focus knob up/down. Select the eyepiece to observe.")):L("Qua thị kính, chạm vùng quan sát rồi tự chọn tên cấu trúc. Chỉnh nét trước khi đổi vật kính.","In the eyepiece, select a region and identify its structure. Focus before changing objectives.");
-            return Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Ready?L("Chạm bánh 12/24 răng để chọn đầu vào, bánh 36 để chọn đầu ra. Chạm motor để chạy; chọn tốc kế để đọc.","Select the 12/24-tooth input or 36-tooth output gear. Touch the motor to run; inspect the tachometer."):L("Quan sát chiều quay và tốc kế. Chạm motor để tạm dừng/tiếp tục. Ghi lượt rồi làm lại để đổi bộ răng.","Observe direction and speed. Touch the motor to pause/resume. Record, then repeat to change the gears.");
+            return Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Ready?L("Chọn đầu vào 12/24 răng, đầu ra 36. Chạm motor để chạy.","Select the 12/24-tooth input and 36-tooth output. Touch the motor to run."):L("Quan sát chiều quay và tốc kế. Chạm motor để tạm dừng/tiếp tục. Ghi lượt rồi làm lại để đổi bộ răng.","Observe direction and speed. Touch the motor to pause/resume. Record, then repeat to change the gears.");
         }
         string FlagshipPurpose(EquipmentHandle item)
         {
@@ -1470,6 +1473,13 @@ namespace Vlab.Product
         bool TryFocusBounds(EquipmentHandle item,out Bounds bounds,bool includeSetup=true)
         {
             if(!ApparatusRig.TryVisibleBounds(item,out bounds))return false;
+            if(includeSetup&&Session?.spec.id=="C04"&&Session.Phase==ExperimentPhase.Running)
+            {
+                bool found=false;
+                foreach(var sample in Apparatus.items.Where(x=>x.assetId=="nacl"||x.assetId=="nitrate"||x.assetId=="water"))
+                    if(ApparatusRig.TryVisibleBounds(sample,out var sampleBounds)){if(found)bounds.Encapsulate(sampleBounds);else{bounds=sampleBounds;found=true;}}
+                return found;
+            }
             if(Session?.spec.id=="B01"&&Session.Operation>=3){var microscope=Apparatus.items.First(x=>x.assetId=="microscope");if(ApparatusRig.TryVisibleBounds(microscope,out bounds))bounds.Expand(.04f);return true;}
             if(Session?.spec.id=="M01"){var gears=Apparatus.items.FirstOrDefault(x=>x.assetId=="gears");if(gears&&ApparatusRig.TryVisibleBounds(gears,out bounds)){var motor=Apparatus.items.FirstOrDefault(x=>x.assetId=="motor");if(motor&&ApparatusRig.TryVisibleBounds(motor,out var drive))bounds.Encapsulate(drive);bounds.Encapsulate(new Vector3(bounds.center.x,Apparatus.Worktop.y,bounds.center.z));bounds.Expand(.035f);}return true;}
             if(includeSetup&&Session!=null&&Session.spec.id!="P01"&&Flagship(Session.spec.id))foreach(var part in Apparatus.items.Where(x=>x.installed&&x.gameObject.activeInHierarchy&&x.assetId!="specimen"&&!x.assetId.StartsWith("solid",StringComparison.Ordinal)&&!(Session.spec.id=="B01"&&Session.Operation<2&&x.assetId=="microscope")))if(ApparatusRig.TryVisibleBounds(part,out var whole))bounds.Encapsulate(whole);
@@ -1539,9 +1549,10 @@ namespace Vlab.Product
         string lastFocusedTaskTarget;
         void FocusStepTarget(GuideTask task)
         {
-            if(flagshipDrag||task==null||Apparatus==null||!Apparatus.Ready||Apparatus.IsCarrying||Apparatus.IsPullingBob||modal||changing||Session.spec.id=="P02"||
+            bool comparing=Session?.spec.id=="C04"&&Session.Phase==ExperimentPhase.Running;
+            if(flagshipDrag||(task==null&&!comparing)||Apparatus==null||!Apparatus.Ready||Apparatus.IsCarrying||Apparatus.IsPullingBob||modal||changing||Session.spec.id=="P02"||
                 Input.VrMode||Input.SimulatorMode||!Profile.settings.focusAssist)return;
-            string key=Session.spec.id=="P01"&&Session.Phase==ExperimentPhase.Running?"pendulum":task.key;
+            string key=comparing?"nacl":Session.spec.id=="P01"&&Session.Phase==ExperimentPhase.Running?"pendulum":task.key;
             string focus=key+"|"+Session.Operation+"|"+Session.Phase;
             if(string.IsNullOrEmpty(key)||focus==lastFocusedTaskTarget)return;
             var item=Apparatus.items.FirstOrDefault(x=>x.assetId==key&&x.installed&&x.gameObject.activeInHierarchy);
@@ -1583,7 +1594,7 @@ namespace Vlab.Product
                 var delta=bounds.center-worktop;if(new Vector2(delta.x,delta.z).magnitude>3)continue;
                 if(found)kit.Encapsulate(bounds);else{kit=bounds;found=true;}
             }
-            if(found&&Flagship(Session.spec.id)&&Profile.settings.focusAssist){if(Session.spec.id=="M01")TryFocusBounds(Apparatus.items.First(x=>x.assetId=="gears"),out kit);FitFocusBounds(kit,ActivityObservationArea());return;}
+            if(found&&Flagship(Session.spec.id)&&Profile.settings.focusAssist){if(Session.spec.id=="M01")TryFocusBounds(Apparatus.items.First(x=>x.assetId=="gears"),out kit);else if(Session.spec.id=="C04"&&Session.Phase==ExperimentPhase.Running)TryFocusBounds(Apparatus.items.First(x=>x.assetId=="nacl"),out kit);FitFocusBounds(kit,ActivityObservationArea());return;}
             var target=found?kit.center:worktop+new Vector3(-.15f,.3f,0);
             float distance=found?Mathf.Clamp(Mathf.Max(kit.size.y,kit.size.x/Mathf.Max(.5f,View.aspect))*1.1f,.7f,2.6f):1.8f;
             origin.position=new Vector3(target.x,Mathf.Max(worktop.y+.3f,target.y+.3f),target.z-distance);

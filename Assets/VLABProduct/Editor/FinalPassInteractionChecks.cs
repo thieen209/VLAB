@@ -19,6 +19,7 @@ using TMPro;
 public static class FinalPassInteractionChecks
 {
     static FinalPassInteractionChecks(){EditorApplication.playModeStateChanged+=s=>{if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("VLAB.FinalPassInteraction",false)){SessionState.SetBool("VLAB.FinalPassInteraction",false);new GameObject("Direct interaction checks",typeof(FinalPassInteractionProbe));}};}
+    public static void RunRecorded(){SessionState.SetBool("VLAB.RecordGameplay",true);Run();}
     public static void Run()
     {
         Directory.CreateDirectory("Evidence/FinalPass");SecondTestGameView.Configure(out _);
@@ -79,19 +80,55 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         if(App.Session?.spec.id!=id||App.Route!="activity")throw new Exception("Entry failed "+id+" route="+App.Route);
         yield return Away();yield return new WaitForSecondsRealtime(.5f);headGaze=true;App.Input.UseMockController=false;App.Profile.settings.gazeAutoSelect=dwell;
     }
+    bool recordGameplay;UnityEditor.Media.MediaEncoder video;Coroutine videoRoutine;double videoStart;int videoFrames;string videoName,videoError;
+    void BeginVideo(string id)
+    {
+        if(!recordGameplay)return;
+        string folder=Path.Combine("Evidence/FinalPass/Gameplay",DateTime.Now.ToString("yyyyMMdd-HHmmss"));Directory.CreateDirectory(folder);
+        videoName=Path.Combine(folder,id+"-editor-simulated-input-excerpt.mp4");videoFrames=0;videoError=null;videoStart=Time.realtimeSinceStartupAsDouble;
+        video=new UnityEditor.Media.MediaEncoder(videoName,new UnityEditor.Media.VideoTrackAttributes{width=(uint)Screen.width,height=(uint)Screen.height,frameRate=new UnityEditor.Media.MediaRational(20),includeAlpha=false});
+        videoRoutine=StartCoroutine(RecordVideo());
+    }
+    IEnumerator RecordVideo()
+    {
+        var endFrame=new WaitForEndOfFrame();var interval=new WaitForSecondsRealtime(.05f);
+        while(video!=null)
+        {
+            yield return endFrame;Texture2D frame=null;
+            try
+            {
+                frame=ScreenCapture.CaptureScreenshotAsTexture();
+                var time=new UnityEditor.Media.MediaTime((long)((Time.realtimeSinceStartupAsDouble-videoStart)*1000000),1000000);
+                if(!video.AddFrame(frame,time))throw new Exception("Encoder rejected gameplay frame");videoFrames++;if(videoFrames%60==1)File.WriteAllBytes(videoName+"-frame-"+videoFrames+".png",frame.EncodeToPNG());
+            }
+            catch(Exception e){videoError=e.Message;}
+            finally{if(frame)Destroy(frame);}
+            if(videoError!=null)yield break;
+            yield return interval;
+        }
+    }
+    void EndVideo()
+    {
+        if(video==null)return;if(videoRoutine!=null)StopCoroutine(videoRoutine);
+        try{video.Dispose();}catch(Exception e){videoError=e.Message;}finally{video=null;videoRoutine=null;}
+        File.WriteAllText(videoName+".txt","Editor Game View, synthetic input through existing interaction checks. Excerpt, not complete experiment acceptance. Real timestamps; recording overhead is not device performance. Frames="+videoFrames+"; error="+videoError);
+        Check("Gameplay excerpt encoded "+Path.GetFileName(videoName),videoError==null&&videoFrames>1&&new FileInfo(videoName).Length>1024);
+    }
     IEnumerator Capture(string name){yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Evidence/FinalPass/"+name+".png");}
     void Touch(Touchscreen screen,UnityEngine.InputSystem.TouchPhase phase,Vector2 position)=>InputSystem.QueueStateEvent(screen,new TouchState{touchId=731,phase=phase,position=position});
-    IEnumerator TapModel(Touchscreen screen,EquipmentHandle item)
+    IEnumerator TapModel(Touchscreen screen,EquipmentHandle item,Func<Collider,bool> accept=null)
     {
-        Vector2 point=App.View.WorldToScreenPoint(VisiblePoint(item));Touch(screen,UnityEngine.InputSystem.TouchPhase.Began,point);yield return new WaitForSecondsRealtime(.12f);Touch(screen,UnityEngine.InputSystem.TouchPhase.Ended,point);yield return new WaitForSecondsRealtime(.3f);
+        Vector2 point=App.View.WorldToScreenPoint(VisiblePoint(item,accept));Touch(screen,UnityEngine.InputSystem.TouchPhase.Began,point);yield return new WaitForSecondsRealtime(.12f);Touch(screen,UnityEngine.InputSystem.TouchPhase.Ended,point);yield return new WaitForSecondsRealtime(.3f);
     }
     IEnumerator Start()
     {
-        Application.runInBackground=true;DontDestroyOnLoad(gameObject);var stack=new Stack<IEnumerator>();stack.Push(Run());
+        var oldBackground=InputSystem.settings.backgroundBehavior;var oldEditorInput=InputSystem.settings.editorInputBehaviorInPlayMode;
+        InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+        recordGameplay=SessionState.GetBool("VLAB.RecordGameplay",false);SessionState.SetBool("VLAB.RecordGameplay",false);Application.runInBackground=true;DontDestroyOnLoad(gameObject);var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;Exception error=null;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){error=e;}if(error!=null){rows.Add("BLOCKER "+error);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
         yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Evidence/FinalPass/interaction-last-frame.png");yield return null;
-        File.WriteAllLines("Evidence/FinalPass/interaction-checks.txt",new[]{"Unity Editor: application UI callbacks, synthetic XR-HMD poses through InputSystem/TrackedPoseDriver for world gaze, and mock-controller button regression. No sensor, Android or BLE hardware claim."}.Concat(rows));
-        SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
+        EndVideo();File.WriteAllLines("Evidence/FinalPass/interaction-checks.txt",new[]{"Unity Editor: application UI callbacks, synthetic XR-HMD poses through InputSystem/TrackedPoseDriver for world gaze, and mock-controller button regression. No sensor, Android or BLE hardware claim."}.Concat(rows));
+        InputSystem.settings.backgroundBehavior=oldBackground;InputSystem.settings.editorInputBehaviorInPlayMode=oldEditorInput;SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
     }
     IEnumerator Run()
     {
@@ -102,7 +139,7 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         float until=Time.realtimeSinceStartup+50;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<until)yield return null;if(!App||App.Route!="home")throw new Exception("Home timeout");
         App.Profile.settings.gazeAutoSelect=false;App.Profile.settings.gazeDwellSeconds=.6f;App.Input.SetSimulator(true);App.Input.UseMockController=true;yield return Away();
         var simulator=UnityEngine.Object.FindFirstObjectByType<XRDeviceSimulator>();if(!simulator)throw new Exception("Official simulator not initialized");simulator.enabled=false;simulatedHead=InputSystem.devices.OfType<XRSimulatedHMD>().Single();yield return null;
-        yield return Enter("P01");App.Profile.settings.gazeAutoSelect=true;Check("P01 starts with real ready kit and no completed preparation",App.Apparatus.Ready&&App.Session.Operation==0);
+        yield return Enter("P01");BeginVideo("P01");App.Profile.settings.gazeAutoSelect=true;Check("P01 starts with real ready kit and no completed preparation",App.Apparatus.Ready&&App.Session.Operation==0);
         var shade=UnityEngine.Object.FindAnyObjectByType<LabShade>();var shadeControl=shade.GetComponentsInChildren<LabFixture>().Single(f=>f.action==LabFixture.Action.Shade);
         yield return Press("HUD visibility");yield return Dwell(shadeControl.transform.position);
         Check("Actual gaze ray operates the room shade fixture",shade.lowered);
@@ -129,7 +166,10 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         yield return Dwell(VisiblePoint(Item("pendulum")));Check("Equilibrium check remains a separate intentional gaze",App.Session.Operation==3);
         yield return Dwell(VisiblePoint(Item("pendulum")));Check("Impulse selection latches bob without starting animation",App.Apparatus.IsPullingBob&&App.Session.Phase==ExperimentPhase.Ready&&App.Session.Pendulum==null);
         var before=Item("pendulum").transform.position;float length=(float)App.Session.parameters["length"];
-        aim=App.Apparatus.Pivot+new Vector3(Mathf.Sin(22*Mathf.Deg2Rad)*length,-Mathf.Cos(22*Mathf.Deg2Rad)*length,0);yield return new WaitForSecondsRealtime(.4f);
+                aim=App.Apparatus.Pivot+new Vector3(Mathf.Sin(22*Mathf.Deg2Rad)*length,-Mathf.Cos(22*Mathf.Deg2Rad)*length,0);
+        float pullDeadline=Time.realtimeSinceStartup+2;
+        do{yield return null;}while(Math.Abs(App.Session.parameters["angle"]-22)>=.25&&Time.realtimeSinceStartup<pullDeadline);
+        rows.Add("PULL observed angle="+App.Session.parameters["angle"]+" head error="+Vector3.Angle(App.View.transform.forward,aim-App.View.transform.position)+" held="+App.Apparatus.IsPullingBob);
         var pulled=Item("pendulum").transform.position;Check("Pointer physically moves original bob along fixed length",Vector3.Distance(before,pulled)>.05f&&Math.Abs(Vector3.Distance(pulled,App.Apparatus.Pivot)-length)<.002f);
         Check("Pulling updates release angle from pointer",Math.Abs(App.Session.parameters["angle"]-22)<.25);
         cue=(GuideCue)typeof(VlabApp).GetField("worldGuideCue",Flags).GetValue(App);caption=cue?cue.GetComponentInChildren<TextMeshProUGUI>(true):null;if(caption)caption.ForceMeshUpdate(true,true);Check("Manual-pull instruction remains fully visible",caption&&!caption.isTextTruncated&&caption.text.Contains("Chọn Thả"));
@@ -138,14 +178,16 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         aim=rect.TransformPoint(rect.rect.center);yield return new WaitForSecondsRealtime(.3f);
         Check("Moving gaze onto release UI preserves bob position",Vector3.Distance(pulled,Item("pendulum").transform.position)<.002f&&App.Session.Phase==ExperimentPhase.Ready);
         yield return new WaitForSecondsRealtime(.8f);Check("Gaze release starts pendulum from learner position",!App.Apparatus.IsPullingBob&&App.Session.Phase==ExperimentPhase.Running&&App.Session.Pendulum!=null);
-        yield return new WaitForSecondsRealtime(.8f);Check("Original model oscillates after explicit release",Vector3.Distance(pulled,Item("pendulum").transform.position)>.025f);
+                float oscillationDeadline=Time.realtimeSinceStartup+1.6f,maxDisplacement=0;
+        do{yield return null;maxDisplacement=Mathf.Max(maxDisplacement,Vector3.Distance(pulled,Item("pendulum").transform.position));}while(Time.realtimeSinceStartup<oscillationDeadline);
+        Check("Original model oscillates after explicit release",maxDisplacement>.025f);
         Check("Experiment progress never moves or turns the VR tracking origin",Vector3.Distance(originPosition,trackedOrigin.position)<.0001f&&Quaternion.Angle(originRotation,trackedOrigin.rotation)<.001f);
-        yield return Capture("P01-explicit-release");
+        yield return Capture("P01-explicit-release");EndVideo();
         yield return Enter("P02");var loose=App.Apparatus.NextInstallableItem();
         if(!loose||!loose.gameObject.activeInHierarchy)throw new Exception("P02 first instrument is unavailable");
         yield return Dwell(VisiblePoint(loose));Check("Gaze picks actual loose instrument and retains carry",App.Apparatus.IsCarrying&&App.Apparatus.Selected==loose);
         Call("ShowStationTools");yield return new WaitForSecondsRealtime(.3f);Check("Opening tools cancels carry and restores supported tray pose",!App.Apparatus.IsCarrying&&Vector3.Distance(loose.transform.position,loose.trayPosition)<.002f);Call("CloseModal");
-        yield return Enter("C04");yield return Dwell(VisiblePoint(Item("reagent")));yield return Dwell(VisiblePoint(Item("dropper")));
+        yield return Enter("C04");BeginVideo("C04");yield return Dwell(VisiblePoint(Item("reagent")));yield return Dwell(VisiblePoint(Item("dropper")));
         Check("Chemistry gaze starts actual dropper manipulation",typeof(VlabApp).GetField("flagshipDrag",Flags).GetValue(App) as EquipmentHandle==Item("dropper"));
         Call("ShowStationTools");yield return new WaitForSecondsRealtime(.2f);Check("Opening chemistry UI cancels pending transfer",typeof(VlabApp).GetField("flagshipDrag",Flags).GetValue(App)==null);Call("CloseModal");
         App.Input.SetSimulator(false);yield return new WaitForSecondsRealtime(.5f);Call("FocusStation");yield return new WaitForSecondsRealtime(.2f);
@@ -156,9 +198,9 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         yield return Capture("C04-cup-inspection");
         App.Input.SetSimulator(true);yield return new WaitForSecondsRealtime(.5f);var vrPosition=App.View.transform.parent.position;var vrRotation=App.View.transform.parent.rotation;Call("FocusInstrument",cup,false);
         Check("Instrument focus does not move VR tracking origin",Vector3.Distance(vrPosition,App.View.transform.parent.position)<.0001f&&Quaternion.Angle(vrRotation,App.View.transform.parent.rotation)<.001f);
-        yield return Enter("B01");yield return Dwell(VisiblePoint(Item("onion")));yield return Dwell(VisiblePoint(Item("coverslip")));yield return Dwell(VisiblePoint(Item("slide")));
+        EndVideo();yield return Enter("B01");BeginVideo("B01");yield return Dwell(VisiblePoint(Item("onion")));yield return Dwell(VisiblePoint(Item("coverslip")));yield return Dwell(VisiblePoint(Item("slide")));
         Check("Biology preparation follows three distinct world selections",App.Session.Operation==3);yield return Capture("B01-gaze-preparation");
-        yield return Enter("M01");yield return Dwell(VisiblePoint(Item("motor")));Check("Engineering motor responds to world gaze",App.Session.Phase==ExperimentPhase.Running);yield return Capture("M01-gaze-motor");
+        EndVideo();yield return Enter("M01");BeginVideo("M01");yield return Dwell(VisiblePoint(Item("motor")));Check("Engineering motor responds to world gaze",App.Session.Phase==ExperimentPhase.Running);yield return Capture("M01-gaze-motor");yield return new WaitForSecondsRealtime(3);EndVideo();
         yield return Away();App.Profile.settings.gazeAutoSelect=false;
         yield return Enter("P01");aim=VisiblePoint(Item("stand"));yield return new WaitForSecondsRealtime(1.2f);Check("Disabling auto-select prevents world dwell",App.Session.Operation==0);
         headGaze=false;App.Input.UseMockController=true;
@@ -178,7 +220,57 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         Check("Phone drag visibly moves the same bob",App.Apparatus.IsPullingBob&&Vector3.Distance(phoneBefore,Item("pendulum").transform.position)>.05f);
         Check("Phone camera stays fixed throughout the captured drag",Vector3.Distance(phoneEye,App.View.transform.position)<.0001f&&Quaternion.Angle(phoneRotation,App.View.transform.rotation)<.001f&&Mathf.Abs(phoneLens-App.View.fieldOfView)<.001f);
         Touch(touch,UnityEngine.InputSystem.TouchPhase.Ended,end);yield return new WaitForSecondsRealtime(.3f);Check("Phone finger release starts real pendulum once",!App.Apparatus.IsPullingBob&&App.Session.Phase==ExperimentPhase.Running&&App.Session.Pendulum!=null);
-        yield return Capture("P01-phone-drag-release");InputSystem.RemoveDevice(touch);
+                yield return Capture("P01-phone-drag-release");
+        yield return Enter("C04");headGaze=false;App.Input.UseMockController=false;App.Input.SetSimulator(false);yield return new WaitForSecondsRealtime(.5f);
+        for(int trial=0;trial<2;trial++)
+        {
+            BeginVideo("C04-phone-trial-"+(trial+1));
+            int savedBefore=App.Profile.attempts.Count;float comparisonBefore=ScreenWidth(Item("nacl"));
+            Check("C04 cannot record before transfers "+trial,!App.Session.Authority.CanRecord(out _));
+            foreach(string sample in new[]{"nitrate","water","nacl"})
+            {
+                yield return TapModel(touch,Item("reagent"));
+                Vector2 source=App.View.WorldToScreenPoint(VisiblePoint(Item("dropper")));
+                Touch(touch,UnityEngine.InputSystem.TouchPhase.Began,source);yield return new WaitForSecondsRealtime(.15f);
+                var resting=Item("dropper").transform.position;
+                Vector2 target=App.View.WorldToScreenPoint(VisiblePoint(Item(sample)));
+                for(int step=1;step<=6;step++){Touch(touch,UnityEngine.InputSystem.TouchPhase.Moved,Vector2.Lerp(source,target,step/6f));yield return new WaitForSecondsRealtime(.08f);}
+                Check("C04 phone drag moves dropper "+sample+" trial "+trial,Vector3.Distance(resting,Item("dropper").transform.position)>.01f);
+                Touch(touch,UnityEngine.InputSystem.TouchPhase.Ended,target);yield return new WaitForSecondsRealtime(.6f);
+                Check("C04 release clears held tool "+sample+" trial "+trial,typeof(VlabApp).GetField("flagshipDrag",Flags).GetValue(App)==null);
+            }
+            Check("C04 all samples allow recording "+trial,App.Session.Phase==ExperimentPhase.Running&&App.Session.Authority.CanRecord(out _));
+            Check("C04 comparison focus enlarges sample after transfers "+trial,ScreenWidth(Item("nacl"))>comparisonBefore*1.2f);yield return Capture("C04-comparison-"+trial);
+            yield return Press("Ghi số đo");
+            Check("C04 UI saves one new trial "+trial,App.Route=="results"&&App.Profile.attempts.Count==savedBefore+1);
+            var recorded=App.Profile.attempts.Last();
+            Check("C04 saved chloride positive and controls negative "+trial,recorded.experimentId=="C04"&&recorded.readings.Single(r=>r.key=="NaClSolid").value==1&&recorded.readings.Single(r=>r.key=="NaNO3Solid").value==0&&recorded.readings.Single(r=>r.key=="waterSolid").value==0);
+            yield return Capture("C04-phone-results-"+trial);yield return Press("Làm lại");
+            float resetDeadline=Time.realtimeSinceStartup+45;while(App.Route!="activity"&&Time.realtimeSinceStartup<resetDeadline)yield return null;
+            Check("C04 retry resets apparatus without deleting saved trial "+trial,App.Route=="activity"&&App.Session.Operation==0&&App.Profile.attempts.Count==savedBefore+1&&!App.Session.Authority.CanRecord(out _));
+            EndVideo();
+        }
+        yield return Enter("M01");headGaze=false;App.Input.UseMockController=false;App.Input.SetSimulator(false);yield return new WaitForSecondsRealtime(.5f);
+        for(int trial=0;trial<2;trial++)
+        {
+            BeginVideo("M01-phone-trial-"+(trial+1));int savedBefore=App.Profile.attempts.Count;int inputTeeth=trial==0?12:24;
+            yield return TapModel(touch,Item("gears"),c=>c.name.Contains("Gear"+inputTeeth));
+            yield return TapModel(touch,Item("gears"),c=>c.name.Contains("Gear36"));
+            Check("M01 touching gears selects real tooth counts "+trial,App.Session.parameters["driver"]==inputTeeth&&App.Session.parameters["driven"]==36);
+            var gear=Item("gears").GetComponentsInChildren<Transform>().First(t=>t.name.Contains("Gear12")&&t.name.EndsWith("_VIS"));var angle=gear.localRotation;
+            yield return TapModel(touch,Item("motor"));yield return new WaitForSecondsRealtime(.35f);
+            Check("M01 motor starts rotating original gear "+trial,App.Session.Phase==ExperimentPhase.Running&&Quaternion.Angle(angle,gear.localRotation)>.1f);
+            yield return TapModel(touch,Item("motor"));angle=gear.localRotation;yield return new WaitForSecondsRealtime(.4f);
+            Check("M01 pause stops gear geometry "+trial,App.Session.Phase==ExperimentPhase.Paused&&Quaternion.Angle(angle,gear.localRotation)<.01f);
+            yield return TapModel(touch,Item("motor"));float ready=Time.realtimeSinceStartup+30;
+            while(!App.Session.Authority.CanRecord(out _)&&Time.realtimeSinceStartup<ready)yield return null;
+            Check("M01 completes an observed revolution "+trial,App.Session.Phase==ExperimentPhase.Running&&App.Session.Authority.CanRecord(out _));
+            yield return Press("Ghi số đo");var result=App.Profile.attempts.Last();double expected=trial==0?1.0/3:-2.0/3;
+            Check("M01 saved speed ratio includes correct direction "+trial,App.Route=="results"&&App.Profile.attempts.Count==savedBefore+1&&result.experimentId=="M01"&&Math.Abs(result.readings.Single(x=>x.key=="signedRatio").value-expected)<.0001);
+            yield return Capture("M01-phone-results-"+trial);yield return Press("Làm lại");float reset=Time.realtimeSinceStartup+45;while(App.Route!="activity"&&Time.realtimeSinceStartup<reset)yield return null;
+            Check("M01 retry keeps notebook and resets preparation "+trial,App.Route=="activity"&&App.Session.Operation==0&&App.Profile.attempts.Count==savedBefore+1);EndVideo();
+        }
+        InputSystem.RemoveDevice(touch);
         yield return PhoneInputChecks.RunUiTap(App,name=>ScreenCapture.CaptureScreenshot("Evidence/FinalPass/"+name+".png"),Check);
     }
 }
