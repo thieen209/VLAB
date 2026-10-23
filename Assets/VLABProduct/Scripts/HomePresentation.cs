@@ -46,7 +46,7 @@ namespace Vlab.Product
         }
         public static Button Utility(VlabUi ui,RectTransform page,string label,int index,Action action)
         {
-            var button=ui.Button(page,label,512+index*152,770,120,120,action);button.name="Home utility "+index;
+            var button=ui.Button(page,label,436+index*152,770,120,120,action);button.name="Home utility "+index;
             var host=button.GetComponent<Image>();host.color=Color.clear;var opacity=button.GetComponent<VlabPanelOpacity>();opacity.Solid=false;opacity.FlatAlpha=0;foreach(var effect in button.GetComponents<Shadow>())effect.enabled=false;
             var face=ui.Rect(button.transform,"Circular utility disc",18,0,84,84).gameObject.AddComponent<Image>();face.sprite=Disc();face.color=VlabUi.Hex("F1F5F9");face.raycastTarget=true;
             // Keep the full transparent120px hit area, including its label, usable in VR.

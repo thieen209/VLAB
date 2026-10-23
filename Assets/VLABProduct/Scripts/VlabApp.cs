@@ -198,7 +198,7 @@ namespace Vlab.Product
         public void ShowHome()
         {
             Apparatus?.GetComponent<BenchDisplayVisibility>()?.Restore();
-            Session?.Pause();NewPage("home");HomePresentation.Backdrop(ui,page);Logo(page,605,65,390,124);RoundModeButton(page,1400,64);
+            Session?.Pause();NewPage("home");HomePresentation.Backdrop(ui,page);Logo(page,605,65,390,124);RoundModeButton(page);
             string[] subjects={"P","C","B","M"},namesVi={"Vật lí","Hóa học","Sinh học","Kỹ thuật"},namesEn={"Physics","Chemistry","Biology","Engineering"},desVi={"Chuyển động và năng lượng","Chất và phản ứng","Sự sống và tế bào","Cơ cấu và đo lường"},desEn={"Motion and energy","Matter and reactions","Life and cells","Mechanisms & measurement"},images={"physics","chemistry","biology","engineering"};
             var cards=new RectTransform[4];for(int i=0;i<4;i++)
             {
@@ -368,12 +368,12 @@ namespace Vlab.Product
             for(int i=0;i<nodes.Length;i++){int n=i;Button(page,L("Trạm ","Station ")+(i+1),70+i*225,840,210,64,()=>{origin.position=nodes[n].position;RecenterInterface();});}
             ui.Text(page,L("Điện thoại: vuốt nền để nhìn · PC: giữ chuột phải · Căn lại trong cài đặt","Phone: drag the background to look · PC: right-mouse look · Recenter in Settings"),100,135,1300,50,22,VlabUi.Secondary);
         }
-        void RoundModeButton(RectTransform parent,float x,float y)
+        void RoundModeButton(RectTransform parent)
         {
             bool world=Input.VrMode||Input.SimulatorMode;
             var button=HomePresentation.Utility(ui,parent,world?L("Thoát VR","Exit VR"):"VR",4,()=>
             {if(Time.unscaledTime<inputAfter||changing)return;Session?.Pause();if(Application.isEditor)Input.SetSimulator(!Input.SimulatorMode);else Input.SetVr(!Input.VrMode);});
-            button.name="VR mode";((RectTransform)button.transform).anchoredPosition=new Vector2(x,-y);
+            button.name="VR mode";
             roundModeLabel=true;modeLabel=button.GetComponentInChildren<TextMeshProUGUI>();
         }
         public void ShowActivity()

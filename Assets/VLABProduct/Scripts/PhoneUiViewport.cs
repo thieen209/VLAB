@@ -24,7 +24,9 @@ namespace Vlab.Product
             float left=Mathf.Clamp(requested.xMin,0,sw-1),bottom=Mathf.Clamp(requested.yMin,0,sh-1);
             float right=Mathf.Clamp(requested.xMax,left+1,sw),top=Mathf.Clamp(requested.yMax,bottom+1,sh);
             float scale=Mathf.Min((right-left)/LogicalSize.x,(top-bottom)/LogicalSize.y);
-            return new Rect((left+right-LogicalSize.x*scale)*.5f,(bottom+top-LogicalSize.y*scale)*.5f,LogicalSize.x*scale,LogicalSize.y*scale);
+            // Keep the screen centre when the fitted content already clears an asymmetric notch.
+            float centre=Mathf.Clamp(sw*.5f,left+LogicalSize.x*scale*.5f,right-LogicalSize.x*scale*.5f);
+            return new Rect(centre-LogicalSize.x*scale*.5f,(bottom+top-LogicalSize.y*scale)*.5f,LogicalSize.x*scale,LogicalSize.y*scale);
         }
         // Native screenshot fixture can supply a notch without changing OS/device settings.
         public void SetViewportOverride(Vector2 size,Rect safe){hasOverride=true;overrideSize=size;overrideSafe=safe;ready=false;Refresh();}

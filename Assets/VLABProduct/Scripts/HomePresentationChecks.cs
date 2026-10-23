@@ -103,11 +103,11 @@ namespace Vlab.Product
             }
             Debug.Log("VLAB Home matching-row projected sizes (top width, bottom width, height): "+string.Join(", ",baselineSizes.Select(size=>size.ToString("F4"))));
             check("All four resting cards have equal projected top edges, bottom edges and height",baselineSizes.All(size=>size.x>0&&size.y>0&&size.z>0)&&baselineSizes.Max(size=>size.x)-baselineSizes.Min(size=>size.x)<.003f&&baselineSizes.Max(size=>size.y)-baselineSizes.Min(size=>size.y)<.003f&&baselineSizes.Max(size=>size.z)-baselineSizes.Min(size=>size.z)<.003f);
-            string[] labels={"Cài đặt","Trợ giúp","Giới thiệu","Sổ tay"};
+            string[] labels={"Cài đặt","Trợ giúp","Giới thiệu","Sổ tay","Thoát VR"};
             for(int i=0;i<labels.Length;i++)
             {
                 var button=page.GetComponentsInChildren<Button>().Single(b=>b.transform.parent==page&&b.GetComponentInChildren<TextMeshProUGUI>()?.text==labels[i]);var rect=button.GetComponent<RectTransform>();
-                check("Centred uniform circular Home utility "+labels[i],Vector2.Distance(rect.sizeDelta,new Vector2(120,120))<.1f&&Mathf.Abs(rect.anchoredPosition.x-(512+i*152))<.1f&&Mathf.Abs(rect.anchoredPosition.y+770)<.1f);
+                check("Centred uniform circular Home utility "+labels[i],Vector2.Distance(rect.sizeDelta,new Vector2(120,120))<.1f&&Mathf.Abs(rect.anchoredPosition.x-(436+i*152))<.1f&&Mathf.Abs(rect.anchoredPosition.y+770)<.1f);
                 var disc=button.GetComponentsInChildren<Image>().Single(image=>image.name=="Circular utility disc");
                 Debug.Log("VLAB Home utility diagnostics: label="+labels[i]+" host="+button.name+" hostSize="+rect.sizeDelta+" hostAnchor="+rect.anchoredPosition+" disc="+disc.name+" discActive="+disc.isActiveAndEnabled+" discParent="+disc.transform.parent.name+" discSize="+disc.rectTransform.sizeDelta+" discAnchor="+disc.rectTransform.anchoredPosition+" discRaycast="+disc.raycastTarget+" sprite="+(disc.sprite?disc.sprite.name:"null")+" target="+(button.targetGraphic?button.targetGraphic.name:"null")+" targetParent="+(button.targetGraphic?button.targetGraphic.transform.parent.name:"null"));
                 check("Utility has an84px circle and a separate readable label "+labels[i],disc.sprite&&Vector2.Distance(disc.rectTransform.sizeDelta,new Vector2(84,84))<.1f&&Vector2.Distance(disc.rectTransform.anchoredPosition,new Vector2(18,0))<.1f&&disc.raycastTarget&&button.targetGraphic==disc);
@@ -116,7 +116,7 @@ namespace Vlab.Product
                 foreach(bool large in new[]{false,true})CopyFits(caption,labels[i],22*(large?1.12f:1),check,labels[i]+(large?" large":" normal"));
             }
             var book=Button(app,"Open journal").GetComponent<RectTransform>();
-            check("Notebook is the fourth circular utility without a duplicate lower row",Vector2.Distance(book.sizeDelta,new Vector2(120,120))<.1f&&Mathf.Abs(book.anchoredPosition.x-968)<.1f&&page.GetComponentsInChildren<Button>().Count(button=>button.name=="Open journal")==1);
+            check("Notebook is the fourth circular utility without a duplicate lower row",Vector2.Distance(book.sizeDelta,new Vector2(120,120))<.1f&&Mathf.Abs(book.anchoredPosition.x-892)<.1f&&page.GetComponentsInChildren<Button>().Count(button=>button.name=="Open journal")==1);
             check("Home omits the removed continue-lesson button",!page.GetComponentsInChildren<Button>().Any(button=>button.name=="Home resume"));
             var edges=codes.Select(code=>Button(app,"Subject "+code).GetComponent<RectTransform>()).Select(rect=>new[]{app.View.WorldToViewportPoint(rect.TransformPoint(new Vector3(rect.rect.xMin,rect.rect.center.y,0))),app.View.WorldToViewportPoint(rect.TransformPoint(new Vector3(rect.rect.xMax,rect.rect.center.y,0)))}).ToArray();
             var gaps=Enumerable.Range(0,3).Select(index=>edges[index+1][0].x-edges[index][1].x).ToArray();

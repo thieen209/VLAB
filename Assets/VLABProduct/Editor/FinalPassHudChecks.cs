@@ -17,12 +17,13 @@ public static class FinalPassHudChecks
     static FinalPassHudChecks(){EditorApplication.playModeStateChanged+=s=>{if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("VLAB.HudQa",false)){SessionState.SetBool("VLAB.HudQa",false);new GameObject("HUD checks",typeof(FinalPassHudProbe));}};}
     public static void Baseline(){SessionState.SetBool("VLAB.HudBaseline",true);Run();}
     public static void Layout(){SessionState.SetBool("VLAB.HudLayoutOnly",true);Run();}
+    public static void Home(){SessionState.SetBool("VLAB.HudHomeOnly",true);Run();}
     public static void FlagshipLayouts(){SessionState.SetBool("VLAB.HudFourLayouts",true);Layout();}
     public static void Run(){Directory.CreateDirectory("Evidence/FinalPass/Hud");SecondTestGameView.Configure(out _);SessionState.SetString("VLAB.TestProfile",Path.Combine(Application.persistentDataPath,"QA","Hud-"+Guid.NewGuid().ToString("N")));SessionState.SetBool("VLAB.HudQa",true);EditorSceneManager.OpenScene("Assets/VLABProduct/Scenes/VLAB_Boot.unity");EditorApplication.EnterPlaymode();}
 }
 public sealed class FinalPassHudProbe:MonoBehaviour
 {
-    readonly List<string> rows=new List<string>();int failures;bool baseline,layoutOnly,fourLayouts;
+    readonly List<string> rows=new List<string>();int failures;bool baseline,layoutOnly,fourLayouts,homeOnly;
     VlabApp App=>VlabApp.Instance;
     Button Find(string name)=>App.GetComponentsInChildren<Button>().FirstOrDefault(x=>x.name==name&&x.IsInteractable());
     void Check(string name,bool pass){rows.Add((pass?"PASS ":"FAIL ")+name);if(!pass)failures++;}
@@ -33,9 +34,10 @@ public sealed class FinalPassHudProbe:MonoBehaviour
         Application.runInBackground=true;DontDestroyOnLoad(gameObject);baseline=SessionState.GetBool("VLAB.HudBaseline",false);SessionState.SetBool("VLAB.HudBaseline",false);
         layoutOnly=SessionState.GetBool("VLAB.HudLayoutOnly",false);SessionState.SetBool("VLAB.HudLayoutOnly",false);
         fourLayouts=SessionState.GetBool("VLAB.HudFourLayouts",false);SessionState.SetBool("VLAB.HudFourLayouts",false);
+        homeOnly=SessionState.GetBool("VLAB.HudHomeOnly",false);SessionState.SetBool("VLAB.HudHomeOnly",false);
         var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){rows.Add("FAIL "+e);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
-        File.WriteAllLines("Evidence/FinalPass/Hud/"+(layoutOnly?"layout-checks":baseline?"baseline":"checks")+".txt",new[]{"Editor UI callbacks and raycast/layout checks; no Android touch or physical tracking claim."}.Concat(rows));SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
+        File.WriteAllLines("Evidence/FinalPass/Hud/"+(homeOnly?"home-checks":layoutOnly?"layout-checks":baseline?"baseline":"checks")+".txt",new[]{"Editor UI callbacks and raycast/layout checks; no Android touch or physical tracking claim."}.Concat(rows));SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
     }
     IEnumerator Run()
     {
@@ -49,6 +51,27 @@ public sealed class FinalPassHudProbe:MonoBehaviour
         float deadline=Time.realtimeSinceStartup+60;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<deadline)yield return null;
         if(!App||App.Route!="home")throw new Exception("Home timeout");App.Profile.settings.gazeAutoSelect=false;
         if(!baseline){yield return Press("VR mode");Check("Home round VR label updates on entry",Find("VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="Thoát VR");yield return Press("VR mode");Check("Home round VR label updates on exit",Find("VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="VR");}
+        if(homeOnly)
+        {
+            var viewport=App.GetComponentInChildren<PhoneUiViewport>();
+            foreach(var size in new[]{new Vector2Int(2340,1080),new Vector2Int(1280,720)})
+            {
+                if(!SecondTestGameView.Configure(out var diagnostic,size.x,size.y))throw new Exception(diagnostic);
+                yield return new WaitForSecondsRealtime(.6f);
+                float inset=size.x>2000?140:40;var safe=new Rect(inset,0,size.x-inset,size.y);viewport.SetViewportOverride(size,safe);Canvas.ForceUpdateCanvases();
+                Check("Home centred despite left notch "+size,Mathf.Abs(viewport.ContentPixels.center.x-size.x*.5f)<.5f);
+                Check("Home retains safe bounds "+size,viewport.ContentPixels.xMin>=safe.xMin-.5f&&viewport.ContentPixels.xMax<=safe.xMax+.5f);
+                var controls=new[]{Find("Home utility 0"),Find("Home utility 1"),Find("Home utility 2"),Find("Open journal"),Find("VR mode")};
+                var rects=controls.Select(b=>(RectTransform)b.transform).ToArray();
+                Check("Five same-size controls share bottom row "+size,rects.All(r=>r.sizeDelta==new Vector2(120,120)&&Mathf.Abs(r.anchoredPosition.y+770)<.1f));
+                Check("Five controls evenly spaced and centred "+size,Mathf.Abs((rects[0].anchoredPosition.x+rects[4].anchoredPosition.x+120)*.5f-800)<.1f&&Enumerable.Range(1,4).All(i=>Mathf.Abs(rects[i].anchoredPosition.x-rects[i-1].anchoredPosition.x-152)<.1f));
+                yield return Capture("home-centred-"+size.x);
+                viewport.ClearViewportOverride();
+            }
+            var constrained=PhoneUiViewport.Fit(new Vector2(1600,1000),new Rect(140,0,1460,1000));
+            Check("Constrained notch still respected",constrained.xMin>=139.9f&&constrained.xMax<=1600.1f);
+            yield break;
+        }
         foreach(string id in layoutOnly&&!fourLayouts?new[]{"P01"}:new[]{"P01","C04","B01","M01"})
         {
             App.ShowHome();yield return Press("Subject "+id[0]);yield return Press("Browser lesson "+id);yield return Press("Browser start");yield return Press("Readiness enter");
