@@ -2,6 +2,14 @@
 
 Ghi riêng thay đổi mã nguồn và APK để tránh tải nhầm phiên bản.
 
+## 23/10/2026 — bảng kính hiển vi và tài liệu hiện hành
+
+- B01/B08 hiện đủ sáu nhãn phân loại; B02 hiện hai lựa chọn. Chọn mẫu giữ nguyên ảnh và bảng, các nút chỉnh kính vẫn truy cập được; sửa caption và nhãn dài bị cắt.
+- Khôi phục lớp thành tế bào cố định trong ô quan sát B02 bằng asset có sẵn, sửa gợi ý cho dụng cụ chỉ có đường vẽ và giữ tương thích hàm chọn dụng cụ.
+- Kiểm tra Editor: 24 kiểm tra bảng kính hiển vi, 38 kiểm tra tương tác và 36 kiểm tra hộp thoại đạt. Tổng hợp nhiều checkpoint ghi nhận 32/32 bài lưu/mở lại, có bước chuẩn bị hỗ trợ; chưa thay thế một lượt kiểm thử độc lập đủ 32 bài trên source cuối. [Phạm vi và ảnh](docs/QA/2026-10-23/README.md).
+- Giữ README giới thiệu/banner gốc, bổ sung nút tải APK công khai và cập nhật trạng thái kiểm thử; tài liệu được lập chỉ mục theo hướng dẫn, thiết kế, QA và lịch sử. Giữ nguyên vị trí asset Unity và `.meta`.
+- Chỉ cập nhật mã nguồn; chưa build hoặc phát hành APK mới.
+
 ## 23/10/2026 — đồng bộ source và tài liệu
 
 - Giữ README gốc và banner, sửa hướng dẫn cài APK/mở Unity/build Android, thêm mục lục tài liệu và phân biệt source với APK phát hành.

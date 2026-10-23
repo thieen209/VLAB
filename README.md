@@ -8,7 +8,7 @@
 
 [Cài APK](#chơi-trên-android--không-cần-cài-unity) · [Mở project Unity](#mở-và-phát-triển-mã-nguồn) · [Tài liệu](docs/README.md) · [Nhật ký thay đổi](CHANGELOG.md)
 
-> **Trạng thái 23/10/2026:** source mới hơn APK. Source có sửa tương tác, gợi ý, góc nhìn điện thoại, hộp thoại và PDF pháp lý. APK trên Releases vẫn là **0.1.4 / code5**; candidate riêng là **0.1.7 / code21**. Chưa có APK chứa các sửa đổi mới này. [Xem kết quả kiểm thử và các lỗi còn mở](docs/QA/2026-10-23/README.md).
+> **Trạng thái 23/10/2026:** source mới hơn APK. Các cập nhật gồm tương tác, gợi ý, góc nhìn điện thoại, hộp thoại, PDF pháp lý và bảng kính hiển vi. APK công khai vẫn là **0.1.4 / code5**; candidate riêng là **0.1.7 / code21**. Chưa có APK chứa các sửa đổi source mới nhất. [Kết quả kiểm thử và giới hạn](docs/QA/2026-10-23/README.md).
 
 
 <p align="center">
@@ -117,7 +117,7 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ### Chơi trên Android — không cần cài Unity
 
-1. Mở [trang Releases](https://github.com/thieen209/VLAB/releases) và tải file **`.apk`** trong phần **Assets** của phiên bản muốn thử. File **Source code (zip)** không phải ứng dụng Android.
+1. [Tải APK 0.1.4 đang công khai](https://github.com/thieen209/VLAB/releases/download/v0.1.4-secondtest-20261020/VLAB-0.1.4-android.apk), hoặc mở [trang Releases](https://github.com/thieen209/VLAB/releases) và chọn file **`.apk`** trong phần **Assets** của phiên bản muốn thử. File **Source code (zip)** là mã nguồn để mở bằng Unity.
 2. Mở APK trên điện thoại. Nếu Android yêu cầu, cho phép **Cài ứng dụng không rõ nguồn gốc** cho trình duyệt hoặc ứng dụng quản lý tệp đang dùng, rồi xác nhận cài đặt. Có thể tắt quyền này sau khi cài xong.
 3. Mở ứng dụng **VLAB**, dùng máy theo chiều ngang và chọn phòng thí nghiệm. Nội dung học và tiến độ được lưu trên thiết bị; chơi không cần tài khoản hay mạng.
 4. Có thể chơi bằng màn hình cảm ứng. Để dùng kính, chọn **Vào VR** hoặc chế độ kính trong Cài đặt → Điều khiển, sau đó lắp điện thoại vào kính Cardboard phù hợp. Điện thoại cần cảm biến hỗ trợ head tracking; có màn hình Android không đồng nghĩa chắc chắn hỗ trợ VR. Quét QR của kính trong phần Điều khiển để cấu hình kính khi cần.
@@ -189,7 +189,9 @@ APK xuất tại **`Builds/Android/NguaManVLAB-development.apk`**; tên hiển t
 
 ### Trạng thái kiểm thử
 
-Các sửa đổi ngày **23/10/2026** có 37 kiểm tra tương tác/góc nhìn, 36 kiểm tra hộp thoại và 135 kiểm tra PDF trong Editor. Lần chạy 32 bài ghi nhận **26 bài lưu và mở lại kết quả, 6 bài còn bị chặn**, cùng một lỗi hiển thị đường viền dụng cụ trong kiểm tra riêng. Một số bài dùng hỗ trợ chuẩn bị; đây chưa phải chứng nhận 32 bài hoàn chỉnh. [Biên bản, ảnh và giới hạn](docs/QA/2026-10-23/README.md). Chưa build APK mới hoặc xác nhận thiết bị thật cho source này.
+Đợt sửa source gần nhất có **38 kiểm tra tương tác, 36 kiểm tra hộp thoại và 24 kiểm tra bảng kính hiển vi** đạt trong Editor. Đợt kiểm tra PDF riêng ghi nhận **135 PASS**. Bảng kính hiển vi giữ ảnh khi chọn mẫu, hiện đủ nhãn phân loại và hiển thị lại lớp thành tế bào B02 từ asset gốc.
+
+Các lượt Editor qua nhiều checkpoint đã ghi nhận **32/32 bài có kết quả lưu và mở lại**; một số bước chuẩn bị có hỗ trợ. Đây chưa phải một lượt hồi quy đủ 32 bài trên cùng source cuối, cũng chưa xác nhận thao tác độc lập, độ chính xác khoa học hay thiết bị thật. Biên bản lỗi cũ vẫn được giữ cùng kết quả kiểm tra lại. [Biên bản, ảnh và giới hạn](docs/QA/2026-10-23/README.md). Chưa build APK mới cho source này.
 
 Code21 đã được build và cài cập nhật trên giả lập Android; có kiểm tra opacity, khởi động lại, giữ dữ liệu cũ và vào stereo ở P01/C04/B01/M01. Điều đó không đồng nghĩa toàn bộ 32 bài đã vượt qua kiểm thử đầu-cuối trên điện thoại thật.
 

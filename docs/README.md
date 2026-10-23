@@ -17,13 +17,15 @@ Các báo cáo giữ phạm vi và ngày kiểm tra riêng; số PASS của Edit
 
 | Phiên bản | Tài liệu |
 |---|---|
-| Source cập nhật 23/10/2026 — chưa build APK | [Tương tác, góc nhìn, hộp thoại, PDF và ma trận 32 bài](QA/2026-10-23/README.md) |
+| Source cập nhật 23/10/2026 — chưa build APK | [Tương tác, góc nhìn, kính hiển vi, hộp thoại và PDF](QA/2026-10-23/README.md), [tổng hợp lượt lưu/mở lại 32 bài](QA/2026-10-23/ui-journeys-aggregate.json) |
 | 0.1.7 / code21 — candidate build trước các sửa đổi ngày 23/10 | [Báo cáo](QA/Prototype-0.1.7/README.md), [Cài đặt](QA/Prototype-0.1.7/SETTINGS-LEDGER.md), [APK manifest](QA/Prototype-0.1.7/ARTIFACT.json) |
 | 0.1.6 / code17 | [Báo cáo trước](QA/Prototype-0.1.6/REPORT.vi.md) |
 | 0.1.4 / code5 — APK đang công khai trên Releases | [Patch 0.1.4](PATCH_014.md) |
 | Các bản trước | [0.1.3](SECONDTEST_013.md), [0.1.2](PATCH1_012.md), [0.1.1](PROTOTYPE_011_CORRECTIONS.md) |
 
 Các biên bản cũ ở [giới hạn nghiên cứu](KNOWN_LIMITS.md), [trạng thái build](BUILD_STATE.md) và [kiểm thử lưu Windows](VERIFICATION_119_WINDOWS_PERSISTENCE.md) vẫn được giữ; đọc mốc phiên bản trước khi áp dụng.
+
+[Ma trận nghiệm thu đang mở](FinalPass/acceptance.json) theo dõi yêu cầu còn lại. Mỗi kết quả phải đọc cùng phạm vi và checkpoint; tổng hợp nhiều lần chạy không thay thế kiểm tra đầy đủ trên một APK.
 
 ## Thiết kế và nội dung học
 
@@ -44,6 +46,7 @@ Các biên bản cũ ở [giới hạn nghiên cứu](KNOWN_LIMITS.md), [trạng
 | `Assets/StreamingAssets/Legal/` | PDF Chính sách bảo mật / Điều khoản gốc, tiếng Việt và tiếng Anh |
 | `Assets/VLABProduct/Resources/LegalPdf/` | Trang PDF đã render và manifest để đọc ngoại tuyến trong ứng dụng |
 | `docs/QA/` | Báo cáo, ảnh và nhận diện artifact theo phiên bản |
+| `docs/FinalPass/` | Ma trận yêu cầu và checkpoint công việc còn mở |
 | `docs/assets/` | Hình dùng trong tài liệu, gồm banner README gốc |
 | `docs/archive/` | Tài liệu lịch sử: [README tháng 9](archive/README-2026-09-12.md) được giữ nguyên để đối chiếu; hướng dẫn cũ không áp dụng cho bản hiện tại |
 | `Evidence/` | Biên bản kiểm thử đã có trong lịch sử dự án |
