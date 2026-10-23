@@ -68,6 +68,13 @@ namespace Vlab.Product
             {
                 var text=ui.Text(parent,kind==1?"?":"i",12,12,60,60,36,ink,TextAlignmentOptions.Center);text.color=ink;text.fontStyle=FontStyles.Bold;text.GetComponent<VlabTextBacking>().enabled=false;
             }
+            else if(kind==4)
+            {
+                ui.Rule(parent,20,29,44,3,ink);ui.Rule(parent,20,29,3,24,ink);ui.Rule(parent,61,29,3,24,ink);
+                ui.Rule(parent,20,51,17,3,ink);ui.Rule(parent,47,51,17,3,ink);ui.Rule(parent,37,45,10,3,ink);
+                ui.Rule(parent,35,45,3,9,ink);ui.Rule(parent,46,45,3,9,ink);
+                ui.Rule(parent,12,34,8,3,ink);ui.Rule(parent,64,34,8,3,ink);
+            }
             else
             {
                 ui.Rule(parent,26,21,34,2,ink);ui.Rule(parent,26,61,34,2,ink);ui.Rule(parent,26,21,2,42,ink);ui.Rule(parent,58,21,2,42,ink);ui.Rule(parent,33,23,2,38,ink);

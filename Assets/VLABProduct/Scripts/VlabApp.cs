@@ -34,7 +34,7 @@ namespace Vlab.Product
         TextMeshProUGUI liveReading,liveHint,liveTime,liveStage,liveActionLabel;
         AttemptRecord pendingMeasurement;ExperimentSession pendingMeasurementSession;SessionCheckpoint pendingMeasurementCheckpoint;
         bool HasPendingMeasurement=>pendingMeasurement!=null&&ReferenceEquals(pendingMeasurementSession,Session);
-        UnityEngine.UI.Button liveAction,compactAction;TextMeshProUGUI compactActionLabel;RectTransform activityCard;bool compactActivity;RectTransform pointerRoot;
+        UnityEngine.UI.Button liveAction,compactAction,activityFold;TextMeshProUGUI compactActionLabel;RectTransform activityCard;bool compactActivity;bool hudHidden;RectTransform pointerRoot;
         bool modalAllowsSimulation,modalResumeActivity,activityReturnRunning;ExperimentSession modalSession;
         int equipmentPage,variablePage,instrumentPage,readingPage;string inspectionTab="";EquipmentHandle inspectedItem;RectTransform inspectionOutput;string inspectionReadingKeys="",liveReadingError="";AttemptRecord shownResult;
         UnityEngine.UI.RawImage inspectionImage;TextMeshProUGUI inspectionReadings,inspectionStatus;
@@ -102,6 +102,7 @@ namespace Vlab.Product
             CancelFlagshipDrag();ClearGuideCue();
             if(Route=="activity"&&route!="activity"){activityReturnRunning=ActivityRunIntent();Session?.Pause();}
             observedGuideStep=null;guidanceTier=0;nextWorldHint=Time.unscaledTime+12;
+            if(route!="activity")hudHidden=false;
             Route=route;ui.Vietnamese=Vi;inputAfter=Time.unscaledTime+.22f;gazeTarget=null;gazeTime=0;gazeConsumed=false;suppressOpeningGaze=Input&&(Input.VrMode||Input.SimulatorMode);
             RefreshBackground(backgroundExperiment);
             if(route!="activity")Apparatus?.CancelGrab();
@@ -137,12 +138,12 @@ namespace Vlab.Product
             // Face the opening Home pose once; subsequent head movement leaves it anchored.
             content.localRotation=home?Quaternion.Inverse(ui.canvas.transform.rotation)*View.transform.rotation:Quaternion.identity;
         }
-        TextMeshProUGUI modeLabel;
+        TextMeshProUGUI modeLabel;bool roundModeLabel;
         string ModeLabel=>Input.VrMode?L("Thoát VR","Exit VR"):Application.isEditor?(Input.SimulatorMode?L("Thoát mô phỏng","Exit simulation"):L("Mô phỏng VR","Simulate VR")):L("Vào VR","Enter VR");
         void ModeButton(Transform parent,float x,float y,float width,float height)
         {
             var button=Button(parent,ModeLabel,x,y,width,height,()=>{Session?.Pause();if(Application.isEditor)Input.SetSimulator(!Input.SimulatorMode);else Input.SetVr(!Input.VrMode);});
-            button.name="VR mode";modeLabel=button.GetComponentInChildren<TextMeshProUGUI>();
+            button.name="VR mode";roundModeLabel=false;modeLabel=button.GetComponentInChildren<TextMeshProUGUI>();
         }
         void Header(string title,Action back=null)
         {
@@ -197,7 +198,7 @@ namespace Vlab.Product
         public void ShowHome()
         {
             Apparatus?.GetComponent<BenchDisplayVisibility>()?.Restore();
-            Session?.Pause();NewPage("home");HomePresentation.Backdrop(ui,page);Logo(page,605,65,390,124);ModeButton(page,1290,64,230,72);
+            Session?.Pause();NewPage("home");HomePresentation.Backdrop(ui,page);Logo(page,605,65,390,124);RoundModeButton(page,1400,64);
             string[] subjects={"P","C","B","M"},namesVi={"Vật lí","Hóa học","Sinh học","Kỹ thuật"},namesEn={"Physics","Chemistry","Biology","Engineering"},desVi={"Chuyển động và năng lượng","Chất và phản ứng","Sự sống và tế bào","Cơ cấu và đo lường"},desEn={"Motion and energy","Matter and reactions","Life and cells","Mechanisms & measurement"},images={"physics","chemistry","biology","engineering"};
             var cards=new RectTransform[4];for(int i=0;i<4;i++)
             {
@@ -367,35 +368,48 @@ namespace Vlab.Product
             for(int i=0;i<nodes.Length;i++){int n=i;Button(page,L("Trạm ","Station ")+(i+1),70+i*225,840,210,64,()=>{origin.position=nodes[n].position;RecenterInterface();});}
             ui.Text(page,L("Điện thoại: vuốt nền để nhìn · PC: giữ chuột phải · Căn lại trong cài đặt","Phone: drag the background to look · PC: right-mouse look · Recenter in Settings"),100,135,1300,50,22,VlabUi.Secondary);
         }
+        void RoundModeButton(RectTransform parent,float x,float y)
+        {
+            bool world=Input.VrMode||Input.SimulatorMode;
+            var button=HomePresentation.Utility(ui,parent,world?L("Thoát VR","Exit VR"):"VR",4,()=>
+            {if(Time.unscaledTime<inputAfter||changing)return;Session?.Pause();if(Application.isEditor)Input.SetSimulator(!Input.SimulatorMode);else Input.SetVr(!Input.VrMode);});
+            button.name="VR mode";((RectTransform)button.transform).anchoredPosition=new Vector2(x,-y);
+            roundModeLabel=true;modeLabel=button.GetComponentInChildren<TextMeshProUGUI>();
+        }
         public void ShowActivity()
         {
-            NewPage("activity");
-            // A small station placard, not a screen-sized HUD. The working volume stays clear.
-            var box=ui.Panel(page,"Current laboratory action",80,ui.canvas.renderMode==RenderMode.WorldSpace?230:120,440,500);activityCard=box;
-            ui.Text(box,SubjectName,24,20,392,32,22,VlabUi.Secondary);
-            ui.Text(box,LessonGuide.ShortTitle(selected.id,Vi),24,60,392,48,30);
-            ui.Rule(box,24,112,392,3,Accent);
-            liveStage=ui.Text(box,"",24,128,392,36,24,Accent);
-            liveHint=ui.Text(box,"",24,174,392,136,28);
-            liveAction=Button(box,"",24,326,392,70,PerformContextAction,Accent);
-            liveActionLabel=liveAction.GetComponentInChildren<TextMeshProUGUI>();
-            liveActionLabel.fontSize=ui.LargeText?29:26;
-            liveTime=ui.Text(box,"",24,414,392,72,24,VlabUi.Secondary);
-            Button(page,L("Dụng cụ & hướng dẫn","Station tools"),620,850,300,72,ShowStationTools);
-            Button(page,Input.VrMode||Input.SimulatorMode?L("Tới bàn thao tác","Go to workbench"):L("Nhìn về bàn","Focus station"),1150,840,360,72,FocusStation).name="Focus workstation";
-            Button(page,L("‹ Quay lại","‹ Back"),940,850,180,72,ShowPause);
-            guideLocate=Button(page,L("Chỉ tôi chỗ này","Show me where"),620,750,440,72,()=>{if(Profile.settings.hints)ShowGuideTarget(CurrentGuide());else{guidePage=-1;ShowGuidance();}});
-            if(ui.canvas.renderMode!=RenderMode.WorldSpace)
+            NewPage("activity");bool world=ui.canvas.renderMode==RenderMode.WorldSpace;
+            var contents=ui.Rect(page,"Activity HUD contents",0,0,1600,1000);
+            var identity=ui.Panel(contents,"Experiment identity",36,32,560,116);
+            ui.Text(identity,LessonGuide.ShortTitle(selected.id,Vi),20,12,520,48,32);
+            liveStage=ui.Text(identity,"",20,68,520,36,24,Accent);
+            var box=ui.Panel(contents,"Current laboratory action",36,168,400,362);activityCard=box;
+            liveHint=ui.Text(box,"",20,20,360,174,26);
+            liveAction=Button(box,"",20,210,360,70,PerformContextAction,Accent);
+            liveActionLabel=liveAction.GetComponentInChildren<TextMeshProUGUI>();liveActionLabel.fontSize=ui.LargeText?28:26;
+            liveTime=ui.Text(box,"",20,294,360,56,22,VlabUi.Secondary);
+            compactAction=Button(contents,"",560,858,480,72,PerformContextAction,Accent);compactAction.name="Compact current action";compactActionLabel=compactAction.GetComponentInChildren<TextMeshProUGUI>();
+            var tools=ui.Panel(contents,"Station control rail",1272,180,292,526);
+            ui.Text(tools,L("QUAN SÁT","OBSERVE"),20,16,252,32,22,VlabUi.Secondary);
+            Button(tools,world?L("Tới bàn thao tác","Go to workbench"):L("Nhìn về bàn","Focus station"),16,58,260,64,FocusStation).name="Focus workstation";
+            if(!world)
             {
-                ModeButton(page,1010,36,230,64);
-                var toggle=Button(page,"",1260,36,260,64,null);
-                Action visibility=()=>{activityCard.gameObject.SetActive(!compactActivity);compactAction.gameObject.SetActive(compactActivity);toggle.GetComponentInChildren<TextMeshProUGUI>().text=L(compactActivity?"Hiện bảng":"Thu gọn bảng",compactActivity?"Show panel":"Hide panel");};
-                compactAction=Button(page,"",620,645,440,72,PerformContextAction,Accent);compactAction.name="Compact current action";compactActionLabel=compactAction.GetComponentInChildren<TextMeshProUGUI>();
-                toggle.onClick.AddListener(()=>{compactActivity=!compactActivity;visibility();});visibility();
-                Button(page,L("Gần hơn +","Zoom in +"),1080,118,210,64,()=>ZoomPhone(-8)).name="Phone zoom in";
-                Button(page,L("Xa hơn −","Zoom out −"),1310,118,210,64,()=>ZoomPhone(8)).name="Phone zoom out";
+                Button(tools,L("Gần +","Near +"),16,134,124,64,()=>ZoomPhone(-8)).name="Phone zoom in";
+                Button(tools,L("Xa −","Far −"),152,134,124,64,()=>ZoomPhone(8)).name="Phone zoom out";
             }
-            RefreshActivity();if(ui.canvas.renderMode==RenderMode.WorldSpace)RecenterInterface();
+            ui.Rule(tools,20,216,252,1,VlabUi.Stroke);
+            ui.Text(tools,L("TRỢ GIÚP","ASSISTANCE"),20,232,252,32,22,VlabUi.Secondary);
+            guideLocate=Button(tools,L("Hướng dẫn","Guidance"),16,276,260,64,()=>{guidePage=-1;ShowGuidance();});
+            Button(tools,L("Dụng cụ & sổ tay","Tools & notebook"),16,352,260,64,ShowStationTools);
+            Button(tools,L("‹ Quay lại","‹ Back"),16,446,260,64,ShowPause);
+            var fold=Button(contents,"",36,546,400,60,null);activityFold=fold;
+            Action foldPanel=()=>{activityCard.gameObject.SetActive(!compactActivity);compactAction.gameObject.SetActive(compactActivity);string label=L(compactActivity?"Hiện bảng":"Thu gọn bảng",compactActivity?"Show panel":"Hide panel");fold.name=label;fold.GetComponentInChildren<TextMeshProUGUI>().text=label;};
+            fold.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter||changing)return;compactActivity=!compactActivity;foldPanel();});foldPanel();
+            var visibility=Button(page,"",1264,44,172,72,null);visibility.name="HUD visibility";
+            Action showHud=()=>{contents.gameObject.SetActive(!hudHidden);visibility.GetComponentInChildren<TextMeshProUGUI>().text=L(hudHidden?"Hiện UI":"Ẩn UI",hudHidden?"Show UI":"Hide UI");if(hudHidden)ClearGuideCue();};
+            visibility.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter||changing)return;hudHidden=!hudHidden;showHud();});showHud();
+            RoundModeButton(page,1444,32);
+            RefreshActivity();if(world)RecenterInterface();
         }
         LessonGuide Guide(){if(!ReferenceEquals(guideSession,Session)){guideSession=Session;guide=Session==null?null:new LessonGuide(Session);guidePage=-1;}return guide;}
         GuideTask CurrentGuide(){var task=Guide()?.Current(Apparatus,Vi,ActivityRunIntent());if(task!=null&&Session.spec.id=="M01"&&Apparatus.Ready&&(Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Ready))task.key="motor";return task;}
@@ -460,7 +474,7 @@ namespace Vlab.Product
             FocusStepTarget(currentTask);
             if(cueStep!=null&&cueStep!=step)ClearGuideCue();
             if(observedGuideStep!=step){observedGuideStep=step;guideMistakes=0;guidanceTier=0;actionFailureUntil=0;nextWorldHint=Time.unscaledTime+12;}
-            if(Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){guidanceTier++;nextWorldHint=Time.unscaledTime+(guidanceTier==1?23:35);var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)ShowEquipmentCue(hinted,guidanceTier>1);}
+            if(!hudHidden&&Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){guidanceTier++;nextWorldHint=Time.unscaledTime+(guidanceTier==1?23:35);var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)ShowEquipmentCue(hinted,guidanceTier>1);}
             string action;bool enabled=true;
             if(Apparatus.IsPullingBob||flagshipDrag)
             {liveStage.text=L("ĐANG THAO TÁC","MANIPULATING");liveHint.text=L("Di chuyển con trỏ để điều chỉnh. Chọn Thả khi đã ở vị trí mong muốn; Quay lại để hủy.","Move the pointer to adjust. Select Release at the intended position; Back cancels.");action=L("Thả dụng cụ","Release");}
@@ -504,9 +518,14 @@ namespace Vlab.Product
                 var task=CurrentGuide();liveHint.text=GuideCard(task);liveHint.enableAutoSizing=true;liveHint.fontSizeMin=24;liveHint.fontSizeMax=ui.LargeText?29:28;
                 if(Session.Phase==ExperimentPhase.Preparing&&(task.kind=="instrument"||task.kind=="image")&&!Flagship(Session.spec.id))action=L("Mở dụng cụ cần dùng","Open required instrument");
             }
-            if(!Profile.settings.hints){ClearGuideCue();if(guideLocate)guideLocate.gameObject.SetActive(false);}
-            else if(guideLocate)guideLocate.gameObject.SetActive(!(Flagship(Session.spec.id)&&Session.Phase==ExperimentPhase.Preparing));
+            if(!Profile.settings.hints)ClearGuideCue();
             if(Time.unscaledTime<actionFailureUntil)liveHint.text=actionFailureText;if(Flagship(Session.spec.id)&&Time.unscaledTime>=actionFailureUntil&&!Apparatus.IsPullingBob&&!flagshipDrag&&!Apparatus.IsCarrying)liveHint.text=FlagshipInstruction();liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;if(compactAction){compactAction.interactable=enabled;compactActionLabel.text=action;}
+            float hintHeight=Mathf.Max(64,liveHint.GetPreferredValues(liveHint.text,360,Mathf.Infinity).y+8);
+            liveHint.rectTransform.sizeDelta=new Vector2(360,hintHeight);
+            ((RectTransform)liveAction.transform).anchoredPosition=new Vector2(20,-(hintHeight+36));
+            liveTime.rectTransform.anchoredPosition=new Vector2(20,-(hintHeight+120));
+            activityCard.sizeDelta=new Vector2(400,hintHeight+188);
+            if(activityFold)((RectTransform)activityFold.transform).anchoredPosition=new Vector2(36,-(compactActivity?168:hintHeight+370));
             if(Session.Pendulum!=null)
             {
                 var motion=Session.Pendulum;int requested=(int)Session.parameters["cycles"];
@@ -1143,7 +1162,7 @@ namespace Vlab.Product
         }
         void OnModeChanged(bool vr,string message)
         {
-            if(modeLabel)modeLabel.text=ModeLabel;var homeHint=page?page.Find("Home selection hint")?.GetComponent<TMP_Text>():null;if(homeHint)homeHint.text=vr||Input.SimulatorMode?L("Nhìn hoặc trỏ để chọn","Look or point to select"):L("Chạm vào phòng để chọn","Tap a laboratory to select");
+            if(modeLabel)modeLabel.text=roundModeLabel?(Input.VrMode||Input.SimulatorMode?L("Thoát VR","Exit VR"):"VR"):ModeLabel;var homeHint=page?page.Find("Home selection hint")?.GetComponent<TMP_Text>():null;if(homeHint)homeHint.text=vr||Input.SimulatorMode?L("Nhìn hoặc trỏ để chọn","Look or point to select"):L("Chạm vào phòng để chọn","Tap a laboratory to select");
             bool enteringWorld=ui.canvas.renderMode!=RenderMode.WorldSpace&&(vr||Input.SimulatorMode);
             bool leavingWorld=ui.canvas.renderMode==RenderMode.WorldSpace&&!vr&&!Input.SimulatorMode;
             Session?.Pause();modalResumeActivity=activityReturnRunning=false;CancelFlagshipDrag();Apparatus?.CancelGrab();if(enteringWorld&&Apparatus&&(Route=="activity"||Route=="pause"||Route=="settings"))MoveToWorkstation();ui.SetWorld(vr||Input.SimulatorMode,View);if(!vr&&!Input.SimulatorMode)View.fieldOfView=Profile.settings.cameraFov;PlaceReadableSurface(page,Route!="explore");PlaceReadableSurface(modal,true);if(enteringWorld)StartCoroutine(AlignAfterTracking());SyncAuthority();
@@ -1415,7 +1434,7 @@ namespace Vlab.Product
             {
                 var item=Apparatus.Selected;
                 if(!item){string key=CurrentGuide()?.key;item=Apparatus.items.FirstOrDefault(part=>part.assetId==key&&part.gameObject.activeInHierarchy);if(!item&&Flagship(Session.spec.id))item=Apparatus.items.FirstOrDefault(part=>part.installed&&part.gameObject.activeInHierarchy&&part.assetId!="specimen"&&!part.assetId.StartsWith("solid",StringComparison.Ordinal));}
-                if(item&&TryFocusBounds(item,out var bounds)){if(amount<0)ApparatusRig.TryVisibleBounds(item,out bounds);FitFocusBounds(bounds,new Rect(.44f,.24f,.52f,.55f));float fitted=View.fieldOfView;View.fieldOfView=Mathf.Clamp(requested,fitted,90);return;}else FocusStation();
+                if(item&&TryFocusBounds(item,out var bounds)){if(amount<0)ApparatusRig.TryVisibleBounds(item,out bounds);FitFocusBounds(bounds,ActivityObservationArea());float fitted=View.fieldOfView;View.fieldOfView=Mathf.Clamp(requested,fitted,90);return;}else FocusStation();
             }
             View.fieldOfView=requested;
         }
@@ -1441,6 +1460,12 @@ namespace Vlab.Product
                 foreach(var linked in Apparatus.items)
                     if(linked.installed&&linked.gameObject.activeInHierarchy&&(linked.assetId=="surface"||linked.assetId=="block"||linked.assetId=="meter"||linked.assetId=="cord")&&ApparatusRig.TryVisibleBounds(linked,out var part))bounds.Encapsulate(part);
             return true;
+        }
+        Rect ActivityObservationArea()
+        {
+            // Match the clear center between the guide and rail in actual safe-area pixels.
+            ui.PhoneViewport.Refresh();var content=ui.PhoneViewport.ContentPixels;
+            return new Rect((content.x+content.width*.30f)/Screen.width,(content.y+content.height*.18f)/Screen.height,content.width*.47f/Screen.width,content.height*.64f/Screen.height);
         }
         void FocusInstrument(EquipmentHandle item,bool besideControls)
         {
@@ -1493,7 +1518,7 @@ namespace Vlab.Product
             var item=Apparatus.items.FirstOrDefault(x=>x.assetId==key&&x.installed&&x.gameObject.activeInHierarchy);
             if(!item||!TryFocusBounds(item,out var bounds))return;
             lastFocusedTaskTarget=focus;
-            FitFocusBounds(bounds,new Rect(.44f,.24f,.52f,.55f));
+            FitFocusBounds(bounds,ActivityObservationArea());
         }
         int framedInstalledCount=-1;
         void MoveToWorkstation()
@@ -1529,7 +1554,7 @@ namespace Vlab.Product
                 var delta=bounds.center-worktop;if(new Vector2(delta.x,delta.z).magnitude>3)continue;
                 if(found)kit.Encapsulate(bounds);else{kit=bounds;found=true;}
             }
-            if(found&&Flagship(Session.spec.id)&&Profile.settings.focusAssist){if(Session.spec.id=="M01")TryFocusBounds(Apparatus.items.First(x=>x.assetId=="gears"),out kit);FitFocusBounds(kit,new Rect(.44f,.24f,.52f,.55f));return;}
+            if(found&&Flagship(Session.spec.id)&&Profile.settings.focusAssist){if(Session.spec.id=="M01")TryFocusBounds(Apparatus.items.First(x=>x.assetId=="gears"),out kit);FitFocusBounds(kit,ActivityObservationArea());return;}
             var target=found?kit.center:worktop+new Vector3(-.15f,.3f,0);
             float distance=found?Mathf.Clamp(Mathf.Max(kit.size.y,kit.size.x/Mathf.Max(.5f,View.aspect))*1.1f,.7f,2.6f):1.8f;
             origin.position=new Vector3(target.x,Mathf.Max(worktop.y+.3f,target.y+.3f),target.z-distance);
@@ -1581,11 +1606,3 @@ namespace Vlab.Product
         void OnApplicationQuit(){Session?.Pause();Save();}
     }
 }
-
-
-
-
-
-
-
-

@@ -23,7 +23,7 @@ public static class SecondTestGameView
     static object Invoke(object value,string method,params object[] args)=>value.GetType().GetMethod(method,Members).Invoke(value,args);
     static EditorWindow View()=>EditorWindow.GetWindow(Type("GameView"));
     static PropertyInfo Selected(EditorWindow view)=>view.GetType().GetProperty("selectedSizeIndex",Members);
-    public static bool Configure(out string diagnostic)
+    public static bool Configure(out string diagnostic,int width=1600,int height=900)
     {
         diagnostic="";
         try
@@ -32,14 +32,14 @@ public static class SecondTestGameView
             var sizes=Sizes();var groupProperty=sizes.GetType().GetProperty("currentGroupType",Members);
             string groupName=groupProperty.GetValue(sizes).ToString();var group=Group(sizes,groupName);var view=View();var selected=Selected(view);
             int previous=(int)selected.GetValue(view);int count=(int)Invoke(group,"GetTotalCount");
-            string label="VLAB QA 1600x900 "+Guid.NewGuid().ToString("N").Substring(0,8);
+            string label="VLAB QA "+width+"x"+height+" "+Guid.NewGuid().ToString("N").Substring(0,8);
             var kind=Enum.Parse(Type("GameViewSizeType"),"FixedResolution");
-            var size=Activator.CreateInstance(Type("GameViewSize"),Members,null,new object[]{kind,1600,900,label},null);
+            var size=Activator.CreateInstance(Type("GameViewSize"),Members,null,new object[]{kind,width,height,label},null);
             Invoke(group,"AddCustomSize",size);
             SessionState.SetInt(Prefix+"previous",previous);SessionState.SetInt(Prefix+"created",count);
             SessionState.SetString(Prefix+"group",groupName);SessionState.SetBool(Prefix+"configured",true);
             selected.SetValue(view,count);view.Repaint();EditorApplication.QueuePlayerLoopUpdate();
-            diagnostic="Selected fixed Game View 1600x900 in "+groupName+"; previous index="+previous+", QA index="+count;
+            diagnostic="Selected fixed Game View "+width+"x"+height+" in "+groupName+"; previous index="+previous+", QA index="+count;
             SessionState.SetString(Prefix+"diagnostic",diagnostic);return true;
         }
         catch(Exception ex)
