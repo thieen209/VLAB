@@ -21,7 +21,7 @@ namespace Vlab.Product
                 else if(light.name=="Window soft fill")
                 {light.shadows=quality==0?LightShadows.None:quality==1?LightShadows.Hard:LightShadows.Soft;light.shadowBias=.01f;light.shadowNormalBias=.02f;}
                 else if(light.name=="Ceiling illumination")
-                {light.intensity=.6f;light.color=new Color(.98f,.99f,1f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=LightShadows.None;}
+                {light.intensity=1f;light.color=new Color(.98f,.99f,1f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=LightShadows.None;}
             }
             foreach(var shade in Object.FindObjectsByType<LabShade>())if(shade.daylight.Length>0)
             {RenderSettings.ambientMode=AmbientMode.Flat;RenderSettings.ambientLight=new Color(.12f,.13f,.14f);shade.RefreshDaylight();}

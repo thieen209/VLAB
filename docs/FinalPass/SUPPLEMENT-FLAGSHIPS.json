@@ -1,0 +1,197 @@
+{
+  "task": "VLAB — bổ sung nhiệm vụ vào goal hiện hành",
+  "instruction": "Triển khai các mục dưới đây trong Build VLAB demo (2). Không khởi tạo goal/project mới, không bỏ các lỗi và yêu cầu chưa hoàn thành của goal cũ. Ưu tiên chất lượng thực tế, không chỉ đổi vài giá trị rồi báo xong.",
+  "constraints": {
+    "execution": "Dùng thread hiện hành và model đã được người dùng chọn. Không mở thêm phiên hoặc worker. Giữ giới hạn quota hiện hành; không tự tăng ngân sách.",
+    "preservation": "Giữ saves, settings, head tracking, logic thí nghiệm và các tương tác đang tốt. Checkpoint trước thay đổi lớn, sửa theo từng nhóm có khả năng rollback.",
+    "ble": "Chưa có tay cầm thật: BLE hardware vẫn deferred, không đòi hoạt động 100%, không chặn bàn giao và không chiếm ưu tiên của sửa bug/UI/thí nghiệm.",
+    "honesty": "Không tuyên bố hết lỗi, đạt 10/10 hoặc đã test thiết bị thật khi chỉ kiểm tra code/Editor/emulator. Không tự public push/release."
+  },
+  "strategy": {
+    "priority": "ALL-IN bốn thí nghiệm chính trước, không dàn trải sang toàn bộ danh mục.",
+    "flagships": [
+      {
+        "id": "P01",
+        "room": "Vật lý",
+        "experiment": "Con lắc đơn"
+      },
+      {
+        "id": "C04",
+        "room": "Hóa học",
+        "experiment": "Nhận biết chloride"
+      },
+      {
+        "id": "B01",
+        "room": "Sinh học",
+        "experiment": "Biểu bì hành"
+      },
+      {
+        "id": "M01",
+        "room": "Kỹ thuật",
+        "experiment": "Truyền bánh răng"
+      }
+    ],
+    "verify_mapping": "Xác minh tên/ID với project hiện hành trước khi sửa, không tạo thí nghiệm trùng nếu tên đã đổi.",
+    "all_in_means": [
+      "Hoàn thiện toàn bộ trải nghiệm: vào phòng, nhận biết dụng cụ, thao tác trực tiếp, hiện tượng/chuyển động, đo/ghi nhận, giải thích, kết quả, thử lại, reset và thoát.",
+      "Dụng cụ đủ lớn và rõ, vị trí quan sát hợp lý; UI không che thao tác, hint đúng trạng thái, animation có chất lượng.",
+      "Người mới có thể tự làm và hiểu, không phải bấm Next để xem chuỗi hoạt cảnh tự hoàn thành.",
+      "Kiểm chứng đường đúng, thao tác sai, bỏ dở/quay lại và lặp nhiều lần trên từng thí nghiệm."
+    ],
+    "expansion_gate": "Chỉ khi cả bốn thí nghiệm đạt tiêu chí khả kiểm chứng mới trích xuất component/pattern dùng chung và áp dụng có chọn lọc sang thí nghiệm khác. Không copy logic hay hiệu ứng sai bản chất khoa học. Không để việc mở rộng làm chậm việc hoàn thiện bốn thí nghiệm chính."
+  },
+  "tasks": [
+    {
+      "id": "VISUAL-BALANCE",
+      "goal": "Sửa mất cân bằng bố cục và ánh sáng, bắt đầu từ ảnh phòng Engineering người dùng gửi.",
+      "actions": [
+        "Kiểm tra trục logo VLAB, bảng tên phòng, cửa sổ/rèm và bàn. Căn chỉnh theo bố cục kiến trúc có chủ đích; không ép mọi vật thể đối xứng máy móc.",
+        "Cân khoảng trống hai bên và khối tủ ngăn kéo tối phía phải dưới bàn bằng placement, vật liệu và lighting phù hợp; giữ khoảng chân/lối đi.",
+        "Giảm hotspot trên rèm, bổ sung ánh sáng nội thất cho bảng tên, mặt bàn và các góc tối. Không tăng exposure toàn cảnh khiến rèm/tường cháy sáng.",
+        "Khi rèm đóng, ánh sáng đèn vẫn đủ đọc và thao tác. Giữ chiều sâu, bóng tiếp xúc và độ tương phản tự nhiên.",
+        "Kiểm tra framing ở camera gameplay và camera chụp ảnh; không sửa cả phòng chỉ để chữa một ảnh crop.",
+        "Áp dụng nguyên tắc cân bố cục cho các phòng còn lại nếu có cùng vấn đề, nhưng không đại tu phần đang tốt."
+      ],
+      "acceptance": [
+        "Có ảnh before/after cùng camera và cùng quality tier.",
+        "Bảng tên đọc được, mặt bàn rõ, rèm không có hotspot gắt, không có khối đen nuốt chi tiết.",
+        "Không phá collider, vị trí dụng cụ, navigation, teleport hoặc interaction anchors."
+      ]
+    },
+    {
+      "id": "CURTAINS-LIGHTING-CONTROL",
+      "goal": "Điều khiển rèm từ bảng điều khiển và chuyển ánh sáng mượt, đồng bộ với rèm.",
+      "actions": [
+        "Thêm điều khiển rèm vào nhóm Ánh sáng trong bảng điều khiển phòng/thí nghiệm. Nhãn và trạng thái đóng/mở rõ ràng.",
+        "Giữ tương tác trực tiếp tại rèm nếu đã có; cả hai đường điều khiển dùng chung một nguồn trạng thái.",
+        "Animation rèm và mức che ánh sáng ngoài phải chuyển dần theo tiến trình thực, không bật/tắt đột ngột.",
+        "Giữ điều khiển đèn phòng độc lập với rèm. Đóng rèm không đồng nghĩa tắt đèn; phòng không được tối đến mức khó thao tác.",
+        "Chọn đường cong chuyển tiếp nhẹ, tự nhiên; cho phép đảo hướng giữa chừng mà không giật, nhảy trạng thái hoặc khởi chạy nhiều animation chồng nhau.",
+        "Đồng bộ ảnh hưởng lên daylight, ambient/probes/reflections và baked lighting bằng giải pháp phù hợp pipeline hiện hành. Không chỉ kéo mesh trong khi ánh sáng ngoài vẫn giữ nguyên.",
+        "Không dùng thay đổi exposure toàn cục làm giả việc che ánh sáng cửa sổ.",
+        "Khôi phục cường độ gốc khi mở rèm; không cộng dồn sáng qua nhiều lần toggle.",
+        "Giữ pipeline asset đã yêu cầu: model phù hợp miễn phí trên Sketchfab, kiểm tra license; thiếu mới Blender rồi tích hợp Unity. Không làm lại asset tốt chỉ để đổi hình thức."
+      ],
+      "acceptance": [
+        "Test mở/đóng liên tiếp và đảo hướng giữa animation.",
+        "Nút trên bảng và tương tác tại rèm luôn đồng bộ.",
+        "Quay clip cùng góc cho thấy rèm chuyển động và ánh sáng ngoài thay đổi dần; đèn trong phòng vẫn hữu ích.",
+        "Không leak trạng thái giữa phòng, không có spike hiệu năng đáng kể do rebake hoặc tạo light/material liên tục."
+      ]
+    },
+    {
+      "id": "IN-LAB-CONTROL-UI",
+      "goal": "Thanh điều khiển khoa học, hữu ích, đẹp và hiện đại, không còn xanh rêu và khung hộp rời rạc.",
+      "visual_direction": {
+        "style": "Beat Saber × Premium Scientific, hiện đại và có năng lượng nhưng sạch, dễ đọc, không sci-fi rườm rà.",
+        "proposed_palette": {
+          "background": "#111827",
+          "surface": "#1F2937",
+          "primary_text": "#F3F4F6",
+          "secondary_text": "#CBD5E1",
+          "electric_blue": "#3B82F6",
+          "violet_accent": "#8B5CF6"
+        },
+        "palette_rule": "Đây là hướng màu đề xuất để triển khai và kiểm tra tương phản, không ép toàn bộ UI thành gradient. Loại xanh rêu đang bị phàn nàn; giữ logo VLAB đúng nhận diện.",
+        "effects": "Dùng gradient xanh điện–tím nhẹ cho điểm nhấn/selection, fade ngắn cho panel và feedback tinh tế. Không gradient trên mọi hộp, không glow che chữ và không dùng hiệu ứng thay cho bố cục tốt."
+      },
+      "organization": [
+        "Nhóm Thí nghiệm: trạng thái/bước hiện tại, số đo cần thiết và thao tác phụ thực sự hữu ích.",
+        "Nhóm Góc nhìn: tiếp cận, đặt lại góc nhìn hoặc điều khiển quan sát khả dụng; không cưỡng ép camera đầu VR.",
+        "Nhóm Ánh sáng: rèm, đèn và các tùy chọn thực sự hoạt động.",
+        "Nhóm Trợ giúp: thông tin dụng cụ, hint theo ngữ cảnh và hướng dẫn chi tiết khi yêu cầu.",
+        "Hiện theo ngữ cảnh, không đặt tất cả nhóm và nút cùng lúc. Thao tác thường dùng dễ tiếp cận; chức năng ít dùng mở khi cần."
+      ],
+      "actions": [
+        "Bỏ bố cục nút bên phải rời rạc; chuẩn hóa alignment, spacing, icon, nhãn và hierarchy.",
+        "Chữ đủ lớn, tương phản rõ trên phone và VR. Không giải quyết panel to bằng cách thu chữ xuống nhỏ.",
+        "Panel/hint không che dụng cụ hoặc điểm cần thao tác; dành vùng trung tâm cho thí nghiệm.",
+        "Có hide/unhide UI; luôn giữ cách mở lại dễ tìm và đường thoát VR an toàn.",
+        "Khi UI ẩn, vô hiệu raycast/input interception của phần đã ẩn.",
+        "Nút Vào VR là nút tròn nhỏ đồng bộ bốn nút tròn hiện hành, icon rõ và vùng bấm vẫn đủ dễ dùng.",
+        "Không dùng icon khó hiểu mà không có tên/chú thích. Các trạng thái đang chọn/không khả dụng phải rõ.",
+        "Phản hồi hover/focus/press có ý nghĩa, không nhấp nháy hoặc phát chuyển động trang trí liên tục.",
+        "Kiểm tra safe area, nhiều aspect ratio, dialog, opacity và khôi phục bố cục sau phone↔VR.",
+        "Tham khảo nhanh HUD và UI tương tác tốt, ưu tiên reference đã có; chuyển thành quy tắc cụ thể rồi làm, không kéo dài research."
+      ],
+      "acceptance": [
+        "Người mới tìm được chức năng chính mà không phải đoán các nút rời rạc.",
+        "Không text cắt/chồng, không panel chắn thao tác, không phải đọc chữ bé.",
+        "Hide/unhide, nút VR, nhóm Ánh sáng và trạng thái rèm hoạt động thực.",
+        "UI mới đẹp ở ảnh tĩnh và rõ khi đang thao tác, không chỉ đẹp trong mockup."
+      ]
+    },
+    {
+      "id": "CONTROLLER-MODE",
+      "priority": "Chuẩn bị kiến trúc/giao diện trong phạm vi hợp lý; kiểm thử BLE và tracking phần cứng vẫn deferred.",
+      "goal": "Khi controller sẵn sàng, chuyển từ gaze dot sang model tay cầm và ray tương tác.",
+      "state_machine": [
+        "Disconnected hoặc Connecting: giữ gaze dot và input dự phòng đang dùng được.",
+        "Connected nhưng input/tracking chưa sẵn sàng: không ẩn dot chỉ vì có tên thiết bị hoặc kết nối BLE.",
+        "Ready: sau xác nhận input khả dụng, ẩn gaze dot, hiện model controller và ray phù hợp năng lực thiết bị.",
+        "Lost hoặc Stale input: chấm dứt an toàn thao tác đang giữ và khôi phục gaze/input dự phòng; không làm người dùng kẹt."
+      ],
+      "actions": [
+        "Model tay cầm có tỉ lệ và vị trí không che dụng cụ, không giả vờ là tracking 6DoF nếu thiết bị không cung cấp.",
+        "Ray có endpoint và highlight mục tiêu; chọn/nhấn/giữ/thả dùng cùng hệ thống tương tác với thí nghiệm.",
+        "Chặn kích hoạt kép từ gaze và controller, xử lý debounce và quyền sở hữu input.",
+        "Ray không chọn xuyên tường hoặc xuyên UI đang che mục tiêu; dùng layer/mask và độ ưu tiên UI/world rõ ràng.",
+        "Chỉ bám hướng tay thật khi controller cung cấp orientation đáng tin cậy và đã xử lý hệ trục/calibration.",
+        "BLE chỉ có nút/joystick không đồng nghĩa có tracking tay. Khi thiếu orientation, dùng phương án ray dự phòng có chủ đích, ghi rõ giới hạn; không báo đã có hand tracking.",
+        "Chuyển mode và reconnect không làm rơi sai trạng thái dụng cụ, lặp click hoặc mất khả năng thoát menu."
+      ],
+      "acceptance": "Có thể test state machine bằng mock input có gắn nhãn simulated. Chỉ đánh dấu phần cứng pass sau kiểm thử tay cầm thật; không để task này trì hoãn bốn thí nghiệm chính."
+    },
+    {
+      "id": "ANIMATION-QUALITY",
+      "goal": "Nâng cấp animation thành chất lượng nhìn thấy rõ, không chỉ thêm fade cho có.",
+      "principles": [
+        "Chuyển động phản ánh thao tác và trạng thái thí nghiệm, không phải hoạt cảnh phát độc lập để giả vờ tương tác.",
+        "Bắt đầu, thay đổi, dừng, reset và lặp phải liền mạch; không teleport, snap vô cớ, rung hoặc xuyên model.",
+        "Animation trang trí dùng easing hợp lý; chuyển động vật lý và hiện tượng khoa học tuân mô hình phù hợp, không ease tùy tiện làm sai kết quả.",
+        "Cho phép input mới/đảo hướng/hủy thao tác mà không nhân coroutine/tween hoặc để state cũ điều khiển object.",
+        "Không ép camera VR rung, zoom, bob hoặc quay tự động để tạo cinematic. Giữ head tracking và giảm chuyển động gây khó chịu.",
+        "Tối ưu Android: tránh allocation mỗi frame, material instance vô hạn, particle quá nặng hoặc animation chạy khi không cần."
+      ],
+      "experiment_specific": [
+        "P01: kéo/thả quả nặng và dao động rõ, liền mạch, đúng chiều dài/dây/điểm treo; số đo và timer đồng bộ trạng thái thực, không animation giả độc lập với phép đo.",
+        "M01: bánh răng quay ăn khớp đúng hướng và tỉ số, trục/pivot chính xác, không trượt hoặc xuyên; thay đổi input phản ánh lên chuyển động và số đo.",
+        "C04: thao tác dụng cụ và hiện tượng nhận biết chloride phải đúng nội dung thí nghiệm hiện hành; không thêm màu, lửa hoặc hiệu ứng không có cơ sở để làm đẹp.",
+        "B01: thao tác mẫu, bàn kính và lấy nét phản hồi đúng; hình quan sát thay đổi theo thao tác, không dùng chuyển động trang trí sai bản chất.",
+        "Rèm: cuộn/kéo tự nhiên và đồng bộ lighting, đảo hướng giữa chừng mượt.",
+        "UI: mở/đóng, selection và feedback ngắn gọn, có nhịp; input phải phản hồi ngay, không bị khóa chờ animation dài."
+      ],
+      "acceptance": [
+        "Quay clip gameplay thực cho từng thí nghiệm chính, không dùng ảnh tĩnh để chứng minh animation tốt.",
+        "Clip thể hiện input → chuyển động/hiện tượng → phản hồi/số đo → reset và thử lại.",
+        "Test start/stop/reset, spam input hợp lý, đổi bước và rời/quay lại scene.",
+        "Ghi rõ clip từ Editor, emulator hay điện thoại; không giả lập kết quả hiệu năng hoặc tracking."
+      ]
+    }
+  ],
+  "workflow": [
+    "Đọc goal hiện hành, xác minh trạng thái thật và bổ sung checklist các task này; không làm lại hạng mục đã đạt và có bằng chứng.",
+    "Chụp/quay baseline bốn thí nghiệm chính, UI, phòng và rèm.",
+    "Ưu tiên sửa chức năng, framing, UI, direct interaction và animation trên bốn thí nghiệm.",
+    "Hoàn thiện lighting/rèm và visual balance theo cùng chuẩn, giữ hiệu năng và regression.",
+    "Tự review cả usability, mỹ thuật và tính đúng khoa học; sửa các lỗi quan sát được rồi test lại.",
+    "Chỉ nhân rộng component/pattern sau khi bốn thí nghiệm vượt quality gates; kiểm tra từng thí nghiệm được áp dụng, không copy hàng loạt thiếu kiểm chứng."
+  ],
+  "quality_gates": [
+    "Bốn thí nghiệm hoàn thành end-to-end bằng input khả dụng, không cần dùng Editor để sửa trạng thái.",
+    "UI rõ, gọn, có nhóm chức năng và ẩn/hiện an toàn; màu mới và chuyển động nhất quán.",
+    "Dụng cụ dễ thấy và dễ thao tác; hint không che đối tượng hoặc tự làm hộ.",
+    "Animation có bằng chứng video và đúng trạng thái/khoa học.",
+    "Rèm và lighting chuyển mượt, các cách điều khiển đồng bộ, đèn phòng đủ dùng khi rèm đóng.",
+    "Phone↔VR, reset, quay lại, settings và saves không bị regression.",
+    "BLE/controller chưa có phần cứng được ghi deferred, không bị báo thành lỗi chặn bàn giao.",
+    "Chất lượng đồ họa cao đẹp hơn thật nhưng không hy sinh khả năng đọc và tương tác; báo đúng môi trường đo hiệu năng."
+  ],
+  "deliverables": [
+    "Checklist theo từng task/thí nghiệm: đã sửa, đã test ở đâu, còn lỗi gì hoặc chưa kiểm chứng.",
+    "Ảnh before/after cùng góc cho room balance, UI mới và rèm mở/đóng.",
+    "Clip animation/gameplay thực của bốn thí nghiệm chính.",
+    "APK candidate mới khi build đạt, kèm version/build ID và hướng dẫn test ngắn.",
+    "Danh sách pattern đã đủ tốt để nhân rộng và phạm vi thực tế đã áp dụng. Không báo mọi thí nghiệm đạt nếu mới test bốn."
+  ]
+}

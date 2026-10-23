@@ -629,7 +629,7 @@ namespace Vlab.Product
             RefreshInstances(item);bounds=default;bool found=false;
             foreach(var r in item.GetComponentsInChildren<Renderer>())
             {
-                if(!r.enabled||!r.gameObject.activeInHierarchy)continue;
+                if(!r.enabled||r.forceRenderingOff||!r.gameObject.activeInHierarchy)continue;
                 Bounds b;
                 if(r is LineRenderer line)
                 {

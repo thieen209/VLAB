@@ -87,7 +87,7 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
     }
     IEnumerator Start()
     {
-        DontDestroyOnLoad(gameObject);var stack=new Stack<IEnumerator>();stack.Push(Run());
+        Application.runInBackground=true;DontDestroyOnLoad(gameObject);var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;Exception error=null;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){error=e;}if(error!=null){rows.Add("BLOCKER "+error);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
         yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Evidence/FinalPass/interaction-last-frame.png");yield return null;
         File.WriteAllLines("Evidence/FinalPass/interaction-checks.txt",new[]{"Unity Editor: application UI callbacks, synthetic XR-HMD poses through InputSystem/TrackedPoseDriver for world gaze, and mock-controller button regression. No sensor, Android or BLE hardware claim."}.Concat(rows));
@@ -95,6 +95,9 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
     }
     IEnumerator Run()
     {
+        var hidden=GameObject.CreatePrimitive(PrimitiveType.Cube);var handle=hidden.AddComponent<EquipmentHandle>();handle.assetId="qa-hidden";
+        Check("Visible-bounds query includes rendered apparatus",ApparatusRig.TryVisibleBounds(handle,out _));hidden.GetComponent<Renderer>().forceRenderingOff=true;
+        Check("Visible-bounds query excludes force-hidden apparatus",!ApparatusRig.TryVisibleBounds(handle,out _));Destroy(hidden);
         Check("Original public one-argument apparatus selection API is preserved",typeof(ApparatusRig).GetMethod("Select",new[]{typeof(EquipmentHandle)})!=null);
         float until=Time.realtimeSinceStartup+50;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<until)yield return null;if(!App||App.Route!="home")throw new Exception("Home timeout");
         App.Profile.settings.gazeAutoSelect=false;App.Profile.settings.gazeDwellSeconds=.6f;App.Input.SetSimulator(true);App.Input.UseMockController=true;yield return Away();
@@ -145,6 +148,14 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         yield return Enter("C04");yield return Dwell(VisiblePoint(Item("reagent")));yield return Dwell(VisiblePoint(Item("dropper")));
         Check("Chemistry gaze starts actual dropper manipulation",typeof(VlabApp).GetField("flagshipDrag",Flags).GetValue(App) as EquipmentHandle==Item("dropper"));
         Call("ShowStationTools");yield return new WaitForSecondsRealtime(.2f);Check("Opening chemistry UI cancels pending transfer",typeof(VlabApp).GetField("flagshipDrag",Flags).GetValue(App)==null);Call("CloseModal");
+        App.Input.SetSimulator(false);yield return new WaitForSecondsRealtime(.5f);Call("FocusStation");yield return new WaitForSecondsRealtime(.2f);
+        var cup=Item("nacl");var cupScale=cup.transform.lossyScale;float cupOverview=ScreenWidth(cup);Call("FocusInstrument",cup,false);yield return new WaitForSecondsRealtime(.2f);
+        Check("Inspecting one beaker enlarges it without rescaling",ScreenWidth(cup)>cupOverview*1.5f&&Vector3.Distance(cupScale,cup.transform.lossyScale)<.0001f);var identity=App.Apparatus.GetComponent<FlagshipStageLabels>().GetComponentsInChildren<TextMeshPro>().Single(x=>x.text=="NaCl");
+        var glyph=identity.textBounds;var labelTop=App.View.WorldToViewportPoint(identity.transform.TransformPoint(glyph.center+Vector3.up*glyph.extents.y));var labelBottom=App.View.WorldToViewportPoint(identity.transform.TransformPoint(glyph.center-Vector3.up*glyph.extents.y));
+        Check("Close-up sample identity stays readable and bounded",labelTop.y-labelBottom.y>=.015f&&labelTop.y-labelBottom.y<=.035f&&labelBottom.y>=.01f&&labelTop.y<=.99f);
+        yield return Capture("C04-cup-inspection");
+        App.Input.SetSimulator(true);yield return new WaitForSecondsRealtime(.5f);var vrPosition=App.View.transform.parent.position;var vrRotation=App.View.transform.parent.rotation;Call("FocusInstrument",cup,false);
+        Check("Instrument focus does not move VR tracking origin",Vector3.Distance(vrPosition,App.View.transform.parent.position)<.0001f&&Quaternion.Angle(vrRotation,App.View.transform.parent.rotation)<.001f);
         yield return Enter("B01");yield return Dwell(VisiblePoint(Item("onion")));yield return Dwell(VisiblePoint(Item("coverslip")));yield return Dwell(VisiblePoint(Item("slide")));
         Check("Biology preparation follows three distinct world selections",App.Session.Operation==3);yield return Capture("B01-gaze-preparation");
         yield return Enter("M01");yield return Dwell(VisiblePoint(Item("motor")));Check("Engineering motor responds to world gaze",App.Session.Phase==ExperimentPhase.Running);yield return Capture("M01-gaze-motor");

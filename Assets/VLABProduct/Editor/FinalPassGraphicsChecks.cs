@@ -172,7 +172,7 @@ public sealed class FinalPassGraphicsProbe:MonoBehaviour
     }
     IEnumerator Start()
     {
-        DontDestroyOnLoad(gameObject);var stack=new Stack<IEnumerator>();stack.Push(Run());
+        Application.runInBackground=true;DontDestroyOnLoad(gameObject);var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;Exception error=null;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){error=e;}if(error!=null){rows.Add("BLOCKER "+error);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
         File.WriteAllLines("Evidence/FinalPass/graphics-checks.txt",rows);SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
     }

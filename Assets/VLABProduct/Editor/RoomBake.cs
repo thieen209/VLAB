@@ -51,10 +51,10 @@ public static class VlabRoomBake
             var scene=EditorSceneManager.OpenScene(path);
             foreach(var light in UnityEngine.Object.FindObjectsByType<Light>())
             {
-                if(light.name=="Baked ceiling softbox")light.intensity=1.25f;
+                if(light.name=="Baked ceiling softbox")light.intensity=2f;
                 if(light.name=="Baked window fill")light.intensity=0;
                 if(light.name=="Soft daylight")light.intensity=.9f;
-                if(light.name=="Ceiling illumination")light.intensity=.6f;
+                if(light.name=="Ceiling illumination")light.intensity=1f;
                 EditorUtility.SetDirty(light);
             }
             var shade=UnityEngine.Object.FindAnyObjectByType<LabShade>();if(!shade||!shade.bottomBar)throw new InvalidOperationException("Upgrade the authored shade first.");

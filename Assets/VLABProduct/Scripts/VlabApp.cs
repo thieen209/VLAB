@@ -452,12 +452,42 @@ namespace Vlab.Product
         void ShowStationTools()
         {
             FocusPhoneToolSheet();
-            var box=Modal(L("Dụng cụ & trợ giúp","Tools & help"),720,470,Apparatus.Driver!=null);box.GetComponent<PhoneDialogLayout>().CompactControls=true;
+            var box=Modal(L("Bảng điều khiển","Control panel"),720,590,Apparatus.Driver!=null);box.GetComponent<PhoneDialogLayout>().CompactControls=true;
             Button(box,L("Dụng cụ","Equipment"),40,120,304,88,ShowEquipment);
             Button(box,L("Thông số","Variables"),376,120,304,88,ShowVariables);
             Button(box,L("Hướng dẫn","Guidance"),40,240,304,88,()=>{guidePage=-1;ShowGuidance();});
             Button(box,L("Sổ tay","Notebook"),376,240,304,88,()=>ShowNotebook("activity"));
-            Button(box,L("Trở lại trạm","Return to station"),280,370,400,72,()=>{CloseModal();RefreshActivity();},Accent).name="Station return";
+            Button(box,L("Ánh sáng","Lighting"),40,360,640,72,ShowRoomLighting).name="Room lighting";
+            Button(box,L("Trở lại trạm","Return to station"),280,480,400,72,()=>{CloseModal();RefreshActivity();},Accent).name="Station return";
+        }
+        void ShowRoomLighting()
+        {
+            var shade=UnityEngine.Object.FindAnyObjectByType<LabShade>();
+            var lamps=UnityEngine.Object.FindObjectsByType<Light>().Where(l=>l.name=="Ceiling illumination").ToArray();
+            var box=Modal(L("Ánh sáng","Lighting"),720,500,Apparatus.Driver!=null);
+            box.GetComponent<PhoneDialogLayout>().CompactControls=true;
+            var status=ui.Text(box,"",40,108,640,80,28);
+            var blind=Button(box,"",40,206,304,88,()=>{if(shade)shade.Toggle();});blind.name="Room shade";blind.interactable=shade;
+            var ceiling=Button(box,"",376,206,304,88,()=>{bool enabled=!lamps.Any(l=>l&&l.enabled);foreach(var light in lamps)if(light)light.enabled=enabled;});ceiling.name="Room lamp";ceiling.interactable=lamps.Length>0;
+            ui.Text(box,L("Rèm điều chỉnh ánh sáng cửa sổ. Đèn trần bổ trợ độc lập; ánh sáng nền vẫn giữ để dễ thao tác.","The blind controls window light. Ceiling fill is independent; base lighting remains for visibility."),40,318,640,80,24,VlabUi.Secondary);
+            Button(box,L("Quay lại","Back"),160,420,400,64,ShowStationTools).name="Lighting back";
+            StartCoroutine(RoomLightStatus(status,blind,ceiling,shade,lamps));
+        }
+        IEnumerator RoomLightStatus(TextMeshProUGUI label,UnityEngine.UI.Button blind,UnityEngine.UI.Button ceiling,LabShade shade,Light[] lamps)
+        {
+            var interval=new WaitForSecondsRealtime(.1f);
+            var blindLabel=blind.GetComponentInChildren<TextMeshProUGUI>();var ceilingLabel=ceiling.GetComponentInChildren<TextMeshProUGUI>();
+            while(label&&label.isActiveAndEnabled)
+            {
+                string state=!shade?L("Không có rèm","No blind"):shade.lowered?
+                    (shade.OpenFraction>.001f?L("Rèm đang đóng","Blind closing"):L("Rèm đã đóng","Blind closed")):
+                    (shade.OpenFraction<.999f?L("Rèm đang mở","Blind opening"):L("Rèm đã mở","Blind open"));
+                bool lightOn=lamps.Any(l=>l&&l.enabled);
+                label.text=state+"\n"+(lamps.Length==0?L("Không có đèn bổ trợ","No ceiling fill"):lightOn?L("Đèn trần: bật","Ceiling fill: on"):L("Đèn trần: tắt","Ceiling fill: off"));
+                blindLabel.text=shade&&shade.lowered?L("Mở rèm","Open blind"):L("Đóng rèm","Close blind");
+                ceilingLabel.text=lightOn?L("Tắt đèn trần","Turn off ceiling"):L("Bật đèn trần","Turn on ceiling");
+                yield return interval;
+            }
         }
         void RefreshActivity()
         {
@@ -1437,12 +1467,12 @@ namespace Vlab.Product
             }
             View.fieldOfView=requested;
         }
-        bool TryFocusBounds(EquipmentHandle item,out Bounds bounds)
+        bool TryFocusBounds(EquipmentHandle item,out Bounds bounds,bool includeSetup=true)
         {
             if(!ApparatusRig.TryVisibleBounds(item,out bounds))return false;
             if(Session?.spec.id=="B01"&&Session.Operation>=3){var microscope=Apparatus.items.First(x=>x.assetId=="microscope");if(ApparatusRig.TryVisibleBounds(microscope,out bounds))bounds.Expand(.04f);return true;}
             if(Session?.spec.id=="M01"){var gears=Apparatus.items.FirstOrDefault(x=>x.assetId=="gears");if(gears&&ApparatusRig.TryVisibleBounds(gears,out bounds)){var motor=Apparatus.items.FirstOrDefault(x=>x.assetId=="motor");if(motor&&ApparatusRig.TryVisibleBounds(motor,out var drive))bounds.Encapsulate(drive);bounds.Encapsulate(new Vector3(bounds.center.x,Apparatus.Worktop.y,bounds.center.z));bounds.Expand(.035f);}return true;}
-            if(Session!=null&&Session.spec.id!="P01"&&Flagship(Session.spec.id))foreach(var part in Apparatus.items.Where(x=>x.installed&&x.gameObject.activeInHierarchy&&x.assetId!="specimen"&&!x.assetId.StartsWith("solid",StringComparison.Ordinal)))if(ApparatusRig.TryVisibleBounds(part,out var whole))bounds.Encapsulate(whole);
+            if(includeSetup&&Session!=null&&Session.spec.id!="P01"&&Flagship(Session.spec.id))foreach(var part in Apparatus.items.Where(x=>x.installed&&x.gameObject.activeInHierarchy&&x.assetId!="specimen"&&!x.assetId.StartsWith("solid",StringComparison.Ordinal)&&!(Session.spec.id=="B01"&&Session.Operation<2&&x.assetId=="microscope")))if(ApparatusRig.TryVisibleBounds(part,out var whole))bounds.Encapsulate(whole);
             if(Session?.spec.id=="P01"&&item.installed&&item.assetId=="pendulum")
             {
                 float length=(float)Session.parameters["length"],angle=(float)Math.Max(15,Session.parameters["angle"])*Mathf.Deg2Rad;
@@ -1468,12 +1498,12 @@ namespace Vlab.Product
         }
         void FocusInstrument(EquipmentHandle item,bool besideControls)
         {
-            if(!Profile.settings.focusAssist||Input.VrMode||Input.SimulatorMode||!item||!TryFocusBounds(item,out var bounds))return;
+            if(!Profile.settings.focusAssist||Input.VrMode||Input.SimulatorMode||!item||!TryFocusBounds(item,out var bounds,false))return;
             FitFocusBounds(bounds,besideControls?new Rect(.03f,.06f,.46f,.88f):new Rect(.04f,.06f,.92f,.88f));
         }
         void FocusInventoryItem(EquipmentHandle item)
         {
-            if(!Profile.settings.focusAssist||Input.VrMode||Input.SimulatorMode||Screen.width<=Screen.height||!item||!item.gameObject.activeInHierarchy||!TryFocusBounds(item,out var bounds))return;
+            if(!Profile.settings.focusAssist||Input.VrMode||Input.SimulatorMode||Screen.width<=Screen.height||!item||!item.gameObject.activeInHierarchy||!TryFocusBounds(item,out var bounds,false))return;
             FitFocusBounds(bounds,new Rect(.60f,.10f,.36f,.78f));
         }
         void FitFocusBounds(Bounds bounds,Rect area)

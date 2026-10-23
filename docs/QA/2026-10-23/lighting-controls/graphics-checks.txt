@@ -1,0 +1,199 @@
+PASS Frame interval rejects invalid values without fabricated FPS
+PASS Observed interval mean, median, p95 and FPS use correct units
+PASS Frame window is bounded to latest 600 samples
+PASS Clearing sample window removes stale pause/loading timing
+PASS Hardware suggestion handles unknown/low/high without promising Ultra
+PASS Ultra stores legacy-compatible graphics ID
+PASS Ultra and diagnostics save
+PASS Ultra roundtrip preserves notebook and other profile data
+PASS Legacy High profile loads with diagnostics off, no schema migration or notes loss
+PASS Contradictory Ultra settings rejected at save boundary
+PASS Invalid tier -1 rejected
+PASS Invalid tier 4 rejected
+PASS Tier 0 queued touch changes draft only
+PASS Tier 0 applies through real UI
+PASS Tier 0 real render configuration
+PASS Tier 0 retained in reloaded offline profile
+PASS Unrelated apply reuses pipeline at tier 0
+PASS Tier 1 queued touch changes draft only
+PASS Tier 1 applies through real UI
+PASS Tier 1 real render configuration
+PASS Tier 1 retained in reloaded offline profile
+PASS Unrelated apply reuses pipeline at tier 1
+PASS Tier 2 queued touch changes draft only
+PASS Tier 2 applies through real UI
+PASS Tier 2 real render configuration
+PASS Tier 2 retained in reloaded offline profile
+PASS Unrelated apply reuses pipeline at tier 2
+PASS Tier 3 queued touch changes draft only
+PASS Tier 3 applies through real UI
+PASS Tier 3 real render configuration
+PASS Tier 3 retained in reloaded offline profile
+PASS Unrelated apply reuses pipeline at tier 3
+PASS Suggested tier requires explicit Apply
+PASS User can apply the hardware suggestion
+PASS Diagnostics enabled through real queued touch
+PASS P01 entered real station
+PASS Tier 0 queued touch changes draft only
+PASS Tier 0 applies through real UI
+PASS Tier 0 real render configuration
+PASS Tier 0 retained in reloaded offline profile
+PASS Changing graphics preserves live experiment and step
+PASS P01 tier 0 shadows and exposure
+PASS Unrelated apply reuses pipeline at tier 0
+PASS P01 real frame samples captured (not hardware FPS acceptance)
+PASS Tier 3 queued touch changes draft only
+PASS Tier 3 applies through real UI
+PASS Tier 3 real render configuration
+PASS Tier 3 retained in reloaded offline profile
+PASS Changing graphics preserves live experiment and step
+PASS P01 tier 3 shadows and exposure
+PASS Unrelated apply reuses pipeline at tier 3
+PASS P01 real frame samples captured (not hardware FPS acceptance)
+PASS C01 entered real station
+PASS Tier 0 queued touch changes draft only
+PASS Tier 0 applies through real UI
+PASS Tier 0 real render configuration
+PASS Tier 0 retained in reloaded offline profile
+PASS Changing graphics preserves live experiment and step
+PASS C01 tier 0 shadows and exposure
+PASS Unrelated apply reuses pipeline at tier 0
+PASS C01 real frame samples captured (not hardware FPS acceptance)
+PASS Tier 3 queued touch changes draft only
+PASS Tier 3 applies through real UI
+PASS Tier 3 real render configuration
+PASS Tier 3 retained in reloaded offline profile
+PASS Changing graphics preserves live experiment and step
+PASS C01 tier 3 shadows and exposure
+PASS Unrelated apply reuses pipeline at tier 3
+PASS C01 real frame samples captured (not hardware FPS acceptance)
+PASS B01 entered real station
+PASS Tier 0 queued touch changes draft only
+PASS Tier 0 applies through real UI
+PASS Tier 0 real render configuration
+PASS Tier 0 retained in reloaded offline profile
+PASS Changing graphics preserves live experiment and step
+PASS B01 tier 0 shadows and exposure
+PASS Unrelated apply reuses pipeline at tier 0
+PASS B01 real frame samples captured (not hardware FPS acceptance)
+PASS Tier 3 queued touch changes draft only
+PASS Tier 3 applies through real UI
+PASS Tier 3 real render configuration
+PASS Tier 3 retained in reloaded offline profile
+PASS Changing graphics preserves live experiment and step
+PASS B01 tier 3 shadows and exposure
+PASS Unrelated apply reuses pipeline at tier 3
+PASS B01 real frame samples captured (not hardware FPS acceptance)
+PASS M01 entered real station
+PASS Tier 0 queued touch changes draft only
+PASS Tier 0 applies through real UI
+PASS Tier 0 real render configuration
+PASS Tier 0 retained in reloaded offline profile
+PASS Changing graphics preserves live experiment and step
+PASS M01 tier 0 shadows and exposure
+PASS Unrelated apply reuses pipeline at tier 0
+PASS M01 real frame samples captured (not hardware FPS acceptance)
+PASS Tier 3 queued touch changes draft only
+PASS Tier 3 applies through real UI
+PASS Tier 3 real render configuration
+PASS Tier 3 retained in reloaded offline profile
+PASS Changing graphics preserves live experiment and step
+PASS M01 tier 3 shadows and exposure
+PASS Unrelated apply reuses pipeline at tier 3
+PASS M01 real frame samples captured (not hardware FPS acceptance)
+PASS Metrics show measured app interval and native CPU/GPU without text overflow
+PASS Diagnostic overlay never blocks UI/model raycasts
+PASS Stereo simulation 0 keeps quality and metrics plane
+PASS Phone return 0 keeps quality and one diagnostics overlay
+PASS Stereo simulation 1 keeps quality and metrics plane
+PASS Phone return 1 keeps quality and one diagnostics overlay
+PASS Stereo simulation 2 keeps quality and metrics plane
+PASS Phone return 2 keeps quality and one diagnostics overlay
+PASS Stereo simulation 3 keeps quality and metrics plane
+PASS Phone return 3 keeps quality and one diagnostics overlay
+PASS Stereo simulation 4 keeps quality and metrics plane
+PASS Phone return 4 keeps quality and one diagnostics overlay
+PASS Stereo simulation 5 keeps quality and metrics plane
+PASS Phone return 5 keeps quality and one diagnostics overlay
+PASS Stereo simulation 6 keeps quality and metrics plane
+PASS Phone return 6 keeps quality and one diagnostics overlay
+PASS Stereo simulation 7 keeps quality and metrics plane
+PASS Phone return 7 keeps quality and one diagnostics overlay
+PASS Stereo simulation 8 keeps quality and metrics plane
+PASS Phone return 8 keeps quality and one diagnostics overlay
+PASS Stereo simulation 9 keeps quality and metrics plane
+PASS Phone return 9 keeps quality and one diagnostics overlay
+PASS Pause callback resets measured window and native timing
+PASS Diagnostics off really hides overlay
+PASS vi (1600, 900) settings inside safe area
+PASS vi (1600, 900) panel is centered and bounded on tall screens
+PASS vi (1600, 900) four equal tier targets
+PASS vi (1600, 900) selected underline stays inside card
+PASS vi (1600, 900) large-text labels readable without TMP overflow: 
+PASS vi (1600, 900) scroll can expose Graphics tier 0
+PASS vi (1600, 900) scroll can expose Graphics tier 1
+PASS vi (1600, 900) scroll can expose Graphics tier 2
+PASS vi (1600, 900) scroll can expose Graphics tier 3
+PASS vi (2340, 1080) settings inside safe area
+PASS vi (2340, 1080) panel is centered and bounded on tall screens
+PASS vi (2340, 1080) four equal tier targets
+PASS vi (2340, 1080) selected underline stays inside card
+PASS vi (2340, 1080) large-text labels readable without TMP overflow: 
+PASS vi (2340, 1080) scroll can expose Graphics tier 0
+PASS vi (2340, 1080) scroll can expose Graphics tier 1
+PASS vi (2340, 1080) scroll can expose Graphics tier 2
+PASS vi (2340, 1080) scroll can expose Graphics tier 3
+PASS vi (2400, 1080) settings inside safe area
+PASS vi (2400, 1080) panel is centered and bounded on tall screens
+PASS vi (2400, 1080) four equal tier targets
+PASS vi (2400, 1080) selected underline stays inside card
+PASS vi (2400, 1080) large-text labels readable without TMP overflow: 
+PASS vi (2400, 1080) scroll can expose Graphics tier 0
+PASS vi (2400, 1080) scroll can expose Graphics tier 1
+PASS vi (2400, 1080) scroll can expose Graphics tier 2
+PASS vi (2400, 1080) scroll can expose Graphics tier 3
+PASS vi (1080, 2340) settings inside safe area
+PASS vi (1080, 2340) panel is centered and bounded on tall screens
+PASS vi (1080, 2340) four equal tier targets
+PASS vi (1080, 2340) selected underline stays inside card
+PASS vi (1080, 2340) large-text labels readable without TMP overflow: 
+PASS vi (1080, 2340) scroll can expose Graphics tier 0
+PASS vi (1080, 2340) scroll can expose Graphics tier 1
+PASS vi (1080, 2340) scroll can expose Graphics tier 2
+PASS vi (1080, 2340) scroll can expose Graphics tier 3
+PASS en (1600, 900) settings inside safe area
+PASS en (1600, 900) panel is centered and bounded on tall screens
+PASS en (1600, 900) four equal tier targets
+PASS en (1600, 900) selected underline stays inside card
+PASS en (1600, 900) large-text labels readable without TMP overflow: 
+PASS en (1600, 900) scroll can expose Graphics tier 0
+PASS en (1600, 900) scroll can expose Graphics tier 1
+PASS en (1600, 900) scroll can expose Graphics tier 2
+PASS en (1600, 900) scroll can expose Graphics tier 3
+PASS en (2340, 1080) settings inside safe area
+PASS en (2340, 1080) panel is centered and bounded on tall screens
+PASS en (2340, 1080) four equal tier targets
+PASS en (2340, 1080) selected underline stays inside card
+PASS en (2340, 1080) large-text labels readable without TMP overflow: 
+PASS en (2340, 1080) scroll can expose Graphics tier 0
+PASS en (2340, 1080) scroll can expose Graphics tier 1
+PASS en (2340, 1080) scroll can expose Graphics tier 2
+PASS en (2340, 1080) scroll can expose Graphics tier 3
+PASS en (2400, 1080) settings inside safe area
+PASS en (2400, 1080) panel is centered and bounded on tall screens
+PASS en (2400, 1080) four equal tier targets
+PASS en (2400, 1080) selected underline stays inside card
+PASS en (2400, 1080) large-text labels readable without TMP overflow: 
+PASS en (2400, 1080) scroll can expose Graphics tier 0
+PASS en (2400, 1080) scroll can expose Graphics tier 1
+PASS en (2400, 1080) scroll can expose Graphics tier 2
+PASS en (2400, 1080) scroll can expose Graphics tier 3
+PASS en (1080, 2340) settings inside safe area
+PASS en (1080, 2340) panel is centered and bounded on tall screens
+PASS en (1080, 2340) four equal tier targets
+PASS en (1080, 2340) selected underline stays inside card
+PASS en (1080, 2340) large-text labels readable without TMP overflow: 
+PASS en (1080, 2340) scroll can expose Graphics tier 0
+PASS en (1080, 2340) scroll can expose Graphics tier 1
+PASS en (1080, 2340) scroll can expose Graphics tier 2
+PASS en (1080, 2340) scroll can expose Graphics tier 3

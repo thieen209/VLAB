@@ -47,7 +47,8 @@
       "expected": "Advanced Controller Ecosystem: BLE thực, remapping, calibration joystick, nhiều profile, chẩn đoán kết nối, khả năng mở rộng và bộ kiểm thử giả lập.",
       "status": "IN_PROGRESS",
       "evidence": [
-        "BLE implementation23Oct: Android foreground GATT scan/connect/CCCD subscribe plugin compiles with javac SDK36; profile decoder/store/provider integrated into VlabInput.18PASS core/lifecycle/storage in Evidence/FinalPass/ble-core-checks.txt;18PASS VI/EN Editor UI callbacks/overflow at1600x900 in ble-ui-checks.txt, inspected screenshots.38PASS existing interaction regression after integration. Firmware UUID/payload and hardware compatibility remain unknown; native Android build code22 in progress. Broader BLE input handoffs/multiaspect UI/native transport still require testing. See docs/FinalPass/BLE-PROTOCOL.md."
+        "BLE implementation23Oct: Android foreground GATT scan/connect/CCCD subscribe plugin compiles with javac SDK36; profile decoder/store/provider integrated into VlabInput.18PASS core/lifecycle/storage in Evidence/FinalPass/ble-core-checks.txt;18PASS VI/EN Editor UI callbacks/overflow at1600x900 in ble-ui-checks.txt, inspected screenshots.38PASS existing interaction regression after integration. Firmware UUID/payload and hardware compatibility remain unknown; native Android build code22 in progress. Broader BLE input handoffs/multiaspect UI/native transport still require testing. See docs/FinalPass/BLE-PROTOCOL.md.",
+        "Scope override23Oct: hardware BLE calibration/remapping/compatibility deferred by user; absence of hardware does not block this delivery. Preserve integration and bounded scan/retry, phone/Cardboard fallback."
       ]
     },
     {
@@ -158,7 +159,8 @@
       "status": "IN_PROGRESS",
       "evidence": [
         "work/final-pass-20261023/controller-source-review.json: supplied KiCadREADME/manual and both actual-board photos inspected. Current docs describeESP32-S3/BNO055, leftESP-NOW->rightBLEgateway, VLABCONTROLLER; do not reuse olderMPU9250 assumption. Firmware/GATTUUID/payload/endian/frequency not supplied in inspected hardware folder. NativeBLE transport not yet implemented; real hardware absent.",
-        "BLE implementation23Oct: Android foreground GATT scan/connect/CCCD subscribe plugin compiles with javac SDK36; profile decoder/store/provider integrated into VlabInput.18PASS core/lifecycle/storage in Evidence/FinalPass/ble-core-checks.txt;18PASS VI/EN Editor UI callbacks/overflow at1600x900 in ble-ui-checks.txt, inspected screenshots.38PASS existing interaction regression after integration. Firmware UUID/payload and hardware compatibility remain unknown; native Android build code22 in progress. Broader BLE input handoffs/multiaspect UI/native transport still require testing. See docs/FinalPass/BLE-PROTOCOL.md."
+        "BLE implementation23Oct: Android foreground GATT scan/connect/CCCD subscribe plugin compiles with javac SDK36; profile decoder/store/provider integrated into VlabInput.18PASS core/lifecycle/storage in Evidence/FinalPass/ble-core-checks.txt;18PASS VI/EN Editor UI callbacks/overflow at1600x900 in ble-ui-checks.txt, inspected screenshots.38PASS existing interaction regression after integration. Firmware UUID/payload and hardware compatibility remain unknown; native Android build code22 in progress. Broader BLE input handoffs/multiaspect UI/native transport still require testing. See docs/FinalPass/BLE-PROTOCOL.md.",
+        "Scope override23Oct: hardware BLE calibration/remapping/compatibility deferred by user; absence of hardware does not block this delivery. Preserve integration and bounded scan/retry, phone/Cardboard fallback."
       ]
     },
     {
@@ -672,6 +674,973 @@
         "docs/QA/2026-10-23/graphics/interaction-checks.txt",
         "docs/QA/2026-10-23/graphics/dialog-checks.txt"
       ]
+    },
+    {
+      "id": "O23-001",
+      "expected": "Người dùng CHƯA CÓ TAY CẦM THẬT để kết nối BLE.",
+      "sourceKey": "ble_scope_override.reason",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-002",
+      "expected": "Ngừng dành phần lớn thời gian/token cho việc làm BLE hoạt động 100%.",
+      "sourceKey": "ble_scope_override.required_now[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-003",
+      "expected": "Giữ phần tích hợp đã làm và trạng thái kết nối trung thực.",
+      "sourceKey": "ble_scope_override.required_now[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-004",
+      "expected": "Không có controller vẫn phải dùng được các phương án tương tác hiện có phù hợp phone/Cardboard.",
+      "sourceKey": "ble_scope_override.required_now[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-005",
+      "expected": "Không để scan/retry BLE vô hạn, popup hoặc lỗi kết nối chặn thí nghiệm.",
+      "sourceKey": "ble_scope_override.required_now[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-006",
+      "expected": "Xác nhận kết nối, calibration và remapping trên tay cầm thật.",
+      "sourceKey": "ble_scope_override.deferred[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-007",
+      "expected": "Chứng nhận tương thích nhiều profile hoặc thiết bị chưa có để thử.",
+      "sourceKey": "ble_scope_override.deferred[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-008",
+      "expected": "BLE chưa hoàn chỉnh không chặn bàn giao lần này. Ghi rõ chưa kiểm thử phần cứng; không đánh dấu simulated test là hardware pass.",
+      "sourceKey": "ble_scope_override.acceptance",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-009",
+      "expected": "UI vẫn có cảm giác AI-slop: quá nhiều hộp, chữ nhỏ, nhãn khó hiểu, nút bên phải rời rạc, hierarchy yếu, panel che bàn và dụng cụ. Không giải quyết bằng việc chỉ sửa chữ thêm một lần nữa.",
+      "sourceKey": "ui_overhaul.problem",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-010",
+      "expected": "Xem nhanh một số reference HUD/game UI và giao diện thí nghiệm phù hợp; ưu tiên các reference đã có trong project, Beat Saber và hướng Premium Scientific. Rút ra quy tắc bố cục/typography cụ thể rồi triển khai, không sa vào nghiên cứu dài hoặc bê nguyên dashboard web.",
+      "sourceKey": "ui_overhaul.research",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-011",
+      "expected": "Ưu tiên vùng nhìn và thao tác thí nghiệm ở trung tâm. HUD phải phục vụ dụng cụ, không cạnh tranh với dụng cụ.",
+      "sourceKey": "ui_overhaul.layout[0]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-012",
+      "expected": "Gom các nút bên phải thành nhóm có thứ tự: chế độ hiển thị, quan sát/di chuyển, trợ giúp; không rải nút độc lập ở nhiều hàng tùy tiện.",
+      "sourceKey": "ui_overhaul.layout[1]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-013",
+      "expected": "Chuẩn hóa alignment, khoảng cách, kích thước, icon và trạng thái selected/disabled/pressed.",
+      "sourceKey": "ui_overhaul.layout[2]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-014",
+      "expected": "Tách nút thường dùng khỏi thao tác ít dùng; đưa tùy chọn ít dùng vào bảng mở khi cần.",
+      "sourceKey": "ui_overhaul.layout[3]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-015",
+      "expected": "Thu gọn hint thành thông tin đúng thời điểm, không phủ lên điểm cần thao tác. Chi tiết mở theo yêu cầu.",
+      "sourceKey": "ui_overhaul.layout[4]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-016",
+      "expected": "Giảm khung hộp và padding thừa nhưng không thu nhỏ chữ để nhét thêm nội dung.",
+      "sourceKey": "ui_overhaul.layout[5]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-017",
+      "expected": "Điều chỉnh joystick và các nút chạm để không chiếm quá nhiều màn hình hoặc che mặt bàn.",
+      "sourceKey": "ui_overhaul.layout[6]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-018",
+      "expected": "Chữ đủ lớn, tương phản rõ trên thiết bị thực và trong VR; tránh autosize làm chữ xuống quá nhỏ.",
+      "sourceKey": "ui_overhaul.typography_and_content[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-019",
+      "expected": "Nhãn nói rõ hành động và kết quả; không để nội dung mơ hồ, placeholder hoặc thuật ngữ khó hiểu cho newbie.",
+      "sourceKey": "ui_overhaul.typography_and_content[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-020",
+      "expected": "Phân cấp rõ tên thí nghiệm, bước hiện tại, việc cần làm, số đo và trợ giúp.",
+      "sourceKey": "ui_overhaul.typography_and_content[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-021",
+      "expected": "Không dùng màu làm tín hiệu duy nhất: dụng cụ đã lắp/đã chọn cần thêm icon, outline hoặc trạng thái chữ.",
+      "sourceKey": "ui_overhaul.typography_and_content[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-022",
+      "expected": "Đổi Vào VR thành nút TRÒN NHỎ đồng bộ phong cách và kích thước thị giác với bốn nút tròn còn lại trong thiết kế hiện hành.",
+      "sourceKey": "ui_overhaul.vr_entry_button.visual",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-023",
+      "expected": "Icon kính VR dễ nhận biết, có tên truy cập hoặc chú thích khi cần; vùng chạm đủ dễ bấm dù hình tròn nhìn nhỏ.",
+      "sourceKey": "ui_overhaul.vr_entry_button.usability",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-024",
+      "expected": "Không làm mất chức năng vào/thoát VR hoặc gây kích hoạt nhầm.",
+      "sourceKey": "ui_overhaul.vr_entry_button.regression",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-025",
+      "expected": "Có tùy chọn ẩn các panel và nút phụ để nhìn thí nghiệm sạch.",
+      "sourceKey": "ui_overhaul.hide_unhide[0]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-026",
+      "expected": "Luôn giữ một cách hiện lại UI rõ ràng, dễ tìm và dùng được ở cả phone lẫn VR.",
+      "sourceKey": "ui_overhaul.hide_unhide[1]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-027",
+      "expected": "Phân biệt thu gọn một bảng với ẩn HUD tổng thể.",
+      "sourceKey": "ui_overhaul.hide_unhide[2]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-028",
+      "expected": "Khi ẩn UI, tắt raycast/input interception của các vùng đã ẩn; không còn lớp vô hình chặn dụng cụ.",
+      "sourceKey": "ui_overhaul.hide_unhide[3]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-029",
+      "expected": "Không vô tình ẩn cách thoát VR hoặc các điều khiển thiết yếu.",
+      "sourceKey": "ui_overhaul.hide_unhide[4]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-030",
+      "expected": "Kiểm tra Canvas Scaler, anchors, layout groups, safe area và việc áp scale hai lần.",
+      "sourceKey": "ui_overhaul.technical_checks[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-031",
+      "expected": "Tách bố cục phone và world-space VR khi cần thay vì ép một scale cho cả hai.",
+      "sourceKey": "ui_overhaul.technical_checks[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-032",
+      "expected": "Sửa dialog xác nhận quá lớn, lớp xám/đen thừa và overlay chồng nhau.",
+      "sourceKey": "ui_overhaul.technical_checks[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-033",
+      "expected": "Khôi phục đúng layout sau khi thoát VR, đổi scene hoặc mở/đóng settings.",
+      "sourceKey": "ui_overhaul.technical_checks[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-034",
+      "expected": "Sửa text nhấp nháy, z-fighting, độ nét/font/material và thứ tự render dựa trên nguyên nhân thực tế.",
+      "sourceKey": "ui_overhaul.technical_checks[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-035",
+      "expected": "Opacity phải thay đổi nhìn thấy được, áp đúng đối tượng, không bị script khác ghi đè và lưu đúng.",
+      "sourceKey": "ui_overhaul.technical_checks[5]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-036",
+      "expected": "Bàn phím ghi chú không lặp phím hoặc kích hoạt quá nhạy; giữ dữ liệu khi đóng/mở.",
+      "sourceKey": "ui_overhaul.technical_checks[6]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-037",
+      "expected": "Chụp cùng góc trước/sau. Kiểm tra các tỉ lệ màn hình đại diện, chữ/nhãn không cắt, hint không che thao tác, nút không chồng, hide/unhide hoạt động và phone↔VR không làm vỡ layout.",
+      "sourceKey": "ui_overhaul.acceptance",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-038",
+      "expected": "Cụm bánh răng hiện quá nhỏ và khó thao tác: xác định scale thực, vị trí người dùng, khoảng cách camera và framing trước khi chọn cách sửa.",
+      "sourceKey": "apparatus_and_camera.engineering_gears[0]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-039",
+      "expected": "Ưu tiên vị trí quan sát/workstation phù hợp; có thể tăng scale cụm model có kiểm soát nếu đó là nguyên nhân.",
+      "sourceKey": "apparatus_and_camera.engineering_gears[1]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-040",
+      "expected": "Không chỉ tăng FOV hoặc zoom vào điểm trống. Không kéo camera đầu VR chống lại head tracking.",
+      "sourceKey": "apparatus_and_camera.engineering_gears[2]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-041",
+      "expected": "Nếu scale, cập nhật collider, pivot, snap points, label, animation và vùng tương tác tương ứng.",
+      "sourceKey": "apparatus_and_camera.engineering_gears[3]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-042",
+      "expected": "Giữ tỉ lệ các bánh răng, ăn khớp và logic truyền động đúng; không đổi kết quả vật lý vì thay hình ảnh.",
+      "sourceKey": "apparatus_and_camera.engineering_gears[4]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "HUD23Oct: grouped rail; adaptive-height task placard; circular VR entry on Home/activity; separate collapse/global hide with restore+VR exit retained and inactive graphics; focus area fitted to safe pixels.87PASS Editor HUD checks (4 representative station entries, phone/world/phone,1280x720/2340x1080/2048x1536). Images Evidence/FinalPass/Hud. This is scoped layout/lifecycle evidence, not full experiment flow or native device acceptance. New lighting/curtains remain open."
+      ]
+    },
+    {
+      "id": "O23-043",
+      "expected": "Người dùng đứng đủ gần để thấy rõ dụng cụ và đọc số đo, không bị kẹt xa bàn.",
+      "sourceKey": "apparatus_and_camera.all_experiments[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-044",
+      "expected": "Có cách đổi vị trí quan sát/tiếp cận phù hợp; kiểm tra teleport hoặc cơ chế hiện hành.",
+      "sourceKey": "apparatus_and_camera.all_experiments[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-045",
+      "expected": "Sửa hit testing, collider occlusion và input routing của dụng cụ khó thao tác, đặc biệt quả nặng con lắc.",
+      "sourceKey": "apparatus_and_camera.all_experiments[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-046",
+      "expected": "Không để thước xuyên model, dụng cụ lơ lửng hoặc nằm sát mép như sắp rơi.",
+      "sourceKey": "apparatus_and_camera.all_experiments[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-047",
+      "expected": "Tương tác trực tiếp vào model là đường chính: chạm/chọn, cầm/kéo/điều chỉnh theo khả năng input, không thay toàn bộ thí nghiệm bằng chuỗi nút Next.",
+      "sourceKey": "apparatus_and_camera.all_experiments[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-048",
+      "expected": "Hoàn thành thao tác quan trọng từ góc nhìn người dùng, không nhờ Editor chọn hộ object. Thiết bị rõ, số đo đọc được và cả phone/VR có đường tương tác khả dụng.",
+      "sourceKey": "apparatus_and_camera.acceptance",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-049",
+      "expected": "Người dùng tự làm → quan sát chuyển động/hiện tượng → đo/ghi nhận → giải thích → kết quả từ trạng thái thí nghiệm.",
+      "sourceKey": "guidance_and_learning.flow",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-050",
+      "expected": "Giới thiệu tên dụng cụ, công dụng và cách thao tác đủ ngắn để newbie hiểu.",
+      "sourceKey": "guidance_and_learning.requirements[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-051",
+      "expected": "Guided freedom: cho thử và làm lại; sai hoặc đứng yên lâu thì gợi ý phù hợp trạng thái.",
+      "sourceKey": "guidance_and_learning.requirements[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-052",
+      "expected": "Hint tăng dần: gợi ý khái niệm, chỉ đúng object/vị trí cần chú ý, sau đó mới hướng dẫn cụ thể.",
+      "sourceKey": "guidance_and_learning.requirements[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-053",
+      "expected": "Highlight cục bộ, dễ nhận biết, không dùng khung khổng lồ hoặc cưỡng ép zoom làm mất định hướng.",
+      "sourceKey": "guidance_and_learning.requirements[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-054",
+      "expected": "Skip/trợ giúp chỉ khi người dùng chọn; đánh dấu bước được hỗ trợ, không giả vờ người dùng tự hoàn thành.",
+      "sourceKey": "guidance_and_learning.requirements[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-055",
+      "expected": "Giữ dữ liệu, giải thích và kết quả gần ngữ cảnh thí nghiệm, không bắt nhìn nhiều panel rời.",
+      "sourceKey": "guidance_and_learning.requirements[5]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-056",
+      "expected": "Tìm model rèm phù hợp trên Sketchfab trước; ưu tiên miễn phí, kiểm tra license và attribution.",
+      "sourceKey": "window_curtains.asset_pipeline[0]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-057",
+      "expected": "Nếu không có model phù hợp thì làm Blender, sau đó nhập Unity đúng scale/material.",
+      "sourceKey": "window_curtains.asset_pipeline[1]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-058",
+      "expected": "Không cài hoặc chạy script không rõ nguồn gốc chỉ để lấy asset.",
+      "sourceKey": "window_curtains.asset_pipeline[2]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-059",
+      "expected": "Ưu tiên rèm cuốn hoặc cấu trúc hợp phòng lab, hình học gọn, không cloth simulation nặng mặc định.",
+      "sourceKey": "window_curtains.asset_pipeline[3]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-060",
+      "expected": "Model rèm được gắn đúng cửa sổ, không xuyên tường/kính và không cản lối.",
+      "sourceKey": "window_curtains.implementation[0]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-061",
+      "expected": "Có animation kéo xuống/thu lên mượt và script trạng thái đóng/mở đáng tin cậy.",
+      "sourceKey": "window_curtains.implementation[1]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-062",
+      "expected": "Cho người dùng tương tác tại rèm hoặc cơ cấu kéo; có feedback trạng thái và chống spam input.",
+      "sourceKey": "window_curtains.implementation[2]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-063",
+      "expected": "Đổi hướng giữa animation không giật, nhân đôi coroutine hoặc mất đồng bộ trạng thái.",
+      "sourceKey": "window_curtains.implementation[3]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-064",
+      "expected": "Khi đóng, giảm/che ánh sáng từ ngoài cửa sổ thực sự; chủ yếu còn ánh sáng đèn phòng.",
+      "sourceKey": "window_curtains.implementation[4]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-065",
+      "expected": "Khi mở, khôi phục daylight đúng mức; không nhân cường độ qua mỗi lần toggle.",
+      "sourceKey": "window_curtains.implementation[5]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-066",
+      "expected": "Không chỉ animate mesh trong khi baked daylight vẫn sáng nguyên. Kiểm tra lightmaps, ambient/environment, probes và reflections; dùng giải pháp phù hợp pipeline hiện có.",
+      "sourceKey": "window_curtains.implementation[6]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-067",
+      "expected": "Giữ đủ ánh sáng đọc dụng cụ khi rèm đóng; không tắt nhầm đèn phòng hoặc làm tối đen toàn bộ scene.",
+      "sourceKey": "window_curtains.implementation[7]",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-068",
+      "expected": "Test mở/đóng nhiều lần, đổi hướng giữa chừng và chuyển scene. Có ảnh cùng camera chứng minh ánh sáng ngoài thay đổi đúng, đèn trong vẫn hoạt động; không leak state giữa các phòng và không giảm hiệu năng bất hợp lý.",
+      "sourceKey": "window_curtains.acceptance",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23-069",
+      "expected": "Premium Professional Laboratory: sạch, chân thực, sáng rõ, có chiều sâu và đẹp để chụp ảnh sản phẩm; không sci-fi phô trương hoặc trang trí ngẫu nhiên.",
+      "sourceKey": "lab_visual_upgrade.direction",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-070",
+      "expected": "Đánh giá cảm giác phòng nhỏ/chật qua kích thước thật, FOV, camera, bố cục và mật độ đồ trước khi mở rộng.",
+      "sourceKey": "lab_visual_upgrade.room[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-071",
+      "expected": "Điều chỉnh không gian nếu cần nhưng không phá vị trí thí nghiệm, navigation, teleport và interaction anchors.",
+      "sourceKey": "lab_visual_upgrade.room[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-072",
+      "expected": "Tạo bố cục bàn, tủ, cửa sổ và đèn có chủ đích; tránh phòng rỗng sơ sài hoặc nhồi props vô nghĩa.",
+      "sourceKey": "lab_visual_upgrade.room[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-073",
+      "expected": "Giữ mặt bàn trắng ngà/xám sáng mờ phù hợp để dễ quan sát; thêm nền tương phản cục bộ nếu mẫu thí nghiệm màu trắng.",
+      "sourceKey": "lab_visual_upgrade.room[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-074",
+      "expected": "Loại bỏ props thừa chỉ sau khi kiểm tra không gắn với flow, collider hoặc vùng đặt dụng cụ.",
+      "sourceKey": "lab_visual_upgrade.room[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-075",
+      "expected": "Cải thiện key/fill/ambient hợp lý, bóng tiếp xúc và cân bằng trắng; không chỉ tăng exposure hoặc bloom.",
+      "sourceKey": "lab_visual_upgrade.lighting_and_materials[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-076",
+      "expected": "Thiết bị nổi bật khỏi nền nhưng không cháy sáng, bạc màu hoặc mất chi tiết.",
+      "sourceKey": "lab_visual_upgrade.lighting_and_materials[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-077",
+      "expected": "Vật liệu có roughness/metallic hợp lý; kính và kim loại không biến thành nhựa bóng đồng loạt.",
+      "sourceKey": "lab_visual_upgrade.lighting_and_materials[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-078",
+      "expected": "Sửa cảm giác tối om khi mới vào, nhưng giữ phân bố ánh sáng tự nhiên và đọc được thí nghiệm.",
+      "sourceKey": "lab_visual_upgrade.lighting_and_materials[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-079",
+      "expected": "Chất lượng tối đa hướng cinematic; ưu tiên readability khi thao tác, không dùng depth of field/motion blur gây mờ dụng cụ hoặc khó chịu trong VR.",
+      "sourceKey": "lab_visual_upgrade.lighting_and_materials[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-080",
+      "expected": "Low, Medium, High/Max phải có tác dụng thật và khác biệt đo được, không chỉ đổi tên setting.",
+      "sourceKey": "lab_visual_upgrade.quality_tiers[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-081",
+      "expected": "Low vẫn thấy rõ chữ, dụng cụ và hiện tượng; giảm chi phí render chứ không phá khả năng học.",
+      "sourceKey": "lab_visual_upgrade.quality_tiers[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-082",
+      "expected": "High/Max nâng bóng, vật liệu, phản xạ hoặc hậu kỳ trong ngân sách Android phù hợp.",
+      "sourceKey": "lab_visual_upgrade.quality_tiers[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-083",
+      "expected": "Nếu có adaptive quality, tránh dao động liên tục và tôn trọng lựa chọn người dùng.",
+      "sourceKey": "lab_visual_upgrade.quality_tiers[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-084",
+      "expected": "Kiểm tra thay đổi lúc runtime, lưu/khôi phục và tương tác với VR/rèm.",
+      "sourceKey": "lab_visual_upgrade.quality_tiers[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-085",
+      "expected": "Không coi FPS Editor hoặc emulator là chứng nhận hiệu năng trên điện thoại thật.",
+      "sourceKey": "lab_visual_upgrade.quality_tiers[5]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-086",
+      "expected": "Khởi động → chọn phòng → chọn thí nghiệm → thao tác dụng cụ → hiện tượng → số đo/kết quả → reset → quay lại.",
+      "sourceKey": "qa.core_paths[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-087",
+      "expected": "Vào/thoát VR nhiều lần, recenter, nhìn gần bàn và thao tác UI/dụng cụ.",
+      "sourceKey": "qa.core_paths[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-088",
+      "expected": "Ẩn/hiện UI, đóng/mở bảng, modal xác nhận, back, settings và ghi chú.",
+      "sourceKey": "qa.core_paths[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-089",
+      "expected": "Đổi opacity và đồ họa, áp dụng/hủy, khởi động lại để kiểm tra persistence.",
+      "sourceKey": "qa.core_paths[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-090",
+      "expected": "Rèm mở/đóng trên các quality tiers và khi đang thao tác thí nghiệm.",
+      "sourceKey": "qa.core_paths[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-091",
+      "expected": "P01 Con lắc đơn.",
+      "sourceKey": "qa.flagships[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-092",
+      "expected": "C04 Nhận biết chloride.",
+      "sourceKey": "qa.flagships[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-093",
+      "expected": "B01 Biểu bì hành.",
+      "sourceKey": "qa.flagships[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-094",
+      "expected": "M01 Truyền bánh răng.",
+      "sourceKey": "qa.flagships[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-095",
+      "expected": "Ưu tiên kiểm thử end-to-end bốn thí nghiệm chính và smoke test các thí nghiệm khác chịu ảnh hưởng bởi hệ thống chung. Không gọi sweep mở màn hình là full-flow pass.",
+      "sourceKey": "qa.coverage",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-096",
+      "expected": "Static/code inspection.",
+      "sourceKey": "qa.evidence_levels[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-097",
+      "expected": "Unity Editor runtime.",
+      "sourceKey": "qa.evidence_levels[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-098",
+      "expected": "Android emulator.",
+      "sourceKey": "qa.evidence_levels[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-099",
+      "expected": "Android phone thật.",
+      "sourceKey": "qa.evidence_levels[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-100",
+      "expected": "Cardboard và controller thật.",
+      "sourceKey": "qa.evidence_levels[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-101",
+      "expected": "Mỗi kết quả phải nêu đúng mức bằng chứng và build. Thiếu phần cứng thì ghi chưa kiểm thử, không tạo log hoặc số FPS giả.",
+      "sourceKey": "qa.rule",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-102",
+      "expected": "Không còn lỗi đã tái hiện thuộc phạm vi bắt buộc mà bị bỏ qua không giải thích.",
+      "sourceKey": "definition_of_done[0]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-103",
+      "expected": "UI gọn và có tổ chức, chữ rõ, nút VR tròn, hide/unhide an toàn; không che khu vực thao tác.",
+      "sourceKey": "definition_of_done[1]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-104",
+      "expected": "Cụm bánh răng và dụng cụ đủ rõ, người dùng thao tác trực tiếp được qua input khả dụng.",
+      "sourceKey": "definition_of_done[2]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-105",
+      "expected": "Rèm có model, animation và tác động ánh sáng đúng, không chỉ trang trí.",
+      "sourceKey": "definition_of_done[3]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-106",
+      "expected": "Phòng được cải thiện đáng kể, có ảnh before/after cùng góc; High đẹp hơn thật, Low vẫn dùng tốt.",
+      "sourceKey": "definition_of_done[4]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-107",
+      "expected": "Build không có lỗi compile; thay đổi không làm mất saves/settings hoặc phá flow chính.",
+      "sourceKey": "definition_of_done[5]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-108",
+      "expected": "BLE hardware được ghi deferred và không chặn bàn giao.",
+      "sourceKey": "definition_of_done[6]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-109",
+      "expected": "Không tự chấm 10/10 thay cho kiểm chứng hoặc tuyên bố tất cả đã xong chỉ vì build thành công.",
+      "sourceKey": "definition_of_done[7]",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-110",
+      "expected": "APK candidate mới với versionName/versionCode, đường dẫn và SHA-256; không ghi đè bản ổn định duy nhất.",
+      "sourceKey": "deliverables.apk",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-111",
+      "expected": "Bảng ngắn từng bug/task: nguyên nhân, sửa gì, nơi sửa, test trên môi trường nào, bằng chứng, trạng thái và hạn chế.",
+      "sourceKey": "deliverables.report",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-112",
+      "expected": "Ảnh sản phẩm thật từ build/scene đã hoàn thiện: toàn phòng, trung cảnh, cận dụng cụ, UI hiện/ẩn, rèm mở/đóng và các phòng chính. Ghi rõ ảnh Editor hay APK; không dùng ảnh concept giả làm ảnh sản phẩm.",
+      "sourceKey": "deliverables.images",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-113",
+      "expected": "Tóm tắt đã sửa, cải thiện nhìn thấy được, phần deferred/chưa test và cách chạy bản mới. Không tốn token kể lại toàn bộ lịch sử.",
+      "sourceKey": "deliverables.handoff",
+      "status": "OPEN",
+      "evidence": []
+    },
+    {
+      "id": "O23-UI-MENU-ONLY",
+      "expected": "Latest user steering: round VR entry only on Home; reduce redundant activity controls while preserving observation, help, notebook and safe VR exit.",
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "Evidence/FinalPass/Hud/checks.txt: 103 PASS, 0 FAIL; P01/C04/B01/M01, three real Game View dimensions, VR exit callback and HUD restoration. No Android device claim.",
+        "23 Oct checkpoint: four authored shade endpoint/reversal/repeat checks; four indoor-only bakes;139 Editor HUD/lighting checks and41 interaction checks including synthetic gaze on actual shade collider. Same-camera runtime images in Evidence/FinalPass/Hud/*daylight*. Visual darkness and device/performance acceptance remain open."
+      ]
+    },
+    {
+      "id": "O23B-VISUAL-BALANCE",
+      "expected": "Sửa mất cân bằng bố cục và ánh sáng, bắt đầu từ ảnh phòng Engineering người dùng gửi.",
+      "status": "IN_PROGRESS",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "acceptance": [
+        "Có ảnh before/after cùng camera và cùng quality tier.",
+        "Bảng tên đọc được, mặt bàn rõ, rèm không có hotspot gắt, không có khối đen nuốt chi tiết.",
+        "Không phá collider, vị trí dụng cụ, navigation, teleport hoặc interaction anchors."
+      ],
+      "evidence": [],
+      "remaining": "Implementation and scoped runtime evidence required; no hardware acceptance claimed."
+    },
+    {
+      "id": "O23B-CURTAINS-LIGHTING-CONTROL",
+      "expected": "Điều khiển rèm từ bảng điều khiển và chuyển ánh sáng mượt, đồng bộ với rèm.",
+      "status": "IN_PROGRESS",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "acceptance": [
+        "Test mở/đóng liên tiếp và đảo hướng giữa animation.",
+        "Nút trên bảng và tương tác tại rèm luôn đồng bộ.",
+        "Quay clip cùng góc cho thấy rèm chuyển động và ánh sáng ngoài thay đổi dần; đèn trong phòng vẫn hữu ích.",
+        "Không leak trạng thái giữa phòng, không có spike hiệu năng đáng kể do rebake hoặc tạo light/material liên tục."
+      ],
+      "evidence": [],
+      "remaining": "Implementation and scoped runtime evidence required; no hardware acceptance claimed."
+    },
+    {
+      "id": "O23B-IN-LAB-CONTROL-UI",
+      "expected": "Thanh điều khiển khoa học, hữu ích, đẹp và hiện đại, không còn xanh rêu và khung hộp rời rạc.",
+      "status": "IN_PROGRESS",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "acceptance": [
+        "Người mới tìm được chức năng chính mà không phải đoán các nút rời rạc.",
+        "Không text cắt/chồng, không panel chắn thao tác, không phải đọc chữ bé.",
+        "Hide/unhide, nút VR, nhóm Ánh sáng và trạng thái rèm hoạt động thực.",
+        "UI mới đẹp ở ảnh tĩnh và rõ khi đang thao tác, không chỉ đẹp trong mockup."
+      ],
+      "evidence": [],
+      "remaining": "Implementation and scoped runtime evidence required; no hardware acceptance claimed."
+    },
+    {
+      "id": "O23B-CONTROLLER-MODE",
+      "expected": "Khi controller sẵn sàng, chuyển từ gaze dot sang model tay cầm và ray tương tác.",
+      "status": "IN_PROGRESS",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "acceptance": "Có thể test state machine bằng mock input có gắn nhãn simulated. Chỉ đánh dấu phần cứng pass sau kiểm thử tay cầm thật; không để task này trì hoãn bốn thí nghiệm chính.",
+      "evidence": [],
+      "remaining": "Implementation and scoped runtime evidence required; no hardware acceptance claimed."
+    },
+    {
+      "id": "O23B-ANIMATION-QUALITY",
+      "expected": "Nâng cấp animation thành chất lượng nhìn thấy rõ, không chỉ thêm fade cho có.",
+      "status": "IN_PROGRESS",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "acceptance": [
+        "Quay clip gameplay thực cho từng thí nghiệm chính, không dùng ảnh tĩnh để chứng minh animation tốt.",
+        "Clip thể hiện input → chuyển động/hiện tượng → phản hồi/số đo → reset và thử lại.",
+        "Test start/stop/reset, spam input hợp lý, đổi bước và rời/quay lại scene.",
+        "Ghi rõ clip từ Editor, emulator hay điện thoại; không giả lập kết quả hiệu năng hoặc tracking."
+      ],
+      "evidence": [],
+      "remaining": "Implementation and scoped runtime evidence required; no hardware acceptance claimed."
+    },
+    {
+      "id": "O23B-E2E-P01",
+      "expected": "Input-driven complete journey, wrong action, cancellation/return, repeated reset; actual gameplay video.",
+      "status": "OPEN",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "evidence": []
+    },
+    {
+      "id": "O23B-E2E-C04",
+      "expected": "Input-driven complete journey, wrong action, cancellation/return, repeated reset; actual gameplay video.",
+      "status": "OPEN",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "evidence": []
+    },
+    {
+      "id": "O23B-E2E-B01",
+      "expected": "Input-driven complete journey, wrong action, cancellation/return, repeated reset; actual gameplay video.",
+      "status": "OPEN",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "evidence": []
+    },
+    {
+      "id": "O23B-E2E-M01",
+      "expected": "Input-driven complete journey, wrong action, cancellation/return, repeated reset; actual gameplay video.",
+      "status": "OPEN",
+      "source": "SUPPLEMENT-FLAGSHIPS.json",
+      "evidence": []
     }
-  ]
+  ],
+  "latestScopeOverride": {
+    "source": "C:\\Users\\busyt\\.codex\\attachments\\4bbeca05-d03f-4af4-b5ce-d18772e850bd\\Pasted text.txt",
+    "priority": "P0 functionality > P1 experiment UI/framing > P2 rooms/curtains > P3 BLE hardware deferred",
+    "bleHardwareBlocksDelivery": false,
+    "quotaRule": "Latest direct user instruction: stop above91 percent used; previous30 percent remaining floor superseded",
+    "owner": "Current thread; no new workers"
+  }
 }

@@ -28,7 +28,7 @@ public sealed class FinalPassHudProbe:MonoBehaviour
     IEnumerator Capture(string name){yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Evidence/FinalPass/Hud/"+(baseline?"before-":"after-")+name+".png");yield return null;}
     IEnumerator Start()
     {
-        DontDestroyOnLoad(gameObject);baseline=SessionState.GetBool("VLAB.HudBaseline",false);SessionState.SetBool("VLAB.HudBaseline",false);
+        Application.runInBackground=true;DontDestroyOnLoad(gameObject);baseline=SessionState.GetBool("VLAB.HudBaseline",false);SessionState.SetBool("VLAB.HudBaseline",false);
         var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){rows.Add("FAIL "+e);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
         File.WriteAllLines("Evidence/FinalPass/Hud/"+(baseline?"baseline":"checks")+".txt",new[]{"Editor UI callbacks and raycast/layout checks; no Android touch or physical tracking claim."}.Concat(rows));SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
@@ -55,7 +55,7 @@ public sealed class FinalPassHudProbe:MonoBehaviour
             Check(id+" closed shade removes runtime daylight",shade.lowered&&shade.daylight.All(l=>l.intensity==0));
             Check(id+" indoor lamps remain lit",indoor.Length>0&&indoor.Select((l,i)=>l.enabled&&Mathf.Approximately(l.intensity,indoorValues[i])&&l.intensity>0).All(v=>v));
             for(int tier=0;tier<4;tier++){RoomLighting.Apply(tier);Check(id+" quality "+tier+" preserves closed daylight",shade.daylight.All(l=>l.intensity==0));}
-            yield return Capture(id+"-daylight-closed");
+            RoomLighting.Apply(App.Profile.settings.GraphicsTier);yield return null;yield return Capture(id+"-daylight-closed");
             Check(id+" lighting captures keep camera pose",Vector3.Distance(viewpoint,App.View.transform.position)<.001f&&Quaternion.Angle(viewRotation,App.View.transform.rotation)<.01f);
             for(int repeat=0;repeat<10;repeat++){fixture.Activate();shade.Step(10);}
             fixture.Activate();yield return new WaitForSecondsRealtime(2);
@@ -65,6 +65,15 @@ public sealed class FinalPassHudProbe:MonoBehaviour
             yield return Press("Station tools");
             Check(id+" tools sheet retains manual guidance and notebook",Find("Hướng dẫn")&&Find("Sổ tay"));
             Check(id+" tools sheet has no redundant VR entry",!Find("VR mode"));
+            yield return Press("Room lighting");
+            Check(id+" lighting panel exposes usable controls",Find("Room shade").IsInteractable()&&Find("Room lamp").IsInteractable());
+            yield return Press("Room shade");Check(id+" panel closes actual shade",shade.lowered);
+            fixture.Activate();yield return new WaitForSecondsRealtime(.2f);
+            Check(id+" direct shade reversal updates panel action",!shade.lowered&&Find("Room shade").GetComponentInChildren<TextMeshProUGUI>().text=="Đóng rèm");
+            yield return Press("Room lamp");Check(id+" ceiling switch independent from shade",indoor.All(l=>!l.enabled)&&!shade.lowered);
+            yield return Press("Room lamp");Check(id+" ceiling switch restores indoor light",indoor.All(l=>l.enabled));
+            Canvas.ForceUpdateCanvases();Check(id+" lighting panel text fits",!App.GetComponentsInChildren<TextMeshProUGUI>().Any(t=>t.isTextOverflowing||t.isTextTruncated));
+            yield return Capture(id+"-lighting-panel");yield return Press("Lighting back");
             yield return Press("Station return");
             if(id=="P01")foreach(var size in new[]{new Vector2Int(1280,720),new Vector2Int(2340,1080),new Vector2Int(2048,1536)})
             {
