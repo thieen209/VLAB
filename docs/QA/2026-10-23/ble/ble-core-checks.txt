@@ -1,0 +1,18 @@
+PASS explicit inspect connection
+PASS active inspection resumes once
+PASS explicit stop survives pause/resume
+PASS duplicate resume does not reconnect
+PASS invalid address never reaches native transport
+PASS first packet accepted
+PASS sequence wraps
+PASS duplicate rejected
+PASS old packet rejected
+PASS stale native queue rejected
+PASS truncated packet rejected
+PASS nonfinite time rejected
+PASS extreme axis rejected safely
+PASS independent profile saves
+PASS profile survives reload
+PASS valid backup recovers damaged primary
+PASS damaged copies prevent overwrite
+PASS explicit reset archives both copies

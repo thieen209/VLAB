@@ -15,7 +15,7 @@ namespace Vlab.Product
     [Serializable] public sealed class ExperimentBrief
     {public string id,titleVi,goalVi,theoryVi,variablesVi,examplesVi,mistakesVi,modelVi,testsVi,sources;public string[] stepsVi,assets;}
     [Serializable] public sealed class BriefCatalog {public ExperimentBrief[] items;}
-    public sealed class VlabApp:MonoBehaviour
+    public sealed partial class VlabApp:MonoBehaviour
     {
         public static VlabApp Instance{get;private set;}
         public LocalProfile Profile{get;private set;}public ExperimentSession Session{get;private set;}
@@ -983,7 +983,7 @@ namespace Vlab.Product
                 var help=ui.Text(box,L("Điện thoại: chạm chọn; vuốt nền lab để nhìn.\nKính: nhìn để trỏ; nút kính hoặc giữ nhìn (khi bật tự chọn).\nChọn: ","Phone: tap to select; drag empty lab space to look.\nViewer: gaze; trigger or dwell (when enabled) selects.\nSelect: ")+ControllerBindings.Label(Profile.settings.controllerSelect,Vi)+L(" · Quay lại: "," · Back: ")+ControllerBindings.Label(Profile.settings.controllerBack,Vi)+L("\nMở Gán nút tay cầm để xem các nút và hướng dẫn cần điều khiển.","\nOpen Button mapping for other actions and stick instructions."),48,496,1004,44,22);help.text=L("Gán nút: chạm Đổi nút tay cầm ở trên. Cài đặt được lưu sau khi Áp dụng.","Use Remap controller above. Apply saves your configuration.");SettingsInk(help);
                 Button(box,L("Căn lại","Recenter"),48,554,312,72,RecenterHead);
                 var qr=Button(box,Input.CanScanViewer?L("Quét QR kính","Scan viewer QR"):L("QR · Android","QR · Android"),740,554,312,72,Input.ScanViewer);qr.name="Controls viewer QR";qr.interactable=Input.CanScanViewer;
-                var pair=Button(box,Input.CanPairController?L("Kết nối tay cầm","Pair controller"):"Bluetooth · Android",394,554,312,72,()=>{Session?.Pause();if(!Input.OpenControllerPairing())Toast(L("Không mở được cài đặt Bluetooth. Hãy mở từ cài đặt điện thoại.","Bluetooth settings could not open. Use your phone settings."));});pair.name="Controls pair controller";pair.interactable=Input.CanPairController;
+                var pair=Button(box,L("Kết nối tay cầm BLE","BLE controllers"),394,554,312,72,()=>ShowBleController());pair.name="Controls pair controller";
                 foreach(var button in new[]{pair,qr})button.GetComponentInChildren<TextMeshProUGUI>().fontSize=ui.LargeText?26.88f:24;
             }
             if(settingsTab==4)
@@ -1102,6 +1102,7 @@ namespace Vlab.Product
         bool ActivityRunIntent()=>modal&&ReferenceEquals(modalSession,Session)?modalResumeActivity:Session!=null&&Session.Phase==ExperimentPhase.Running;
         void CloseModal()
         {
+            Input?.Ble?.CancelCalibration();
             if(toolSheetFocusSaved)
             {
                 if(ReferenceEquals(toolSheetFocusSession,Session)&&!Input.VrMode&&!Input.SimulatorMode)

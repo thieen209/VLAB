@@ -117,7 +117,7 @@ namespace Vlab.Product
         ScreenOrientation phoneOrientation;int phoneWidth,phoneHeight;
         AttitudeSensor ownedAttitude;bool enabledAttitude,gyroCalibrated;
         Quaternion gyroZero,gyroView;double gyroSampleTime=-1;
-        bool PhoneFlatActive=>Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!UseMockController&&!UsingGamepad&&(Application.isMobilePlatform||Touchscreen.current!=null);
+        bool PhoneFlatActive=>Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!UseMockController&&!UsingGamepad&&!UsingBle&&(Application.isMobilePlatform||Touchscreen.current!=null);
         public bool PhoneControlsVisible=>showPhoneJoystick&&PhoneFlatActive;
         public bool PhoneJoystickActive=>PhoneControlsVisible&&showPhoneJoystick&&phoneTouches.JoystickActive;
         public Vector2 PhoneJoystickCenter=>PhoneTouchRouter.JoystickCenter;
@@ -152,7 +152,7 @@ namespace Vlab.Product
         }
         void ApplyPhoneGyro()
         {
-            if(!phoneGyro||!Gameplay||uiBlocked||VrMode||SimulatorMode||UseMockController||UsingGamepad)
+            if(!phoneGyro||!Gameplay||uiBlocked||VrMode||SimulatorMode||UseMockController||UsingGamepad||UsingBle)
             {gyroCalibrated=false;ReleaseAttitude();return;}
             var sensor=AttitudeSensor.current;
             if(sensor==null||!sensor.added){gyroCalibrated=false;ReleaseAttitude();return;}
@@ -224,16 +224,17 @@ namespace Vlab.Product
             return false;
 #endif
         }
+        public BleControllerRuntime Ble{get;private set;} bool usingBle; public bool UsingBle=>usingBle&&!UseMockController;
         public bool UsingGamepad=>activeGamepad!=null&&activeGamepad.Device!=null&&activeGamepad.Device.added&&activeGamepad.Device.enabled&&!UseMockController;
-        public bool ControllerPointerActive=>VrMode||SimulatorMode||UseMockController||UsingGamepad;
-        public string CurrentInputLabel=>UseMockController?"Orientation adapter (mock)":UsingGamepad?(VrMode||SimulatorMode?"VR gaze + HID gamepad":"HID gamepad cursor"):(VrMode||SimulatorMode?"VR gaze / viewer trigger":"Mouse / touchscreen");
-        public ControllerCapabilities Capabilities=>UseMockController?Controller.Capabilities:UsingGamepad?(VrMode||SimulatorMode?activeGamepad.Capabilities&~ControllerCapabilities.Look:activeGamepad.Capabilities):ControllerCapabilities.Select|ControllerCapabilities.Grip|ControllerCapabilities.Adjustment|ControllerCapabilities.Menu|ControllerCapabilities.Pointer;
+        public bool ControllerPointerActive=>VrMode||SimulatorMode||UseMockController||UsingGamepad||UsingBle;
+        public string CurrentInputLabel=>UsingBle?"BLE controller":UseMockController?"Orientation adapter (mock)":UsingGamepad?(VrMode||SimulatorMode?"VR gaze + HID gamepad":"HID gamepad cursor"):(VrMode||SimulatorMode?"VR gaze / viewer trigger":"Mouse / touchscreen");
+        public ControllerCapabilities Capabilities=>UsingBle?Ble.Provider.Capabilities:UseMockController?Controller.Capabilities:UsingGamepad?(VrMode||SimulatorMode?activeGamepad.Capabilities&~ControllerCapabilities.Look:activeGamepad.Capabilities):ControllerCapabilities.Select|ControllerCapabilities.Grip|ControllerCapabilities.Adjustment|ControllerCapabilities.Menu|ControllerCapabilities.Pointer;
         public event Action<bool,string> ModeChanged;
         TrackedPoseDriver trackedPose;bool switching,lastPointerHeld,viewerTriggerHeld;
         GamepadControllerProvider activeGamepad;
         GameSettings controllerBindings=new GameSettings();
         public void ConfigureControllerBindings(GameSettings configuration)
-        {ControllerBindings.Validate(configuration);if(ControllerBindings.Equal(controllerBindings,configuration))return;controllerBindings=configuration.Copy();activeGamepad?.ConfigureBindings(controllerBindings);}
+        {ControllerBindings.Validate(configuration);if(ControllerBindings.Equal(controllerBindings,configuration))return;controllerBindings=configuration.Copy();activeGamepad?.ConfigureBindings(controllerBindings);Ble?.ConfigureBindings(controllerBindings);}
         readonly System.Collections.Generic.Dictionary<int,Vector4> gamepadActivity=new System.Collections.Generic.Dictionary<int,Vector4>();
         bool pendingLoss;
 #if UNITY_EDITOR
@@ -248,6 +249,15 @@ namespace Vlab.Product
 #endif
         public void Adopt(Camera view)
         {
+            if(!Ble)
+            {
+                Ble=gameObject.AddComponent<BleControllerRuntime>();
+                string folder=Application.persistentDataPath;
+#if UNITY_EDITOR
+                string test=UnityEditor.SessionState.GetString("VLAB.TestProfile","");if(!string.IsNullOrEmpty(test))folder=test;
+#endif
+                Ble.Initialize(System.IO.Path.Combine(folder,"Controllers"));Ble.ConfigureBindings(controllerBindings);
+            }
             View=view;trackedPose=view.GetComponent<TrackedPoseDriver>();
             if(!trackedPose)trackedPose=view.gameObject.AddComponent<TrackedPoseDriver>();
             trackedPose.positionInput=new InputActionProperty(new InputAction("Head position",InputActionType.Value,"<XRHMD>/centerEyePosition"));
@@ -273,12 +283,26 @@ namespace Vlab.Product
             bool changed=false;
             if(activeGamepad!=null&&(activeGamepad.Device==null||!activeGamepad.Device.added||!activeGamepad.Device.enabled))
             {activeGamepad.CancelUntilReleased();activeGamepad=null;pendingLoss=true;changed=true;}
+            if(usingBle&&(Ble==null||!Ble.Fresh)){Ble?.Provider.CancelUntilReleased();usingBle=false;pendingLoss=true;changed=true;}
+            bool bleActivity=Ble!=null&&Ble.Provider.ConsumeActivity()&&Ble.Fresh;
             var candidate=ActiveGamepadFromRealActivity();
+            if(usingBle&&(mouseActivity||touchActivity||candidate!=null))
+            {Ble.Provider.CancelUntilReleased();usingBle=false;pendingLoss=true;changed=true;}
+            if(!mouseActivity&&!touchActivity&&candidate==null&&bleActivity&&!usingBle)
+            {activeGamepad?.CancelUntilReleased();activeGamepad=null;usingBle=true;changed=true;if(lastPointerHeld){pendingLoss=true;Ble.Provider.CancelUntilReleased();}}
             if(mouseActivity||touchActivity)
             {if(activeGamepad!=null){activeGamepad.CancelUntilReleased();activeGamepad=null;changed=true;if(lastPointerHeld)pendingLoss=true;}}
             else if(candidate!=null&&(activeGamepad==null||activeGamepad.Device!=candidate))
             {if(activeGamepad!=null){activeGamepad.CancelUntilReleased();if(lastPointerHeld)pendingLoss=true;}activeGamepad=new GamepadControllerProvider(candidate,controllerBindings);changed=true;}
             if(changed)ModeChanged?.Invoke(VrMode,"");
+            if(usingBle)
+            {
+                if(phoneTouches.HasTouches)ResetPhoneInput();
+                var frame=Ble.Provider.Poll(View,now,VrMode||SimulatorMode);
+                if(Ble.IsCalibrating){frame.pointer=new Ray(View.transform.position,View.transform.forward);frame.adjustment=0;}
+                frame.menu|=keyboard!=null&&keyboard.escapeKey.wasPressedThisFrame;
+                ApplyViewerButtons(ref frame);return FinishFrame(frame);
+            }
             if(activeGamepad!=null)
             {
                 if(phoneTouches.HasTouches)ResetPhoneInput();
@@ -315,7 +339,7 @@ namespace Vlab.Product
         }
         ActionFrame FinishFrame(ActionFrame f)
         {
-            if(pendingLoss){f.lost=true;f.released|=lastPointerHeld;f.held=f.pressed=f.grabPressed=f.menu=f.recenter=f.back=f.phoneWorldPress=false;f.move=Vector2.zero;pendingLoss=false;}
+            if(pendingLoss){f.lost=true;f.released|=lastPointerHeld;f.held=f.pressed=f.grabPressed=f.menu=f.recenter=f.back=f.phoneWorldPress=false;f.move=Vector2.zero;f.adjustment=0;pendingLoss=false;}
             f.released|=!f.held&&lastPointerHeld;lastPointerHeld=f.held;return f;
         }
         void ApplyViewerButtons(ref ActionFrame f)
@@ -394,7 +418,7 @@ namespace Vlab.Product
 #endif
         }
         public void Recenter()
-        {if(!View)return;if(VrMode)Google.XR.Cardboard.Api.Recenter();else if(!SimulatorMode)RebasePhoneGyro();Controller.Calibrate(View.transform.rotation);}
+        {if(!View)return;if(VrMode)Google.XR.Cardboard.Api.Recenter();else if(!SimulatorMode)RebasePhoneGyro();Controller.Calibrate(View.transform.rotation);Ble?.Provider.Calibrate(View.transform.rotation);}
         public void ScanViewer(){if(CanScanViewer&&!switching)StartCoroutine(ScanViewerOptional());}
         IEnumerator ScanViewerOptional()
         {
@@ -410,8 +434,8 @@ namespace Vlab.Product
             finally{switching=false;}
         }
         void OnDisable(){ResetPhoneInput();}
-        void OnApplicationPause(bool paused){if(paused){ResetPhoneInput();Gameplay=false;pendingLoss=true;activeGamepad?.CancelUntilReleased();}}
-        void OnApplicationFocus(bool focused){if(!focused){ResetPhoneInput();pendingLoss=true;activeGamepad?.CancelUntilReleased();}}
+        void OnApplicationPause(bool paused){if(paused){ResetPhoneInput();Gameplay=false;pendingLoss=true;activeGamepad?.CancelUntilReleased();Ble?.Provider.CancelUntilReleased();}}
+        void OnApplicationFocus(bool focused){if(!focused){ResetPhoneInput();pendingLoss=true;activeGamepad?.CancelUntilReleased();Ble?.Provider.CancelUntilReleased();}}
     }
     // Input-only deterministic state; device sampling stays in VlabInput.
     internal sealed class PhoneTouchRouter

@@ -45,8 +45,10 @@
     {
       "id": "Q07",
       "expected": "Advanced Controller Ecosystem: BLE thực, remapping, calibration joystick, nhiều profile, chẩn đoán kết nối, khả năng mở rộng và bộ kiểm thử giả lập.",
-      "status": "OPEN",
-      "evidence": []
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "BLE implementation23Oct: Android foreground GATT scan/connect/CCCD subscribe plugin compiles with javac SDK36; profile decoder/store/provider integrated into VlabInput.18PASS core/lifecycle/storage in Evidence/FinalPass/ble-core-checks.txt;18PASS VI/EN Editor UI callbacks/overflow at1600x900 in ble-ui-checks.txt, inspected screenshots.38PASS existing interaction regression after integration. Firmware UUID/payload and hardware compatibility remain unknown; native Android build code22 in progress. Broader BLE input handoffs/multiaspect UI/native transport still require testing. See docs/FinalPass/BLE-PROTOCOL.md."
+      ]
     },
     {
       "id": "Q08",
@@ -155,7 +157,8 @@
       "expected": "PDF trang 1 và Q7: đọc bản dự thi, tài liệu và firmware tay cầm ESP32 SuperMini để xác định đúng board, cảm biến, số tay cầm, GATT UUID, payload, endian, tần số và mapping. Không tự đoán rồi gọi là tương thích. Triển khai BLE Android thực từ scan/connect/subscribe tới Unity actions; quyền theo phiên bản Android, trạng thái kết nối, reconnect, mất gói/input timeout, release nút khi mất kết nối và cleanup khi pause/quit. Có remapping, joystick deadzone/calibration, profiles, diagnostics và lưu cài đặt. Test packet sai/trễ/trùng, disconnect/reconnect bằng simulator. Nếu giao thức chưa có, tách adapter cấu hình được và tài liệu đề xuất protocol, đánh dấu tích hợp phần cứng chưa xác minh; không dùng mock thay transport thật. Không suy ra vị trí 6DoF từ dữ liệu chưa chứng minh được.",
       "status": "IN_PROGRESS",
       "evidence": [
-        "work/final-pass-20261023/controller-source-review.json: supplied KiCadREADME/manual and both actual-board photos inspected. Current docs describeESP32-S3/BNO055, leftESP-NOW->rightBLEgateway, VLABCONTROLLER; do not reuse olderMPU9250 assumption. Firmware/GATTUUID/payload/endian/frequency not supplied in inspected hardware folder. NativeBLE transport not yet implemented; real hardware absent."
+        "work/final-pass-20261023/controller-source-review.json: supplied KiCadREADME/manual and both actual-board photos inspected. Current docs describeESP32-S3/BNO055, leftESP-NOW->rightBLEgateway, VLABCONTROLLER; do not reuse olderMPU9250 assumption. Firmware/GATTUUID/payload/endian/frequency not supplied in inspected hardware folder. NativeBLE transport not yet implemented; real hardware absent.",
+        "BLE implementation23Oct: Android foreground GATT scan/connect/CCCD subscribe plugin compiles with javac SDK36; profile decoder/store/provider integrated into VlabInput.18PASS core/lifecycle/storage in Evidence/FinalPass/ble-core-checks.txt;18PASS VI/EN Editor UI callbacks/overflow at1600x900 in ble-ui-checks.txt, inspected screenshots.38PASS existing interaction regression after integration. Firmware UUID/payload and hardware compatibility remain unknown; native Android build code22 in progress. Broader BLE input handoffs/multiaspect UI/native transport still require testing. See docs/FinalPass/BLE-PROTOCOL.md."
       ]
     },
     {
