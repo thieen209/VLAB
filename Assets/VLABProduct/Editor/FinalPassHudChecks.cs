@@ -60,6 +60,13 @@ public sealed class FinalPassHudProbe:MonoBehaviour
             TMP_InputField Body()=>App.GetComponentsInChildren<TMP_InputField>(true).Single(f=>f.name=="Journal note body");
             string folder=SessionState.GetString("VLAB.TestProfile","");string blocked=Path.Combine(folder,"profile.json.tmp");
             yield return Press("Open journal");yield return Press("Journal mode notes");yield return Press("Journal note new");
+            foreach(var field in App.GetComponentsInChildren<TMP_InputField>().ToArray())
+            {
+                field.ActivateInputField();yield return null;yield return null;
+                field.text="Bản nháp giữ khi đóng bàn phím";
+                field.OnCancel(new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current));
+                Check("Cancel retains draft in "+field.name,field.text=="Bản nháp giữ khi đóng bàn phím");
+            }
             Body().text="Ghi chép cần giữ — tiếng Việt";string id=App.Profile.notebookPages.Last().id;
             Call("ControllerBack");yield return null;
             Check("Back saves actual notebook field before leaving",App.Route=="home"&&new ProfileStore(folder).Load().profile.notebookPages.Any(p=>p.id==id&&p.body=="Ghi chép cần giữ — tiếng Việt"));

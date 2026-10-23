@@ -68,7 +68,8 @@ namespace Vlab.Product
             var input=panel.gameObject.AddComponent<TMP_InputField>();input.textViewport=viewport;input.textComponent=text;input.placeholder=hint;input.targetGraphic=panel.GetComponent<UnityEngine.UI.Image>();input.characterLimit=limit;input.contentType=TMP_InputField.ContentType.Standard;input.lineType=multiline?TMP_InputField.LineType.MultiLineNewline:TMP_InputField.LineType.SingleLine;input.richText=false;input.customCaretColor=true;input.caretColor=VlabUi.TextColor;input.selectionColor=new Color(.3f,.55f,1,.35f);input.scrollSensitivity=20;input.text=value??"";
             // Reopening a handwritten page must not select its entire body: the first VR key
             // would otherwise replace all existing writing rather than edit at the caret.
-            input.onFocusSelectAll=false;input.shouldHideSoftKeyboard=keyboard!=null;input.shouldHideMobileInput=keyboard!=null;
+            // Dismissing the Android keyboard must retain the student's draft.
+            input.restoreOriginalTextOnEscape=false;input.onFocusSelectAll=false;input.shouldHideSoftKeyboard=keyboard!=null;input.shouldHideMobileInput=keyboard!=null;
             if(multiline)viewport.gameObject.AddComponent<NotebookRuling>().Bind(input);
             input.onValueChanged.AddListener(value=>changed(value));if(keyboard!=null)input.onSelect.AddListener(_=>keyboard(input));return input;
         }
