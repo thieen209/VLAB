@@ -1,3 +1,12 @@
+## Current checkpoint — code26 build in progress (2026-10-23 21:21 VN)
+
+This section supersedes historical artifact/process notes below. Full goal remains active, not achieved. Latest user priority: major defects only, quick wrap-up; no cosmetic expansion or broad repeated test runs. Last measured usage62% used. Latest direct budget override permits work until above91% used; do not use older quota snapshots below.
+
+Code25 candidate exists, signed, installed on API35 emulator. Native on-screen Back/restart retained a typed title and old notes. Its system-Back/IME attempt did not retain the new draft. Source fix450ddca disables TMP restoreOriginalTextOnEscape for journal title/body; installed TMP code identifies the cancellation/revert path. Targeted Editor14/14 passed, including real field OnCancel plus disk-save failure recovery. This fix is NOT in code25.
+
+Code26 build currently owned by Unity PID23008, launcher exec session82047. Authoritative state: work/final-pass-20261023/android-code26-build-run.json; log android-code26-build.log. Revalidate process/session; never start another Editor or edit Assets while it is live. Candidate path Builds/Android/Candidates/VLAB-0.1.9-finalpass-candidate-code26.apk; do not claim completion until exit/build report/signature/manifest/hash checked. Builder is advanced to26 but not yet committed. Next: verify artifact then actual Android IME Back before handing it off. Existing emulator was stopped; preserve its AVD/profile with install-r, no wipe/uninstall.
+
+Latest owned source checkpoint450ddca; earlier code25 handoff fb4298e. Publishing clone codex/graphics-quality remains local-only. Do not push. No physical phone/controller acceptance, no full32-experiment completion claim. Read HANDOFF.md and specific QA receipts rather than treating old entries below as current.
 # VLAB Final Pass — checkpoint23Oct2026
 
 Goal ACTIVE. This is progress, not full product/release acceptance. Previous goal turn changed authoritative source/docs; this turn fixed microscope UI/visibility and completed scoped UI evidence. Keep the original4-page PDF,11locked decisions,R01–R13 and32experiments intact.
