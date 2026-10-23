@@ -33,7 +33,7 @@ namespace Vlab.Product
             float radius=safe.height*input.PhoneJoystickRadius;host.anchoredPosition=new Vector2(safe.x+safe.width*centre.x,safe.y+safe.height*centre.y)-pixels*.5f;host.sizeDelta=Vector2.one*radius*2;
             thumb.sizeDelta=Vector2.one*radius*.7f;// Keep the knob inside its disc even at full input near a safe-area edge.
             thumb.anchoredPosition=Vector2.ClampMagnitude(input.PhoneJoystickOffset,1)*(radius*.65f);
-            ring.color=new Color(.82f,.9f,.93f,input.PhoneJoystickActive?.95f:.65f);knob.color=input.PhoneJoystickActive?VlabUi.Hex("93BAC8"):VlabUi.Hex("C9D5DD");
+            ring.color=new Color(.82f,.9f,.93f,input.PhoneJoystickActive?.95f:.65f);knob.color=input.PhoneJoystickActive?VlabUi.Hex("3B82F6"):UiTheme.Current.secondary;
             host.SetAsLastSibling();
         }
     }

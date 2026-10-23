@@ -35,6 +35,13 @@ public sealed class FinalPassHudProbe:MonoBehaviour
     }
     IEnumerator Run()
     {
+        for(int theme=0;theme<3;theme++)
+        {
+            var palette=UiTheme.Palette(theme);
+            Check("Theme "+theme+" primary text contrast",UiTheme.Contrast(palette.text,palette.panel)>=4.5f);
+            Check("Theme "+theme+" secondary text contrast",UiTheme.Contrast(palette.secondary,palette.panel)>=4.5f);
+        }
+        foreach(string hex in new[]{"3B82F6","8B5CF6"}){var color=VlabUi.Hex(hex);Check("Accent caption contrast "+hex,UiTheme.Contrast(UiTheme.On(color),color)>=4.5f);}
         float deadline=Time.realtimeSinceStartup+60;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<deadline)yield return null;
         if(!App||App.Route!="home")throw new Exception("Home timeout");App.Profile.settings.gazeAutoSelect=false;
         if(!baseline){yield return Press("VR mode");Check("Home round VR label updates on entry",Find("VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="Thoát VR");yield return Press("VR mode");Check("Home round VR label updates on exit",Find("VR mode").GetComponentInChildren<TextMeshProUGUI>().text=="VR");}

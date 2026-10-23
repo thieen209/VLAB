@@ -33,7 +33,7 @@ public static class VlabAppearanceChecks
             foreach(int index in Enumerable.Range(0,3))
             {
                 var palette=UiTheme.Palette(index);check("Theme "+index+" paragraph contrast",UiTheme.Contrast(palette.text,palette.panel)>=4.5f&&UiTheme.Contrast(palette.secondary,palette.panel)>=4.5f);
-                foreach(string hex in new[]{"4C86FF","D85BEA","56BF88","F0A34D"})check("Theme "+index+" accent "+hex+" caption contrast",UiTheme.Contrast(UiTheme.On(VlabUi.Hex(hex)),VlabUi.Hex(hex))>=4.5f);
+                foreach(string hex in new[]{"3B82F6","8B5CF6"})check("Theme "+index+" accent "+hex+" caption contrast",UiTheme.Contrast(UiTheme.On(VlabUi.Hex(hex)),VlabUi.Hex(hex))>=4.5f);
             }
             check("Journal distinguishes no attempt from an actual saved attempt",JournalView.Status(new LocalProfile(),"P01",false)=="No saved attempts"&&JournalView.Status(profile,"P01",false)=="1 saved attempt");
             check("Journal uses attached historical interpretation",JournalView.Interpretation(profile.attempts[0],true).EndsWith("Ghi chú kiểm thử")&&JournalView.Interpretation(profile.attempts[0],true).Contains("Chuẩn bị có hỗ trợ"));

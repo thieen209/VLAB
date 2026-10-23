@@ -50,7 +50,7 @@ namespace Vlab.Product
         static readonly Dictionary<string,string> readingVi=new Dictionary<string,string>{{"period","Chu kỳ"},{"timedCycles","Số chu kỳ"},{"measuredTime","Thời gian đo"},{"gravityEstimate","g suy ra"}};
         bool Vi=>(Route=="settings"?draftLocale:Profile.locale)!="en";
         string L(string vi,string en)=>Vi?vi:en;
-        Color Accent=>VlabUi.Hex(subject=="P"?"93BAC8":subject=="C"?"BAABC4":subject=="B"?"A8BBA6":"CBB99C");
+        Color Accent=>VlabUi.Hex(subject=="C"||subject=="M"?"8B5CF6":"3B82F6");
         public string Status=>status;
         internal bool HasOpenModal=>modal;
         void Awake()
@@ -202,7 +202,7 @@ namespace Vlab.Product
             string[] subjects={"P","C","B","M"},namesVi={"Vật lí","Hóa học","Sinh học","Kỹ thuật"},namesEn={"Physics","Chemistry","Biology","Engineering"},desVi={"Chuyển động và năng lượng","Chất và phản ứng","Sự sống và tế bào","Cơ cấu và đo lường"},desEn={"Motion and energy","Matter and reactions","Life and cells","Mechanisms & measurement"},images={"physics","chemistry","biology","engineering"};
             var cards=new RectTransform[4];for(int i=0;i<4;i++)
             {
-                int n=i;Color color=VlabUi.Hex(new[]{"93BAC8","BAABC4","A8BBA6","CBB99C"}[i]);var card=HomePresentation.Card(ui,page,"Subject "+subjects[i],images[i],Vi?namesVi[i]:namesEn[i],Vi?desVi[i]:desEn[i],color,i);cards[i]=card;
+                int n=i;Color color=VlabUi.Hex(new[]{"3B82F6","8B5CF6","3B82F6","8B5CF6"}[i]);var card=HomePresentation.Card(ui,page,"Subject "+subjects[i],images[i],Vi?namesVi[i]:namesEn[i],Vi?desVi[i]:desEn[i],color,i);cards[i]=card;
                 var button=card.gameObject.AddComponent<UnityEngine.UI.Button>();button.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter||changing)return;subject=subjects[n];selected=catalog.items.First(x=>x.id.StartsWith(subject));StartCoroutine(Portal(card));});
                 var focus=card.gameObject.AddComponent<PortalFocus>();focus.FocusColor=color;focus.ReducedMotion=Profile.settings.reducedMotion;focus.Focus=on=>{if(on)Preview.Show(namesEn[n]);else RefreshBackground();};
             }
@@ -246,7 +246,7 @@ namespace Vlab.Product
             {
                 var image=ui.Picture(preview.transform,photo,0,0,398,184);image.transform.SetAsFirstSibling();
                 float crop=Mathf.Min(1,(float)photo.width/photo.height/(398f/184));image.uvRect=new Rect(0,(1-crop)/2,1,crop);
-                var shade=ui.Rule(preview.transform,0,128,398,56,VlabUi.Hex("202B36"));shade.SetSiblingIndex(1);
+                var shade=ui.Rule(preview.transform,0,128,398,56,VlabUi.PanelColor);shade.SetSiblingIndex(1);
                 var caption=preview.GetComponentInChildren<TextMeshProUGUI>();caption.rectTransform.anchoredPosition=new Vector2(12,-134);caption.rectTransform.sizeDelta=new Vector2(374,44);caption.color=Color.white;
             }
             ui.Text(box,ReadinessView.Goal(selected.id,Vi),890,442,398,112,24,VlabUi.Secondary).name="Browser selected goal";
