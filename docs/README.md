@@ -11,11 +11,14 @@
 
 ## Phiên bản và kiểm thử
 
+[Nhật ký thay đổi](../CHANGELOG.md) ghi riêng thay đổi source và bản APK đã build.
+
 Các báo cáo giữ phạm vi và ngày kiểm tra riêng; số PASS của Editor không thay thế kiểm thử Android hoặc phần cứng.
 
 | Phiên bản | Tài liệu |
 |---|---|
-| 0.1.7 / code21 — nguồn hiện tại, candidate build riêng | [Báo cáo](QA/Prototype-0.1.7/README.md), [Cài đặt](QA/Prototype-0.1.7/SETTINGS-LEDGER.md), [APK manifest](QA/Prototype-0.1.7/ARTIFACT.json) |
+| Source cập nhật 23/10/2026 — chưa build APK | [Hộp thoại, PDF pháp lý và giới hạn kiểm thử](QA/2026-10-23/README.md) |
+| 0.1.7 / code21 — candidate build trước các sửa đổi ngày 23/10 | [Báo cáo](QA/Prototype-0.1.7/README.md), [Cài đặt](QA/Prototype-0.1.7/SETTINGS-LEDGER.md), [APK manifest](QA/Prototype-0.1.7/ARTIFACT.json) |
 | 0.1.6 / code17 | [Báo cáo trước](QA/Prototype-0.1.6/REPORT.vi.md) |
 | 0.1.4 / code5 — APK đang công khai trên Releases | [Patch 0.1.4](PATCH_014.md) |
 | Các bản trước | [0.1.3](SECONDTEST_013.md), [0.1.2](PATCH1_012.md), [0.1.1](PROTOTYPE_011_CORRECTIONS.md) |
@@ -38,6 +41,8 @@ Các biên bản cũ ở [giới hạn nghiên cứu](KNOWN_LIMITS.md), [trạng
 | `Assets/VLABKit/` | Bộ dụng cụ và thành phần SDK |
 | `Assets/XR/`, `Assets/Settings/` | Cấu hình XR và đồ họa |
 | `Packages/`, `ProjectSettings/` | Dependency, phiên bản Unity và cấu hình dự án |
+| `Assets/StreamingAssets/Legal/` | PDF Chính sách bảo mật / Điều khoản gốc, tiếng Việt và tiếng Anh |
+| `Assets/VLABProduct/Resources/LegalPdf/` | Trang PDF đã render và manifest để đọc ngoại tuyến trong ứng dụng |
 | `docs/QA/` | Báo cáo, ảnh và nhận diện artifact theo phiên bản |
 | `docs/assets/` | Hình dùng trong tài liệu, gồm banner README gốc |
 | `docs/archive/` | Tài liệu lịch sử: [README tháng 9](archive/README-2026-09-12.md) được giữ nguyên để đối chiếu; hướng dẫn cũ không áp dụng cho bản hiện tại |

@@ -161,6 +161,24 @@ namespace Vlab.Product
             if(range>0)Scroll.verticalNormalizedPosition=Mathf.Clamp01(Scroll.verticalNormalizedPosition+direction*(height-32)/range);
         }
     }
+    public sealed class VlabModalBackdrop:MonoBehaviour
+    {
+        VlabUi ui;Image source,shade;RectTransform rect;
+        public void Initialize(VlabUi owner,Image original)
+        {
+            ui=owner;source=original;source.enabled=false;
+            var go=new GameObject("Modal backdrop",typeof(RectTransform),typeof(Image));rect=(RectTransform)go.transform;rect.SetParent(transform,false);rect.anchorMin=rect.anchorMax=rect.pivot=Vector2.one*.5f;rect.SetAsFirstSibling();shade=go.GetComponent<Image>();shade.raycastTarget=true;LateUpdate();
+        }
+        void LateUpdate()
+        {
+            if(ui==null||!source)return;
+            shade.color=source.color;
+            if(ui.canvas.renderMode==RenderMode.WorldSpace){rect.sizeDelta=PhoneUiViewport.LogicalSize;rect.anchoredPosition=Vector2.zero;return;}
+            ui.PhoneViewport.Refresh();float units=Mathf.Max(.001f,ui.PhoneViewport.PixelsPerLogicalUnit);
+            rect.sizeDelta=new Vector2(Screen.width,Screen.height)/units;
+            rect.anchoredPosition=(new Vector2(Screen.width,Screen.height)*.5f-ui.PhoneViewport.ContentPixels.center)/units;
+        }
+    }
     public sealed class VlabPanelOpacity:MonoBehaviour
     {
         public float FlatAlpha;public bool Solid;

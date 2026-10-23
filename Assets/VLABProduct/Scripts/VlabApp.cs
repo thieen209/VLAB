@@ -80,7 +80,7 @@ namespace Vlab.Product
             AdoptScene();ApplySettings();ShowSetupOrHome();}
         void OnDestroy(){if(activeRoomLoad!=null&&!activeRoomLoad.isDone)activeRoomLoad.allowSceneActivation=true;if(Instance==this){SceneManager.sceneLoaded-=OnSceneLoaded;Instance=null;}}
         string DocumentHash(string id)
-        {var vi=Resources.Load<TextAsset>("Legal/"+id+"_vi");var en=Resources.Load<TextAsset>("Legal/"+id+"_en");return vi&&en?ProfileStore.Hash(vi.text+"\n"+en.text):"";}
+        {var vi=LegalPdfView.Metadata(id+"_vi");var en=LegalPdfView.Metadata(id+"_en");return vi!=null&&en!=null?ProfileStore.Hash(vi.sourceSha256+"\n"+en.sourceSha256):"";}
         bool Save()
         {if(HasPendingMeasurement){status=StorageSaveMessage();return false;}if(Session!=null&&!Session.Complete)Profile.checkpoint=Session.Checkpoint();if(store.Save(Profile,out var error)){writeProtected=false;return true;}StorageFailure(error);return false;}
         string StorageSaveMessage()=>L("Chưa xác nhận lưu. Dữ liệu trong phiên này vẫn được giữ. Kiểm tra dung lượng thiết bị rồi thử lưu lại; nếu có số đo chờ lưu, trở lại trạm và chọn Thử lưu số đo.","Saving is unconfirmed. This session's data is retained. Check device storage and retry; for a pending reading, return to the station and choose Retry saving reading.");
@@ -174,17 +174,15 @@ namespace Vlab.Product
             legalViewing=id;explicitAcceptance=false;NewPage(setup?id:"legal");var box=ui.Panel(page,"Legal",240,70,1120,860);
             ui.Text(box,id=="privacy"?L("Chính sách bảo mật","Privacy policy"):L("Điều khoản sử dụng","Terms of service"),48,28,1024,68,38);
             ui.Text(box,L("Tài liệu đầy đủ · Đọc ngoại tuyến trên thiết bị","Full document · Available offline"),48,98,1024,42,24,VlabUi.Secondary);
-            var doc=Resources.Load<TextAsset>("Legal/"+id+(Vi?"_vi":"_en"));
-            if(!doc){ui.Text(box,L("Không tìm thấy tài liệu. Không thể ghi nhận chấp thuận.","Document unavailable. Acceptance cannot be recorded."),40,130,780,180);Button(box,L("Thử lại","Retry"),40,540,240,64,()=>ShowLegal(id,setup));return;}
-            ui.Scroll(box,doc.text,48,158,1024,566,26);
+            var pdf=box.gameObject.AddComponent<LegalPdfView>();
+            if(!pdf.Initialize(ui,box,id+(Vi?"_vi":"_en"),Vi)){ui.Text(box,L("Không tìm thấy PDF gốc. Không thể ghi nhận chấp thuận.","Original PDF unavailable. Acceptance cannot be recorded."),40,130,980,180);Button(box,L("Thử lại","Retry"),40,540,240,64,()=>ShowLegal(id,setup));return;}
             if(setup)
             {
-                var consent=Button(box,L("[ ] Tôi đã đọc và đồng ý","[ ] I have read and accept"),40,520,780,64,()=>{});
+                var consent=Button(box,L("[ ] Tôi đã đọc và đồng ý","[ ] I have read and accept"),48,754,680,64,()=>{});
                 consent.onClick.RemoveAllListeners();consent.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter)return;explicitAcceptance=!explicitAcceptance;consent.GetComponentInChildren<TextMeshProUGUI>().text=(explicitAcceptance?"[x] ":"[ ] ")+L("Tôi đã đọc và đồng ý","I have read and accept");});
-                Button(box,L("Tiếp tục","Continue"),580,610,240,64,()=>{if(!explicitAcceptance){Toast(L("Cần xác nhận rõ ràng để tiếp tục.","Explicit acceptance is required."));return;}Profile.Accept(id,id=="privacy"?privacyHash:termsHash,true);if(Save())ShowSetupOrHome();},Accent);
+                Button(box,L("Tiếp tục","Continue"),780,754,292,64,()=>{if(!explicitAcceptance||!pdf.Ready){Toast(L("Cần xác nhận rõ ràng và tài liệu đầy đủ để tiếp tục.","Explicit acceptance and an available document are required."));return;}Profile.Accept(id,id=="privacy"?privacyHash:termsHash,true);if(Save())ShowSetupOrHome();},Accent);
             }
             else{Button(box,L("Quay lại","Back"),48,754,300,72,ShowAbout);Button(box,L("Mở tài liệu PDF","Open PDF"),708,754,364,72,()=>StartCoroutine(LocalDocuments.OpenPdf(id+(Vi?"_vi":"_en")+".pdf",Toast)));}
-            if(!setup)ui.ConfigurePhoneDialog(box);
             FooterStatus();
         }
         void ShowSafety()
@@ -1070,7 +1068,7 @@ namespace Vlab.Product
             var previousLayout=modal?modal.GetComponentInChildren<PhoneDialogLayout>():null;float previousScroll=previousLayout?previousLayout.ScrollPosition:1;string previousTitle=previousLayout?previousLayout.GetComponentInChildren<TextMeshProUGUI>()?.text:null;
             ClearGuideCue();
             bool resume=ActivityRunIntent();ClearInspection();
-            if(modal){modal.gameObject.SetActive(false);Destroy(modal.gameObject);}modal=ui.Page("Modal input blocker");PlaceReadableSurface(modal,true);var blocker=modal.gameObject.AddComponent<UnityEngine.UI.Image>();blocker.color=new Color(0,0,0,.32f);blocker.raycastTarget=true;
+            if(modal){modal.gameObject.SetActive(false);Destroy(modal.gameObject);}modal=ui.Page("Modal input blocker");PlaceReadableSurface(modal,true);var blocker=modal.gameObject.AddComponent<UnityEngine.UI.Image>();blocker.color=new Color(0,0,0,.32f);blocker.raycastTarget=true;modal.gameObject.AddComponent<VlabModalBackdrop>().Initialize(ui,blocker);
             modalSession=Session;modalResumeActivity=resume;modalAllowsSimulation=live;if(page)page.gameObject.SetActive(false);
             if(Route=="activity"){if(live&&resume)Session?.Resume();else if(!live)Session?.Pause();}SyncAuthority();
             var box=ui.Panel(modal,"Dialog",(1600-width)/2,(1000-height)/2,width,height);ui.Text(box,title,40,25,width-180,70,32);Button(box,"×",width-108,20,80,72,CloseModal).name="Close dialog";ui.ConfigurePhoneDialog(box);if(previousTitle==title)box.GetComponent<PhoneDialogLayout>().RestoreScroll(previousScroll);inputAfter=Time.unscaledTime+.2f;return box;

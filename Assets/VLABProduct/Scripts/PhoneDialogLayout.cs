@@ -61,15 +61,17 @@ namespace Vlab.Product
             bool equipmentSide=equipment&&safeWidth>safeHeight;
             bool parameterSide=(ParameterPanel||CompactControls||QuickEquipment)&&safeWidth>safeHeight;
             bool side=items.Any(x=>x.rect.name=="Instrument observation output")&&!GetComponentInChildren<RawImage>()&&!GetComponentInChildren<VlabScrollContent>()&&safeWidth>safeHeight;
-            float scale=side||parameterSide||equipmentSide?1.1f:GetComponentsInChildren<ObservationCardBinding>(true).Length>0?1.4f:1.65f;
+            bool confirmation=authoredSize.y<=500&&!side&&!parameterSide&&!equipmentSide;
+            float scale=confirmation?1.25f:side||parameterSide||equipmentSide?1.1f:GetComponentsInChildren<ObservationCardBinding>(true).Length>0?1.4f:1.65f;
             float width=QuickEquipment?(safeWidth*.32f-24)/scale:equipmentSide?(safeWidth*.56f-24)/scale:side||parameterSide?(safeWidth*.48f-24)/scale:Mathf.Min(1100,(safeWidth-48)/scale),height=(safeHeight-48)/scale;
+            if(confirmation){width=Mathf.Min(width,authoredSize.x);height=Mathf.Min(height,Mathf.Min(authoredSize.y,320));}
             if(equipmentSide)height=Mathf.Min(height,720);
             if(CompactControls)height=Mathf.Min(height,490);if(QuickEquipment)height=Mathf.Min(height,490);
             dialog.anchorMin=dialog.anchorMax=dialog.pivot=new Vector2(0,1);dialog.sizeDelta=new Vector2(width,height);dialog.localScale=Vector3.one*scale;
             float units=Mathf.Max(.001f,ui.PhoneViewport.PixelsPerLogicalUnit);
             var safe=ui.PhoneViewport.SafePixels;var fitted=ui.PhoneViewport.ContentPixels;
             float left=(safe.xMin-fitted.xMin)/units,top=(fitted.yMax-safe.yMax)/units;
-            dialog.anchoredPosition=new Vector2(left+(equipmentSide||QuickEquipment?24:side||parameterSide?safeWidth-width*scale-24:(safeWidth-width*scale)/2),-top-24);
+            dialog.anchoredPosition=new Vector2(left+(equipmentSide||QuickEquipment?24:side||parameterSide?safeWidth-width*scale-24:(safeWidth-width*scale)/2),-top-(confirmation?(safeHeight-height*scale)/2:24));
             var title=items.FirstOrDefault(x=>x.rect.GetComponent<TMP_Text>());
             var close=items.FirstOrDefault(x=>x.rect.name=="Close dialog");
             if(title!=null){Place(title.rect,22,16,width-128,60);}
@@ -79,7 +81,7 @@ namespace Vlab.Product
             body=Rect("Phone dialog flowing content",viewport);body.sizeDelta=new Vector2(width-56,0);
             scroll=viewport.gameObject.AddComponent<ScrollRect>();scroll.viewport=viewport;scroll.content=body;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=42;
             footer=Rect("Phone dialog pinned actions",dialog);Place(footer,22,height-footerHeight,width-44,footerHeight-12);
-            var actions=items.Where(x=>x!=close&&x.rect.GetComponent<Button>()&&(x.Top>=authoredSize.y-106||x.rect.name=="Station return"||x.rect.name=="Equipment done")).OrderBy(x=>x.position.x).ToArray();
+            var actions=items.Where(x=>x!=close&&x.rect.GetComponent<Button>()&&(x.Top>=authoredSize.y-106||confirmation&&x.Top+x.size.y>=authoredSize.y-66||x.rect.name=="Station return"||x.rect.name=="Equipment done")).OrderBy(x=>x.position.x).ToArray();
             float actionWidth=actions.Length==0?0:(width-44-gap*(actions.Length-1))/actions.Length;
             for(int i=0;i<actions.Length;i++){actions[i].rect.SetParent(footer,false);Place(actions[i].rect,i*(actionWidth+gap),4,actionWidth,68);FitCaption(actions[i].rect);}
             var content=items.Where(x=>x!=title&&x!=close&&!actions.Contains(x)).OrderBy(x=>x.Top).ThenBy(x=>x.position.x).ToArray();

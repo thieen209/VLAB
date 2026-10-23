@@ -1,6 +1,10 @@
 # VLAB — Virtual Laboratory
 
-**Mã nguồn hiện tại: prototype 0.1.7 / code21.** Unity **6000.6.4f1**, Android **8.0+** (ARMv7/ARM64). [Cài đặt bên dưới](#cài-đặt--sử-dụng) · [Tài liệu dự án](docs/README.md) · [Kết quả và giới hạn kiểm thử](docs/QA/Prototype-0.1.7/README.md).
+**Unity 6000.6.4f1 · Android 8.0+ · ARMv7 / ARM64 · Nội dung học ngoại tuyến**
+
+[Cài APK hoặc mở Unity](#cài-đặt--sử-dụng) · [Tài liệu](docs/README.md) · [Thay đổi mới nhất](CHANGELOG.md)
+
+**Cập nhật source ngày 23/10/2026:** sửa hộp thoại và hiển thị PDF pháp lý gốc. Những thay đổi này chưa có APK mới; bản build riêng gần nhất vẫn là **0.1.7 / code21**, còn APK công khai trên Releases là **0.1.4 / code5**. [Phạm vi kiểm thử mới nhất](docs/QA/2026-10-23/README.md).
 
 
 <p align="center">
@@ -118,7 +122,7 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 3. Mở ứng dụng **VLAB**, dùng máy theo chiều ngang và chọn phòng thí nghiệm. Nội dung học và tiến độ được lưu trên thiết bị; chơi không cần tài khoản hay mạng.
 4. Có thể chơi bằng màn hình cảm ứng. Để dùng kính, chọn **Vào VR** hoặc chế độ kính trong Cài đặt → Điều khiển, sau đó lắp điện thoại vào kính Cardboard phù hợp. Điện thoại cần cảm biến hỗ trợ head tracking; có màn hình Android không đồng nghĩa chắc chắn hỗ trợ VR. Quét QR của kính trong phần Điều khiển để cấu hình kính khi cần.
 
-**Phân biệt phiên bản:** mã nguồn hiện tại là **0.1.7 / code21**. APK mới nhất đang công khai trên GitHub Releases tại lần cập nhật này là [0.1.4 / code5](https://github.com/thieen209/VLAB/releases/tag/v0.1.4-secondtest-20261020); đó là bản cũ. Candidate code21 đã được build riêng, chưa gắn vào GitHub Releases. Xem [nhận diện APK và kiểm thử code21](docs/QA/Prototype-0.1.7/README.md) để không nhầm hai bản.
+**Phân biệt phiên bản:** cấu hình phiên bản trong source vẫn là **0.1.7 / code21**, nhưng `main` đã có thêm sửa đổi sau khi build code21; chưa có APK chứa các sửa đổi ngày 23/10. APK mới nhất đang công khai trên GitHub Releases tại lần cập nhật này là [0.1.4 / code5](https://github.com/thieen209/VLAB/releases/tag/v0.1.4-secondtest-20261020); đó là bản cũ. Candidate code21 đã được build riêng, chưa gắn vào GitHub Releases. Xem [nhận diện APK và kiểm thử code21](docs/QA/Prototype-0.1.7/README.md) để không nhầm hai bản.
 
 Cập nhật đè bằng APK có **cùng chữ ký** để giữ tiến độ. Nếu báo xung đột chữ ký, đừng gỡ ứng dụng hoặc xóa dữ liệu chỉ để cài tiếp: việc đó có thể làm mất sổ tay và kết quả đang lưu. APK tự build bằng debug key không thể cập nhật đè bản phát hành dùng chữ ký khác.
 
@@ -184,6 +188,8 @@ Dự án cũng có hàm build development sẵn. Đóng Editor đang giữ proje
 APK xuất tại **`Builds/Android/NguaManVLAB-development.apk`**; tên hiển thị khi cài là **VLAB**. Đây là tên tệp của hàm build hiện có, không phải tên ứng dụng. Cấu hình trong Git dùng chữ ký debug mặc định để người clone có thể build mà không cần khóa phát hành của nhóm. Khóa riêng, mật khẩu và APK không được commit vào mã nguồn.
 
 ## Trạng thái kiểm thử
+
+Các sửa đổi ngày **23/10/2026** có kiểm tra Editor riêng cho hộp thoại và 47 trang pháp lý: [biên bản và ảnh](docs/QA/2026-10-23/README.md). Đây là kết quả Editor, chưa phải xác nhận APK mới hoặc thiết bị thật.
 
 Code21 đã được build và cài cập nhật trên giả lập Android; có kiểm tra opacity, khởi động lại, giữ dữ liệu cũ và vào stereo ở P01/C04/B01/M01. Điều đó không đồng nghĩa toàn bộ 32 bài đã vượt qua kiểm thử đầu-cuối trên điện thoại thật.
 
