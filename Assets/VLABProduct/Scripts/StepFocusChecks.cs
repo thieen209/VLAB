@@ -21,9 +21,10 @@ public static class StepFocusChecks
             auto.Invoke(app,new object[]{task});check("Automatic step focus off preserves camera",camera.transform.position==position&&camera.transform.rotation==rotation&&camera.fieldOfView==fov);
             explicitFocus.Invoke(app,new object[]{item,false});check("Explicit inspection stays available with assist off without moving camera or model",camera.transform.position==position&&item.transform.position==itemPosition&&item.transform.localScale==itemScale&&camera.fieldOfView>=20&&camera.fieldOfView<=app.Profile.settings.cameraFov);
             field.SetValue(app,null);app.Profile.settings.focusAssist=true;auto.Invoke(app,new object[]{task});
-            check("Automatic focus consumes the meaningful target once",(string)field.GetValue(app)==item.assetId);
+            check("Automatic focus consumes a meaningful target and preparation phase once",!string.IsNullOrEmpty((string)field.GetValue(app)));
+            var focusedPosition=camera.transform.position;
             camera.transform.rotation=Quaternion.Euler(7,29,0);camera.fieldOfView=47;auto.Invoke(app,new object[]{task});
-            check("Repeated refresh preserves manual look and zoom on same target",Quaternion.Angle(camera.transform.rotation,Quaternion.Euler(7,29,0))<.001f&&Mathf.Abs(camera.fieldOfView-47)<.001f&&camera.transform.position==position);
+            check("Repeated refresh preserves manual look and zoom on same target",Quaternion.Angle(camera.transform.rotation,Quaternion.Euler(7,29,0))<.001f&&Mathf.Abs(camera.fieldOfView-47)<.001f&&camera.transform.position==focusedPosition);
             check("Step framing never rescales or moves native apparatus",item.transform.position==itemPosition&&item.transform.localScale==itemScale);
             if(app.Session.spec.id=="P03")
             {

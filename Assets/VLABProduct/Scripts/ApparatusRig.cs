@@ -804,7 +804,7 @@ namespace Vlab.Product
             }
             failure="";return true;
         }
-        public void Select(EquipmentHandle handle)
+        public void Select(EquipmentHandle handle,bool notify=true)
         {
             if(handle&&!items.Contains(handle))return;
             if(Selected!=handle)
@@ -817,7 +817,7 @@ namespace Vlab.Product
                 carrying=pullingBob=latchedCarry=carriedFromStorage=false;
             }
             if(handle&&handle.stowed)ArrangeLooseItems(handle);
-            Selected=handle;UpdateTargets();Changed?.Invoke();
+            Selected=handle;UpdateTargets();if(notify)Changed?.Invoke();
         }
         public EquipmentHandle InstallSupport(EquipmentHandle item)
         {
@@ -862,8 +862,9 @@ namespace Vlab.Product
             if(!item||!items.Contains(item))return;
             if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready)return;
             if(Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Preparing&&session.Operation==3&&!PrepareNext(out _))return;
-            Select(item);pullingBob=Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Ready;
+            Select(item,false);pullingBob=Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Ready;
             carrying=!item.installed;latchedCarry=latch;carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,item.transform.position),.35f,2.5f);
+            Changed?.Invoke();
         }
         public void UpdateGrab(ActionFrame frame)
         {

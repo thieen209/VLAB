@@ -64,6 +64,13 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         throw new Exception("No unobstructed pointer target for "+App.Session.spec.id+"/"+item.assetId);
     }
     EquipmentHandle Item(string key)=>App.Apparatus.items.Single(x=>x.assetId==key);
+    float ScreenWidth(EquipmentHandle item)
+    {
+        if(!ApparatusRig.TryVisibleBounds(item,out var bounds))return 0;
+        float min=float.MaxValue,max=float.MinValue;
+        for(int i=0;i<8;i++){var p=App.View.WorldToScreenPoint(bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1)));min=Mathf.Min(min,p.x);max=Mathf.Max(max,p.x);}
+        return max-min;
+    }
     IEnumerator Enter(string id)
     {
         bool dwell=App.Profile.settings.gazeAutoSelect;App.Profile.settings.gazeAutoSelect=false;headGaze=false;App.Input.UseMockController=true;
@@ -92,6 +99,7 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         App.Profile.settings.gazeAutoSelect=false;App.Profile.settings.gazeDwellSeconds=.6f;App.Input.SetSimulator(true);App.Input.UseMockController=true;yield return Away();
         var simulator=UnityEngine.Object.FindFirstObjectByType<XRDeviceSimulator>();if(!simulator)throw new Exception("Official simulator not initialized");simulator.enabled=false;simulatedHead=InputSystem.devices.OfType<XRSimulatedHMD>().Single();yield return null;
         yield return Enter("P01");App.Profile.settings.gazeAutoSelect=true;Check("P01 starts with real ready kit and no completed preparation",App.Apparatus.Ready&&App.Session.Operation==0);
+        var trackedOrigin=App.View.transform.parent;var originPosition=trackedOrigin.position;var originRotation=trackedOrigin.rotation;
         aim=App.Apparatus.Pivot+Vector3.right*.5f;yield return new WaitForSecondsRealtime(12.8f);
         var cue=(GuideCue)typeof(VlabApp).GetField("worldGuideCue",Flags).GetValue(App);var caption=cue?cue.GetComponentInChildren<TextMeshProUGUI>(true):null;
         Check("Initial idle hint is a minimal local instrument label",caption&&caption.text==App.Apparatus.EquipmentLabel(Item("stand"),true)&&App.Session.Operation==0);
@@ -121,6 +129,7 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         Check("Moving gaze onto release UI preserves bob position",Vector3.Distance(pulled,Item("pendulum").transform.position)<.002f&&App.Session.Phase==ExperimentPhase.Ready);
         yield return new WaitForSecondsRealtime(.8f);Check("Gaze release starts pendulum from learner position",!App.Apparatus.IsPullingBob&&App.Session.Phase==ExperimentPhase.Running&&App.Session.Pendulum!=null);
         yield return new WaitForSecondsRealtime(.8f);Check("Original model oscillates after explicit release",Vector3.Distance(pulled,Item("pendulum").transform.position)>.025f);
+        Check("Experiment progress never moves or turns the VR tracking origin",Vector3.Distance(originPosition,trackedOrigin.position)<.0001f&&Quaternion.Angle(originRotation,trackedOrigin.rotation)<.001f);
         yield return Capture("P01-explicit-release");
         yield return Enter("P02");var loose=App.Apparatus.NextInstallableItem();
         if(!loose||!loose.gameObject.activeInHierarchy)throw new Exception("P02 first instrument is unavailable");
@@ -137,14 +146,19 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         headGaze=false;App.Input.UseMockController=true;
         select=true;yield return new WaitForSecondsRealtime(.12f);select=false;yield return new WaitForSecondsRealtime(.3f);Check("Physical select adapter still works with dwell disabled",App.Session.Operation==1);
         App.Input.UseMockController=false;App.Input.SetSimulator(false);yield return new WaitForSecondsRealtime(.5f);Call("FocusStation");yield return new WaitForSecondsRealtime(.3f);
+        float overviewBob=ScreenWidth(Item("pendulum"));
         var touch=InputSystem.AddDevice<Touchscreen>();yield return null;
         yield return TapModel(touch,Item("pendulum"));yield return TapModel(touch,Item("pendulum"));Check("Phone touches advance distinct model preparation actions",App.Session.Operation==3);
+        float focusedBob=ScreenWidth(Item("pendulum"));rows.Add("VISIBILITY bob projected width overview="+overviewBob+" focused="+focusedBob+" at "+Screen.width+"x"+Screen.height);
+        Check("Precision-step phone framing enlarges visible bob without rescaling model",focusedBob>=overviewBob*1.5f&&focusedBob>=Screen.height*.04f);
         Vector2 start=App.View.WorldToScreenPoint(VisiblePoint(Item("pendulum")));Touch(touch,UnityEngine.InputSystem.TouchPhase.Began,start);yield return new WaitForSecondsRealtime(.15f);
         Check("Phone touch captures actual bob instead of look swipe",App.Apparatus.IsPullingBob&&App.Session.Phase==ExperimentPhase.Ready);
+        var phoneEye=App.View.transform.position;var phoneRotation=App.View.transform.rotation;float phoneLens=App.View.fieldOfView;
         var phoneBefore=Item("pendulum").transform.position;float phoneLength=(float)App.Session.parameters["length"];
         Vector2 end=App.View.WorldToScreenPoint(App.Apparatus.Pivot+new Vector3(Mathf.Sin(18*Mathf.Deg2Rad)*phoneLength,-Mathf.Cos(18*Mathf.Deg2Rad)*phoneLength,0));
         for(int step=1;step<=5;step++){Touch(touch,UnityEngine.InputSystem.TouchPhase.Moved,Vector2.Lerp(start,end,step/5f));yield return new WaitForSecondsRealtime(.06f);}
         Check("Phone drag visibly moves the same bob",App.Apparatus.IsPullingBob&&Vector3.Distance(phoneBefore,Item("pendulum").transform.position)>.05f);
+        Check("Phone camera stays fixed throughout the captured drag",Vector3.Distance(phoneEye,App.View.transform.position)<.0001f&&Quaternion.Angle(phoneRotation,App.View.transform.rotation)<.001f&&Mathf.Abs(phoneLens-App.View.fieldOfView)<.001f);
         Touch(touch,UnityEngine.InputSystem.TouchPhase.Ended,end);yield return new WaitForSecondsRealtime(.3f);Check("Phone finger release starts real pendulum once",!App.Apparatus.IsPullingBob&&App.Session.Phase==ExperimentPhase.Running&&App.Session.Pendulum!=null);
         yield return Capture("P01-phone-drag-release");InputSystem.RemoveDevice(touch);
         yield return PhoneInputChecks.RunUiTap(App,name=>ScreenCapture.CaptureScreenshot("Evidence/FinalPass/"+name+".png"),Check);

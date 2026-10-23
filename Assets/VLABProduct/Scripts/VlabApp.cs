@@ -1387,7 +1387,7 @@ namespace Vlab.Product
         }
         void ZoomPhone(float amount)
         {
-            if(Input.VrMode||Input.SimulatorMode)return;
+            if(Input.VrMode||Input.SimulatorMode||flagshipDrag||Apparatus?.IsPullingBob==true)return;
             float requested=Mathf.Clamp(View.fieldOfView+amount,20,90);
             if(Profile.settings.focusAssist&&Apparatus&&!Apparatus.IsCarrying)
             {
@@ -1404,7 +1404,16 @@ namespace Vlab.Product
             if(Session?.spec.id=="M01"){var gears=Apparatus.items.FirstOrDefault(x=>x.assetId=="gears");if(gears&&ApparatusRig.TryVisibleBounds(gears,out bounds)){var motor=Apparatus.items.FirstOrDefault(x=>x.assetId=="motor");if(motor&&ApparatusRig.TryVisibleBounds(motor,out var drive))bounds.Encapsulate(drive);bounds.Encapsulate(new Vector3(bounds.center.x,Apparatus.Worktop.y,bounds.center.z));bounds.Expand(.035f);}return true;}
             if(Session!=null&&Session.spec.id!="P01"&&Flagship(Session.spec.id))foreach(var part in Apparatus.items.Where(x=>x.installed&&x.gameObject.activeInHierarchy&&x.assetId!="specimen"&&!x.assetId.StartsWith("solid",StringComparison.Ordinal)))if(ApparatusRig.TryVisibleBounds(part,out var whole))bounds.Encapsulate(whole);
             if(Session?.spec.id=="P01"&&item.installed&&item.assetId=="pendulum")
-            {float swing=(float)(Session.parameters["length"]*Math.Sin(Math.Max(15,Session.parameters["angle"])*Math.PI/180));bounds.Encapsulate(Apparatus.Pivot);bounds.Encapsulate(item.slot+Vector3.right*swing);bounds.Encapsulate(item.slot-Vector3.right*swing);bounds.Expand(.06f);}
+            {
+                float length=(float)Session.parameters["length"],angle=(float)Math.Max(15,Session.parameters["angle"])*Mathf.Deg2Rad;
+                if(Session.Operation<2)bounds.Encapsulate(Apparatus.Pivot);
+                else
+                {
+                    var rest=Apparatus.Pivot+Vector3.down*length;var arc=Apparatus.Pivot+Vector3.down*(Mathf.Cos(angle)*length);
+                    bounds.Encapsulate(rest);bounds.Encapsulate(arc+Vector3.right*(Mathf.Sin(angle)*length));bounds.Encapsulate(arc-Vector3.right*(Mathf.Sin(angle)*length));
+                }
+                bounds.Expand(.06f);
+            }
             // Friction is observed as a connected rig: keep the block and its travel surface beside the force scale.
             if(Session?.spec.id=="P03")
                 foreach(var linked in Apparatus.items)
@@ -1423,7 +1432,7 @@ namespace Vlab.Product
         }
         void FitFocusBounds(Bounds bounds,Rect area)
         {
-            if(flagshipDrag||Input.VrMode||Input.SimulatorMode||Apparatus?.IsCarrying==true)return;
+            if(flagshipDrag||Input.VrMode||Input.SimulatorMode||Apparatus?.IsCarrying==true||Apparatus?.IsPullingBob==true)return;
             // Use a real front-of-bench viewpoint before adjusting the lens; never move a tracked head.
             float fov=Mathf.Clamp(Profile.settings.cameraFov,40,80),tangentFit=Mathf.Tan(fov*.5f*Mathf.Deg2Rad);
             float distance=Mathf.Clamp(Mathf.Max(bounds.size.y/area.height,bounds.size.x/(Mathf.Max(.5f,View.aspect)*area.width))/(2*tangentFit)+bounds.extents.z+.22f,.45f,2.6f);
@@ -1455,10 +1464,13 @@ namespace Vlab.Product
         void FocusStepTarget(GuideTask task)
         {
             if(flagshipDrag||task==null||Apparatus==null||!Apparatus.Ready||Apparatus.IsCarrying||Apparatus.IsPullingBob||modal||changing||Session.spec.id=="P02"||
-                Input.VrMode||Input.SimulatorMode||!Profile.settings.focusAssist||string.IsNullOrEmpty(task.key)||task.key==lastFocusedTaskTarget)return;
-            var item=Apparatus.items.FirstOrDefault(x=>x.assetId==task.key&&x.installed&&x.gameObject.activeInHierarchy);
+                Input.VrMode||Input.SimulatorMode||!Profile.settings.focusAssist)return;
+            string key=Session.spec.id=="P01"&&Session.Phase==ExperimentPhase.Running?"pendulum":task.key;
+            string focus=key+"|"+Session.Operation+"|"+Session.Phase;
+            if(string.IsNullOrEmpty(key)||focus==lastFocusedTaskTarget)return;
+            var item=Apparatus.items.FirstOrDefault(x=>x.assetId==key&&x.installed&&x.gameObject.activeInHierarchy);
             if(!item||!TryFocusBounds(item,out var bounds))return;
-            lastFocusedTaskTarget=task.key;
+            lastFocusedTaskTarget=focus;
             FitFocusBounds(bounds,new Rect(.44f,.24f,.52f,.55f));
         }
         int framedInstalledCount=-1;

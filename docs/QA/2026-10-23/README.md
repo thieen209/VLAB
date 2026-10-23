@@ -33,3 +33,13 @@ Giữ nguyên vị trí và GUID các asset Unity. `docs/archive/README-2026-09-
 ![Kéo con lắc bằng gaze mô phỏng](P01-manual-pull.png)
 
 ![Phone mode sau kéo/thả cảm ứng](P01-phone-drag-release.png)
+
+## Góc nhìn điện thoại và lượt kiểm tra 32 bài
+
+- [37 PASS, 0 FAIL](visibility-checks.txt) trong probe tương tác/góc nhìn: quả lắc tại viewport 1600 × 900 tăng từ khoảng 17 lên 67 pixel khi tự căn góc theo bước. Không đổi tỉ lệ model; camera giữ vị trí khi đang kéo. Không ép di chuyển origin VR trong fixture XR mô phỏng.
+- [Ma trận 32 bài](journeys32-matrix.md) · [Receipt JSON](journeys32-matrix.json): 26 bài lưu và mở lại kết quả, 6 bài bị chặn, không có runtime error được probe ghi nhận. Có hỗ trợ chuẩn bị trong một số bài; kết quả này không xác nhận toàn bộ hành trình tự thao tác của 32 bài.
+- C01 vướng điều hướng trang dụng cụ của test; C04 vướng điều kiện điều hướng trong runner; C07 dừng ở nút ghi chưa bật, cần tái hiện. B01/B02/B08 hết thời gian kiểm tra/phân loại bằng mắt. Chưa đủ bằng chứng để quy tất cả blocker này thành lỗi ứng dụng.
+- Kiểm tra riêng còn **FAIL** đường viền cho dụng cụ chỉ có LineRenderer. Các lỗi và giới hạn này vẫn mở, không bị loại khỏi báo cáo để đổi kết quả thành PASS.
+- Receipt giữ nguyên kết quả; riêng đường dẫn tuyệt đối đến hồ sơ QA được thay bằng `<isolated QA profile>` khi đưa vào tài liệu công khai. Không có hồ sơ người học trong repo.
+
+[SHA256 source tại checkpoint](visibility-source-sha256.json). Đây là các lần chạy Editor đã hoàn tất, không phải kết quả Android/Cardboard/BLE phần cứng hay APK mới.

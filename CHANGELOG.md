@@ -2,6 +2,13 @@
 
 Ghi riêng thay đổi mã nguồn và APK để tránh tải nhầm phiên bản.
 
+## 23/10/2026 — đồng bộ source và tài liệu
+
+- Giữ README gốc và banner, sửa hướng dẫn cài APK/mở Unity/build Android, thêm mục lục tài liệu và phân biệt source với APK phát hành.
+- Căn góc nhìn điện thoại theo bước con lắc; tránh đổi camera khi đang cầm/kéo, bảo toàn model và quyền điều khiển head pose của VR.
+- Lưu receipt 37 kiểm tra tương tác/góc nhìn; kết quả lượt chạy 32 bài là 26 lưu/mở lại, 6 bị chặn và một lỗi đường viền trong kiểm tra riêng. [Chi tiết và các giới hạn](docs/QA/2026-10-23/README.md).
+- Không build hoặc phát hành APK mới trong đợt đồng bộ này.
+
 ## Chưa phát hành — tương tác và hướng dẫn
 
 - Gaze chọn dụng cụ qua chung luồng hành động; thao tác xung giữ dụng cụ đến khi chủ động thả. Con lắc bắt đầu từ vị trí người học đã kéo.

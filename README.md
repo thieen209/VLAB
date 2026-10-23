@@ -1,15 +1,15 @@
 # VLAB — Virtual Laboratory
 
-**Unity 6000.6.4f1 · Android 8.0+ · ARMv7 / ARM64 · Nội dung học ngoại tuyến**
-
-[Cài APK hoặc mở Unity](#cài-đặt--sử-dụng) · [Tài liệu](docs/README.md) · [Thay đổi mới nhất](CHANGELOG.md)
-
-**Cập nhật source ngày 23/10/2026:** sửa hộp thoại và hiển thị PDF pháp lý gốc. Những thay đổi này chưa có APK mới; bản build riêng gần nhất vẫn là **0.1.7 / code21**, còn APK công khai trên Releases là **0.1.4 / code5**. [Phạm vi kiểm thử mới nhất](docs/QA/2026-10-23/README.md).
-
-
 <p align="center">
   <img src="docs/assets/banner.png" alt="VLAB Banner" width="100%">
 </p>
+
+**Unity 6000.6.4f1 · Cấu hình Android 8.0+ · ARMv7 / ARM64 · Nội dung học ngoại tuyến**
+
+[Cài APK](#chơi-trên-android--không-cần-cài-unity) · [Mở project Unity](#mở-và-phát-triển-mã-nguồn) · [Tài liệu](docs/README.md) · [Nhật ký thay đổi](CHANGELOG.md)
+
+> **Trạng thái 23/10/2026:** source mới hơn APK. Source có sửa tương tác, gợi ý, góc nhìn điện thoại, hộp thoại và PDF pháp lý. APK trên Releases vẫn là **0.1.4 / code5**; candidate riêng là **0.1.7 / code21**. Chưa có APK chứa các sửa đổi mới này. [Xem kết quả kiểm thử và các lỗi còn mở](docs/QA/2026-10-23/README.md).
+
 
 <p align="center">
 Virtual Laboratory là nền tảng phòng thí nghiệm thực tế ảo (VR) được phát triển nhằm phổ cập giáo dục STEM thông qua trải nghiệm thực hành trực quan, an toàn và chi phí thấp.
@@ -27,7 +27,7 @@ Virtual Laboratory là nền tảng phòng thí nghiệm thực tế ảo (VR) �
 
 ---
 
-# Giới thiệu
+## Giới thiệu
 
 VLAB (Virtual Laboratory) là giải pháp phòng thí nghiệm thực tế ảo được xây dựng nhằm giải quyết tình trạng thiếu điều kiện thực hành STEM tại nhiều trường học, đặc biệt ở khu vực miền núi, vùng sâu, vùng xa và những nơi còn hạn chế về cơ sở vật chất.
 
@@ -37,7 +37,7 @@ Người học không chỉ quan sát mà còn trực tiếp thao tác với cá
 
 ---
 
-# Vấn đề
+## Vấn đề
 
 Trong quá trình khảo sát thực tế tại nhiều trường THPT trên địa bàn tỉnh Cao Bằng, nhóm nhận thấy:
 
@@ -52,7 +52,7 @@ Trong khi đó, phần lớn học sinh hiện nay đều đã sở hữu điệ
 
 ---
 
-# Giải pháp
+## Giải pháp
 
 VLAB xây dựng một hệ thống phòng thí nghiệm thực tế ảo dựa trên ba thành phần chính:
 
@@ -64,7 +64,7 @@ VLAB xây dựng một hệ thống phòng thí nghiệm thực tế ảo dựa 
 
 ---
 
-# Mục tiêu
+## Mục tiêu
 
 VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm ảo có khả năng:
 
@@ -76,7 +76,7 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ---
 
-# Giá trị cốt lõi
+## Giá trị cốt lõi
 
 - Tiếp cận
 - Trực quan
@@ -86,7 +86,7 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ---
 
-# Đối tượng sử dụng
+## Đối tượng sử dụng
 
 - Học sinh THPT
 - Giáo viên
@@ -95,27 +95,27 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ---
 
-# Công nghệ
+## Công nghệ
 
-## Software
+### Software
 
 - Unity
 - C#
 - Unity XR
 - Android
 
-## Embedded
+### Embedded
 
 - ESP32
-- MPU9250
+- Cảm biến IMU (tùy phiên bản phần cứng; MPU9250 trong thiết kế cũ)
 - Bluetooth Low Energy (BLE)
 - ESP-NOW
 
 ---
 
-# Cài đặt & sử dụng
+## Cài đặt & sử dụng
 
-## Chơi trên Android — không cần cài Unity
+### Chơi trên Android — không cần cài Unity
 
 1. Mở [trang Releases](https://github.com/thieen209/VLAB/releases) và tải file **`.apk`** trong phần **Assets** của phiên bản muốn thử. File **Source code (zip)** không phải ứng dụng Android.
 2. Mở APK trên điện thoại. Nếu Android yêu cầu, cho phép **Cài ứng dụng không rõ nguồn gốc** cho trình duyệt hoặc ứng dụng quản lý tệp đang dùng, rồi xác nhận cài đặt. Có thể tắt quyền này sau khi cài xong.
@@ -126,7 +126,7 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 Cập nhật đè bằng APK có **cùng chữ ký** để giữ tiến độ. Nếu báo xung đột chữ ký, đừng gỡ ứng dụng hoặc xóa dữ liệu chỉ để cài tiếp: việc đó có thể làm mất sổ tay và kết quả đang lưu. APK tự build bằng debug key không thể cập nhật đè bản phát hành dùng chữ ký khác.
 
-## Mở và phát triển mã nguồn
+### Mở và phát triển mã nguồn
 
 | Thành phần | Yêu cầu |
 |---|---|
@@ -137,7 +137,7 @@ Cập nhật đè bằng APK có **cùng chữ ký** để giữ tiến độ. N
 | Kết nối mạng | Cần cho lần tải Editor/package và kích hoạt Unity; không bắt buộc cho nội dung học sau khi cài APK |
 | Thiết bị VR | Điện thoại Android tương thích cảm biến + kính Cardboard; không bắt buộc cho chế độ cảm ứng |
 
-### 1. Tải source code
+#### 1. Tải source code
 
 ```bash
 git clone https://github.com/thieen209/VLAB.git
@@ -146,7 +146,7 @@ cd VLAB
 
 Hoặc chọn **Code → Download ZIP** trên GitHub rồi giải nén. Không đưa `/tree/main` vào lệnh clone, không giữ dấu `< >`, và không tạo một Unity Project mới để chép Assets vào.
 
-### 2. Mở đúng thư mục bằng Unity Hub
+#### 2. Mở đúng thư mục bằng Unity Hub
 
 Chọn **Add → Add project from disk**, trỏ tới thư mục vừa clone/giải nén chứa đồng thời:
 
@@ -163,7 +163,7 @@ VLAB/
 
 Mở bằng **6000.6.4f1** và chờ Unity import xong. `Library`, `Temp` và các tệp IDE được Unity sinh lại nên không nằm trong Git. Không đổi sang bản Unity mới nhất chỉ để mở project.
 
-### 3. Chạy prototype
+#### 3. Chạy prototype
 
 1. Mở scene **`Assets/VLABProduct/Scenes/VLAB_Boot.unity`**.
 2. Nhấn **Play** trong Editor.
@@ -172,7 +172,7 @@ Mở bằng **6000.6.4f1** và chờ Unity import xong. `Library`, `Temp` và c�
 
 Scene khởi động cũ `Assets/VLAB/MainMenu/Scenes/Menu.unity` và phím mô phỏng của bản tháng 9 không áp dụng cho mã nguồn hiện tại.
 
-### 4. Build APK phát triển
+#### 4. Build APK phát triển
 
 Cài các module Android ở bảng trên. Có thể dùng **Build Profiles → Android** trong Editor và build các scene đã cấu hình trong `ProjectSettings/EditorBuildSettings.asset`; scene **VLAB_Boot** đứng đầu.
 
@@ -180,16 +180,16 @@ Dự án cũng có hàm build development sẵn. Đóng Editor đang giữ proje
 
 ```powershell
 & 'C:\Program Files\Unity\Hub\Editor\6000.6.4f1\Editor\Unity.exe' `
-  -batchmode -projectPath (Get-Location).Path `
+  -batchmode -buildTarget Android -projectPath (Get-Location).Path `
   -executeMethod VlabProductBuild.AndroidDevelopment `
   -logFile android-development.log
 ```
 
 APK xuất tại **`Builds/Android/NguaManVLAB-development.apk`**; tên hiển thị khi cài là **VLAB**. Đây là tên tệp của hàm build hiện có, không phải tên ứng dụng. Cấu hình trong Git dùng chữ ký debug mặc định để người clone có thể build mà không cần khóa phát hành của nhóm. Khóa riêng, mật khẩu và APK không được commit vào mã nguồn.
 
-## Trạng thái kiểm thử
+### Trạng thái kiểm thử
 
-Các sửa đổi ngày **23/10/2026** có kiểm tra Editor riêng cho hộp thoại và 47 trang pháp lý: [biên bản và ảnh](docs/QA/2026-10-23/README.md). Đây là kết quả Editor, chưa phải xác nhận APK mới hoặc thiết bị thật.
+Các sửa đổi ngày **23/10/2026** có 37 kiểm tra tương tác/góc nhìn, 36 kiểm tra hộp thoại và 135 kiểm tra PDF trong Editor. Lần chạy 32 bài ghi nhận **26 bài lưu và mở lại kết quả, 6 bài còn bị chặn**, cùng một lỗi hiển thị đường viền dụng cụ trong kiểm tra riêng. Một số bài dùng hỗ trợ chuẩn bị; đây chưa phải chứng nhận 32 bài hoàn chỉnh. [Biên bản, ảnh và giới hạn](docs/QA/2026-10-23/README.md). Chưa build APK mới hoặc xác nhận thiết bị thật cho source này.
 
 Code21 đã được build và cài cập nhật trên giả lập Android; có kiểm tra opacity, khởi động lại, giữ dữ liệu cũ và vào stereo ở P01/C04/B01/M01. Điều đó không đồng nghĩa toàn bộ 32 bài đã vượt qua kiểm thử đầu-cuối trên điện thoại thật.
 
@@ -197,7 +197,7 @@ Các giới hạn về tương tác VR, cảm biến, tay cầm và các lựa c
 
 ---
 
-# Định hướng
+## Định hướng
 
 Prototype hiện có danh mục bài học trong bốn phòng và tiếp tục được phát triển theo các lĩnh vực STEM:
 
@@ -208,7 +208,7 @@ Prototype hiện có danh mục bài học trong bốn phòng và tiếp tục �
 
 ---
 
-# Tầm nhìn
+## Tầm nhìn
 
 Mọi học sinh đều có cơ hội tiếp cận phòng thí nghiệm STEM chất lượng cao, bất kể điều kiện cơ sở vật chất của nhà trường.
 

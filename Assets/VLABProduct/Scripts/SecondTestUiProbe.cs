@@ -112,6 +112,70 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         yield return new WaitForSecondsRealtime(.12f);
     }
     IEnumerator Press(params string[] keys){yield return Tap(Required(keys));}
+    Vector2 ModelPoint(EquipmentHandle item,string part="")
+    {
+        Physics.SyncTransforms();
+        foreach(var c in item.GetComponentsInChildren<Collider>().Where(c=>c.enabled&&c.gameObject.activeInHierarchy&&(part==""||c.name.Contains(part))))
+        {
+            var bounds=c.bounds;
+            foreach(var point in new[]{bounds.center,bounds.ClosestPoint(App.View.transform.position),bounds.center+Vector3.up*bounds.extents.y*.8f,bounds.center-Vector3.up*bounds.extents.y*.8f})
+            {
+                var screen=App.View.WorldToScreenPoint(point);if(screen.z<=0||screen.x<0||screen.y<0||screen.x>=Screen.width||screen.y>=Screen.height)continue;
+                var pixel=new Vector2(screen.x,screen.y);var ray=App.View.ScreenPointToRay(pixel);
+                var ui=new List<RaycastResult>();EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current){position=pixel},ui);if(ui.Count>0)continue;
+                if(Physics.Raycast(ray,out var hit,3.5f)&&hit.collider.GetComponentInParent<EquipmentHandle>()==item&&(part==""||hit.collider.name.Contains(part)))return pixel;
+            }
+        }
+        throw new Exception("No visible unblocked model touch point: "+item.assetId+"/"+part);
+    }
+    EquipmentHandle Model(string key)=>App.Apparatus.items.Single(x=>x.assetId==key);
+    IEnumerator ModelTap(string key,string part="")
+    {
+        yield return new WaitForSecondsRealtime(.3f);var point=ModelPoint(Model(key),part);int id=++serial;current.taps++;
+        trace.Add(current.id+" MODEL TAP "+key+"/"+part+" @ "+point);
+        Touch(UnityEngine.InputSystem.TouchPhase.Began,point,id);yield return null;yield return null;
+        Touch(UnityEngine.InputSystem.TouchPhase.Ended,point,id);yield return null;yield return null;yield return new WaitForSecondsRealtime(.2f);
+    }
+    IEnumerator ModelDrag(string key,Vector2 to,string part="")
+    {
+        yield return new WaitForSecondsRealtime(.3f);var from=ModelPoint(Model(key),part);to=ValidPoint(to.x,to.y);int id=++serial;current.drags++;
+        trace.Add(current.id+" MODEL DRAG "+key+"/"+part+" "+from+" -> "+to);
+        Touch(UnityEngine.InputSystem.TouchPhase.Began,from,id);yield return null;yield return null;
+        for(int step=1;step<=12;step++){Touch(UnityEngine.InputSystem.TouchPhase.Moved,Vector2.Lerp(from,to,step/12f),id);yield return null;}
+        Touch(UnityEngine.InputSystem.TouchPhase.Stationary,to,id);yield return new WaitForSecondsRealtime(.12f);
+        Touch(UnityEngine.InputSystem.TouchPhase.Ended,to,id);yield return null;yield return null;yield return new WaitForSecondsRealtime(.2f);
+    }
+    IEnumerator DirectShowcase(GuideTask task)
+    {
+        string id=current.id;
+        if(id=="P01")
+        {
+            if(App.Session.Operation<3){yield return ModelTap(App.Session.Operation==0?"stand":"pendulum");yield break;}
+            float length=(float)App.Session.parameters["length"],offset=Mathf.Min(.12f,length*.3f);
+            var target=App.Apparatus.Pivot+new Vector3(offset,-Mathf.Sqrt(length*length-offset*offset),0);
+            yield return ModelDrag("pendulum",App.View.WorldToScreenPoint(target));
+            if(App.Session.Phase!=ExperimentPhase.Running)throw new Exception("Actual bob drag/release did not start pendulum");
+            current.started=true;yield break;
+        }
+        if(id=="C04")
+        {
+            if(task.key=="reagent"){yield return ModelTap("reagent");yield break;}
+            if(!ApparatusRig.TryVisibleBounds(Model(task.key),out var cup))throw new Exception("Sample cup has no visible geometry");
+            yield return ModelDrag("dropper",App.View.WorldToScreenPoint(new Vector3(cup.center.x,cup.max.y-.004f,cup.center.z)));yield break;
+        }
+        if(id=="B01")
+        {
+            if(App.Session.Operation<3){yield return ModelTap(new[]{"onion","coverslip","slide"}[App.Session.Operation]);yield break;}
+            if(task.kind=="instrument")
+            {
+                string part=task.control.StartsWith("focusFine",StringComparison.Ordinal)?"Fine":"Coarse";
+                var from=ModelPoint(Model("microscope"),part);yield return ModelDrag("microscope",from+Vector2.up*(Screen.height*.035f*(task.control.EndsWith("+",StringComparison.Ordinal)?1:-1)),part);yield break;
+            }
+            yield return ModelTap("microscope","Eyepiece");yield break;
+        }
+        yield return ModelTap("gears","Gear12");yield return ModelTap("motor");
+        if(App.Session.Phase!=ExperimentPhase.Running)throw new Exception("Actual motor tap did not start the fitted gear train");current.started=true;
+    }
     IEnumerator Navigate(string expected,string[] buttons,float seconds=3,string marker=null)
     {
         string before=App.Route;yield return Press(buttons);
@@ -321,6 +385,11 @@ if(id=="B03")yield return ConfigureShortB03();
             repeats=signature==previousSignature?repeats+1:0;previousSignature=signature;
             // A repeated guide can still progress (P03 pull+ needs roughly 60 physical UI presses).
             if(repeats>100&&task.kind!="observe")throw new Exception("Same guide task exceeded 100 attempts; inspect visible readings before judging science progress: "+current.lastTask);
+            bool direct=(id=="P01"&&(App.Session.Phase==ExperimentPhase.Preparing||App.Session.Phase==ExperimentPhase.Ready))||
+                (id=="C04"&&App.Session.Phase==ExperimentPhase.Preparing&&task.kind=="instrument")||
+                (id=="B01"&&App.Session.Phase==ExperimentPhase.Preparing)||
+                (id=="M01"&&(App.Session.Phase==ExperimentPhase.Preparing||App.Session.Phase==ExperimentPhase.Ready));
+            if(direct){if(Modal())yield return Close();yield return DirectShowcase(task);continue;}
             if(task.kind=="image"||task.control.EndsWith(":",StringComparison.Ordinal)||task.control=="cell")
             {
                 if(!Modal())yield return Press("Chỉ tôi chỗ này","Show me where");Capture(id+"-visual-classification");

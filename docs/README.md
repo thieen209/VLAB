@@ -17,7 +17,7 @@ Các báo cáo giữ phạm vi và ngày kiểm tra riêng; số PASS của Edit
 
 | Phiên bản | Tài liệu |
 |---|---|
-| Source cập nhật 23/10/2026 — chưa build APK | [Hộp thoại, PDF pháp lý và giới hạn kiểm thử](QA/2026-10-23/README.md) |
+| Source cập nhật 23/10/2026 — chưa build APK | [Tương tác, góc nhìn, hộp thoại, PDF và ma trận 32 bài](QA/2026-10-23/README.md) |
 | 0.1.7 / code21 — candidate build trước các sửa đổi ngày 23/10 | [Báo cáo](QA/Prototype-0.1.7/README.md), [Cài đặt](QA/Prototype-0.1.7/SETTINGS-LEDGER.md), [APK manifest](QA/Prototype-0.1.7/ARTIFACT.json) |
 | 0.1.6 / code17 | [Báo cáo trước](QA/Prototype-0.1.6/REPORT.vi.md) |
 | 0.1.4 / code5 — APK đang công khai trên Releases | [Patch 0.1.4](PATCH_014.md) |
