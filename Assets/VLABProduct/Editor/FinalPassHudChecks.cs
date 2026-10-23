@@ -62,6 +62,7 @@ public sealed class FinalPassHudProbe:MonoBehaviour
             yield return Press("Open journal");yield return Press("Journal mode notes");yield return Press("Journal note new");
             foreach(var field in App.GetComponentsInChildren<TMP_InputField>().ToArray())
             {
+                rows.Add("UNVERIFIED Android inline keyboard configuration: Editor TMP accessors force desktop values");
                 field.ActivateInputField();yield return null;yield return null;
                 field.text="Bản nháp giữ khi đóng bàn phím";
                 field.OnCancel(new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current));
