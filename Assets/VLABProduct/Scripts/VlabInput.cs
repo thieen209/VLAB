@@ -186,7 +186,7 @@ namespace Vlab.Product
             phoneTouches.EndFrame();
             if(any||phoneTouches.Released)
             {
-                frame.phoneWorldPress=phoneTouches.Pressed;frame.pressed=phoneTouches.Pressed;frame.held=phoneTouches.WorldHeld;frame.released=phoneTouches.Released;frame.grabPressed=false;frame.adjustment=0;
+                frame.phoneWorldPress=phoneTouches.Pressed;frame.pressed=phoneTouches.Pressed;frame.held=phoneTouches.WorldHeld;frame.released=phoneTouches.Released;frame.lost|=phoneTouches.Lost;frame.grabPressed=false;frame.adjustment=0;
                 if(phoneTouches.HasWorldPointer)frame.pointer=View.ScreenPointToRay(phoneTouches.WorldPosition);
             }
             frame.move=allowed?phoneTouches.Move:Vector2.zero;
@@ -447,13 +447,13 @@ namespace Vlab.Product
         public static readonly Vector2 JoystickCenter=new Vector2(.16f,.18f);
         public const float JoystickRadius=.14f;
         public Vector2 Move{get;private set;}public Vector2 LookDelta{get;private set;}
-        public bool Pressed{get;private set;}public bool Released{get;private set;}
+        public bool Pressed{get;private set;}public bool Released{get;private set;}public bool Lost{get;private set;}
         public bool WorldHeld{get;private set;}public bool HasWorldPointer{get;private set;}
         public Vector2 WorldPosition{get;private set;}
         public bool HasTouches=>fingers.Count>0;
         public bool JoystickActive{get;private set;}public bool LookActive{get;private set;}
-        public void Clear(){fingers.Clear();Move=LookDelta=Vector2.zero;Pressed=Released=WorldHeld=HasWorldPointer=JoystickActive=LookActive=false;}
-        public void BeginFrame(){Move=LookDelta=Vector2.zero;Pressed=Released=WorldHeld=HasWorldPointer=JoystickActive=LookActive=false;foreach(var f in fingers.Values)f.seen=false;}
+        public void Clear(){fingers.Clear();Move=LookDelta=Vector2.zero;Pressed=Released=Lost=WorldHeld=HasWorldPointer=JoystickActive=LookActive=false;}
+        public void BeginFrame(){Move=LookDelta=Vector2.zero;Pressed=Released=Lost=WorldHeld=HasWorldPointer=JoystickActive=LookActive=false;foreach(var f in fingers.Values)f.seen=false;}
         bool Has(Owner owner){foreach(var f in fingers.Values)if(f.owner==owner)return true;return false;}
         public void Sample(int id,UnityEngine.InputSystem.TouchPhase phase,Vector2 position,Rect safe,bool allowed,bool joystick,bool ui,bool world,float joystickScale=1)
         {
@@ -475,12 +475,12 @@ namespace Vlab.Product
             }
             finger.seen=true;
             bool ended=phase==UnityEngine.InputSystem.TouchPhase.Ended||phase==UnityEngine.InputSystem.TouchPhase.Canceled;
-            if(!allowed&&finger.owner!=Owner.Ui){if(finger.owner==Owner.World)Released=true;finger.owner=Owner.Ignore;}
+            if(!allowed&&finger.owner!=Owner.Ui){if(finger.owner==Owner.World){Released=Lost=true;}finger.owner=Owner.Ignore;}
             if(finger.owner==Owner.World)
             {
                 HasWorldPointer=true;
                 // Some devices report (0,0) with Ended/Canceled; retain final real ray.
-                WorldPosition=Pressed?finger.start:ended?finger.previous:position;WorldHeld=!ended;if(ended)Released=true;
+                WorldPosition=Pressed?finger.start:ended?finger.previous:position;WorldHeld=!ended;if(ended){Released=true;Lost|=phase==UnityEngine.InputSystem.TouchPhase.Canceled;}
             }
             else if(!ended&&finger.owner==Owner.Move)
             {
@@ -497,7 +497,7 @@ namespace Vlab.Product
         }
         public void EndFrame()
         {
-            remove.Clear();foreach(var pair in fingers)if(!pair.Value.seen){if(pair.Value.owner==Owner.World){Released=true;HasWorldPointer=true;WorldPosition=pair.Value.previous;}remove.Add(pair.Key);}
+            remove.Clear();foreach(var pair in fingers)if(!pair.Value.seen){if(pair.Value.owner==Owner.World){Released=Lost=true;HasWorldPointer=true;WorldPosition=pair.Value.previous;}remove.Add(pair.Key);}
             foreach(int id in remove)fingers.Remove(id);
         }
     }

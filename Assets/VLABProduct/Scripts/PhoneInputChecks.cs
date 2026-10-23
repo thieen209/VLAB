@@ -66,7 +66,9 @@ public static class PhoneInputChecks
         var final=At(safe,.8f,.6f);router.BeginFrame();router.Sample(4,UnityEngine.InputSystem.TouchPhase.Moved,final,safe,true,true,true,true);router.EndFrame();
         Check(router.WorldHeld&&!router.Pressed&&router.LookDelta==Vector2.zero,"equipment drag retains owner across UI and never rotates camera");
         router.BeginFrame();router.Sample(4,UnityEngine.InputSystem.TouchPhase.Canceled,Vector2.zero,safe,true,true,false,false);router.EndFrame();
-        Check(router.Released&&!router.WorldHeld&&router.WorldPosition==final,"canceled equipment touch releases at final real pointer position");
+        Check(router.Released&&router.Lost&&!router.WorldHeld&&router.WorldPosition==final,"canceled equipment touch reports loss at final real pointer position");
+        router.Clear();router.BeginFrame();router.Sample(4,UnityEngine.InputSystem.TouchPhase.Began,final,safe,true,true,false,true);router.EndFrame();
+        router.BeginFrame();router.EndFrame();Check(router.Lost&&!router.WorldHeld,"missing equipment finger reports loss instead of a deliberate drop");
         router.Clear();router.BeginFrame();router.Sample(5,UnityEngine.InputSystem.TouchPhase.Stationary,final,safe,true,true,false,false);router.EndFrame();
         Check(!router.JoystickActive&&!router.LookActive&&!router.WorldHeld,"already-held finger is not acquired after page/mode reset");
         router.Clear();Check(!router.HasTouches&&router.Move==Vector2.zero,"reset clears all touch and movement ownership");

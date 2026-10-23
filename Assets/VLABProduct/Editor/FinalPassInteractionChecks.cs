@@ -21,6 +21,7 @@ public static class FinalPassInteractionChecks
     static FinalPassInteractionChecks(){EditorApplication.playModeStateChanged+=s=>{if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("VLAB.FinalPassInteraction",false)){SessionState.SetBool("VLAB.FinalPassInteraction",false);new GameObject("Direct interaction checks",typeof(FinalPassInteractionProbe));}};}
     public static void RunRecorded(){SessionState.SetBool("VLAB.RecordGameplay",true);Run();}
     public static void BiologyFocus(){SessionState.SetBool("VLAB.BiologyFocusOnly",true);Run();}
+    public static void PendulumJourney(){SessionState.SetBool("VLAB.PendulumOnly",true);Run();}
     public static void Run()
     {
         Directory.CreateDirectory("Evidence/FinalPass");SecondTestGameView.Configure(out _);
@@ -128,12 +129,14 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         recordGameplay=SessionState.GetBool("VLAB.RecordGameplay",false);SessionState.SetBool("VLAB.RecordGameplay",false);Application.runInBackground=true;DontDestroyOnLoad(gameObject);var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;Exception error=null;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){error=e;}if(error!=null){rows.Add("BLOCKER "+error);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested)stack.Push(nested);else yield return value;}
         yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Evidence/FinalPass/interaction-last-frame.png");yield return null;
-        EndVideo();File.WriteAllLines("Evidence/FinalPass/"+(biologyFocusOnly?"biology-focus-checks":"interaction-checks")+".txt",new[]{"Unity Editor: application UI callbacks, synthetic XR-HMD poses through InputSystem/TrackedPoseDriver for world gaze, and mock-controller button regression. No sensor, Android or BLE hardware claim."}.Concat(rows));
+        EndVideo();File.WriteAllLines("Evidence/FinalPass/"+(pendulumOnly?"pendulum-journey-checks":biologyFocusOnly?"biology-focus-checks":"interaction-checks")+".txt",new[]{"Unity Editor: application UI callbacks, synthetic XR-HMD poses through InputSystem/TrackedPoseDriver for world gaze, and mock-controller button regression. No sensor, Android or BLE hardware claim."}.Concat(rows));
         InputSystem.settings.backgroundBehavior=oldBackground;InputSystem.settings.editorInputBehaviorInPlayMode=oldEditorInput;SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
     }
     IEnumerator Run()
     {
         biologyFocusOnly=SessionState.GetBool("VLAB.BiologyFocusOnly",false);SessionState.SetBool("VLAB.BiologyFocusOnly",false);
+        pendulumOnly=SessionState.GetBool("VLAB.PendulumOnly",false);SessionState.SetBool("VLAB.PendulumOnly",false);
+        if(pendulumOnly){yield return PendulumJourney();yield break;}
         if(biologyFocusOnly){yield return BiologyFocusJourney();yield break;}
         var hidden=GameObject.CreatePrimitive(PrimitiveType.Cube);var handle=hidden.AddComponent<EquipmentHandle>();handle.assetId="qa-hidden";
         Check("Visible-bounds query includes rendered apparatus",ApparatusRig.TryVisibleBounds(handle,out _));hidden.GetComponent<Renderer>().forceRenderingOff=true;
@@ -276,7 +279,38 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         InputSystem.RemoveDevice(touch);
         yield return PhoneInputChecks.RunUiTap(App,name=>ScreenCapture.CaptureScreenshot("Evidence/FinalPass/"+name+".png"),Check);
     }
-    bool biologyFocusOnly;
+    bool biologyFocusOnly,pendulumOnly;
+    IEnumerator PendulumJourney()
+    {
+        float until=Time.realtimeSinceStartup+50;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<until)yield return null;
+        if(!App||App.Route!="home")throw new Exception("Home timeout");
+        App.Profile.settings.gazeAutoSelect=false;yield return Enter("P01");headGaze=false;App.Input.UseMockController=false;
+        var touch=InputSystem.AddDevice<Touchscreen>();yield return null;
+        for(int trial=0;trial<2;trial++)
+        {
+            yield return TapModel(touch,Item("stand"));yield return TapModel(touch,Item("pendulum"));yield return TapModel(touch,Item("pendulum"));
+            Check("P01 model touches prepare each new trial "+trial,App.Session.Operation==3);
+            Vector2 start=App.View.WorldToScreenPoint(VisiblePoint(Item("pendulum")));
+            Touch(touch,UnityEngine.InputSystem.TouchPhase.Began,start);yield return new WaitForSecondsRealtime(.15f);
+            Touch(touch,UnityEngine.InputSystem.TouchPhase.Canceled,start);yield return new WaitForSecondsRealtime(.3f);
+            Check("P01 canceled phone touch does not release or start measurement "+trial,!App.Apparatus.IsPullingBob&&App.Session.Phase==ExperimentPhase.Ready);
+            start=App.View.WorldToScreenPoint(VisiblePoint(Item("pendulum")));
+            Touch(touch,UnityEngine.InputSystem.TouchPhase.Began,start);yield return new WaitForSecondsRealtime(.15f);
+            float length=(float)App.Session.parameters["length"];float angle=(trial==0?12:-18)*Mathf.Deg2Rad;
+            Vector2 end=App.View.WorldToScreenPoint(App.Apparatus.Pivot+new Vector3(Mathf.Sin(angle)*length,-Mathf.Cos(angle)*length,0));
+            for(int step=1;step<=5;step++){Touch(touch,UnityEngine.InputSystem.TouchPhase.Moved,Vector2.Lerp(start,end,step/5f));yield return new WaitForSecondsRealtime(.06f);}
+            Touch(touch,UnityEngine.InputSystem.TouchPhase.Ended,end);yield return new WaitForSecondsRealtime(.3f);
+            Check("P01 deliberate release starts motion "+trial,App.Session.Phase==ExperimentPhase.Running&&App.Session.Pendulum!=null);
+            var ready=Time.realtimeSinceStartup+60;int requested=(int)App.Session.parameters["cycles"];
+            while(App.Session.Pendulum!=null&&App.Session.Pendulum.Cycles<requested&&Time.realtimeSinceStartup<ready)yield return null;
+            Check("P01 completes the requested observed cycles "+trial,App.Session.Pendulum!=null&&App.Session.Pendulum.Cycles>=requested);
+            int saved=App.Profile.attempts.Count;yield return Press("Ghi số đo");
+            Check("P01 real cycle measurement saves once "+trial,App.Route=="results"&&App.Profile.attempts.Count==saved+1);
+            yield return Press("Làm lại");ready=Time.realtimeSinceStartup+45;while(App.Route!="activity"&&Time.realtimeSinceStartup<ready)yield return null;
+            Check("P01 retry preserves notebook and clears trial "+trial,App.Route=="activity"&&App.Session.Operation==0&&App.Profile.attempts.Count==saved+1);
+        }
+        InputSystem.RemoveDevice(touch);
+    }
     IEnumerator BiologyFocusJourney()
     {
         float until=Time.realtimeSinceStartup+50;while((!App||App.Route!="home")&&Time.realtimeSinceStartup<until)yield return null;
