@@ -1262,8 +1262,8 @@ namespace Vlab.Product
             var target=uiHits.Count>0?ExecuteEvents.GetEventHandler<IPointerClickHandler>(uiHits[0].gameObject):null;
             if(target){var button=target.GetComponent<UnityEngine.UI.Button>();if(button&&!button.IsInteractable())target=null;}
             bool worldTarget=false;
-            if(uiHits.Count==0&&!modal&&!changing&&(Route=="activity"||Route=="explore")&&Apparatus&&!Apparatus.IsCarrying&&!Apparatus.IsPullingBob&&!flagshipDrag&&Physics.Raycast(frame.pointer,out var worldHit,3.5f))
-            {var item=worldHit.collider.GetComponentInParent<EquipmentHandle>();if(item){target=worldHit.collider.gameObject;worldTarget=true;}}
+            if(uiHits.Count==0&&!modal&&!changing&&(Route=="activity"||Route=="explore")&&(!Apparatus||(!Apparatus.IsCarrying&&!Apparatus.IsPullingBob))&&!flagshipDrag&&Physics.Raycast(frame.pointer,out var worldHit,3.5f))
+            {var item=worldHit.collider.GetComponentInParent<EquipmentHandle>();if(item||(worldHit.collider.GetComponentInParent<LabFixture>() is LabFixture fixture&&fixture.CanInteract)){target=worldHit.collider.gameObject;worldTarget=true;}}
             if(target!=gazeTarget){if(gazeTarget)ExecuteEvents.Execute(gazeTarget,pointer,ExecuteEvents.pointerExitHandler);gazeTarget=target;gazeTime=0;gazeConsumed=false;gazePosition=pointer.position;if(target)ExecuteEvents.Execute(target,pointer,ExecuteEvents.pointerEnterHandler);}
             else if(target&&target.GetComponent<InstrumentInspection>()&&Vector2.Distance(gazePosition,pointer.position)>12){gazePosition=pointer.position;gazeTime=0;gazeConsumed=false;}
             // A replacement page must not auto-activate the button that appears under the same gaze.

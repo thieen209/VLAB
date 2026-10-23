@@ -46,6 +46,21 @@ public sealed class FinalPassHudProbe:MonoBehaviour
             yield return new WaitForSecondsRealtime(1);yield return Capture(id+"-phone");
             Check(id+" prepared station loaded",App.Apparatus&&App.Apparatus.Ready);
             if(baseline)continue;
+            var shade=UnityEngine.Object.FindAnyObjectByType<LabShade>();
+            Check(id+" authored blind and daylight references",shade&&shade.bottomBar&&shade.daylight.Length>0&&shade.daylight.Length==shade.daylightOpenIntensities.Length);
+            var fixture=shade.GetComponentsInChildren<LabFixture>().Single(f=>f.action==LabFixture.Action.Shade);
+            var indoor=UnityEngine.Object.FindObjectsByType<Light>().Where(l=>l.name=="Ceiling illumination").ToArray();var indoorValues=indoor.Select(l=>l.intensity).ToArray();
+            yield return Press("HUD visibility");yield return Capture(id+"-daylight-open");var viewpoint=App.View.transform.position;var viewRotation=App.View.transform.rotation;
+            fixture.Activate();yield return new WaitForSecondsRealtime(2);
+            Check(id+" closed shade removes runtime daylight",shade.lowered&&shade.daylight.All(l=>l.intensity==0));
+            Check(id+" indoor lamps remain lit",indoor.Length>0&&indoor.Select((l,i)=>l.enabled&&Mathf.Approximately(l.intensity,indoorValues[i])&&l.intensity>0).All(v=>v));
+            for(int tier=0;tier<4;tier++){RoomLighting.Apply(tier);Check(id+" quality "+tier+" preserves closed daylight",shade.daylight.All(l=>l.intensity==0));}
+            yield return Capture(id+"-daylight-closed");
+            Check(id+" lighting captures keep camera pose",Vector3.Distance(viewpoint,App.View.transform.position)<.001f&&Quaternion.Angle(viewRotation,App.View.transform.rotation)<.01f);
+            for(int repeat=0;repeat<10;repeat++){fixture.Activate();shade.Step(10);}
+            fixture.Activate();yield return new WaitForSecondsRealtime(2);
+            Check(id+" repeated shade toggles restore exact daylight",!shade.lowered&&shade.daylight.Select((l,i)=>Mathf.Approximately(l.intensity,shade.daylightOpenIntensities[i])).All(v=>v));
+            RoomLighting.Apply(App.Profile.settings.GraphicsTier);yield return Press("HUD visibility");
             Check(id+" VR entry absent outside Home",!Find("VR mode"));
             yield return Press("Station tools");
             Check(id+" tools sheet retains manual guidance and notebook",Find("Hướng dẫn")&&Find("Sổ tay"));

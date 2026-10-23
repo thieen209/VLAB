@@ -100,6 +100,12 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         App.Profile.settings.gazeAutoSelect=false;App.Profile.settings.gazeDwellSeconds=.6f;App.Input.SetSimulator(true);App.Input.UseMockController=true;yield return Away();
         var simulator=UnityEngine.Object.FindFirstObjectByType<XRDeviceSimulator>();if(!simulator)throw new Exception("Official simulator not initialized");simulator.enabled=false;simulatedHead=InputSystem.devices.OfType<XRSimulatedHMD>().Single();yield return null;
         yield return Enter("P01");App.Profile.settings.gazeAutoSelect=true;Check("P01 starts with real ready kit and no completed preparation",App.Apparatus.Ready&&App.Session.Operation==0);
+        var shade=UnityEngine.Object.FindAnyObjectByType<LabShade>();var shadeControl=shade.GetComponentsInChildren<LabFixture>().Single(f=>f.action==LabFixture.Action.Shade);
+        yield return Press("HUD visibility");yield return Dwell(shadeControl.transform.position);
+        Check("Actual gaze ray operates the room shade fixture",shade.lowered);
+        yield return new WaitForSecondsRealtime(1);Check("Continued gaze does not repeatedly toggle shade",shade.lowered);
+        yield return Dwell(shadeControl.transform.position);Check("Intentional second gaze reopens shade",!shade.lowered);
+        yield return Press("HUD visibility");
         var trackedOrigin=App.View.transform.parent;var originPosition=trackedOrigin.position;var originRotation=trackedOrigin.rotation;
         aim=App.Apparatus.Pivot+Vector3.right*.5f;yield return new WaitForSecondsRealtime(12.8f);
         var cue=(GuideCue)typeof(VlabApp).GetField("worldGuideCue",Flags).GetValue(App);var caption=cue?cue.GetComponentInChildren<TextMeshProUGUI>(true):null;
