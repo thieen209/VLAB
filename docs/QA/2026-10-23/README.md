@@ -72,3 +72,7 @@ B02 cùng trạng thái muối minh họa1 trong Editor, trước/sau sửa lớ
 Những lần C01 điều hướng nhầm caption/trang hoặc hết bound600giây vẫn nằm trong các thư mục evidence gốc. Lượt thành công dùng bound1200giây; runner cho phép chọn30–1800giây, mặc định180giây. Các điều kiện vật lý, ba lượt chuẩn độ và lưu kết quả không bị nới.
 
 [UI operator C01](drive_c01_ui.py) chỉ dành cho fixture VI mặc định đã kiểm tra(0.1mol/L,10mL). Nó đưa thao tác chạm vào protocol hiện có, dựa trên lưu lượng đã quan sát trên UI; chỉ lặp khi receipt có thao tác giữ lượt/mẫu mới, tối đa ba pulse rồi dừng để rà soát nếu chưa đạt. Không đọc trạng thái hóa học, gán đáp án hay gán hoàn thành; không phải kiểm thử tay cầm/điện thoại thật.
+
+## Đồ họa và Settings responsive
+
+[Bốn mức đồ họa, số đo frame thực và kiểm tra layout Việt/Anh](graphics/README.md). Source checkpoint, chưa có APK mới; phạm vi Editor được ghi riêng cho từng lượt.

@@ -16,7 +16,7 @@ public static class SettingsPresentationChecks
         string profile=JsonUtility.ToJson(app.Profile);bool vi=app.Profile.locale!="en";
         check("Settings presentation starts at Home",app.Route=="home");
         yield return Press(app,"Home utility 0");
-        string[] labels=vi?new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"}:new[]{"General","Audio","Graphics","Controls","Appearance","Interaction"};
+        string[] labels=vi?new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"}:new[]{"General","Audio","Graphics","Controls","Style","Interaction"};
         for(int category=0;category<labels.Length;category++)
         {
             yield return Press(app,category==5?"Settings interaction tab":labels[category]);Canvas.ForceUpdateCanvases();

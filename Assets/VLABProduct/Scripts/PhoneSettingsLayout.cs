@@ -44,9 +44,9 @@ namespace Vlab.Product
         void Build(Rect safe,float units,float position)
         {
             const float scale=1.5f;float safeWidth=safe.width/units,safeHeight=safe.height/units;
-            float width=Mathf.Min(1140,(safeWidth-48)/scale),height=(safeHeight-48)/scale;
+            float width=Mathf.Min(1140,(safeWidth-48)/scale),height=Mathf.Min(780,(safeHeight-48)/scale);
             var fitted=ui.PhoneViewport.ContentPixels;float left=(safe.xMin-fitted.xMin)/units,top=(fitted.yMax-safe.yMax)/units;
-            Place(box,left+(safeWidth-width*scale)/2,top+24,width,height);box.localScale=Vector3.one*scale;
+            Place(box,left+(safeWidth-width*scale)/2,top+(safeHeight-height*scale)/2,width,height);box.localScale=Vector3.one*scale;
             var title=children.FirstOrDefault(x=>x.rect.name=="Settings title");var back=children.FirstOrDefault(x=>x.rect.name=="Settings back");var rail=children.FirstOrDefault(x=>x.rect.name=="Settings category rail");
             if(title!=null)Place(title.rect,24,16,width-230,62);
             if(back!=null){Place(back.rect,width-202,14,178,66);StretchCaption(back.rect);}
@@ -114,7 +114,10 @@ namespace Vlab.Product
             if(track||language)Place(caption.rectTransform,0,10,Mathf.Max(80,width-160),52);
             else
             {
-                float left=caption.rectTransform.anchoredPosition.x;Place(caption.rectTransform,left,-caption.rectTransform.anchoredPosition.y,Mathf.Max(80,width-left-12),caption.rectTransform.sizeDelta.y);
+                foreach(var label in rect.GetComponentsInChildren<TMP_Text>().Where(text=>text.transform.parent==rect))
+                {float left=label.rectTransform.anchoredPosition.x;Place(label.rectTransform,left,-label.rectTransform.anchoredPosition.y,Mathf.Max(80,width-left-12),label.rectTransform.sizeDelta.y);}
+                foreach(var rule in rect.GetComponentsInChildren<RectTransform>().Where(child=>child.parent==rect&&child.name=="Section rule"))
+                {float left=rule.anchoredPosition.x;Place(rule,left,-rule.anchoredPosition.y,Mathf.Max(0,width-left-12),rule.rect.height);}
             }
         }
         static void StretchCaption(RectTransform button)

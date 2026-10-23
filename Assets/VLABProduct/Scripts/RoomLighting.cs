@@ -17,11 +17,11 @@ namespace Vlab.Product
             foreach(var light in Object.FindObjectsByType<Light>(FindObjectsSortMode.None))
             {
                 if(light.type==LightType.Directional)
-                {light.intensity=quality==0?.55f:1.05f;light.color=new Color(1f,.985f,.96f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=quality==0?LightShadows.None:quality==2?LightShadows.Soft:LightShadows.Hard;light.shadowCustomResolution=quality==2?1024:512;}
+                {light.intensity=1.05f;light.color=new Color(1f,.985f,.96f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=quality==0?LightShadows.None:quality>=2?LightShadows.Soft:LightShadows.Hard;light.shadowCustomResolution=quality<2?512:quality==2?1024:2048;}
                 else if(light.name=="Ceiling illumination")
-                {light.intensity=quality==0?2.0f:2.4f;light.color=new Color(.98f,.99f,1f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=LightShadows.None;}
+                {light.intensity=2.4f;light.color=new Color(.98f,.99f,1f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=LightShadows.None;}
             }
-            QualitySettings.anisotropicFiltering=quality==2?AnisotropicFiltering.ForceEnable:AnisotropicFiltering.Disable;
+            QualitySettings.anisotropicFiltering=quality>=2?AnisotropicFiltering.ForceEnable:AnisotropicFiltering.Disable;
         }
     }
 }

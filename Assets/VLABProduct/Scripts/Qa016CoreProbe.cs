@@ -113,7 +113,7 @@ public sealed class Qa016CoreProbe:MonoBehaviour
     {Bounds b;if(group){object[] a={item,new Bounds()};typeof(VlabApp).GetMethod("TryFocusBounds",Private).Invoke(App,a);b=(Bounds)a[1];if(App.Session.spec.id=="P01")foreach(var part in App.Apparatus.items)if(ApparatusRig.TryVisibleBounds(part,out var linked))b.Encapsulate(linked);}else{ApparatusRig.TryVisibleBounds(item,out b);if(App.Session.spec.id=="P01"){b.Encapsulate(App.Apparatus.Pivot);b.Expand(.08f);}}Call("FitFocusBounds",b,new Rect(.08f,.10f,.84f,.80f));}
     IEnumerator PhotoAlbum()
     {
-        App.Profile.settings.graphics=2;App.Profile.settings.focusAssist=false;Call("ApplySettings");yield return new WaitForSecondsRealtime(1);yield return AlbumFrame("01-menu","Menu bốn phòng, UI thật",false);int n=2;
+        App.Profile.settings.SetGraphicsTier(2);App.Profile.settings.focusAssist=false;Call("ApplySettings");yield return new WaitForSecondsRealtime(1);yield return AlbumFrame("01-menu","Menu bốn phòng, UI thật",false);int n=2;
         foreach(string id in new[]{"P01","C04","B01","M01"})
         {
             Call("ShowHome");yield return new WaitForSecondsRealtime(.3f);yield return Press("Subject "+id[0]);yield return Press("Browser lesson "+id);yield return Press("Browser start");yield return Press("Readiness enter");float limit=Time.realtimeSinceStartup+45;while(App.Route!="activity"&&Time.realtimeSinceStartup<limit)yield return null;if(App.Session?.spec.id!=id)throw new Exception("Album entry "+id);
@@ -136,10 +136,10 @@ public sealed class Qa016CoreProbe:MonoBehaviour
     IEnumerator LightingPair(string id)
     {
         yield return new WaitForSecondsRealtime(.5f);var eye=Field<Transform>("origin").position;var rotation=App.View.transform.rotation;float fov=App.View.fieldOfView;bool focus=App.Profile.settings.focusAssist;App.Profile.settings.focusAssist=false;
-        App.Profile.settings.graphics=2;Call("ApplySettings");Field<Transform>("origin").position=eye;App.View.transform.rotation=rotation;App.View.fieldOfView=fov;RenderSettings.ambientSkyColor=new Color(.52f,.54f,.56f);RenderSettings.ambientEquatorColor=new Color(.37f,.39f,.41f);RenderSettings.ambientGroundColor=new Color(.23f,.24f,.25f);RenderSettings.reflectionIntensity=.40f;
+        App.Profile.settings.SetGraphicsTier(2);Call("ApplySettings");Field<Transform>("origin").position=eye;App.View.transform.rotation=rotation;App.View.fieldOfView=fov;RenderSettings.ambientSkyColor=new Color(.52f,.54f,.56f);RenderSettings.ambientEquatorColor=new Color(.37f,.39f,.41f);RenderSettings.ambientGroundColor=new Color(.23f,.24f,.25f);RenderSettings.reflectionIntensity=.40f;
         foreach(var light in UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None)){if(light.type==LightType.Directional)light.intensity=1.05f;else if(light.name=="Ceiling illumination")light.intensity=.78f;}
         Check(id+" lighting baseline camera and FOV fixed",Vector3.Distance(eye,Field<Transform>("origin").position)<.001f&&Quaternion.Angle(rotation,App.View.transform.rotation)<.01f&&Math.Abs(fov-App.View.fieldOfView)<.01f);yield return new WaitForEndOfFrame();Capture(id+"-normal-before-high");yield return new WaitForEndOfFrame();yield return null;
-        foreach(int tier in new[]{0,2}){App.Profile.settings.graphics=tier;Call("ApplySettings");Field<Transform>("origin").position=eye;App.View.transform.rotation=rotation;App.View.fieldOfView=fov;yield return new WaitForEndOfFrame();Capture(id+"-normal-after-"+tier);yield return new WaitForEndOfFrame();yield return null;}
+        foreach(int tier in new[]{0,2}){App.Profile.settings.SetGraphicsTier(tier);Call("ApplySettings");Field<Transform>("origin").position=eye;App.View.transform.rotation=rotation;App.View.fieldOfView=fov;yield return new WaitForEndOfFrame();Capture(id+"-normal-after-"+tier);yield return new WaitForEndOfFrame();yield return null;}
         Check(id+" lighting comparison kept gameplay camera",Vector3.Distance(eye,Field<Transform>("origin").position)<.001f&&Quaternion.Angle(rotation,App.View.transform.rotation)<.01f);App.Profile.settings.focusAssist=focus;
     }
     IEnumerator Checks()
@@ -242,10 +242,10 @@ public sealed class Qa016CoreProbe:MonoBehaviour
         for(int repeat=0;repeat<10;repeat++){Call("ShowEquipment");yield return null;yield return null;var dialog=Field<RectTransform>("modal").GetComponentInChildren<PhoneDialogLayout>();Check("Inventory reopen has stable scale "+repeat,Mathf.Abs(dialog.transform.localScale.x-1.1f)<.001f&&dialog.AssertPhoneLayout(out _));Call("CloseModal");yield return null;}
         foreach(int quality in new[]{0,2})
         {
-            App.Profile.settings.graphics=quality;Call("ApplySettings");yield return null;yield return null;
+            App.Profile.settings.SetGraphicsTier(quality);Call("ApplySettings");yield return null;yield return null;
             var pipeline=Field<UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset>("runtimePipeline");
-            Check("Quality "+quality+" changes render scale",Mathf.Abs(pipeline.renderScale-(quality==0?.65f:1f))<.001f);
-            Check("Quality "+quality+" changes shadows and MSAA",pipeline.shadowDistance==(quality==0?8:25)&&pipeline.msaaSampleCount==(quality==0?2:4));
+            Check("Quality "+quality+" changes render scale",Mathf.Abs(pipeline.renderScale-(quality==0?.75f:1f))<.001f);
+            Check("Quality "+quality+" changes shadows and MSAA",pipeline.shadowDistance==(quality==0?8:20)&&pipeline.msaaSampleCount==(quality==0?2:4));
             yield return Aspect(2340,1080,rt=>Capture("P01-quality-"+quality,rt));
         }
                 Check("Direct P01 preparation waits for learner drag",App.Session.Phase==ExperimentPhase.Preparing&&App.Session.Operation==3);
@@ -267,7 +267,7 @@ var startRay=new Ray(App.View.transform.position,bob.transform.position-App.View
         deadline=Time.realtimeSinceStartup+45;while(App.Route!="activity"&&Time.realtimeSinceStartup<deadline)yield return null;if(App.Session?.spec.id!="C01")throw new Exception("C01 visual fixture missing");
         for(int n=0;n<25&&!App.Apparatus.Ready;n++){var item=App.Apparatus.NextInstallableItem();App.Apparatus.Select(item);if(!App.Apparatus.InstallSelected())throw new Exception("C01 fixture install failed");yield return null;}
         Call("FocusStation");var bench=App.Apparatus.GetComponent<BenchDisplayVisibility>();var scenePage=Field<RectTransform>("page");scenePage.gameObject.SetActive(false);bench.Restore();yield return Aspect(2340,1080,rt=>Capture("C01-dark-baseline",rt));bench.SetSurface("C01",App.Apparatus.Worktop);
-        foreach(int quality in new[]{0,2}){App.Profile.settings.graphics=quality;Call("ApplySettings");yield return null;var sun=UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).FirstOrDefault(light=>light.type==LightType.Directional);Check("Quality light shadows "+quality,sun&&sun.shadows==(quality==0?LightShadows.None:LightShadows.Soft));Check("Quality texture filtering "+quality,QualitySettings.anisotropicFiltering==(quality==2?AnisotropicFiltering.ForceEnable:AnisotropicFiltering.Disable));yield return Aspect(2340,1080,rt=>Capture("C01-matte-quality-"+quality,rt));}scenePage.gameObject.SetActive(true);
+        foreach(int quality in new[]{0,2}){App.Profile.settings.SetGraphicsTier(quality);Call("ApplySettings");yield return null;var sun=UnityEngine.Object.FindObjectsByType<Light>(FindObjectsSortMode.None).FirstOrDefault(light=>light.type==LightType.Directional);Check("Quality light shadows "+quality,sun&&sun.shadows==(quality==0?LightShadows.None:LightShadows.Soft));Check("Quality texture filtering "+quality,QualitySettings.anisotropicFiltering==(quality==2?AnisotropicFiltering.ForceEnable:AnisotropicFiltering.Disable));yield return Aspect(2340,1080,rt=>Capture("C01-matte-quality-"+quality,rt));}scenePage.gameObject.SetActive(true);
         foreach(string id in new[]{"C04","B01","M01"})yield return FlagshipComponents(id);
     }
 }

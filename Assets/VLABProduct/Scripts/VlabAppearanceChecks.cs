@@ -81,7 +81,7 @@ public static class VlabAppearanceChecks
         int decreases=Mathf.RoundToInt((1-originalOpacity)/.05f);for(int n=0;n<decreases;n++)yield return Press("Appearance opacity minus");yield return Press(app.Profile.locale=="en"?"Apply":"Áp dụng");
         app.Input.SetSimulator(wasSimulator);yield return new WaitForSecondsRealtime(.25f);
     }
-    static IEnumerator OpenAppearance(VlabApp app){yield return Press("Home utility 0");yield return Press(app.Profile.locale=="en"?"Appearance":"Giao diện");}
+    static IEnumerator OpenAppearance(VlabApp app){yield return Press("Home utility 0");yield return Press(app.Profile.locale=="en"?"Style":"Giao diện");}
     static IEnumerator Press(string name)
     {
         yield return new WaitForSecondsRealtime(.26f);

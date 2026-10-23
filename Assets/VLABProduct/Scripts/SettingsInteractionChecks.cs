@@ -71,7 +71,7 @@ namespace Vlab.Product
         {
             Canvas.ForceUpdateCanvases();var box=app.GetComponentsInChildren<RectTransform>().Single(rect=>rect.gameObject.activeInHierarchy&&rect.name=="Settings");
             string locale=(string)typeof(VlabApp).GetField("draftLocale",Private).GetValue(app);
-            string[] labels=locale=="en"?new[]{"General","Audio","Graphics","Controls","Appearance","Interaction"}:new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"};
+            string[] labels=locale=="en"?new[]{"General","Audio","Graphics","Controls","Style","Interaction"}:new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"};
             var tabs=labels.Select(label=>Find(app,label)).Select(button=>button.GetComponent<RectTransform>()).ToArray();
             var rail=box.GetComponentsInChildren<RectTransform>().Single(rect=>rect.name=="Settings category rail");
             Verify(check,category+": six equal72px hit areas form one connected top rail",tabs.Length==6&&Mathf.Abs(rail.anchoredPosition.y+104)<.1f&&tabs.All(tab=>tab.parent==rail&&Mathf.Abs(tab.anchoredPosition.y)<.1f&&Same(tab.rect.height,72)&&Same(tab.rect.width,rail.rect.width/6))&&tabs.Zip(tabs.Skip(1),(a,b)=>Mathf.Abs(a.anchoredPosition.x+a.rect.width-b.anchoredPosition.x)<.1f).All(ok=>ok));
@@ -100,11 +100,11 @@ namespace Vlab.Product
             var language=app.GetComponentsInChildren<Button>().Single(button=>button.GetComponentInChildren<TextMeshProUGUI>()?.text==(locale=="vi"?"Ngôn ngữ: Tiếng Việt":"Language: English"));
             language.onClick.Invoke();yield return new WaitForSecondsRealtime(.28f);
             Verify(check,"Language draft changes its visible value without committing",app.Profile.locale==locale&&app.GetComponentsInChildren<TextMeshProUGUI>().Any(text=>text.text==(locale=="vi"?"Language: English":"Ngôn ngữ: Tiếng Việt")));
-            string[] alternateCategories=locale=="vi"?new[]{"General","Audio","Graphics","Controls","Appearance","Interaction"}:new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"};
+            string[] alternateCategories=locale=="vi"?new[]{"General","Audio","Graphics","Controls","Style","Interaction"}:new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"};
             foreach(string categoryName in alternateCategories){yield return Press(app,categoryName);Layout(app,check,"Draft language "+categoryName);}
             Verify(check,"All alternate-language settings layouts preserve committed locale",app.Profile.locale==locale);
             yield return Press(app,"Hủy","Cancel");
-            yield return Open(app);string[] categories=locale=="en"?new[]{"General","Audio","Graphics","Controls","Appearance","Interaction"}:new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"};
+            yield return Open(app);string[] categories=locale=="en"?new[]{"General","Audio","Graphics","Controls","Style","Interaction"}:new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"};
             for(int i=0;i<categories.Length;i++)
             {
                 yield return Press(app,categories[i]);Layout(app,check,categories[i]);if(i==0)capture?.Invoke("51-cai-dat-chung");if(i==4)capture?.Invoke("52-cai-dat-giao-dien");
@@ -132,7 +132,7 @@ namespace Vlab.Product
             yield return Press(app,"Home utility 0");typeof(VlabApp).GetField("draft",Private).SetValue(app,original.Copy());yield return Press(app,"Áp dụng","Apply");
             Verify(check,"Interaction checks restore preferences and preserve consent/records/checkpoint",app.Route=="home"&&JsonUtility.ToJson(app.Profile.settings)==originalJson&&Attempts(app.Profile)==attempts&&Legal(app.Profile)==legal&&(app.Profile.checkpoint==null?"":JsonUtility.ToJson(app.Profile.checkpoint))==checkpoint);
             if(simulator)Verify(check,"Restored preference restores simulator's original pitch/yaw",Same(simulator.mouseXRotateSensitivity,originalSimulator.x)&&Same(simulator.mouseYRotateSensitivity,originalSimulator.y));
-            yield return Press(app,"Home utility 0");yield return Press(app,"Giao diện","Appearance");yield return Press(app,"Mặc định mục này","Category defaults");
+            yield return Press(app,"Home utility 0");yield return Press(app,"Giao diện","Style");yield return Press(app,"Mặc định mục này","Category defaults");
             Verify(check,"Appearance category defaults select80percent without committing",Same(Draft(app).uiOpacity,.8f)&&JsonUtility.ToJson(app.Profile.settings)==originalJson);
             yield return Press(app,"Hủy","Cancel");Verify(check,"Cancelling appearance defaults preserves the user's opacity",app.Route=="home"&&JsonUtility.ToJson(app.Profile.settings)==originalJson);
         }

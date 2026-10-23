@@ -553,7 +553,7 @@ if(id=="B03")yield return ConfigureShortB03();
         var original=App.Profile.settings.Copy();string originalJson=JsonUtility.ToJson(original);
         yield return Press("Home utility 0","Cài đặt","Settings");
         PresentationCheck("Actual Home Settings touch opens Settings",App.Route=="settings");
-        string[][] tabs={new[]{"Chung","General"},new[]{"Âm thanh","Audio"},new[]{"Đồ họa","Graphics"},new[]{"Điều khiển","Controls"},new[]{"Giao diện","Appearance"},new[]{"Tương tác","Interaction"}};
+        string[][] tabs={new[]{"Chung","General"},new[]{"Âm thanh","Audio"},new[]{"Đồ họa","Graphics"},new[]{"Điều khiển","Controls"},new[]{"Giao diện","Style"},new[]{"Tương tác","Interaction"}};
         for(int i=0;i<tabs.Length;i++)
         {
             yield return Press(tabs[i]);yield return new WaitForSecondsRealtime(.3f);

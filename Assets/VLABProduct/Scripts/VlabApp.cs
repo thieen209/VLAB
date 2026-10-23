@@ -22,6 +22,7 @@ namespace Vlab.Product
         public string Route{get;private set;}="boot";public Camera View{get;private set;}
         public VlabInput Input{get;private set;}public ApparatusRig Apparatus{get;private set;}
         public LabPanoramaPreview Preview{get;private set;}
+        public PerformanceOverlay Performance{get;private set;}
         // The root release gate enables the integrated catalog only after its journey checks pass.
         public static bool IntegratedLessonsEnabled=true;
         public static bool IsLessonAvailable(string id)=>id=="P01"||(IntegratedLessonsEnabled&&LessonSpec.All.ContainsKey(id));
@@ -45,12 +46,13 @@ namespace Vlab.Product
         readonly JournalState journal=new JournalState();
         GuideCue worldGuideCue,buttonGuideCue;string cueStep,observedGuideStep;float nextWorldHint;int guidanceTier;
         readonly List<RaycastResult> uiHits=new List<RaycastResult>();GameObject gazeTarget;float gazeTime;bool gazeConsumed,suppressOpeningGaze;Vector2 gazePosition;
-        UnityEngine.UI.Image gazeProgress;UniversalRenderPipelineAsset runtimePipeline;
+        UnityEngine.UI.Image gazeProgress;UniversalRenderPipelineAsset runtimePipeline;UnityEngine.Rendering.RenderPipelineAsset originalPipeline;int appliedGraphics=-1;
         static readonly Dictionary<string,string> readingVi=new Dictionary<string,string>{{"period","Chu kỳ"},{"timedCycles","Số chu kỳ"},{"measuredTime","Thời gian đo"},{"gravityEstimate","g suy ra"}};
         bool Vi=>(Route=="settings"?draftLocale:Profile.locale)!="en";
         string L(string vi,string en)=>Vi?vi:en;
         Color Accent=>VlabUi.Hex(subject=="P"?"93BAC8":subject=="C"?"BAABC4":subject=="B"?"A8BBA6":"CBB99C");
         public string Status=>status;
+        internal bool HasOpenModal=>modal;
         void Awake()
         {
             if(Instance&&Instance!=this){Destroy(gameObject);return;}Instance=this;DontDestroyOnLoad(gameObject);
@@ -70,6 +72,7 @@ namespace Vlab.Product
             };Input.BlocksPhoneGameplay=PhoneUiOwnsTouch;Input.ModeChanged+=OnModeChanged;
             Preview=gameObject.AddComponent<LabPanoramaPreview>();Preview.Initialize(View,Profile.settings.reducedMotion);
             ui=new VlabUi(transform);var eventGo=new GameObject("VLAB Event System",typeof(EventSystem),typeof(InputSystemUIInputModule));eventGo.transform.SetParent(transform,false);eventGo.GetComponent<InputSystemUIInputModule>().AssignDefaultActions();
+            Performance=gameObject.AddComponent<PerformanceOverlay>();Performance.Initialize(ui);
             var grading=new GameObject("Daylight grading",typeof(UnityEngine.Rendering.Volume));grading.transform.SetParent(transform,false);var volume=grading.GetComponent<UnityEngine.Rendering.Volume>();volume.isGlobal=true;volume.priority=100;volume.sharedProfile=Resources.Load<UnityEngine.Rendering.VolumeProfile>("UI/VlabColor");
             SceneManager.sceneLoaded+=OnSceneLoaded;
         }
@@ -78,7 +81,7 @@ namespace Vlab.Product
             Screen.autorotateToPortrait=Screen.autorotateToPortraitUpsideDown=false;Screen.autorotateToLandscapeLeft=Screen.autorotateToLandscapeRight=true;Screen.orientation=ScreenOrientation.AutoRotation;
 #endif
             AdoptScene();ApplySettings();ShowSetupOrHome();}
-        void OnDestroy(){if(activeRoomLoad!=null&&!activeRoomLoad.isDone)activeRoomLoad.allowSceneActivation=true;if(Instance==this){SceneManager.sceneLoaded-=OnSceneLoaded;Instance=null;}}
+        void OnDestroy(){if(activeRoomLoad!=null&&!activeRoomLoad.isDone)activeRoomLoad.allowSceneActivation=true;if(Instance==this){SceneManager.sceneLoaded-=OnSceneLoaded;if(runtimePipeline){if(QualitySettings.renderPipeline==runtimePipeline)QualitySettings.renderPipeline=originalPipeline;Destroy(runtimePipeline);}Instance=null;}}
         string DocumentHash(string id)
         {var vi=LegalPdfView.Metadata(id+"_vi");var en=LegalPdfView.Metadata(id+"_en");return vi!=null&&en!=null?ProfileStore.Hash(vi.sourceSha256+"\n"+en.sourceSha256):"";}
         bool Save()
@@ -356,7 +359,7 @@ namespace Vlab.Product
             foreach(var review in FindObjectsByType<LabReview>(FindObjectsSortMode.None))review.enabled=false;
             foreach(var interactor in FindObjectsByType<LabInteractor>(FindObjectsSortMode.None))interactor.enabled=false;
             foreach(var events in FindObjectsByType<EventSystem>(FindObjectsSortMode.None))if(events.transform.parent!=transform)events.enabled=false;
-            RoomLighting.Apply(Profile.settings.graphics);RoomBranding.Apply(SceneManager.GetActiveScene(),Vi);View.enabled=true;View.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing=false;ui?.SetWorld(Input.VrMode||Input.SimulatorMode,View);
+            RoomLighting.Apply(Profile.settings.GraphicsTier);RoomBranding.Apply(SceneManager.GetActiveScene(),Vi);View.enabled=true;View.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing=false;ui?.SetWorld(Input.VrMode||Input.SimulatorMode,View);
         }
         void ShowExplore()
         {
@@ -932,7 +935,7 @@ namespace Vlab.Product
             var heading=ui.Text(box,L("Cài đặt","Settings"),48,28,540,64,40);heading.name="Settings title";heading.fontStyle=FontStyles.Bold;SettingsInk(heading);
             var draftHint=ui.Text(box,dirty?L("Chưa áp dụng","Not applied"):L("Thiết lập cá nhân","Personal settings"),600,44,240,48,22,VlabUi.Secondary);SettingsInk(draftHint);
             SettingsQuiet(box,L("Quay lại","Back"),872,28,196,64,SettingsBack).name="Settings back";
-            string[] tabs=Vi?new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"}:new[]{"General","Audio","Graphics","Controls","Appearance","Interaction"};
+            string[] tabs=Vi?new[]{"Chung","Âm thanh","Đồ họa","Điều khiển","Giao diện","Tương tác"}:new[]{"General","Audio","Graphics","Controls","Style","Interaction"};
             SettingsCategories(box,tabs);
             Action<Action> edit=action=>{action();dirty=true;ShowSettings();};
             if(settingsTab==0)
@@ -952,9 +955,19 @@ namespace Vlab.Product
             }
             if(settingsTab==2)
             {
-                SettingsSection(box,tabs[2],L("Chọn một mức hiển thị cho điện thoại đang dùng.","Choose a rendering preset for this device."));
-                string[] presets=Vi?new[]{"Hiệu năng","Cân bằng","Chất lượng"}:new[]{"Performance","Balanced","Quality"};
-                for(int i=0;i<3;i++){int n=i;var preset=SettingsQuiet(box,presets[i],48,318+i*100,1004,80,()=>edit(()=>draft.graphics=n));var caption=preset.GetComponentInChildren<TextMeshProUGUI>();caption.rectTransform.anchoredPosition=new Vector2(72,-12);caption.rectTransform.sizeDelta=new Vector2(920,56);caption.alignment=TextAlignmentOptions.Left;caption.fontSize=ui.LargeText?31.36f:28;var radio=ui.Panel(preset.transform,"Settings preset radio",12,22,36,36,VlabUi.Stroke);SettingsFlat(radio);radio.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;var centre=ui.Panel(radio,"Settings preset centre",6,6,24,24,draft.graphics==i?Accent:VlabUi.PanelColor);SettingsFlat(centre);centre.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;preset.targetGraphic=radio.GetComponent<UnityEngine.UI.Image>();if(draft.graphics==i)ui.Rule(preset.transform,72,72,920,3,Accent);}
+                SettingsSection(box,tabs[2],L("FPS/ms đo khung hình, không phải độ trễ chuyển động đầu.","FPS/ms measure frames, not head-tracking latency."));
+                string[] details=Vi?new[]{"Ưu tiên tốc độ","Cân bằng hình ảnh","Bóng mềm, viền mượt","Bóng chi tiết hơn"}:new[]{"Prioritize speed","Balanced rendering","Soft shadows, smoother edges","More detailed shadows"};
+                for(int i=0;i<4;i++)
+                {
+                    int n=i;var preset=SettingsQuiet(box,VlabGraphics.Label(i,Vi),48+i%2*514,310+i/2*98,490,84,()=>edit(()=>draft.SetGraphicsTier(n)));preset.name="Graphics tier "+i;
+                    var caption=preset.GetComponentInChildren<TextMeshProUGUI>();caption.rectTransform.anchoredPosition=new Vector2(64,-3);caption.rectTransform.sizeDelta=new Vector2(414,44);caption.alignment=TextAlignmentOptions.Left;caption.fontSize=ui.LargeText?29.12f:26;caption.lineSpacing=0;
+                    var detail=ui.Text(preset.transform,details[i],64,46,414,34,18,VlabUi.Secondary);detail.lineSpacing=0;SettingsInk(detail);
+                    var radio=ui.Panel(preset.transform,"Settings preset radio",12,24,36,36,VlabUi.Stroke);SettingsFlat(radio);radio.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;
+                    var centre=ui.Panel(radio,"Settings preset centre",6,6,24,24,draft.GraphicsTier==i?Accent:VlabUi.PanelColor);SettingsFlat(centre);centre.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;preset.targetGraphic=radio.GetComponent<UnityEngine.UI.Image>();if(draft.GraphicsTier==i)ui.Rule(preset.transform,64,79,414,3,Accent);
+                }
+                SettingsSwitch(box,L("Hiện FPS / thời gian khung hình","Show FPS / frame times"),draft.showPerformance,516,()=>edit(()=>draft.showPerformance=!draft.showPerformance)).name="Graphics performance toggle";
+                int recommendation=VlabGraphics.RecommendedTier;
+                SettingsQuiet(box,L("Dùng mức gợi ý: ","Use suggested level: ")+VlabGraphics.Label(recommendation,Vi)+L(" · ước tính cấu hình máy"," · hardware estimate"),48,604,1004,48,()=>edit(()=>draft.SetGraphicsTier(recommendation))).name="Graphics recommendation";
             }
             if(settingsTab==3)
             {
@@ -990,7 +1003,7 @@ namespace Vlab.Product
             }
             ui.Rule(box,32,656,1036,2,VlabUi.Stroke);
             SettingsQuiet(box,L("Hủy","Cancel"),32,680,224,72,()=>ReturnTo(settingsReturn),true);Button(box,L("Áp dụng","Apply"),796,680,272,72,ApplyDraft,Accent).name="Settings apply";
-            if(settingsTab<3||settingsTab==4||settingsTab==5)SettingsQuiet(box,L("Mặc định mục này","Category defaults"),288,680,344,72,()=>{var defaults=new GameSettings();if(settingsTab==0){draftLocale="vi";draft.largeText=defaults.largeText;draft.hints=defaults.hints;draft.reducedMotion=defaults.reducedMotion;}if(settingsTab==1){draft.volume=defaults.volume;draft.muted=defaults.muted;}if(settingsTab==2)draft.graphics=defaults.graphics;if(settingsTab==4){draft.uiTheme=defaults.uiTheme;draft.uiOpacity=defaults.uiOpacity;}if(settingsTab==5){draft.gazeAutoSelect=defaults.gazeAutoSelect;draft.gazeDwellSeconds=defaults.gazeDwellSeconds;draft.mouseLookSensitivity=defaults.mouseLookSensitivity;}dirty=true;ShowSettings();});
+            if(settingsTab<3||settingsTab==4||settingsTab==5)SettingsQuiet(box,L("Mặc định mục này","Category defaults"),288,680,344,72,()=>{var defaults=new GameSettings();if(settingsTab==0){draftLocale="vi";draft.largeText=defaults.largeText;draft.hints=defaults.hints;draft.reducedMotion=defaults.reducedMotion;}if(settingsTab==1){draft.volume=defaults.volume;draft.muted=defaults.muted;}if(settingsTab==2){draft.SetGraphicsTier(defaults.GraphicsTier);draft.showPerformance=defaults.showPerformance;}if(settingsTab==4){draft.uiTheme=defaults.uiTheme;draft.uiOpacity=defaults.uiOpacity;}if(settingsTab==5){draft.gazeAutoSelect=defaults.gazeAutoSelect;draft.gazeDwellSeconds=defaults.gazeDwellSeconds;draft.mouseLookSensitivity=defaults.mouseLookSensitivity;}dirty=true;ShowSettings();});
             box.gameObject.AddComponent<PhoneSettingsLayout>().Initialize(ui,box);
         }
         void SettingsBack()
@@ -1001,20 +1014,18 @@ namespace Vlab.Product
         void ApplyDraft(){var previous=Profile.settings;string oldLocale=Profile.locale;Profile.settings=draft.Copy();Profile.locale=draftLocale;if(Save()){ApplySettings();dirty=false;ReturnTo(settingsReturn);}else{Profile.settings=previous;Profile.locale=oldLocale;StorageToast();}}
         void ApplySettings()
         {
+            Performance.Configure(Profile.settings.showPerformance,Profile.locale!="en");
             RoomBranding.SetLanguage(SceneManager.GetActiveScene(),Profile.locale!="en");
             Input.ConfigureControllerBindings(Profile.settings);Input.ConfigurePhoneInput(Profile.settings);Apparatus?.SetCoachingEnabled(Profile.settings.hints);if(!Profile.settings.hints)ClearGuideCue();if(!Input.VrMode&&!Input.SimulatorMode)View.fieldOfView=Profile.settings.cameraFov;
             ui.SetReducedMotion(Profile.settings.reducedMotion);
             foreach(var focus in ui.canvas.GetComponentsInChildren<PortalFocus>(true))focus.ReducedMotion=Profile.settings.reducedMotion;
             AudioListener.volume=Profile.settings.muted?0:Profile.settings.volume;ui.LargeText=Profile.settings.largeText;UiTheme.Select(Profile.settings.uiTheme,Profile.settings.uiOpacity);foreach(var panel in ui.canvas.GetComponentsInChildren<VlabPanelOpacity>(true))panel.Apply(ui.canvas.renderMode==RenderMode.WorldSpace);Preview.ReducedMotion=Profile.settings.reducedMotion;Input.MouseLookSensitivity=Profile.settings.mouseLookSensitivity;
-            var source=UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
-            if(source)
+            if(!runtimePipeline)
             {
-                var previous=runtimePipeline;runtimePipeline=Instantiate(source);runtimePipeline.name="VLAB runtime quality";
-                runtimePipeline.renderScale=Profile.settings.graphics==0?.65f:Profile.settings.graphics==1?.85f:1;
-                runtimePipeline.shadowDistance=Profile.settings.graphics==0?8:Profile.settings.graphics==1?15:25;
-                runtimePipeline.mainLightShadowmapResolution=Profile.settings.graphics==2?1024:512;runtimePipeline.msaaSampleCount=Profile.settings.graphics==2?4:2;QualitySettings.renderPipeline=runtimePipeline;if(previous)Destroy(previous);
+                var source=UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+                if(source){originalPipeline=QualitySettings.renderPipeline;runtimePipeline=Instantiate(source);runtimePipeline.name="VLAB runtime quality";QualitySettings.renderPipeline=runtimePipeline;}
             }
-            RoomLighting.Apply(Profile.settings.graphics);Application.targetFrameRate=60;
+            if(runtimePipeline&&appliedGraphics!=Profile.settings.GraphicsTier){appliedGraphics=Profile.settings.GraphicsTier;VlabGraphics.Apply(runtimePipeline,appliedGraphics);}Application.targetFrameRate=60;
         }
         void ShowControllerBindings()
         {

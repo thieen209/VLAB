@@ -51,8 +51,10 @@
     {
       "id": "Q08",
       "expected": "Adaptive Quality System: Low, Medium, High, Ultra có cấu hình thực sự khác nhau; đề xuất mức phù hợp, cho phép đổi thủ công và lưu lựa chọn.",
-      "status": "OPEN",
-      "evidence": []
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "docs/QA/2026-10-23/graphics/README.md: four real URP tiers, explicit manual Apply/save, hardware estimate and live frame/CPU/GPU measurements; scoped Editor183quality/metrics and95final-layout checks. Native Android/stereo/performance/thermal acceptance remains open."
+      ]
     },
     {
       "id": "Q09",
@@ -88,7 +90,8 @@
       "status": "IN_PROGRESS",
       "evidence": [
         "Evidence/FinalPass/dialog-checks.txt:36PASS0FAIL after interaction changes, including all3confirmation branches and10Editor mode roundtrips. Still native/resolution coverage pending.",
-        "Classifier batch: Evidence/SecondTestUI/20261023-044042/classifier-layout.txt24PASS0FAIL, VI1600x900 actual queued touches. Six B01/B08 labels visible together, B02 two labels, image/modal preserved on selection, tools accessible, no TMP overflow. Other aspect ratios, EN and native stereo still open."
+        "Classifier batch: Evidence/SecondTestUI/20261023-044042/classifier-layout.txt24PASS0FAIL, VI1600x900 actual queued touches. Six B01/B08 labels visible together, B02 two labels, image/modal preserved on selection, tools accessible, no TMP overflow. Other aspect ratios, EN and native stereo still open.",
+        "PhoneSettingsLayout: bounded centered tall-screen panel and clipped selection underline; final scoped95PASS covers VI/EN large-text and four safe-area aspect cases. Not all UI or physical devices."
       ]
     },
     {
@@ -158,8 +161,10 @@
     {
       "id": "R11_graphics_and_observability",
       "expected": "PDF trang 1 và Q8: từng quality tier phải áp dụng cài đặt thực, khác biệt có thể kiểm tra; High/Ultra đẹp hơn nhưng không làm sai hiện tượng hay khiến chữ mờ. Profile trước khi chọn tối ưu, dùng các kỹ thuật phù hợp pipeline đang có; không nâng Unity/đổi pipeline chỉ để làm đẹp. Tự đề xuất mức phù hợp, người dùng có quyền chọn, lưu và khôi phục. Thêm toggle FPS/frame time và thông số độ trễ đo được; ghi đúng loại đo. Không gắn nhãn frame time hoặc BLE ping là motion-to-photon latency. Chỉ đo được gì thì hiện cái đó, không hiển thị số giả.",
-      "status": "OPEN",
-      "evidence": []
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "docs/QA/2026-10-23/graphics/README.md: four real URP tiers, explicit manual Apply/save, hardware estimate and live frame/CPU/GPU measurements; scoped Editor183quality/metrics and95final-layout checks. Native Android/stereo/performance/thermal acceptance remains open."
+      ]
     },
     {
       "id": "R12_localization_and_documents",
@@ -283,8 +288,10 @@
     {
       "id": "PDF-16",
       "expected": "FPS/frame-time diagnostics",
-      "status": "OPEN",
-      "evidence": []
+      "status": "IN_PROGRESS",
+      "evidence": [
+        "docs/QA/2026-10-23/graphics/README.md: four real URP tiers, explicit manual Apply/save, hardware estimate and live frame/CPU/GPU measurements; scoped Editor183quality/metrics and95final-layout checks. Native Android/stereo/performance/thermal acceptance remains open."
+      ]
     },
     {
       "id": "PDF-17",
@@ -650,6 +657,17 @@
       "status": "PASS",
       "evidence": [
         "Evidence/SecondTestUI/20261023-044332/matrix.json scopedRegressions; isolated component fixtures, not native appearance acceptance."
+      ]
+    },
+    {
+      "id": "R11-EDITOR-SOFTWARE",
+      "expected": "Scoped Editor: four rendering configurations, explicit UI selection/save and measured frame diagnostics; final responsive graphics settings bounds in VI/EN, preserving manual choice. Does not certify native Android quality, thermal performance or head latency. Counter visibility/position also checked against actual interactive targets in phone and world simulation.",
+      "status": "PASS",
+      "evidence": [
+        "docs/QA/2026-10-23/graphics/quality-metrics-checks.txt",
+        "docs/QA/2026-10-23/graphics/layout-final-checks.txt",
+        "docs/QA/2026-10-23/graphics/interaction-checks.txt",
+        "docs/QA/2026-10-23/graphics/dialog-checks.txt"
       ]
     }
   ]
