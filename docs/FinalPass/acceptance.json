@@ -143,7 +143,8 @@
       "status": "IN_PROGRESS",
       "evidence": [
         "docs/QA/2026-10-23/notebook-exit/checks.txt: scoped Editor Back/Menu save guard, real persistence and injected write failure; does not close full notebook/math/keyboard scope.",
-        "docs/QA/2026-10-23/code26-android/README.md: Android keyboard Back loses native-overlay draft despite Editor Cancel passing. Native cancellation FAIL remains open; inline-field source fix79f9c7f awaits code27 verification."
+        "docs/QA/2026-10-23/code26-android/README.md: Android keyboard Back loses native-overlay draft despite Editor Cancel passing. Native cancellation FAIL remains open; inline-field source fix79f9c7f awaits code27 verification.",
+        "Code28 emulator PASS: ASCII title/body survive native Android keyboard Back and on-screen Back/save plus cold restart. docs/QA/2026-10-23/code28-android/README.md. Full R08 stays IN_PROGRESS: Vietnamese native IME/device/math scope not closed."
       ]
     },
     {

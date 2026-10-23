@@ -1,3 +1,11 @@
+## Latest handoff — code28, supersedes old process notes
+
+Code28 built successfully21:58:05VN, signature verified, installed and native title/body Back plus save/restart verified on API35 emulator. See HANDOFF.md and code28-android receipt. Native cancellation bug reproduced in26/27 now passes on28 for tested ASCII title/body. Source c25a180 plus version28 builder. Unity32724 and emulator23020 terminal; no owned process live. User requests immediate wrap-up/APK handoff, no extra features. Full product goal remains incomplete; physical hardware and full32 acceptance not established. Local-only commits, no public upload. Preserve older candidates/data.
+
+## Current checkpoint — code28 build
+
+Source c25a180 retains last accepted draft when TMP reads a canceled Android keyboard buffer. Code26 and27 native cancellation FAIL; do not claim fixed yet. Scoped Editor14PASS, native branch unverified. Code28 Unity PID32724 / exec35748 started21:50:58VN; authoritative state work/final-pass-20261023/android-code28-build-run.json and log android-code28-build.log. Do not edit Assets or start another Unity while live. No emulator currently running. Next verify artifact then native typed title/body + Back + save/restart. Last handoff code25 remains fallback. Full goal active, no public push.
+
 ## Latest live checkpoint — code27 (supersedes older notes)
 
 Code26 built and installed but native keyboard Back still discarded text; receipt docs/QA/2026-10-23/code26-android/README.md records FAIL. Source79f9c7f switches notebook to inline mobile input; do not claim fixed until native check. Code27 build started21:35:46VN, Unity PID26896, exec session69198; state/log work/final-pass-20261023/android-code27-build-run.json and android-code27-build.log. Revalidate live process; no editing Assets or second Unity until terminal. APK candidate-code27; no emulator currently running. Last quota65% used. Full goal active; major defects/quick wrap-up priority, local-only commits. Next verify build/signature/identity then type in notebook, press Android Back, confirm draft plus save/restart. Code25 remains prior handoff; code26 is not a verified cancellation fix.
