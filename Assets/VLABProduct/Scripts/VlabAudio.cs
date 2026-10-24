@@ -3,16 +3,16 @@ using UnityEngine.SceneManagement;
 
 namespace Vlab.Product
 {
-    public enum VlabSound { Hover, Click, Back, Success, Warning, Experiment, Capture, Open }
+    public enum VlabSound { Hover, Click, Back, Success, Warning, Experiment, Capture, Open, Liquid, Glass, Mechanism, Placement }
 
     // Original synthesized earcons keep the offline package small and require no licensed downloads.
     public sealed class VlabAudio : MonoBehaviour
     {
         static VlabAudio instance;
-        readonly AudioClip[] cues=new AudioClip[8];
+        readonly AudioClip[] cues=new AudioClip[System.Enum.GetValues(typeof(VlabSound)).Length];
         readonly AudioClip[] rooms=new AudioClip[4];
-        readonly float[] lastPlayed=new float[8];
-        AudioSource effects,ambience;
+        readonly float[] lastPlayed=new float[System.Enum.GetValues(typeof(VlabSound)).Length];
+        AudioSource effects,ambience,apparatus;
         int room=-1;
         const int Rate=22050;
 
@@ -22,6 +22,7 @@ namespace Vlab.Product
             instance=this;
             effects=Source("Interface and experiment sounds",false);effects.volume=.5f;
             ambience=Source("Quiet laboratory atmosphere",true);ambience.volume=0;
+            apparatus=Source("Apparatus contact and liquid",false);apparatus.spatialBlend=.8f;apparatus.minDistance=.5f;apparatus.maxDistance=6;apparatus.rolloffMode=AudioRolloffMode.Linear;apparatus.volume=.35f;
             for(int i=0;i<cues.Length;i++){cues[i]=Clip(((VlabSound)i).ToString(),CueSamples((VlabSound)i));lastPlayed[i]=-10;}
             for(int i=0;i<rooms.Length;i++)rooms[i]=Clip("Laboratory atmosphere "+i,RoomSamples(i));
         }
@@ -45,6 +46,21 @@ namespace Vlab.Product
             instance.lastPlayed[index]=now;
             instance.effects.PlayOneShot(instance.cues[index],sound==VlabSound.Hover?.28f:1);
         }
+        public static VlabSound? SoundForAction(string action)
+        {
+            if(string.IsNullOrEmpty(action))return null;
+            if(action.StartsWith("dose:")||action.StartsWith("pour")||action.StartsWith("transfer")||action=="rinseProbe"||action=="addWater")return VlabSound.Liquid;
+            if(action.StartsWith("probe")||action=="buffer4"||action=="buffer7")return VlabSound.Glass;
+            if(action.StartsWith("focus")||action.StartsWith("pull")||action=="steady"||action.StartsWith("crank")||action.StartsWith("angle")||action.StartsWith("speed"))return VlabSound.Mechanism;
+            return null;
+        }
+        public static void At(VlabSound sound,Vector3 position)
+        {
+            if(!instance||AudioListener.volume<=0)return;
+            int index=(int)sound;float now=Time.unscaledTime;if(now-instance.lastPlayed[index]<.12f)return;
+            instance.lastPlayed[index]=now;instance.apparatus.transform.position=position;instance.apparatus.PlayOneShot(instance.cues[index]);
+        }
+        public static void Action(string action,Vector3 position){var sound=SoundForAction(action);if(sound.HasValue)At(sound.Value,position);}
         void Update()
         {
             var app=VlabApp.Instance;
@@ -64,6 +80,7 @@ namespace Vlab.Product
         }
         public static float[] CueSamples(VlabSound sound)
         {
+            if(sound>=VlabSound.Liquid)return ContactSamples(sound);
             float[] notes;float duration;
             switch(sound)
             {
@@ -87,6 +104,22 @@ namespace Vlab.Product
             }
             samples[0]=samples[samples.Length-1]=0;return samples;
         }
+        static float[] ContactSamples(VlabSound sound)
+        {
+            float duration=sound==VlabSound.Liquid?.48f:sound==VlabSound.Glass?.22f:.14f;
+            var samples=new float[Mathf.CeilToInt(duration*Rate)];var random=new System.Random(47+(int)sound);float filtered=0;
+            for(int i=0;i<samples.Length;i++)
+            {
+                float t=(float)i/Rate,u=t/duration;filtered=Mathf.Lerp(filtered,(float)random.NextDouble()*2-1,.2f);
+                float envelope=Mathf.Min(1,t*200)*Mathf.Pow(1-u,3),value;
+                if(sound==VlabSound.Liquid){float drops=Mathf.Pow(Mathf.Max(0,Mathf.Sin(t*61)),8);value=.14f*filtered+.17f*drops*Mathf.Sin(2*Mathf.PI*(1100*t-500*t*t));}
+                else if(sound==VlabSound.Glass)value=.18f*Mathf.Sin(2*Mathf.PI*1730*t)+.1f*Mathf.Sin(2*Mathf.PI*2670*t)+.04f*filtered;
+                else if(sound==VlabSound.Mechanism)value=.2f*filtered*Mathf.Pow(.5f+.5f*Mathf.Cos(t*160),4)+.1f*Mathf.Sin(2*Mathf.PI*180*t);
+                else value=.18f*filtered+.13f*Mathf.Sin(2*Mathf.PI*240*t);
+                samples[i]=value*envelope;
+            }
+            samples[0]=samples[samples.Length-1]=0;return samples;
+        }
         public static float[] RoomSamples(int index)
         {
             var samples=new float[Rate*4];float frequency=index==0?110:index==1?90:index==2?75:60;
@@ -103,7 +136,7 @@ namespace Vlab.Product
             if(instance!=this)return;instance=null;
             foreach(var clip in cues)if(clip)Destroy(clip);
             foreach(var clip in rooms)if(clip)Destroy(clip);
-            if(effects)Destroy(effects.gameObject);if(ambience)Destroy(ambience.gameObject);
+            if(apparatus)Destroy(apparatus.gameObject);if(effects)Destroy(effects.gameObject);if(ambience)Destroy(ambience.gameObject);
         }
     }
 }

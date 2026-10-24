@@ -93,7 +93,7 @@ namespace Vlab.Product
     [Serializable] public sealed class LocalProfile
     {
         public int schemaVersion=2;public long generation;
-        public string locale="";public bool safetyAcknowledged;
+        public string locale="";public bool safetyAcknowledged;public bool quickStartSeen;
         public GameSettings settings=new GameSettings();
         public List<LegalAcceptance> legal=new List<LegalAcceptance>();
         public List<AttemptRecord> attempts=new List<AttemptRecord>();

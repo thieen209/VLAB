@@ -53,6 +53,8 @@ public sealed class SecondTestUiProbe : MonoBehaviour
     Button Required(params string[] keys)=>Find(keys)??throw new Exception("Visible enabled button missing: "+string.Join(" / ",keys));
     T Read<T>(string field)=>(T)typeof(VlabApp).GetField(field,Private).GetValue(App);
     GuideTask Task()=>typeof(VlabApp).GetMethod("CurrentGuide",Private).Invoke(App,null) as GuideTask;
+    Button Primary()=>Find("Compact current action")??Read<Button>("liveAction");
+    IEnumerator ShowWhere(){yield return Close();yield return Press("Station tools");yield return Press("Hướng dẫn","Guidance");yield return Press("Chỉ tôi chỗ này","Show me where");}
     bool Modal()=>Read<RectTransform>("modal");
     void Touch(UnityEngine.InputSystem.TouchPhase phase,Vector2 position,int id)
     {InputSystem.QueueStateEvent(touch,new TouchState{touchId=id,phase=phase,position=position});}
@@ -318,7 +320,7 @@ public sealed class SecondTestUiProbe : MonoBehaviour
     }
     IEnumerator Close()
     {
-        if(!Modal())yield break;
+        if(!Modal()){if(Find("Close equipment controls"))yield return Press("Close equipment controls");yield break;}
         yield return Press("Close dialog","Trở lại trạm","Return to station","Xong","Done","Quay lại","Back");
         if(Modal())throw new Exception("Dialog remains after close touch");
     }
@@ -378,14 +380,14 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         current.entered=true;Write(SessionState.GetString("VLAB.TestProfile",""));yield return new WaitForSecondsRealtime(.4f);Capture(id+"-entry");WorldChecks(false);
                 if(Environment.GetEnvironmentVariable("VLAB_UI_ENTRY_ONLY")=="1")
         {
-            yield return Tap(Read<Button>("liveAction"));
+            yield return Press("Station tools");yield return Press("Dụng cụ","Equipment");
             if(!Modal())throw new Exception("Inventory did not open through touchscreen");
             for(int equipmentPage=0;equipmentPage<5;equipmentPage++)
             {
-                var sheet=Read<RectTransform>("modal");var layout=sheet.GetComponentInChildren<PhoneDialogLayout>();string why="missing layout";if(!layout||!layout.AssertPhoneLayout(out why))throw new Exception("Inventory layout: "+(layout?why:"missing layout"));
+                var sheet=Read<RectTransform>("modal");var layout=sheet.GetComponentInChildren<WorkbenchPanelLayout>();if(!layout)throw new Exception("Inventory layout missing");var bounds=Bounds((RectTransform)layout.transform);if(bounds.xMin<0||bounds.yMin<0||bounds.xMax>Screen.width||bounds.yMax>Screen.height)throw new Exception("Inventory exceeds viewport");
                 Capture(id+"-inventory-"+equipmentPage);var next=Find("Equipment next");if(!next)break;yield return Tap(next);
             }
-            yield return Press("Equipment done","Xong","Done");if(Modal())throw new Exception("Done did not close inventory");current.status="UI ENTRY + INVENTORY ONLY";yield break;
+            yield return Press("Close dialog");if(Modal())throw new Exception("Done did not close inventory");current.status="UI ENTRY + INVENTORY ONLY";yield break;
         }
 if(id=="B03")yield return ConfigureShortB03();
         timeout=Time.realtimeSinceStartupAsDouble+lessonTimeout;int repeats=0;string previousSignature="";
@@ -415,7 +417,7 @@ if(id=="B03")yield return ConfigureShortB03();
             if(direct){if(Modal())yield return Close();yield return DirectShowcase(task);continue;}
             if(task.kind=="image"||task.control.EndsWith(":",StringComparison.Ordinal)||task.control=="cell")
             {
-                if(!Modal())yield return Press("Chỉ tôi chỗ này","Show me where");Capture(id+"-visual-classification");
+                if(!Modal())yield return ShowWhere();Capture(id+"-visual-classification");
                 if(!visualReview)throw new Exception("VISUAL CLASSIFICATION REQUIRED: image and labels need human visual judgment; no model-answer lookup performed");
                 if(Environment.GetEnvironmentVariable("VLAB_UI_CLASSIFIER_LAYOUT_ONLY")=="1")
                 {yield return ClassifierLayout();current.status="UI CLASSIFIER ONLY";yield break;}
@@ -426,22 +428,22 @@ if(id=="B03")yield return ConfigureShortB03();
             if(Modal())yield return Close();
             if(task.kind=="install")
             {
-                yield return Press("Chỉ tôi chỗ này","Show me where");
+                yield return ShowWhere();
                 yield return Press("Equipment item "+task.key);
-                yield return Press("Equipment take selected");
+                if(!App.Apparatus.IsCarrying)yield return Press("Equipment take selected");
                 if(!App.Apparatus.IsCarrying&&Modal()&&Find("Equipment take selected"))
                 {trace.Add(current.id+" RETRY actual Take tap after first touch left dialog open");yield return Press("Equipment take selected");}
                 if(!App.Apparatus.IsCarrying)throw new Exception("Take UI did not retain equipment "+task.key);
-                yield return Tap(Read<Button>("liveAction"));
+                yield return Press("Equipment place selected");
                 if(!App.Apparatus.items.Any(i=>i.assetId==task.key&&i.installed)&&App.Apparatus.IsCarrying&&App.Apparatus.CanInstallSelected(out _))
-                {trace.Add(id+" PLACE touch not acknowledged; retrying actual primary touch once");yield return Tap(Read<Button>("liveAction"));}
+                {trace.Add(id+" PLACE touch not acknowledged; retrying actual place touch once");yield return Press("Equipment place selected");}
                 if(!App.Apparatus.items.Any(i=>i.assetId==task.key&&i.installed))throw new Exception("Place UI did not install "+task.key);
             }
             else if(task.kind=="instrument")
             {
-                yield return Press("Chỉ tôi chỗ này","Show me where");
-                if(!current.instrumentCaptured){yield return new WaitForSecondsRealtime(.3f);PresentationLayout("PhoneDialogLayout",true);PresentationText(id+" instrument");Capture(id+"-instrument");current.instrumentCaptured=true;}
-                var controls=Read<Dictionary<string,Button>>("inspectionControls");
+                yield return ShowWhere();
+                if(!current.instrumentCaptured){yield return new WaitForSecondsRealtime(.3f);if(Modal())PresentationLayout("PhoneDialogLayout",true);PresentationText(id+" instrument");Capture(id+"-instrument");current.instrumentCaptured=true;}
+                var controls=Read<Dictionary<string,Button>>(Modal()?"inspectionControls":"toolControls");
                 var pair=controls.FirstOrDefault(p=>p.Key==task.control);
                 Button control=pair.Value;
                 if(!control)
@@ -484,13 +486,13 @@ if(id=="B03")yield return ConfigureShortB03();
             else if(task.kind=="variables")
             {
                 if(!visualReview)throw new Exception("Guide requires manual visible-variable configuration: "+current.lastTask);
-                yield return Press("Chỉ tôi chỗ này","Show me where");yield return VisualReview(task);
+                yield return ShowWhere();yield return VisualReview(task);
             }
             else if(task.kind=="pause")throw new Exception("Guide requires manual recovery: "+current.lastTask);
             else
             {
-                var primary=Read<Button>("liveAction");double enabledUntil=Time.realtimeSinceStartupAsDouble+1;
-                while(primary&&!primary.interactable&&Time.realtimeSinceStartupAsDouble<enabledUntil){yield return null;primary=Read<Button>("liveAction");}
+                var primary=Primary();double enabledUntil=Time.realtimeSinceStartupAsDouble+1;
+                while(primary&&!primary.interactable&&Time.realtimeSinceStartupAsDouble<enabledUntil){yield return null;primary=Primary();}
                 if(!primary||!primary.interactable)throw new Exception("Primary task control remained disabled after UI refresh: "+current.lastTask);
                 yield return Tap(primary);
                 bool wasStarted=current.started;current.started|=App.Session.Phase==ExperimentPhase.Running||App.Session.Phase==ExperimentPhase.Measured;if(current.started&&!wasStarted)Write(SessionState.GetString("VLAB.TestProfile",""));

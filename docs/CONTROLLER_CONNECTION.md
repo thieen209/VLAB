@@ -1,3 +1,11 @@
+# Controller connection — code32
+
+Code32 includes the direct dual-controller V6 integration already present in the working project. The 56-byte contract, roles, calibration and limits are in [V6 protocol](Workbench/CONTROLLER-V6-PROTOCOL.md). The earlier controller fixes and deferred F06/F07 work are preserved in [prior handoff](Workbench/CONTROLLER-V6-PRIOR-FIXES.md). This UI upgrade does not alter firmware or certify hardware.
+
+The legacy HID path below is retained. Statements about the missing custom protocol describe the older pre-V6 snapshot, not code32.
+
+## Historical connection notes
+
 # Optional controller connection
 
 Display mode and input source are separate. Phone uses tap selection and empty-background swipe-look; Cardboard uses head direction and trigger or optional dwell. In Controls, Phone/Viewer changes immediately. Pair controller opens Android Bluetooth Settings; press a paired HID controller button after returning. The detected HID name appears there. The app does not claim a custom BLE connection from this shortcut.

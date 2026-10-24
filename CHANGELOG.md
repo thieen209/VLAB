@@ -2,6 +2,13 @@
 
 Ghi riêng thay đổi mã nguồn và APK để tránh tải nhầm phiên bản.
 
+## 24/10/2026 — 0.1.12 / code32
+
+- Bảng chọn có preview model thật, thao tác dụng cụ không còn bị popup lớn chặn; sửa giữ dụng cụ, collider và camera khi kéo.
+- Kéo đầu dò/ma sát/ròng rọc nối với số đo SDK; thêm bảng công thức, giữ phác thảo, tour spotlight và hint theo trạng thái.
+- Màn chọn bài gọn hơn; âm thanh thao tác có vị trí và tắt tiếng được; nền sáng hơn.
+- Giữ tích hợp controllerV6 hiện có. [Bàn giao và phạm vi kiểm tra](docs/Workbench/HANDOFF.md); chưa xác minh phần cứng thật.
+
 ## 23/10/2026 — bảng kính hiển vi và tài liệu hiện hành
 
 - B01/B08 hiện đủ sáu nhãn phân loại; B02 hiện hai lựa chọn. Chọn mẫu giữ nguyên ảnh và bảng, các nút chỉnh kính vẫn truy cập được; sửa caption và nhãn dài bị cắt.

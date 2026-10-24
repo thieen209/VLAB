@@ -14,8 +14,8 @@ namespace Vlab.Product
             public RectTransform rect;public Transform parent;public Vector2 position,size,min,max,pivot;public Vector3 scale;public int sibling;public Rect uv;public bool hasPhoto;
         }
         readonly List<Saved> saved=new List<Saved>();VlabUi ui;RectTransform box,viewport,body;ScrollRect scroll;Saved frame;
-        bool captured,flat;Rect previousSafe;float previousUnits;RenderMode previousMode;
-        public void Initialize(VlabUi owner,RectTransform panel){ui=owner;box=panel;}
+        float tourFooter;bool captured,flat;Rect previousSafe;float previousUnits;RenderMode previousMode;
+        public void Initialize(VlabUi owner,RectTransform panel,float reservedTourFooter=0){ui=owner;box=panel;tourFooter=reservedTourFooter;}
         static Saved Capture(RectTransform rect)=>new Saved{rect=rect,parent=rect.parent,position=rect.anchoredPosition,size=rect.sizeDelta,min=rect.anchorMin,max=rect.anchorMax,pivot=rect.pivot,scale=rect.localScale,sibling=rect.GetSiblingIndex(),hasPhoto=rect.GetComponent<RawImage>(),uv=rect.GetComponent<RawImage>()?rect.GetComponent<RawImage>().uvRect:default};
         void LateUpdate()
         {
@@ -33,21 +33,21 @@ namespace Vlab.Product
         void Build(Rect safe,float units)
         {
             const float scale=1.5f,header=100,footer=96,gap=14;
-            float safeWidth=safe.width/units,safeHeight=safe.height/units,width=Mathf.Min(1260,(safeWidth-48)/scale),height=(safeHeight-48)/scale;
+            float safeWidth=safe.width/units,safeHeight=safe.height/units,width=Mathf.Min(1260,(safeWidth-48)/scale),height=(safeHeight-48-tourFooter)/scale;
             var fitted=ui.PhoneViewport.ContentPixels;float left=(safe.xMin-fitted.xMin)/units,top=(fitted.yMax-safe.yMax)/units;
             Place(box,left+(safeWidth-width*scale)/2,top+24,width,height);box.localScale=Vector3.one*scale;
             var home=Find("Browser home");Place(home,22,18,220,66);StretchCaption(home);
             var subject=saved.FirstOrDefault(x=>x.parent==box&&x.rect.GetComponent<TMP_Text>()&&x.rect.name!="Browser lesson count"&&x.rect.name!="Browser selected title"&&x.rect.name!="Browser selected goal")?.rect;
             Place(subject,264,20,width-460,64);Place(Find("Browser lesson count"),width-174,28,152,52);
             var study=Find("Browser study");var start=Find("Browser start");float actionWidth=(width-58)/2;
-            Place(study,22,height-82,actionWidth,68);StretchCaption(study);Place(start,36+actionWidth,height-82,actionWidth,68);StretchCaption(start);
+            Place(start,width-(width-66)*.39f-22,height-82,(width-66)*.39f,68);StretchCaption(start);
             float listWidth=(width-66)*.61f,rightX=listWidth+44,rightWidth=width-rightX-22,viewHeight=height-header-footer;
             var go=new GameObject("Phone browser lesson viewport",typeof(RectTransform),typeof(Image),typeof(RectMask2D),typeof(ScrollRect));viewport=(RectTransform)go.transform;viewport.SetParent(box,false);Place(viewport,22,header,listWidth,viewHeight);go.GetComponent<Image>().color=Color.clear;
             var content=new GameObject("Phone browser equal lesson tiles",typeof(RectTransform));body=(RectTransform)content.transform;body.SetParent(viewport,false);
             var lessons=saved.Where(x=>x.parent==box&&x.rect.GetComponent<Button>()&&x.rect.name.StartsWith("Browser lesson ",System.StringComparison.Ordinal)).OrderBy(x=>x.rect.name,System.StringComparer.Ordinal).ToArray();
-            float tileWidth=(listWidth-gap-20)/2,tileHeight=112;
+            float tileWidth=(listWidth-gap-20)/2,tileHeight=86;
             for(int i=0;i<lessons.Length;i++)
-            {lessons[i].rect.SetParent(body,false);Place(lessons[i].rect,i%2*(tileWidth+gap),i/2*(tileHeight+gap),tileWidth,tileHeight);StretchCaption(lessons[i].rect);}
+            {lessons[i].rect.SetParent(body,false);Place(lessons[i].rect,i%2*(tileWidth+gap),i/2*(tileHeight+gap),tileWidth,tileHeight);StretchCaption(lessons[i].rect);Place(lessons[i].rect.Find("Section rule") as RectTransform,0,12,4,tileHeight-24);}
             float contentHeight=Mathf.Ceil(lessons.Length/2f)*(tileHeight+gap)-gap;Place(body,0,0,listWidth-20,Mathf.Max(1,contentHeight));
             scroll=go.GetComponent<ScrollRect>();scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=42;scroll.viewport=viewport;scroll.content=body;
             var selected=Find("Browser selected title");Place(selected,rightX,header,rightWidth,78);
@@ -65,7 +65,7 @@ namespace Vlab.Product
             foreach(var divider in saved.Where(x=>x.parent==box&&x.rect.name=="Section rule"))Place(divider.rect,listWidth+32,header,1,viewHeight);
             // Rebuilding after selecting a lower lesson keeps that actual selected tile visible.
             string title=selected?selected.GetComponent<TMP_Text>().text:"";
-            int selectedIndex=System.Array.FindIndex(lessons,x=>x.rect.GetComponentInChildren<TMP_Text>().text.StartsWith(title+"\n",System.StringComparison.Ordinal));
+            int selectedIndex=System.Array.FindIndex(lessons,x=>(x.rect.GetComponentInChildren<TMP_Text>().text==title||x.rect.GetComponentInChildren<TMP_Text>().text.StartsWith(title+"\n",System.StringComparison.Ordinal)));
             float selectedBottom=(Mathf.Max(0,selectedIndex)/2)*(tileHeight+gap)+tileHeight;
             float offset=Mathf.Clamp(selectedBottom-viewHeight,0,Mathf.Max(0,contentHeight-viewHeight));
             scroll.verticalNormalizedPosition=contentHeight>viewHeight?1-offset/(contentHeight-viewHeight):1;

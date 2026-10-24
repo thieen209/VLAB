@@ -161,6 +161,7 @@ namespace Vlab.Product
         public string Poll()=>native.Call<string>("poll");public void Scan()=>native.Call("scan");public void StopScan()=>native.Call("stopScan");
         public void Connect(string address,string service,string characteristic,bool reconnect)=>native.Call("connect",address,service,characteristic,reconnect);
         public void Stop()=>native.Call("stop");public void Dispose(){native.Call("dispose");native.Dispose();}
+        public void Write(string service,string characteristic,byte[] value)=>native.Call("writeCommand",service,characteristic,Convert.ToBase64String(value));
     }
 #endif
 }

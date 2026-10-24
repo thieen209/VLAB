@@ -127,7 +127,7 @@ namespace Vlab.Product
             var entry=entries[session.spec.id];int index=Mathf.Clamp(operation,0,entry.targets.Length-1);string key=Target(rig,entry,index);
             string successVi="Dụng cụ xác nhận bước chuẩn bị; kiểm tra lại bố trí trước khi tiếp tục.",successEn="The instrument validates this step; inspect the setup before continuing.";
             if(preparationChecks.TryGetValue(session.spec.id,out var checks)){var viChecks=checks[0].Split('|');var enChecks=checks[1].Split('|');if(index<viChecks.Length&&index<enChecks.Length){successVi=viChecks[index];successEn=enChecks[index];}}
-            return Task(vi,"prepare",key,"",session.spec.operationsVi[index]+". Nhấn Thực hiện bước này.",session.spec.operationsEn[index]+". Select Perform current action.",successVi,successEn);
+            return Task(vi,"prepare",key,"",session.spec.operationsVi[index],session.spec.operationsEn[index],successVi,successEn);
         }
         public GuideTask Current(ApparatusRig rig,bool vi,bool suspendedRunning=false)
         {

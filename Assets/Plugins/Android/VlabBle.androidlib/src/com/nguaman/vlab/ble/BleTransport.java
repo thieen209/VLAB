@@ -18,6 +18,7 @@ import java.util.UUID;
 /** Foreground read/notify-only GATT client. Unity polls bounded events on its own thread. */
 public final class BleTransport {
     private static final UUID CCCD=UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+    private static final String V6_SERVICE="f1ab6001-6b4c-4a1e-9c32-564c41420001";
     private final Context context;
     private final Handler main=new Handler(Looper.getMainLooper());
     private final BluetoothAdapter adapter;
@@ -26,7 +27,7 @@ public final class BleTransport {
     private BluetoothLeScanner scanner;
     private BluetoothGattCharacteristic characteristic;
     private String serviceUuid="",characteristicUuid="",address="";
-    private boolean wanted,reconnect,scanning;
+    private boolean wanted,reconnect,scanning,mtuWaiting,commandBusy;
     private int retries,scanEpoch;
     private volatile int generation;
     private volatile String state="Idle";
@@ -94,12 +95,12 @@ public final class BleTransport {
         catch(SecurityException e){failure("permission",false);}catch(Exception e){failure("connect",true);}
     }
     private void closeGatt() {
-        BluetoothGatt old=gatt;gatt=null;characteristic=null;generation++;synchronized(events){events.clear();}
+        BluetoothGatt old=gatt;gatt=null;characteristic=null;mtuWaiting=commandBusy=false;generation++;synchronized(events){events.clear();}
         if(old!=null){try{old.disconnect();}catch(Exception ignored){}try{old.close();}catch(Exception ignored){}}
     }
     private void failure(String code,boolean retry) {
         closeGatt();
-        if(wanted&&reconnect&&retry&&retries<3&&!disposed){int attempt=++retries;int epoch=generation;status("Retrying",code+":"+attempt);main.postDelayed(()->{if(wanted&&generation==epoch&&state.equals("Retrying"))connectNow();},1000L<<(attempt-1));}
+        if(wanted&&reconnect&&retry&&(retries<3||serviceUuid.equals(V6_SERVICE))&&!disposed){int attempt=retries=Math.min(retries+1,20);int epoch=generation;status("Retrying",code+":"+attempt);main.postDelayed(()->{if(wanted&&generation==epoch&&state.equals("Retrying"))connectNow();},1000L<<Math.min(attempt-1,4));}
         else{wanted=false;status("Error",code);}
     }
     private void discovered(BluetoothGatt source,int result) {
@@ -132,7 +133,18 @@ public final class BleTransport {
         @Override public void onConnectionStateChange(BluetoothGatt source,int status,int next){main.post(()->{
             if(source!=gatt||disposed)return;
             if(status!=BluetoothGatt.GATT_SUCCESS||next==BluetoothProfile.STATE_DISCONNECTED){failure("gatt:"+status,true);return;}
-            if(next==BluetoothProfile.STATE_CONNECTED){try{status("Discovering","");if(!source.discoverServices())failure("discoveryStart",true);}catch(SecurityException e){failure("permission",false);}}
+            if(next==BluetoothProfile.STATE_CONNECTED){try{
+                if(serviceUuid.equals(V6_SERVICE)){mtuWaiting=true;status("NegotiatingMtu","");if(!source.requestMtu(100))failure("mtuStart",true);}
+                else{status("Discovering","");if(!source.discoverServices())failure("discoveryStart",true);}
+            }catch(SecurityException e){failure("permission",false);}}
+        });}
+        @Override public void onMtuChanged(BluetoothGatt source,int mtu,int result){main.post(()->{
+            if(source!=gatt||disposed||!mtuWaiting)return;mtuWaiting=false;
+            if(result!=BluetoothGatt.GATT_SUCCESS||mtu<59){failure("mtuTooSmall:"+mtu,false);return;}
+            try{source.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_HIGH);status("Discovering","");if(!source.discoverServices())failure("discoveryStart",true);}catch(SecurityException e){failure("permission",false);}
+        });}
+        @Override public void onCharacteristicWrite(BluetoothGatt source,BluetoothGattCharacteristic item,int result){main.post(()->{
+            if(source!=gatt||disposed)return;commandBusy=false;commandResult(result==BluetoothGatt.GATT_SUCCESS?"commandSent":"commandFailed:"+result);
         });}
         @Override public void onServicesDiscovered(BluetoothGatt source,int status){main.post(()->discovered(source,status));}
         @Override public void onDescriptorWrite(BluetoothGatt source,BluetoothGattDescriptor descriptor,int result){main.post(()->{
@@ -142,6 +154,18 @@ public final class BleTransport {
         @Override public void onCharacteristicChanged(BluetoothGatt source,BluetoothGattCharacteristic item,byte[] data){long at=SystemClock.elapsedRealtimeNanos();byte[] copy=data==null?null:data.clone();main.post(()->notification(source,item,copy,at));}
         @Override public void onCharacteristicChanged(BluetoothGatt source,BluetoothGattCharacteristic item){if(Build.VERSION.SDK_INT<33){long at=SystemClock.elapsedRealtimeNanos();byte[] value=item.getValue();byte[] copy=value==null?null:value.clone();main.post(()->notification(source,item,copy,at));}}
     };
+    private void commandResult(String code){JSONObject value=event("command");try{value.put("code",code);}catch(Exception ignored){}emit(value);}
+    public void writeCommand(String service,String id,String encoded){main.post(()->{
+        if(disposed||gatt==null||!state.equals("Ready")||!serviceUuid.equals(V6_SERVICE)||commandBusy){commandResult("commandUnavailable");return;}
+        try{
+            byte[] data=Base64.decode(encoded,Base64.NO_WRAP);if(data.length!=8||!service.equals(V6_SERVICE)||!id.equals("f1ab6003-6b4c-4a1e-9c32-564c41420001")){commandResult("commandInvalid");return;}
+            BluetoothGattService channel=gatt.getService(UUID.fromString(service));BluetoothGattCharacteristic item=channel==null?null:channel.getCharacteristic(UUID.fromString(id));
+            if(item==null||(item.getProperties()&BluetoothGattCharacteristic.PROPERTY_WRITE)==0){commandResult("commandMissing");return;}
+            boolean started;if(Build.VERSION.SDK_INT>=33)started=gatt.writeCharacteristic(item,data,BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT)==BluetoothStatusCodes.SUCCESS;
+            else{item.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);item.setValue(data);started=gatt.writeCharacteristic(item);}
+            commandBusy=started;if(!started)commandResult("commandStartFailed");
+        }catch(SecurityException e){commandResult("permission");}catch(Exception e){commandResult("commandInvalid");}
+    });}
     public void stop(){main.post(()->{wanted=false;stopScanNow();closeGatt();status("Stopped","");});}
     public void dispose(){disposed=true;main.post(()->{wanted=false;main.removeCallbacksAndMessages(null);stopScanNow();closeGatt();state="Stopped";});}
 }

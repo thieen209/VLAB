@@ -17,10 +17,11 @@ Các báo cáo giữ phạm vi và ngày kiểm tra riêng; số PASS của Edit
 
 | Phiên bản | Tài liệu |
 |---|---|
+| 0.1.12 / code32 | [Workbench, tour, âm thanh và kiểm tra](Workbench/HANDOFF.md) |
 | Source cập nhật 23/10/2026 — chưa build APK | [Tương tác, góc nhìn, kính hiển vi, hộp thoại và PDF](QA/2026-10-23/README.md), [tổng hợp lượt lưu/mở lại 32 bài](QA/2026-10-23/ui-journeys-aggregate.json) |
 | 0.1.7 / code21 — candidate build trước các sửa đổi ngày 23/10 | [Báo cáo](QA/Prototype-0.1.7/README.md), [Cài đặt](QA/Prototype-0.1.7/SETTINGS-LEDGER.md), [APK manifest](QA/Prototype-0.1.7/ARTIFACT.json) |
 | 0.1.6 / code17 | [Báo cáo trước](QA/Prototype-0.1.6/REPORT.vi.md) |
-| 0.1.4 / code5 — APK đang công khai trên Releases | [Patch 0.1.4](PATCH_014.md) |
+| 0.1.4 / code5 — bản cũ trên Releases | [Patch 0.1.4](PATCH_014.md) |
 | Các bản trước | [0.1.3](SECONDTEST_013.md), [0.1.2](PATCH1_012.md), [0.1.1](PROTOTYPE_011_CORRECTIONS.md) |
 
 Các biên bản cũ ở [giới hạn nghiên cứu](KNOWN_LIMITS.md), [trạng thái build](BUILD_STATE.md) và [kiểm thử lưu Windows](VERIFICATION_119_WINDOWS_PERSISTENCE.md) vẫn được giữ; đọc mốc phiên bản trước khi áp dụng.

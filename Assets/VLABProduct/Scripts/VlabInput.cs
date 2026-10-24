@@ -18,7 +18,7 @@ namespace Vlab.Product
         public float adjustment;
     }
     public struct ActionFrame
-    {public Ray pointer;public bool pressed,released,held,grabPressed,menu,recenter,back,lost,phoneWorldPress;public float adjustment;public Vector2 move;}
+    {public Ray pointer;public bool pressed,released,held,grabPressed,menu,recenter,back,lost,phoneWorldPress,pointerChanged;public float adjustment;public Vector2 move;}
     public interface IVlabInputProvider {ActionFrame Poll(Camera camera,double now);ControllerCapabilities Capabilities{get;}}
     public sealed class MockControllerProvider:IVlabInputProvider
     {
@@ -119,6 +119,7 @@ namespace Vlab.Product
         Quaternion gyroZero,gyroView;double gyroSampleTime=-1;
         bool PhoneFlatActive=>Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!UseMockController&&!UsingGamepad&&!UsingBle&&(Application.isMobilePlatform||Touchscreen.current!=null);
         public bool PhoneControlsVisible=>showPhoneJoystick&&PhoneFlatActive;
+        public bool PhoneGestureActive=>phoneTouches.HasTouches;
         public bool PhoneJoystickActive=>PhoneControlsVisible&&showPhoneJoystick&&phoneTouches.JoystickActive;
         public Vector2 PhoneJoystickCenter=>PhoneTouchRouter.JoystickCenter;
         public Vector2 PhoneJoystickOffset=>phoneTouches.Move;
@@ -132,7 +133,7 @@ namespace Vlab.Product
             if(changed)ResetPhoneInput();
         }
         public void SetUiBlocked(bool blocked)
-        {if(uiBlocked==blocked)return;uiBlocked=blocked;ResetPhoneInput();}
+        {if(uiBlocked==blocked)return;uiBlocked=blocked;ResetPhoneInput();Dual?.CancelInputContext();}
         public void FocusAtWorldTarget(Vector3 target)
         {
             if(!View||VrMode||SimulatorMode)return;
@@ -226,15 +227,17 @@ namespace Vlab.Product
         }
         public BleControllerRuntime Ble{get;private set;} bool usingBle; public bool UsingBle=>usingBle&&!UseMockController;
         public bool UsingGamepad=>activeGamepad!=null&&activeGamepad.Device!=null&&activeGamepad.Device.added&&activeGamepad.Device.enabled&&!UseMockController;
-        public bool ControllerPointerActive=>VrMode||SimulatorMode||UseMockController||UsingGamepad||UsingBle;
-        public string CurrentInputLabel=>UsingBle?"BLE controller":UseMockController?"Orientation adapter (mock)":UsingGamepad?(VrMode||SimulatorMode?"VR gaze + HID gamepad":"HID gamepad cursor"):(VrMode||SimulatorMode?"VR gaze / viewer trigger":"Mouse / touchscreen");
+        public DualControllerRuntime Dual{get;private set;}public bool UsingDual=>!UseMockController&&Dual&&Dual.AnyFresh;
+        int dualPrimary;bool dualSelectSuppressed;
+        public bool ControllerPointerActive=>VrMode||SimulatorMode||UseMockController||UsingGamepad||UsingBle||UsingDual;
+        public string CurrentInputLabel=>UsingDual?"VLAB V6 dual BLE":UsingBle?"BLE controller":UseMockController?"Orientation adapter (mock)":UsingGamepad?(VrMode||SimulatorMode?"VR gaze + HID gamepad":"HID gamepad cursor"):(VrMode||SimulatorMode?"VR gaze / viewer trigger":"Mouse / touchscreen");
         public ControllerCapabilities Capabilities=>UsingBle?Ble.Provider.Capabilities:UseMockController?Controller.Capabilities:UsingGamepad?(VrMode||SimulatorMode?activeGamepad.Capabilities&~ControllerCapabilities.Look:activeGamepad.Capabilities):ControllerCapabilities.Select|ControllerCapabilities.Grip|ControllerCapabilities.Adjustment|ControllerCapabilities.Menu|ControllerCapabilities.Pointer;
         public event Action<bool,string> ModeChanged;
         TrackedPoseDriver trackedPose;bool switching,lastPointerHeld,viewerTriggerHeld;
         GamepadControllerProvider activeGamepad;
         GameSettings controllerBindings=new GameSettings();
         public void ConfigureControllerBindings(GameSettings configuration)
-        {ControllerBindings.Validate(configuration);if(ControllerBindings.Equal(controllerBindings,configuration))return;controllerBindings=configuration.Copy();activeGamepad?.ConfigureBindings(controllerBindings);Ble?.ConfigureBindings(controllerBindings);}
+        {ControllerBindings.Validate(configuration);if(ControllerBindings.Equal(controllerBindings,configuration))return;controllerBindings=configuration.Copy();activeGamepad?.ConfigureBindings(controllerBindings);Ble?.ConfigureBindings(controllerBindings);Dual?.ConfigureBindings(controllerBindings);}
         readonly System.Collections.Generic.Dictionary<int,Vector4> gamepadActivity=new System.Collections.Generic.Dictionary<int,Vector4>();
         bool pendingLoss;
 #if UNITY_EDITOR
@@ -249,6 +252,7 @@ namespace Vlab.Product
 #endif
         public void Adopt(Camera view)
         {
+            if(!Dual){Dual=gameObject.AddComponent<DualControllerRuntime>();Dual.Initialize();Dual.ConfigureBindings(controllerBindings);}
             if(!Ble)
             {
                 Ble=gameObject.AddComponent<BleControllerRuntime>();
@@ -271,6 +275,20 @@ namespace Vlab.Product
         public ActionFrame Read()
         {
             if(!View)return default;
+            Dual?.Tick(View,Gameplay&&!uiBlocked);
+            if(UsingDual)
+            {
+                int hand=Dual.RightControllerState.Fresh(Time.realtimeSinceStartupAsDouble)?2:1;
+                var state=Dual.Hand(hand);var frame=state.Frame;
+                frame.grabPressed=false;
+                frame.held=state.SelectHeld;
+                frame.move=Gameplay&&!uiBlocked?Dual.LeftControllerState.Frame.move:Vector2.zero;
+                frame.menu|=Dual.LeftControllerState.Frame.menu;frame.recenter|=Dual.LeftControllerState.Frame.recenter;frame.back|=Dual.LeftControllerState.Frame.back;
+                if(dualPrimary!=hand||frame.lost){frame.pointerChanged=true;frame.lost=false;frame.pressed=frame.held=false;frame.released=lastPointerHeld;dualSelectSuppressed=true;}
+                if(dualSelectSuppressed){frame.pressed=frame.held=false;if(!state.SelectHeld)dualSelectSuppressed=false;}
+                dualPrimary=hand;ResetPhoneInput();ApplyViewerButtons(ref frame);return FinishFrame(frame);
+            }
+            if(dualPrimary!=0){dualPrimary=0;pendingLoss=true;}
             if(phoneOrientation!=Screen.orientation||phoneWidth!=Screen.width||phoneHeight!=Screen.height)
             {phoneOrientation=Screen.orientation;phoneWidth=Screen.width;phoneHeight=Screen.height;ResetPhoneInput();}
             if(!Gameplay||uiBlocked||VrMode||SimulatorMode){if(phoneTouches.HasTouches)ResetPhoneInput();}
@@ -418,7 +436,7 @@ namespace Vlab.Product
 #endif
         }
         public void Recenter()
-        {if(!View)return;if(VrMode)Google.XR.Cardboard.Api.Recenter();else if(!SimulatorMode)RebasePhoneGyro();Controller.Calibrate(View.transform.rotation);Ble?.Provider.Calibrate(View.transform.rotation);}
+        {if(!View)return;if(VrMode)Google.XR.Cardboard.Api.Recenter();else if(!SimulatorMode)RebasePhoneGyro();Controller.Calibrate(View.transform.rotation);Ble?.Provider.Calibrate(View.transform.rotation);Dual?.Recenter(View.transform.rotation);}
         public void ScanViewer(){if(CanScanViewer&&!switching)StartCoroutine(ScanViewerOptional());}
         IEnumerator ScanViewerOptional()
         {

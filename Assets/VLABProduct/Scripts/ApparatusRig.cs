@@ -5,16 +5,17 @@ using UnityEngine;
 
 namespace Vlab.Product
 {
-    public sealed class EquipmentHandle:MonoBehaviour
+    public sealed partial class EquipmentHandle:MonoBehaviour
     {public string assetId;public Vector3 slot,trayPosition;public Quaternion rotation,trayRotation;public bool installed,stowed;}
-    public sealed class ApparatusRig:MonoBehaviour
+    public sealed partial class ApparatusRig:MonoBehaviour
     {
         public readonly List<EquipmentHandle> items=new List<EquipmentHandle>();
         public Vector3 Worktop{get;private set;}public Vector3 Pivot{get;private set;}
         public event Action Changed;
         public bool Ready=>items.Count>0&&items.All(x=>x.installed);
         public EquipmentHandle Selected{get;private set;}
-        public bool IsCarrying=>carrying&&Selected&&!Selected.installed;
+        public bool IsCarrying=>carrying&&Selected&&(!Selected.installed||carryingInstalled)||handHolds.Count>0;
+        public bool HasLatchedCarry=>carrying&&latchedCarry&&Selected&&Selected.Owner==EquipmentGrabOwner.Legacy;
         public bool IsPullingBob=>pullingBob;
         public bool CoachingEnabled{get;private set;}=true;
         public LessonDriver Driver{get;private set;}
@@ -117,6 +118,9 @@ namespace Vlab.Product
                 if(session.spec.id=="M08"&&spec.key=="supports")go.transform.position+=Vector3.up*BeamGaugeRiserHeight;
                 if(session.spec.id=="M04"&&spec.key=="belt")go.transform.position+=Vector3.up*.012f;
                 if(session.spec.id=="M01"&&spec.key=="board")go.transform.position+=Vector3.up*.012f;
+                // Some delivered derivatives have visible geometry but no selectable collider.
+                foreach(var mesh in go.GetComponentsInChildren<MeshFilter>(true))
+                    if(mesh.sharedMesh&&!mesh.GetComponent<Collider>())mesh.gameObject.AddComponent<MeshCollider>().sharedMesh=mesh.sharedMesh;
                 var handle=go.AddComponent<EquipmentHandle>();handle.assetId=spec.key;handle.slot=go.transform.position;handle.rotation=go.transform.rotation;
                 items.Add(handle);indexed.Add(spec.key,handle);
             }
@@ -254,6 +258,7 @@ namespace Vlab.Product
         }
         public void RestInstalledTool(EquipmentHandle item)
         {
+            if(!item||item.Owner!=EquipmentGrabOwner.None)return;
             PlaceInstalledOnSurface(item.gameObject,item.slot);item.slot=item.transform.position;
         }
         public bool ValidateUnusedCalorimetryRest(out string failure)
@@ -688,7 +693,7 @@ namespace Vlab.Product
                 if(TryVisibleBounds(installed,out var occupied))for(int n=0;n<free.Length;n++)
                     if(occupied.max.y>=storageSurfaces[n].bounds.max.y-.01f&&occupied.min.y<=storageSurfaces[n].bounds.max.y+.10f)
                         free[n]=Subtract(free[n],Footprint(occupied,StorageGap*.5f));
-            var loose=items.Where(x=>!x.installed).ToArray();foreach(var item in loose)PrepareLoosePose(item);
+            var loose=items.Where(x=>!x.installed&&x.Owner==EquipmentGrabOwner.None).ToArray();foreach(var item in loose)PrepareLoosePose(item);
             var ordered=loose.OrderByDescending(x=>x==preferred).ThenByDescending(x=>TryVisibleBounds(x,out var b)?Mathf.Max(b.size.x,b.size.z):0).ThenByDescending(x=>TryVisibleBounds(x,out var b)?b.size.x*b.size.z:0).ToArray();
             foreach(var item in ordered)
             {
@@ -810,11 +815,13 @@ namespace Vlab.Product
             if(handle&&!items.Contains(handle))return;
             if(Selected!=handle)
             {
-                if(Selected&&!Selected.installed&&carrying)
+                RestoreInspected();
+                if(Selected&&Selected.Owner==EquipmentGrabOwner.Legacy&&!Selected.installed&&carrying)
                 {
                     Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);
                     if(carriedFromStorage){Selected.stowed=true;Selected.gameObject.SetActive(false);}
                 }
+                if(Selected)Selected.Release(EquipmentGrabOwner.Legacy);
                 carrying=pullingBob=latchedCarry=carriedFromStorage=false;
             }
             if(handle&&handle.stowed)ArrangeLooseItems(handle);
@@ -832,6 +839,7 @@ namespace Vlab.Product
         {
             message="";
             if(!Selected||!items.Contains(Selected)){message="Select a loose instrument first.";return false;}
+            if(Selected.Owner!=EquipmentGrabOwner.None&&Selected.Owner!=EquipmentGrabOwner.Legacy){message="This instrument is held by another input owner.";return false;}
             if(Selected.installed){message="This instrument is already fitted.";return false;}
             if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready){message="Installation is available only during setup.";return false;}
             var support=InstallSupport(Selected);
@@ -844,8 +852,10 @@ namespace Vlab.Product
         {
             message="";
             if(!Selected||!items.Contains(Selected)||Selected.installed){message="Select a loose instrument first.";return false;}
+            if(Selected.Owner!=EquipmentGrabOwner.None&&Selected.Owner!=EquipmentGrabOwner.Legacy){message="This instrument is held by another input owner.";return false;}
             if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready){message="Installation is available only during setup.";return false;}
-            if(IsCarrying)return true;
+            if(carrying&&Selected.Owner==EquipmentGrabOwner.Legacy)return true;
+            if(!Selected.TryAcquire(EquipmentGrabOwner.Legacy))return false;
             carriedFromStorage=Selected.stowed;
             if(carriedFromStorage)
             {
@@ -861,15 +871,17 @@ namespace Vlab.Product
         public void BeginGrab(EquipmentHandle item,Ray pointer,bool latch=false)
         {
             if(!item||!items.Contains(item))return;
+            if(item.Owner!=EquipmentGrabOwner.None&&item.Owner!=EquipmentGrabOwner.Legacy)return;
             if(session.Phase!=ExperimentPhase.Preparing&&session.Phase!=ExperimentPhase.Ready)return;
             if(Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Preparing&&session.Operation==3&&!PrepareNext(out _))return;
             Select(item,false);pullingBob=Driver==null&&item.installed&&item.assetId=="pendulum"&&session.Phase==ExperimentPhase.Ready;
+            if((!item.installed||pullingBob)&&item.Owner==EquipmentGrabOwner.None&&!item.TryAcquire(EquipmentGrabOwner.Legacy))return;
             carrying=!item.installed;latchedCarry=latch;carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,item.transform.position),.35f,2.5f);
             Changed?.Invoke();
         }
         public void UpdateGrab(ActionFrame frame)
         {
-            if(!Selected)return;
+            if(!Selected||Selected.Owner!=EquipmentGrabOwner.Legacy)return;
             if(frame.lost){CancelGrab();return;}
             if(pullingBob)
             {
@@ -892,15 +904,18 @@ namespace Vlab.Product
         {
             message="";if(!pullingBob)return false;
             if(!session.Start(out message))return false;
+            if(Selected)Selected.Release(EquipmentGrabOwner.Legacy);
             Selected=null;pullingBob=latchedCarry=false;Changed?.Invoke();return true;
         }
         public void CancelGrab()
         {
-            if(Selected&&!Selected.installed)
+            RestoreInspected();
+            if(Selected&&Selected.Owner==EquipmentGrabOwner.Legacy&&!Selected.installed)
             {
                 Selected.transform.SetPositionAndRotation(Selected.trayPosition,Selected.trayRotation);
                 if(carriedFromStorage){Selected.stowed=true;Selected.gameObject.SetActive(false);}
             }
+            if(Selected)Selected.Release(EquipmentGrabOwner.Legacy);
             Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();
         }
         public bool InstallSelected()
@@ -912,7 +927,7 @@ namespace Vlab.Product
                 var spec=Driver.Kit.Single(x=>x.key==item.assetId);
                 if(!string.IsNullOrEmpty(spec.dependsOn)&&!items.Single(x=>x.assetId==spec.dependsOn).installed)return false;
                 item.gameObject.SetActive(true);item.stowed=false;item.transform.SetPositionAndRotation(item.slot,item.rotation);item.installed=true;Driver.Installed(item.assetId);item.slot=item.transform.position;
-                if(Ready){Driver.Configure();SynchronizeDerivedFixtures();}else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();return true;
+                item.Release(EquipmentGrabOwner.Legacy);if(Ready){Driver.Configure();SynchronizeDerivedFixtures();}else ArrangeLooseItems();session.SetApparatusReady(Ready);VlabAudio.At(VlabSound.Placement,item.transform.position);Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();return true;
             }
             if(item.assetId!="stand"&&!items.First(x=>x.assetId=="stand").installed)return false;
             item.gameObject.SetActive(true);item.stowed=false;item.transform.SetPositionAndRotation(item.slot,item.rotation);item.installed=true;
@@ -934,7 +949,7 @@ namespace Vlab.Product
                 item.slot=item.transform.position;foreach(var part in items)part.slot=Slot(part.assetId);
             }
             if(item.assetId=="ruler"||item.assetId=="timer")PlaceOnSurface(item.gameObject,item.slot);
-            if(Ready)UpdatePendulum(0);else ArrangeLooseItems();session.SetApparatusReady(Ready);Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();return true;
+            item.Release(EquipmentGrabOwner.Legacy);if(Ready)UpdatePendulum(0);else ArrangeLooseItems();session.SetApparatusReady(Ready);VlabAudio.At(VlabSound.Placement,item.transform.position);Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();return true;
         }
         void CreateTargets()
         {

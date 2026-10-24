@@ -1,0 +1,1671 @@
+Biology apparatus integration | UTC 2026-10-24T14:42:24.0167370Z
+Native Play-mode API tests with actual Equipment Resources; synchronous explicit experiment clock. No preset measured states.
+
+CASE B01 onion preparation and actual structure picking
+PASS B01 specification permits actual 4× objective
+PASS B01 actual biology authority
+PASS B01 start blocked before kit installation
+PASS B01 installed microscope
+PASS Native unit scale microscope
+PASS B01 installed slide
+PASS Native unit scale slide
+PASS B01 installed coverslip
+PASS Native unit scale coverslip
+PASS B01 installed specimen
+PASS Native unit scale specimen
+PASS B01 installed onion
+PASS Native unit scale onion
+PASS B01 installed dropper
+PASS Native unit scale dropper
+PASS B01 installed paper
+PASS Native unit scale paper
+PASS B01 installed forceps
+PASS Native unit scale forceps
+PASS B01 actual kit validated
+PASS High power blocked before mounted/focused slide
+PASS B01 preparation 1:
+PASS B01 preparation 2:
+PASS B01 preparation 3:
+PASS B01 action obj4:
+PASS B01 preparation 4:
+PASS Single epidermis state and both clips closed
+PASS Actual source inspection texture exposed
+PASS B01 started:
+PASS No automatic learner structure observations
+PASS Categorical onion mask readable
+PASS Three actual source structure regions located by test fixture
+PASS B01 actual source UV (0.01, 0.00): Cell 1: choose the visible structure in this schematic.
+PASS B01 action structure:0: Structure matches source schematic.
+PASS B01 actual source UV (0.01, 0.01): Cell 1: choose the visible structure in this schematic.
+PASS B01 action structure:2: Structure matches source schematic.
+PASS B01 actual source UV (0.01, 0.01): Cell 1: choose the visible structure in this schematic.
+PASS B01 action structure:1: Structure matches source schematic.
+PASS B01 action obj10:
+PASS 10× source turret index 1
+PASS B01 action obj40:
+PASS 40× source turret index 2
+PASS B01 action focus+:
+PASS B01 action focus+:
+PASS Out-of-focus high-power record blocked
+PASS B01 action focus-:
+PASS B01 action focus-:
+PASS Pause freezes session time [0, 0]
+PASS Pause freezes authority clock [0, 0]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [25, 25]
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [0, 0]
+PASS Input loss requires explicit resume
+PASS B01 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B01 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS Nominal magnification correctly reported at 40× objective
+COMPLETE B01 onion preparation and actual structure picking
+
+CASE B02 source-cell field, salt and actual water replacement
+PASS B02 actual biology authority
+PASS B02 start blocked before kit installation
+PASS B02 installed microscope
+PASS Native unit scale microscope
+PASS B02 installed slide
+PASS Native unit scale slide
+PASS B02 installed coverslip
+PASS Native unit scale coverslip
+PASS B02 installed specimen
+PASS Native unit scale specimen
+PASS B02 installed onion
+PASS Native unit scale onion
+PASS B02 installed dropper
+PASS Native unit scale dropper
+PASS B02 installed paper
+PASS Native unit scale paper
+PASS B02 installed forceps
+PASS Native unit scale forceps
+PASS B02 actual kit validated
+PASS B02 preparation 1:
+PASS Unmarked field cannot be locked
+PASS All 32 stable source plasmolysis IDs resolved
+PASS B02 actual source UV (0.02, 0.00): Cell 1 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.00): Cell 2 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.00): Cell 3 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.00): Cell 4 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.13): Cell 5 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.13): Cell 6 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.13): Cell 7 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.13): Cell 8 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.25): Cell 9 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.25): Cell 10 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.25): Cell 11 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.25): Cell 12 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.38): Cell 13 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.38): Cell 14 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.38): Cell 15 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.38): Cell 16 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.50): Cell 17 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.50): Cell 18 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.50): Cell 19 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.50): Cell 20 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 preparation 2:
+PASS B02 preparation 3:
+PASS B02 started:
+PASS Water before salt interval rejected
+PASS Water without manual salt counts rejected
+PASS B02 actual source UV (0.02, 0.00): Cell 1 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.00): Cell 2 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.00): Cell 3 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellContracted:
+PASS B02 actual source UV (0.77, 0.00): Cell 4 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.13): Cell 5 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.13): Cell 6 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellContracted:
+PASS B02 actual source UV (0.52, 0.13): Cell 7 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.13): Cell 8 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.25): Cell 9 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellContracted:
+PASS B02 actual source UV (0.27, 0.25): Cell 10 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.25): Cell 11 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.25): Cell 12 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellContracted:
+PASS B02 actual source UV (0.02, 0.38): Cell 13 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.38): Cell 14 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.38): Cell 15 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellContracted:
+PASS B02 actual source UV (0.77, 0.38): Cell 16 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.50): Cell 17 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.50): Cell 18 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellContracted:
+PASS B02 actual source UV (0.52, 0.50): Cell 19 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.50): Cell 20 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS Pause freezes session time [31, 31]
+PASS Pause freezes authority clock [31, 31]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [25, 25]
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [31, 31]
+PASS Input loss requires explicit resume
+PASS B02 action waterReplace:
+PASS Actual source recovery texture selected
+PASS B02 actual source UV (0.02, 0.00): Cell 1 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.00): Cell 2 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.00): Cell 3 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.00): Cell 4 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.13): Cell 5 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.13): Cell 6 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.13): Cell 7 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.13): Cell 8 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.25): Cell 9 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.25): Cell 10 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.25): Cell 11 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.25): Cell 12 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.38): Cell 13 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.38): Cell 14 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.38): Cell 15 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.38): Cell 16 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.02, 0.50): Cell 17 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.27, 0.50): Cell 18 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.52, 0.50): Cell 19 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS B02 actual source UV (0.77, 0.50): Cell 20 selected. Classify visible state; selection alone does not count it.
+PASS B02 action cellNormal:
+PASS Recovery observation interval starts at real water replacement
+PASS Recovery clock measured from actual replacement [10.1, 10.1]
+PASS B02 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B02 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS Tracked ID/count table preserved through record
+COMPLETE B02 source-cell field, salt and actual water replacement
+
+CASE B03 three independent balance samples
+PASS Set one-minute test soak
+PASS Set concentration group
+PASS B03 actual biology authority
+PASS B03 start blocked before kit installation
+PASS B03 installed balance
+PASS Native unit scale balance
+PASS B03 installed solution
+PASS Native unit scale solution
+PASS B03 installed water
+PASS Native unit scale water
+PASS B03 installed sample0
+PASS Native unit scale sample0
+PASS B03 installed sample1
+PASS Native unit scale sample1
+PASS B03 installed sample2
+PASS Native unit scale sample2
+PASS B03 installed paper
+PASS Native unit scale paper
+PASS B03 installed ruler
+PASS Native unit scale ruler
+PASS B03 installed timer
+PASS Native unit scale timer
+PASS B03 actual kit validated
+PASS Cannot skip three actual initial balance readings
+PASS Final mass blocked before soak and blot
+PASS B03 action weighInitial:0:
+PASS B03 action weighInitial:1:
+PASS B03 action weighInitial:2:
+PASS Three independent source sample IDs
+PASS Fresh concentration group receives new sample ID B03-70bfe69a46-P1
+PASS Fresh concentration group receives new sample ID B03-70bfe69a46-P2
+PASS Fresh concentration group receives new sample ID B03-70bfe69a46-P3
+PASS B03 action weighInitial:0:
+PASS Technical reweigh does not create biological replicate
+PASS B03 preparation 1:
+PASS B03 preparation 2:
+PASS B03 preparation 3:
+PASS B03 preparation 4:
+PASS Actual solution and water reference volumes filled
+PASS B03 started:
+PASS Early blotting blocked before sample interval
+PASS Pause freezes session time [60.1, 60.1]
+PASS Pause freezes authority clock [60.1, 60.1]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [25, 25]
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [60.1, 60.1]
+PASS Input loss requires explicit resume
+PASS Unblotted sample 0 cannot supply final mass
+PASS B03 action blot:0:
+PASS B03 action weighFinal:0:
+PASS Actual source sample ID retained for paired mass 0
+PASS Fewer than three independent paired masses cannot complete group
+PASS Unblotted sample 1 cannot supply final mass
+PASS B03 action blot:1:
+PASS B03 action weighFinal:1:
+PASS Actual source sample ID retained for paired mass 1
+PASS Fewer than three independent paired masses cannot complete group
+PASS Unblotted sample 2 cannot supply final mass
+PASS B03 action blot:2:
+PASS B03 action weighFinal:2:
+PASS Actual source sample ID retained for paired mass 2
+PASS B03 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B03 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS Reload creates no pretend soaked or weighed samples
+PASS Saved sample ledger contains three complete pairs at one concentration
+PASS Mass-change arithmetic from balance pair 0 [0.449999999999995, 0.449999999999995]
+PASS Mass-change arithmetic from balance pair 1 [0.500000000000012, 0.499999999999989]
+PASS Mass-change arithmetic from balance pair 2 [0.550000000000006, 0.550000000000006]
+COMPLETE B03 three independent balance samples
+
+CASE B04 actual bath, aliquot and active gas curve
+PASS Select active or inactivated source aliquot
+PASS Set bath initial-temperature group
+PASS B04 actual biology authority
+PASS B04 start blocked before kit installation
+PASS B04 installed bath
+PASS Native unit scale bath
+PASS B04 installed aliquot
+PASS Native unit scale aliquot
+PASS B04 installed flask
+PASS Native unit scale flask
+PASS B04 installed stopper
+PASS Native unit scale stopper
+PASS B04 installed tube
+PASS Native unit scale tube
+PASS B04 installed syringe
+PASS Native unit scale syringe
+PASS B04 installed timer
+PASS Native unit scale timer
+PASS B04 installed potato
+PASS Native unit scale potato
+PASS B04 actual kit validated
+PASS B04 preparation 1:
+PASS B04 preparation 2:
+PASS B04 preparation 3:
+PASS Actual native beaker mounted in open source bath
+PASS Validated native 250 mL beaker used in bath seat [250, 250]
+PASS Larger vessel does not invent aliquot prefill or dilution [30, 30]
+PASS Actual tubing has explicit distinct sealed port IDs
+PASS Bath temperature set independently [35, 35]
+PASS Sample begins at room temperature [25, 25]
+PASS B04 started:
+PASS Mix blocked before actual sample equilibrates
+PASS Gas reading blocked before reaction contact
+PASS Pause freezes session time [20, 20]
+PASS Pause freezes authority clock [20, 20]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [34.6432600665275, 34.6432600665275]
+PASS Paused bath heater off
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [20, 20]
+PASS Input loss requires explicit resume
+PASS B04 action mix:
+PASS Equilibrated aliquot removed and source beaker emptied at mixing
+PASS Actual reaction flask receives transferred 30 mL [30, 30]
+PASS B04 action gasRead:
+PASS Duplicate same-time gas readings rejected
+PASS B04 action gasRead:
+PASS Insufficient reaction-time series cannot complete
+PASS B04 action gasRead:
+PASS Pause freezes session time [50.1, 50.1]
+PASS Pause freezes authority clock [50.1000000000004, 50.1000000000004]
+PASS Pause freezes gas reaction [8.59623067060619, 8.59623067060619]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [32.5039226160734, 32.5039226160734]
+PASS Paused bath heater off
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [50.1000000000004, 50.1000000000004]
+PASS Input loss requires explicit resume
+PASS Three explicit timed readings share one aliquot ID
+PASS Gas time series monotonic and nonnegative
+PASS Active sample actually moves delivered gas-syringe piston
+PASS B04 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B04 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS ΔV/Δt computed from actual saved interval readings [0.262659888955488, 0.262659888955488]
+COMPLETE B04 actual bath, aliquot and active gas curve
+
+CASE B05 actual yeast lag and active gas curve
+PASS B05 spec exposes inactive yeast control separately from amount
+PASS Select active or inactivated source aliquot
+PASS Set bath initial-temperature group
+PASS B05 actual biology authority
+PASS B05 start blocked before kit installation
+PASS B05 installed bath
+PASS Native unit scale bath
+PASS B05 installed aliquot
+PASS Native unit scale aliquot
+PASS B05 installed flask
+PASS Native unit scale flask
+PASS B05 installed stopper
+PASS Native unit scale stopper
+PASS B05 installed tube
+PASS Native unit scale tube
+PASS B05 installed syringe
+PASS Native unit scale syringe
+PASS B05 installed timer
+PASS Native unit scale timer
+PASS B05 installed yeast
+PASS Native unit scale yeast
+PASS B05 actual kit validated
+PASS B05 preparation 1:
+PASS B05 preparation 2:
+PASS B05 preparation 3:
+PASS Actual native beaker mounted in open source bath
+PASS Validated native 250 mL beaker used in bath seat [250, 250]
+PASS Larger vessel does not invent aliquot prefill or dilution [30, 30]
+PASS Actual tubing has explicit distinct sealed port IDs
+PASS Bath temperature set independently [35, 35]
+PASS Sample begins at room temperature [25, 25]
+PASS B05 started:
+PASS Mix blocked before actual sample equilibrates
+PASS Gas reading blocked before reaction contact
+PASS Pause freezes session time [20, 20]
+PASS Pause freezes authority clock [20, 20]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [34.6432600665275, 34.6432600665275]
+PASS Paused bath heater off
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [20, 20]
+PASS Input loss requires explicit resume
+PASS B05 action mix:
+PASS Equilibrated aliquot removed and source beaker emptied at mixing
+PASS Actual reaction flask receives transferred 30 mL [30, 30]
+PASS B05 action gasRead:
+PASS Duplicate same-time gas readings rejected
+PASS B05 action gasRead:
+PASS Actual syringe respects illustrative 15 s lag [0, 0]
+PASS Insufficient reaction-time series cannot complete
+PASS B05 action gasRead:
+PASS Pause freezes session time [50.1, 50.1]
+PASS Pause freezes authority clock [50.1000000000004, 50.1000000000004]
+PASS Pause freezes gas reaction [2.34419251738039, 2.34419251738039]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [32.5039226160734, 32.5039226160734]
+PASS Paused bath heater off
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [50.1000000000004, 50.1000000000004]
+PASS Input loss requires explicit resume
+PASS Three explicit timed readings share one aliquot ID
+PASS Gas time series monotonic and nonnegative
+PASS Active sample actually moves delivered gas-syringe piston
+PASS Inactivated yeast is distinct from zero yeast amount
+PASS B05 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B05 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS ΔV/Δt computed from actual saved interval readings [0.116626492780238, 0.116626492780238]
+COMPLETE B05 actual yeast lag and active gas curve
+
+CASE B06 capillary, paper and closed developing jar
+PASS B06 front spec stays within source 88 mm paper limit
+PASS B06 actual biology authority
+PASS B06 start blocked before kit installation
+PASS B06 installed mortar
+PASS Native unit scale mortar
+PASS B06 installed pestle
+PASS Native unit scale pestle
+PASS B06 installed tissue
+PASS Native unit scale tissue
+PASS B06 installed extract
+PASS Native unit scale extract
+PASS B06 installed receiver
+PASS Native unit scale receiver
+PASS B06 installed funnel
+PASS Native unit scale funnel
+PASS B06 installed filter
+PASS Native unit scale filter
+PASS B06 installed capillary
+PASS Native unit scale capillary
+PASS B06 installed strip
+PASS Native unit scale strip
+PASS B06 installed jar
+PASS Native unit scale jar
+PASS B06 installed ruler
+PASS Native unit scale ruler
+PASS B06 actual kit validated
+PASS Cannot load capillary before extract is filtered
+PASS B06 preparation 1:
+PASS B06 preparation 2:
+PASS Actual wet source filter and retained extract
+PASS Unspotted strip cannot pass preparation
+PASS B06 action loadCapillary:
+PASS Actual 1 µL capillary load [1, 1]
+PASS B06 action deposit:
+PASS Actual paper spot wet after first microdeposit
+PASS B06 action loadCapillary:
+PASS Second deposit rejected while actual spot wet
+PASS B06 action dry:
+PASS B06 action deposit:
+PASS B06 action dry:
+PASS Source paper cumulative spot limit reached at 2 µL [2, 2]
+PASS B06 action loadCapillary:
+PASS Source spot refuses cumulative volume above 2 µL
+PASS B06 preparation 3:
+PASS B06 preparation 4:
+PASS Actual cellulose paper seated in closed source developing jar
+PASS Actual solvent surface below source paper origin
+PASS B06 started:
+PASS Pause freezes session time [30.1, 30.1]
+PASS Pause freezes authority clock [30.1, 30.1]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [54.4587894317635, 54.4587894317635]
+PASS Pause freezes sample heat transfer [25, 25]
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [30.1, 30.1]
+PASS Input loss requires explicit resume
+PASS Actual source front/bands inside physical paper limit
+PASS Unmarked solvent front cannot be recorded
+PASS B06 action markFront:
+PASS Marked front stops development [0.0544587894317635, 0.0544587894317635]
+PASS B06 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B06 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS Actual source Rf ratios remain within 0–1
+COMPLETE B06 capillary, paper and closed developing jar
+
+CASE B07 full extraction, alcohol layer and gentle spool
+PASS B07 specification exposes no-alcohol control
+PASS Choose full extraction or omitted-alcohol control
+PASS B07 actual biology authority
+PASS B07 start blocked before kit installation
+PASS B07 installed mortar
+PASS Native unit scale mortar
+PASS B07 installed pestle
+PASS Native unit scale pestle
+PASS B07 installed tissue
+PASS Native unit scale tissue
+PASS B07 installed extract
+PASS Native unit scale extract
+PASS B07 installed receiver
+PASS Native unit scale receiver
+PASS B07 installed funnel
+PASS Native unit scale funnel
+PASS B07 installed filter
+PASS Native unit scale filter
+PASS B07 installed alcohol
+PASS Native unit scale alcohol
+PASS B07 installed layer
+PASS Native unit scale layer
+PASS B07 installed rod
+PASS Native unit scale rod
+PASS B07 installed dna
+PASS Native unit scale dna
+PASS B07 actual kit validated
+PASS Spooling cannot create material before extraction
+PASS B07 preparation 1:
+PASS Actual source fruit crushed state
+PASS B07 preparation 2:
+PASS B07 preparation 3:
+PASS Actual filtration retains 20 mL in receiving beaker
+PASS B07 preparation 4:
+PASS B07 preparation 5:
+PASS Actual delivered liquid asset reflects alcohol-layer control [10, 10]
+PASS B07 started:
+PASS Spooling blocked before precipitation interval
+PASS Pause freezes session time [10.1, 10.1]
+PASS Pause freezes authority clock [10.1, 10.1]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [25, 25]
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [10.1, 10.1]
+PASS Input loss requires explicit resume
+PASS Actual source coarse-strand renderer appears only after full extraction
+PASS Full extraction requires actual gentle spool action
+PASS B07 action spool:
+PASS Actual precipitate attaches to delivered rod tip
+PASS B07 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B07 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS Recorded qualitative control matches actual source renderer [1, 1]
+COMPLETE B07 full extraction, alcohol layer and gentle spool
+
+CASE B08 all 100 actual atlas IDs and duplicate-safe crops
+PASS B08 actual biology authority
+PASS B08 start blocked before kit installation
+PASS B08 installed microscope
+PASS Native unit scale microscope
+PASS B08 installed slide
+PASS Native unit scale slide
+PASS B08 installed coverslip
+PASS Native unit scale coverslip
+PASS B08 installed specimen
+PASS Native unit scale specimen
+PASS B08 actual kit validated
+PASS B08 preparation 1:
+PASS B08 preparation 2:
+PASS B08 preparation 3:
+PASS B08 started:
+PASS Atlas never autocompletes learner counts
+PASS All 100 distinct actual atlas IDs resolved through supplied mask
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 1
+PASS B08 actual source UV (0.01, 0.01): Global cell 1 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 1
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 11
+PASS B08 actual source UV (0.01, 0.11): Global cell 11 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 11
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 21
+PASS B08 actual source UV (0.01, 0.21): Global cell 21 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 31
+PASS B08 actual source UV (0.01, 0.31): Global cell 31 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 31
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 41
+PASS B08 actual source UV (0.01, 0.41): Global cell 41 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 41
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 51
+PASS B08 actual source UV (0.01, 0.51): Global cell 51 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 51
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 61
+PASS B08 actual source UV (0.01, 0.61): Global cell 61 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 61
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 71
+PASS B08 actual source UV (0.01, 0.71): Global cell 71 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 71
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 81
+PASS B08 actual source UV (0.01, 0.81): Global cell 81 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 91
+PASS B08 actual source UV (0.01, 0.91): Global cell 91 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 91
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 2
+PASS B08 actual source UV (0.11, 0.01): Global cell 2 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 2
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 12
+PASS B08 actual source UV (0.11, 0.11): Global cell 12 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 12
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 22
+PASS B08 actual source UV (0.11, 0.21): Global cell 22 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 22
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 32
+PASS B08 actual source UV (0.11, 0.31): Global cell 32 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 42
+PASS B08 actual source UV (0.11, 0.41): Global cell 42 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 42
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 52
+PASS B08 actual source UV (0.11, 0.51): Global cell 52 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 52
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 62
+PASS B08 actual source UV (0.11, 0.61): Global cell 62 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 62
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 72
+PASS B08 actual source UV (0.11, 0.71): Global cell 72 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 72
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 82
+PASS B08 actual source UV (0.11, 0.81): Global cell 82 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 82
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 92
+PASS B08 actual source UV (0.11, 0.91): Global cell 92 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 3
+PASS B08 actual source UV (0.21, 0.01): Global cell 3 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 3
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 13
+PASS B08 actual source UV (0.21, 0.11): Global cell 13 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 13
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 23
+PASS B08 actual source UV (0.21, 0.21): Global cell 23 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 23
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 33
+PASS B08 actual source UV (0.21, 0.31): Global cell 33 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 33
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 43
+PASS B08 actual source UV (0.21, 0.41): Global cell 43 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 53
+PASS B08 actual source UV (0.21, 0.51): Global cell 53 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 53
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 63
+PASS B08 actual source UV (0.21, 0.61): Global cell 63 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 63
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 73
+PASS B08 actual source UV (0.21, 0.71): Global cell 73 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 73
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 83
+PASS B08 actual source UV (0.21, 0.81): Global cell 83 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 83
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 93
+PASS B08 actual source UV (0.21, 0.91): Global cell 93 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 93
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 4
+PASS B08 actual source UV (0.31, 0.01): Global cell 4 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 4
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 14
+PASS B08 actual source UV (0.31, 0.11): Global cell 14 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 14
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 24
+PASS B08 actual source UV (0.31, 0.21): Global cell 24 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 24
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 34
+PASS B08 actual source UV (0.31, 0.31): Global cell 34 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 34
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 44
+PASS B08 actual source UV (0.31, 0.41): Global cell 44 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 44
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 54
+PASS B08 actual source UV (0.31, 0.51): Global cell 54 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 64
+PASS B08 actual source UV (0.31, 0.61): Global cell 64 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 64
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 74
+PASS B08 actual source UV (0.31, 0.71): Global cell 74 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 74
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 84
+PASS B08 actual source UV (0.31, 0.81): Global cell 84 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 84
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 94
+PASS B08 actual source UV (0.31, 0.91): Global cell 94 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 94
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 5
+PASS B08 actual source UV (0.41, 0.01): Global cell 5 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 15
+PASS B08 actual source UV (0.41, 0.11): Global cell 15 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 15
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 25
+PASS B08 actual source UV (0.41, 0.21): Global cell 25 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 25
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 35
+PASS B08 actual source UV (0.41, 0.31): Global cell 35 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 35
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 45
+PASS B08 actual source UV (0.41, 0.41): Global cell 45 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 45
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 55
+PASS B08 actual source UV (0.41, 0.51): Global cell 55 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 55
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 65
+PASS B08 actual source UV (0.41, 0.61): Global cell 65 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 75
+PASS B08 actual source UV (0.41, 0.71): Global cell 75 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 75
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 85
+PASS B08 actual source UV (0.41, 0.81): Global cell 85 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 85
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field2:
+PASS Source UV lies within selected crop for global ID 95
+PASS B08 actual source UV (0.41, 0.91): Global cell 95 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 95
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 6
+PASS B08 actual source UV (0.51, 0.01): Global cell 6 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 6
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 16
+PASS B08 actual source UV (0.51, 0.11): Global cell 16 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 26
+PASS B08 actual source UV (0.51, 0.21): Global cell 26 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 26
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 36
+PASS B08 actual source UV (0.51, 0.31): Global cell 36 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 36
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 46
+PASS B08 actual source UV (0.51, 0.41): Global cell 46 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 46
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 56
+PASS B08 actual source UV (0.51, 0.51): Global cell 56 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 56
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 66
+PASS B08 actual source UV (0.51, 0.61): Global cell 66 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 66
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 76
+PASS B08 actual source UV (0.51, 0.71): Global cell 76 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 86
+PASS B08 actual source UV (0.51, 0.81): Global cell 86 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 86
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 96
+PASS B08 actual source UV (0.51, 0.91): Global cell 96 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 96
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 7
+PASS B08 actual source UV (0.61, 0.01): Global cell 7 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 7
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 17
+PASS B08 actual source UV (0.61, 0.11): Global cell 17 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 17
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 27
+PASS B08 actual source UV (0.61, 0.21): Global cell 27 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 37
+PASS B08 actual source UV (0.61, 0.31): Global cell 37 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 37
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 47
+PASS B08 actual source UV (0.61, 0.41): Global cell 47 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 47
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 57
+PASS B08 actual source UV (0.61, 0.51): Global cell 57 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 57
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 67
+PASS B08 actual source UV (0.61, 0.61): Global cell 67 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 67
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 77
+PASS B08 actual source UV (0.61, 0.71): Global cell 77 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 77
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 87
+PASS B08 actual source UV (0.61, 0.81): Global cell 87 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 97
+PASS B08 actual source UV (0.61, 0.91): Global cell 97 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 97
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 8
+PASS B08 actual source UV (0.71, 0.01): Global cell 8 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 8
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 18
+PASS B08 actual source UV (0.71, 0.11): Global cell 18 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 18
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 28
+PASS B08 actual source UV (0.71, 0.21): Global cell 28 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 28
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 38
+PASS B08 actual source UV (0.71, 0.31): Global cell 38 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 48
+PASS B08 actual source UV (0.71, 0.41): Global cell 48 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 48
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 58
+PASS B08 actual source UV (0.71, 0.51): Global cell 58 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 58
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 68
+PASS B08 actual source UV (0.71, 0.61): Global cell 68 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 68
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 78
+PASS B08 actual source UV (0.71, 0.71): Global cell 78 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 78
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 88
+PASS B08 actual source UV (0.71, 0.81): Global cell 88 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 88
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 98
+PASS B08 actual source UV (0.71, 0.91): Global cell 98 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 9
+PASS B08 actual source UV (0.81, 0.01): Global cell 9 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 9
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 19
+PASS B08 actual source UV (0.81, 0.11): Global cell 19 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 19
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 29
+PASS B08 actual source UV (0.81, 0.21): Global cell 29 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 29
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 39
+PASS B08 actual source UV (0.81, 0.31): Global cell 39 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 39
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 49
+PASS B08 actual source UV (0.81, 0.41): Global cell 49 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 59
+PASS B08 actual source UV (0.81, 0.51): Global cell 59 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 59
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 69
+PASS B08 actual source UV (0.81, 0.61): Global cell 69 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 69
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 79
+PASS B08 actual source UV (0.81, 0.71): Global cell 79 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 79
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 89
+PASS B08 actual source UV (0.81, 0.81): Global cell 89 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 89
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 99
+PASS B08 actual source UV (0.81, 0.91): Global cell 99 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 99
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 10
+PASS B08 actual source UV (0.91, 0.01): Global cell 10 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 10
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 20
+PASS B08 actual source UV (0.91, 0.11): Global cell 20 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 20
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 30
+PASS B08 actual source UV (0.91, 0.21): Global cell 30 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 30
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 40
+PASS B08 actual source UV (0.91, 0.31): Global cell 40 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 40
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 50
+PASS B08 actual source UV (0.91, 0.41): Global cell 50 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:0:
+PASS Source checker validates test fixture for global ID 50
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 60
+PASS B08 actual source UV (0.91, 0.51): Global cell 60 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:5:
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 70
+PASS B08 actual source UV (0.91, 0.61): Global cell 70 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:4:
+PASS Source checker validates test fixture for global ID 70
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 80
+PASS B08 actual source UV (0.91, 0.71): Global cell 80 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:3:
+PASS Source checker validates test fixture for global ID 80
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 90
+PASS B08 actual source UV (0.91, 0.81): Global cell 90 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:2:
+PASS Source checker validates test fixture for global ID 90
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS 99 actual IDs cannot satisfy 100-cell group
+PASS B08 action field3:
+PASS Source UV lies within selected crop for global ID 100
+PASS B08 actual source UV (0.91, 0.91): Global cell 100 selected; choose stage or unclear.
+PASS Source fixture uses known stage or unclear
+PASS B08 action stage:1:
+PASS Source checker validates test fixture for global ID 100
+PASS B08 action checkStage: Your classification matches source atlas.
+PASS B08 action field1:
+PASS B08 actual source UV (0.01, 0.01): Global cell 1 already classified as prophase. Choosing again edits this ID without duplicate counting.
+PASS B08 action stage:1:
+PASS Same global ID in overlapping full crop edits answer without duplicate count
+PASS Pause freezes session time [0, 0]
+PASS Pause freezes authority clock [0, 0]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [25, 25]
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [0, 0]
+PASS Input loss requires explicit resume
+PASS B08 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B08 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS Fixed atlas draft restores 100 unique learner answers
+PASS 100-cell MI comes from learner classifications [67, 67]
+PASS Unclear cells retained in MI uncertainty bound [83, 83]
+PASS Saved global atlas IDs deduplicated across crops
+COMPLETE B08 all 100 actual atlas IDs and duplicate-safe crops
+
+CASE B03 fresh water control group
+PASS Set one-minute test soak
+PASS Set concentration group
+PASS B03 actual biology authority
+PASS B03 start blocked before kit installation
+PASS B03 installed balance
+PASS Native unit scale balance
+PASS B03 installed solution
+PASS Native unit scale solution
+PASS B03 installed water
+PASS Native unit scale water
+PASS B03 installed sample0
+PASS Native unit scale sample0
+PASS B03 installed sample1
+PASS Native unit scale sample1
+PASS B03 installed sample2
+PASS Native unit scale sample2
+PASS B03 installed paper
+PASS Native unit scale paper
+PASS B03 installed ruler
+PASS Native unit scale ruler
+PASS B03 installed timer
+PASS Native unit scale timer
+PASS B03 actual kit validated
+PASS Cannot skip three actual initial balance readings
+PASS Final mass blocked before soak and blot
+PASS B03 action weighInitial:0:
+PASS B03 action weighInitial:1:
+PASS B03 action weighInitial:2:
+PASS Three independent source sample IDs
+PASS Fresh concentration group receives new sample ID B03-4c447899ff-P1
+PASS Fresh concentration group receives new sample ID B03-4c447899ff-P2
+PASS Fresh concentration group receives new sample ID B03-4c447899ff-P3
+PASS B03 action weighInitial:0:
+PASS Technical reweigh does not create biological replicate
+PASS B03 preparation 1:
+PASS B03 preparation 2:
+PASS B03 preparation 3:
+PASS B03 preparation 4:
+PASS Actual solution and water reference volumes filled
+PASS B03 started:
+PASS Early blotting blocked before sample interval
+PASS Pause freezes session time [60.1, 60.1]
+PASS Pause freezes authority clock [60.1, 60.1]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [25, 25]
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [60.1, 60.1]
+PASS Input loss requires explicit resume
+PASS Unblotted sample 0 cannot supply final mass
+PASS B03 action blot:0:
+PASS B03 action weighFinal:0:
+PASS Actual source sample ID retained for paired mass 0
+PASS Fewer than three independent paired masses cannot complete group
+PASS Unblotted sample 1 cannot supply final mass
+PASS B03 action blot:1:
+PASS B03 action weighFinal:1:
+PASS Actual source sample ID retained for paired mass 1
+PASS Fewer than three independent paired masses cannot complete group
+PASS Unblotted sample 2 cannot supply final mass
+PASS B03 action blot:2:
+PASS B03 action weighFinal:2:
+PASS Actual source sample ID retained for paired mass 2
+PASS B03 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B03 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS Reload creates no pretend soaked or weighed samples
+PASS Saved sample ledger contains three complete pairs at one concentration
+PASS Mass-change arithmetic from balance pair 0 [1.70000000000001, 1.70000000000001]
+PASS Mass-change arithmetic from balance pair 1 [1.75000000000001, 1.75000000000001]
+PASS Mass-change arithmetic from balance pair 2 [1.8, 1.8]
+PASS Illustrative water control gains mass under configured response
+COMPLETE B03 fresh water control group
+
+CASE B04 heat-inactivated control
+PASS Select active or inactivated source aliquot
+PASS Set bath initial-temperature group
+PASS B04 actual biology authority
+PASS B04 start blocked before kit installation
+PASS B04 installed bath
+PASS Native unit scale bath
+PASS B04 installed aliquot
+PASS Native unit scale aliquot
+PASS B04 installed flask
+PASS Native unit scale flask
+PASS B04 installed stopper
+PASS Native unit scale stopper
+PASS B04 installed tube
+PASS Native unit scale tube
+PASS B04 installed syringe
+PASS Native unit scale syringe
+PASS B04 installed timer
+PASS Native unit scale timer
+PASS B04 installed potato
+PASS Native unit scale potato
+PASS B04 actual kit validated
+PASS B04 preparation 1:
+PASS B04 preparation 2:
+PASS B04 preparation 3:
+PASS Actual native beaker mounted in open source bath
+PASS Validated native 250 mL beaker used in bath seat [250, 250]
+PASS Larger vessel does not invent aliquot prefill or dilution [30, 30]
+PASS Actual tubing has explicit distinct sealed port IDs
+PASS Bath temperature set independently [35, 35]
+PASS Sample begins at room temperature [25, 25]
+PASS B04 started:
+PASS Mix blocked before actual sample equilibrates
+PASS Gas reading blocked before reaction contact
+PASS Pause freezes session time [20, 20]
+PASS Pause freezes authority clock [20, 20]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [34.6432600665275, 34.6432600665275]
+PASS Paused bath heater off
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [20, 20]
+PASS Input loss requires explicit resume
+PASS B04 action mix:
+PASS Equilibrated aliquot removed and source beaker emptied at mixing
+PASS Actual reaction flask receives transferred 30 mL [30, 30]
+PASS B04 action gasRead:
+PASS Duplicate same-time gas readings rejected
+PASS B04 action gasRead:
+PASS Insufficient reaction-time series cannot complete
+PASS B04 action gasRead:
+PASS Pause freezes session time [50.1, 50.1]
+PASS Pause freezes authority clock [50.1000000000004, 50.1000000000004]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [32.5039226160734, 32.5039226160734]
+PASS Paused bath heater off
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [50.1000000000004, 50.1000000000004]
+PASS Input loss requires explicit resume
+PASS Three explicit timed readings share one aliquot ID
+PASS Gas time series monotonic and nonnegative
+PASS Inactive control has zero modeled gas while source amount remains nonzero [0, 0]
+PASS B04 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B04 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS ΔV/Δt computed from actual saved interval readings [0, 0]
+COMPLETE B04 heat-inactivated control
+
+CASE B05 inactive yeast control distinct from zero yeast
+PASS B05 spec exposes inactive yeast control separately from amount
+PASS Select active or inactivated source aliquot
+PASS Set bath initial-temperature group
+PASS B05 actual biology authority
+PASS B05 start blocked before kit installation
+PASS B05 installed bath
+PASS Native unit scale bath
+PASS B05 installed aliquot
+PASS Native unit scale aliquot
+PASS B05 installed flask
+PASS Native unit scale flask
+PASS B05 installed stopper
+PASS Native unit scale stopper
+PASS B05 installed tube
+PASS Native unit scale tube
+PASS B05 installed syringe
+PASS Native unit scale syringe
+PASS B05 installed timer
+PASS Native unit scale timer
+PASS B05 installed yeast
+PASS Native unit scale yeast
+PASS B05 actual kit validated
+PASS B05 preparation 1:
+PASS B05 preparation 2:
+PASS B05 preparation 3:
+PASS Actual native beaker mounted in open source bath
+PASS Validated native 250 mL beaker used in bath seat [250, 250]
+PASS Larger vessel does not invent aliquot prefill or dilution [30, 30]
+PASS Actual tubing has explicit distinct sealed port IDs
+PASS Bath temperature set independently [35, 35]
+PASS Sample begins at room temperature [25, 25]
+PASS B05 started:
+PASS Mix blocked before actual sample equilibrates
+PASS Gas reading blocked before reaction contact
+PASS Pause freezes session time [20, 20]
+PASS Pause freezes authority clock [20, 20]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [34.6432600665275, 34.6432600665275]
+PASS Paused bath heater off
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [20, 20]
+PASS Input loss requires explicit resume
+PASS B05 action mix:
+PASS Equilibrated aliquot removed and source beaker emptied at mixing
+PASS Actual reaction flask receives transferred 30 mL [30, 30]
+PASS B05 action gasRead:
+PASS Duplicate same-time gas readings rejected
+PASS B05 action gasRead:
+PASS Actual syringe respects illustrative 15 s lag [0, 0]
+PASS Insufficient reaction-time series cannot complete
+PASS B05 action gasRead:
+PASS Pause freezes session time [50.1, 50.1]
+PASS Pause freezes authority clock [50.1000000000004, 50.1000000000004]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [32.5039226160734, 32.5039226160734]
+PASS Paused bath heater off
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [50.1000000000004, 50.1000000000004]
+PASS Input loss requires explicit resume
+PASS Three explicit timed readings share one aliquot ID
+PASS Gas time series monotonic and nonnegative
+PASS Inactive control has zero modeled gas while source amount remains nonzero [0, 0]
+PASS Inactivated yeast is distinct from zero yeast amount
+PASS B05 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B05 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS ΔV/Δt computed from actual saved interval readings [0, 0]
+COMPLETE B05 inactive yeast control distinct from zero yeast
+
+CASE B07 no-alcohol omitted-step control
+PASS B07 specification exposes no-alcohol control
+PASS Choose full extraction or omitted-alcohol control
+PASS B07 actual biology authority
+PASS B07 start blocked before kit installation
+PASS B07 installed mortar
+PASS Native unit scale mortar
+PASS B07 installed pestle
+PASS Native unit scale pestle
+PASS B07 installed tissue
+PASS Native unit scale tissue
+PASS B07 installed extract
+PASS Native unit scale extract
+PASS B07 installed receiver
+PASS Native unit scale receiver
+PASS B07 installed funnel
+PASS Native unit scale funnel
+PASS B07 installed filter
+PASS Native unit scale filter
+PASS B07 installed alcohol
+PASS Native unit scale alcohol
+PASS B07 installed layer
+PASS Native unit scale layer
+PASS B07 installed rod
+PASS Native unit scale rod
+PASS B07 installed dna
+PASS Native unit scale dna
+PASS B07 actual kit validated
+PASS Spooling cannot create material before extraction
+PASS B07 preparation 1:
+PASS Actual source fruit crushed state
+PASS B07 preparation 2:
+PASS B07 preparation 3:
+PASS Actual filtration retains 20 mL in receiving beaker
+PASS B07 preparation 4:
+PASS B07 preparation 5:
+PASS Actual delivered liquid asset reflects alcohol-layer control [0, 0]
+PASS B07 started:
+PASS Spooling blocked before precipitation interval
+PASS Pause freezes session time [10.1, 10.1]
+PASS Pause freezes authority clock [10.1, 10.1]
+PASS Pause freezes gas reaction [0, 0]
+PASS Pause freezes solvent front [0, 0]
+PASS Pause freezes sample heat transfer [25, 25]
+PASS Explicit resume returns to running
+PASS Input loss freezes authority [10.1, 10.1]
+PASS Input loss requires explicit resume
+PASS No-alcohol control shows no source strands
+PASS Absent crude material cannot be spooled
+PASS B07 source-backed TryMeasure:
+PASS Detailed source observation present
+PASS Session records authority result:
+PASS Measured phase reached
+PASS Learner observation and detail JSON retained
+PASS Finite bilingual observation readings
+PASS Evidence-only profile saved:
+PASS Evidence profile reload accepted
+PASS Reload preserves detailed observation
+PASS B07 actual biology authority
+PASS Reload requires freshly installed apparatus
+PASS Reload does not resume unsafe live state
+PASS Reload cannot start without fresh preparation
+PASS Recorded qualitative control matches actual source renderer [0, 0]
+COMPLETE B07 no-alcohol omitted-step control
+
+PASS | 1630 assertions | 0 failed cases
+Limits: source instrument/lesson state exercised; native input, actual UI/modal picking, frame rendering, Android/headset, physical optical and biological calibration NOT TESTED.

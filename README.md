@@ -8,7 +8,7 @@
 
 [Cài APK](#chơi-trên-android--không-cần-cài-unity) · [Mở project Unity](#mở-và-phát-triển-mã-nguồn) · [Tài liệu](docs/README.md) · [Nhật ký thay đổi](CHANGELOG.md)
 
-> **Trạng thái24/10/2026:** APK thử nghiệm **0.1.9/code29** đã build, xác minh chữ ký và có trong repository qua Git LFS. Gồm nâng cấp bốn phòng, menu/hint, bảng phác thảo, âm thanh và căn giữa cửa sổ Kỹ thuật. Chưa kiểm tra code29 trên điện thoại thật. [Bàn giao và giới hạn](docs/FinalPass/HANDOFF.md).
+> **Trạng thái24/10/2026:** bản thử nghiệm **0.1.12/code32**: thao tác dụng cụ, preview model thật, hint/bảng bài học, tour spotlight và âm thanh tiếp xúc. [Bàn giao, ảnh và phạm vi kiểm tra](docs/Workbench/HANDOFF.md). Chưa xác minh trên điện thoại/kính/tay cầm thật.
 
 
 <p align="center">
@@ -117,12 +117,12 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ### Chơi trên Android — không cần cài Unity
 
-1. [Tải APK VLAB 0.1.9 / code29](https://github.com/thieen209/VLAB/raw/refs/heads/main/releases/android/VLAB-0.1.9-code29.apk). APK được lưu bằng Git LFS tại `releases/android/`; xem [SHA256](releases/android/SHA256SUMS.txt) để đối chiếu. File Source code (zip) là mã nguồn để mở bằng Unity.
+1. [Tải APK VLAB 0.1.12 / code32](https://github.com/thieen209/VLAB/releases/download/v0.1.12-workbench-code32/VLAB-0.1.12-workbench-code32.apk). Xem [SHA256 và cấu hình](docs/Workbench/ARTIFACT.json) để đối chiếu. APK mới nằm trên Releases; code29 cũ được giữ trong Git LFS. File Source code (zip) là mã nguồn để mở bằng Unity.
 2. Mở APK trên điện thoại. Nếu Android yêu cầu, cho phép **Cài ứng dụng không rõ nguồn gốc** cho trình duyệt hoặc ứng dụng quản lý tệp đang dùng, rồi xác nhận cài đặt. Có thể tắt quyền này sau khi cài xong.
 3. Mở ứng dụng **VLAB**, dùng máy theo chiều ngang và chọn phòng thí nghiệm. Nội dung học và tiến độ được lưu trên thiết bị; chơi không cần tài khoản hay mạng.
 4. Có thể chơi bằng màn hình cảm ứng. Để dùng kính, chọn **Vào VR** hoặc chế độ kính trong Cài đặt → Điều khiển, sau đó lắp điện thoại vào kính Cardboard phù hợp. Điện thoại cần cảm biến hỗ trợ head tracking; có màn hình Android không đồng nghĩa chắc chắn hỗ trợ VR. Quét QR của kính trong phần Điều khiển để cấu hình kính khi cần.
 
-**Phân biệt phiên bản:** bản thử nghiệm mới nhất trong repository là **0.1.9 / code29**. Các bản code21 và code5 được nhắc trong biên bản cũ là lịch sử. Code29 đã build thành công và xác minh chữ ký; chưa xác nhận trên điện thoại thật. Xem [bàn giao và giới hạn kiểm thử](docs/FinalPass/HANDOFF.md).
+**Phân biệt phiên bản:** bản mới là **0.1.12/code32**. Các số code cũ trong biên bản là lịch sử. Xem [bàn giao và giới hạn kiểm thử](docs/Workbench/HANDOFF.md).
 
 Cập nhật đè bằng APK có **cùng chữ ký** để giữ tiến độ. Nếu báo xung đột chữ ký, đừng gỡ ứng dụng hoặc xóa dữ liệu chỉ để cài tiếp: việc đó có thể làm mất sổ tay và kết quả đang lưu. APK tự build bằng debug key không thể cập nhật đè bản phát hành dùng chữ ký khác.
 
@@ -188,6 +188,8 @@ Dự án cũng có hàm build development sẵn. Đóng Editor đang giữ proje
 APK xuất tại **`Builds/Android/NguaManVLAB-development.apk`**; tên hiển thị khi cài là **VLAB**. Đây là tên tệp của hàm build hiện có, không phải tên ứng dụng. Cấu hình trong Git dùng chữ ký debug mặc định để người clone có thể build mà không cần khóa phát hành của nhóm. Khóa riêng và mật khẩu không được commit. APK code29 được lưu riêng bằng Git LFS trong `releases/android/`.
 
 ### Trạng thái kiểm thử
+
+Code32: [UI32 bài, các thao tác mới, tour, âm thanh và giới hạn](docs/Workbench/HANDOFF.md). Các số liệu dưới đây thuộc các phiên trước, được giữ để tra cứu lịch sử.
 
 Đợt sửa source gần nhất có **38 kiểm tra tương tác, 36 kiểm tra hộp thoại và 24 kiểm tra bảng kính hiển vi** đạt trong Editor. Đợt kiểm tra PDF riêng ghi nhận **135 PASS**. Bảng kính hiển vi giữ ảnh khi chọn mẫu, hiện đủ nhãn phân loại và hiển thị lại lớp thành tế bào B02 từ asset gốc.
 

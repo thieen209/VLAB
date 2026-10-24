@@ -24,7 +24,7 @@ namespace Vlab.Product
                 {light.intensity=1f;light.color=new Color(.98f,.99f,1f);light.shadowBias=.005f;light.shadowNormalBias=.008f;light.shadows=LightShadows.None;}
             }
             foreach(var shade in Object.FindObjectsByType<LabShade>())if(shade.daylight.Length>0)
-            {RenderSettings.ambientMode=AmbientMode.Flat;RenderSettings.ambientLight=new Color(.12f,.13f,.14f);shade.RefreshDaylight();}
+            {RenderSettings.ambientMode=AmbientMode.Flat;RenderSettings.ambientLight=new Color(.19f,.20f,.21f);shade.RefreshDaylight();}
             QualitySettings.anisotropicFiltering=quality>=2?AnisotropicFiltering.ForceEnable:AnisotropicFiltering.Disable;
         }
     }

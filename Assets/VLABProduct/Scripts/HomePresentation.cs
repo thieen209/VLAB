@@ -27,7 +27,7 @@ namespace Vlab.Product
         }
         public static void Backdrop(VlabUi ui,RectTransform page)
         {
-            var veil=ui.Rect(page,"Home room veil",-2000,-2000,5600,5000).gameObject.AddComponent<Image>();veil.color=new Color(.025f,.045f,.075f,.52f);veil.raycastTarget=false;
+            var veil=ui.Rect(page,"Home room veil",-2000,-2000,5600,5000).gameObject.AddComponent<Image>();veil.color=new Color(.025f,.045f,.075f,.25f);veil.raycastTarget=false;
         }
         public static RectTransform Card(VlabUi ui,RectTransform page,string name,string imageName,string title,string description,Color accent,int index)
         {
