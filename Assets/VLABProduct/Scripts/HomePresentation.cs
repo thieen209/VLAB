@@ -27,7 +27,7 @@ namespace Vlab.Product
         }
         public static void Backdrop(VlabUi ui,RectTransform page)
         {
-            var veil=ui.Rect(page,"Home room veil",-2000,-2000,5600,5000).gameObject.AddComponent<Image>();veil.color=new Color(.025f,.045f,.075f,.25f);veil.raycastTarget=false;
+            var veil=ui.Rect(page,"Home room veil",-2000,-2000,5600,5000).gameObject.AddComponent<Image>();veil.color=new Color(.87f,.93f,.94f,.12f);veil.raycastTarget=false;
         }
         public static RectTransform Card(VlabUi ui,RectTransform page,string name,string imageName,string title,string description,Color accent,int index)
         {
@@ -35,12 +35,12 @@ namespace Vlab.Product
             var edge=card.GetComponent<Outline>();edge.effectColor=accent;edge.effectDistance=new Vector2(1,-1);edge.enabled=false;
             // Retain the focus contract, but render an open vector frame instead of
             // a full outline. The subject's strokes interrupt its lower/right edges.
-            var plate=ui.Rect(card,"Cut portal plate",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();plate.ConfigurePlate(index,VlabUi.Hex("243342"),edge,accent);
-            var frame=ui.Rect(card,"Interrupted portal frame",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();frame.Configure(index,VlabUi.Hex("84969F"),true,edge);
-            var shape=ui.Rect(card,"Scientific subject shape",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();shape.Configure(index,VlabUi.Hex("E9E4D9"));
+            var plate=ui.Rect(card,"Cut portal plate",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();plate.ConfigurePlate(index,VlabUi.Raised,edge,accent);
+            var frame=ui.Rect(card,"Interrupted portal frame",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();frame.Configure(index,VlabUi.Stroke,true,edge);
+            var shape=ui.Rect(card,"Scientific subject shape",0,0,268,432).gameObject.AddComponent<SciencePortalGraphic>();shape.Configure(index,VlabUi.TextColor);
             var heading=ui.Text(card,title,16,20,236,60,36,null,TextAlignmentOptions.Top);var titleFont=Resources.Load<TMP_FontAsset>("UI/VlabBodyStrong");if(!titleFont)titleFont=Resources.Load<TMP_FontAsset>("UI/VlabTitle");
             if(titleFont){heading.font=titleFont;heading.fontStyle=FontStyles.Normal;heading.fontWeight=FontWeight.Regular;}else{heading.fontStyle=FontStyles.Bold;heading.fontWeight=FontWeight.Bold;}
-            heading.color=VlabUi.Hex("F3EFE6");heading.name="Home subject title";heading.GetComponent<VlabTextBacking>().enabled=false;
+            heading.color=VlabUi.TextColor;heading.name="Home subject title";heading.GetComponent<VlabTextBacking>().enabled=false;
             card.pivot=Vector2.one*.5f;card.anchoredPosition+=new Vector2(134,-216);
             return card;
         }
@@ -48,6 +48,7 @@ namespace Vlab.Product
         {
             var button=ui.Button(page,label,436+index*152,770,120,120,action);button.name="Home utility "+index;
             var host=button.GetComponent<Image>();host.color=Color.clear;var opacity=button.GetComponent<VlabPanelOpacity>();opacity.Solid=false;opacity.FlatAlpha=0;foreach(var effect in button.GetComponents<Shadow>())effect.enabled=false;
+            FrostedMenuDisc.Add(ui,button.transform);
             var face=ui.Rect(button.transform,"Circular utility disc",18,0,84,84).gameObject.AddComponent<Image>();face.sprite=Disc();face.color=VlabUi.Hex("F1F5F9");face.raycastTarget=true;
             // Keep the full transparent120px hit area, including its label, usable in VR.
             // Image's default alpha threshold is already zero. Setting it explicitly

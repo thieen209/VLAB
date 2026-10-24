@@ -105,7 +105,7 @@ namespace Vlab.Product
             Input?.Dual?.CancelInputContext();Apparatus?.CancelHandGrabs();
             CancelFlagshipDrag();ClearGuideCue();CloseWorkbench();
             if(Route=="activity"&&route!="activity"){activityReturnRunning=ActivityRunIntent();Session?.Pause();}
-            observedGuideStep=null;guidanceTier=0;nextWorldHint=Time.unscaledTime+12;
+            observedGuideStep=null;guidanceTier=0;nextWorldHint=Time.unscaledTime+(Profile.settings.hintLevel==1?6:18);
             if(route!="activity")hudHidden=false;
             Route=route;ui.Vietnamese=Vi;inputAfter=Time.unscaledTime+.22f;gazeTarget=null;gazeTime=0;gazeConsumed=false;suppressOpeningGaze=Input&&(Input.VrMode||Input.SimulatorMode);
             RefreshBackground(backgroundExperiment);
@@ -229,34 +229,33 @@ namespace Vlab.Product
         public void ShowBrowser()
         {
             Apparatus?.GetComponent<BenchDisplayVisibility>()?.Restore();
-            NewPage("browser");var box=ui.Panel(page,"Experiment browser",140,130,1320,750);
-            Button(box,L("‹ Trang chủ","‹ Home"),32,28,220,64,ShowHome).name="Browser home";
-            var heading=ui.Text(box,SubjectName,290,28,820,65,40);heading.fontWeight=FontWeight.SemiBold;
+            NewPage("browser");var box=ui.Panel(page,"Experiment browser",100,90,1400,810);
+            Button(box,L("‹ Trang chủ","‹ Home"),28,24,200,60,ShowHome).name="Browser home";
+            var heading=ui.Text(box,SubjectName,254,24,720,64,40);heading.fontWeight=FontWeight.SemiBold;heading.name="Browser subject";
             var lessons=catalog.items.Where(x=>x.id.StartsWith(subject)).OrderBy(x=>x.id,StringComparer.Ordinal).ToArray();if(selected==null||!selected.id.StartsWith(subject))selected=lessons[0];
-            ui.Text(box,lessons.Length+L(" thí nghiệm"," experiments"),1140,28,148,60,20,VlabUi.Secondary,TextAlignmentOptions.Center).name="Browser lesson count";
+            ui.Text(box,lessons.Length+L(" thí nghiệm"," experiments"),1190,28,180,52,20,VlabUi.Secondary,TextAlignmentOptions.Right).name="Browser lesson count";
             for(int i=0;i<lessons.Length;i++)
             {
                 var brief=lessons[i];int saved=Profile.attempts.Count(record=>record.experimentId==brief.id);
                 string savedLabel=saved==0?L("Chưa có số đo","No saved readings"):saved+L(" lượt đã lưu",saved==1?" saved attempt":" saved attempts");
-                var button=Button(box,LessonGuide.ShortTitle(brief.id,Vi)+(saved>0?"\n<size=18>"+savedLabel+"</size>":""),32+(i%2)*420,145+(i/2)*124,400,112,()=>{selected=brief;ShowBrowser();},selected==brief?Color.Lerp(VlabUi.Raised,Accent,.22f):(Color?)null);
+                var button=Button(box,LessonGuide.ShortTitle(brief.id,Vi),28,114+i*76,410,68,()=>{selected=brief;ShowBrowser();},selected==brief?Color.Lerp(VlabUi.Raised,Accent,.15f):VlabUi.PanelColor);
                 button.name="Browser lesson "+brief.id;button.GetComponentInChildren<TextMeshProUGUI>().fontSize=ui.LargeText?29.12f:26;button.GetComponentInChildren<TextMeshProUGUI>().color=VlabUi.TextColor;
-                if(selected==brief)ui.Rule(button.transform,0,12,4,88,Accent);
+                var caption=button.GetComponentInChildren<TextMeshProUGUI>();caption.alignment=TextAlignmentOptions.MidlineLeft;caption.margin=new Vector4(12,0,34,0);
+                if(selected==brief)ui.Text(button.transform,"›",370,12,28,44,30,Accent,TextAlignmentOptions.Center).name="Browser selected mark";
             }
-            ui.Rule(box,870,145,1,569,VlabUi.Stroke);
-            var title=ui.Text(box,LessonGuide.ShortTitle(selected.id,Vi),890,142,398,88,32);title.fontWeight=FontWeight.SemiBold;title.name="Browser selected title";
-            var preview=Button(box,L("Khám phá phòng","Explore laboratory"),890,242,398,184,()=>StartCoroutine(LoadRoom(false,false)));preview.name="Browser explore";preview.gameObject.AddComponent<UnityEngine.UI.Mask>().showMaskGraphic=true;
-            var photo=Resources.Load<Texture2D>("UI/Preview_"+SceneName);
+            ui.Rule(box,462,114,1,660,VlabUi.Stroke);
+            var title=ui.Text(box,LessonGuide.ShortTitle(selected.id,Vi),490,112,880,68,38);title.fontWeight=FontWeight.SemiBold;title.name="Browser selected title";
+            var preview=ui.Rect(box,"Browser apparatus preview",490,196,880,360);preview.gameObject.AddComponent<UnityEngine.UI.RectMask2D>();
+            var photo=Resources.Load<Texture2D>("UI/Lessons/"+selected.id);
             if(photo)
             {
-                var image=ui.Picture(preview.transform,photo,0,0,398,184);image.transform.SetAsFirstSibling();
-                float crop=Mathf.Min(1,(float)photo.width/photo.height/(398f/184));image.uvRect=new Rect(0,(1-crop)/2,1,crop);
-                var shade=ui.Rule(preview.transform,0,128,398,56,VlabUi.PanelColor);shade.SetSiblingIndex(1);
-                var caption=preview.GetComponentInChildren<TextMeshProUGUI>();caption.rectTransform.anchoredPosition=new Vector2(12,-134);caption.rectTransform.sizeDelta=new Vector2(374,44);caption.color=Color.white;
+                float w=Mathf.Min(880,360f*photo.width/photo.height);ui.Picture(preview,photo,(880-w)/2,0,w,w*photo.height/photo.width).name="Lesson photograph "+selected.id;
             }
-            ui.Text(box,ReadinessView.Goal(selected.id,Vi),890,442,398,112,24,VlabUi.Secondary).name="Browser selected goal";
-            var start=Button(box,IsLessonAvailable(selected.id)?L("Bắt đầu thí nghiệm","Start experiment"):L("Đang chuẩn bị","In development"),890,564,398,80,()=>ShowReadiness(false),Accent);
+            ui.Text(box,ReadinessView.Goal(selected.id,Vi),490,582,880,92,26,VlabUi.Secondary).name="Browser selected goal";
+            Button(box,L("Khám phá phòng ›","Explore laboratory ›"),28,738,410,52,()=>StartCoroutine(LoadRoom(false,false)),VlabUi.PanelColor).name="Browser explore";
+            var start=Button(box,IsLessonAvailable(selected.id)?L("Bắt đầu thí nghiệm","Start experiment"):L("Đang chuẩn bị","In development"),490,708,880,74,()=>ShowReadiness(false),Accent);
             start.name="Browser start";start.interactable=IsLessonAvailable(selected.id);start.GetComponentInChildren<TextMeshProUGUI>().fontSize=ui.LargeText?31.36f:28;
-            FooterStatus();box.gameObject.AddComponent<PhoneBrowserLayout>().Initialize(ui,box,quickStartActive?120:0);
+            FooterStatus();box.gameObject.AddComponent<PhoneBrowserLayout>().Initialize(ui,box,quickStartActive?144:0);
         }
         void ShowReadiness(bool resume)
         {
@@ -506,8 +505,8 @@ namespace Vlab.Product
 
             FocusStepTarget(currentTask);
             if(cueStep!=null&&cueStep!=step)ClearGuideCue();
-            if(observedGuideStep!=step){observedGuideStep=step;guideMistakes=0;guidanceTier=0;actionFailureUntil=0;nextWorldHint=Time.unscaledTime+12;}
-            if(!quickStartActive&&!hudHidden&&Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){guidanceTier++;nextWorldHint=Time.unscaledTime+(guidanceTier==1?23:35);var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)ShowEquipmentCue(hinted,guidanceTier>1);}
+            if(observedGuideStep!=step){observedGuideStep=step;guideMistakes=0;guidanceTier=0;actionFailureUntil=0;nextWorldHint=Time.unscaledTime+(Profile.settings.hintLevel==1?6:18);}
+            if(!quickStartActive&&!hudHidden&&Profile.settings.hints&&!modal&&!changing&&Time.unscaledTime>=nextWorldHint&&(!worldGuideCue||worldGuideCue.IsStopped)){guidanceTier++;nextWorldHint=Time.unscaledTime+(guidanceTier==1?23:35);var hinted=Apparatus.IsCarrying&&Apparatus.CanInstallSelected(out _)?Apparatus.Selected:Apparatus.items.FirstOrDefault(x=>x.assetId==currentTask?.key);if(hinted&&hinted.gameObject.activeInHierarchy)ShowEquipmentCue(hinted,guidanceTier>1||Profile.settings.hintLevel==1);}
             string action;bool enabled=true;
             if(Apparatus.IsPullingBob||flagshipDrag)
             {liveStage.text=L("ĐANG THAO TÁC","MANIPULATING");liveHint.text=L("Di chuyển con trỏ để điều chỉnh. Chọn Thả khi đã ở vị trí mong muốn; Quay lại để hủy.","Move the pointer to adjust. Select Release at the intended position; Back cancels.");action=L("Thả dụng cụ","Release");}
@@ -959,7 +958,7 @@ namespace Vlab.Product
                 var language=SettingsQuiet(box,L("Ngôn ngữ: ","Language: ")+(draftLocale=="vi"?"Tiếng Việt":"English"),48,310,1004,72,()=>edit(()=>draftLocale=draftLocale=="vi"?"en":"vi"));var languageText=language.GetComponentInChildren<TextMeshProUGUI>();languageText.rectTransform.anchoredPosition=new Vector2(0,-10);languageText.rectTransform.sizeDelta=new Vector2(820,52);languageText.fontSize=ui.LargeText?31.36f:28;languageText.alignment=TextAlignmentOptions.Left;
                 var languageValue=ui.Panel(language.transform,"Settings language value",868,12,124,48,VlabUi.Raised);SettingsFlat(languageValue);languageValue.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;var languageCode=ui.Text(languageValue,draftLocale=="vi"?"VI":"EN",0,7,124,40,24,null,TextAlignmentOptions.Center);SettingsInk(languageCode);language.targetGraphic=languageValue.GetComponent<UnityEngine.UI.Image>();
                 SettingsSwitch(box,L("Chữ lớn: ","Larger text: ")+(draft.largeText?L("Bật","On"):L("Tắt","Off")),draft.largeText,390,()=>edit(()=>draft.largeText=!draft.largeText));
-                SettingsSwitch(box,L("Gợi ý từng bước: ","Step-by-step hints: ")+(draft.hints?L("Bật","On"):L("Tắt","Off")),draft.hints,470,()=>edit(()=>draft.hints=!draft.hints));
+                SettingsQuiet(box,L("Gợi ý: ","Hints: ")+(!draft.hints?L("Tự khám phá","Explore independently"):draft.hintLevel==0?L("Nhẹ, khi cần","Light, when needed"):L("Chi tiết từng bước","Detailed steps")),48,470,1004,72,()=>edit(()=>{if(!draft.hints){draft.hints=true;draft.hintLevel=0;}else if(draft.hintLevel==0)draft.hintLevel=1;else draft.hints=false;})).name="Hint level";
                 SettingsSwitch(box,L("Hiệu ứng chuyển động: ","UI animation: ")+(!draft.reducedMotion?L("Bật","On"):L("Tắt","Off")),!draft.reducedMotion,550,()=>edit(()=>draft.reducedMotion=!draft.reducedMotion)).name="Settings UI animation";
             }
             if(settingsTab==1)
@@ -981,8 +980,9 @@ namespace Vlab.Product
                     var centre=ui.Panel(radio,"Settings preset centre",6,6,24,24,draft.GraphicsTier==i?Accent:VlabUi.PanelColor);SettingsFlat(centre);centre.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;preset.targetGraphic=radio.GetComponent<UnityEngine.UI.Image>();if(draft.GraphicsTier==i)ui.Rule(preset.transform,64,79,414,3,Accent);
                 }
                 SettingsSwitch(box,L("Hiện FPS / thời gian khung hình","Show FPS / frame times"),draft.showPerformance,516,()=>edit(()=>draft.showPerformance=!draft.showPerformance)).name="Graphics performance toggle";
+                SettingsQuiet(box,L("Độ nét VR: ","VR clarity: ")+VlabGraphics.ResolutionLabel(draft.vrResolution,Vi),562,598,490,48,()=>edit(()=>draft.vrResolution=(draft.vrResolution+1)%3)).name="VR clarity";
                 int recommendation=VlabGraphics.RecommendedTier;
-                SettingsQuiet(box,L("Dùng mức gợi ý: ","Use suggested level: ")+VlabGraphics.Label(recommendation,Vi)+L(" · ước tính cấu hình máy"," · hardware estimate"),48,604,1004,48,()=>edit(()=>draft.SetGraphicsTier(recommendation))).name="Graphics recommendation";
+                SettingsQuiet(box,L("Gợi ý: ","Suggested: ")+VlabGraphics.Label(recommendation,Vi),48,598,490,48,()=>edit(()=>draft.SetGraphicsTier(recommendation))).name="Graphics recommendation";
             }
             if(settingsTab==3)
             {
@@ -1004,7 +1004,14 @@ namespace Vlab.Product
             if(settingsTab==4)
             {
                 SettingsSection(box,tabs[4],L("Chọn bảng màu; dùng − / + để chỉnh độ đục nền.","Choose a palette; use − / + to adjust panel opacity."));
-                string[] themes=Vi?new[]{"Xanh đêm","Giấy sáng","Xám than"}:new[]{"Navy","Paper","Graphite"};for(int i=0;i<themes.Length;i++){int theme=i;var button=Button(box,themes[i],48+i*344,318,316,100,()=>edit(()=>draft.uiTheme=theme));button.name="Appearance theme "+theme;SettingsFlat((RectTransform)button.transform);var caption=button.GetComponentInChildren<TextMeshProUGUI>();caption.rectTransform.anchoredPosition=new Vector2(88,-24);caption.rectTransform.sizeDelta=new Vector2(212,52);caption.alignment=TextAlignmentOptions.Left;caption.fontSize=ui.LargeText?26.88f:24;var palette=UiTheme.Palette(i);var swatch=ui.Panel(button.transform,"Settings palette swatch",16,16,56,68,palette.panel);SettingsFlat(swatch);swatch.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;ui.Rule(swatch,10,16,36,5,palette.text);ui.Rule(swatch,10,30,24,3,palette.secondary);if(draft.uiTheme==i)ui.Rule(button.transform,16,94,284,4,Accent);}
+                string[] themes=Vi?new[]{"Tối","Sáng","Xám than","Rừng sâu","Xanh biển"}:new[]{"Dark","Light","Graphite","Forest","Ocean"};
+                for(int i=0;i<themes.Length;i++)
+                {
+                    int theme=i;var button=Button(box,themes[i],48+i*204,318,188,112,()=>edit(()=>draft.uiTheme=theme));button.name="Appearance theme "+theme;SettingsFlat((RectTransform)button.transform);
+                    var caption=button.GetComponentInChildren<TextMeshProUGUI>();caption.rectTransform.anchoredPosition=new Vector2(4,-70);caption.rectTransform.sizeDelta=new Vector2(180,34);caption.alignment=TextAlignmentOptions.Center;caption.fontSize=ui.LargeText?25:22;
+                    var palette=UiTheme.Palette(i);var swatch=ui.Panel(button.transform,"Settings palette swatch",12,10,164,50,palette.panel);SettingsFlat(swatch);swatch.GetComponent<UnityEngine.UI.Image>().raycastTarget=false;ui.Rule(swatch,12,14,82,5,palette.text);ui.Rule(swatch,12,28,124,3,palette.secondary);
+                    if(draft.uiTheme==i)ui.Rule(button.transform,12,107,164,3,Accent);
+                }
                 SettingsValueBar(box,L("Độ đục nền: ","Panel opacity: ")+Mathf.RoundToInt(draft.uiOpacity*100)+"%","Settings opacity value",486,(draft.uiOpacity-.55f)/.45f,"− 5%","+ 5%","Appearance opacity minus","Appearance opacity plus",()=>edit(()=>draft.uiOpacity=Mathf.Max(.55f,draft.uiOpacity-.05f)),()=>edit(()=>draft.uiOpacity=Mathf.Min(1,draft.uiOpacity+.05f)));
                 var note=ui.Text(box,L("55–100%. Chọn Áp dụng để lưu trên thiết bị.","55–100%. Apply saves your choice on this device."),48,600,1004,42,24,VlabUi.Secondary);SettingsInk(note);
             }
@@ -1018,7 +1025,7 @@ namespace Vlab.Product
             }
             ui.Rule(box,32,656,1036,2,VlabUi.Stroke);
             SettingsQuiet(box,L("Hủy","Cancel"),32,680,224,72,()=>ReturnTo(settingsReturn),true);Button(box,L("Áp dụng","Apply"),796,680,272,72,ApplyDraft,Accent).name="Settings apply";
-            if(settingsTab<3||settingsTab==4||settingsTab==5)SettingsQuiet(box,L("Mặc định mục này","Category defaults"),288,680,344,72,()=>{var defaults=new GameSettings();if(settingsTab==0){draftLocale="vi";draft.largeText=defaults.largeText;draft.hints=defaults.hints;draft.reducedMotion=defaults.reducedMotion;}if(settingsTab==1){draft.volume=defaults.volume;draft.muted=defaults.muted;}if(settingsTab==2){draft.SetGraphicsTier(defaults.GraphicsTier);draft.showPerformance=defaults.showPerformance;}if(settingsTab==4){draft.uiTheme=defaults.uiTheme;draft.uiOpacity=defaults.uiOpacity;}if(settingsTab==5){draft.gazeAutoSelect=defaults.gazeAutoSelect;draft.gazeDwellSeconds=defaults.gazeDwellSeconds;draft.mouseLookSensitivity=defaults.mouseLookSensitivity;}dirty=true;ShowSettings();});
+            if(settingsTab<3||settingsTab==4||settingsTab==5)SettingsQuiet(box,L("Mặc định mục này","Category defaults"),288,680,344,72,()=>{var defaults=new GameSettings();if(settingsTab==0){draftLocale="vi";draft.largeText=defaults.largeText;draft.hints=defaults.hints;draft.hintLevel=defaults.hintLevel;draft.reducedMotion=defaults.reducedMotion;}if(settingsTab==1){draft.volume=defaults.volume;draft.muted=defaults.muted;}if(settingsTab==2){draft.SetGraphicsTier(defaults.GraphicsTier);draft.showPerformance=defaults.showPerformance;draft.vrResolution=defaults.vrResolution;}if(settingsTab==4){draft.uiTheme=defaults.uiTheme;draft.uiOpacity=defaults.uiOpacity;}if(settingsTab==5){draft.gazeAutoSelect=defaults.gazeAutoSelect;draft.gazeDwellSeconds=defaults.gazeDwellSeconds;draft.mouseLookSensitivity=defaults.mouseLookSensitivity;}dirty=true;ShowSettings();});
             box.gameObject.AddComponent<PhoneSettingsLayout>().Initialize(ui,box);
         }
         void SettingsBack()
@@ -1040,8 +1047,10 @@ namespace Vlab.Product
                 var source=UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
                 if(source){originalPipeline=QualitySettings.renderPipeline;runtimePipeline=Instantiate(source);runtimePipeline.name="VLAB runtime quality";QualitySettings.renderPipeline=runtimePipeline;}
             }
-            if(runtimePipeline&&appliedGraphics!=Profile.settings.GraphicsTier){appliedGraphics=Profile.settings.GraphicsTier;VlabGraphics.Apply(runtimePipeline,appliedGraphics);}Application.targetFrameRate=60;
+            if(runtimePipeline&&appliedGraphics!=Profile.settings.GraphicsTier){appliedGraphics=Profile.settings.GraphicsTier;VlabGraphics.Apply(runtimePipeline,appliedGraphics);}ApplyRenderResolution();Application.targetFrameRate=60;
         }
+        void ApplyRenderResolution()
+        {if(runtimePipeline)runtimePipeline.renderScale=VlabGraphics.Resolution(Profile.settings.GraphicsTier,Input.VrMode||Input.SimulatorMode,Profile.settings.vrResolution);}
         void ShowControllerBindings()
         {
             var state=modal?modal.GetComponentInChildren<ControllerDiagramState>():null;
@@ -1166,7 +1175,7 @@ namespace Vlab.Product
             if(modeLabel)modeLabel.text=roundModeLabel?(Input.VrMode||Input.SimulatorMode?L("Thoát VR","Exit VR"):"VR"):L("Thoát VR","Exit VR");var homeHint=page?page.Find("Home selection hint")?.GetComponent<TMP_Text>():null;if(homeHint)homeHint.text=vr||Input.SimulatorMode?L("Nhìn hoặc trỏ để chọn","Look or point to select"):L("Chạm vào phòng để chọn","Tap a laboratory to select");
             bool enteringWorld=ui.canvas.renderMode!=RenderMode.WorldSpace&&(vr||Input.SimulatorMode);
             bool leavingWorld=ui.canvas.renderMode==RenderMode.WorldSpace&&!vr&&!Input.SimulatorMode;
-            Session?.Pause();modalResumeActivity=activityReturnRunning=false;CancelFlagshipDrag();Apparatus?.CancelGrab();if(enteringWorld&&Apparatus&&(Route=="activity"||Route=="pause"||Route=="settings"))MoveToWorkstation();ui.SetWorld(vr||Input.SimulatorMode,View);if(!vr&&!Input.SimulatorMode)View.fieldOfView=Profile.settings.cameraFov;PlaceReadableSurface(page,Route!="explore");PlaceReadableSurface(modal,true);if(enteringWorld)StartCoroutine(AlignAfterTracking());SyncAuthority();
+            Session?.Pause();modalResumeActivity=activityReturnRunning=false;CancelFlagshipDrag();Apparatus?.CancelGrab();if(enteringWorld&&Apparatus&&(Route=="activity"||Route=="pause"||Route=="settings"))MoveToWorkstation();ui.SetWorld(vr||Input.SimulatorMode,View);ApplyRenderResolution();if(!vr&&!Input.SimulatorMode)View.fieldOfView=Profile.settings.cameraFov;PlaceReadableSurface(page,Route!="explore");PlaceReadableSurface(modal,true);if(enteringWorld)StartCoroutine(AlignAfterTracking());SyncAuthority();
             var desktopModule=GetComponentInChildren<InputSystemUIInputModule>();if(desktopModule){desktopModule.enabled=!vr&&!Input.SimulatorMode;if(desktopModule.enabled){desktopModule.move?.action?.Disable();desktopModule.submit?.action?.Disable();desktopModule.cancel?.action?.Disable();}}
             if(!gazeProgress)
             {

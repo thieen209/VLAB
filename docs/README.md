@@ -17,6 +17,7 @@ Các báo cáo giữ phạm vi và ngày kiểm tra riêng; số PASS của Edit
 
 | Phiên bản | Tài liệu |
 |---|---|
+| 0.1.13 / code33 | [Giao diện, theme, ảnh bàn thí nghiệm và hướng dẫn](DesignUpgrade/HANDOFF.md) |
 | 0.1.12 / code32 | [Workbench, tour, âm thanh và kiểm tra](Workbench/HANDOFF.md) |
 | Source cập nhật 23/10/2026 — chưa build APK | [Tương tác, góc nhìn, kính hiển vi, hộp thoại và PDF](QA/2026-10-23/README.md), [tổng hợp lượt lưu/mở lại 32 bài](QA/2026-10-23/ui-journeys-aggregate.json) |
 | 0.1.7 / code21 — candidate build trước các sửa đổi ngày 23/10 | [Báo cáo](QA/Prototype-0.1.7/README.md), [Cài đặt](QA/Prototype-0.1.7/SETTINGS-LEDGER.md), [APK manifest](QA/Prototype-0.1.7/ARTIFACT.json) |

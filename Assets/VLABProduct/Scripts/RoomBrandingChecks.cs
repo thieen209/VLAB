@@ -77,12 +77,15 @@ namespace Vlab.Product
         static bool HasTransparentCorners(Texture2D texture)
         {
             if(!texture)return false;
-            var previous=RenderTexture.active;var target=RenderTexture.GetTemporary(4,4,0,RenderTextureFormat.ARGB32);
-            var sample=new Texture2D(4,4,TextureFormat.RGBA32,false,true);
+            var previous=RenderTexture.active;var target=RenderTexture.GetTemporary(texture.width,texture.height,0,RenderTextureFormat.ARGB32);
+            var sample=new Texture2D(1,1,TextureFormat.RGBA32,false,true);
             try
             {
-                Graphics.Blit(texture,target);RenderTexture.active=target;sample.ReadPixels(new Rect(0,0,4,4),0,0);sample.Apply();
-                return sample.GetPixel(0,0).a<.01f&&sample.GetPixel(3,0).a<.01f&&sample.GetPixel(0,3).a<.01f&&sample.GetPixel(3,3).a<.01f;
+                // Sample native-resolution corners; a 4x4 mip averages the white artwork into the border.
+                Graphics.Blit(texture,target);RenderTexture.active=target;
+                foreach(var point in new[]{Vector2.zero,new Vector2(texture.width-1,0),new Vector2(0,texture.height-1),new Vector2(texture.width-1,texture.height-1)})
+                {sample.ReadPixels(new Rect(point.x,point.y,1,1),0,0);sample.Apply();if(sample.GetPixel(0,0).a>=.01f)return false;}
+                return true;
             }
             finally{RenderTexture.active=previous;RenderTexture.ReleaseTemporary(target);if(Application.isPlaying)UnityEngine.Object.Destroy(sample);else UnityEngine.Object.DestroyImmediate(sample);}
         }

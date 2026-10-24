@@ -63,7 +63,7 @@ namespace Vlab.Product
             string roomLabel=room=="Physics"?L(vi,"Phòng Vật lí","Physics laboratory"):room=="Chemistry"?L(vi,"Phòng Hóa học","Chemistry laboratory"):room=="Biology"?L(vi,"Phòng Sinh học","Biology laboratory"):L(vi,"Phòng Kỹ thuật","Engineering laboratory");
             var photo=ui.Panel(box,"Readiness room photograph",32,138,540,276,VlabUi.Raised);
             photo.gameObject.AddComponent<Mask>().showMaskGraphic=false;
-            var texture=Resources.Load<Texture2D>("UI/Preview_"+room);
+            var texture=Resources.Load<Texture2D>("UI/Lessons/"+brief.id);
             if(texture)
             {
                 var image=ui.Picture(photo,texture,0,0,540,276);float source=(float)texture.width/texture.height,target=540f/276;

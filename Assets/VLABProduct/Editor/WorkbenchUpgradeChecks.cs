@@ -21,7 +21,7 @@ public static class WorkbenchUpgradeChecks
     static WorkbenchUpgradeChecks(){EditorApplication.playModeStateChanged+=s=>{if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("VLAB.WorkbenchChecks",false)){SessionState.SetBool("VLAB.WorkbenchChecks",false);new GameObject("Workbench checks",typeof(WorkbenchUpgradeProbe));}};}
     public static void Run(){Directory.CreateDirectory("Evidence/WorkbenchUpgrade");SecondTestGameView.Configure(out _);SessionState.SetString("VLAB.TestProfile",Path.Combine(Application.persistentDataPath,"QA","Workbench-"+Guid.NewGuid().ToString("N")));SessionState.SetBool("VLAB.WorkbenchChecks",true);EditorSceneManager.OpenScene("Assets/VLABProduct/Scenes/VLAB_Boot.unity");EditorApplication.EnterPlaymode();}
 }
-public sealed class WorkbenchUpgradeProbe:MonoBehaviour
+public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
 {
     const BindingFlags Private=BindingFlags.Instance|BindingFlags.NonPublic;
     readonly List<string> rows=new List<string>();Touchscreen touch;Mouse mouse;int serial,failures;VlabApp App=>VlabApp.Instance;
@@ -115,15 +115,17 @@ public sealed class WorkbenchUpgradeProbe:MonoBehaviour
     }
     IEnumerator Run()
     {
+        File.WriteAllLines("Evidence/WorkbenchUpgrade/probe-inventory.txt",UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).Select(x=>x.name+" | "+x.GetType().FullName));
         yield return Wait("home");yield return Capture("home-choice");yield return Tap("Skip quick tour");Check("Choice saved",App.Profile.quickStartSeen);
         var store=Read<ProfileStore>("store");Check("Choice persisted",new ProfileStore(store.Folder).Load().profile.quickStartSeen);
         Call("StartQuickStart");yield return null;yield return Tap("Quick tour exit");Check("Replay exits without changing route",App.Route=="home"&&!Read<bool>("quickStartActive"));yield return Capture("home");
-        Call("StartQuickStart");yield return new WaitForSecondsRealtime(.3f);yield return Tap("Subject P");yield return Wait("browser");Check("Tour follows selected room",Read<int>("quickStartStep")==1);
+        Call("StartQuickStart");yield return new WaitForSecondsRealtime(.3f);yield return Tap("Subject P");yield return Wait("browser");Check("Tour follows selected room",Read<int>("quickStartStep")==1);Check("Action steps have no fake Next",!Find("Quick tour next"));yield return Tap("Quick tour previous");Check("Previous instruction does not rewind activity",Read<int>("quickStartStep")==1&&Read<int>("quickStartReview")==0);yield return Tap("Quick tour current");
         yield return Tap("Browser lesson P02");yield return Capture("tour-browser");Check("Tour spotlight cannot intercept touch",App.GetComponentInChildren<TourSpotlight>()&&!App.GetComponentInChildren<TourSpotlight>().raycastTarget);yield return Tap("Browser start");yield return Wait("readiness");yield return Tap("Readiness enter");yield return Wait("activity");Check("Tour follows lesson entry",Read<int>("quickStartStep")==2);
         yield return Tap("Station tools");yield return Tap("Dụng cụ");Check("Tour follows picker",Read<int>("quickStartStep")==3);
         yield return Tap("Equipment item "+App.Apparatus.items.First().assetId);Check("Tour follows selected instrument",Read<int>("quickStartStep")==4);yield return Capture("tour-action");
         yield return Tap("Equipment place selected");Check("Tour advances only after real operation",Read<int>("quickStartStep")==5);yield return Tap("Close equipment controls");yield return Tap("Quick tour next");yield return Tap("Quick tour next");Check("Tour completes without blocking lesson",!Read<bool>("quickStartActive")&&App.Route=="activity");
         App.ShowHome();yield return new WaitForSecondsRealtime(.4f);
+        if(Environment.GetEnvironmentVariable("VLAB_DESIGN_CHECKS")=="1")yield return DesignChecks();
         Check("All 32 guidance definitions valid",!LessonGuide.ValidateMetadata().Any());
         Check("Authored chemical ions and indices use supported rich text",UiFormula.RichText("Ag⁺ + Cu²⁺ + H₂O")=="Ag<sup>+</sup> + Cu<sup>2+</sup> + H<sub>2</sub>O");
         foreach(var id in LessonSpec.All.Keys)Check(id+" formula and approved notes",FormulaSheet.Image(id,0)&&LearningGuide.Load(id)!=null);

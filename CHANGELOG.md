@@ -2,6 +2,14 @@
 
 Ghi riêng thay đổi mã nguồn và APK để tránh tải nhầm phiên bản.
 
+## 24/10/2026 — 0.1.13 / code33
+
+- Màn chọn bài dùng danh sách gọn, ảnh bàn riêng cho 32 thí nghiệm và một hành động bắt đầu rõ ràng; thích ứng màn hình dọc/ngang, tablet và vùng khuyết màn hình.
+- Mặc định tối; thêm Rừng sâu và Xanh biển, giữ Sáng và Xám than. Năm nút tròn ở menu chỉ làm mờ phần nền bên trong vòng tròn.
+- Hướng dẫn chuyển bước theo thao tác thật, có xem lại/bỏ qua và vùng riêng tránh che nút chính; mức gợi ý Nhẹ/Chi tiết/Tắt được lưu.
+- Panorama phòng rõ hơn; độ nét VR có tuỳ chọn độc lập với cấu hình đồ hoạ, giữ nguyên hệ thống xoay đầu.
+- [Bàn giao, ảnh và phạm vi kiểm tra](docs/DesignUpgrade/HANDOFF.md). Chưa kiểm tra APK này trên điện thoại, kính hoặc tay cầm thật.
+
 ## 24/10/2026 — 0.1.12 / code32
 
 - Bảng chọn có preview model thật, thao tác dụng cụ không còn bị popup lớn chặn; sửa giữ dụng cụ, collider và camera khi kéo.

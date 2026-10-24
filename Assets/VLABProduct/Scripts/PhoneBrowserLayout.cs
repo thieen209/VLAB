@@ -11,12 +11,12 @@ namespace Vlab.Product
     {
         sealed class Saved
         {
-            public RectTransform rect;public Transform parent;public Vector2 position,size,min,max,pivot;public Vector3 scale;public int sibling;public Rect uv;public bool hasPhoto;
+            public RectTransform rect;public Transform parent;public Vector2 position,size,min,max,pivot;public Vector3 scale;public int sibling;public Rect uv;public bool hasPhoto;public float fontSize;
         }
         readonly List<Saved> saved=new List<Saved>();VlabUi ui;RectTransform box,viewport,body;ScrollRect scroll;Saved frame;
         float tourFooter;bool captured,flat;Rect previousSafe;float previousUnits;RenderMode previousMode;
         public void Initialize(VlabUi owner,RectTransform panel,float reservedTourFooter=0){ui=owner;box=panel;tourFooter=reservedTourFooter;}
-        static Saved Capture(RectTransform rect)=>new Saved{rect=rect,parent=rect.parent,position=rect.anchoredPosition,size=rect.sizeDelta,min=rect.anchorMin,max=rect.anchorMax,pivot=rect.pivot,scale=rect.localScale,sibling=rect.GetSiblingIndex(),hasPhoto=rect.GetComponent<RawImage>(),uv=rect.GetComponent<RawImage>()?rect.GetComponent<RawImage>().uvRect:default};
+        static Saved Capture(RectTransform rect)=>new Saved{rect=rect,parent=rect.parent,fontSize=rect.GetComponent<TMP_Text>()?rect.GetComponent<TMP_Text>().fontSize:0,position=rect.anchoredPosition,size=rect.sizeDelta,min=rect.anchorMin,max=rect.anchorMax,pivot=rect.pivot,scale=rect.localScale,sibling=rect.GetSiblingIndex(),hasPhoto=rect.GetComponent<RawImage>(),uv=rect.GetComponent<RawImage>()?rect.GetComponent<RawImage>().uvRect:default};
         void LateUpdate()
         {
             if(ui==null||!box)return;
@@ -32,50 +32,48 @@ namespace Vlab.Product
         {if(!rect)return;rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(0,1);rect.anchoredPosition=new Vector2(x,-y);rect.sizeDelta=new Vector2(width,height);rect.localScale=Vector3.one;}
         void Build(Rect safe,float units)
         {
-            const float scale=1.5f,header=100,footer=96,gap=14;
-            float safeWidth=safe.width/units,safeHeight=safe.height/units,width=Mathf.Min(1260,(safeWidth-48)/scale),height=(safeHeight-48-tourFooter)/scale;
+            const float scale=1.25f,header=100,footer=86,gap=8;
+            float safeWidth=safe.width/units,safeHeight=safe.height/units,width=Mathf.Min(1440,(safeWidth-40)/scale),height=(safeHeight-40-tourFooter)/scale;
+            bool stacked=safe.width<safe.height*1.15f;
             var fitted=ui.PhoneViewport.ContentPixels;float left=(safe.xMin-fitted.xMin)/units,top=(fitted.yMax-safe.yMax)/units;
-            Place(box,left+(safeWidth-width*scale)/2,top+24,width,height);box.localScale=Vector3.one*scale;
-            var home=Find("Browser home");Place(home,22,18,220,66);StretchCaption(home);
-            var subject=saved.FirstOrDefault(x=>x.parent==box&&x.rect.GetComponent<TMP_Text>()&&x.rect.name!="Browser lesson count"&&x.rect.name!="Browser selected title"&&x.rect.name!="Browser selected goal")?.rect;
-            Place(subject,264,20,width-460,64);Place(Find("Browser lesson count"),width-174,28,152,52);
-            var study=Find("Browser study");var start=Find("Browser start");float actionWidth=(width-58)/2;
-            Place(start,width-(width-66)*.39f-22,height-82,(width-66)*.39f,68);StretchCaption(start);
-            float listWidth=(width-66)*.61f,rightX=listWidth+44,rightWidth=width-rightX-22,viewHeight=height-header-footer;
+            Place(box,left+(safeWidth-width*scale)/2,top+20,width,height);box.localScale=Vector3.one*scale;
+            var home=Find("Browser home");Place(home,22,20,190,60);StretchCaption(home);
+            Place(Find("Browser subject"),238,20,width-430,62);Place(Find("Browser lesson count"),width-166,28,144,44);
+            float listWidth=stacked?width-44:(width-68)*.34f;
+            float viewHeight=stacked?Mathf.Min(344,(height-header-footer)*.4f):height-header-footer;
             var go=new GameObject("Phone browser lesson viewport",typeof(RectTransform),typeof(Image),typeof(RectMask2D),typeof(ScrollRect));viewport=(RectTransform)go.transform;viewport.SetParent(box,false);Place(viewport,22,header,listWidth,viewHeight);go.GetComponent<Image>().color=Color.clear;
             var content=new GameObject("Phone browser equal lesson tiles",typeof(RectTransform));body=(RectTransform)content.transform;body.SetParent(viewport,false);
             var lessons=saved.Where(x=>x.parent==box&&x.rect.GetComponent<Button>()&&x.rect.name.StartsWith("Browser lesson ",System.StringComparison.Ordinal)).OrderBy(x=>x.rect.name,System.StringComparer.Ordinal).ToArray();
-            float tileWidth=(listWidth-gap-20)/2,tileHeight=86;
+            int columns=stacked?2:1;float tileWidth=(listWidth-18-gap*(columns-1))/columns,tileHeight=Mathf.Clamp((viewHeight-gap*(8/columns-1))/(8/columns),58,78);
             for(int i=0;i<lessons.Length;i++)
-            {lessons[i].rect.SetParent(body,false);Place(lessons[i].rect,i%2*(tileWidth+gap),i/2*(tileHeight+gap),tileWidth,tileHeight);StretchCaption(lessons[i].rect);Place(lessons[i].rect.Find("Section rule") as RectTransform,0,12,4,tileHeight-24);}
-            float contentHeight=Mathf.Ceil(lessons.Length/2f)*(tileHeight+gap)-gap;Place(body,0,0,listWidth-20,Mathf.Max(1,contentHeight));
-            scroll=go.GetComponent<ScrollRect>();scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=42;scroll.viewport=viewport;scroll.content=body;
-            var selected=Find("Browser selected title");Place(selected,rightX,header,rightWidth,78);
-            var preview=Find("Browser explore");Place(preview,rightX,header+90,rightWidth,184);
-            if(preview)
             {
-                var photo=preview.GetComponentInChildren<RawImage>();if(photo){Place(photo.rectTransform,0,0,rightWidth,184);if(photo.texture){float crop=Mathf.Min(1,(float)photo.texture.width/photo.texture.height/(rightWidth/184));photo.uvRect=new Rect(0,(1-crop)/2,1,crop);}}
-                foreach(RectTransform child in preview)
-                {
-                    if(child.GetComponent<TMP_Text>())Place(child,12,134,rightWidth-24,44);
-                    else if(child.name=="Section rule")Place(child,0,128,rightWidth,56);
-                }
+                var tile=lessons[i].rect;tile.SetParent(body,false);Place(tile,i%columns*(tileWidth+gap),i/columns*(tileHeight+gap),tileWidth,tileHeight);StretchCaption(tile);
+                var caption=tile.GetComponentInChildren<TMP_Text>();caption.fontSize=ui.LargeText?27:24;caption.margin=new Vector4(8,0,25,0);
+                Place(tile.Find("Browser selected mark") as RectTransform,tileWidth-34,(tileHeight-40)/2,26,40);
             }
-            Place(Find("Browser selected goal"),rightX,header+288,rightWidth,Mathf.Max(90,viewHeight-288));
-            foreach(var divider in saved.Where(x=>x.parent==box&&x.rect.name=="Section rule"))Place(divider.rect,listWidth+32,header,1,viewHeight);
-            // Rebuilding after selecting a lower lesson keeps that actual selected tile visible.
-            string title=selected?selected.GetComponent<TMP_Text>().text:"";
-            int selectedIndex=System.Array.FindIndex(lessons,x=>(x.rect.GetComponentInChildren<TMP_Text>().text==title||x.rect.GetComponentInChildren<TMP_Text>().text.StartsWith(title+"\n",System.StringComparison.Ordinal)));
-            float selectedBottom=(Mathf.Max(0,selectedIndex)/2)*(tileHeight+gap)+tileHeight;
+            float contentHeight=Mathf.Ceil(lessons.Length/(float)columns)*(tileHeight+gap)-gap;Place(body,0,0,listWidth-18,Mathf.Max(1,contentHeight));
+            scroll=go.GetComponent<ScrollRect>();scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=42;scroll.viewport=viewport;scroll.content=body;
+            float rightX=stacked?22:listWidth+46,rightY=stacked?header+viewHeight+24:header,rightWidth=width-rightX-22;
+            float detailsHeight=height-footer-rightY;
+            Place(Find("Browser selected title"),rightX,rightY,rightWidth,60);
+            float photoHeight=Mathf.Max(80,detailsHeight-184);var preview=Find("Browser apparatus preview");Place(preview,rightX,rightY+70,rightWidth,photoHeight);
+            if(preview){var photo=preview.GetComponentInChildren<RawImage>();if(photo&&photo.texture){var fit=photo.GetComponent<AspectRatioFitter>();if(fit)fit.enabled=false;float w=Mathf.Min(rightWidth,photoHeight*photo.texture.width/photo.texture.height),h=w*photo.texture.height/photo.texture.width;Place(photo.rectTransform,(rightWidth-w)/2,(photoHeight-h)/2,w,h);}}
+            Place(Find("Browser selected goal"),rightX,rightY+photoHeight+84,rightWidth,Mathf.Max(82,detailsHeight-photoHeight-84));
+            var start=Find("Browser start");Place(start,rightX,height-74,rightWidth,60);StretchCaption(start);
+            var explore=Find("Browser explore");Place(explore,22,height-74,stacked?0:listWidth,60);if(explore)explore.gameObject.SetActive(!stacked);StretchCaption(explore);
+            foreach(var divider in saved.Where(x=>x.parent==box&&x.rect.name=="Section rule")){Place(divider.rect,stacked?22:listWidth+34,stacked?rightY-12:header,stacked?width-44:1,stacked?1:viewHeight);}
+            string title=Find("Browser selected title")?.GetComponent<TMP_Text>().text;
+            int selectedIndex=System.Array.FindIndex(lessons,x=>x.rect.GetComponentInChildren<TMP_Text>().text==title);
+            float selectedBottom=(Mathf.Max(0,selectedIndex)/columns)*(tileHeight+gap)+tileHeight;
             float offset=Mathf.Clamp(selectedBottom-viewHeight,0,Mathf.Max(0,contentHeight-viewHeight));
             scroll.verticalNormalizedPosition=contentHeight>viewHeight?1-offset/(contentHeight-viewHeight):1;
         }
         static void StretchCaption(RectTransform button)
         {if(!button)return;var text=button.GetComponentInChildren<TMP_Text>();if(!text)return;var rect=text.rectTransform;rect.anchorMin=Vector2.zero;rect.anchorMax=Vector2.one;rect.offsetMin=new Vector2(10,6);rect.offsetMax=new Vector2(-10,-6);}
         static void Reset(Saved value)
-        {if(value==null||!value.rect)return;value.rect.SetParent(value.parent,false);value.rect.SetSiblingIndex(value.sibling);value.rect.anchorMin=value.min;value.rect.anchorMax=value.max;value.rect.pivot=value.pivot;value.rect.anchoredPosition=value.position;value.rect.sizeDelta=value.size;value.rect.localScale=value.scale;if(value.hasPhoto&&value.rect.GetComponent<RawImage>())value.rect.GetComponent<RawImage>().uvRect=value.uv;}
+        {if(value==null||!value.rect)return;value.rect.SetParent(value.parent,false);value.rect.SetSiblingIndex(value.sibling);value.rect.anchorMin=value.min;value.rect.anchorMax=value.max;value.rect.pivot=value.pivot;value.rect.anchoredPosition=value.position;value.rect.sizeDelta=value.size;value.rect.localScale=value.scale;if(value.fontSize>0&&value.rect.GetComponent<TMP_Text>())value.rect.GetComponent<TMP_Text>().fontSize=value.fontSize;if(value.hasPhoto&&value.rect.GetComponent<RawImage>())value.rect.GetComponent<RawImage>().uvRect=value.uv;}
         void Restore()
-        {foreach(var value in saved)Reset(value);if(viewport){viewport.gameObject.SetActive(false);Destroy(viewport.gameObject);}viewport=body=null;scroll=null;Reset(frame);}
+        {foreach(var value in saved)Reset(value);if(viewport){viewport.gameObject.SetActive(false);Destroy(viewport.gameObject);}viewport=body=null;scroll=null;Reset(frame);var explore=Find("Browser explore");if(explore)explore.gameObject.SetActive(true);}
         public bool AssertPhoneLayout(out string failure)
         {
             failure="";if(!captured||!flat)return true;

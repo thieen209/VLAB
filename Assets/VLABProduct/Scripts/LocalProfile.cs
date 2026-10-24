@@ -63,17 +63,18 @@ namespace Vlab.Product
     [Serializable] public sealed class GameSettings
     {
         public float volume=.75f; public bool muted,reducedMotion,largeText;
-        public bool hints=true; public int graphics=1;
+        public int hintLevel;public bool hints=true; public int graphics=1;
         // Keep legacy graphics in 0..2 so an older app can still read the whole profile.
         public bool ultraGraphics,showPerformance;
         public int GraphicsTier=>ultraGraphics?3:graphics;
         public void SetGraphicsTier(int tier){if(tier<0||tier>3)throw new ArgumentOutOfRangeException(nameof(tier));graphics=Math.Min(tier,2);ultraGraphics=tier==3;}
         public int uiTheme;public float uiOpacity=.8f;
+        public int vrResolution;
         public bool gazeAutoSelect=true;public float gazeDwellSeconds=1.2f,mouseLookSensitivity=1;
         public int controllerSelect=0,controllerGrip=1,controllerMenu=2,controllerRecenter=3,controllerBack=5;
         public bool invertLookX,invertLookY,phoneGyro;public bool showPhoneJoystick=true,focusAssist=true;public float moveSpeed=1,cameraFov=65,joystickScale=1;
         public GameSettings Copy()=>JsonUtility.FromJson<GameSettings>(JsonUtility.ToJson(this));
-        public void Validate(){if(!float.IsFinite(joystickScale)||joystickScale<.75f||joystickScale>1.25f)throw new InvalidDataException("Invalid joystick size.");if(!float.IsFinite(moveSpeed)||moveSpeed<.3f||moveSpeed>2||!float.IsFinite(cameraFov)||cameraFov<45||cameraFov>85)throw new InvalidDataException("Invalid phone settings.");if(!float.IsFinite(volume)||volume<0||volume>1||graphics<0||graphics>2||(ultraGraphics&&graphics!=2)||uiTheme<0||uiTheme>2||!float.IsFinite(uiOpacity)||uiOpacity<.55f||uiOpacity>1||!float.IsFinite(gazeDwellSeconds)||gazeDwellSeconds<.6f||gazeDwellSeconds>2||!float.IsFinite(mouseLookSensitivity)||mouseLookSensitivity<.5f||mouseLookSensitivity>2)throw new InvalidDataException("Invalid settings.");ControllerBindings.Validate(this);}
+        public void Validate(){if(hintLevel<0||hintLevel>1)throw new InvalidDataException("Invalid hint level.");if(vrResolution<0||vrResolution>2)throw new InvalidDataException("Invalid VR resolution.");if(!float.IsFinite(joystickScale)||joystickScale<.75f||joystickScale>1.25f)throw new InvalidDataException("Invalid joystick size.");if(!float.IsFinite(moveSpeed)||moveSpeed<.3f||moveSpeed>2||!float.IsFinite(cameraFov)||cameraFov<45||cameraFov>85)throw new InvalidDataException("Invalid phone settings.");if(!float.IsFinite(volume)||volume<0||volume>1||graphics<0||graphics>2||(ultraGraphics&&graphics!=2)||uiTheme<0||uiTheme>4||!float.IsFinite(uiOpacity)||uiOpacity<.55f||uiOpacity>1||!float.IsFinite(gazeDwellSeconds)||gazeDwellSeconds<.6f||gazeDwellSeconds>2||!float.IsFinite(mouseLookSensitivity)||mouseLookSensitivity<.5f||mouseLookSensitivity>2)throw new InvalidDataException("Invalid settings.");ControllerBindings.Validate(this);}
     }
     [Serializable] public sealed class LegalAcceptance
     {public string documentId,contentHash,languageShown,acceptedAtUtc;}

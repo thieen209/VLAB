@@ -12,6 +12,9 @@ namespace Vlab.Product
         public static int Recommend(int memoryMb,int graphicsMb)
         {if((memoryMb>0&&memoryMb<3000)||(graphicsMb>0&&graphicsMb<512))return 0;if(memoryMb>=8000&&graphicsMb>=2048)return 2;return 1;}
         public static int RecommendedTier=>Recommend(SystemInfo.systemMemorySize,SystemInfo.graphicsMemorySize);
+        public static float Resolution(int tier,bool world,int detail)
+        {return world?(detail==1?.85f:detail==2?1: tier==0?.85f:1):tier==0?.75f:tier==1?.85f:1;}
+        public static string ResolutionLabel(int value,bool vi)=>(vi?new[]{"Tự động","Tiết kiệm · 85%","Rõ nét · 100%"}:new[]{"Automatic","Economy · 85%","Clear · 100%"})[Math.Clamp(value,0,2)];
         public static void Apply(UniversalRenderPipelineAsset pipeline,int tier)
         {
             if(tier<0||tier>3)throw new ArgumentOutOfRangeException(nameof(tier));
