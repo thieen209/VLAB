@@ -8,7 +8,7 @@
 
 [Cài APK](#chơi-trên-android--không-cần-cài-unity) · [Mở project Unity](#mở-và-phát-triển-mã-nguồn) · [Tài liệu](docs/README.md) · [Nhật ký thay đổi](CHANGELOG.md)
 
-> **Trạng thái 23/10/2026:** Bản thử riêng đã bàn giao gần nhất là **0.1.9 / code28**. Đợt nâng cấp tiếp theo bổ sung nhận diện bốn phòng, phản hồi menu, hint, bảng phác thảo và âm thanh. **Code29 đang đóng gói; chưa phải bản phát hành công khai.** [Tiến độ và giới hạn kiểm chứng](docs/FinalPass/MIDNIGHT-20261023.md).
+> **Trạng thái24/10/2026:** Candidate riêng **0.1.9/code29** đã build và xác minh chữ ký. Gồm nâng cấp bốn phòng, menu/hint, bảng phác thảo, âm thanh và căn giữa cửa sổ Kỹ thuật. Chưa kiểm tra code29 trên điện thoại thật. [Bàn giao và giới hạn](docs/FinalPass/HANDOFF.md).
 
 
 <p align="center">

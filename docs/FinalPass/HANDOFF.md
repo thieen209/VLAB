@@ -1,12 +1,13 @@
-# VLAB 0.1.9 / code28 — candidate for device testing
+# VLAB0.1.9/code29 — signed Android candidate
 
-APK: E:/VLAB/4 LABS/Ngua Man VLAB/Builds/Android/Candidates/VLAB-0.1.9-finalpass-candidate-code28.apk
-Size:126563416 bytes
-SHA256:2E8881B1D66E5BF8C4A955570A72B2CFEFB9BD2F01895E2FE6083C7790205F1C
-Unity6000.6.4f1 IL2CPP release, built2026-10-23 21:58:05 Vietnam, 0errors43warnings; v2 signature verified. Owned source c25a180 plus version28 builder; working-project build, not clean-clone reproducibility proof.
+Built successfully24October2026, 0errors/7warnings. Package com.nguaman.vlab, app labelVLAB, AndroidAPI26+, target36, ARMv7+ARM64. Signature verified and certificate matchescode28. Install over existing VLAB without uninstalling to retain local notebooks; actual upgrade migration on a device was not run forcode29.
 
-Includes centered home/five bottom controls including VR, clearer flagship observation/HUD and gear materials, notebook Back/Menu save guards. Latest fix retains accepted notebook edits when Android sends a canceled keyboard buffer.
+APK: E:\VLAB\4 LABS\Ngua Man VLAB\Builds\Android\Candidates\VLAB-0.1.9-finalpass-candidate-code29.apk
+Bytes: 127642392
+SHA256: 1692DD103352772705BBD9DC2CE949FCC12FFE9FD1B5F1DDFE313DF713C4DADF
 
-API35 VLAB_014_API35 emulator: install-r over27 SUCCESS; cold launchStatusok. Typed title QA28-Back-kept, native Android Back dismissed keyboard and title remained. Typed body Body-kept-after-Back, native Back dismissed keyboard, on-screen Quay lai saved, force-stop and cold launch, reopened journal and selected page: both title/body persisted; original QA014-P01 and QA25-Saved-note remained. See both screenshots. This closes the reproduced ASCII title/body keyboard-dismissal loss on this emulator only. Editor14 scoped save/cancel/recovery checks passed before build; native configuration explicitly not claimed by Editor.
+Includes four subject-specific room finishes/scientific diagrams, Home focus/press feedback, action hints at equipment, session-only sketch board, offline UI/room audio, C06 rinse-order correction, profile primary/backup commit consistency, and centered Engineering window. Opening mesh and collider, frame/glass, shade and daylight moved together; bench position retained. Screenshot and geometry assertions passed.
 
-Unverified: physical-phone keyboards/Vietnamese IME, physical Cardboard/BLE/performance, complete32-experiment acceptance. No public push/release. Install over existing signed VLAB; do not uninstall if retaining local notes. Prior candidate retained as fallback. Full goal remains incomplete; this is READY_FOR_DEVICE_QA, not a flawless/full-product acceptance claim.
+Editor evidence: all4 flagship kits assembled and captured; Home focus/press/reduced-motion; board topmost raycast, draw/undo/two-click clear/close; C06 rinse order; notebook persistence including backup failure. See docs/QA/2026-10-23/midnight. This is not a full32-lesson acceptance pass.
+
+Unverified forcode29: installation/launch on Android, physical Cardboard/BLE/keyboards/performance, full32 experiments and student usability. No device was attached toADB. Baked lighting at the shifted opening has not been rebaked. Sketch drawings persist only during this app session. No public push/release.
