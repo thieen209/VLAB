@@ -21,6 +21,13 @@ namespace Vlab.Product
         void UpdateQuickStart()
         {
             if(!quickStartActive||!page)return;
+            // Keep the lesson tour off result, notebook and settings controls; resume on its own screens.
+            if(Route!="home"&&Route!="browser"&&Route!="activity")
+            {
+                if(quickStartCard)quickStartCard.gameObject.SetActive(false);
+                if(quickStartCue)quickStartCue.gameObject.SetActive(false);
+                return;
+            }
             int before=quickStartStep;
             if(quickStartStep==0&&Route=="browser")quickStartStep=1;
             if(quickStartStep<=1&&Route=="activity")quickStartStep=2;

@@ -2,6 +2,12 @@
 
 Ghi riêng thay đổi mã nguồn và APK để tránh tải nhầm phiên bản.
 
+## 25/10/2026 — 0.1.15 / code35
+
+- Hướng dẫn làm quen tạm ẩn ở kết quả, sổ, cài đặt và màn chuẩn bị; hiện lại khi trở về màn thuộc tour.
+- Tái hiện lỗi trước sửa; kiểm tra hồi quy hai kích thước màn hình và chạy lại con lắc trên APK với hồ sơ sạch. Dữ liệu con lắc còn sau nâng cấp từ code34.
+- [Báo cáo, bằng chứng và phạm vi chưa hoàn thành](docs/StudentExperience/REPORT.md). Chưa nghiệm thu điện thoại, kính hoặc tay cầm thật.
+
 ## 25/10/2026 — 0.1.14 / code34
 
 - Sửa trạng thái lấy/đặt/đóng bảng dụng cụ, thêm tháo về khay trong bước lắp ban đầu và hành động tiếp theo theo trạng thái bài.

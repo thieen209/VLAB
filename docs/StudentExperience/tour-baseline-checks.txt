@@ -1,0 +1,9 @@
+Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence.
+PASS Reached home
+PASS Viewport (1280, 720)
+PASS Tour appears on home
+FAIL Tour does not cover result actions
+FAIL System.Exception: Tour does not cover result actions
+  at WorkbenchUpgradeProbe.Check (System.String name, System.Boolean pass) [0x0003a] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:31
+  at WorkbenchUpgradeProbe+<StudentTourChecks>d__14.MoveNext () [0x00228] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\StudentTourChecks.cs:23
+  at WorkbenchUpgradeProbe+<Start>d__33.MoveNext () [0x0008d] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:113
