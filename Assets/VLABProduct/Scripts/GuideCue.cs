@@ -17,7 +17,7 @@ namespace Vlab.Product
         static readonly Vector3[] CornerSigns={new Vector3(-1,-1,-1),new Vector3(1,-1,-1),new Vector3(1,-1,1),new Vector3(-1,-1,1),new Vector3(-1,1,-1),new Vector3(1,1,-1),new Vector3(1,1,1),new Vector3(-1,1,1)};
         Transform target;
         EquipmentHandle equipment;
-        bool reducedMotion,stopped,world;
+        bool reducedMotion,stopped,world,placement;
         public bool IsStopped=>stopped;
         float started,topViewport=.97f;
         Rect clearArea=new Rect(.03f,.03f,.94f,.94f);
@@ -52,11 +52,11 @@ namespace Vlab.Product
             return AttachTo(rect,reducedMotion);
         }
 
-        public static GuideCue ShowEquipment(Transform parent,EquipmentHandle item,bool reducedMotion,Material cordMaterial=null)
+        public static GuideCue ShowEquipment(Transform parent,EquipmentHandle item,bool reducedMotion,Material cordMaterial=null,bool placement=false)
         {
             if(!item)throw new ArgumentNullException(nameof(item));
             var go=new GameObject("Guide cue · "+item.assetId);go.transform.SetParent(parent,false);go.layer=2;
-            var cue=go.AddComponent<GuideCue>();cue.target=item.transform;cue.equipment=item;cue.world=true;cue.reducedMotion=reducedMotion;cue.started=Time.unscaledTime;
+            var cue=go.AddComponent<GuideCue>();cue.target=item.transform;cue.equipment=item;cue.world=true;cue.placement=placement;cue.reducedMotion=reducedMotion;cue.started=Time.unscaledTime;
             if(cordMaterial)cue.ownedMaterial=new Material(cordMaterial);
             else
             {
@@ -170,7 +170,7 @@ namespace Vlab.Product
         void Update()
         {
             if(stopped)return;
-            if(world&&Time.unscaledTime-started>12){Stop();return;}
+            if(world&&Time.unscaledTime-started>12&&(!equipment||equipment.Owner==EquipmentGrabOwner.None)){Stop();return;}
             if(!target||!target.gameObject.activeInHierarchy){Stop();return;}
             Render(reducedMotion?0:Mathf.Repeat(Time.unscaledTime-started,Period)/Period);
         }
@@ -186,7 +186,7 @@ namespace Vlab.Product
             }
             if(!equipment||!TryVisibleBounds(equipment,out var bounds)){SetLines(false);return;}
             SetLines(true);
-            RenderObject(bounds,phase);
+            if(!placement||equipment.installed)RenderObject(bounds,phase);
             if(equipment.installed)
             {
                 // Keep the highlight below the item so it cannot cover a small bob or instrument scale.
@@ -197,6 +197,7 @@ namespace Vlab.Product
             Vector3 source=bounds.center;
             var delta=equipment.rotation*Quaternion.Inverse(equipment.transform.rotation);
             var destination=TransformBounds(bounds,Matrix4x4.TRS(equipment.slot,delta,Vector3.one)*Matrix4x4.Translate(-equipment.transform.position));
+            if(placement)RenderObject(destination,phase);
             Vector3 anchor=destination.center;float x=Mathf.Max(.025f,destination.extents.x+.012f),z=Mathf.Max(.025f,destination.extents.z+.012f);
             var centre=new Vector3(anchor.x,destination.min.y+.006f,anchor.z);
             Ellipse(ring,centre,x,z);Ellipse(rim,centre,x,z);

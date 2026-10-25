@@ -115,6 +115,7 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
     }
     IEnumerator Run()
     {
+        if(Environment.GetEnvironmentVariable("VLAB_EQUIPMENT_PLACEMENT_CHECKS")=="1"){yield return EquipmentPlacementChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_STUDENT_TOUR_CHECKS")=="1"){yield return StudentTourChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_PRACTICE_CHECKS")=="1"){yield return PracticeChecks();yield break;}
         File.WriteAllLines("Evidence/WorkbenchUpgrade/probe-inventory.txt",UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).Select(x=>x.name+" | "+x.GetType().FullName));

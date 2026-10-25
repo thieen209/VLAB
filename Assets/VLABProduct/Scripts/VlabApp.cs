@@ -409,7 +409,7 @@ namespace Vlab.Product
             Action foldPanel=()=>{activityCard.gameObject.SetActive(!compactActivity);compactAction.gameObject.SetActive(compactActivity);string label=L(compactActivity?"Hiện bảng":"Thu gọn bảng",compactActivity?"Show panel":"Hide panel");fold.name=label;fold.GetComponentInChildren<TextMeshProUGUI>().text=label;};
             fold.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter||changing)return;compactActivity=!compactActivity;foldPanel();});foldPanel();
             var visibility=Button(page,"",world?1176:1272,world?44:railY+toolsY+252,world?172:292,72,null);visibility.name="HUD visibility";
-            Action showHud=()=>{contents.gameObject.SetActive(!hudHidden);visibility.GetComponentInChildren<TextMeshProUGUI>().text=L(hudHidden?"Hiện UI":"Ẩn UI",hudHidden?"Show UI":"Hide UI");if(hudHidden){ClearGuideCue();CloseWorkbench();}};
+            Action showHud=()=>{contents.gameObject.SetActive(!hudHidden);visibility.GetComponentInChildren<TextMeshProUGUI>().text=L(hudHidden?"Hiện UI":"Ẩn UI",hudHidden?"Show UI":"Hide UI");if(hudHidden){Apparatus?.CancelGrab();ClearGuideCue();CloseWorkbench();}};
             visibility.onClick.AddListener(()=>{if(Time.unscaledTime<inputAfter||changing)return;hudHidden=!hudHidden;showHud();});showHud();
             ModeButton(page,1364,44,200,72);
             RefreshActivity();if(world)RecenterInterface();
@@ -516,7 +516,7 @@ namespace Vlab.Product
             else if(Apparatus.InspectingInstalled)
             {liveStage.text=L("QUAN SÁT DỤNG CỤ","INSPECTING");liveHint.text=L("Di chuyển để nhìn gần; xoay bằng hai nút mũi tên. Đặt lại sẽ trả đúng vị trí cũ.","Move to inspect; rotate with the arrow controls. Return restores the original position.");action=L("Đặt lại dụng cụ","Return equipment");}
             else if(Apparatus.IsCarrying)
-            {liveStage.text=L("ĐANG CẦM DỤNG CỤ","HOLDING EQUIPMENT");liveHint.text=L("Đặt vào vị trí lắp khi giá đỡ sẵn sàng. Mở Dụng cụ để trả lại khay.","Place at its mounting point when supports are ready. Open Equipment to return it to the tray.");action=L("Đặt dụng cụ","Place equipment");}
+            {liveStage.text=L("ĐANG CẦM DỤNG CỤ","HOLDING EQUIPMENT");liveHint.text=PlacementInstruction(Apparatus.Selected);action=L("Đặt xuống","Put down");enabled=Apparatus.CanInstallSelected(out _);}
             else if(HasPendingMeasurement)
             {liveStage.text=L("SỐ ĐO CHỜ LƯU","READING AWAITS SAVE");liveHint.text=StorageSaveMessage();action=L("Thử lưu số đo","Retry saving reading");}
             else if(!Apparatus.Ready)
@@ -556,7 +556,7 @@ namespace Vlab.Product
                 var task=CurrentGuide();liveHint.text=GuideCard(task);
                 if(Session.Phase==ExperimentPhase.Preparing&&(task.kind=="instrument"||task.kind=="image")&&!Flagship(Session.spec.id))action=L("Mở dụng cụ cần dùng","Open required instrument");
             }
-            if(!Profile.settings.hints)ClearGuideCue();
+            if(!Profile.settings.hints&&!(Apparatus.HasLatchedCarry&&Apparatus.CanInstallSelected(out _)))ClearGuideCue();
             if(Time.unscaledTime<actionFailureUntil)liveHint.text=actionFailureText;if(Profile.settings.hints&&Flagship(Session.spec.id)&&Time.unscaledTime>=actionFailureUntil&&!Apparatus.IsPullingBob&&!flagshipDrag&&!Apparatus.IsCarrying&&!HasPendingMeasurement)liveHint.text=FlagshipInstruction();if(!HasPendingMeasurement&&Session.Phase==ExperimentPhase.Running&&Profile.attempts.Any(x=>x.attemptId==Session.TrialId&&!x.partial)){liveStage.text=L("ĐÃ LƯU SỐ ĐO","MEASUREMENT SAVED");liveHint.text=L("Số đo đã nằm trong sổ. Chọn Xem kết quả để đọc và giải thích.","Your readings are saved. Select View results to review and interpret them.");}liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;if(compactAction){compactAction.interactable=enabled;compactActionLabel.text=action;}
             float hintHeight=Mathf.Max(64,liveHint.GetPreferredValues(liveHint.text,360,Mathf.Infinity).y+8);
             float actionY=-liveHint.rectTransform.anchoredPosition.y+hintHeight+16;
@@ -791,7 +791,9 @@ namespace Vlab.Product
         void PointAtEquipment(EquipmentHandle item){ShowEquipmentCue(item,true);}
         void ShowEquipmentCue(EquipmentHandle item,bool details)
         {
-            if(!Profile.settings.hints||!item||!Apparatus){ClearGuideCue();return;}
+            bool placement=Apparatus&&Apparatus.HasLatchedCarry&&item==Apparatus.Selected&&!item.installed&&Apparatus.CanInstallSelected(out _);
+            if((!Profile.settings.hints&&!placement)||!item||!Apparatus){ClearGuideCue();return;}
+            if(Apparatus.HasLatchedCarry&&!placement&&Apparatus.InstallSupport(item) is EquipmentHandle support&&!support.installed)item=support;
             float clearTop=.97f;
             if(!Input.VrMode&&!Input.SimulatorMode&&page)
             {
@@ -799,7 +801,7 @@ namespace Vlab.Product
                 if(zoom){var corners=new Vector3[4];zoom.GetWorldCorners(corners);clearTop=corners.Min(corner=>RectTransformUtility.WorldToScreenPoint(null,corner).y)/Screen.height-.02f;}
             }
             var cord=Resources.Load<GameObject>("Equipment/VLAB_string").GetComponentInChildren<LineRenderer>();
-            string instruction=Apparatus.IsCarrying?(Apparatus.CanInstallSelected(out _)?L("Đưa dụng cụ tới vùng đánh dấu rồi chọn Đặt dụng cụ.","Move the equipment to its marked position, then select Place equipment."):(Apparatus.InstallSupport(item) is EquipmentHandle support?L("Lắp trước: ","Install first: ")+EquipmentName(support):L("Đặt lại dụng cụ rồi kiểm tra vị trí lắp.","Return the tool and check its placement."))):CurrentGuide()?.key==item.assetId?ShortInstruction(CurrentGuide().action):EquipmentPurpose(item);
+            string instruction=Apparatus.HasLatchedCarry?(placement?L("Bấm Đặt xuống để lắp vào đây.","Choose Put down to fit here."):L("Lắp dụng cụ này trước.","Fit this support first.")):CurrentGuide()?.key==item.assetId?ShortInstruction(CurrentGuide().action):EquipmentPurpose(item);
             if(Session.spec.id=="P01"&&!Apparatus.IsCarrying)
             {
                 string purpose=item.assetId switch{"stand"=>L("Đỡ và cố định hệ con lắc.","Supports the pendulum assembly."),"clamp"=>L("Giữ dây tại điểm treo.","Secures the cord at its suspension point."),"pendulum"=>L("Vật dao động để đo chu kỳ.","Oscillating mass used to measure the period."),"string"=>L("Nối điểm treo với quả nặng.","Connects the suspension point to the bob."),"ruler"=>L("Đọc chiều dài bằng vạch chia milimét.","Reads length using millimetre graduations."),"timer"=>L("Đo thời gian của các chu kỳ.","Measures the elapsed time of oscillations."),_=>""};
@@ -808,7 +810,7 @@ namespace Vlab.Product
             if(Flagship(Session.spec.id)&&Session.spec.id!="P01"&&!Apparatus.IsCarrying)instruction=CurrentGuide()?.key==item.assetId?FlagshipInstruction():FlagshipPurpose(item);
             if(!Apparatus.IsCarrying&&!string.IsNullOrEmpty(DirectGestureHint(item)))instruction=DirectGestureHint(item);
             if(worldGuideCue)worldGuideCue.Stop();
-            worldGuideCue=GuideCue.ShowEquipment(Apparatus.transform,item,Profile.settings.reducedMotion,cord?cord.sharedMaterial:null);worldGuideCue.SetContext(EquipmentName(item),details?instruction:"",View,clearTop,!Input.VrMode&&!Input.SimulatorMode&&Route=="activity"?ActivityObservationArea():(Rect?)null);cueStep=GuideStep(CurrentGuide());
+            worldGuideCue=GuideCue.ShowEquipment(Apparatus.transform,item,Profile.settings.reducedMotion,cord?cord.sharedMaterial:null,placement);worldGuideCue.SetContext(placement?L("Vị trí đặt","Placement target"):EquipmentName(item),details||placement?instruction:"",View,clearTop,!Input.VrMode&&!Input.SimulatorMode&&Route=="activity"?ActivityObservationArea():(Rect?)null);cueStep=GuideStep(CurrentGuide());
         }
         void RecordMeasurement()
         {
@@ -1158,6 +1160,7 @@ namespace Vlab.Product
         void ControllerBack()
         {
             if(modal){CloseModal();if(Route=="settings")ShowSettings();return;}
+            if(Route=="activity"&&Apparatus&&(Apparatus.HasLatchedCarry||Apparatus.InspectingInstalled)){Apparatus.CancelGrab();CloseWorkbench();RefreshActivity();return;}
             switch(Route)
             {
                 case "loading":CancelRoomEntry();break;
@@ -1233,7 +1236,7 @@ namespace Vlab.Product
                         if(free)
                         {
                             if(equipment.installed&&BeginFlagship(equipment,hit,frame)){}else if(equipment.installed&&Apparatus.Driver!=null){SelectWorkbenchTool(equipment);}
-                            else if((frame.phoneWorldPress||!frame.held)&&!equipment.installed){Apparatus.Select(equipment);if(!Apparatus.TakeSelected(frame.pointer,out var why))Toast(LessonGuide.ExplainFailure(why,Vi));}
+                            else if((frame.phoneWorldPress||!frame.held)&&!equipment.installed)ChooseWorkbenchItem(equipment,true);
                             else Apparatus.BeginGrab(equipment,frame.pointer,!frame.held);
                             if(Session.spec.id=="P01"&&Profile.settings.hints&&!modal&&guideMistakes<3)PointAtEquipment(equipment);
                         }
@@ -1509,7 +1512,8 @@ namespace Vlab.Product
         {
             // Match the clear center between the guide and rail in actual safe-area pixels.
             ui.PhoneViewport.Refresh();var content=ui.PhoneViewport.ContentPixels;
-            return new Rect((content.x+content.width*.30f)/Screen.width,(content.y+content.height*.18f)/Screen.height,content.width*.47f/Screen.width,content.height*.64f/Screen.height);
+            float left=toolCard?.38f:.30f;
+            return new Rect((content.x+content.width*left)/Screen.width,(content.y+content.height*.18f)/Screen.height,content.width*(.77f-left)/Screen.width,content.height*.64f/Screen.height);
         }
         void FocusInstrument(EquipmentHandle item,bool besideControls)
         {

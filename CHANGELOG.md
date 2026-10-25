@@ -1,5 +1,13 @@
 # Nhật ký thay đổi VLAB
 
+## 0.1.16 / code36 — 2026-10-25
+
+- Chạm mô hình chưa lắp mở bảng Đặt xuống / Trả về khay; thao tác Quay lại trả vật đang cầm trước khi rời bài.
+- Điểm đặt tồn tại trong lúc cầm, kể cả khi tắt gợi ý học tập; nhắc đúng giá đỡ còn thiếu và khóa thao tác đặt không hợp lệ.
+- Đặt xuống khi quan sát trả dụng cụ về đúng vị trí cũ; không thay đổi số đo.
+- Kiểm tra: [báo cáo và giới hạn](docs/EquipmentPlacement/REPORT.md).
+
+
 Ghi riêng thay đổi mã nguồn và APK để tránh tải nhầm phiên bản.
 
 ## 25/10/2026 — 0.1.15 / code35
