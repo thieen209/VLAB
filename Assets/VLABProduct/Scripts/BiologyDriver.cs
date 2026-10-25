@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Vlab.Product
 {
     // Delivered instruments own apparatus state; rates/images remain explicitly illustrative.
-    public sealed class BiologyDriver : LessonDriver
+    public sealed partial class BiologyDriver : LessonDriver
     {
         BiologyLessonState s; readonly KitItemSpec[] kit; Transform coverFrame;
         Vector2 b01ViewCenter=new Vector2(.5f,.5f);Vector2? b01SelectedUv;

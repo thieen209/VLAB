@@ -7,7 +7,7 @@ namespace Vlab.Product
 {
     // Composition, sample identity and topology belong to this lesson authority.
     // Delivered SDK components own instrument geometry, transfer and readouts.
-    public sealed class ChemistryDriver : LessonDriver
+    public sealed partial class ChemistryDriver : LessonDriver
     {
         [Serializable] public sealed class Titre
         { public double initial,final,delivered,acidM;public bool valid;public string reason; }
@@ -30,7 +30,7 @@ namespace Vlab.Product
         readonly Dictionary<string,Collider> regions=new Dictionary<string,Collider>();
         readonly Dictionary<string,double> regionVolumes=new Dictionary<string,double>();
         int prepared;bool configured,paused=true,failed,powerHasStarted,powerResume;string failure="";
-        double clock,delivered,initialMeniscus,mixedAt=-1,mixedDose=-1,sampleMoles;
+        double clock,delivered,initialMeniscus,finalMeniscusRead,mixedAt=-1,mixedDose=-1,sampleMoles;
         bool initialRead,finalRead,indicator,mixed,bridgeOn=true,leadsConnected,reversed,electrodesIn,initialWeighed,dry,finalWeighed,powerArmed;
         bool waterObserved;double waterPh;
         bool calibrated,rinsed,probeIn,paperUsed,stockRinsed,dilutionTransferred,filledMark,labels,gasSealed,contact,temperaturesRead;
@@ -512,7 +512,7 @@ namespace Vlab.Product
             }
         }
         public override bool TryMeasure(out ModelResult result,out string message)
-        {result=null;if(!CanRecord(out message))return false;result=Observe();if(id=="C01"){var valid=titres.Where(t=>t.valid).ToList();var last=valid.Skip(valid.Count-3).ToArray();result.Add("meanTitre",last.Average(t=>t.delivered),"mL","Trung bình ba titre","Mean of three titres").Add("acidConcentration",P("base")*last.Average(t=>t.delivered)/10,"mol/L","Nồng độ giấm pha loãng","Diluted vinegar concentration");}SetPaused(true);return true;}
+        {result=null;if(!CanRecord(out message))return false;result=RecordableObservation();SetPaused(true);return true;}
         LessonControl C(string action,string vi,string en,bool enabled=true)=>new LessonControl(action,vi,en,enabled);
         public override LessonControl[] Controls(string key)
         {
@@ -541,7 +541,7 @@ namespace Vlab.Product
                     case "initial":Must(id=="C01"&&prepared==2&&delivered==0,"Read the initial meniscus after priming and before sample delivery.");initialMeniscus=I<VlabBurette>("burette").ReadingMl;initialRead=true;break;
                     case "close":Must(id=="C01","Wrong instrument.");I<VlabBurette>("burette").SetValve(0);session.parameters["flow"]=0;break;
                     case "swirl":Must(id=="C01"&&indicator,"Prepare the aliquot and indicator first.");mixed=true;mixedDose=delivered;mixedAt=clock;break;
-                    case "final":Must(id=="C01"&&indicator&&V("flow",0)==0&&I<VlabBurette>("burette").ValveOpening==0,"Close the burette before reading.");finalRead=true;break;
+                    case "final":Must(id=="C01"&&indicator&&V("flow",0)==0&&I<VlabBurette>("burette").ValveOpening==0,"Close the burette before reading.");finalMeniscusRead=I<VlabBurette>("burette").ReadingMl;finalRead=true;break;
                     case "aliquot":Must(id=="C01"&&prepared==2&&initialRead&&session.Operation>=4,"Read the new initial meniscus first.");PrepareTitration(3);prepared=3;break;
                     case "indicator":Must(id=="C01"&&prepared==3&&session.Operation>=4,"Transfer the new aliquot first.");PrepareTitration(4);prepared=4;break;
                     case "titre":RetainTitre();break;

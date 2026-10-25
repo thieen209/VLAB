@@ -58,7 +58,7 @@ namespace Vlab.Product
             var d=new NotebookData{experimentId=id};
             if(!LessonSpec.All.TryGetValue(id,out var spec)||!Defaults.TryGetValue(id,out var defaults))
             {d.tableOnly=true;d.noticeEn="No experiment mapping is available.";d.noticeVi="Chưa có ánh xạ dữ liệu cho bài này.";return d;}
-            d.rows.AddRange((attempts??new List<AttemptRecord>()).Where(a=>a!=null&&a.experimentId==id));
+            d.rows.AddRange((attempts??new List<AttemptRecord>()).Where(a=>a!=null&&a.experimentId==id&&!a.partial));
             d.tableOnly=defaults[0]==""||id=="B02";
             foreach(var p in spec.parameters)d.xChoices.Add(new NotebookAxis(p.key,p.vi,p.en,p.unit));
             if(defaults[0]=="@time")d.xChoices.Insert(0,new NotebookAxis("@time","Thời gian từ lúc trộn","Time since mixing","s"));

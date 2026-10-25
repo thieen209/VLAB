@@ -82,6 +82,7 @@ namespace Vlab.Product
     {
         public string experimentId,attemptId,savedAtUtc,model,observation,detailJson,assistance;
         public string modelNotesVi,modelNotesEn;
+        public bool partial;
         public int seed; public List<Reading> readings=new List<Reading>();
         public double[] parameterValues;
     }

@@ -139,7 +139,7 @@ namespace Vlab.Product
             var records=profile.attempts.Where(record=>record.experimentId==selected).OrderByDescending(record=>record.savedAtUtc,StringComparer.Ordinal).ToArray();state.attempt=Mathf.Clamp(state.attempt,0,Math.Max(0,records.Length-1));
             var record=records.Length>0?records[state.attempt]:null;string timestamp=record?.savedAtUtc;
             if(record!=null&&DateTime.TryParse(timestamp,CultureInfo.InvariantCulture,DateTimeStyles.RoundtripKind,out var utc))timestamp=utc.ToLocalTime().ToString("dd/MM/yyyy HH:mm:ss zzz",CultureInfo.InvariantCulture);
-            ui.Text(right,state.contentTab==4?L(vi,"Tài liệu học tập · không cần có số đo đã lưu","Vietnamese study guide · available before saving any readings"):record!=null?L(vi,"Đã ghi lúc ","Saved ")+timestamp:Status(profile,selected,vi),32,108,1036,44,24,VlabUi.Secondary).name="Journal timestamp";
+            ui.Text(right,state.contentTab==4?L(vi,"Tài liệu học tập · không cần có số đo đã lưu","Vietnamese study guide · available before saving any readings"):record!=null?(record.partial?L(vi,"Lượt đang làm · đã lưu ","Partial trial · saved "):L(vi,"Đã ghi lúc ","Saved "))+timestamp:Status(profile,selected,vi),32,108,1036,44,24,VlabUi.Secondary).name="Journal timestamp";
             string[] tabs=vi?new[]{"Số đo","Điều kiện","Giải thích","Khảo sát tiếp","Ôn bài"}:new[]{"Readings","Conditions","Interpretation","Continue","Study"};
             if(state.contentTab!=4)
                 for(int i=0;i<5;i++){int tab=i;var button=ui.Button(right,tabs[i],32+i*209,164,200,64,()=>{state.contentTab=tab;state.contentPage=0;refresh();},state.contentTab==i?accent:(Color?)null);button.name="Journal tab "+i;}
@@ -153,7 +153,7 @@ namespace Vlab.Product
             int contentPages=1;
             if(records.Length==0)
             {
-                string empty=state.contentTab==3?ContinueText(profile,selected,vi):L(vi,"Chưa có số đo đã lưu cho bài này.\n\nSau khi thực hành, chọn Ghi số đo. Mỗi lượt được giữ riêng trong sổ để bạn đọc lại và so sánh.","No observations have been saved for this lesson.\n\nAfter practising, choose Record measurement. Each saved attempt stays separate for review and comparison.");
+                string empty=state.contentTab==3?ContinueText(profile,selected,vi):L(vi,"Chưa có số đo đã lưu cho bài này.\n\nSố đọc được lưu khi bạn đo bằng dụng cụ; mỗi lượt được giữ riêng. Tiếp tục thao tác theo bài, rồi mở lại sổ.","No observations have been saved for this lesson.\n\nReadings are saved when measured with the instruments; each trial stays separate. Continue the required observations, then reopen the notebook.");
                 if(profile.checkpoint?.experimentId==selected&&state.contentTab!=3)empty+="\n\n"+L(vi,"Có bài đang dở; đây chưa phải một lượt đã ghi số đo.","There is preparation in progress; it is not a saved measured attempt.");contentPages=TextPage(ui,right,empty,state,28);
             }
             else

@@ -2,6 +2,13 @@
 
 Ghi riêng thay đổi mã nguồn và APK để tránh tải nhầm phiên bản.
 
+## 25/10/2026 — 0.1.14 / code34
+
+- Sửa trạng thái lấy/đặt/đóng bảng dụng cụ, thêm tháo về khay trong bước lắp ban đầu và hành động tiếp theo theo trạng thái bài.
+- Lưu số đọc trong lúc thực hành vào cùng lượt, giữ số 0, phân biệt lượt dở, bảo toàn bản cũ khi lỗi ghi; kiểm tra sổ sau khởi động mới.
+- Ô hướng dẫn gọn và số đo dễ đọc; thêm âm thao tác, khí và mô-tơ theo trạng thái.
+- [Bàn giao và giới hạn kiểm chứng](docs/PracticeRepair/HANDOFF.md).
+
 ## 24/10/2026 — 0.1.13 / code33
 
 - Màn chọn bài dùng danh sách gọn, ảnh bàn riêng cho 32 thí nghiệm và một hành động bắt đầu rõ ràng; thích ứng màn hình dọc/ngang, tablet và vùng khuyết màn hình.

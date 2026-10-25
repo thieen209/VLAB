@@ -19,6 +19,7 @@ public static class VlabAudioChecks
             float[] samples=VlabAudio.RoomSamples(room);CheckSamples(samples);
             Check(Mathf.Abs(samples[0]-samples[samples.Length-1])<.03f,"Continuous room loop");
         }
+        var motor=VlabAudio.MotorSamples();CheckSamples(motor);Check(Mathf.Abs(motor[0]-motor[motor.Length-1])<.02f,"Motor loop boundary");
         Debug.Log("VLAB_AUDIO_SAMPLE_CHECKS_PASS");
     }
     static void CheckSamples(float[] samples)

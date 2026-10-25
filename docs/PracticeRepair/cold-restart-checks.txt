@@ -1,0 +1,529 @@
+Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence.
+PASS Reached home
+PASS Fresh process reloads every observed trial
+PASS P02 cold restart retains values units identity and details
+PASS P04 cold restart retains values units identity and details
+PASS P05 cold restart retains values units identity and details
+PASS P06 cold restart retains values units identity and details
+PASS P07 cold restart retains values units identity and details
+PASS P08 cold restart retains values units identity and details
+PASS C01 cold restart retains values units identity and details
+PASS C02 cold restart retains values units identity and details
+PASS C03 cold restart retains values units identity and details
+PASS C04 cold restart retains values units identity and details
+PASS C05 cold restart retains values units identity and details
+PASS C06 cold restart retains values units identity and details
+PASS C07 cold restart retains values units identity and details
+PASS C08 cold restart retains values units identity and details
+PASS B01 cold restart retains values units identity and details
+PASS B02 cold restart retains values units identity and details
+PASS B03 cold restart retains values units identity and details
+PASS B04 cold restart retains values units identity and details
+PASS B05 cold restart retains values units identity and details
+PASS B06 cold restart retains values units identity and details
+PASS B07 cold restart retains values units identity and details
+PASS B08 cold restart retains values units identity and details
+PASS M01 cold restart retains values units identity and details
+PASS M02 cold restart retains values units identity and details
+PASS M03 cold restart retains values units identity and details
+PASS M04 cold restart retains values units identity and details
+PASS M05 cold restart retains values units identity and details
+PASS M06 cold restart retains values units identity and details
+PASS M07 cold restart retains values units identity and details
+PASS M08 cold restart retains values units identity and details
+PASS P01 cold restart retains values units identity and details
+PASS P03 cold restart retains values units identity and details
+PASS P05 cold restart retains values units identity and details
+PASS P07 cold restart retains values units identity and details
+PASS P08 cold restart retains values units identity and details
+PASS C01 cold restart retains values units identity and details
+PASS C03 cold restart retains values units identity and details
+PASS C05 cold restart retains values units identity and details
+PASS C07 cold restart retains values units identity and details
+PASS B02 cold restart retains values units identity and details
+PASS B03 cold restart retains values units identity and details
+PASS B04 cold restart retains values units identity and details
+PASS M01 cold restart retains values units identity and details
+PASS M08 cold restart retains values units identity and details
+PASS Legacy profile migrates without repeating consent or clearing settings
+PASS Vietnamese notebook page saves atomically
+PASS Title, Unicode, line breaks and lesson association survive reopening
+PASS Writing does not fabricate a measured attempt
+PASS Backup failure preserves successful primary commit and current writing on reload
+PASS Progress reset preserves personally written pages
+PASS Full reset clears notebook only as part of the explicit full reset
+PASS Post-reset backup cannot resurrect written pages
+PASS Oversized pages are refused without claiming save success
+PASS Duplicate page IDs are refused
+PASS Future notebook schema is preserved and write protected
+PASS Explicitly corrupt notebook data is not silently replaced
+PASS Persistence fault fixture saves baseline
+PASS Real measured zero reloads
+PASS Failed snapshot reports failure
+PASS Failed save retains previous disk bytes
+PASS Failed replacement rolls back in-memory trial
+PASS Retry saves same trial exactly once
+PASS Partial status survives reopen
+PASS Reachable Open journal
+PASS Touch click delivered Open journal
+PASS Reached notebook
+PASS Reachable Journal mode records
+PASS Touch click delivered Journal mode records
+PASS Cold notebook actually rendered
+PASS Reachable Journal subject P
+PASS Touch click delivered Journal subject P
+PASS Reachable Journal lesson P01
+PASS Touch click delivered Journal lesson P01
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS P01 restored latest trial is complete
+PASS P01 restored notebook displays period
+PASS P01 restored notebook displays timedCycles
+PASS NOTEBOOK P01 actual touch selection and restored reading values/units
+PASS Reachable Journal subject P
+PASS Touch click delivered Journal subject P
+PASS Reachable Journal lesson P02
+PASS Touch click delivered Journal lesson P02
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS P02 restored latest trial is complete
+PASS P02 restored notebook displays flightTime
+PASS P02 restored notebook displays range
+PASS NOTEBOOK P02 actual touch selection and restored reading values/units
+PASS Reachable Journal subject P
+PASS Touch click delivered Journal subject P
+PASS Reachable Journal lesson P03
+PASS Touch click delivered Journal lesson P03
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS P03 restored latest trial is complete
+PASS P03 restored notebook displays normalForce
+PASS P03 restored notebook displays staticPeak
+PASS NOTEBOOK P03 actual touch selection and restored reading values/units
+PASS Reachable Journal subject P
+PASS Touch click delivered Journal subject P
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson P04
+PASS Touch click delivered Journal lesson P04
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS P04 restored latest trial is complete
+PASS P04 restored notebook displays flagWidth
+PASS P04 restored notebook displays gateSpacing
+PASS NOTEBOOK P04 actual touch selection and restored reading values/units
+PASS Reachable Journal subject P
+PASS Touch click delivered Journal subject P
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson P05
+PASS Touch click delivered Journal lesson P05
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS P05 restored latest trial is complete
+PASS P05 restored notebook displays unloadedLength
+PASS P05 restored notebook displays loadedLength
+PASS NOTEBOOK P05 actual touch selection and restored reading values/units
+PASS Reachable Journal subject P
+PASS Touch click delivered Journal subject P
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson P06
+PASS Touch click delivered Journal lesson P06
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS P06 restored latest trial is complete
+PASS P06 restored notebook displays u1
+PASS P06 restored notebook displays u2
+PASS NOTEBOOK P06 actual touch selection and restored reading values/units
+PASS Reachable Journal subject P
+PASS Touch click delivered Journal subject P
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson P07
+PASS Touch click delivered Journal lesson P07
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS P07 restored latest trial is complete
+PASS P07 restored notebook displays flagWidth
+PASS P07 restored notebook displays gateSpacing
+PASS NOTEBOOK P07 actual touch selection and restored reading values/units
+PASS Reachable Journal subject P
+PASS Touch click delivered Journal subject P
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson P08
+PASS Touch click delivered Journal lesson P08
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS P08 restored latest trial is complete
+PASS P08 restored notebook displays stalled
+PASS P08 restored notebook displays observationTime
+PASS NOTEBOOK P08 actual touch selection and restored reading values/units
+PASS Reachable Journal subject C
+PASS Touch click delivered Journal subject C
+PASS Reachable Journal lesson C01
+PASS Touch click delivered Journal lesson C01
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS C01 restored latest trial is complete
+PASS C01 restored notebook displays meniscus
+PASS C01 restored notebook displays delivered
+PASS NOTEBOOK C01 actual touch selection and restored reading values/units
+PASS Reachable Journal subject C
+PASS Touch click delivered Journal subject C
+PASS Reachable Journal lesson C02
+PASS Touch click delivered Journal lesson C02
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS C02 restored latest trial is complete
+PASS C02 restored notebook displays voltage
+PASS NOTEBOOK C02 actual touch selection and restored reading values/units
+PASS Reachable Journal subject C
+PASS Touch click delivered Journal subject C
+PASS Reachable Journal lesson C03
+PASS Touch click delivered Journal lesson C03
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS C03 restored latest trial is complete
+PASS C03 restored notebook displays charge
+PASS C03 restored notebook displays copperMass
+PASS NOTEBOOK C03 actual touch selection and restored reading values/units
+PASS Reachable Journal subject C
+PASS Touch click delivered Journal subject C
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson C04
+PASS Touch click delivered Journal lesson C04
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS C04 restored latest trial is complete
+PASS C04 restored notebook displays NaClSolid
+PASS C04 restored notebook displays NaNO3Solid
+PASS NOTEBOOK C04 actual touch selection and restored reading values/units
+PASS Reachable Journal subject C
+PASS Touch click delivered Journal subject C
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson C05
+PASS Touch click delivered Journal lesson C05
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS C05 restored latest trial is complete
+PASS C05 restored notebook displays aliquot
+PASS C05 restored notebook displays solute
+PASS NOTEBOOK C05 actual touch selection and restored reading values/units
+PASS Reachable Journal subject C
+PASS Touch click delivered Journal subject C
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson C06
+PASS Touch click delivered Journal lesson C06
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS C06 restored latest trial is complete
+PASS C06 restored notebook displays dilutionFactor
+PASS C06 restored notebook displays concentration
+PASS NOTEBOOK C06 actual touch selection and restored reading values/units
+PASS Reachable Journal subject C
+PASS Touch click delivered Journal subject C
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson C07
+PASS Touch click delivered Journal lesson C07
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS C07 restored latest trial is complete
+PASS C07 restored notebook displays gasVolume
+PASS C07 restored notebook displays gasLimit
+PASS NOTEBOOK C07 actual touch selection and restored reading values/units
+PASS Reachable Journal subject C
+PASS Touch click delivered Journal subject C
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson C08
+PASS Touch click delivered Journal lesson C08
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS C08 restored latest trial is complete
+PASS C08 restored notebook displays temperature
+PASS C08 restored notebook displays initialTemperature
+PASS NOTEBOOK C08 actual touch selection and restored reading values/units
+PASS Reachable Journal subject B
+PASS Touch click delivered Journal subject B
+PASS Reachable Journal lesson B01
+PASS Touch click delivered Journal lesson B01
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS B01 restored latest trial is complete
+PASS B01 restored notebook displays objective
+PASS B01 restored notebook displays magnification
+PASS NOTEBOOK B01 actual touch selection and restored reading values/units
+PASS Reachable Journal subject B
+PASS Touch click delivered Journal subject B
+PASS Reachable Journal lesson B02
+PASS Touch click delivered Journal lesson B02
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS B02 restored latest trial is complete
+PASS B02 restored notebook displays trackedCells
+PASS B02 restored notebook displays baselineCount
+PASS NOTEBOOK B02 actual touch selection and restored reading values/units
+PASS Reachable Journal subject B
+PASS Touch click delivered Journal subject B
+PASS Reachable Journal lesson B03
+PASS Touch click delivered Journal lesson B03
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS B03 restored latest trial is complete
+PASS B03 restored notebook displays independentSamples
+PASS B03 restored notebook displays completedSamples
+PASS NOTEBOOK B03 actual touch selection and restored reading values/units
+PASS Reachable Journal subject B
+PASS Touch click delivered Journal subject B
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson B04
+PASS Touch click delivered Journal lesson B04
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS B04 restored latest trial is complete
+PASS B04 restored notebook displays gasVolume
+PASS B04 restored notebook displays bathTemperature
+PASS NOTEBOOK B04 actual touch selection and restored reading values/units
+PASS Reachable Journal subject B
+PASS Touch click delivered Journal subject B
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson B05
+PASS Touch click delivered Journal lesson B05
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS B05 restored latest trial is complete
+PASS B05 restored notebook displays gasVolume
+PASS B05 restored notebook displays bathTemperature
+PASS NOTEBOOK B05 actual touch selection and restored reading values/units
+PASS Reachable Journal subject B
+PASS Touch click delivered Journal subject B
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson B06
+PASS Touch click delivered Journal lesson B06
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS B06 restored latest trial is complete
+PASS B06 restored notebook displays solventFront
+PASS B06 restored notebook displays appliedUl
+PASS NOTEBOOK B06 actual touch selection and restored reading values/units
+PASS Reachable Journal subject B
+PASS Touch click delivered Journal subject B
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson B07
+PASS Touch click delivered Journal lesson B07
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS B07 restored latest trial is complete
+PASS B07 restored notebook displays crudePrecipitate
+PASS B07 restored notebook displays alcoholIncluded
+PASS NOTEBOOK B07 actual touch selection and restored reading values/units
+PASS Reachable Journal subject B
+PASS Touch click delivered Journal subject B
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson B08
+PASS Touch click delivered Journal lesson B08
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS B08 restored latest trial is complete
+PASS B08 restored notebook displays totalCells
+PASS B08 restored notebook displays interphase
+PASS NOTEBOOK B08 actual touch selection and restored reading values/units
+PASS Reachable Journal subject M
+PASS Touch click delivered Journal subject M
+PASS Reachable Journal lesson M01
+PASS Touch click delivered Journal lesson M01
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS M01 restored latest trial is complete
+PASS M01 restored notebook displays inputSpeed
+PASS M01 restored notebook displays outputSpeed
+PASS NOTEBOOK M01 actual touch selection and restored reading values/units
+PASS Reachable Journal subject M
+PASS Touch click delivered Journal subject M
+PASS Reachable Journal lesson M02
+PASS Touch click delivered Journal lesson M02
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS M02 restored latest trial is complete
+PASS M02 restored notebook displays netMoment
+PASS M02 restored notebook displays supportForce
+PASS NOTEBOOK M02 actual touch selection and restored reading values/units
+PASS Reachable Journal subject M
+PASS Touch click delivered Journal subject M
+PASS Reachable Journal lesson M03
+PASS Touch click delivered Journal lesson M03
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS M03 restored latest trial is complete
+PASS M03 restored notebook displays effortForce
+PASS M03 restored notebook displays supportingStrands
+PASS NOTEBOOK M03 actual touch selection and restored reading values/units
+PASS Reachable Journal subject M
+PASS Touch click delivered Journal subject M
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson M04
+PASS Touch click delivered Journal lesson M04
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS M04 restored latest trial is complete
+PASS M04 restored notebook displays driverPitch
+PASS M04 restored notebook displays drivenPitch
+PASS NOTEBOOK M04 actual touch selection and restored reading values/units
+PASS Reachable Journal subject M
+PASS Touch click delivered Journal subject M
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson M05
+PASS Touch click delivered Journal lesson M05
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS M05 restored latest trial is complete
+PASS M05 restored notebook displays angle
+PASS M05 restored notebook displays sliderPosition
+PASS NOTEBOOK M05 actual touch selection and restored reading values/units
+PASS Reachable Journal subject M
+PASS Touch click delivered Journal subject M
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson M06
+PASS Touch click delivered Journal lesson M06
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS M06 restored latest trial is complete
+PASS M06 restored notebook displays angle
+PASS M06 restored notebook displays lift
+PASS NOTEBOOK M06 actual touch selection and restored reading values/units
+PASS Reachable Journal subject M
+PASS Touch click delivered Journal subject M
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson M07
+PASS Touch click delivered Journal lesson M07
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS M07 restored latest trial is complete
+PASS M07 restored notebook displays rawReading
+PASS M07 restored notebook displays zeroError
+PASS NOTEBOOK M07 actual touch selection and restored reading values/units
+PASS Reachable Journal subject M
+PASS Touch click delivered Journal subject M
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal index next
+PASS Touch click delivered Journal index next
+PASS Reachable Journal lesson M08
+PASS Touch click delivered Journal lesson M08
+PASS Reachable Journal tab 0
+PASS Touch click delivered Journal tab 0
+PASS M08 restored latest trial is complete
+PASS M08 restored notebook displays deflection
+PASS M08 restored notebook displays returnReading
+PASS NOTEBOOK M08 actual touch selection and restored reading values/units
+PASS Reachable Subject P
+PASS Touch click delivered Subject P
+PASS Reached browser
+PASS Reachable Browser lesson P01
+PASS Touch click delivered Browser lesson P01
+PASS Reachable Browser start
+PASS Touch click delivered Browser start
+PASS Reached readiness
+PASS Reachable Readiness enter
+PASS Touch click delivered Readiness enter
+PASS Reached activity
+PASS Reachable Station tools
+PASS Touch click delivered Station tools
+PASS Reachable Dụng cụ
+PASS Touch click delivered Dụng cụ
+PASS Reachable Equipment item pendulum
+PASS Touch click delivered Equipment item pendulum
+PASS Reachable Equipment remove
+PASS Touch click delivered Equipment remove
+PASS Removing a fitted tool blocks the incomplete setup
+PASS Reachable Equipment take selected
+PASS Touch click delivered Equipment take selected
+PASS Reachable Close equipment controls
+PASS Touch click delivered Close equipment controls
+PASS Close returns held tool and releases owner
+PASS Reachable Compact current action
+PASS Touch click delivered Compact current action
+PASS Reachable Equipment place selected
+PASS Touch click delivered Equipment place selected
+PASS Same trial can refit without losing setup
+PASS Reachable Close equipment controls
+PASS Touch click delivered Close equipment controls
+PASS Configure actual Game View (1280, 720)
+PASS Practice summary within display and clear of center (1280, 720)
+PASS Practice summary text fits (1280, 720)
+PASS Configure actual Game View (2340, 1080)
+PASS Practice summary within display and clear of center (2340, 1080)
+PASS Practice summary text fits (2340, 1080)
+PASS Configure actual Game View (2048, 1536)
+PASS Practice summary within display and clear of center (2048, 1536)
+PASS Practice summary text fits (2048, 1536)
+PASS Practice summary rendered in VR world canvas
+VR fixture checks layout only, not native head tracking or VR input.
+PASS Full kit installed
+P01 STATE Preparing:0:prepare:stand:
+PASS Reachable Compact current action
+PASS Touch click delivered Compact current action
+PASS Reachable Equipment preparation
+PASS Touch click delivered Equipment preparation
+P01 STATE Preparing:1:prepare:pendulum:
+PASS Reachable Compact current action
+PASS Touch click delivered Compact current action
+PASS Reachable Equipment preparation
+PASS Touch click delivered Equipment preparation
+P01 STATE Preparing:2:prepare:pendulum:
+PASS Reachable Compact current action
+PASS Touch click delivered Compact current action
+PASS Reachable Equipment preparation
+PASS Touch click delivered Equipment preparation
+P01 STATE Preparing:3:prepare:pendulum:
+PASS Reachable Compact current action
+PASS Touch click delivered Compact current action
+PASS Reachable Equipment preparation
+PASS Touch click delivered Equipment preparation
+P01 STATE Ready:4:start:pendulum:
+PASS Reachable Compact current action
+PASS Touch click delivered Compact current action
+P01 STATE Running:4:observe:pendulum:
+P01 STATE Running:4:record::
+PASS P01 becomes recordable from native interactions
+PASS P01 valid reading saved before leaving or finishing
+PASS P01 compact instruction visible
+PASS Reachable Compact current action
+PASS Touch click delivered Compact current action
+PASS Reached results
+PASS P01 finishing replaces same trial, no duplicate
+PASS P01 disk values and units match
+PASS Reachable Open result journal
+PASS Touch click delivered Open result journal
+PASS Reached notebook
+PASS P01 journal shows reading cards
+PASS LESSON P01 full UI preparation, practice, measured result, persisted notebook

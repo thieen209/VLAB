@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace Vlab.Product
 {
-    public enum VlabSound { Hover, Click, Back, Success, Warning, Experiment, Capture, Open, Liquid, Glass, Mechanism, Placement }
+    public enum VlabSound { Hover, Click, Back, Success, Warning, Experiment, Capture, Open, Liquid, Glass, Mechanism, Placement, Bubbles, Switch }
 
     // Original synthesized earcons keep the offline package small and require no licensed downloads.
     public sealed class VlabAudio : MonoBehaviour
@@ -13,6 +13,7 @@ namespace Vlab.Product
         readonly AudioClip[] rooms=new AudioClip[4];
         readonly float[] lastPlayed=new float[System.Enum.GetValues(typeof(VlabSound)).Length];
         AudioSource effects,ambience,apparatus;
+        AudioSource motor;AudioClip motorClip;ExperimentSession soundSession;float nextGasSound;double previousGas;
         int room=-1;
         const int Rate=22050;
 
@@ -23,6 +24,7 @@ namespace Vlab.Product
             effects=Source("Interface and experiment sounds",false);effects.volume=.5f;
             ambience=Source("Quiet laboratory atmosphere",true);ambience.volume=0;
             apparatus=Source("Apparatus contact and liquid",false);apparatus.spatialBlend=.8f;apparatus.minDistance=.5f;apparatus.maxDistance=6;apparatus.rolloffMode=AudioRolloffMode.Linear;apparatus.volume=.35f;
+            motor=Source("Running laboratory motor",true);motor.spatialBlend=.8f;motor.minDistance=.5f;motor.maxDistance=6;motor.rolloffMode=AudioRolloffMode.Linear;motor.volume=0;motorClip=Clip("Motor under load",MotorSamples());motor.clip=motorClip;
             for(int i=0;i<cues.Length;i++){cues[i]=Clip(((VlabSound)i).ToString(),CueSamples((VlabSound)i));lastPlayed[i]=-10;}
             for(int i=0;i<rooms.Length;i++)rooms[i]=Clip("Laboratory atmosphere "+i,RoomSamples(i));
         }
@@ -49,7 +51,9 @@ namespace Vlab.Product
         public static VlabSound? SoundForAction(string action)
         {
             if(string.IsNullOrEmpty(action))return null;
-            if(action.StartsWith("dose:")||action.StartsWith("pour")||action.StartsWith("transfer")||action=="rinseProbe"||action=="addWater")return VlabSound.Liquid;
+            if(action.StartsWith("weigh")||action=="gasRead"||action=="initial"||action=="final"||action=="titre"||action=="acidT"||action=="baseT")return VlabSound.Capture;
+            if(action=="on"||action=="off"||action=="close"||action=="lidOpen"||action=="lidClose"||action.StartsWith("obj"))return VlabSound.Switch;
+            if(action.StartsWith("dose:")||action.StartsWith("pour")||action.StartsWith("transfer")||action.StartsWith("rinse")||action=="addWater"||action=="mix"||action=="swirl"||action=="waterMark"||action=="waterReplace"||action=="invert"||action=="aliquot"||action=="indicator"||action=="dilute10")return VlabSound.Liquid;
             if(action.StartsWith("probe")||action=="buffer4"||action=="buffer7")return VlabSound.Glass;
             if(action.StartsWith("focus")||action.StartsWith("pull")||action=="steady"||action.StartsWith("crank")||action.StartsWith("angle")||action.StartsWith("speed"))return VlabSound.Mechanism;
             return null;
@@ -77,6 +81,26 @@ namespace Vlab.Product
             ambience.volume=Mathf.MoveTowards(ambience.volume,target,Time.unscaledDeltaTime*.045f);
             if(target==0&&ambience.volume==0&&ambience.isPlaying)ambience.Pause();
             else if(target>0&&!ambience.isPlaying)ambience.UnPause();
+            UpdateApparatusSound(app,active);
+        }
+        void UpdateApparatusSound(VlabApp app,bool active)
+        {
+            var session=app?app.Session:null;bool running=active&&session!=null&&session.Phase==ExperimentPhase.Running;
+            string id=session?.spec.id;bool powered=running&&(id=="M01"||id=="M04"||id=="M05"||id=="M06");
+            if(app&&app.Apparatus)motor.transform.position=app.Apparatus.Worktop;
+            motor.volume=Mathf.MoveTowards(motor.volume,powered?.12f:0,Time.unscaledDeltaTime*.8f);
+            if(powered&&!motor.isPlaying)motor.Play();else if(!powered&&motor.volume==0)motor.Stop();
+            if(soundSession!=session){soundSession=session;previousGas=0;nextGasSound=0;}
+            if(!running||(id!="C07"&&id!="B04"&&id!="B05")||Time.unscaledTime<nextGasSound)return;
+            nextGasSound=Time.unscaledTime+.6f;
+            var result=session.Observe();var reading=result.readings.Find(x=>x.key=="gasVolume");
+            if(reading!=null){if(reading.value-previousGas>.05)At(VlabSound.Bubbles,app.Apparatus.Worktop);previousGas=reading.value;}
+        }
+        public static float[] MotorSamples()
+        {
+            var samples=new float[Rate];
+            for(int i=0;i<samples.Length;i++){float t=(float)i/Rate;samples[i]=.18f*Mathf.Sin(2*Mathf.PI*90*t)+.06f*Mathf.Sin(2*Mathf.PI*270*t)+.025f*Mathf.Sin(2*Mathf.PI*720*t);}
+            return samples;
         }
         public static float[] CueSamples(VlabSound sound)
         {
@@ -106,13 +130,14 @@ namespace Vlab.Product
         }
         static float[] ContactSamples(VlabSound sound)
         {
-            float duration=sound==VlabSound.Liquid?.48f:sound==VlabSound.Glass?.22f:.14f;
+            float duration=sound==VlabSound.Bubbles?.6f:sound==VlabSound.Liquid?.48f:sound==VlabSound.Glass?.22f:.14f;
             var samples=new float[Mathf.CeilToInt(duration*Rate)];var random=new System.Random(47+(int)sound);float filtered=0;
             for(int i=0;i<samples.Length;i++)
             {
                 float t=(float)i/Rate,u=t/duration;filtered=Mathf.Lerp(filtered,(float)random.NextDouble()*2-1,.2f);
                 float envelope=Mathf.Min(1,t*200)*Mathf.Pow(1-u,3),value;
                 if(sound==VlabSound.Liquid){float drops=Mathf.Pow(Mathf.Max(0,Mathf.Sin(t*61)),8);value=.14f*filtered+.17f*drops*Mathf.Sin(2*Mathf.PI*(1100*t-500*t*t));}
+                else if(sound==VlabSound.Bubbles)value=.14f*filtered+.17f*Mathf.Pow(Mathf.Max(0,Mathf.Sin(t*47)),10)*Mathf.Sin(2*Mathf.PI*(650*t+900*t*t));
                 else if(sound==VlabSound.Glass)value=.18f*Mathf.Sin(2*Mathf.PI*1730*t)+.1f*Mathf.Sin(2*Mathf.PI*2670*t)+.04f*filtered;
                 else if(sound==VlabSound.Mechanism)value=.2f*filtered*Mathf.Pow(.5f+.5f*Mathf.Cos(t*160),4)+.1f*Mathf.Sin(2*Mathf.PI*180*t);
                 else value=.18f*filtered+.13f*Mathf.Sin(2*Mathf.PI*240*t);
@@ -136,7 +161,7 @@ namespace Vlab.Product
             if(instance!=this)return;instance=null;
             foreach(var clip in cues)if(clip)Destroy(clip);
             foreach(var clip in rooms)if(clip)Destroy(clip);
-            if(apparatus)Destroy(apparatus.gameObject);if(effects)Destroy(effects.gameObject);if(ambience)Destroy(ambience.gameObject);
+            if(apparatus)Destroy(apparatus.gameObject);if(effects)Destroy(effects.gameObject);if(ambience)Destroy(ambience.gameObject);if(motor)Destroy(motor.gameObject);if(motorClip)Destroy(motorClip);
         }
     }
 }

@@ -19,7 +19,7 @@ using Vlab.Product;
 public static class WorkbenchUpgradeChecks
 {
     static WorkbenchUpgradeChecks(){EditorApplication.playModeStateChanged+=s=>{if(s==PlayModeStateChange.EnteredPlayMode&&SessionState.GetBool("VLAB.WorkbenchChecks",false)){SessionState.SetBool("VLAB.WorkbenchChecks",false);new GameObject("Workbench checks",typeof(WorkbenchUpgradeProbe));}};}
-    public static void Run(){Directory.CreateDirectory("Evidence/WorkbenchUpgrade");SecondTestGameView.Configure(out _);SessionState.SetString("VLAB.TestProfile",Path.Combine(Application.persistentDataPath,"QA","Workbench-"+Guid.NewGuid().ToString("N")));SessionState.SetBool("VLAB.WorkbenchChecks",true);EditorSceneManager.OpenScene("Assets/VLABProduct/Scenes/VLAB_Boot.unity");EditorApplication.EnterPlaymode();}
+    public static void Run(){Directory.CreateDirectory("Evidence/WorkbenchUpgrade");SecondTestGameView.Configure(out _);SessionState.SetString("VLAB.TestProfile",Environment.GetEnvironmentVariable("VLAB_PRACTICE_PROFILE")??Path.Combine(Application.persistentDataPath,"QA","Workbench-"+Guid.NewGuid().ToString("N")));SessionState.SetBool("VLAB.WorkbenchChecks",true);EditorSceneManager.OpenScene("Assets/VLABProduct/Scenes/VLAB_Boot.unity");EditorApplication.EnterPlaymode();}
 }
 public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
 {
@@ -29,16 +29,16 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
     object Call(string method,params object[] args)=>typeof(VlabApp).GetMethod(method,Private).Invoke(App,args);
     Button Find(string name)=>App.GetComponentsInChildren<Button>().FirstOrDefault(b=>b.name==name&&b.IsInteractable());
     void Check(string name,bool pass){rows.Add((pass?"PASS ":"FAIL ")+name);File.WriteAllLines("Evidence/WorkbenchUpgrade/progress.txt",rows);if(!pass)throw new Exception(name);}
-    IEnumerator Tap(string name)
+    IEnumerator Tap(string name,float after=.35f,float before=.3f)
     {
-        yield return new WaitForSecondsRealtime(.3f);Canvas.ForceUpdateCanvases();var button=Find(name);if(!button)throw new Exception("Missing button "+name+" on "+App.Route);
+        yield return new WaitForSecondsRealtime(before);Canvas.ForceUpdateCanvases();var button=Find(name);if(!button)throw new Exception("Missing button "+name+" on "+App.Route);
         var rect=(RectTransform)button.transform;var canvas=button.GetComponentInParent<Canvas>();Vector2 point=RectTransformUtility.WorldToScreenPoint(canvas.renderMode==RenderMode.ScreenSpaceOverlay?null:canvas.worldCamera,rect.TransformPoint(rect.rect.center));
         var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current){position=point},hits);
         Check("Reachable "+name,hits.Count>0&&hits[0].gameObject.GetComponentInParent<Button>()==button);
         bool clicked=false;button.onClick.AddListener(()=>clicked=true);var trace=button.gameObject.AddComponent<WorkbenchPointerTrace>();
         int id=++serial;InputSystem.QueueStateEvent(touch,new TouchState{touchId=id,phase=UnityEngine.InputSystem.TouchPhase.Began,position=point});yield return null;yield return new WaitForSecondsRealtime(.12f);
         InputSystem.QueueStateEvent(mouse,new MouseState{position=new Vector2(8+serial%4,8)});yield return null;
-        InputSystem.QueueStateEvent(touch,new TouchState{touchId=id,phase=UnityEngine.InputSystem.TouchPhase.Ended,position=point});yield return null;yield return new WaitForSecondsRealtime(.35f);
+        InputSystem.QueueStateEvent(touch,new TouchState{touchId=id,phase=UnityEngine.InputSystem.TouchPhase.Ended,position=point});yield return null;yield return new WaitForSecondsRealtime(after);
         if(!clicked)rows.Add("Pointer trace "+name+": "+string.Join("; ",trace.events)+"; active module="+EventSystem.current.currentInputModule+" touch="+touch.primaryTouch.phase.ReadValue());
         if(trace)Destroy(trace);Check("Touch click delivered "+name,clicked);
     }
@@ -115,6 +115,7 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
     }
     IEnumerator Run()
     {
+        if(Environment.GetEnvironmentVariable("VLAB_PRACTICE_CHECKS")=="1"){yield return PracticeChecks();yield break;}
         File.WriteAllLines("Evidence/WorkbenchUpgrade/probe-inventory.txt",UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).Select(x=>x.name+" | "+x.GetType().FullName));
         yield return Wait("home");yield return Capture("home-choice");yield return Tap("Skip quick tour");Check("Choice saved",App.Profile.quickStartSeen);
         var store=Read<ProfileStore>("store");Check("Choice persisted",new ProfileStore(store.Folder).Load().profile.quickStartSeen);

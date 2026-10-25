@@ -48,6 +48,7 @@ namespace Vlab.Product
         public ModelResult Recorded{get;private set;}
         public string Failure{get;private set;}="";
         public bool Complete=>Recorded!=null;
+        public readonly string TrialId=Guid.NewGuid().ToString("N");
         public IExperimentAuthority Authority{get;set;}
         public string RestoredDetailJson{get;private set;}="";
         public ExperimentSession(string id,int seed=1){spec=LessonSpec.All[id];parameters=ScienceModels.Defaults(id);Seed=seed;}
@@ -146,11 +147,16 @@ namespace Vlab.Product
         public AttemptRecord Record(string observation="")
         {
             if(!Complete||Phase!=ExperimentPhase.Measured)throw new InvalidOperationException("No completed observation to record.");
+            return Snapshot(Recorded,false,observation);
+        }
+        public AttemptRecord Snapshot(ModelResult result,bool partial,string observation="")
+        {
+            if(result==null||result.readings.Count==0)throw new InvalidOperationException("No observed readings to retain.");
             var values=new double[spec.parameters.Length];for(int i=0;i<values.Length;i++)values[i]=parameters[spec.parameters[i].key];
             // A recorded attempt owns its observations. Copying the list alone would leave
             // mutable Reading objects shared with the live instrument result and other records.
-            var readings=new List<Reading>();foreach(var reading in Recorded.readings)readings.Add(new Reading(reading.key,reading.value,reading.unit,reading.labelVi,reading.labelEn));
-            return new AttemptRecord{experimentId=spec.id,attemptId=Guid.NewGuid().ToString("N"),savedAtUtc=DateTime.UtcNow.ToString("O"),model=spec.modelLabel,modelNotesVi=LessonContext.Explanation(spec.id,true,Recorded),modelNotesEn=LessonContext.Explanation(spec.id,false,Recorded),seed=Seed,readings=readings,parameterValues=values,observation=observation,detailJson=Recorded.detailJson,assistance=string.IsNullOrEmpty(Assistance)?"no-step-assist-recorded":Assistance};
+            var readings=new List<Reading>();foreach(var reading in result.readings)readings.Add(new Reading(reading.key,reading.value,reading.unit,reading.labelVi,reading.labelEn));
+            return new AttemptRecord{experimentId=spec.id,attemptId=TrialId,partial=partial,savedAtUtc=DateTime.UtcNow.ToString("O"),model=spec.modelLabel,modelNotesVi=partial?"Số đọc đã được lưu trong lúc thực hành. Lượt này chưa đủ điều kiện kết luận; tiếp tục thao tác theo bài.":LessonContext.Explanation(spec.id,true,result),modelNotesEn=partial?"Readings saved during practice. This trial is not yet complete; continue the required observations.":LessonContext.Explanation(spec.id,false,result),seed=Seed,readings=readings,parameterValues=values,observation=observation,detailJson=result.detailJson,assistance=string.IsNullOrEmpty(Assistance)?"no-step-assist-recorded":Assistance};
         }
     }
 }

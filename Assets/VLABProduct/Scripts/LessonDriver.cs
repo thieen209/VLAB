@@ -45,6 +45,8 @@ namespace Vlab.Product
         public abstract void Configure();
         public abstract void Advance(double seconds);
         public abstract ModelResult Observe();
+        public virtual ModelResult ProgressObservation()=>null;
+        public virtual ModelResult RecordableObservation()=>Observe();
         public abstract bool CanStart(out string message);
         public abstract bool CanRecord(out string message);
         public abstract bool TryMeasure(out ModelResult result,out string message);

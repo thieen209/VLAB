@@ -49,20 +49,20 @@ namespace Vlab.Product
             ui.Text(box,(equipmentPage+1)+" / "+pages,128,714,264,44,24,VlabUi.Secondary,TextAlignmentOptions.Center);
             var next=Button(box,"›",406,704,90,62,()=>{equipmentPage++;ShowWorkbenchPicker();});next.name="Equipment next";next.interactable=equipmentPage+1<pages;
         }
-        void ChooseWorkbenchItem(EquipmentHandle item)
+        void ChooseWorkbenchItem(EquipmentHandle item,bool take=false)
         {
-            CloseModal();SelectWorkbenchTool(item);
-            if(!item.installed)
+            CloseModal();Apparatus.Select(item);string error="";
+            if(take&&!item.installed)
             {
                 if(Apparatus.TakeSelected(View.ViewportPointToRay(new Vector3(.58f,.48f,0)),out var why))PointAtEquipment(item);
-                else if(toolState)toolState.text=LessonGuide.ExplainFailure(why,Vi);
+                else error=LessonGuide.ExplainFailure(why,Vi);
             }
-            RefreshActivity();
+            SelectWorkbenchTool(item);if(error!=""&&toolState)toolState.text=error;RefreshActivity();
         }
         void CloseWorkbench()
         {
             if(toolCard){toolCard.gameObject.SetActive(false);Destroy(toolCard.gameObject);}toolCard=null;workbenchItem=null;toolControls.Clear();
-            if(activityCard)activityCard.gameObject.SetActive(!compactActivity&&!hudHidden);
+            if(activityCard)activityCard.gameObject.SetActive(!compactActivity&&!hudHidden);RefreshPracticeSummary();
         }
         void SelectWorkbenchTool(EquipmentHandle item,string focusControl="")
         {
@@ -72,17 +72,18 @@ namespace Vlab.Product
             if(activityCard)activityCard.gameObject.SetActive(false);
             var controls=Apparatus.Driver?.Controls(item.assetId)??Array.Empty<LessonControl>();var task=CurrentGuide();
             if(!string.IsNullOrEmpty(focusControl)){int index=Array.FindIndex(controls,c=>c.id==focusControl);if(index>=0)toolPage=index/4;}
+            bool preparation=item.installed&&!Apparatus.InspectingInstalled&&task?.kind=="prepare"&&task.key==item.assetId;
+            if(preparation)controls=Array.Empty<LessonControl>();
             int pages=Math.Max(1,(controls.Length+3)/4);toolPage=Mathf.Clamp(toolPage,0,pages-1);
-            bool preparation=item.installed&&!Apparatus.InspectingInstalled&&controls.Length==0&&task?.key==item.assetId;
             float end=!item.installed||Apparatus.InspectingInstalled?392:preparation?346:224+Mathf.Min(4,Mathf.Max(0,controls.Length-toolPage*4))*76;
             bool extra=pages>1&&!Apparatus.InspectingInstalled||Apparatus.CanLiftForInspection(item);float footer=end+(extra?76:8),height=footer+80;
             toolCard=ui.Panel(page,"Selected equipment",40,80,480,height);toolCard.gameObject.AddComponent<WorkbenchPanelLayout>().Initialize(ui,new Vector2(480,height));
             ui.Text(toolCard,EquipmentName(item),24,22,354,68,32);
-            Button(toolCard,"×",396,20,62,62,CloseWorkbench).name="Close equipment controls";
+            Button(toolCard,"×",396,20,62,62,()=>{Apparatus.CancelGrab();CloseWorkbench();RefreshActivity();}).name="Close equipment controls";
             toolState=ui.Text(toolCard,EquipmentPurpose(item),24,104,432,106,24,VlabUi.Secondary);
             if(!item.installed)
             {
-                Button(toolCard,L("Lấy dụng cụ","Take equipment"),24,224,432,68,()=>{if(!Apparatus.TakeSelected(View.ViewportPointToRay(new Vector3(.58f,.48f,0)),out var why))toolState.text=LessonGuide.ExplainFailure(why,Vi);}).name="Equipment take selected";
+                Button(toolCard,Apparatus.HasLatchedCarry?L("Trả về khay","Return to tray"):L("Lấy dụng cụ","Take equipment"),24,224,432,68,()=>{if(Apparatus.HasLatchedCarry){Apparatus.CancelGrab();SelectWorkbenchTool(item);}else if(Apparatus.TakeSelected(View.ViewportPointToRay(new Vector3(.58f,.48f,0)),out var why))SelectWorkbenchTool(item);else toolState.text=LessonGuide.ExplainFailure(why,Vi);}).name="Equipment take selected";
                 Button(toolCard,L("Đặt vào vị trí được đánh dấu","Place at marked position"),24,304,432,68,()=>{if(Apparatus.InstallSelected()){Save();SelectWorkbenchTool(item);}else{Apparatus.CanInstallSelected(out var why);toolState.text=LessonGuide.ExplainFailure(why,Vi);}}).name="Equipment place selected";
             }
             else if(Apparatus.InspectingInstalled)
@@ -102,9 +103,19 @@ namespace Vlab.Product
             if(pages>1&&!Apparatus.InspectingInstalled){Button(toolCard,"‹",24,end+12,64,54,()=>{toolPage--;SelectWorkbenchTool(item);}).interactable=toolPage>0;ui.Text(toolCard,(toolPage+1)+" / "+pages,96,end+21,288,38,22,VlabUi.Secondary,TextAlignmentOptions.Center);Button(toolCard,"›",392,end+12,64,54,()=>{toolPage++;SelectWorkbenchTool(item);}).interactable=toolPage+1<pages;}
             else if(Apparatus.CanLiftForInspection(item))Button(toolCard,L("Nhấc lên quan sát","Lift to inspect"),24,end+12,432,54,()=>{if(Apparatus.LiftForInspection(item,View.ViewportPointToRay(new Vector3(.58f,.48f,0))))SelectWorkbenchTool(item);}).name="Lift equipment";
             if(preparation)
-                Button(toolCard,ShortInstruction(task.action),24,224,432,110,()=>{if(task.kind=="prepare")PrepareAction();else ShowGuideTarget(CurrentGuide());RefreshWorkbench();}).name="Equipment preparation";
+                Button(toolCard,ShortInstruction(task.action),24,224,432,110,()=>{PrepareAction();CloseWorkbench();RefreshActivity();}).name="Equipment preparation";
             Button(toolCard,L("Xem chi tiết","Inspect"),24,footer,208,60,()=>{CloseWorkbench();instrumentPage=0;ShowInstrument(item);}).name="Equipment information";
             Button(toolCard,L("Gợi ý","Hint"),248,footer,208,60,()=>{if(Profile.settings.hints)ShowEquipmentCue(item,true);else toolState.text=L("Bật Gợi ý trong Cài đặt để xem chỉ dẫn.","Enable hints in Settings to show cues.");}).name="Equipment hint";
+            if(Apparatus.CanReturnToTray(item))
+            {
+                var remove=toolCard.GetComponentsInChildren<UnityEngine.UI.Button>().First(b=>b.name=="Equipment hint");remove.onClick.RemoveAllListeners();remove.onClick.AddListener(()=>{if(Apparatus.ReturnToTray(item)){Save();SelectWorkbenchTool(item);RefreshActivity();}});remove.name="Equipment remove";remove.GetComponentInChildren<TextMeshProUGUI>().text=L("Tháo về khay","Remove to tray");
+            }
+            if(item.installed&&!Apparatus.Ready)
+            {
+                var next=Apparatus.NextInstallableItem();toolState.text=L("Đã lắp. Tiếp theo: ","Fitted. Next: ")+(next?EquipmentName(next):"");
+                var info=toolCard.GetComponentsInChildren<UnityEngine.UI.Button>().First(b=>b.name=="Equipment information");
+                info.onClick.RemoveAllListeners();info.onClick.AddListener(NextPracticeTool);info.name="Equipment next required";info.GetComponentInChildren<TextMeshProUGUI>().text=L("Lấy món tiếp","Take next");
+            }
             workbenchStep=GuideStep(CurrentGuide());if(Profile.settings.hints)ShowEquipmentCue(item,false);
         }
         void ApplyWorkbenchControl(EquipmentHandle item,string control)

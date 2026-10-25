@@ -88,7 +88,7 @@ namespace Vlab.Product
         string DocumentHash(string id)
         {var vi=LegalPdfView.Metadata(id+"_vi");var en=LegalPdfView.Metadata(id+"_en");return vi!=null&&en!=null?ProfileStore.Hash(vi.sourceSha256+"\n"+en.sourceSha256):"";}
         bool Save()
-        {if(HasPendingMeasurement){status=StorageSaveMessage();return false;}if(Session!=null&&!Session.Complete)Profile.checkpoint=Session.Checkpoint();if(store.Save(Profile,out var error)){writeProtected=false;return true;}StorageFailure(error);return false;}
+        {if(HasPendingMeasurement){status=StorageSaveMessage();return false;}if(Session!=null&&!Session.Complete)Profile.checkpoint=Session.Checkpoint();if(store.Save(Profile,out var error)){writeProtected=false;CapturePracticeProgress();return !HasPendingMeasurement;}StorageFailure(error);return false;}
         string StorageSaveMessage()=>L("Chưa xác nhận lưu. Dữ liệu trong phiên này vẫn được giữ. Kiểm tra dung lượng thiết bị rồi thử lưu lại; nếu có số đo chờ lưu, trở lại trạm và chọn Thử lưu số đo.","Saving is unconfirmed. This session's data is retained. Check device storage and retry; for a pending reading, return to the station and choose Retry saving reading.");
         void StorageFailure(string diagnostic,bool reset=false)
         {Debug.LogWarning("VLAB local storage: "+diagnostic);status=reset?L("Chưa xác nhận đặt lại. Trạng thái trên thiết bị có thể đã thay đổi. Không thể bảo đảm dữ liệu cũ còn nguyên; kiểm tra dung lượng và mở lại ứng dụng trước khi quyết định thử lại.","Reset is unconfirmed. Device state may have changed, so old data cannot be guaranteed. Check storage and reopen the application before deciding whether to retry."):StorageSaveMessage();}
@@ -392,6 +392,7 @@ namespace Vlab.Product
             liveActionLabel=liveAction.GetComponentInChildren<TextMeshProUGUI>();liveActionLabel.fontSize=ui.LargeText?28:26;
             liveTime=ui.Text(box,"",20,294,360,56,22,VlabUi.Secondary);
             compactAction=Button(contents,"",560,858,480,72,PerformContextAction,Accent);compactAction.name="Compact current action";compactActionLabel=compactAction.GetComponentInChildren<TextMeshProUGUI>();
+            CreatePracticeSummary(contents);
             float toolsY=world?100:176;
             float railY=world?180:32;
             var tools=ui.Panel(contents,"Station control rail",1272,railY,292,toolsY+240);
@@ -424,12 +425,14 @@ namespace Vlab.Product
         }
         void PerformContextAction()
         {
+            if(HasPendingMeasurement){RecordMeasurement();return;}
             if(Apparatus.IsPullingBob){if(!Apparatus.ReleasePendulum(out var why))ActionFailure(why);else Save();RefreshActivity();return;}
             if(flagshipDrag){UpdateFlagshipDrag(new ActionFrame{pointer=lastInteractionRay,released=true});RefreshActivity();return;}
             if(Apparatus.InspectingInstalled){var item=Apparatus.Selected;Apparatus.CancelGrab();SelectWorkbenchTool(item);RefreshActivity();return;}
             if(Apparatus.IsCarrying){if(Apparatus.InstallSelected()){Save();RefreshActivity();}else{Apparatus.CanInstallSelected(out var why);Toast(LessonGuide.ExplainFailure(why,Vi));}return;}
-            if(!Apparatus.Ready){ShowEquipment();return;}
-            if(Profile.settings.hints&&Session.Phase==ExperimentPhase.Preparing){var task=CurrentGuide();if(task.kind=="instrument"||task.kind=="image"){ShowGuideTarget(task);return;}}
+            if(!Apparatus.Ready){NextPracticeTool();return;}
+            if(Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Running)
+            {var task=CurrentGuide();if(task.kind=="instrument"||task.kind=="image"||task.kind=="variables"){ShowGuideTarget(task);return;}}
             switch(Session.Phase)
             {
                 case ExperimentPhase.Preparing:if(Flagship(Session.spec.id))ShowGuideTarget(CurrentGuide());else PrepareAction();break;
@@ -514,11 +517,13 @@ namespace Vlab.Product
             {liveStage.text=L("QUAN SÁT DỤNG CỤ","INSPECTING");liveHint.text=L("Di chuyển để nhìn gần; xoay bằng hai nút mũi tên. Đặt lại sẽ trả đúng vị trí cũ.","Move to inspect; rotate with the arrow controls. Return restores the original position.");action=L("Đặt lại dụng cụ","Return equipment");}
             else if(Apparatus.IsCarrying)
             {liveStage.text=L("ĐANG CẦM DỤNG CỤ","HOLDING EQUIPMENT");liveHint.text=L("Đặt vào vị trí lắp khi giá đỡ sẵn sàng. Mở Dụng cụ để trả lại khay.","Place at its mounting point when supports are ready. Open Equipment to return it to the tray.");action=L("Đặt dụng cụ","Place equipment");}
+            else if(HasPendingMeasurement)
+            {liveStage.text=L("SỐ ĐO CHỜ LƯU","READING AWAITS SAVE");liveHint.text=StorageSaveMessage();action=L("Thử lưu số đo","Retry saving reading");}
             else if(!Apparatus.Ready)
             {
                 liveStage.text=L("LẮP DỤNG CỤ","ASSEMBLE STATION");
                 liveHint.text=Apparatus.Driver==null?L("Lắp các dụng cụ còn lại vào trạm. Chọn dụng cụ để xem vị trí lắp.","Fit the remaining equipment. Choose an item to see its mounting point."):L("Lắp dụng cụ tại trạm. Chọn món đã lắp để xem và thao tác.","Fit the station equipment. Select a fitted item to inspect it.");
-                action=L("Mở dụng cụ","Open equipment");
+                action=L("Lấy dụng cụ tiếp theo","Take next instrument");
             }
             else if(Session.Phase==ExperimentPhase.Preparing)
             {
@@ -532,14 +537,13 @@ namespace Vlab.Product
                 liveHint.text=Apparatus.Driver==null?L("Thả nhẹ, không đẩy. Quan sát chuyển động của con lắc.","Release gently without pushing. Observe the pendulum's motion."):L("Dụng cụ đã sẵn sàng. Bắt đầu lượt và thao tác trên dụng cụ.","Start the prepared trial. Select instruments to operate them.");
                 action=Apparatus.Driver==null?L("Thả / Bắt đầu","Release / Start"):L("Bắt đầu lượt đo","Start trial");
             }
-            else if(HasPendingMeasurement)
-            {liveStage.text=L("SỐ ĐO CHỜ LƯU","READING AWAITS SAVE");liveHint.text=L("Số đo đang được giữ. Thử lưu lại cùng lượt; không cần đo lại.","Reading retained. Retry saving this trial; no need to measure again.");action=L("Thử lưu số đo","Retry saving reading");}
             else if(Session.Phase==ExperimentPhase.Running)
             {
                 bool enough=Session.Authority!=null?Session.Authority.CanRecord(out _):Session.Pendulum!=null?Session.Pendulum.Cycles>=(int)Session.parameters["cycles"]:Session.Elapsed>=Session.spec.duration;
                 liveStage.text=enough?L("CÓ THỂ GHI SỐ ĐO","MEASUREMENT READY"):L("ĐANG QUAN SÁT","OBSERVING");
                 liveHint.text=Apparatus.Driver!=null?(enough?L("Đã đủ quan sát hợp lệ. Ghi lượt thực hành vào sổ tay.","The required observations are complete. Record this trial."):L("Quan sát và chọn dụng cụ để hoàn thành thao tác còn lại.","Observe and select an instrument to complete the remaining actions.")):(enough?L("Đã đủ chu kỳ toàn phần. Ghi lượt đo vào sổ tay.","The selected full cycles are complete. Record this observation."):L("Đếm từ lần qua vị trí cân bằng đến lần qua cùng chiều.","Count between crossings of the equilibrium point in the same direction."));
-                action=L("Ghi số đo","Record measurement");enabled=enough;
+                bool actionable=currentTask.kind=="instrument"||currentTask.kind=="image"||currentTask.kind=="variables";
+                action=enough?L("Xem kết quả","View results"):actionable?L("Mở thao tác cần làm","Open next action"):L("Đang quan sát…","Observing…");enabled=enough||actionable;
             }
             else
             {
@@ -553,7 +557,7 @@ namespace Vlab.Product
                 if(Session.Phase==ExperimentPhase.Preparing&&(task.kind=="instrument"||task.kind=="image")&&!Flagship(Session.spec.id))action=L("Mở dụng cụ cần dùng","Open required instrument");
             }
             if(!Profile.settings.hints)ClearGuideCue();
-            if(Time.unscaledTime<actionFailureUntil)liveHint.text=actionFailureText;if(Profile.settings.hints&&Flagship(Session.spec.id)&&Time.unscaledTime>=actionFailureUntil&&!Apparatus.IsPullingBob&&!flagshipDrag&&!Apparatus.IsCarrying)liveHint.text=FlagshipInstruction();liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;if(compactAction){compactAction.interactable=enabled;compactActionLabel.text=action;}
+            if(Time.unscaledTime<actionFailureUntil)liveHint.text=actionFailureText;if(Profile.settings.hints&&Flagship(Session.spec.id)&&Time.unscaledTime>=actionFailureUntil&&!Apparatus.IsPullingBob&&!flagshipDrag&&!Apparatus.IsCarrying&&!HasPendingMeasurement)liveHint.text=FlagshipInstruction();if(!HasPendingMeasurement&&Session.Phase==ExperimentPhase.Running&&Profile.attempts.Any(x=>x.attemptId==Session.TrialId&&!x.partial)){liveStage.text=L("ĐÃ LƯU SỐ ĐO","MEASUREMENT SAVED");liveHint.text=L("Số đo đã nằm trong sổ. Chọn Xem kết quả để đọc và giải thích.","Your readings are saved. Select View results to review and interpret them.");}liveActionLabel.text=action;liveAction.name=action;liveAction.interactable=enabled;if(compactAction){compactAction.interactable=enabled;compactActionLabel.text=action;}
             float hintHeight=Mathf.Max(64,liveHint.GetPreferredValues(liveHint.text,360,Mathf.Infinity).y+8);
             float actionY=-liveHint.rectTransform.anchoredPosition.y+hintHeight+16;
             bool showReadings=Session.Phase==ExperimentPhase.Running||Session.Phase==ExperimentPhase.Paused||HasPendingMeasurement;
@@ -569,6 +573,7 @@ namespace Vlab.Product
                 liveTime.text=L("Chu kỳ toàn phần  ","Full cycles  ")+Math.Min(motion.Cycles,requested)+" / "+requested+"\n"+L("Đồng hồ  ","Clock  ")+clock.ToString("0.00")+" s";
             }
             else if(Session.spec.id=="M01"&&(Session.Phase==ExperimentPhase.Running||Session.Phase==ExperimentPhase.Paused)){var readings=Session.Observe().readings;liveTime.text=L("Vào  ","Input  ")+readings.Single(r=>r.key=="inputSpeed").value.ToString("0.#")+" rpm\n"+L("Ra  ","Output  ")+readings.Single(r=>r.key=="outputSpeed").value.ToString("0.#")+" rpm";}else liveTime.text=L("Đồng hồ  ","Clock  ")+Session.Elapsed.ToString("0.00")+" s";
+            RefreshPracticeSummary();
         }
         int guideMistakes;
         string actionFailureText;float actionFailureUntil;
@@ -713,11 +718,11 @@ namespace Vlab.Product
                 bool fixedValue=p.readOnly||Math.Abs(p.max-p.min)<1e-10;
                 bool editable=!fixedValue&&((Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Ready)||(Session.Authority!=null&&Session.Authority.CanEditParameter(p.key)));
                 if(fixedValue)ui.Text(box,L("Cố định","Fixed value"),730,y+10,220,55,22,VlabUi.Secondary).name="Parameter fixed "+p.key;
-                else{Button(box,"−",730,y,100,64,()=>set(-1)).interactable=editable;Button(box,"+",850,y,100,64,()=>set(1)).interactable=editable;}
+                else{var less=Button(box,"−",730,y,100,64,()=>set(-1));less.interactable=editable;less.name="Parameter decrease "+p.key;var more=Button(box,"+",850,y,100,64,()=>set(1));more.interactable=editable;more.name="Parameter increase "+p.key;}
             }
             if(Session.spec.parameters.Length==0)ui.Text(box,L("Bài này dùng thao tác trực tiếp trên dụng cụ.","This lesson uses the instrument controls directly."),40,160,950,180,28,VlabUi.Secondary);
             if(pages>1){Button(box,L("Trang trước","Previous"),330,640,180,64,()=>{variablePage=Math.Max(0,variablePage-1);ShowVariables();});ui.Text(box,(variablePage+1)+" / "+pages,530,650,100,45,22,VlabUi.Secondary,TextAlignmentOptions.Center);Button(box,L("Trang sau","Next"),650,640,180,64,()=>{variablePage=Math.Min(pages-1,variablePage+1);ShowVariables();});}
-            Button(box,L("Quay lại","Back"),40,640,240,64,CloseModal);
+            Button(box,L("Quay lại","Back"),40,640,240,64,CloseModal).name="Variables close";
         }
         void ShowGuidance()
         {
@@ -743,7 +748,7 @@ namespace Vlab.Product
             var item=Apparatus.items.FirstOrDefault(x=>x.assetId==task.key);
             if(task.kind=="install"&&item){equipmentPage=Apparatus.items.IndexOf(item)/4;ShowEquipment();return;}
             if(Session.spec.id=="P02"&&item&&item.installed&&task.key=="target"){CloseModal();Apparatus.Select(item);PointAtEquipment(item);RefreshActivity();return;}
-            if(item&&item.installed&&Flagship(Session.spec.id)&&task.kind!="image"&&!task.control.StartsWith("structure:",StringComparison.Ordinal)){CloseModal();Apparatus.Select(item);PointAtEquipment(item);return;}
+            if(item&&item.installed&&task.kind=="prepare"){CloseModal();SelectWorkbenchTool(item);ShowEquipmentCue(item,true);return;}
             if(item&&item.installed&&Apparatus.Driver!=null&&task.kind!="image"&&!task.control.EndsWith(":",StringComparison.Ordinal)&&task.control!="cell"){CloseModal();SelectWorkbenchTool(item,task.control);ShowEquipmentCue(item,true);return;}
             if(item&&item.installed&&Apparatus.Driver!=null)
             {
@@ -812,9 +817,9 @@ namespace Vlab.Product
                 if(!Session.Measure(out status)){Toast(LessonGuide.ExplainFailure(status,Vi));RefreshActivity();return;}
                 pendingMeasurement=Session.Record();pendingMeasurementSession=Session;pendingMeasurementCheckpoint=Profile.checkpoint;
             }
-            var record=pendingMeasurement;bool added=!Profile.attempts.Any(attempt=>attempt.attemptId==record.attemptId);if(added)Profile.attempts.Add(record);Profile.checkpoint=null;
-            if(!store.Save(Profile,out var error)){if(added)Profile.attempts.Remove(record);Profile.checkpoint=pendingMeasurementCheckpoint;StorageFailure(error);StorageToast();RefreshActivity();return;}
-            writeProtected=false;ClearPendingMeasurement();status="";VlabAudio.Play(VlabSound.Success);ShowResults(record);
+            var record=pendingMeasurement;if(!record.partial)Profile.checkpoint=null;
+            if(!CommitPracticeRecord(record)){Profile.checkpoint=pendingMeasurementCheckpoint;StorageToast();RefreshActivity();return;}
+            ClearPendingMeasurement();status="";VlabAudio.Play(VlabSound.Success);if(Session.Complete)ShowResults(record);else RefreshActivity();
         }
         string FormatReadings(IEnumerable<Reading> readings)=>string.Join("\n",readings.Select(r=>ReadingLabel(r)+"   "+ObservationCards.FormatValue(r,Vi)+" "+ObservationCards.DisplayUnit(r)));
         public static string ReadingCaption(Reading reading,bool vi)
@@ -843,7 +848,7 @@ namespace Vlab.Product
             if(Route!="notebook"&&Route!="notebook-analysis"&&(back=="browser"||back=="readiness"||back=="activity"||back=="pause"||back=="results"))
             {
                 string id=back=="results"?shownResult?.experimentId:back=="browser"||back=="readiness"?selected?.id:Session?.spec.id;
-                if(!string.IsNullOrEmpty(id)&&LessonSpec.All.ContainsKey(id)){journal.notesMode=false;journal.subject=id.Substring(0,1);journal.experiment=id;journal.indexPage=(int.Parse(id.Substring(1))-1)/3;journal.contentTab=back=="results"?0:4;journal.studyChapter=journal.contentPage=0;}
+                if(!string.IsNullOrEmpty(id)&&LessonSpec.All.ContainsKey(id)){journal.notesMode=false;journal.subject=id.Substring(0,1);journal.experiment=id;journal.indexPage=(int.Parse(id.Substring(1))-1)/3;journal.contentTab=back=="results"||Profile.attempts.Any(x=>x.experimentId==id)?0:4;journal.attempt=0;journal.studyChapter=journal.contentPage=0;}
             }
             notebookReturn=back;NewPage("notebook");Header(L("Sổ thực hành","Lab notebook"),()=>{if(SaveNotebookNotes())ReturnTo(back);});
             JournalView.Render(ui,page,Profile,Vi,journal,()=>ShowNotebook(back),()=>ShowNotebookAnalysis(back,journal.experiment,null,null,null),FormatReadings,SaveNotebookNotes,(message,accept)=>Confirm(message,accept),(Input.VrMode||Input.SimulatorMode)?OpenNotebookKeyboard:(Action<TMP_InputField>)null);
@@ -1213,6 +1218,7 @@ namespace Vlab.Product
             if(frame.recenter)RecenterHead();if(frame.lost){Session?.InputLost();modalResumeActivity=activityReturnRunning=false;CancelFlagshipDrag();Apparatus?.CancelGrab();}
             SyncAuthority();
             if(Session!=null&&Route=="activity"&&(!modal||modalAllowsSimulation))Session.Advance(Time.unscaledDeltaTime);
+            if(Session!=null&&Route=="activity"&&Time.unscaledTime>=nextPracticeSave){nextPracticeSave=Time.unscaledTime+1;CapturePracticeProgress();}
             if(Session!=null&&Route=="activity"&&Time.unscaledTime>=nextDisplay){nextDisplay=Time.unscaledTime+.1f;RefreshActivity();RefreshInstrument();RefreshWorkbench();}
             if(Input.ControllerPointerActive&&!frame.lost)frame=ProcessGaze(frame);
             else if(frame.lost){gazeTime=0;gazeConsumed=true;}

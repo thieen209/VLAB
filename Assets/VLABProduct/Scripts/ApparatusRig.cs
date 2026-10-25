@@ -918,6 +918,13 @@ namespace Vlab.Product
             if(Selected)Selected.Release(EquipmentGrabOwner.Legacy);
             Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();
         }
+        public bool CanReturnToTray(EquipmentHandle item)=>item&&items.Contains(item)&&item.installed&&item.Owner==EquipmentGrabOwner.None&&session.Phase==ExperimentPhase.Preparing&&session.Operation==0&&Driver?.ProgressObservation()==null&&!items.Any(x=>x.installed&&InstallSupport(x)==item);
+        public bool ReturnToTray(EquipmentHandle item)
+        {
+            if(!CanReturnToTray(item))return false;
+            CancelGrab();item.installed=false;item.transform.SetPositionAndRotation(item.trayPosition,item.trayRotation);
+            session.SetApparatusReady(false);ArrangeLooseItems();UpdateTargets();Changed?.Invoke();return true;
+        }
         public bool InstallSelected()
         {
             if(!CanInstallSelected(out _))return false;

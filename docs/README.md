@@ -11,6 +11,8 @@
 
 ## Phiên bản và kiểm thử
 
+- [Code34: thực hành, số đo, âm thanh và tình trạng 32 bài](PracticeRepair/HANDOFF.md)
+
 [Nhật ký thay đổi](../CHANGELOG.md) ghi riêng thay đổi source và bản APK đã build.
 
 Các báo cáo giữ phạm vi và ngày kiểm tra riêng; số PASS của Editor không thay thế kiểm thử Android hoặc phần cứng.
