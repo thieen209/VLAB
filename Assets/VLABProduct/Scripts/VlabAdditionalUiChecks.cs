@@ -279,22 +279,19 @@ public static class VlabAdditionalUiChecks
     }
     static void CheckGuidanceReadability()
     {
-        var action=app.GetComponentsInChildren<TextMeshProUGUI>().Single(text=>text.name=="Guidance current action");
-        var success=app.GetComponentsInChildren<TextMeshProUGUI>().Single(text=>text.name=="Guidance success criterion");
+        var content=app.GetComponentsInChildren<RectTransform>().Single(rect=>rect.name=="Guidance content").GetComponent<VlabScrollContent>();
+        var body=content.Body;string saved=body.text;float size=body.fontSize;
+        try{
         foreach(bool large in new[]{false,true})foreach(bool vi in new[]{false,true})foreach(string id in LessonSpec.All.Keys)
         {
             var session=new ExperimentSession(id);var guide=new LessonGuide(session);
             for(int step=0;step<session.spec.operationsEn.Length;step++)
             {
-                var task=guide.Preparation(app.Apparatus,vi,step);int index=0;
-                foreach(var template in new[]{action,success})
-                {
-                    string copy=index++==0?task.action:task.success;float original=template.fontSize;
-                    try{template.fontSize=(template==action?30:26)*(large?1.12f:1);Verify(id+" guidance text fits actual help template "+step+"/"+vi+"/"+large,template.GetPreferredValues(copy,template.rectTransform.rect.width,Mathf.Infinity).y<=template.rectTransform.rect.height+.75f);}
-                    finally{template.fontSize=original;}
-                }
+                var task=guide.Preparation(app.Apparatus,vi,step);
+                body.fontSize=26*(large?1.12f:1);body.text=task.action+"\n\n"+task.success+"\n\n"+guide.Next(app.Apparatus,task,vi,step)+"\n\n"+guide.Explanation(task,vi);content.Refresh();
+                Verify(id+" guidance remains readable through native scrolling "+step+"/"+vi+"/"+large,content.Scroll.viewport.rect.height>0&&body.GetPreferredValues(body.text,body.rectTransform.rect.width,Mathf.Infinity).y<=body.rectTransform.rect.height+.75f);
             }
-        }
+        }}finally{body.text=saved;body.fontSize=size;content.Refresh();}
     }
     static IEnumerator Launch(string id)
     {

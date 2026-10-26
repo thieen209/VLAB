@@ -56,7 +56,7 @@ namespace Vlab.Product
         // Observable checks support independent judgement; they are not model answers or measurements.
         static readonly Dictionary<string,string[]> preparationChecks=new Dictionary<string,string[]>
         {
-            ["P01"]=new[]{"Giá đứng chắc, kẹp gắn vào trụ.|Dây nối từ điểm treo tới quả; quả không vướng bàn.|Xác định vị trí cân bằng và cùng chiều qua mốc.|Quả ở góc thả đã chọn; đồng hồ chờ lần đầu qua vị trí cân bằng theo chiều đã chọn.","The stand and clamp are seated.|The string joins pivot and bob; the bob clears the bench.|Identify equilibrium and one crossing direction.|The bob is at the chosen release angle; timing waits for the first selected-direction equilibrium crossing."},
+            ["P01"]=new[]{"Giá đứng chắc, kẹp gắn đúng điểm lắp ở đầu tay ngang.|Dây nối từ điểm treo tới quả; quả không vướng bàn.|Xác định vị trí cân bằng và cùng chiều qua mốc.|Quả ở góc thả đã chọn; đồng hồ chờ lần đầu qua vị trí cân bằng theo chiều đã chọn.","The stand is stable; the clamp uses the mounting point on its arm.|The string joins pivot and bob; the bob clears the bench.|Identify equilibrium and one crossing direction.|The bob is at the chosen release angle; timing waits for the first selected-direction equilibrium crossing."},
             ["P02"]=new[]{"Tấm hứng và thước ở vùng nhận viên bi.|Kiểm tra góc, tốc độ và độ cao nòng thực.|Viên bi nằm trong bộ phóng, chưa bay.","Target and ruler are in the receiving area.|Check angle, speed and actual muzzle height.|The ball is seated in the launcher, not yet flying."},
             ["P03"]=new[]{"Dây lực kế nối với khối theo phương ngang.|Ghi khối lượng và hai hệ số ma sát của lượt.|Lực kế trở về không trước khi kéo.","The meter cord pulls the block horizontally.|Retain mass and both declared friction coefficients.|The force meter is zero before pulling."},
             ["P04"]=new[]{"Xe nằm trên ray, đường đi qua hai cổng thông thoáng.|Bản chắn được gắn vào xe.|Hai cổng chưa bị chắn và thời gian cũ đã được xóa.","The cart sits on the track with a clear route through both gates.|The flag is attached to the cart.|Both gates are clear and old intervals have been reset."},
@@ -97,6 +97,45 @@ namespace Vlab.Product
         public void Variable(string key,double value){if(key=="flow"&&value>0){applied.Remove("swirl");applied.Remove("final");applied.Remove("titre");}}
         public static string ShortTitle(string id,bool vi)=>entries.TryGetValue(id,out var entry)?(vi?entry.vi:entry.en):id;
         public static string[] ValidateMetadata()=>LessonSpec.All.Where(pair=>!entries.ContainsKey(pair.Key)||entries[pair.Key].targets.Length!=pair.Value.operationsEn.Length||!preparationChecks.TryGetValue(pair.Key,out var checks)||checks.Length!=2||checks.Any(text=>text.Split('|').Length!=pair.Value.operationsEn.Length)).Select(pair=>pair.Key).ToArray();
+        public string Explanation(GuideTask task,bool vi)
+        {
+            if(task==null)return "";
+            var authored=LearningGuide.Load(session.spec.id);
+            if(vi&&!string.IsNullOrWhiteSpace(authored?.practiceVi))return authored.practiceVi;
+            return session.spec.goalEn;
+        }
+        public string Next(ApparatusRig rig,GuideTask task,bool vi,int preparationReference=-1)
+        {
+            if(task==null)return "";
+            var entry=entries[session.spec.id];var operations=vi?session.spec.operationsVi:session.spec.operationsEn;
+            string observation=vi?entry.runVi:entry.runEn;
+            if(preparationReference>=0)
+            {
+                int next=preparationReference+1;
+                return next<operations.Length?L(vi,"Sau khi bước tham khảo này hoàn thành: ","After this reference step is completed: ")+operations[next]
+                    :L(vi,"Sau khi chuẩn bị đủ, tự bắt đầu lượt và quan sát: ","After preparation, start the trial yourself and observe: ")+observation;
+            }
+            if(task.kind=="pause"||session.Phase==ExperimentPhase.Invalid)return task.action;
+            if(task.kind=="resume")return L(vi,"Khi bạn chọn Tiếp tục: ","When you choose Resume: ")+observation;
+            if(session.Phase==ExperimentPhase.Measured)return L(vi,"Đọc lượt vừa ghi trong Sổ tay trước khi quyết định làm lượt tiếp theo.","Review the recorded trial in Notebook before choosing another trial.");
+            if(task.kind=="record")return L(vi,"Sau khi bạn chọn Ghi số đo: ","After you choose Record measurement: ")+task.success;
+            if(task.kind=="install")
+            {
+                var next=rig?.items.FirstOrDefault(item=>!item.installed&&item.assetId!=task.key&&(!rig.InstallSupport(item)||rig.InstallSupport(item).installed||rig.InstallSupport(item).assetId==task.key));
+                if(next)return L(vi,"Sau khi lắp món hiện tại, chọn: ","After fitting the current item, select: ")+rig.EquipmentLabel(next,vi);
+                return L(vi,"Khi mọi dụng cụ đã lắp đúng, bắt đầu chuẩn bị: ","Once all equipment is fitted, begin preparation: ")+operations[0];
+            }
+            if(session.Phase==ExperimentPhase.Preparing)
+            {
+                int current=Mathf.Clamp(session.Operation,0,operations.Length-1),next=current+1;
+                string prerequisite=task.kind=="prepare"?"":L(vi,"Hoàn thành thao tác dụng cụ rồi kiểm tra bước ","Complete the instrument action, then check step ")+(current+1)+": "+operations[current]+". ";
+                return prerequisite+(next<operations.Length?L(vi,"Khi bước này được xác nhận, tiếp theo: ","Once this step is confirmed, next: ")+operations[next]
+                    :L(vi,"Khi chuẩn bị đủ, tự bắt đầu lượt và quan sát: ","Once preparation is complete, start the trial yourself and observe: ")+observation);
+            }
+            if(task.kind=="start")return L(vi,"Sau khi bắt đầu: ","After starting: ")+observation;
+            if(task.kind=="image")return task.success;
+            return observation+" "+L(vi,"Chỉ chọn Ghi số đo khi điều kiện quan sát của lượt đã đủ.","Choose Record measurement only when this trial's observation conditions are met.");
+        }
         string L(bool vi,string a,string b)=>vi?a:b;
         GuideTask Task(bool vi,string kind,string key,string control,string actionVi,string actionEn,string successVi,string successEn)=>new GuideTask(kind,key,control,L(vi,actionVi,actionEn),L(vi,successVi,successEn));
         GuideTask Control(ApparatusRig rig,bool vi,string key,string id,string successVi="Nút thao tác báo đã thực hiện; trạng thái dụng cụ thay đổi.",string successEn="The control succeeds and the instrument state changes.")

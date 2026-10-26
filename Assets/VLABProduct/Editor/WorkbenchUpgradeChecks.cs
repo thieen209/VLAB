@@ -116,7 +116,7 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
     }
     IEnumerator Run()
     {
-        if(Environment.GetEnvironmentVariable("VLAB_EXPERIENCE_BUILD")=="1"){yield return ExperienceRepairChecks();yield break;}
+        if(Environment.GetEnvironmentVariable("VLAB_EXPERIENCE_BUILD")=="1"||Environment.GetEnvironmentVariable("VLAB_EXPERIENCE_CHECKS")=="1"){yield return ExperienceRepairChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_EQUIPMENT_PLACEMENT_CHECKS")=="1"){yield return EquipmentPlacementChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_STUDENT_TOUR_CHECKS")=="1"){yield return StudentTourChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_PRACTICE_CHECKS")=="1"){yield return PracticeChecks();yield break;}

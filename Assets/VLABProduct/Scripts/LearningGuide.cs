@@ -56,7 +56,9 @@ namespace Vlab.Product
             for(int i=0;i<5;i++){int chapter=i;var tab=ui.Button(page,labels[i],32+i*210,164,196,64,()=>{state.studyChapter=chapter;state.contentPage=0;refresh();},state.studyChapter==i?accent:(Color?)null);tab.name="Journal study chapter "+i;}
             if(state.studyChapter==4){FormulaSheet.Render(ui,page,id,vi,state,refresh);return;}
             var body=ui.Text(page,"",32,248,1036,292,28);body.name="Journal study page";body.richText=false;
-            var pages=Pages(body,id,state.studyChapter,vi,out int answerPage);state.contentPage=Mathf.Clamp(state.contentPage,0,pages.Length-1);body.text=pages[state.contentPage];
+            var pages=Pages(body,id,state.studyChapter,vi,out int answerPage);state.contentPage=Mathf.Clamp(state.contentPage,0,pages.Length-1);
+            // Paginate plain authored text before adding tags, so page boundaries cannot split notation markup.
+            body.richText=true;body.text=UiFormula.RichText(pages[state.contentPage]);
             var previous=ui.Button(page,state.contentPage==answerPage?(vi?"‹ Câu hỏi":"‹ Question"):(vi?"‹ Trang trước":"‹ Previous page"),32,552,240,64,()=>{state.contentPage=Math.Max(0,state.contentPage-1);refresh();});previous.name="Journal content previous";previous.interactable=state.contentPage>0;
             ui.Text(page,(vi?"Trang ":"Page ")+(state.contentPage+1)+" / "+pages.Length,302,568,432,44,24,VlabUi.Secondary,TMPro.TextAlignmentOptions.Center);
             var next=ui.Button(page,state.contentPage+1==answerPage?(vi?"Xem đáp án ›":"Reveal answer ›"):(vi?"Trang sau ›":"Next page ›"),828,552,240,64,()=>{state.contentPage=Math.Min(pages.Length-1,state.contentPage+1);refresh();});next.name="Journal content next";next.interactable=state.contentPage+1<pages.Length;

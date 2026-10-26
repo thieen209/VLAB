@@ -1,5 +1,12 @@
 # Nhật ký thay đổi VLAB
 
+## 0.1.18 / code39 — 2026-10-26
+
+- Xóa liên kết dụng cụ cũ trước khi chuyển phòng, tránh gọi vào đối tượng đã bị gỡ khi trở lại từ khám phá/chuyển chế độ.
+- Hướng dẫn hiện việc cần làm, tiêu chí và bước tiếp theo; một vùng đọc, nút cố định trên điện thoại.
+- Sửa nội dung BLE thành hai thiết bị, gán nút chung; định dạng chỉ số/mũ trong bài học.
+- [Bằng chứng và giới hạn](docs/ExperienceFollowup/REPORT.md). Chưa có thao tác rót tự do trong bài học.
+
 ## 0.1.17 / code38 — 2026-10-26
 
 - P01 dùng đúng tay ngang và điểm gắn gốc của giá đỡ, tách dây/quả nặng khỏi trụ đứng.

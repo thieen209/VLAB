@@ -81,7 +81,7 @@ namespace Vlab.Product
             body=Rect("Phone dialog flowing content",viewport);body.sizeDelta=new Vector2(width-56,0);
             scroll=viewport.gameObject.AddComponent<ScrollRect>();scroll.viewport=viewport;scroll.content=body;scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=42;
             footer=Rect("Phone dialog pinned actions",dialog);Place(footer,22,height-footerHeight,width-44,footerHeight-12);
-            var actions=items.Where(x=>x!=close&&x.rect.GetComponent<Button>()&&(x.Top>=authoredSize.y-106||confirmation&&x.Top+x.size.y>=authoredSize.y-66||x.rect.name=="Station return"||x.rect.name=="Equipment done")).OrderBy(x=>x.position.x).ToArray();
+            var actions=items.Where(x=>x!=close&&x.rect.GetComponent<Button>()&&(x.Top>=authoredSize.y-106||confirmation&&x.Top+x.size.y>=authoredSize.y-66||x.rect.name=="Station return"||x.rect.name=="Equipment done"||x.rect.name.StartsWith("Guidance ",System.StringComparison.Ordinal))).OrderBy(x=>x.position.x).ToArray();
             float actionWidth=actions.Length==0?0:(width-44-gap*(actions.Length-1))/actions.Length;
             for(int i=0;i<actions.Length;i++){actions[i].rect.SetParent(footer,false);Place(actions[i].rect,i*(actionWidth+gap),4,actionWidth,68);FitCaption(actions[i].rect);}
             var content=items.Where(x=>x!=title&&x!=close&&!actions.Contains(x)).OrderBy(x=>x.Top).ThenBy(x=>x.position.x).ToArray();
