@@ -1,5 +1,11 @@
 # Nhật ký thay đổi VLAB
 
+## 0.1.19 / code40 — 2026-10-26
+
+- C05: giữ/kéo bình rửa qua cổ bình mở để thêm nước dần; thả dừng dòng.
+- Kiểm tra vật cản, thể tích thực, chất tan, vạch và khôi phục lần pha ban đầu dở dang. Nồng độ tính theo thể tích thực.
+- [Bằng chứng và giới hạn](docs/ManualWater/REPORT.md). Pha nối tiếp vẫn dùng nút hỗ trợ; chưa có rót hóa chất bất kỳ.
+
 ## 0.1.18 / code39 — 2026-10-26
 
 - Xóa liên kết dụng cụ cũ trước khi chuyển phòng, tránh gọi vào đối tượng đã bị gỡ khi trở lại từ khám phá/chuyển chế độ.

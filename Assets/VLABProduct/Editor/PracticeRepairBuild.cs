@@ -10,12 +10,12 @@ public static class PracticeRepairBuild
     {
         string key=Environment.GetEnvironmentVariable("VLAB_RELEASE_KEYSTORE"),password=Environment.GetEnvironmentVariable("VLAB_RELEASE_PASSWORD");
         if(string.IsNullOrEmpty(password)||!File.Exists(key))throw new InvalidOperationException("Local signing environment missing");
-        string output=Path.GetFullPath("Builds/Android/Candidates/VLAB-0.1.18-guidance-code39.apk");Directory.CreateDirectory(Path.GetDirectoryName(output));
+        string output=Path.GetFullPath("Builds/Android/Candidates/VLAB-0.1.19-manual-water-code40.apk");Directory.CreateDirectory(Path.GetDirectoryName(output));
         if(File.Exists(output))throw new IOException("Candidate exists; refusing overwrite");
         bool custom=PlayerSettings.Android.useCustomKeystore;string name=PlayerSettings.Android.keystoreName,alias=PlayerSettings.Android.keyaliasName,version=PlayerSettings.bundleVersion;int code=PlayerSettings.Android.bundleVersionCode,exit=1;
         try {
             PlayerSettings.Android.useCustomKeystore=true;PlayerSettings.Android.keystoreName=key;PlayerSettings.Android.keyaliasName="nguaman-vlab";PlayerSettings.Android.keystorePass=password;PlayerSettings.Android.keyaliasPass=password;
-            PlayerSettings.bundleVersion="0.1.18";PlayerSettings.Android.bundleVersionCode=39;
+            PlayerSettings.bundleVersion="0.1.19";PlayerSettings.Android.bundleVersionCode=40;
             var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=EditorBuildSettings.scenes.Where(s=>s.enabled).Select(s=>s.path).ToArray(),locationPathName=output,target=BuildTarget.Android,subtarget=(int)MobileTextureSubtarget.ETC2,options=BuildOptions.None});
             Directory.CreateDirectory("Evidence/PracticeRepair");File.WriteAllText("Evidence/PracticeRepair/android-build.txt",report.summary.result+"\n"+output+"\nErrors: "+report.summary.totalErrors+"\nWarnings: "+report.summary.totalWarnings+"\nAPK bytes: "+(File.Exists(output)?new FileInfo(output).Length:0)+"\n");exit=report.summary.result==BuildResult.Succeeded?0:1;
         }finally {

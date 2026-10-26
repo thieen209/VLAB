@@ -25,6 +25,7 @@ public sealed partial class WorkbenchUpgradeProbe
     IEnumerator ExperienceRepairChecks()
     {
         yield return Wait("home");if(Find("Skip quick tour"))yield return Tap("Skip quick tour");
+        if(Environment.GetEnvironmentVariable("VLAB_C05_MANUAL_CHECKS")=="1"){yield return ManualWashJourney();yield break;}
         bool guideOnly=Environment.GetEnvironmentVariable("VLAB_GUIDANCE_ONLY")=="1";
         if(!guideOnly){
         GuidanceTextChecks.Run();Check("Guidance covers32 authored lessons and preserves checkpoints",true);

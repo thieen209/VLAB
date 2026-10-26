@@ -44,6 +44,7 @@ namespace Vlab.Product
         }
         string DirectGestureHint(EquipmentHandle item)
         {
+            if(Session.spec.id=="C05"&&item.assetId=="wash")return L("Giữ bình rửa và hướng vòi qua cổ bình định mức đang mở. Thả để dừng; mực nước thay đổi theo lượng thực đã chuyển.","Hold the wash bottle and aim through the open volumetric flask neck. Release to stop; its level follows the actual transferred amount.");
             if(Session.spec.id=="C06"&&item.assetId=="probe")return L("Giữ đầu dò, kéo tới cốc cần đo rồi thả. Nhớ rửa giữa hai dung dịch.","Hold the probe, drag to a cup, then release. Rinse between solutions.");
             if(Session.spec.id=="P03"&&(item.assetId=="meter"||item.assetId=="block"))return L("Giữ và kéo phải để tăng lực. Khi khối trượt, kéo ngược nhẹ để kéo chậm và đều.","Hold and drag right to raise the pull. Once the block slides, pull back slightly for a slow steady pull.");
             if(Session.spec.id=="M03"&&(item.assetId=="meter"||item.assetId=="cord"))return L("Khi lượt đo bắt đầu, giữ đầu dây và kéo xuống để nâng tải.","After starting, hold the free cord and pull down to lift the load.");

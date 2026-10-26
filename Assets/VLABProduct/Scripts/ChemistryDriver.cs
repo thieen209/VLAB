@@ -15,7 +15,9 @@ namespace Vlab.Product
         { public string id,solute,sourceSampleId;public double moles,ml,temperatureC; }
         [Serializable] public sealed class Point { public double seconds,value; }
         [Serializable] public sealed class Draft
-        { public int version=1;public string lesson;public List<Titre> titres=new List<Titre>();public List<Sample> samples=new List<Sample>(); }
+        { public int version=1;public string lesson;public List<Titre> titres=new List<Titre>();public List<Sample> samples=new List<Sample>();public DilutionDraft dilution; }
+        [Serializable] public sealed class DilutionDraft
+        {public string stamp,flask;public double volume,water,stock,waste,moles;}
         [Serializable] sealed class Details
         {
             public string lesson,assumptions,sampleId,indicatorInterval;
@@ -37,6 +39,7 @@ namespace Vlab.Product
         double charge,initialMass=10,finalMass,gasMoles,lastSample=-10,additionalDilution=1;int qualitativeSelection,unitsLeft=12,naclUnits,nitrateUnits,waterUnits;
         bool naclSolid;double precipitateSeconds;string currentFlask="vol50";string sampleId="";
         string configurationStamp="";
+        DilutionDraft restoredDilution;bool manualWashActive;
         readonly Dictionary<string,ScientificFixtureSupport> electrodeHolders=new Dictionary<string,ScientificFixtureSupport>();
         public ChemistryDriver(ExperimentSession session):base(session){id=session.spec.id;}
         public override bool CanEditParameter(string key)=>id=="C01"&&key=="flow";
@@ -89,6 +92,7 @@ namespace Vlab.Product
         {
             if(!AllInstalled)return;
             string stamp=string.Join(";",session.parameters.Where(x=>x.Key!="flow").OrderBy(x=>x.Key).Select(x=>x.Key+"="+x.Value.ToString("R",System.Globalization.CultureInfo.InvariantCulture)));
+            if(id=="C05"&&configured&&dilutionTransferred){if(stamp!=configurationStamp){failed=true;failure="A controlled variable changed after the saved aliquot. Start a fresh attempt.";}return;}
             if(prepared>0){if(stamp!=configurationStamp){failed=true;failure="A controlled variable changed after preparation. Start a fresh attempt and prepare the actual solutions again.";}return;}
             switch(id)
             {
@@ -101,7 +105,7 @@ namespace Vlab.Product
                 case "C07":int size=V("surface",1)>=3?0:V("surface",1)>=1.5?1:2;I<VlabChips>("chips").Configure(size,(int)V("batches",2));Bottle("acid","HCl",P("acid"),80);I<VlabFlask>("flask").TrySetVolume(0);I<VlabGasSyringe>("syringe").SetVolume(0);break;
                 case "C08":Fill(I<VlabBeaker>("acidCup"),V("acidMl",25));Fill(I<VlabBeaker>("baseCup"),V("baseMl",25));I<VlabCalorimeter>("cal").SetLid(true);break;
             }
-            configurationStamp=stamp;configured=true;
+            configurationStamp=stamp;configured=true;RestorePartialDilution();
         }
         public override bool Prepare(int completedOperation,out string message)
         {
@@ -126,8 +130,8 @@ namespace Vlab.Product
                         if(completedOperation==2)Must(nitrateUnits==2&&waterUnits==2,"Select AgNO3 before each transfer; test both NaNO3 and water controls first.");
                         if(completedOperation==3)Must(naclUnits==2,"Select AgNO3, then dispense exactly 2 simulation units into NaCl.");break;
                     case "C05":
-                        if(completedOperation==1){RinsePipette("stock");stockRinsed=true;}
-                        if(completedOperation==2){Must(stockRinsed,"Rinse the pipette first.");sampleMoles=P("stock")*.010;TransferPipette("stock",I<VlabVolumetricFlask>(currentFlask).Liquid);dilutionTransferred=true;}
+                        if(completedOperation==1&&!stockRinsed){RinsePipette("stock");stockRinsed=true;}
+                        if(completedOperation==2&&!dilutionTransferred){Must(stockRinsed,"Rinse the pipette first.");sampleMoles=P("stock")*.010;TransferPipette("stock",I<VlabVolumetricFlask>(currentFlask).Liquid);dilutionTransferred=true;}
                         if(completedOperation==3)Must(filledMark&&mixed,"Add water to the actual mark, close the stopper and invert to mix using flask controls.");break;
                     case "C06":
                         if(completedOperation==1){labels=true;sampleId=NewSampleId("pH");samples.Add(new Sample{id=sampleId,solute=P("base")>.5?"NaOH":"HCl",moles=P("concentration")/P("dilution")*.050,ml=50,temperatureC=25});}
@@ -373,12 +377,59 @@ namespace Vlab.Product
             var p=I<VlabPhProbe>("probe");var b=I<VlabBeaker>(cup);p.ProbeAssembly.position+=b.transform.position+Vector3.up*(float)(b.SurfaceHeightMeters*.55)-p.Tip.GetComponent<Renderer>().bounds.center;
             Must(p.Immersed(BeakerRegion(cup)),"The entire probe sensor must be inside the true liquid region.");
         }
+        public bool CanManualWash=>id=="C05"&&AllInstalled&&prepared==2&&session.Phase==ExperimentPhase.Preparing&&dilutionTransferred&&!mixed&&!filledMark&&!failed&&samples.Count==0;
+        public double ManualWashRateMlPerSecond
+        {
+            get{if(id!="C05"||!AllInstalled)return 0;var f=I<VlabVolumetricFlask>(currentFlask).Liquid;return Named(currentFlask,"_Calibration_SOCKET").position.y-f.CavityCentreAt(f.SurfaceHeightMeters).y<.008f?.2:6;}
+        }
+        bool AtDilutionMark()
+        {
+            var f=I<VlabVolumetricFlask>(currentFlask).Liquid;
+            var mark=equipment[currentFlask].GetComponentsInChildren<Renderer>().First(r=>r.name.EndsWith("_Mark_VIS",StringComparison.Ordinal));
+            // The delivered calibration band's actual 0.7 mm height is the visual
+            // tolerance, not a claim of calibrated Class A glassware accuracy.
+            return f.VolumeMl<=(currentFlask=="vol50"?50:100)+1e-8&&Math.Abs(f.CavityCentreAt(f.SurfaceHeightMeters).y-Named(currentFlask,"_Calibration_SOCKET").position.y)<=mark.bounds.extents.y+1e-6;
+        }
+        public bool BeginManualWash(out string message)
+        {message="";if(!CanManualWash){message="Transfer the first 10 mL aliquot before manually filling the open flask.";return false;}manualWashActive=true;return true;}
+        public void StopManualWash()
+        {manualWashActive=false;if(Has("wash")){var w=I<VlabWashBottle>("wash");if(w)w.StopFlow();}}
+        public double DispenseManualWater(double requestedMl,out string message)
+        {
+            message="";var w=Has("wash")?I<VlabWashBottle>("wash"):null;if(w)w.StopFlow();
+            if(!manualWashActive||!CanManualWash||!Finite(requestedMl)||requestedMl<=0){message="Water flow stopped.";return 0;}
+            var f=I<VlabVolumetricFlask>(currentFlask);var neck=Named(currentFlask,"_NeckSocket_SOCKET");
+            if(!f.StopperOpen||w.CapOpen){message="Open the flask stopper and close the wash bottle cap.";return 0;}
+            var target=f.Liquid.CavityCentreAt(f.Liquid.SurfaceHeightMeters+.001);var delta=target-w.Outlet;
+            if(w.Outlet.y<neck.position.y+.002f||delta.magnitude<.005f||delta.magnitude>1||Vector3.Dot(delta.normalized,w.OutletDirection)<.98f){message="Aim the nozzle down through the open neck.";return 0;}
+            Physics.SyncTransforms();
+            // The rig adds selection colliders to every mesh, including the liquid
+            // preview. That surface is the receiver, not a solid path obstruction.
+            bool Obstructs(Collider c)=>!c.transform.IsChildOf(w.transform)&&!c.transform.IsChildOf(f.Liquid.Liquid.transform);
+            foreach(var c in Physics.OverlapSphere(w.Outlet,.00075f,~0,QueryTriggerInteraction.Ignore))if(Obstructs(c)){message="The nozzle is touching an obstruction.";return 0;}
+            foreach(var hit in Physics.SphereCastAll(w.Outlet,.00075f,delta.normalized,delta.magnitude,~0,QueryTriggerInteraction.Ignore))if(Obstructs(hit.collider)){message="Keep the water path clear through the flask neck.";return 0;}
+            double moved=w.TryDispenseTo(f.Liquid,requestedMl);
+            if(moved<=0){w.StopFlow();message="No water transferred: check the nozzle, upright flask and remaining water.";return 0;}
+            // SDK moves only finite water; solute moles never change while filling.
+            filledMark=AtDilutionMark();mixed=false;
+            if(filledMark)StopManualWash();
+            message=filledMark?"The actual liquid surface reached the mark. Release, then stopper and invert.":"Water added to the actual flask; continue toward the mark.";return moved;
+        }
+        void RestorePartialDilution()
+        {
+            var d=restoredDilution;restoredDilution=null;if(id!="C05"||d==null||samples.Count!=0||d.stamp!=configurationStamp||d.flask!=currentFlask)return;
+            var f=I<VlabVolumetricFlask>(currentFlask);var w=I<VlabWashBottle>("wash");var stock=I<VlabReagentBottle>("stock");var waste=I<VlabBeaker>("waste");
+            if(!new[]{d.volume,d.water,d.stock,d.waste,d.moles}.All(Finite)||d.volume<10||d.volume>f.Liquid.CapacityMl||d.water<0||d.water>250||d.stock<0||d.stock>120||d.waste<0||d.waste>waste.CapacityMl||Math.Abs(d.volume+d.water-260)>1e-6||Math.Abs(d.stock+d.waste+10-120)>1e-6||Math.Abs(d.moles-P("stock")*.010)>1e-10)return;
+            Must(f.TrySetVolume(d.volume)&&w.TrySetWaterAmount(d.water)&&stock.TrySetVolume(d.stock),"Restore the saved upright dilution vessels.");Fill(waste,d.waste);
+            stockRinsed=dilutionTransferred=true;sampleMoles=d.moles;filledMark=AtDilutionMark();mixed=false;sampleId="";StopManualWash();
+        }
         void WaterToMark()
         {
             Must(dilutionTransferred,"Transfer the 10 mL aliquot first.");var f=I<VlabVolumetricFlask>(currentFlask);Must(f.StopperOpen,"Open the stopper before adding water.");
             var w=I<VlabWashBottle>("wash");var target=f.Liquid.CavityCentreAt(f.Liquid.SurfaceHeightMeters+.001);
             var jetTarget=target+Vector3.up*.08f;w.transform.rotation=Quaternion.FromToRotation(w.OutletDirection,Vector3.down)*w.transform.rotation;w.transform.position+=jetTarget-w.Outlet;
             double required=(currentFlask=="vol50"?50:100)-f.Liquid.VolumeMl;
+            Must(required>=-1e-8,"The calibration mark was exceeded; prepare a fresh sample.");
             Must(Math.Abs(w.TryDispenseTo(f.Liquid,required)-required)<1e-8,"Aim the water jet into the actual open volumetric flask.");w.StopFlow();filledMark=true;
         }
         public override bool CanStart(out string message)
@@ -405,7 +456,7 @@ namespace Vlab.Product
         }
         public override void SetPaused(bool value)
         {
-            bool wasPaused=paused;paused=value;if(!AllInstalled)return;
+            if(value)StopManualWash();bool wasPaused=paused;paused=value;if(!AllInstalled)return;
             if(id=="C01"){var b=I<VlabBurette>("burette");b.Paused=value;if(value){b.SetValve(0);session.parameters["flow"]=0;}}
             if(id=="C03")
             {
@@ -510,7 +561,7 @@ namespace Vlab.Product
                 case "C02":return Require(CellReady()&&clock>=2,"Restore both wet half-cells, salt bridge and correct meter contacts before recording.",out message);
                 case "C03":return Require(finalWeighed&&dry&&!I<VlabPowerSupply>("supply").On&&clock+1e-8>=P("time"),"Finish the timed current interval, switch off, rinse, dry and weigh the cathode.",out message);
                 case "C04":return Require(labels&&naclUnits==2&&nitrateUnits==2&&waterUnits==2&&precipitateSeconds>=3,"Dose all three labelled samples, then observe the illustrative appearance transition for 3 seconds.",out message);
-                case "C05":return Require(filledMark&&mixed&&samples.Any(s=>s.id==sampleId),"Fill to mark, close and mix the labelled sample.",out message);
+                case "C05":return Require(filledMark&&mixed&&AtDilutionMark()&&samples.Any(s=>s.id==sampleId),"Fill to mark, close and mix the labelled sample.",out message);
                 case "C06":return Require(calibrated&&rinsed&&probeIn&&paperUsed&&!float.IsNaN(I<VlabPhProbe>("probe").Reading),"A rinsed calibrated probe must remain fully immersed; observe BTB separately.",out message);
                 case "C07":double max=Math.Min(I<VlabChips>("chips").MassGrams/100.0869,P("acid")*P("volume")/2000);return Require(gasSealed&&curve.Count>=3&&max>0&&gasMoles>=.99*max,"Continue sealed sampling until at least three time points and 99% of the predicted plateau.",out message);
                 case "C08":return Require(clock>=20&&I<VlabCalorimeter>("cal").Loaded&&!float.IsNaN(I<VlabThermometer>("thermometer").ReadingC),"Observe the immersed thermometer for at least 20 s.",out message);
@@ -563,7 +614,7 @@ namespace Vlab.Product
                     case "selectAg":Must(id=="C04"&&labels&&unitsLeft>=2,"Label the samples; insufficient reagent remains.");qualitativeSelection=1;break;
                     case "waterMark":Must(id=="C05","Wrong lesson.");WaterToMark();break;
                     case "serial":SerialDilution();break;
-                    case "invert":Must(id=="C05"&&filledMark&&!mixed,"Fill to the mark first; each sample is labelled once.");Must(I<VlabVolumetricFlask>(currentFlask).TrySetStopperOpen(false),"Stopper closure failed.");mixed=true;sampleId=NewSampleId("NaCl");Must(I<VlabLabel>("label").SetIds("NaCl",sampleId),"Sample label unavailable.");samples.Add(new Sample{id=sampleId,solute="NaCl",moles=sampleMoles,sourceSampleId=serialSourceId,ml=I<VlabVolumetricFlask>(currentFlask).Liquid.VolumeMl,temperatureC=25});break;
+                    case "invert":Must(id=="C05"&&filledMark&&!mixed&&AtDilutionMark(),"Fill to the actual mark first; each sample is labelled once.");Must(I<VlabVolumetricFlask>(currentFlask).TrySetStopperOpen(false),"Stopper closure failed.");mixed=true;sampleId=NewSampleId("NaCl");Must(I<VlabLabel>("label").SetIds("NaCl",sampleId),"Sample label unavailable.");samples.Add(new Sample{id=sampleId,solute="NaCl",moles=sampleMoles,sourceSampleId=serialSourceId,ml=I<VlabVolumetricFlask>(currentFlask).Liquid.VolumeMl,temperatureC=25});break;
                     case "buffer4":Must(id=="C06"&&labels&&(!buffer7Seen||rinsed),"Rinse before changing calibration buffers.");ProbeAt("buffer4");Must(I<VlabPhProbe>("probe").TryConfigureBuffers(4,7,25)&&I<VlabPhProbe>("probe").TryObserve(BeakerRegion("buffer4"),id+"-buffer4",4),"Read the immersed pH 4 buffer.");buffer4Seen=true;rinsed=false;probeIn=false;break;
                     case "buffer7":Must(id=="C06"&&labels&&buffer4Seen&&rinsed,"Observe pH 4 and rinse before changing to pH 7 buffer.");ProbeAt("buffer7");Must(I<VlabPhProbe>("probe").TryObserve(BeakerRegion("buffer7"),id+"-buffer7",7),"Read the immersed pH 7 buffer.");buffer7Seen=true;rinsed=false;probeIn=false;break;
                     case "rinseProbe":Must(id=="C06","Wrong lesson.");ProbeAt("rinse");rinsed=true;probeIn=false;if(buffer4Seen&&buffer7Seen){Must(I<VlabPhProbe>("probe").TryConfigureBuffers(4,7,25),"pH calibration metadata unavailable.");calibrated=true;}break;
@@ -683,15 +734,22 @@ namespace Vlab.Product
             if(id=="C08"){var c=I<VlabCalorimeter>("cal");d.acidMl=V("acidMl",25);d.baseMl=V("baseMl",25);d.acidM=V("acidM",.5);d.baseM=V("baseM",.5);d.acidC=V("acidC",25);d.baseC=V("baseC",25);d.cupC=V("cupC",25);d.cupJPerK=V("cup",20);d.temperatureC=c.TemperatureC;d.peakC=c.PeakTemperatureC;d.releasedJ=c.ReleasedHeatJ;d.lostJ=c.LostHeatJ;}
             d.assumptions=id=="C04"?"Qualitative; 2 simulation units per transfer, no molar conversion":id=="C07"?"Finite-substrate illustrative kinetics; calibrated chip geometry; ideal gas 298.15K/1atm":id=="C08"?"SDK57000J/mol;rho1g/mL;c4.18J/g/K;2s mixing;lid thermal leak":"Ideal dilute aqueous lesson; delivered instrument limits apply";return JsonUtility.ToJson(d);
         }
-        public override string SaveState()=>JsonUtility.ToJson(new Draft{lesson=id,titres=new List<Titre>(titres),samples=new List<Sample>(samples)});
+        public override string SaveState()
+        {
+            DilutionDraft partial=restoredDilution;
+            if(id=="C05"&&AllInstalled&&dilutionTransferred&&!mixed&&samples.Count==0)partial=new DilutionDraft{stamp=configurationStamp,flask=currentFlask,volume=I<VlabVolumetricFlask>(currentFlask).Liquid.VolumeMl,water=I<VlabWashBottle>("wash").RemainingMl,stock=I<VlabReagentBottle>("stock").Liquid.VolumeMl,waste=I<VlabBeaker>("waste").VolumeMl,moles=sampleMoles};
+            return JsonUtility.ToJson(new Draft{lesson=id,titres=new List<Titre>(titres),samples=new List<Sample>(samples),dilution=partial});
+        }
         public override void RestoreState(string json)
         {
-            // Never restore running flow, power, pressure, calibration or fluid.
+            // Never restore running flow/power. C05 may restore a conserved partial
+            // initial dilution after reinstalling upright vessels; no sample is created.
             if(string.IsNullOrWhiteSpace(json)||json.Length>100000)return;
             try{var d=JsonUtility.FromJson<Draft>(json);if(d==null||d.version!=1||d.lesson!=id)return;titres.Clear();samples.Clear();
                 if(d.titres!=null)foreach(var t in d.titres.Take(100))if(t!=null&&Finite(t.initial)&&Finite(t.final)&&Finite(t.delivered)&&Finite(t.acidM)&&t.initial>=0&&t.final<=25&&t.final>=t.initial&&Math.Abs(t.final-t.initial-t.delivered)<1e-6&&t.acidM>=0){if(t.reason=="current")t.reason="accepted";titres.Add(t);}
                 if(d.samples!=null)foreach(var s in d.samples.Take(100))if(s!=null&&!string.IsNullOrEmpty(s.id)&&s.id.Length<=128&&Finite(s.moles)&&Finite(s.ml)&&s.moles>=0&&s.ml>0&&s.ml<=100)samples.Add(s);
-            }catch(ArgumentException){}paused=true;
+                if(id=="C05"&&samples.Count==0)restoredDilution=d.dilution;
+            }catch(ArgumentException){}paused=true;StopManualWash();
         }
     }
 }

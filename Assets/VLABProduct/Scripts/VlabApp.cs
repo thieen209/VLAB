@@ -1219,7 +1219,7 @@ namespace Vlab.Product
                 }
                 if(!PointerHitsUi(frame.pointer))
                 {lastInteractionRay=frame.pointer;UpdateFlagshipDrag(frame);if(Apparatus)Apparatus.UpdateGrab(frame);}
-                else if(frame.released){CancelFlagshipDrag();if(Apparatus&&!Apparatus.HasLatchedCarry)Apparatus.CancelGrab();}
+                else{CancelWashGesture();if(frame.released){CancelFlagshipDrag();if(Apparatus&&!Apparatus.HasLatchedCarry)Apparatus.CancelGrab();}}
             }
         }
         bool PointerHitsUi(Ray ray)
@@ -1311,7 +1311,7 @@ namespace Vlab.Product
         }
         static bool Flagship(string id)=>id=="P01"||id=="C04"||id=="B01"||id=="M01";
         EquipmentHandle flagshipDrag;Vector3 flagshipRest;Quaternion flagshipRotation;Plane flagshipPlane;Vector3 flagshipLast;float flagshipDistance;bool flagshipFine;Ray lastInteractionRay;
-        void CancelFlagshipDrag(){if(flagshipDrag&&Apparatus&&Apparatus.EndFlagshipGrab(flagshipDrag)&&(Session?.spec.id=="C04"||Session?.spec.id=="C06"||(Session?.spec.id=="B01"&&flagshipDrag.assetId=="slide")))flagshipDrag.transform.SetPositionAndRotation(flagshipRest,flagshipRotation);flagshipDrag=null;}
+        void CancelFlagshipDrag(){CancelWashGesture();if(flagshipDrag&&Apparatus&&Apparatus.EndFlagshipGrab(flagshipDrag)&&(Session?.spec.id=="C04"||Session?.spec.id=="C06"||(Session?.spec.id=="B01"&&flagshipDrag.assetId=="slide")))flagshipDrag.transform.SetPositionAndRotation(flagshipRest,flagshipRotation);flagshipDrag=null;}
         bool FlagshipOperate(string action)
         {
             if(!Apparatus.Driver.Operate(action,out var why)){ActionFailure(why);return false;}
@@ -1337,6 +1337,7 @@ namespace Vlab.Product
         {
             if(!item||item.Owner!=EquipmentGrabOwner.None)return false;
             if(BeginMicroscopeGesture(item,hit,frame))return true;
+            if(BeginWashGesture(item,hit,frame))return true;
             string id=Session.spec.id,key=item.assetId,part=hit.collider.name;
             if(!Flagship(id))return BeginWorkbenchDrag(item,hit,frame);
             if(!Apparatus.Ready){ActionFailure(L("Lắp đủ dụng cụ trước khi thao tác.","Install the required apparatus first."));return true;}
@@ -1400,8 +1401,9 @@ namespace Vlab.Product
         void UpdateFlagshipDrag(ActionFrame frame)
         {
             if(!flagshipDrag)return;
-            if(flagshipDrag.Owner!=EquipmentGrabOwner.Flagship){flagshipDrag=null;return;}
+            if(flagshipDrag.Owner!=EquipmentGrabOwner.Flagship){CancelWashGesture();flagshipDrag=null;return;}
             if(frame.lost||frame.back||frame.menu){CancelFlagshipDrag();return;}
+            if(UpdateWashGesture(frame))return;
             if(UpdateWorkbenchDrag(frame))return;
             if(Session.spec.id=="C04")
             {
