@@ -8,7 +8,7 @@
 
 [Cài APK](#chơi-trên-android--không-cần-cài-unity) · [Mở project Unity](#mở-và-phát-triển-mã-nguồn) · [Tài liệu](docs/README.md) · [Nhật ký thay đổi](CHANGELOG.md)
 
-> **Trạng thái 26/10/2026:** bản thử nghiệm **0.1.21/code42** sửa lỗi cầm–kéo–đặt dụng cụ trên điện thoại ([kiểm tra](docs/PhonePlacement/REPORT.md)), kế thừa code41 bổ sung cửa sổ quy trình, sổ vẽ, thị kính, khay tương phản và thao tác pipette C05, nhỏ giọt C04, rót C08 có kiểm tra lượng dung dịch thực. [Bằng chứng và phạm vi còn thiếu](docs/LearnerExperience/REPORT.md). Chưa có rót hóa chất tự do cho mọi bài hoặc nghiệm thu phần cứng thật.
+> **Trạng thái 26/10/2026:** bản thử nghiệm **0.1.22/code43** có pipette chuẩn độ thao tác hút–tráng–chuyển mẫu, kẹp đỡ riêng và quy trình đo/lặp/so sánh đủ nội dung 32 bài. Kế thừa các sửa đổi code42. [Bằng chứng và giới hạn](docs/TitrationPipette/REPORT.md). Chưa hoàn thiện mọi đường chuyển hóa chất hoặc nghiệm thu phần cứng thật.
 
 
 <p align="center">
@@ -117,12 +117,12 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ### Chơi trên Android — không cần cài Unity
 
-1. [Tải APK VLAB 0.1.21 / code42](https://github.com/thieen209/VLAB/releases/download/v0.1.21-learner-experience-code42/VLAB-0.1.21-learner-experience-code42.apk). Xem [SHA256 và cấu hình](docs/PhonePlacement/ARTIFACT.json) để đối chiếu. APK mới nằm trên Releases; code29 cũ được giữ trong Git LFS. File Source code (zip) là mã nguồn để mở bằng Unity.
+1. [Tải APK VLAB 0.1.22 / code43](https://github.com/thieen209/VLAB/releases/download/v0.1.22-learner-experience-code43/VLAB-0.1.22-learner-experience-code43.apk). Xem [SHA256 và cấu hình](docs/TitrationPipette/ARTIFACT.json) để đối chiếu. APK mới nằm trên Releases; code29 cũ được giữ trong Git LFS. File Source code (zip) là mã nguồn để mở bằng Unity.
 2. Mở APK trên điện thoại. Nếu Android yêu cầu, cho phép **Cài ứng dụng không rõ nguồn gốc** cho trình duyệt hoặc ứng dụng quản lý tệp đang dùng, rồi xác nhận cài đặt. Có thể tắt quyền này sau khi cài xong.
 3. Mở ứng dụng **VLAB**, dùng máy theo chiều ngang và chọn phòng thí nghiệm. Nội dung học và tiến độ được lưu trên thiết bị; chơi không cần tài khoản hay mạng.
 4. Có thể chơi bằng màn hình cảm ứng. Để dùng kính, chọn **Vào VR** hoặc chế độ kính trong Cài đặt → Điều khiển, sau đó lắp điện thoại vào kính Cardboard phù hợp. Điện thoại cần cảm biến hỗ trợ head tracking; có màn hình Android không đồng nghĩa chắc chắn hỗ trợ VR. Quét QR của kính trong phần Điều khiển để cấu hình kính khi cần.
 
-**Phân biệt phiên bản:** bản mới là **0.1.21/code42**. Các số code cũ trong biên bản là lịch sử. Xem [báo cáo và giới hạn kiểm thử](docs/PhonePlacement/REPORT.md).
+**Phân biệt phiên bản:** bản mới là **0.1.22/code43**. Các số code cũ trong biên bản là lịch sử. Xem [báo cáo và giới hạn kiểm thử](docs/TitrationPipette/REPORT.md).
 
 Cập nhật đè bằng APK có **cùng chữ ký** để giữ tiến độ. Nếu báo xung đột chữ ký, đừng gỡ ứng dụng hoặc xóa dữ liệu chỉ để cài tiếp: việc đó có thể làm mất sổ tay và kết quả đang lưu. APK tự build bằng debug key không thể cập nhật đè bản phát hành dùng chữ ký khác.
 

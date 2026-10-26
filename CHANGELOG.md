@@ -1,8 +1,9 @@
 # Nhật ký thay đổi VLAB
 
-## Chưa đóng APK — sau code42
+## 0.1.22 / code43 — 2026-10-26
 
 - Cửa sổ Quy trình hiển thị đủ bước đo/lặp/so sánh từ tài liệu 32 bài và ví dụ minh họa tách khỏi số đo. [Bằng chứng](docs/ProcedureCoverage/REPORT.md).
+- Chuẩn độ có thao tác pipette hút/tráng/chuyển mẫu bằng cảm ứng và kẹp đỡ riêng; giữ lượng mẫu khi thả tay. Kiểm tra lại pha loãng C05 và SDK Hóa. [Bằng chứng và giới hạn](docs/TitrationPipette/REPORT.md).
 
 ## 0.1.21 / code42 — 2026-10-26
 

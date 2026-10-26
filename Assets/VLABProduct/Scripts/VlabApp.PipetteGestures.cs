@@ -9,7 +9,7 @@ namespace Vlab.Product
         EquipmentHandle pipetteBulbGrab;
         bool BeginPipetteGesture(EquipmentHandle item,RaycastHit hit,ActionFrame frame)
         {
-            if(Session?.spec.id!="C05"||(item.assetId!="pipette"&&item.assetId!="bulb")||!frame.held||!(Apparatus.Driver is ChemistryDriver chemistry)||!chemistry.CanManualPipette)return false;
+            if((Session?.spec.id!="C05"&&Session?.spec.id!="C01")||(item.assetId!="pipette"&&item.assetId!="bulb")||!frame.held||!(Apparatus.Driver is ChemistryDriver chemistry)||!chemistry.CanManualPipette)return false;
             var pipette=Apparatus.items.First(i=>i.assetId=="pipette");var bulb=Apparatus.items.First(i=>i.assetId=="bulb");
             if(!Apparatus.BeginFlagshipGrab(pipette))return false;
             if(!Apparatus.BeginFlagshipGrab(bulb)){Apparatus.EndFlagshipGrab(pipette);return false;}
@@ -24,7 +24,7 @@ namespace Vlab.Product
         Transform PipetteSocket(string suffix)=>flagshipDrag.GetComponentsInChildren<Transform>(true).Single(t=>t.name.EndsWith(suffix,StringComparison.Ordinal));
         bool UpdatePipetteGesture(ActionFrame frame)
         {
-            if(Session?.spec.id!="C05"||!flagshipDrag||flagshipDrag.assetId!="pipette")return false;
+            if((Session?.spec.id!="C05"&&Session?.spec.id!="C01")||!flagshipDrag||flagshipDrag.assetId!="pipette")return false;
             if(frame.released||!frame.held||frame.lost||frame.back||frame.menu||Route!="activity"||modal||!pipetteBulbGrab||pipetteBulbGrab.Owner!=EquipmentGrabOwner.Flagship)
             {CancelPipetteGesture();Save();RefreshActivity();return true;}
             var chemistry=Apparatus.Driver as ChemistryDriver;
@@ -43,12 +43,12 @@ namespace Vlab.Product
                 while(Session.Operation<chemistry.CompletedPipetteOperations)
                     if(!Apparatus.PrepareNext(out var failure)){ActionFailure(failure);break;}
             }
-            if(liveHint)liveHint.text=Vi?(chemistry.PipetteNeedsRinse?"Hỗ trợ độ cao: kéo pipette tới chai gốc rồi cốc thải để tráng đủ 10 mL. Thả để đóng van và đặt lại vào kẹp.":"Hỗ trợ độ cao: kéo pipette tới chai gốc rồi bình định mức để chuyển đủ 10 mL. Thả để đóng van và đặt lại vào kẹp."):("Height assistance; release parks in the clamp. Illustrative flow: "+why);
+            if(liveHint)liveHint.text=Vi?(chemistry.PipetteNeedsRinse?"Hỗ trợ độ cao: kéo pipette tới chai gốc rồi cốc thải để tráng đủ 10 mL. Thả để đóng van và đặt lại vào kẹp.":(Session.spec.id=="C01"?"Kéo pipette tới chai mẫu rồi bình chuẩn độ để chuyển đủ 10 mL. Thả để đóng van và đặt vào kẹp riêng.":"Hỗ trợ độ cao: kéo pipette tới chai gốc rồi bình định mức để chuyển đủ 10 mL. Thả để đóng van và đặt lại vào kẹp.")):("Height assistance; release parks in the clamp. Illustrative flow: "+why);
             return true;
         }
         void CancelPipetteGesture()
         {
-            if(Session?.spec.id!="C05")return;
+            if((Session?.spec.id!="C05"&&Session?.spec.id!="C01"))return;
             if(Apparatus&&Apparatus.Driver is ChemistryDriver chemistry)chemistry.StopManualPipette();
             if(pipetteBulbGrab&&Apparatus)Apparatus.EndFlagshipGrab(pipetteBulbGrab);pipetteBulbGrab=null;
             if(!flagshipDrag||flagshipDrag.assetId!="pipette")return;

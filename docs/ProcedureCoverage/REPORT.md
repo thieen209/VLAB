@@ -1,6 +1,6 @@
 # Nội dung quy trình thực hành — sau code42
 
-**Chỉ có trong mã nguồn sau code42; chưa nằm trong APK code42.**
+**Bổ sung sau code42, đóng gói cùng bản code43.**
 
 Cửa sổ Quy trình trước đây hiển thị bước chuẩn bị của ứng dụng, nhưng bỏ qua `stepsVi` trong tài liệu bài học: cách lấy mẫu đo, lặp lượt, thay đổi biến và so sánh kết quả. Nay phần kế hoạch thực hành hiển thị đủ các bước này, cùng ví dụ được ghi rõ là minh họa, không phải số đo của học sinh. Bước thao tác và điều kiện hoàn thành trong ứng dụng vẫn ở phần đầu.
 

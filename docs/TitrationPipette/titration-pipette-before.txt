@@ -1,0 +1,23 @@
+Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence.
+PASS Reached home
+PASS Reachable Skip quick tour
+PASS Touch click delivered Skip quick tour
+PASS C01 install stand
+PASS C01 install clamp
+PASS C01 install burette
+PASS C01 install flask
+PASS C01 install pipette
+PASS C01 install bulb
+PASS C01 install sample
+PASS C01 install base
+PASS C01 install indicator
+PASS C01 install waste
+PASS C01 charge burette
+PASS C01 prime burette
+PASS C01 retain initial meniscus
+FAIL C01 preparation cannot silently rinse and transfer sample
+FAIL System.Exception: C01 preparation cannot silently rinse and transfer sample
+  at WorkbenchUpgradeProbe.Check (System.String name, System.Boolean pass) [0x0003a] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:31
+  at C01ManualPipetteChecks.Run (System.Action`2[T1,T2] check) [0x0016b] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Scripts\C01ManualPipetteChecks.cs:20
+  at WorkbenchUpgradeProbe+<LearnerExperienceChecks>d__15.MoveNext () [0x00495] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\LearnerExperienceChecks.cs:33
+  at WorkbenchUpgradeProbe+<Start>d__47.MoveNext () [0x0008d] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:114

@@ -51,7 +51,7 @@ namespace Vlab.Product
             {
                 switch(id)
                 {
-                    case "C01":return new[]{K("stand","stand","Giá burette","Burette stand",-.12f,.12f),K("clamp","clamp","Kẹp burette","Burette clamp",-.12f,.12f,.40f,false,"stand"),K("burette","burette","Burette 25 mL","25 mL burette",0,0,.18f,false,"clamp"),K("flask","flask","Bình chuẩn độ","Titration flask",0,0),K("pipette","pipette","Pipette 10 mL","10 mL pipette",-.35f,-.18f),K("bulb","pipette_bulb","Quả bóp","Pipette bulb",-.35f,-.30f,0,true,"pipette"),K("sample","reagent_bottle_250ml","Mẫu giấm pha loãng","Diluted vinegar sample",-.45f,.18f),K("base","reagent_bottle_250ml","NaOH","NaOH",.35f,.18f),K("indicator","dropper","Phenolphthalein","Phenolphthalein dropper",.28f,-.18f),K("waste","beaker","Cốc thải","Waste beaker",.43f,-.1f)};
+                    case "C01":return new[]{K("stand","stand","Giá burette","Burette stand",-.12f,.12f),K("clamp","clamp","Kẹp burette","Burette clamp",-.12f,.12f,.40f,false,"stand"),K("burette","burette","Burette 25 mL","25 mL burette",0,0,.18f,false,"clamp"),K("flask","flask","Bình chuẩn độ","Titration flask",0,0),K("pipetteStand","stand","Giá pipette","Pipette stand",-.62f,.10f),K("pipetteClamp","clamp","Kẹp pipette","Pipette clamp",-.62f,.10f,.26f,false,"pipetteStand"),K("pipette","pipette","Pipette 10 mL","10 mL pipette",-.35f,-.18f,.18f,false,"pipetteClamp"),K("bulb","pipette_bulb","Quả bóp","Pipette bulb",-.35f,-.30f,0,true,"pipette"),K("sample","reagent_bottle_250ml","Mẫu giấm pha loãng","Diluted vinegar sample",-.45f,.18f),K("base","reagent_bottle_250ml","NaOH","NaOH",.35f,.18f),K("indicator","dropper","Phenolphthalein","Phenolphthalein dropper",.28f,-.18f),K("waste","beaker","Cốc thải","Waste beaker",.43f,-.1f)};
                     case "C02":return new[]{K("znCup","beaker","ZnSO4","ZnSO4 half-cell",-.055f,0),K("cuCup","beaker","CuSO4","CuSO4 half-cell",.055f,0),K("zn","electrodes_Zn","Điện cực Zn","Zinc electrode",-.08f,.12f),K("cu","electrodes_Cu","Điện cực Cu","Copper electrode",.08f,.12f),K("bridge","salt_bridge","Cầu muối KNO3","KNO3 salt bridge",0,.2f),K("meter","multimeter","Vôn kế","Voltmeter",0,-.24f),K("leadA","cables","Dây COM","COM lead",-.3f,-.1f),K("leadB","cables","Dây V","Voltage lead",.3f,-.1f)};
                     case "C03":return new[]{K("bath","beaker","CuSO4","Copper sulfate bath",0,0),K("cathode","electrodes_Cu","Cathode đồng","Copper cathode",-.025f,.16f),K("anode","electrodes","Anode","Anode",.025f,.16f),K("supply","power_supply","Nguồn DC","DC supply",.25f,-.1f),K("leadA","cables","Dây âm","Negative cable",-.3f,.1f),K("leadB","cables","Dây dương","Positive cable",.3f,.1f),K("balance","balance","Cân 0,001 g","0.001 g balance",-.35f,-.2f),K("timer","timer","Đồng hồ","Stopwatch",.3f,.2f),K("rinse","wash_bottle","Rửa điện cực","Electrode rinse",-.5f,.12f),K("drying","drying_station","Trạm làm khô","Drying station",-.15f,-.25f),K("waste","beaker","Nước rửa thải","Rinse waste",-.48f,.30f)};
                     case "C04":return new[]{K("nacl","beaker","Mẫu NaCl","NaCl sample",-.16f,0),K("nitrate","beaker","Đối chứng NaNO3","NaNO3 control",0,0),K("water","beaker","Mẫu trắng nước","Water blank",.16f,0),K("reagent","reagent_bottle","AgNO3 · đơn vị mô phỏng","AgNO3 · simulation units",.35f,.15f),K("dropper","dropper","Chọn rồi nhỏ thuốc thử","Select then dispense reagent",-.3f,.15f),K("solidNaCl","precipitate_beaker250","AgCl định tính","Qualitative AgCl",-.16f,0,0,true,"nacl"),K("solidNitrate","precipitate_beaker250","Đối chứng không cặn","Control sediment",0,0,0,true,"nitrate"),K("solidWater","precipitate_beaker250","Mẫu trắng không cặn","Blank sediment",.16f,0,0,true,"water")};
@@ -92,8 +92,8 @@ namespace Vlab.Product
                 I<VlabStand>("stand").TrySetHeight(.35f);I<VlabClamp>("clamp").SetOpening(.014);AlignTitrationSupport();
             }
             if(id=="C01"&&key=="burette")AlignTitrationSupport();
-            if(id=="C05"&&key=="clamp")AlignPipetteSupport();
-            if(id=="C05"&&key=="pipette")SeatPipetteOnSupport();
+            if((id=="C05"||id=="C01")&&key==PipetteClampKey)AlignPipetteSupport();
+            if((id=="C05"||id=="C01")&&key=="pipette")SeatPipetteOnSupport();
             if(key=="bulb"&&equipment["pipette"].installed){Must(I<VlabPipetteBulb>("bulb").TryAttach(I<VlabFlask>("pipette")),"Attach the bulb at the pipette connection.");RestPipette();}
             if(id=="C04"&&key.StartsWith("solid",StringComparison.Ordinal))
             {string cup=key=="solidNaCl"?"nacl":key=="solidNitrate"?"nitrate":"water";Must(I<VlabPrecipitate>(key).TryAttachTo(I<VlabBeaker>(cup)),"Sediment must be attached to its actual 250 mL beaker.");I<VlabPrecipitate>(key).TrySetQualitative(false);}
@@ -168,7 +168,7 @@ namespace Vlab.Product
             var b=I<VlabBurette>("burette");
             if(step==1){ConsumeBottle("base",28);I<VlabBeaker>("waste").Add(3);b.Prepare(0,false);}
             if(step==2){b.Prepare(0,true);b.SetValve(1);b.Paused=false;double waste=b.Advance(2,I<VlabBeaker>("waste"));Must(Math.Abs(waste-1)<1e-8,"Insufficient waste capacity to prime the tip.");b.Prepare(b.ReadingMl,true);initialRead=false;}
-            if(step==3){Must(initialRead,"Read and retain the initial meniscus using the burette control.");RinsePipette("sample");TransferPipette("sample",I<VlabFlask>("flask"));sampleMoles=P("acid")*.010;}
+            if(step==3){Must(initialRead,"Read and retain the initial meniscus using the burette control.");Must(stockRinsed&&dilutionTransferred,"Rinse the pipette to waste, then deliver the actual 10 mL sample into the titration flask.");}
             if(step==4){Must(I<VlabFlask>("flask").VolumeMl>=10-1e-8,"A 10 mL aliquot is required.");Must(I<VlabDropper>("indicator").SetSqueeze(.5f),"Indicator dropper unavailable.");indicator=true;PositionBuretteOutlet();}
         }
         void PipetteAt(Vector3 point)
@@ -179,7 +179,7 @@ namespace Vlab.Product
         }
         void RestPipette()
         {
-            if(id=="C05"){SeatPipetteOnSupport();return;}
+            if(id=="C05"||id=="C01"){SeatPipetteOnSupport();return;}
             if(!Has("pipette")||I<VlabFlask>("pipette").VolumeMl>1e-8)return;
             var item=equipment["pipette"];item.transform.SetPositionAndRotation(item.slot,item.rotation);
             if(Has("bulb")&&I<VlabPipetteBulb>("bulb").Attached)
@@ -203,39 +203,44 @@ namespace Vlab.Product
             }
             var rig=item.GetComponentInParent<ApparatusRig>();if(rig)rig.RestInstalledTool(item);
         }
+        string PipetteStandKey=>id=="C01"?"pipetteStand":"stand";
+        string PipetteClampKey=>id=="C01"?"pipetteClamp":"clamp";
+        string PipetteSourceKey=>id=="C01"?"sample":"stock";
+        VlabFlask PipetteReceiver=>id=="C01"?I<VlabFlask>("flask"):I<VlabVolumetricFlask>(currentFlask).Liquid;
+        bool PipetteReceiverOpen=>id=="C01"||I<VlabVolumetricFlask>(currentFlask).StopperOpen;
         void AlignPipetteSupport()
         {
-            var stand=I<VlabStand>("stand");var clamp=I<VlabClamp>("clamp");
+            var stand=I<VlabStand>(PipetteStandKey);var clamp=I<VlabClamp>(PipetteClampKey);
             Must(stand.TrySetHeight(.26f)&&clamp.SetOpening(.006),"The pipette support is unavailable.");
-            equipment["clamp"].transform.position+=stand.Mount.position-Named("clamp","_StandRod_SOCKET").position;
+            equipment[PipetteClampKey].transform.position+=stand.Mount.position-Named(PipetteClampKey,"_StandRod_SOCKET").position;
         }
         void SeatPipetteOnSupport()
         {
-            AlignPipetteSupport();var clamp=I<VlabClamp>("clamp");
+            AlignPipetteSupport();var clamp=I<VlabClamp>(PipetteClampKey);
             var tip=Named("pipette","_TipOutlet_SOCKET");var grip=Named("pipette","_Grip_SOCKET");
             PipetteAt(clamp.Grip.position-Vector3.up*Vector3.Distance(tip.position,grip.position));
             equipment["pipette"].slot=equipment["pipette"].transform.position;equipment["pipette"].rotation=equipment["pipette"].transform.rotation;
         }
         public bool ParkManualPipette(out string message)
         {
-            message="";if(id!="C05"||!AllInstalled){message="Install the pipette support first.";return false;}
+            message="";if((id!="C05"&&id!="C01")||!AllInstalled){message="Install the pipette support first.";return false;}
             if(equipment["pipette"].Owner!=EquipmentGrabOwner.None||equipment["bulb"].Owner!=EquipmentGrabOwner.None){message="Release both pipette and bulb before parking.";return false;}
             StopManualPipette();SeatPipetteOnSupport();return ValidatePipetteParking(out message);
         }
         public bool ValidatePipetteParking(out string message)
         {
-            message="";if(id!="C05"||!Has("stand")||!Has("clamp")||!Has("pipette")){message="The pipette parking fixture is missing.";return false;}
-            var stand=I<VlabStand>("stand");var clamp=I<VlabClamp>("clamp");var tip=Named("pipette","_TipOutlet_SOCKET");var top=Named("pipette","_BulbConnection_SOCKET");
-            if(Vector3.Distance(stand.Mount.position,Named("clamp","_StandRod_SOCKET").position)>.0002f||Vector3.Distance(clamp.Grip.position,Named("pipette","_Grip_SOCKET").position)>.0002f||Vector3.Dot((top.position-tip.position).normalized,Vector3.up)<.99999f||Math.Abs(clamp.OpeningM-.006)>1e-8)
+            message="";if((id!="C05"&&id!="C01")||!Has(PipetteStandKey)||!Has(PipetteClampKey)||!Has("pipette")){message="The pipette parking fixture is missing.";return false;}
+            var stand=I<VlabStand>(PipetteStandKey);var clamp=I<VlabClamp>(PipetteClampKey);var tip=Named("pipette","_TipOutlet_SOCKET");var top=Named("pipette","_BulbConnection_SOCKET");
+            if(Vector3.Distance(stand.Mount.position,Named(PipetteClampKey,"_StandRod_SOCKET").position)>.0002f||Vector3.Distance(clamp.Grip.position,Named("pipette","_Grip_SOCKET").position)>.0002f||Vector3.Dot((top.position-tip.position).normalized,Vector3.up)<.99999f||Math.Abs(clamp.OpeningM-.006)>1e-8)
             {message="The upright pipette must sit in the mounted 6 mm clamp.";return false;}
-            var foot=equipment["stand"].GetComponentsInChildren<Renderer>().Single(r=>r.name.EndsWith("_Base_VIS",StringComparison.Ordinal));
+            var foot=equipment[PipetteStandKey].GetComponentsInChildren<Renderer>().Single(r=>r.name.EndsWith("_Base_VIS",StringComparison.Ordinal));
             if(tip.position.y<foot.bounds.max.y+.01f){message="The pipette tip needs clearance above the support base.";return false;}
             Physics.SyncTransforms();
             // Delivered metadata: 6 mm upper stem; validate both original padded
             // jaw surfaces, not a synthetic support or a visual-bounds proxy.
             foreach(string jaw in new[]{"_JawLeft_VIS","_JawRight_VIS"})
             {
-                var collider=equipment["clamp"].GetComponentsInChildren<MeshCollider>().Single(c=>c.name.EndsWith(jaw,StringComparison.Ordinal));
+                var collider=equipment[PipetteClampKey].GetComponentsInChildren<MeshCollider>().Single(c=>c.name.EndsWith(jaw,StringComparison.Ordinal));
                 var direction=jaw=="_JawLeft_VIS"?-clamp.Axis:clamp.Axis;
                 if(!collider.Raycast(new Ray(clamp.Grip.position,direction),out var hit,.01f)||Mathf.Abs(hit.distance-.003f)>.0002f){message="Both original clamp pads must contact the pipette's 6 mm stem.";return false;}
             }
@@ -260,8 +265,8 @@ namespace Vlab.Product
             PipetteAt(waste.transform.position+Vector3.up*.02f);var bulb=I<VlabPipetteBulb>("bulb");
             Must(bulb.TrySetControl(3)&&bulb.TryDispense(waste,region,10,out var moved)&&Math.Abs(moved-10)<1e-8,"Rinse disposal requires the actual waste cavity.");bulb.TrySetControl(0);RestPipette();
         }
-        public bool CanManualPipette=>id=="C05"&&AllInstalled&&configured&&session.Phase==ExperimentPhase.Preparing&&!failed&&!dilutionTransferred&&samples.Count==0;
-        public int CompletedPipetteOperations=>dilutionTransferred?2:stockRinsed?1:0;
+        public bool CanManualPipette=>AllInstalled&&configured&&!failed&&!dilutionTransferred&&(id=="C05"&&session.Phase==ExperimentPhase.Preparing&&samples.Count==0||id=="C01"&&prepared==2&&initialRead&&(session.Phase==ExperimentPhase.Preparing||session.Phase==ExperimentPhase.Running));
+        public int CompletedPipetteOperations=>id=="C01"?(dilutionTransferred?3:2):dilutionTransferred?2:stockRinsed?1:0;
         public bool PipetteNeedsRinse=>!stockRinsed;
         public string InitialDilutionFlask=>currentFlask;
         public Vector3 AssistedPipetteTipTarget(Vector3 above)
@@ -272,10 +277,10 @@ namespace Vlab.Product
                 for(int i=0;i<8;i++){float a=i*Mathf.PI/4;if(!liquid.ContainsPoint(p+.0011f*new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))))return false;}
                 return true;
             }
-            var stock=I<VlabReagentBottle>("stock");
-            if(stock.CapOpen&&OverMouth(stock.Liquid,Named("stock","_Mouth_SOCKET").position))return new Vector3(above.x,stock.Liquid.CavityCentreAt(stock.Liquid.SurfaceHeightMeters*.55).y,above.z);
+            var stock=I<VlabReagentBottle>(PipetteSourceKey);
+            if(stock.CapOpen&&OverMouth(stock.Liquid,Named(PipetteSourceKey,"_Mouth_SOCKET").position))return new Vector3(above.x,stock.Liquid.CavityCentreAt(stock.Liquid.SurfaceHeightMeters*.55).y,above.z);
             if(stockRinsed)
-            {var flask=I<VlabVolumetricFlask>(currentFlask);if(flask.StopperOpen&&OverMouth(flask.Liquid,Named(currentFlask,"_NeckSocket_SOCKET").position))return new Vector3(above.x,flask.Liquid.CavityCentreAt(.02).y,above.z);}
+            {var flask=PipetteReceiver;if(PipetteReceiverOpen&&OverMouth(flask,Named(id=="C01"?"flask":currentFlask,"_NeckSocket_SOCKET").position))return new Vector3(above.x,flask.CavityCentreAt(.02).y,above.z);}
             else
             {
                 var waste=I<VlabBeaker>("waste");var p=new Vector3(above.x,waste.transform.position.y+.02f,above.z);var region=BeakerRegion("waste",true);Physics.SyncTransforms();
@@ -286,9 +291,9 @@ namespace Vlab.Product
         }
         public bool BeginManualPipette(out string message)
         {
-            message="";if(!CanManualPipette){message="Prepare the initial dilution before using the pipette.";return false;}
+            message="";if(!CanManualPipette){message="Prepare the lesson and read the required initial measurements before using the pipette.";return false;}
             var bulb=I<VlabPipetteBulb>("bulb");if(!bulb.Attached){message="Attach the bulb to the pipette first.";return false;}
-            if(!I<VlabClamp>("clamp").SetOpening(.020)){message="Open the parking clamp before moving the pipette.";return false;}
+            if(!I<VlabClamp>(PipetteClampKey).SetOpening(.020)){message="Open the parking clamp before moving the pipette.";return false;}
             manualPipetteActive=true;return true;
         }
         public void StopManualPipette()
@@ -297,26 +302,26 @@ namespace Vlab.Product
         {
             message="Pipette stopped.";
             if(!manualPipetteActive||!CanManualPipette||!Finite(requestedMl)||requestedMl<=0)return 0;
-            var bulb=I<VlabPipetteBulb>("bulb");var pipette=I<VlabFlask>("pipette");var stock=I<VlabReagentBottle>("stock");
+            var bulb=I<VlabPipetteBulb>("bulb");var pipette=I<VlabFlask>("pipette");var stock=I<VlabReagentBottle>(PipetteSourceKey);
             double remaining=10-(stockRinsed?aliquotMl:rinseMl)-pipette.VolumeMl;
             try
             {
                 // The SDK checks all eight points of the actual tip circumference.
                 if(stock.CapOpen&&remaining>1e-9&&bulb.TrySetControl(2)&&bulb.TryAspirate(stock.Liquid,Math.Min(requestedMl,remaining),out var drawn)&&drawn>0)
-                {pipetteMoles+=stock.Concentration*drawn/1000;message="Stock drawn into the actual pipette; move to "+(stockRinsed?"the open volumetric flask.":"the waste beaker.");return drawn;}
+                {pipetteMoles+=stock.Concentration*drawn/1000;message="Stock drawn into the actual pipette; move to "+(stockRinsed?"the open receiving flask.":"the waste beaker.");return drawn;}
                 double before=pipette.VolumeMl;if(before<=1e-9){message="Immerse the pipette tip in the open stock bottle.";return 0;}
                 double moved=0;bool accepted=false;
                 if(bulb.TrySetControl(3))
                 {
                     if(!stockRinsed)accepted=bulb.TryDispense(I<VlabBeaker>("waste"),BeakerRegion("waste",true),requestedMl,out moved);
-                    else{var receiver=I<VlabVolumetricFlask>(currentFlask);if(receiver.StopperOpen)accepted=bulb.TryDispense(receiver.Liquid,requestedMl,out moved);}
+                    else if(PipetteReceiverOpen)accepted=bulb.TryDispense(PipetteReceiver,requestedMl,out moved);
                 }
-                if(!accepted||moved<=0){message=stockRinsed?"Place the tip inside the open volumetric flask.":"Place the tip inside the waste beaker to discard the rinse.";return 0;}
+                if(!accepted||moved<=0){message=stockRinsed?"Place the tip inside the open receiving flask.":"Place the tip inside the waste beaker to discard the rinse.";return 0;}
                 double solute=pipetteMoles*moved/before;pipetteMoles-=solute;
                 if(!stockRinsed){rinseMl+=moved;wasteMoles+=solute;stockRinsed=rinseMl>=10-1e-8&&pipette.VolumeMl<1e-8;}
                 else{aliquotMl+=moved;sampleMoles+=solute;dilutionTransferred=aliquotMl>=10-1e-8&&pipette.VolumeMl<1e-8;}
                 if(dilutionTransferred)StopManualPipette();
-                message=dilutionTransferred?"10 mL delivered. Use the wash bottle to fill toward the mark.":stockRinsed?"Rinse complete. Draw stock, then deliver 10 mL to the open flask.":"Rinse delivered to waste; continue until 10 mL has rinsed the pipette.";
+                message=dilutionTransferred?(id=="C01"?"10 mL sample delivered. Continue to the indicator stage.":"10 mL delivered. Use the wash bottle to fill toward the mark."):stockRinsed?"Rinse complete. Draw stock, then deliver 10 mL to the open flask.":"Rinse delivered to waste; continue until 10 mL has rinsed the pipette.";
                 return moved;
             }
             finally{bulb.TrySetControl(0);}
@@ -324,15 +329,15 @@ namespace Vlab.Product
         void AssistInitialPipette(bool rinse)
         {
             Must(CanManualPipette&&(rinse?!stockRinsed:stockRinsed),"Complete the preceding pipette stage first.");
-            var pipette=I<VlabFlask>("pipette");var stock=I<VlabReagentBottle>("stock");var waste=I<VlabBeaker>("waste");var flask=I<VlabVolumetricFlask>(currentFlask);
+            var pipette=I<VlabFlask>("pipette");var stock=I<VlabReagentBottle>(PipetteSourceKey);var waste=I<VlabBeaker>("waste");var flask=PipetteReceiver;
             double remaining=10-(rinse?rinseMl:aliquotMl),draw=remaining-pipette.VolumeMl;
-            Must(stock.CapOpen&&stock.Liquid.VolumeMl+1e-8>=draw&&(rinse?waste.CapacityMl-waste.VolumeMl>=remaining:flask.StopperOpen&&flask.Liquid.CapacityMl-flask.Liquid.VolumeMl>=remaining),"Open the vessels and ensure enough stock and receiving capacity.");
+            Must(stock.CapOpen&&stock.Liquid.VolumeMl+1e-8>=draw&&(rinse?waste.CapacityMl-waste.VolumeMl>=remaining:PipetteReceiverOpen&&flask.CapacityMl-flask.VolumeMl>=remaining),"Open the vessels and ensure enough stock and receiving capacity.");
             Must(BeginManualPipette(out var why),why);
             session.Assistance="Assisted pipette positioning and measured transfer";
             try
             {
                 if(draw>1e-8){PipetteAt(stock.Liquid.CavityCentreAt(stock.Liquid.SurfaceHeightMeters*.55));Must(Math.Abs(TransferManualPipette(draw,out why)-draw)<1e-8,why);}
-                PipetteAt(rinse?waste.transform.position+Vector3.up*.02f:flask.Liquid.CavityCentreAt(.02));
+                PipetteAt(rinse?waste.transform.position+Vector3.up*.02f:flask.CavityCentreAt(.02));
                 Must(Math.Abs(TransferManualPipette(remaining,out why)-remaining)<1e-8,why);
             }
             finally{StopManualPipette();RestPipette();}
@@ -724,7 +729,7 @@ namespace Vlab.Product
             if(!AllInstalled)return Array.Empty<LessonControl>();
             switch(id)
             {
-                case "C01":if(key=="burette")return new[]{C("initial","Đọc mặt khum đầu","Read initial meniscus",prepared==2),C("close","Đóng khóa","Close valve"),C("final","Đọc mặt khum cuối","Read final meniscus",indicator),C("titre","Giữ lượt chuẩn độ","Retain titre",indicator),C("fresh","Mẫu mới / lượt kế","Fresh aliquot / next titre",titres.Count>0||delivered>0)};if(key=="flask")return new[]{C("aliquot","Pipette mẫu 10 mL","Pipette 10 mL aliquot",prepared==2&&initialRead&&session.Operation>=4),C("indicator","Thêm phenolphthalein","Add phenolphthalein",prepared==3&&session.Operation>=4),C("swirl","Lắc trộn bình","Swirl flask",indicator)};break;
+                case "C01":if(key=="pipette"||key=="bulb")return new[]{C("autoRinsePipette","Hỗ trợ: tráng pipette 10 mL","Assistance: rinse pipette with 10 mL",CanManualPipette&&!stockRinsed),C("transferAliquot","Hỗ trợ: chuyển mẫu 10 mL","Assistance: deliver 10 mL sample",CanManualPipette&&stockRinsed)};if(key=="burette")return new[]{C("initial","Đọc mặt khum đầu","Read initial meniscus",prepared==2),C("close","Đóng khóa","Close valve"),C("final","Đọc mặt khum cuối","Read final meniscus",indicator),C("titre","Giữ lượt chuẩn độ","Retain titre",indicator),C("fresh","Mẫu mới / lượt kế","Fresh aliquot / next titre",titres.Count>0||delivered>0)};if(key=="flask")return new[]{C("aliquot","Xác nhận mẫu 10 mL đã chuyển","Confirm delivered 10 mL aliquot",prepared==2&&initialRead&&dilutionTransferred&&session.Operation>=4),C("indicator","Thêm phenolphthalein","Add phenolphthalein",prepared==3&&session.Operation>=4),C("swirl","Lắc trộn bình","Swirl flask",indicator)};break;
                 case "C02":if(key=="bridge")return new[]{C("bridgeOff","Tháo cầu muối","Lift salt bridge",bridgeOn),C("bridgeOn","Ngâm lại cầu","Re-immerse salt bridge",!bridgeOn)};if(key=="meter")return new[]{C("reverse","Đảo đầu đo","Reverse meter probes",leadsConnected)};break;
                 case "C03":if(key=="supply")return new[]{C("off","Tắt nguồn","Switch off"),C("on","Bật nguồn","Switch on",powerArmed&&!finalWeighed)};if(key=="cathode"||key=="balance")return new[]{C("rinseCathode","Rửa cathode","Rinse cathode",charge>0&&!I<VlabPowerSupply>("supply").On),C("dryCathode","Làm khô cathode","Dry cathode",charge>0&&!I<VlabPowerSupply>("supply").On),C("weighFinal","Cân cathode khô","Weigh dry cathode",dry)};break;
                 case "C04":if(key=="reagent"||key=="dropper")return new[]{C("selectAg","Chọn AgNO3","Select AgNO3",labels&&qualitativeSelection==0&&unitsLeft>=2)};if(key=="nacl"||key=="nitrate"||key=="water")return new[]{C("dose:"+key,"Nhỏ tại vị trí đầu ống · giọt mô phỏng","Dispense at actual tip · simulated drop",CanManualDropper&&dropperUnits>0&&CupUnits(key)<2),C("assistDose:"+key,"Hỗ trợ: chuyển 2 giọt mô phỏng","Assistance: deliver 2 simulated drops",labels&&CupUnits(key)<2&&(dropperTarget==""||dropperTarget==key))};break;
@@ -798,6 +803,7 @@ namespace Vlab.Product
             var flask=I<VlabFlask>("flask");var waste=I<VlabBeaker>("waste");Must(waste.CapacityMl-waste.VolumeMl>=flask.VolumeMl+14,"Waste is full; start a fresh attempt with an empty waste vessel.");
             waste.Add(flask.VolumeMl);Must(flask.TrySetVolume(0),"Place the flask upright before emptying.");
             delivered=0;mixed=false;initialRead=finalRead=false;indicator=false;mixedAt=-1;session.parameters["flow"]=0;
+            stockRinsed=dilutionTransferred=false;rinseMl=aliquotMl=pipetteMoles=sampleMoles=0;StopManualPipette();
             PrepareTitration(1);PrepareTitration(2);initialMeniscus=I<VlabBurette>("burette").ReadingMl;
             // A fresh trial remains a deliberate sequence: initial reading,
             // transfer and indicator controls are exposed below via next actions.
