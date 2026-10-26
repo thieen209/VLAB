@@ -1,5 +1,7 @@
 # VLAB 0.1.20 / code41 — phạm vi bàn giao
 
+Đây là biên bản code41. Xem [đối chiếu đầy đủ goal tại code44](GOAL_AUDIT_CODE44.md) để phân biệt phần đã có bằng chứng và phần còn thiếu.
+
 ## Thay đổi
 
 - Boot VLAB có dòng **Made by Ngựa Mán team with love**.
