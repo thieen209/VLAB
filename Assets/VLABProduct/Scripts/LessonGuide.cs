@@ -209,6 +209,7 @@ namespace Vlab.Product
             if(preparationChecks.TryGetValue(session.spec.id,out var checks)){var viChecks=checks[0].Split('|');var enChecks=checks[1].Split('|');if(index<viChecks.Length&&index<enChecks.Length){successVi=viChecks[index];successEn=enChecks[index];}}
             var task=Task(vi,"prepare",key,"",session.spec.operationsVi[index],session.spec.operationsEn[index],successVi,successEn);
             if(session.spec.id=="C05"&&index<2){task.kind="gesture";task.action=L(vi,index==0?"Giữ pipette hoặc quả bóp; đưa đầu pipette vào chai nguồn để hút, rồi chuyển sang cốc thải để tráng. Thả tay để dừng.":"Giữ pipette; hút đủ 10 mL từ nguồn rồi đưa đầu vào bình định mức mở để chuyển hết mẫu. Thả tay để dừng.",index==0?"Hold the pipette or bulb, draw from the stock bottle, then move over waste to rinse. Release to stop.":"Hold the pipette, draw 10 mL from stock and deliver it into the open volumetric flask. Release to stop.");}
+            if(session.spec.id=="C01"&&index==3){task.kind="gesture";task.key="indicator";task.action=L(vi,"Giữ ống chỉ thị đã nạp sẵn, đưa đầu xuống trên miệng bình để nhỏ 2 giọt mô phỏng; thả để dừng. Nếu đầu burette che miệng bình, chuyển bình ra vùng trống trước. Giọt chưa hiệu chuẩn, không quy đổi mL hay mol.","Hold the preloaded indicator dropper pointing down over the flask for 2 simulated drops; release to stop. Move the flask clear if the burette blocks its mouth. Drop volume is uncalibrated, not mL or moles.");}
             if(session.spec.id=="C01"&&index==2){task.kind="gesture";task.action=L(vi,"Giữ pipette hoặc quả bóp. Hút mẫu rồi chuyển 10 mL sang cốc thải để tráng; hút 10 mL mới và đưa đầu vào bình chuẩn độ. Thả tay để đặt pipette vào kẹp riêng, giữ nguyên phần mẫu còn lại.","Hold the pipette or bulb. Draw sample and discard 10 mL to waste to rinse; draw a fresh 10 mL and move the tip into the titration flask. Release to park in its separate clamp without losing the remaining sample.");}
             return task;
         }
@@ -305,6 +306,7 @@ namespace Vlab.Product
                 if(Enabled(rig,"burette","initial")&&!Seen("initial"))return Control(rig,vi,"burette","initial");
                 if(rig.Driver is ChemistryDriver chemistry&&chemistry.CanManualPipette)return Preparation(rig,vi,2);
                 if(Enabled(rig,"flask","aliquot"))return Control(rig,vi,"flask","aliquot");
+                if(rig.Driver is ChemistryDriver indicatorDriver&&indicatorDriver.CanManualDropper)return Preparation(rig,vi,3);
                 if(Enabled(rig,"flask","indicator"))return Control(rig,vi,"flask","indicator");
                 if(session.parameters["flow"]>0)return Control(rig,vi,"burette","close");
                 if(!Seen("swirl"))return Control(rig,vi,"flask","swirl");

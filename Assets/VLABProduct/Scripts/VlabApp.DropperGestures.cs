@@ -7,16 +7,28 @@ namespace Vlab.Product
         float dropperNextPulse;
         bool BeginDropperGesture(EquipmentHandle item,RaycastHit hit,ActionFrame frame)
         {
-            if(Session?.spec.id!="C04"||item.assetId!="dropper"||!frame.held)return false;
-            if(!(Apparatus.Driver is ChemistryDriver chemistry)||!chemistry.BeginManualDropper(out var why)){ActionFailure("Select AgNO3 before loading the dropper from its open source.");return true;}
+            if(!(Apparatus.Driver is ChemistryDriver chemistry)||(Session?.spec.id!="C04"&&Session?.spec.id!="C01")||item.assetId!=chemistry.ManualDropperKey||!frame.held)return false;
+            if(!chemistry.BeginManualDropper(out var why)){ActionFailure(LessonGuide.ExplainFailure(why,Vi));return true;}
             if(!Apparatus.BeginFlagshipGrab(item)){chemistry.StopManualDropper();return true;}
             CloseWorkbench();flagshipDrag=item;flagshipRest=item.transform.position;flagshipRotation=item.transform.rotation;
             var drop=item.GetComponentInChildren<VlabDropper>();var pivot=drop.Tip.position;
             item.transform.rotation=Quaternion.FromToRotation(drop.EmissionDirection,Vector3.down)*item.transform.rotation;item.transform.position+=pivot-drop.Tip.position;
-            flagshipPlane=new Plane(Vector3.up,new Vector3(0,Apparatus.Worktop.y+.16f,0));dropperNextPulse=Time.unscaledTime+.35f;return true;
+            float height=Apparatus.Worktop.y+.16f;
+            if(Session.spec.id=="C01")foreach(var receiver in Apparatus.items)if(receiver.assetId=="flask")foreach(var socket in receiver.GetComponentsInChildren<Transform>())if(socket.name.EndsWith("_NeckSocket_SOCKET",System.StringComparison.Ordinal))height=socket.position.y+.04f;
+            flagshipPlane=new Plane(Vector3.up,new Vector3(0,height,0));dropperNextPulse=Time.unscaledTime+.35f;return true;
         }
         void AdvanceDropperStages(ChemistryDriver chemistry)
         {
+            if(Session.spec.id=="C01")
+            {
+                if(chemistry.IndicatorDrops==2)
+                {
+                    bool accepted=Session.Phase==ExperimentPhase.Preparing?Apparatus.PrepareNext(out var error):chemistry.Operate("indicator",out error);
+                    if(!accepted)ActionFailure(error);else Guide().Applied("indicator");
+                    if(Session.Phase==ExperimentPhase.Ready&&!Session.Start(out error))ActionFailure(error);
+                }
+                Save();RefreshActivity();return;
+            }
             string cup=chemistry.LastDropperCup;
             if(cup!=""&&chemistry.QualitativeDoseUnits(cup)==2)Guide().Applied("dose:"+cup);
             while(Session.Phase==ExperimentPhase.Preparing&&Session.Operation<chemistry.CompletedDropperOperations)
@@ -26,7 +38,7 @@ namespace Vlab.Product
         }
         bool UpdateDropperGesture(ActionFrame frame)
         {
-            if(Session?.spec.id!="C04"||!flagshipDrag||flagshipDrag.assetId!="dropper")return false;
+            if((Session?.spec.id!="C04"&&Session?.spec.id!="C01")||!flagshipDrag||flagshipDrag.assetId!=(Session.spec.id=="C01"?"indicator":"dropper"))return false;
             var chemistry=Apparatus.Driver as ChemistryDriver;
             if(chemistry==null||frame.released||!frame.held||frame.lost||frame.back||frame.menu||Route!="activity"||modal||!chemistry.CanManualDropper)
             {CancelDropperGesture();Save();RefreshActivity();return true;}
@@ -40,15 +52,15 @@ namespace Vlab.Product
                 // This cadence is interaction assistance, never a calibrated drop rate.
                 dropperNextPulse=Time.unscaledTime+.35f;
                 if(chemistry.TransferManualDropper(out var why)>0)AdvanceDropperStages(chemistry);
-                if(liveHint)liveHint.text=Vi?"Giọt mô phỏng, chưa hiệu chuẩn thể tích. Giữ đầu ống trong nguồn để nạp; đưa đầu ống trên miệng cốc để nhỏ. Thả để dừng.":why;
+                if(liveHint)liveHint.text=Session.spec.id=="C01"?(Vi?"Chỉ thị: "+chemistry.IndicatorDrops+"/2 giọt mô phỏng. Giữ đầu ống trên miệng bình; thả để dừng. Chưa hiệu chuẩn thể tích.":why):(Vi?"Giọt mô phỏng, chưa hiệu chuẩn thể tích. Giữ đầu ống trong nguồn để nạp; đưa đầu ống trên miệng cốc để nhỏ. Thả để dừng.":why);
             }
             return true;
         }
         void CancelDropperGesture()
         {
-            if(Session?.spec.id!="C04")return;
+            if(Session?.spec.id!="C04"&&Session?.spec.id!="C01")return;
             if(Apparatus&&Apparatus.Driver is ChemistryDriver chemistry)chemistry.StopManualDropper();
-            if(!flagshipDrag||flagshipDrag.assetId!="dropper")return;
+            if(!flagshipDrag||flagshipDrag.assetId!=(Session.spec.id=="C01"?"indicator":"dropper"))return;
             if(Apparatus&&Apparatus.EndFlagshipGrab(flagshipDrag))
             {
                 flagshipDrag.transform.rotation=flagshipRotation;

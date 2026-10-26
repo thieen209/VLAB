@@ -41,11 +41,11 @@ public static class ChemistryIntegrationChecks
                 switch(id)
                 {
                     case "C01":
-                        Prepare(rig);Prepare(rig);Action(rig,"initial");Action(rig,"autoRinsePipette");Action(rig,"transferAliquot");Prepare(rig);Prepare(rig);
+                        Prepare(rig);Prepare(rig);Action(rig,"initial");Action(rig,"autoRinsePipette");Action(rig,"transferAliquot");Prepare(rig);C01ManualPipetteChecks.DeliverIndicatorFixture(rig);Prepare(rig);
                         Assert(session.Start(out var startWhy),id+" start "+startWhy);
                         for(int trial=0;trial<3;trial++)
                         {
-                            if(trial>0){Action(rig,"fresh");Action(rig,"initial");Action(rig,"autoRinsePipette");Action(rig,"transferAliquot");Action(rig,"aliquot");Action(rig,"indicator");}
+                            if(trial>0){Action(rig,"fresh");Action(rig,"initial");Action(rig,"autoRinsePipette");Action(rig,"transferAliquot");Action(rig,"aliquot");C01ManualPipetteChecks.DeliverIndicatorFixture(rig);Action(rig,"indicator");}
                             Assert(session.SetParameter("flow",100,out _),"C01 live valve control");Tick(session,20);Action(rig,"close");Action(rig,"swirl");
                             Assert(!rig.Driver.CanRecord(out _),"C01 rejects incomplete concordant series");Tick(session,30);Action(rig,"final");Action(rig,"titre");
                         }

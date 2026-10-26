@@ -60,7 +60,22 @@ public sealed partial class WorkbenchUpgradeProbe
         yield return MoveHeld(flask.transform.position,()=>App.Session.Operation==(titration?3:2),lesson+" actual flask delivery completes aliquot preparation");yield return Release();
         Check(lesson+" direct pipette sequence conserves 120 mL stock",Math.Abs(stock.Liquid.VolumeMl-100)<1e-8&&Math.Abs(waste.VolumeMl-(titration?14:10))<1e-8&&Math.Abs(flask.VolumeMl-10)<1e-8&&pipette.VolumeMl==0);
         Check(lesson+" direct sequence records no assisted transfer or finished sample",string.IsNullOrEmpty(App.Session.Assistance)&&!App.Profile.attempts.Any(a=>a.experimentId==lesson&&!a.partial));yield return Capture(lesson+"-pipette-aliquot-delivered");
-        if(titration)yield break;
+        if(titration)
+        {
+            var indicatorItem=rig.items.Single(i=>i.assetId=="indicator");var drop=indicatorItem.GetComponentInChildren<VlabDropper>();
+            pointer=ModelPoint(indicatorItem);finger=++serial;
+            InputSystem.QueueStateEvent(touch,new TouchState{touchId=finger,phase=UnityEngine.InputSystem.TouchPhase.Began,position=pointer});yield return null;yield return new WaitForSecondsRealtime(.15f);
+            Check("C01 native touch owns indicator",indicatorItem.Owner==EquipmentGrabOwner.Flagship);
+            var indicatorNeck=flask.GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_NeckSocket_SOCKET",StringComparison.Ordinal));
+            pointer=App.View.WorldToScreenPoint(indicatorNeck.position+Vector3.up*.04f);
+            InputSystem.QueueStateEvent(touch,new TouchState{touchId=finger,phase=UnityEngine.InputSystem.TouchPhase.Moved,position=pointer});
+            float until=Time.realtimeSinceStartup+12;while(driver.IndicatorDrops<2&&Time.realtimeSinceStartup<until)yield return null;
+            InputSystem.QueueStateEvent(touch,new TouchState{touchId=finger,phase=UnityEngine.InputSystem.TouchPhase.Ended,position=pointer});yield return null;yield return new WaitForSecondsRealtime(.2f);
+            if(driver.IndicatorDrops!=2)rows.Add("Indicator actual tip="+drop.Tip.position+" indicatorNeck="+indicatorNeck.position+" direction="+drop.EmissionDirection);
+            Check("C01 native touch delivers both actual-tip indicator drops",driver.IndicatorDrops==2&&App.Session.Operation==4&&App.Session.Phase==ExperimentPhase.Running);
+            Check("C01 release stops indicator with camera unchanged",indicatorItem.Owner==EquipmentGrabOwner.None&&drop.Squeeze==0&&Quaternion.Angle(camera,App.View.transform.rotation)<.1f);
+            yield return Capture("C01-manual-indicator-complete");yield break;
+        }
         var washItem=rig.items.Single(i=>i.assetId=="wash");var wash=washItem.GetComponentInChildren<VlabWashBottle>();pointer=ModelPoint(washItem);finger=++serial;
         InputSystem.QueueStateEvent(touch,new TouchState{touchId=finger,phase=UnityEngine.InputSystem.TouchPhase.Began,position=pointer});yield return null;yield return new WaitForSecondsRealtime(.15f);
         Check(lesson+" manual pipette unlocks direct wash gesture",washItem.Owner==EquipmentGrabOwner.Flagship);

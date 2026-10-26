@@ -1,0 +1,46 @@
+Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence.
+PASS Reached home
+PASS Reachable Skip quick tour
+PASS Touch click delivered Skip quick tour
+PASS Chemistry SDK integration after manual C01
+PASS C01 install stand
+PASS C01 install clamp
+PASS C01 install burette
+PASS C01 install flask
+PASS C01 install pipetteStand
+PASS C01 install pipetteClamp
+PASS C01 install pipette
+PASS C01 install bulb
+PASS C01 install sample
+PASS C01 install base
+PASS C01 install indicator
+PASS C01 install waste
+PASS C01 charge burette
+PASS C01 prime burette
+PASS C01 retain initial meniscus
+PASS C01 preparation cannot silently rinse and transfer sample
+PASS C01 pipette has a real separate parking support
+PASS C01 manual pipette starts
+PASS C01 closed sample bottle blocks aspiration
+PASS C01 accepts actual 4 mL
+PASS C01 partial contents survive release and real parking
+PASS C01 manual pipette resumes
+PASS C01 accepts actual 4 mL
+PASS C01 accepts actual 6 mL
+PASS C01 accepts actual 6 mL
+PASS C01 rinse alone cannot complete aliquot
+PASS C01 accepts actual 10 mL
+PASS C01 cannot overfill pipette
+PASS C01 accepts actual 4 mL
+PASS C01 partial aliquot stays incomplete
+PASS C01 resume remaining aliquot
+PASS C01 accepts actual 6 mL
+PASS C01 manual aliquot completes the preparation stage
+PASS C01 conserves actual volume including priming waste
+PASS C01 completion cannot draw another hidden aliquot
+FAIL C01 preparation cannot silently add indicator
+FAIL System.Exception: C01 preparation cannot silently add indicator
+  at WorkbenchUpgradeProbe.Check (System.String name, System.Boolean pass) [0x0003a] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:31
+  at C01ManualPipetteChecks.Run (System.Action`2[T1,T2] check) [0x00620] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Scripts\C01ManualPipetteChecks.cs:37
+  at WorkbenchUpgradeProbe+<ManualPipetteJourney>d__1.MoveNext () [0x000fa] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\C05PipetteUiChecks.cs:17
+  at WorkbenchUpgradeProbe+<Start>d__47.MoveNext () [0x0008d] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:114

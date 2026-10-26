@@ -13,7 +13,10 @@ namespace Vlab.Product
         }
         QualitativeDraft restoredQualitative;
         int dropperUnits;string dropperTarget="",lastDropperCup="";bool manualDropperActive;
-        public bool CanManualDropper=>id=="C04"&&AllInstalled&&configured&&labels&&!failed&&session.Phase==ExperimentPhase.Preparing&&qualitativeSelection==1;
+        int indicatorDrops;
+        public string ManualDropperKey=>id=="C01"?"indicator":"dropper";
+        public int IndicatorDrops=>indicatorDrops;
+        public bool CanManualDropper=>AllInstalled&&configured&&!failed&&(id=="C04"&&labels&&session.Phase==ExperimentPhase.Preparing&&qualitativeSelection==1||id=="C01"&&prepared==3&&indicatorDrops<2&&(session.Phase==ExperimentPhase.Preparing||session.Phase==ExperimentPhase.Running&&!paused));
         public int CompletedDropperOperations=>!labels?0:nitrateUnits<2||waterUnits<2?1:naclUnits<2?2:3;
         public int LoadedDropperUnits=>dropperUnits;
         public string LastDropperCup=>lastDropperCup;
@@ -22,11 +25,27 @@ namespace Vlab.Product
         public int QualitativeDoseUnits(string cup)=>CupUnits(cup);
         public bool BeginManualDropper(out string message)
         {
-            message="";if(!CanManualDropper){message="Select AgNO3 before loading the dropper from the open source.";return false;}
+            message="";if(!CanManualDropper){message=id=="C01"?"Transfer the sample first; the indicator dose is two uncalibrated simulated drops.":"Select AgNO3 before loading the dropper from the open source.";return false;}
             manualDropperActive=true;return true;
         }
         public void StopManualDropper()
-        {manualDropperActive=false;if(Has("dropper")){var drop=I<VlabDropper>("dropper");if(drop)drop.SetSqueeze(0);}}
+        {manualDropperActive=false;if(Has(ManualDropperKey)){var drop=I<VlabDropper>(ManualDropperKey);if(drop)drop.SetSqueeze(0);}}
+        bool IndicatorOverFlask(out string reason)
+        {
+            reason="Hold the indicator tip downward above the flask mouth.";
+            var drop=I<VlabDropper>("indicator");var flask=I<VlabFlask>("flask");var mouth=Named("flask","_NeckSocket_SOCKET").position;
+            var origin=drop.Tip.position;var direction=drop.EmissionDirection;
+            if(Vector3.Dot(direction,Vector3.down)<.98f||flask.VolumeMl<10-1e-8)return false;
+            float fall=(mouth.y-origin.y)/direction.y;if(fall<.005f||fall>.35f){reason="Indicator tip is outside the mouth-height range: "+fall;return false;}
+            var landing=origin+direction*fall-Vector3.up*.002f;
+            for(int n=0;n<8;n++){float angle=n*Mathf.PI/4;if(!flask.ContainsPoint(landing+.00045f*new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle)))){reason="Indicator misses the actual flask cavity.";return false;}}
+            Physics.SyncTransforms();
+            foreach(var contact in Physics.OverlapSphere(origin,.00045f,~0,QueryTriggerInteraction.Ignore))if(!contact.transform.IsChildOf(drop.transform)){reason="Indicator tip is blocked by "+contact.name;return false;}
+            float travel=(flask.CavityCentreAt(flask.SurfaceHeightMeters).y-origin.y)/direction.y;
+            // The liquid display retains a full-vessel collider; its actual surface is calculated above.
+            foreach(var hit in Physics.SphereCastAll(origin,.00045f,direction,Mathf.Max(0,travel-.002f),~0,QueryTriggerInteraction.Ignore))if(!hit.collider.transform.IsChildOf(drop.transform)&&!hit.collider.transform.IsChildOf(flask.Liquid.transform)){reason="Indicator path is blocked by "+hit.collider.name;return false;}
+            return true;
+        }
         bool DropperInSource()
         {
             var source=I<VlabReagentBottle>("reagent");var drop=I<VlabDropper>("dropper");
@@ -52,6 +71,7 @@ namespace Vlab.Product
         }
         public Vector3 AssistedDropperTipTarget(Vector3 above)
         {
+            if(id=="C01")return above;
             var source=I<VlabReagentBottle>("reagent");var mouth=Named("reagent","_Mouth_SOCKET");
             var point=new Vector3(above.x,mouth.position.y-.002f,above.z);
             if(source.CapOpen&&source.Liquid.ContainsPoint(point,false,.0005f))return new Vector3(above.x,source.Liquid.CavityCentreAt(source.Liquid.SurfaceHeightMeters*.55).y,above.z);
@@ -61,6 +81,14 @@ namespace Vlab.Product
         {
             message="The simulated drops are uncalibrated; no mL or mol is inferred.";lastDropperCup="";
             if(!manualDropperActive||!CanManualDropper)return 0;
+            if(id=="C01")
+            {
+                var indicatorTool=I<VlabDropper>("indicator");indicatorTool.SetSqueeze(0);
+                if(!IndicatorOverFlask(out message))return 0;
+                if(!indicatorTool.SetSqueeze(1)){message="The indicator dropper is unavailable.";return 0;}
+                // shortcut: a preloaded two-drop teaching dose, not calibrated volume or indicator chemistry; replace when the source fluid model supports both.
+                indicatorDrops++;lastDropperCup="flask";message="Indicator: "+indicatorDrops+"/2 uncalibrated simulated drops.";return 1;
+            }
             var drop=I<VlabDropper>("dropper");drop.SetSqueeze(0);
             if(DropperInSource())
             {

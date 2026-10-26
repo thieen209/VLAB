@@ -1,5 +1,11 @@
 # Nhật ký thay đổi VLAB
 
+## 0.1.23 / code44 — Manual titration indicator
+
+- C01 now requires two actual-tip, uncalibrated simulated indicator drops before preparation can advance.
+- Missed/blocked targets, partial dose, release/regrab and dose limits are checked; retained titres and C05 transfers remain intact.
+- Native Editor touch and eight chemistry SDK fixtures passed. [Evidence and limits](docs/TitrationIndicator/REPORT.md); physical devices remain unverified.
+
 ## 0.1.22 / code43 — 2026-10-26
 
 - Cửa sổ Quy trình hiển thị đủ bước đo/lặp/so sánh từ tài liệu 32 bài và ví dụ minh họa tách khỏi số đo. [Bằng chứng](docs/ProcedureCoverage/REPORT.md).
