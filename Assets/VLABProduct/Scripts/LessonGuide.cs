@@ -121,9 +121,18 @@ namespace Vlab.Product
             text.AppendLine(vi?"Khi chuẩn bị hoàn tất, bắt đầu lượt đo. Thao tác theo gợi ý cạnh dụng cụ; chỉ ghi số đo khi ứng dụng xác nhận đã đủ quan sát. Ghi nhận xét của bạn trong sổ thực hành.":"After preparation, start the trial. Follow the instrument cues and record only when the required observations are complete. Add your own observations to the lab notebook.");
             var learning=LearningGuide.Load(id);
             if(vi&&learning!=null)text.AppendLine().AppendLine(learning.practiceVi);
+            if(vi&&brief!=null&&brief.id==id&&brief.stepsVi!=null)
+            {
+                text.AppendLine().AppendLine("KẾ HOẠCH THỰC HÀNH THEO BÀI HỌC");
+                int stepNumber=0;
+                foreach(string step in brief.stepsVi)
+                    if(!string.IsNullOrWhiteSpace(step))text.Append(++stepNumber).Append(". ").AppendLine(step).AppendLine();
+            }
             if(vi&&brief!=null&&brief.id==id&&!string.IsNullOrWhiteSpace(brief.variablesVi))
                 text.AppendLine().AppendLine("ĐIỀU KIỆN VÀ BẢNG GHI").AppendLine(brief.variablesVi);
             text.AppendLine().AppendLine(vi?"CÁCH HIỂU KẾT QUẢ":"INTERPRETING THE RESULT").AppendLine(LessonContext.Explanation(id,vi));
+            if(vi&&brief!=null&&brief.id==id&&!string.IsNullOrWhiteSpace(brief.examplesVi))
+                text.AppendLine().AppendLine("VÍ DỤ MINH HỌA · KHÔNG PHẢI SỐ ĐO CỦA BẠN").AppendLine(brief.examplesVi);
             if(vi&&learning!=null)text.AppendLine().AppendLine("CHỖ DỄ NHẦM").AppendLine(learning.pitfallsVi);
             text.AppendLine().AppendLine(vi?"LẶP LẠI VÀ SO SÁNH":"REPEAT AND COMPARE").AppendLine(vi?"Giữ điều kiện giống nhau khi lặp lại. Muốn khảo sát yếu tố khác, tạo lượt mới và chỉ đổi một thông số; các số đo cũ vẫn nằm trong sổ tay.":"Keep conditions unchanged for repeats. Start a new trial and change one parameter to make a comparison; previous readings remain in the notebook.");
             return text.ToString().Trim();

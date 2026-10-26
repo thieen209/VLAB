@@ -78,10 +78,14 @@ public sealed partial class WorkbenchUpgradeProbe
             yield return NotebookVrChecks.Run(App,capture,Check);
             yield break;
         }
+        var procedureBriefs=JsonUtility.FromJson<BriefCatalog>(Resources.Load<TextAsset>("Catalog/experiments").text).items;
         foreach(var spec in LessonSpec.All.Values)
         {
-            string vi=LessonGuide.FullProcedure(spec.id,true),en=LessonGuide.FullProcedure(spec.id,false);
+            var brief=procedureBriefs.Single(b=>b.id==spec.id);
+            string vi=LessonGuide.FullProcedure(spec.id,true,brief),en=LessonGuide.FullProcedure(spec.id,false,brief);
             Check(spec.id+" full procedure contains every authored preparation and completion check",spec.operationsVi.All(vi.Contains)&&spec.operationsEn.All(en.Contains)&&vi.Contains("Kiểm tra:")&&en.Contains("Check:")&&vi.Contains("QUAN SÁT VÀ GHI SỐ ĐO"));
+            Check(spec.id+" procedure retains research measurement and comparison steps",brief.stepsVi.Length>0&&brief.stepsVi.All(step=>!string.IsNullOrWhiteSpace(step)&&vi.Contains(step)));
+            Check(spec.id+" worked example is labelled separately from measurements",vi.Contains("VÍ DỤ MINH HỌA · KHÔNG PHẢI SỐ ĐO CỦA BẠN")&&vi.Contains(brief.examplesVi));
         }
         foreach(string id in new[]{"P01","C05","B01"})
         {
@@ -92,7 +96,10 @@ public sealed partial class WorkbenchUpgradeProbe
             var content=App.GetComponentsInChildren<RectTransform>().First(r=>r.name=="Lesson procedure content").GetComponent<VlabScrollContent>();
             Check(id+" full guide displays a scrollable procedure before entering the station",content&&content.Scroll.viewport.rect.height>0&&content.Body.text.Contains(ReadinessView.Goal(id,true)));
             Check(id+" reading the procedure does not create a session or measurement",ReferenceEquals(oldSession,App.Session)&&App.Profile.attempts.Count==attempts);
-            yield return Capture(id+"-full-procedure");yield return Tap("Lesson procedure close");
+            yield return Capture(id+"-full-procedure");
+            content.Scroll.verticalNormalizedPosition=0;yield return null;yield return null;
+            Check(id+" long procedure reaches its final section",content.Scroll.verticalNormalizedPosition<.01f&&content.Body.text.Contains("LẶP LẠI VÀ SO SÁNH"));
+            yield return Capture(id+"-full-procedure-bottom");yield return Tap("Lesson procedure close");
             Check(id+" procedure closes to readiness",App.Route=="readiness"&&!Read<RectTransform>("modal"));
             if(id=="P01")
             {

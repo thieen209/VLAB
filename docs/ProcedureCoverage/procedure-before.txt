@@ -1,0 +1,12 @@
+Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence.
+PASS Startup is visible before Home
+PASS Startup contains exact team credit
+PASS Reached home
+PASS Reachable Skip quick tour
+PASS Touch click delivered Skip quick tour
+PASS P01 full procedure contains every authored preparation and completion check
+FAIL P01 procedure retains research measurement and comparison steps
+FAIL System.Exception: P01 procedure retains research measurement and comparison steps
+  at WorkbenchUpgradeProbe.Check (System.String name, System.Boolean pass) [0x0003a] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:31
+  at WorkbenchUpgradeProbe+<LearnerExperienceChecks>d__15.MoveNext () [0x00c4f] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\LearnerExperienceChecks.cs:87
+  at WorkbenchUpgradeProbe+<Start>d__47.MoveNext () [0x0008d] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:114

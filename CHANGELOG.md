@@ -1,5 +1,9 @@
 # Nhật ký thay đổi VLAB
 
+## Chưa đóng APK — sau code42
+
+- Cửa sổ Quy trình hiển thị đủ bước đo/lặp/so sánh từ tài liệu 32 bài và ví dụ minh họa tách khỏi số đo. [Bằng chứng](docs/ProcedureCoverage/REPORT.md).
+
 ## 0.1.21 / code42 — 2026-10-26
 
 - Sửa dụng cụ trôi khỏi màn hình khi nhấc tay sau khi lấy; kéo dụng cụ rời tới mặt đỡ để đặt xuống bằng cảm ứng.
