@@ -78,7 +78,7 @@ public static class ChemistryIntegrationChecks
                         Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,2);before=rig.Driver.Observe().Get("pH");Action(rig,"dilute10");Assert(!rig.Driver.CanRecord(out _),"C06 dilution requires fresh rinsed probe and BTB observation");
                         Action(rig,"rinseProbe");Action(rig,"probeSample");Action(rig,"paper");after=rig.Driver.Observe().Get("pH");Assert(Math.Abs(rig.Driver.Observe().Get("waterControlPh")-7)<1e-8,"C06 retains water control after sample dilution");Assert(after>before&&after<7,"C06 actual tenfold acid dilution approaches neutral");break;
                     case "C07":
-                        Prepare(rig);Prepare(rig);Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,300);
+                        C07ManualAcidChecks.DeliverAcidFixture(rig);Prepare(rig);Prepare(rig);Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,300);
                         var gas=rig.Driver.Observe();Assert(gas.Get("gasVolume")<=gas.Get("gasLimit")+1e-5,"C07 syringe collection respects limiting moles");break;
                     case "C08":
                         Prepare(rig);Action(rig,"acidT");Action(rig,"baseT");Prepare(rig);Prepare(rig);

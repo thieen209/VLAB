@@ -8,7 +8,7 @@
 
 [Cài APK](#chơi-trên-android--không-cần-cài-unity) · [Mở project Unity](#mở-và-phát-triển-mã-nguồn) · [Tài liệu](docs/README.md) · [Nhật ký thay đổi](CHANGELOG.md)
 
-> **Trạng thái 26/10/2026:** bản thử nghiệm **0.1.23/code44** bổ sung thao tác cầm ống chỉ thị, đưa đúng miệng bình và nhỏ đủ liều mô phỏng trong C01. Kế thừa pipette và hướng dẫn code43. [Bằng chứng và giới hạn](docs/TitrationIndicator/REPORT.md). Chưa hoàn thiện mọi đường chuyển hóa chất hoặc nghiệm thu phần cứng thật.
+> **Trạng thái 26/10/2026:** bản thử nghiệm **0.1.24/code45** bổ sung mở nút bình và tự tay kéo chai để rót acid trong C07; thả để dừng, cầm lại để rót tiếp, chỉ lượng thực nhận mới được ghi nhận. Kế thừa code44. [Bằng chứng và giới hạn](docs/GasPouring/REPORT.md). Chưa nghiệm thu trên phần cứng thật.
 
 
 <p align="center">
@@ -117,12 +117,12 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ### Chơi trên Android — không cần cài Unity
 
-1. [Tải APK VLAB 0.1.23 / code44](https://github.com/thieen209/VLAB/releases/download/v0.1.23-learner-experience-code44/VLAB-0.1.23-learner-experience-code44.apk). Xem [SHA256 và cấu hình](docs/TitrationIndicator/ARTIFACT.json) để đối chiếu. APK mới nằm trên Releases; code29 cũ được giữ trong Git LFS. File Source code (zip) là mã nguồn để mở bằng Unity.
+1. [Tải APK VLAB 0.1.24 / code45](https://github.com/thieen209/VLAB/releases/download/v0.1.24-learner-experience-code45/VLAB-0.1.24-learner-experience-code45.apk). Xem [SHA256 và cấu hình](docs/GasPouring/ARTIFACT.json) để đối chiếu. APK mới nằm trên Releases; code29 cũ được giữ trong Git LFS. File Source code (zip) là mã nguồn để mở bằng Unity.
 2. Mở APK trên điện thoại. Nếu Android yêu cầu, cho phép **Cài ứng dụng không rõ nguồn gốc** cho trình duyệt hoặc ứng dụng quản lý tệp đang dùng, rồi xác nhận cài đặt. Có thể tắt quyền này sau khi cài xong.
 3. Mở ứng dụng **VLAB**, dùng máy theo chiều ngang và chọn phòng thí nghiệm. Nội dung học và tiến độ được lưu trên thiết bị; chơi không cần tài khoản hay mạng.
 4. Có thể chơi bằng màn hình cảm ứng. Để dùng kính, chọn **Vào VR** hoặc chế độ kính trong Cài đặt → Điều khiển, sau đó lắp điện thoại vào kính Cardboard phù hợp. Điện thoại cần cảm biến hỗ trợ head tracking; có màn hình Android không đồng nghĩa chắc chắn hỗ trợ VR. Quét QR của kính trong phần Điều khiển để cấu hình kính khi cần.
 
-**Phân biệt phiên bản:** bản mới là **0.1.23/code44**. Các số code cũ trong biên bản là lịch sử. Xem [báo cáo và giới hạn kiểm thử](docs/TitrationIndicator/REPORT.md).
+**Phân biệt phiên bản:** bản mới là **0.1.24/code45**. Các số code cũ trong biên bản là lịch sử. Xem [báo cáo và giới hạn kiểm thử](docs/GasPouring/REPORT.md).
 
 Cập nhật đè bằng APK có **cùng chữ ký** để giữ tiến độ. Nếu báo xung đột chữ ký, đừng gỡ ứng dụng hoặc xóa dữ liệu chỉ để cài tiếp: việc đó có thể làm mất sổ tay và kết quả đang lưu. APK tự build bằng debug key không thể cập nhật đè bản phát hành dùng chữ ký khác.
 

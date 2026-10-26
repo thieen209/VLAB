@@ -54,7 +54,19 @@ public sealed partial class WorkbenchUpgradeProbe
         yield return HoldAtReceiver(baseItem,()=>alkali.VolumeMl<1e-8,"Phone finishes the measured base portion");yield return Release(baseItem);
         Call("SelectWorkbenchTool",rig.items.Single(i=>i.assetId=="thermometer"),"");yield return Tap("Instrument control observeCal");yield return Tap("Close equipment controls");
         Check("C08 cannot record immediately after final pour",!driver.CanRecord(out _));
-        float observationDeadline=Time.realtimeSinceStartup+26;while(!driver.CanRecord(out _)&&Time.realtimeSinceStartup<observationDeadline)yield return null;
+        float observationDeadline=Time.realtimeSinceStartup+60;int interruptions=0;
+        while(!driver.CanRecord(out _)&&Time.realtimeSinceStartup<observationDeadline)
+        {
+            if(App.Session.Phase==ExperimentPhase.Paused)
+            {
+                Check("C08 observation interruption remains bounded",++interruptions<=2);
+                rows.Add("Editor observation was paused; resume through the existing visible UI, preserving the production pause safeguard.");
+                if(Read<bool>("hudHidden"))yield return Tap("HUD visibility");
+                yield return Tap("Compact current action");Check("C08 native resume restores the running clock",App.Session.Phase==ExperimentPhase.Running);
+            }
+            yield return null;
+        }
+        if(!driver.CanRecord(out var recordWhy))rows.Add("C08 observation diagnostic: phase="+App.Session.Phase+" elapsed="+App.Session.Elapsed+" reason="+recordWhy+" state="+driver.Observe().detailJson+" readings="+driver.SaveState());
         Check("C08 actual full doses and timed immersed observation unlock recording",driver.CanRecord(out _));yield return Capture("C08-manual-pour-observation");
         rows.Add("Native Editor touch checked partial, repeat, closed/open-lid pours and conserved thermal state; not Android, physical controller or calibrated kinetics evidence.");
     }

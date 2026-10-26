@@ -1,0 +1,100 @@
+Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence.
+PASS Reached home
+PASS Reachable Skip quick tour
+PASS Touch click delivered Skip quick tour
+CALORIMETER_POUR_CORE_PASS: 71 native SDK assertions; incremental finite volume/mol/heat, timed feed history, step-independent loss and LoadTrial compatibility. No lesson input, rendered flow or physical calibration acceptance.
+PASS C08 conserved thermal SDK and physical pour geometry core
+PASS Reached home
+PASS Reachable Subject C
+PASS Touch click delivered Subject C
+PASS Reached browser
+PASS Reachable Browser lesson C08
+PASS Touch click delivered Browser lesson C08
+PASS Reachable Browser start
+PASS Touch click delivered Browser start
+PASS Reached readiness
+PASS Reachable Readiness enter
+PASS Touch click delivered Readiness enter
+PASS Reached activity
+PASS C08 apparatus fixture installation
+PASS C08 apparatus fixture installation
+PASS C08 apparatus fixture installation
+PASS C08 apparatus fixture installation
+PASS C08 apparatus fixture installation
+PASS C08 apparatus fixture installation
+PASS C08 fixture confirms premeasured volumes
+PASS C08 fixture observes acid initial temperature
+PASS C08 fixture observes base initial temperature
+PASS C08 fixture records initial temperatures
+PASS C08 fixture prepares empty cup for actual pours
+PASS C08 fixture starts existing session clock
+C08 installation and initial temperature preparation above are explicit API fixtures. All solution transfers below use queued native touchscreen hold/drag/release.
+PASS Open native lid has a supported position outside the pouring mouth
+PASS Reachable HUD visibility
+PASS Touch click delivered HUD visibility
+PASS C08 real source cup acquires exclusive gesture ownership
+PASS C08 actual receiving-mouth pointer is visible
+PASS Phone pour adds an actual partial acid volume
+PASS C08 pouring preserves learner camera orientation
+PASS C08 release stops ownership and visible stream
+PASS C08 accepted flow conserves finite source plus receiver volume
+PASS Released cup retains its actual unpoured liquid
+PASS C08 real source cup acquires exclusive gesture ownership
+PASS C08 actual receiving-mouth pointer is visible
+PASS Regrab continues pouring without resetting accepted acid
+PASS C08 pouring preserves learner camera orientation
+PASS C08 release stops ownership and visible stream
+PASS C08 accepted flow conserves finite source plus receiver volume
+PASS C08 real source cup acquires exclusive gesture ownership
+PASS C08 actual receiving-mouth pointer is visible
+PASS Phone base pour creates actual mixed reactant amounts
+PASS C08 pouring preserves learner camera orientation
+PASS C08 release stops ownership and visible stream
+PASS C08 accepted flow conserves finite source plus receiver volume
+PASS Actual overlapping reactants release heat over elapsed time
+PASS Reachable Instrument control lidClose
+PASS Touch click delivered Instrument control lidClose
+PASS Reachable Close equipment controls
+PASS Touch click delivered Close equipment controls
+PASS C08 real source cup acquires exclusive gesture ownership
+PASS C08 actual receiving-mouth pointer is visible
+PASS Closed-lid attempt reaches source hold
+PASS C08 pouring preserves learner camera orientation
+PASS Closed native lid permits no solution transfer
+PASS C08 release stops ownership and visible stream
+PASS C08 accepted flow conserves finite source plus receiver volume
+PASS Reachable Instrument control lidOpen
+PASS Touch click delivered Instrument control lidOpen
+PASS Reachable Close equipment controls
+PASS Touch click delivered Close equipment controls
+PASS C08 real source cup acquires exclusive gesture ownership
+PASS C08 actual receiving-mouth pointer is visible
+PASS Reopened native lid permits continued physical transfer
+PASS C08 pouring preserves learner camera orientation
+PASS C08 release stops ownership and visible stream
+PASS C08 accepted flow conserves finite source plus receiver volume
+PASS Later pours retain thermal time and already released heat
+PASS C08 actual input heat ledger conserves energy
+PASS C08 real source cup acquires exclusive gesture ownership
+PASS C08 actual receiving-mouth pointer is visible
+PASS Phone finishes the measured acid portion
+PASS C08 pouring preserves learner camera orientation
+PASS C08 release stops ownership and visible stream
+PASS C08 accepted flow conserves finite source plus receiver volume
+PASS C08 real source cup acquires exclusive gesture ownership
+PASS C08 actual receiving-mouth pointer is visible
+PASS Phone finishes the measured base portion
+PASS C08 pouring preserves learner camera orientation
+PASS C08 release stops ownership and visible stream
+PASS C08 accepted flow conserves finite source plus receiver volume
+PASS Reachable Instrument control observeCal
+PASS Touch click delivered Instrument control observeCal
+PASS Reachable Close equipment controls
+PASS Touch click delivered Close equipment controls
+PASS C08 cannot record immediately after final pour
+C08 observation diagnostic: phase=Paused elapsed=39.5578952147625 reason=Deliver both measured solutions, then observe the immersed thermometer for 20 active seconds after the last addition. state={"lesson":"C08","assumptions":"SDK57000J/mol;rho1g/mL;c4.18J/g/K;2s mixing;lid thermal leak","sampleId":"","indicatorInterval":"","qualitative":{"source":12,"loaded":0,"nacl":0,"nitrate":0,"water":0,"target":"","labelled":false,"selected":false,"appearanceSeconds":0.0},"titres":[],"samples":[],"curve":[{"seconds":22.061240123119205,"value":27.410194396972656},{"seconds":32.064624118153006,"value":28.106637954711914}],"initialMassG":10.0,"finalMassG":0.0,"actualCurrentA":0.0,"chargeC":0.0,"initialMeniscus":0.0,"finalMeniscus":0.0,"deliveredMl":0.0,"acidMl":25.0,"baseMl":25.0,"acidM":0.5,"baseM":0.5,"acidC":25.0,"baseC":25.0,"cupC":25.0,"cupJPerK":20.0,"temperatureC":28.111242419108837,"peakC":28.111242419108837,"releasedJ":712.4745139759207,"lostJ":2.1010051608639363e-12,"naclUnits":0,"nitrateUnits":0,"waterUnits":0,"naclSolid":false,"nitrateSolid":false,"waterSolid":false,"reversedLeads":false,"saltBridgeImmersed":false,"waterObserved":false,"waterPh":0.0} readings={"version":1,"lesson":"C08","titres":[],"samples":[],"dilution":{"format":0,"stamp":"","flask":"","volume":0.0,"water":0.0,"stock":0.0,"waste":0.0,"moles":0.0,"rinse":0.0,"aliquot":0.0,"pipette":0.0,"pipetteMoles":0.0,"wasteMoles":0.0},"qualitative":{"source":12,"loaded":0,"nacl":0,"nitrate":0,"water":0,"target":"","labelled":false,"selected":false,"appearanceSeconds":0.0}}
+FAIL C08 actual full doses and timed immersed observation unlock recording
+FAIL System.Exception: C08 actual full doses and timed immersed observation unlock recording
+  at WorkbenchUpgradeProbe.Check (System.String name, System.Boolean pass) [0x0003a] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:31
+  at WorkbenchUpgradeProbe+<ManualPourJourney>d__4.MoveNext () [0x00e11] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\C08PourUiChecks.cs:59
+  at WorkbenchUpgradeProbe+<Start>d__48.MoveNext () [0x0008d] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:114

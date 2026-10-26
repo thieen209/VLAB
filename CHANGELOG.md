@@ -1,5 +1,11 @@
 # Nhật ký thay đổi VLAB
 
+## 0.1.24 / code45 — C07 manual acid loading
+
+- Open the real flask stopper, hold/drag the finite HCl bottle over its mouth, release to stop and resume partial doses.
+- Geometry, closed-state and obstruction checks gate volume-conserving transfer; the prescribed dose is required before weighing and sealing.
+- Existing gas collection flow retained. [Evidence and limits](docs/GasPouring/REPORT.md); physical devices remain unverified.
+
 ## 0.1.23 / code44 — Manual titration indicator
 
 - C01 now requires two actual-tip, uncalibrated simulated indicator drops before preparation can advance.

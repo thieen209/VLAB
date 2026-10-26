@@ -105,6 +105,7 @@ namespace Vlab.Product
             if(!AllInstalled)return;
             string stamp=string.Join(";",session.parameters.Where(x=>x.Key!="flow").OrderBy(x=>x.Key).Select(x=>x.Key+"="+x.Value.ToString("R",System.Globalization.CultureInfo.InvariantCulture)));
             if(id=="C05"&&configured&&(stockRinsed||I<VlabReagentBottle>("stock").Liquid.VolumeMl<120)){if(stamp!=configurationStamp){failed=true;failure="A controlled variable changed after pipetting began. Start a fresh attempt.";}return;}
+            if(id=="C07"&&configured&&I<VlabReagentBottle>("acid").Liquid.VolumeMl<80){if(stamp!=configurationStamp){failed=true;failure="A controlled variable changed after acid pouring began. Start a fresh attempt.";}return;}
             if(prepared>0){if(stamp!=configurationStamp){failed=true;failure="A controlled variable changed after preparation. Start a fresh attempt and prepare the actual solutions again.";}return;}
             switch(id)
             {
@@ -150,7 +151,7 @@ namespace Vlab.Product
                         if(completedOperation==2)Must(calibrated&&rinsed,"Observe both actual pH 4 and pH 7 buffers and rinse the probe using its controls.");
                         if(completedOperation==3)Must(probeIn&&paperUsed,"Immerse the probe in the sample and dip the BTB paper before continuing.");break;
                     case "C07":
-                        if(completedOperation==1){WeighChips();ConsumeBottle("acid",P("volume"));Must(I<VlabFlask>("flask").TrySetVolume(P("volume")),"Reaction flask must be upright.");}
+                        if(completedOperation==1){Must(GasAcidComplete,"Open the flask and manually pour the prescribed acid volume first.");WeighChips();}
                         if(completedOperation==2)SealGas();
                         if(completedOperation==3){Must(gasSealed,"Seal both gas ports first.");contact=true;MoveChipsToFlask();I<VlabTimer>("timer").TrySetMode(0);I<VlabTimer>("timer").ResetTimer();}break;
                     case "C08":
@@ -489,6 +490,8 @@ namespace Vlab.Product
         void MoveChipsToFlask(){var flask=I<VlabFlask>("flask");I<VlabChips>("chips").transform.position=flask.CavityCentreAt(.006);equipment["boat"].GetComponent<VlabMassSample>().SetMass(0);I<VlabBalance>("balance").RefreshReading();}
         void SealGas()
         {
+            Must(GasAcidComplete,"Deliver the prescribed acid before sealing the gas circuit.");
+            equipment["stopper"].transform.position+=Named("flask","_NeckSocket_SOCKET").position-Named("stopper","_Seat_SOCKET").position;
             var tube=I<VlabTubing>("tube");Must(tube.TrySetSpan(.16f,.12f)&&tube.TrySetPorts(id+":flask:gas",id+":syringe:inlet",true,true),"Gas tubing route cannot seal both named ports.");
             var outlet=Named("stopper","_Port1Top_SOCKET");
             var inlet=equipment["syringe"].GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name.Contains("Inlet")&&t.name.EndsWith("SOCKET"));
@@ -735,7 +738,7 @@ namespace Vlab.Product
                 case "C04":if(key=="reagent"||key=="dropper")return new[]{C("selectAg","Chọn AgNO3","Select AgNO3",labels&&qualitativeSelection==0&&unitsLeft>=2)};if(key=="nacl"||key=="nitrate"||key=="water")return new[]{C("dose:"+key,"Nhỏ tại vị trí đầu ống · giọt mô phỏng","Dispense at actual tip · simulated drop",CanManualDropper&&dropperUnits>0&&CupUnits(key)<2),C("assistDose:"+key,"Hỗ trợ: chuyển 2 giọt mô phỏng","Assistance: deliver 2 simulated drops",labels&&CupUnits(key)<2&&(dropperTarget==""||dropperTarget==key))};break;
                 case "C05":if(key=="pipette"||key=="bulb")return new[]{C("autoRinsePipette","Hỗ trợ: tráng pipette 10 mL","Assistance: rinse pipette with 10 mL",CanManualPipette&&!stockRinsed),C("transferAliquot","Hỗ trợ: chuyển aliquot 10 mL","Assistance: deliver 10 mL aliquot",CanManualPipette&&stockRinsed)};if(key==currentFlask||key=="wash")return new[]{C("waterMark","Hỗ trợ: thêm nước tới vạch","Assistance: add water to mark",dilutionTransferred&&!filledMark),C("invert","Đậy và đảo trộn","Stopper and invert to mix",filledMark&&!mixed),C("serial","Hỗ trợ: lấy 10 mL pha nối tiếp","Assistance: take 10 mL for serial dilution",mixed&&samples.Count<3)};break;
                 case "C06":if(key=="probe")return new[]{C("buffer4","Nhúng buffer pH 4","Immerse in pH 4 buffer",labels),C("buffer7","Nhúng buffer pH 7","Immerse in pH 7 buffer",labels),C("rinseProbe","Rửa đầu dò","Rinse probe",labels),C("probeSample","Nhúng vào mẫu","Immerse in sample",calibrated&&rinsed),C("probeWater","Đo mẫu nước","Measure water control",calibrated&&rinsed)};if(key=="paper")return new[]{C("paper","Nhúng giấy BTB mới","Dip fresh BTB paper",labels)};if(key=="test")return new[]{C("dilute10","Pipette 10 mL, pha tới 100 mL","Pipette 10 mL, dilute to 100 mL",labels&&additionalDilution<100&&I<VlabBeaker>("test").VolumeMl>=20)};break;
-                case "C07":if(key=="tube"||key=="stopper")return new[]{C("unseal","Mở cổng khí","Open gas port",gasSealed)};break;
+                case "C07":if((key=="flask"||key=="stopper")&&prepared==0)return new[]{C("openGasFlask","Mở nút bình để rót acid","Open flask for acid",!GasReceiverOpen)};if(key=="tube"||key=="stopper")return new[]{C("unseal","Mở cổng khí","Open gas port",gasSealed)};break;
                 case "C08":if(key=="thermometer")return new[]{C("acidT","Đo T acid","Measure acid temperature",prepared<=1),C("baseT","Đo T base","Measure base temperature",prepared<=1),C("observeCal","Đặt đầu đo vào dung dịch","Immerse thermometer in solution",session.Phase==ExperimentPhase.Running&&I<VlabCalorimeter>("cal").Vessel.VolumeMl>0&&(!calProbeTracking||!CalSensorImmersed()))};if(key=="cal")return new[]{C("lidOpen","Mở nắp","Open lid"),C("lidClose","Đóng nắp","Close lid"),C("assistPourBoth","Hỗ trợ: rót hai phần đã đong","Assistance: pour both measured solutions",CanManualPour("acidCup")||CanManualPour("baseCup"))};break;
             }
             return Array.Empty<LessonControl>();
@@ -777,6 +780,7 @@ namespace Vlab.Product
                     case "probeWater":Must(id=="C06"&&calibrated&&rinsed,"Calibrate and rinse first.");ProbeAt("water");Must(I<VlabPhProbe>("probe").TryObserve(BeakerRegion("water"),id+"-water",7),"Water probe immersion invalid.");waterObserved=true;waterPh=I<VlabPhProbe>("probe").Reading;probeIn=false;rinsed=false;message="Water control: pH 7.00 at 25 °C. Rinse before changing samples.";break;
                     case "paper":Must(id=="C06"&&labels,"Prepare labelled samples first.");var paper=I<VlabIndicatorPaper>("paper");var sample=I<VlabBeaker>("test");var sheet=paper.GetComponentsInChildren<Renderer>().First(r=>r.enabled);paper.transform.position+=sample.transform.position+Vector3.up*(float)(sample.SurfaceHeightMeters-.002)-sheet.bounds.center;Must(paper.ResetReading()&&paper.ObservePh((float)Ph()),"BTB paper unavailable.");paperUsed=true;break;
                     case "dilute10":DilutePhSample();break;
+                    case "openGasFlask":OpenGasFlask();break;
                     case "unseal":Must(id=="C07","Wrong lesson.");I<VlabTubing>("tube").ClearPorts();gasSealed=false;if(contact){failed=true;failure="Gas port opened after contact: collected gas volume is invalid.";}break;
                     case "acidT":MeasureInitialTemperature(true);break;
                     case "observeCal":ObserveCalorimeter();break;

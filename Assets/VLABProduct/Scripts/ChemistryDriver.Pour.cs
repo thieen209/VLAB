@@ -6,7 +6,21 @@ namespace Vlab.Product
     public sealed partial class ChemistryDriver
     {
         string pouringSource="";bool calProbeTracking;double calObservedSeconds,calObservedPeak=double.NaN;
-        public bool CanManualPour(string sourceKey)=>id=="C08"&&(sourceKey=="acidCup"||sourceKey=="baseCup")&&AllInstalled&&configured&&!failed&&prepared==3&&session.Phase==ExperimentPhase.Running&&!paused&&I<VlabBeaker>(sourceKey).VolumeMl>1e-8;
+        public bool GasReceiverOpen=>id=="C07"&&AllInstalled&&!gasSealed&&Vector3.Distance(Named("stopper","_Seat_SOCKET").position,Named("flask","_NeckSocket_SOCKET").position)>.04f;
+        public bool GasAcidComplete=>id=="C07"&&AllInstalled&&Math.Abs(I<VlabFlask>("flask").VolumeMl-P("volume"))<1e-7;
+        public bool CanManualPour(string sourceKey)=>AllInstalled&&configured&&!failed&&(id=="C08"&&(sourceKey=="acidCup"||sourceKey=="baseCup")&&prepared==3&&session.Phase==ExperimentPhase.Running&&!paused&&I<VlabBeaker>(sourceKey).VolumeMl>1e-8||id=="C07"&&sourceKey=="acid"&&prepared==0&&session.Phase==ExperimentPhase.Preparing&&!contact&&!gasSealed&&!GasAcidComplete&&I<VlabReagentBottle>("acid").Liquid.VolumeMl>1e-8);
+        void OpenGasFlask()
+        {
+            Must(id=="C07"&&prepared==0&&!contact&&!gasSealed,"Open the reaction flask before adding acid.");
+            if(GasReceiverOpen)return;
+            var item=equipment["stopper"];var previous=item.transform.position;var rig=item.GetComponentInParent<ApparatusRig>();
+            foreach(var offset in new[]{new Vector3(-.12f,0,-.12f),new Vector3(.12f,0,.12f),new Vector3(-.12f,0,.12f),new Vector3(.12f,0,-.12f)})
+            {
+                item.transform.position=equipment["flask"].transform.position+offset;
+                if(rig&&rig.TryRestInstalledTool(item,out _)){session.Assistance="Stopper placement assistance";return;}
+            }
+            item.transform.position=previous;throw new InvalidOperationException("Clear a supported place beside the flask for its stopper.");
+        }
         public bool BeginManualPour(string sourceKey,out string message)
         {
             message="";if(!CanManualPour(sourceKey)){message="Start the prepared trial before pouring a remaining measured solution.";return false;}
@@ -27,6 +41,14 @@ namespace Vlab.Product
         public double TransferManualPour(double requestedMl,out string message)
         {
             message="Pouring stopped.";if(pouringSource==""||!CanManualPour(pouringSource))return 0;
+            if(id=="C07")
+            {
+                var bottle=I<VlabReagentBottle>("acid");var flask=I<VlabFlask>("flask");
+                if(!Finite(requestedMl)||requestedMl<=0)return 0;
+                double dose=Math.Min(requestedMl,Math.Max(0,P("volume")-flask.VolumeMl));
+                if(bottle.Liquid.TryPourInto(flask,dose,bottle.CapOpen,GasReceiverOpen,out var accepted)){message="Acid received: "+flask.VolumeMl.ToString("0.0")+" mL";return accepted;}
+                message="Open the flask and source; tilt the actual mouth above an unobstructed receiver.";return 0;
+            }
             var cal=I<VlabCalorimeter>("cal");double allowed=LiquidPourTransfer.AllowedVolume(PourSource(pouringSource),PourReceiver(),requestedMl,out message);if(allowed<=0)return 0;
             bool acid=pouringSource=="acidCup";double moved=cal.TryPourFrom(I<VlabBeaker>(pouringSource),acid,V(acid?"acidM":"baseM",.5),V(acid?"acidC":"baseC",25),allowed,out message);
             if(moved>0){calObservedSeconds=0;calObservedPeak=double.NaN;lastSample=clock-10;}

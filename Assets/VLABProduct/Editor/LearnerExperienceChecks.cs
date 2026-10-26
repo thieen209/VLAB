@@ -29,6 +29,9 @@ public sealed partial class WorkbenchUpgradeProbe
         }
         yield return Wait("home");if(Find("Skip quick tour"))yield return Tap("Skip quick tour");
         if(scope=="boot")yield break;
+        if(scope=="gas-pour"){C07ManualAcidChecks.Run(Check);yield break;}
+        if(scope=="gas-core"){C07ManualAcidChecks.RunTransferCore(Check);yield break;}
+        if(scope=="gas-ui"){C07ManualAcidChecks.Run(Check);C07ManualAcidChecks.RunTransferCore(Check);ChemistryIntegrationChecks.Run();Check("Eight chemistry SDK flows after C07 manual loading",true);yield return GasPourJourney();yield return ManualPourJourney();yield break;}
         if(scope=="phone-placement"){yield return PhonePlacementJourney();yield break;}
         if(scope=="titration-pipette"){ChemistryIntegrationChecks.Run();Check("Chemistry SDK integration after manual C01",true);yield return ManualPipetteJourney(false,"C01");App.ShowHome();yield return Wait("home");yield return ManualPipetteJourney();yield break;}
         Action<string> capture=name=>ScreenCapture.CaptureScreenshot("Evidence/WorkbenchUpgrade/"+name+".png");
