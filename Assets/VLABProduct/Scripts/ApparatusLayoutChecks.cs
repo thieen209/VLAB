@@ -62,6 +62,9 @@ public static class ApparatusLayoutChecks
             if(id=="P01")
             {
                 check("P01 original clamp bore does not penetrate the actual main-rod mesh: "+RodBoreReason(rig),ValidateRodBore(rig,out _));
+                var stand=rig.items.Single(item=>item.assetId=="stand");var rod=stand.GetComponentsInChildren<Renderer>().Single(r=>r.name.EndsWith("_Rod_VIS",StringComparison.Ordinal));
+                var bore=rig.items.Single(item=>item.assetId=="clamp").GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_StandRod_SOCKET",StringComparison.Ordinal));
+                check("P01 uses the delivered carriage stub and keeps suspension visibly beside the upright",Vector3.Distance(bore.position,stand.GetComponent<VlabStand>().Mount.position)<.001f&&Mathf.Abs(rig.Pivot.x-rod.bounds.center.x)>=.050f);
                 check("P01 stock assembly retains full-range floor, worktop, carriage and endpoint clearance: "+AssemblyReason(rig),rig.ValidateAssembly(out _));
             }
             check(id+" stored orientations never replace installed source orientations",poses.All(pair=>pair.Key.rotation==pair.Value));

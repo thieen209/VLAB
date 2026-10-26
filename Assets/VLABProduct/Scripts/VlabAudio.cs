@@ -13,7 +13,7 @@ namespace Vlab.Product
         readonly AudioClip[] rooms=new AudioClip[4];
         readonly float[] lastPlayed=new float[System.Enum.GetValues(typeof(VlabSound)).Length];
         AudioSource effects,ambience,apparatus;
-        AudioSource motor;AudioClip motorClip;ExperimentSession soundSession;float nextGasSound;double previousGas;
+        AudioSource motor;AudioClip motorClip,waterClip;ExperimentSession soundSession;float nextGasSound;double previousGas;
         int room=-1;
         const int Rate=22050;
 
@@ -25,6 +25,7 @@ namespace Vlab.Product
             ambience=Source("Quiet laboratory atmosphere",true);ambience.volume=0;
             apparatus=Source("Apparatus contact and liquid",false);apparatus.spatialBlend=.8f;apparatus.minDistance=.5f;apparatus.maxDistance=6;apparatus.rolloffMode=AudioRolloffMode.Linear;apparatus.volume=.35f;
             motor=Source("Running laboratory motor",true);motor.spatialBlend=.8f;motor.minDistance=.5f;motor.maxDistance=6;motor.rolloffMode=AudioRolloffMode.Linear;motor.volume=0;motorClip=Clip("Motor under load",MotorSamples());motor.clip=motorClip;
+            waterClip=Clip("Running tap water",WaterSamples());
             for(int i=0;i<cues.Length;i++){cues[i]=Clip(((VlabSound)i).ToString(),CueSamples((VlabSound)i));lastPlayed[i]=-10;}
             for(int i=0;i<rooms.Length;i++)rooms[i]=Clip("Laboratory atmosphere "+i,RoomSamples(i));
         }
@@ -38,6 +39,13 @@ namespace Vlab.Product
         static AudioClip Clip(string label,float[] samples)
         {
             var clip=AudioClip.Create("VLAB "+label,samples.Length,1,Rate,false);clip.SetData(samples,0);return clip;
+        }
+        public static AudioSource CreateWaterSource(Transform owner)
+        {
+            if(!instance||!owner)return null;
+            var source=instance.Source("Sink water at nozzle",true);source.transform.SetParent(owner,false);
+            source.clip=instance.waterClip;source.spatialBlend=1;source.minDistance=.4f;source.maxDistance=7;
+            source.rolloffMode=AudioRolloffMode.Linear;source.volume=0;return source;
         }
         public static void Play(VlabSound sound)
         {
@@ -55,7 +63,7 @@ namespace Vlab.Product
             if(action=="on"||action=="off"||action=="close"||action=="lidOpen"||action=="lidClose"||action.StartsWith("obj"))return VlabSound.Switch;
             if(action.StartsWith("dose:")||action.StartsWith("pour")||action.StartsWith("transfer")||action.StartsWith("rinse")||action=="addWater"||action=="mix"||action=="swirl"||action=="waterMark"||action=="waterReplace"||action=="invert"||action=="aliquot"||action=="indicator"||action=="dilute10")return VlabSound.Liquid;
             if(action.StartsWith("probe")||action=="buffer4"||action=="buffer7")return VlabSound.Glass;
-            if(action.StartsWith("focus")||action.StartsWith("pull")||action=="steady"||action.StartsWith("crank")||action.StartsWith("angle")||action.StartsWith("speed"))return VlabSound.Mechanism;
+            if(action=="clips"||action.StartsWith("focus")||action.StartsWith("pull")||action=="steady"||action.StartsWith("crank")||action.StartsWith("angle")||action.StartsWith("speed"))return VlabSound.Mechanism;
             return null;
         }
         public static void At(VlabSound sound,Vector3 position)
@@ -101,6 +109,26 @@ namespace Vlab.Product
             var samples=new float[Rate];
             for(int i=0;i<samples.Length;i++){float t=(float)i/Rate;samples[i]=.18f*Mathf.Sin(2*Mathf.PI*90*t)+.06f*Mathf.Sin(2*Mathf.PI*270*t)+.025f*Mathf.Sin(2*Mathf.PI*720*t);}
             return samples;
+        }
+        public static float[] WaterSamples()
+        {
+            var samples=new float[Rate*2];var random=new System.Random(801);float filtered=0;
+            for(int i=0;i<samples.Length;i++)
+            {
+                float noise=(float)random.NextDouble()*2-1;filtered=Mathf.Lerp(filtered,noise,.14f);
+                float edge=Mathf.Clamp01(Mathf.Min(i,samples.Length-1-i)/96f);
+                samples[i]=(.1f*noise+.18f*filtered)*edge;
+            }
+            CheckWaterSamples(samples);return samples;
+        }
+        [System.Diagnostics.Conditional("UNITY_ASSERTIONS")]
+        static void CheckWaterSamples(float[] samples)
+        {
+            UnityEngine.Assertions.Assert.AreEqual(Rate*2,samples.Length);
+            UnityEngine.Assertions.Assert.IsTrue(samples[0]==0&&samples[samples.Length-1]==0);
+            float peak=0;
+            foreach(float sample in samples){UnityEngine.Assertions.Assert.IsTrue(float.IsFinite(sample)&&Mathf.Abs(sample)<.5f);peak=Mathf.Max(peak,Mathf.Abs(sample));}
+            UnityEngine.Assertions.Assert.IsTrue(peak>.01f);
         }
         public static float[] CueSamples(VlabSound sound)
         {
@@ -161,7 +189,7 @@ namespace Vlab.Product
             if(instance!=this)return;instance=null;
             foreach(var clip in cues)if(clip)Destroy(clip);
             foreach(var clip in rooms)if(clip)Destroy(clip);
-            if(apparatus)Destroy(apparatus.gameObject);if(effects)Destroy(effects.gameObject);if(ambience)Destroy(ambience.gameObject);if(motor)Destroy(motor.gameObject);if(motorClip)Destroy(motorClip);
+            if(apparatus)Destroy(apparatus.gameObject);if(effects)Destroy(effects.gameObject);if(ambience)Destroy(ambience.gameObject);if(motor)Destroy(motor.gameObject);if(motorClip)Destroy(motorClip);if(waterClip)Destroy(waterClip);
         }
     }
 }

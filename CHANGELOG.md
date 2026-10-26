@@ -1,5 +1,13 @@
 # Nhật ký thay đổi VLAB
 
+## 0.1.17 / code38 — 2026-10-26
+
+- P01 dùng đúng tay ngang và điểm gắn gốc của giá đỡ, tách dây/quả nặng khỏi trụ đứng.
+- Giữ camera khi đổi bước và mở dụng cụ; FOV70–120°, nút thoát ở gần cửa.
+- Đặt dụng cụ lên bàn trống; thao tác lam/kẹp/vật kính; B01 dùng10× trước40× và khóa chỉnh thô40×.
+- C04 diễn họa kết tủa tiến triển có tạm dừng; âm thanh vòi nước, boot VLAB, lối vào gán nút BLE chung.
+- [Kiểm tra, ảnh và các phần chưa hoàn thành](docs/ExperienceRepair/REPORT.md). Chưa nghiệm thu thiết bị thật hoặc đủ32UI journeys.
+
 ## 0.1.16 / code36 — 2026-10-25
 
 - Chạm mô hình chưa lắp mở bảng Đặt xuống / Trả về khay; thao tác Quay lại trả vật đang cầm trước khi rời bài.

@@ -5,6 +5,33 @@ namespace Vlab.Product
 {
     public sealed partial class VlabApp
     {
+        bool BeginMicroscopeGesture(EquipmentHandle item,RaycastHit hit,ActionFrame frame)
+        {
+            if(!(Apparatus.Driver is BiologyDriver biology)||!Apparatus.Ready||Session.Phase==ExperimentPhase.Paused)return false;
+            string part=hit.collider.name,key=item.assetId;
+            if(key=="slide"&&Session.spec.id=="B01"&&Session.Operation==2&&frame.held)
+            {
+                if(!Apparatus.BeginFlagshipGrab(item))return false;CloseWorkbench();flagshipDrag=item;flagshipRest=item.transform.position;flagshipRotation=item.transform.rotation;
+                var stage=Apparatus.items.First(x=>x.assetId=="microscope").GetComponentsInChildren<Transform>().First(x=>x.name.EndsWith("_SlideCenter_SOCKET",System.StringComparison.Ordinal));
+                flagshipPlane=new Plane(Vector3.up,stage.position);return true;
+            }
+            if(key!="microscope")return false;
+            if(part.Contains("Clip"))
+            {
+                if(FlagshipOperate("clips")&&Session.spec.id=="B01"&&Session.Operation==2){if(Apparatus.PrepareNext(out _)){Save();RefreshActivity();}}return true;
+            }
+            if(part.Contains("Turret")||part.Contains("Objectives"))
+            {
+                int objective=item.GetComponentInChildren<VlabMicroscope>().ObjectiveIndex;
+                FlagshipOperate(objective==1&&Session.Operation>=4?"obj40":"obj10");return true;
+            }
+            if((part.Contains("Fine")||part.Contains("Coarse"))&&frame.held)
+            {
+                if(!Apparatus.BeginFlagshipGrab(item))return false;CloseWorkbench();flagshipDrag=item;flagshipFine=part.Contains("Fine");
+                flagshipPlane=new Plane(View.transform.forward,hit.point);flagshipLast=hit.point;return true;
+            }
+            return false;
+        }
         bool BeginWorkbenchDrag(EquipmentHandle item,RaycastHit hit,ActionFrame frame)
         {
             if(!Apparatus.Ready||!frame.held||Session.Phase==ExperimentPhase.Paused)return false;
@@ -24,6 +51,28 @@ namespace Vlab.Product
         }
         bool UpdateWorkbenchDrag(ActionFrame frame)
         {
+            if(Apparatus.Driver is BiologyDriver biology&&flagshipDrag&&(flagshipDrag.assetId=="slide"||flagshipDrag.assetId=="microscope"))
+            {
+                if(flagshipDrag.assetId=="slide")
+                {
+                    if(flagshipPlane.Raycast(frame.pointer,out float distance))
+                    {var seat=flagshipDrag.GetComponentsInChildren<Transform>().First(x=>x.name.EndsWith("_Base_SOCKET",System.StringComparison.Ordinal));flagshipDrag.transform.position+=frame.pointer.GetPoint(distance)-seat.position;}
+                    if(frame.released)
+                    {
+                        bool placed=!PointerHitsUi(frame.pointer)&&biology.PlaceSlideAtCurrentPose(out _);
+                        if(!placed)flagshipDrag.transform.SetPositionAndRotation(flagshipRest,flagshipRotation);
+                        if(placed){Apparatus.EndFlagshipGrab(flagshipDrag);flagshipDrag=null;Save();RefreshActivity();}
+                        else{CancelFlagshipDrag();ActionFailure(L("Đặt lam vào giữa bàn kính; sau đó chạm kẹp để cố định.","Place the slide at the stage centre, then close its clips."));}
+                    }
+                }
+                else
+                {
+                    if(flagshipPlane.Raycast(frame.pointer,out float distance))
+                    {var point=frame.pointer.GetPoint(distance);float delta=Vector3.Dot(point-flagshipLast,View.transform.up);if(Mathf.Abs(delta)>.012f){FlagshipOperate(flagshipFine?(delta>0?"focusFine+":"focusFine-"):(delta>0?"focus+":"focus-"));flagshipLast=point;}}
+                    if(frame.released)CancelFlagshipDrag();
+                }
+                return true;
+            }
             string id=Session.spec.id;if(id!="C06"&&id!="P03"&&id!="M03")return false;
             if(id=="C06")
             {

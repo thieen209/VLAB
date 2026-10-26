@@ -117,6 +117,18 @@ namespace Vlab.Product
             LowerCover();
             Check(m.TrySetClips(false),"Both microscope clips must close.");s.mounted=true;ShowView();
         }
+        public bool PlaceSlideAtCurrentPose(out string message)
+        {
+            message="";
+            try
+            {
+                Check(Id=="B01"&&s.lowered&&!s.mounted,"Prepare the specimen and coverslip before placing the slide.");
+                var m=Instrument<VlabMicroscope>("microscope");Check(m.ClipsOpen,"Open the stage clips before placing the slide.");
+                Check(Vector3.Distance(Socket("slide","_Base_SOCKET").position,Socket("microscope","_SlideCenter_SOCKET").position)<.06f,"Move the slide onto the centre of the microscope stage.");
+                equipment["slide"].transform.SetParent(m.Stage,true);Fit("slide","_Base_SOCKET",Socket("microscope","_SlideCenter_SOCKET"));s.mounted=true;ShowView();return true;
+            }
+            catch(Exception e){message=e.Message;return false;}
+        }
         void LowerCover()
         {
             if(!coverFrame){coverFrame=new GameObject("Coverslip lowering frame").transform;coverFrame.SetParent(equipment["slide"].transform,true);}
@@ -128,7 +140,9 @@ namespace Vlab.Product
         }
         void ShowView()
         {
-            if(!s.mounted)return;var image=Id=="B02"?Instrument<VlabPlasmolysis>("specimen").CurrentTexture:Image(Id=="B08"?"_Atlas_VIS":"_Texture_VIS");
+            if(!s.mounted)return;
+            if(Instrument<VlabMicroscope>("microscope").ClipsOpen){Instrument<VlabMicroscope>("microscope").TrySetEyepieceImage(null);return;}
+            var image=Id=="B02"?Instrument<VlabPlasmolysis>("specimen").CurrentTexture:Image(Id=="B08"?"_Atlas_VIS":"_Texture_VIS");
             Check(image&&Instrument<VlabMicroscope>("microscope").TrySetEyepieceImage(image),"Source microscope image unavailable.");
         }
         void Fill(string key,double ml){var b=Instrument<VlabBeaker>(key);b.Remove(b.VolumeMl);Check(Math.Abs(b.Add(ml)-ml)<1e-8,"Insufficient beaker capacity.");}
@@ -142,8 +156,8 @@ namespace Vlab.Product
                     case 1: Check(Instrument<VlabOnion>("onion").TrySetState(2),"Separate one epidermis layer.");s.wet=true;
                         Check(Instrument<VlabOnion>("onion").TryConfigureSample(s.groupId,Image("_Texture_VIS")),"Onion image mapping failed.");break;
                     case 2: Check(s.wet,"Prepare a wet layer first.");LowerCover();break;
-                    case 3: Check(s.lowered,"Lower and blot the coverslip first.");MountSlide();break;
-                    case 4: Check(s.objective==0&&Sharpness()>=.7,"Focus at actual 4× objective first using microscope controls.");break;
+                    case 3: Check(s.mounted&&!Instrument<VlabMicroscope>("microscope").ClipsOpen,"Place the slide on the stage, then close the clips on the microscope.");break;
+                    case 4: Check(s.objective==1&&Sharpness()>=.7,"Focus at the 10× objective before changing to 40×.");break;
                     default:return Require(false,"Unknown preparation operation.",out message);
                 }
                 else if(Id=="B02")switch(n)
@@ -349,7 +363,7 @@ namespace Vlab.Product
         public Texture PlasmolysisWallTexture=>Id=="B02"&&s.mounted?Image("_WallLayer_VIS"):null;
         public override Texture Inspection(string key)
         {
-            if((key!="microscope"&&key!="specimen")||!s.mounted)return null;
+            if((key!="microscope"&&key!="specimen")||!s.mounted||Instrument<VlabMicroscope>("microscope").ClipsOpen)return null;
             return Id=="B02"?Instrument<VlabPlasmolysis>("specimen").CurrentTexture:Image(Id=="B08"?"_Atlas_VIS":"_Texture_VIS");
         }
         public bool HasB01Presentation=>Id=="B01"&&On("microscope");
@@ -400,7 +414,9 @@ namespace Vlab.Product
             void Add(string id,string vi,string en,bool enabled=true)=>c.Add(new LessonControl(id,vi,en,enabled));
             if(key=="microscope"||key=="specimen")
             {
-                Add("focus-","Lấy nét −0,5 mm","Focus −0.5 mm");Add("focus+","Lấy nét +0,5 mm","Focus +0.5 mm");
+                Add("focus-","Chỉnh thô −0,5 mm","Coarse focus −0.5 mm",s.objective!=2);Add("focus+","Chỉnh thô +0,5 mm","Coarse focus +0.5 mm",s.objective!=2);
+                Add("focusFine-","Chỉnh tinh −0,05 mm","Fine focus −0.05 mm");Add("focusFine+","Chỉnh tinh +0,05 mm","Fine focus +0.05 mm");
+                Add("clips","Mở / đóng kẹp lam","Open / close stage clips",s.mounted);
                 Add("obj4","Vật kính 4×","4× objective");Add("obj10","Vật kính 10×","10× objective");Add("obj40","Vật kính 40×","40× objective");
                 if(Id=="B01")for(int i=0;i<Structures.Length;i++)Add("structure:"+i,StructureVi[i],Structures[i].Replace('_',' '),s.selectedStructure>0);
                 if(Id=="B02")
@@ -442,8 +458,11 @@ namespace Vlab.Product
             message="";
             try
             {
+                if(id=="clips")
+                {Check(s.mounted,"Place the slide on the microscope stage before closing the clips.");var m=Instrument<VlabMicroscope>("microscope");Check(m.TrySetClips(!m.ClipsOpen),"Stage clips unavailable.");ShowView();return true;}
                 if(id=="focus-"||id=="focus+"||id=="focusFine-"||id=="focusFine+")
                 {
+                    Check(s.objective!=2||id.StartsWith("focusFine",StringComparison.Ordinal),"At 40× use the fine-focus knob; coarse movement can hit the slide.");
                     float step=id.StartsWith("focusFine",StringComparison.Ordinal)?.05f:.5f;s.focus=Mathf.Clamp(s.focus+(id.EndsWith("+",StringComparison.Ordinal)?step:-step),0,13);
                     if(session.parameters.ContainsKey("focus"))session.parameters["focus"]=s.focus;
                     Check(Instrument<VlabMicroscope>("microscope").TrySetFocus(s.focus),"Focus travel rejected.");return true;
@@ -451,6 +470,7 @@ namespace Vlab.Product
                 if(id=="obj4"||id=="obj10"||id=="obj40")
                 {
                     int objective=id=="obj4"?0:id=="obj10"?1:2;
+                    if(Id=="B01"&&objective==2)Check(s.prep>=4&&(s.objective==1||s.objective==2),"Complete focused observation at 10× before changing to 40×.");
                     if(objective>0)Check(s.mounted&&Sharpness()>=.7,"Find and focus mounted specimen at low power first.");
                     Check(Instrument<VlabMicroscope>("microscope").TrySetObjective(objective),"Objective change rejected.");s.objective=objective;
                     if(Id=="B01"&&b01SelectedUv.HasValue)b01ViewCenter=b01SelectedUv.Value;
@@ -625,6 +645,7 @@ namespace Vlab.Product
         public override bool CanRecord(out string message)
         {
             if(session.Phase!=ExperimentPhase.Running&&session.Phase!=ExperimentPhase.Paused)return Require(false,"Run prepared experiment before recording.",out message);
+            if(Has("microscope")&&(!s.mounted||Instrument<VlabMicroscope>("microscope").ClipsOpen||Sharpness()<.7))return Require(false,"Mount, secure and focus the slide before recording.",out message);
             if(Id=="B01")return Require(Sharpness()>=.7&&s.structures.Count>=3,"Focus image and identify ≥3 source structures before recording.",out message);
             if(Id=="B02")return Require(s.waterAdded&&s.clock-s.waterAt>=10&&s.cells.Count>=20&&s.cells.All(x=>x.baseline>=0&&x.salt>=0&&x.recovery>=0),"Classify same 20–30 IDs at baseline, salt and recovery; observe ≥10 s after actual water replacement.",out message);
             if(Id=="B03")return Require(s.samples.Count==3&&s.samples.All(x=>x.initialRead&&x.finalRead&&x.blotted),"Record paired initial/final readings for three independent blotted samples.",out message);

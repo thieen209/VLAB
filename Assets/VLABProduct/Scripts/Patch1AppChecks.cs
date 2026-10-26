@@ -130,7 +130,7 @@ public static class Patch1AppChecks
         Find(app,name).onClick.Invoke();yield return new WaitForSecondsRealtime(.28f);
         var after=(GameSettings)typeof(VlabApp).GetField("draft",Private).GetValue(app);
         float actual=top==652?after.cameraFov:after.moveSpeed;
-        float expected=top==652?Mathf.Clamp(before.cameraFov+(increase?5:-5),45,85):Mathf.Clamp(before.moveSpeed+(increase?.1f:-.1f),.3f,2);
+        float expected=top==652?Mathf.Clamp(before.cameraFov+(increase?5:-5),70,120):Mathf.Clamp(before.moveSpeed+(increase?.1f:-.1f),.3f,2);
         string diagnostic=name+" before="+(top==652?before.cameraFov:before.moveSpeed)+" expected="+expected+" actual="+actual+" joystick before="+before.joystickScale+" after="+after.joystickScale;
         Debug.Log("PATCH1 SETTINGS "+diagnostic);
         if(Mathf.Abs(actual-expected)>.001f||after.joystickScale!=before.joystickScale)throw new Exception("Settings callback changed wrong value: "+diagnostic);
@@ -170,12 +170,12 @@ public static class Patch1AppChecks
             yield return Press(app,"Đảo chiều ngang","Invert horizontal look");
             yield return Press(app,"Đảo chiều dọc","Invert vertical look");
             yield return Press(app,"Xoay máy để nhìn (cần cảm biến)","Look by rotating phone (sensor required)");
-            bool fovUp=original.cameraFov<85;yield return Bar(app,652,fovUp);
+            bool fovUp=original.cameraFov<120;yield return Bar(app,652,fovUp);
             yield return Press(app,"Di chuyển","Movement");bool speedUp=original.moveSpeed<1.99f;yield return Bar(app,344,speedUp);
             capture?.Invoke("patch1-phone-movement");
             yield return Press(app,"Xong · Chưa áp dụng","Done · Apply in Settings");yield return Press(app,"Settings apply","Áp dụng","Apply");
             var loaded=Reload(app);var s=loaded.profile.settings;
-            check("Phone UI Apply persists inversion, gyro preference, speed and FOV",!loaded.writeProtected&&!loaded.recovered&&s.invertLookX==!original.invertLookX&&s.invertLookY==!original.invertLookY&&s.phoneGyro==!original.phoneGyro&&Mathf.Abs(s.cameraFov-Mathf.Clamp(original.cameraFov+(fovUp?5:-5),45,85))<.01f&&Mathf.Abs(s.moveSpeed-Mathf.Clamp(original.moveSpeed+(speedUp?.1f:-.1f),.3f,2))<.001f);
+            check("Phone UI Apply persists inversion, gyro preference, speed and FOV",!loaded.writeProtected&&!loaded.recovered&&s.invertLookX==!original.invertLookX&&s.invertLookY==!original.invertLookY&&s.phoneGyro==!original.phoneGyro&&Mathf.Abs(s.cameraFov-Mathf.Clamp(original.cameraFov+(fovUp?5:-5),70,120))<.01f&&Mathf.Abs(s.moveSpeed-Mathf.Clamp(original.moveSpeed+(speedUp?.1f:-.1f),.3f,2))<.001f);
             check("Flat camera applies saved FOV",!app.Input.VrMode&&!app.Input.SimulatorMode&&Mathf.Abs(app.View.fieldOfView-s.cameraFov)<.01f);
 
             yield return Press(app,"Home utility 0","Cài đặt","Settings");yield return Press(app,"Điều khiển","Controls");yield return Press(app,"Controls button mapping");

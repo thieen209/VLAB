@@ -212,11 +212,11 @@ public sealed class FinalPassInteractionProbe:MonoBehaviour
         headGaze=false;App.Input.UseMockController=true;
         select=true;yield return new WaitForSecondsRealtime(.12f);select=false;yield return new WaitForSecondsRealtime(.3f);Check("Physical select adapter still works with dwell disabled",App.Session.Operation==1);
         App.Input.UseMockController=false;App.Input.SetSimulator(false);yield return new WaitForSecondsRealtime(.5f);Call("FocusStation");yield return new WaitForSecondsRealtime(.3f);
-        float overviewBob=ScreenWidth(Item("pendulum"));
+        float overviewBob=ScreenWidth(Item("pendulum"));var preparationEye=App.View.transform.position;var preparationRotation=App.View.transform.rotation;float preparationFov=App.View.fieldOfView;
         var touch=InputSystem.AddDevice<Touchscreen>();yield return null;
         yield return TapModel(touch,Item("pendulum"));yield return TapModel(touch,Item("pendulum"));Check("Phone touches advance distinct model preparation actions",App.Session.Operation==3);
         float focusedBob=ScreenWidth(Item("pendulum"));rows.Add("VISIBILITY bob projected width overview="+overviewBob+" focused="+focusedBob+" at "+Screen.width+"x"+Screen.height);
-        Check("Precision-step phone framing enlarges visible bob without rescaling model",focusedBob>=overviewBob*1.5f&&focusedBob>=Screen.height*.04f);
+        Check("Preparation steps preserve the learner camera and lens",Vector3.Distance(preparationEye,App.View.transform.position)<.0001f&&Quaternion.Angle(preparationRotation,App.View.transform.rotation)<.001f&&Mathf.Abs(preparationFov-App.View.fieldOfView)<.001f);
         Vector2 start=App.View.WorldToScreenPoint(VisiblePoint(Item("pendulum")));Touch(touch,UnityEngine.InputSystem.TouchPhase.Began,start);yield return new WaitForSecondsRealtime(.15f);
         Check("Phone touch captures actual bob instead of look swipe",App.Apparatus.IsPullingBob&&App.Session.Phase==ExperimentPhase.Ready);
         var phoneEye=App.View.transform.position;var phoneRotation=App.View.transform.rotation;float phoneLens=App.View.fieldOfView;

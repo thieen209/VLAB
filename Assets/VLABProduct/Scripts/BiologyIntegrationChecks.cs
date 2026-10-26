@@ -130,7 +130,20 @@ public static class BiologyIntegrationChecks
         using(var c=new Case("B01"))
         {
             c.Install();C(!c.driver.Operate("obj40",out _),"High power blocked before mounted/focused slide");
-            c.Prep();c.Prep();c.Prep();c.Act("obj4");c.Prep();
+            var movable=c.Handle("dropper");var original=movable.transform.position;
+            C(c.rig.LiftForInspection(movable,new Ray(original+Vector3.up,Vector3.down)),"Movable tool can be lifted");
+            movable.transform.position=c.rig.Worktop+new Vector3(.85f,.2f,.3f);float placedX=movable.transform.position.x;
+            C(c.rig.ReleaseInspected(out _),"Movable tool can settle on a clear supported bench location");
+            C(movable.Owner==EquipmentGrabOwner.None&&Math.Abs(movable.transform.position.x-placedX)<.0001f&&Vector3.Distance(original,movable.transform.position)>.2f,"Normal release retains the new supported location and releases ownership");
+            var placed=movable.transform.position;C(c.rig.LiftForInspection(movable,new Ray(placed+Vector3.up,Vector3.down)),"Tool can be picked up again");c.rig.CancelGrab();C(Vector3.Distance(placed,movable.transform.position)<.0001f,"Cancellation returns to the last supported pickup location");
+            c.Prep();c.Prep();C(!c.rig.PrepareNext(out _),"B01 panel cannot mount and close the slide automatically");
+            var biology=(BiologyDriver)c.driver;C(!biology.PlaceSlideAtCurrentPose(out _),"B01 rejects a slide still on the tray");
+            var seat=c.Handle("slide").GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_Base_SOCKET",StringComparison.Ordinal));
+            var target=c.Handle("microscope").GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_SlideCenter_SOCKET",StringComparison.Ordinal));
+            c.Handle("slide").transform.position+=target.position-seat.position;
+            C(biology.PlaceSlideAtCurrentPose(out _),"B01 accepts the actual slide at its stage socket");
+            C(!c.rig.PrepareNext(out _),"B01 requires deliberate clip closure");c.Act("clips");c.Prep();c.Act("obj4");
+            C(!c.rig.PrepareNext(out _),"Optional 4× does not complete the required 10× step");c.Act("obj10");c.Prep();
             C(c.Tool<VlabOnion>("onion").State==2&&!c.Tool<VlabMicroscope>("microscope").ClipsOpen,"Single epidermis state and both clips closed");
             C(c.driver.Inspection("specimen")!=null,"Actual source inspection texture exposed");c.Start();C(!c.session.Measure(out _),"No automatic learner structure observations");
             var mask=SourceTexture(c,"_CellMasks_VIS");C(mask.isReadable,"Categorical onion mask readable");var pixels=mask.GetPixels32();var selected=new Dictionary<int,Vector2>();
@@ -138,8 +151,10 @@ public static class BiologyIntegrationChecks
             {var p=pixels[i];if(p.r>=1&&p.r<=64&&p.g>=1&&p.g<=3&&!selected.ContainsKey(p.g))selected[p.g]=new Vector2((i%mask.width+.5f)/mask.width,(i/mask.width+.5f)/mask.height);}
             C(selected.Count==3,"Three actual source structure regions located by test fixture");
             foreach(var pair in selected){c.Point(pair.Value);c.Act("structure:"+(pair.Key-1));}
+            c.Act("clips");C(!c.driver.CanRecord(out _)&&c.State().structures.Count==3,"Opening clips blocks recording while retaining the learner's classifications");c.Act("clips");
             c.Act("obj10");C(c.Tool<VlabMicroscope>("microscope").ObjectiveIndex==1,"10× source turret index 1");c.Act("obj40");C(c.Tool<VlabMicroscope>("microscope").ObjectiveIndex==2,"40× source turret index 2");
-            c.Act("focus+");c.Act("focus+");C(!c.driver.TryMeasure(out _,out _),"Out-of-focus high-power record blocked");c.Act("focus-");c.Act("focus-");PauseAndInputLoss(c);
+            float focus=c.Tool<VlabMicroscope>("microscope").FocusMm;C(!c.driver.Operate("focus+",out _)&&c.Tool<VlabMicroscope>("microscope").FocusMm==focus,"40× rejects coarse focus without moving stage");
+            for(int n=0;n<20;n++)c.Act("focusFine+");C(!c.driver.TryMeasure(out _,out _),"Out-of-focus high-power record blocked");for(int n=0;n<20;n++)c.Act("focusFine-");PauseAndInputLoss(c);
             var record=Finish(c,"Test learner: wall, membrane and cytoplasm identified in supplied schematic; no real magnification calibration.");
             C(record.readings.Single(x=>x.key=="magnification").value==400,"Nominal magnification correctly reported at 40× objective");
         }

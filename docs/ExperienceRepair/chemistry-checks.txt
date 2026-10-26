@@ -1,0 +1,235 @@
+PASS C01 install stand
+PASS C01 install clamp
+PASS C01 install burette
+PASS C01 install flask
+PASS C01 install pipette
+PASS C01 install bulb
+PASS C01 install sample
+PASS C01 install base
+PASS C01 install indicator
+PASS C01 install waste
+PASS C01 apparatus installed
+PASS C01 rejects measurement before preparation
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS ChemistryDriver initial
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS C01 start
+PASS C01 live valve control
+PASS ChemistryDriver close
+PASS ChemistryDriver swirl
+PASS C01 rejects incomplete concordant series
+PASS ChemistryDriver final
+PASS ChemistryDriver titre
+PASS ChemistryDriver fresh
+PASS ChemistryDriver initial
+PASS ChemistryDriver aliquot
+PASS ChemistryDriver indicator
+PASS C01 live valve control
+PASS ChemistryDriver close
+PASS ChemistryDriver swirl
+PASS C01 rejects incomplete concordant series
+PASS ChemistryDriver final
+PASS ChemistryDriver titre
+PASS ChemistryDriver fresh
+PASS ChemistryDriver initial
+PASS ChemistryDriver aliquot
+PASS ChemistryDriver indicator
+PASS C01 live valve control
+PASS ChemistryDriver close
+PASS ChemistryDriver swirl
+PASS C01 rejects incomplete concordant series
+PASS ChemistryDriver final
+PASS ChemistryDriver titre
+PASS C01 three concordant actual transfers
+PASS C01 paused clock preserves instrument state
+PASS C01 final source-backed measurement
+PASS C01 detailed apparatus record
+PASS C01 safe draft restore never resumes apparatus/power
+PASS C02 install znCup
+PASS C02 install cuCup
+PASS C02 install zn
+PASS C02 install cu
+PASS C02 install bridge
+PASS C02 install meter
+PASS C02 install leadA
+PASS C02 install leadB
+PASS C02 apparatus installed
+PASS C02 rejects measurement before preparation
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS C02 start
+PASS ChemistryDriver reverse
+PASS C02 actual reversed probes reverse sign
+PASS ChemistryDriver bridgeOff
+PASS C02 removed salt bridge blocks measurement
+PASS ChemistryDriver bridgeOn
+PASS C02 paused clock preserves instrument state
+PASS C02 final source-backed measurement
+PASS C02 detailed apparatus record
+PASS C02 safe draft restore never resumes apparatus/power
+PASS C03 install bath
+PASS C03 install cathode
+PASS C03 install anode
+PASS C03 install supply
+PASS C03 install leadA
+PASS C03 install leadB
+PASS C03 install balance
+PASS C03 install timer
+PASS C03 install rinse
+PASS C03 install drying
+PASS C03 install waste
+PASS C03 apparatus installed
+PASS C03 rejects measurement before preparation
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS C03 start
+PASS C03 integrates actual source current on explicit clock
+PASS C03 wet electrode cannot be recorded as dry mass
+PASS ChemistryDriver off
+PASS ChemistryDriver rinseCathode
+PASS ChemistryDriver dryCathode
+PASS ChemistryDriver weighFinal
+PASS C03 paused clock preserves instrument state
+PASS C03 final source-backed measurement
+PASS C03 detailed apparatus record
+PASS C03 safe draft restore never resumes apparatus/power
+PASS C04 install nacl
+PASS C04 install nitrate
+PASS C04 install water
+PASS C04 install reagent
+PASS C04 install dropper
+PASS C04 install solidNaCl
+PASS C04 install solidNitrate
+PASS C04 install solidWater
+PASS C04 apparatus installed
+PASS C04 rejects measurement before preparation
+PASS Prepare operation ChemistryDriver
+PASS C04 rejects cup click without selected reagent
+PASS ChemistryDriver selectAg
+PASS ChemistryDriver dose:water
+PASS C04 selection clears after transfer
+PASS ChemistryDriver selectAg
+PASS ChemistryDriver dose:nitrate
+PASS Prepare operation ChemistryDriver
+PASS ChemistryDriver selectAg
+PASS ChemistryDriver dose:nacl
+PASS C04 accepted dose does not instantly reveal sediment or enable recording
+PASS Prepare operation ChemistryDriver
+PASS C04 start
+PASS C04 partial appearance after one second
+PASS C04 pause freezes illustrative sediment
+PASS C04 transition completes only after three active seconds
+PASS C04 qualitative positive and controls
+PASS C04 paused clock preserves instrument state
+PASS C04 final source-backed measurement
+PASS C04 detailed apparatus record
+PASS C04 safe draft restore never resumes apparatus/power
+PASS C05 install stock
+PASS C05 install pipette
+PASS C05 install bulb
+PASS C05 install vol50
+PASS C05 install vol100
+PASS C05 install wash
+PASS C05 install waste
+PASS C05 install label
+PASS C05 apparatus installed
+PASS C05 rejects measurement before preparation
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS ChemistryDriver waterMark
+PASS ChemistryDriver invert
+PASS Prepare operation ChemistryDriver
+PASS C05 start
+PASS C05 10 mL 1 M aliquot diluted to actual50 mL
+PASS ChemistryDriver serial
+PASS ChemistryDriver waterMark
+PASS ChemistryDriver invert
+PASS C05 serial sample conserves measured aliquot solute
+PASS C05 paused clock preserves instrument state
+PASS C05 final source-backed measurement
+PASS C05 detailed apparatus record
+PASS C05 safe draft restore never resumes apparatus/power
+PASS C06 install test
+PASS C06 install water
+PASS C06 install buffer4
+PASS C06 install buffer7
+PASS C06 install rinse
+PASS C06 install probe
+PASS C06 install paper
+PASS C06 install pipette
+PASS C06 install bulb
+PASS C06 install vol100
+PASS C06 install wash
+PASS C06 install waste
+PASS C06 apparatus installed
+PASS C06 rejects measurement before preparation
+PASS Prepare operation ChemistryDriver
+PASS ChemistryDriver buffer4
+PASS C06 requires rinse between buffers
+PASS ChemistryDriver rinseProbe
+PASS ChemistryDriver buffer7
+PASS ChemistryDriver rinseProbe
+PASS ChemistryDriver probeWater Water control: pH 7.00 at 25 °C. Rinse before changing samples.
+PASS C06 actual immersed water control stays visible
+PASS C06 water control requires rinse before sample
+PASS ChemistryDriver rinseProbe
+PASS Prepare operation ChemistryDriver
+PASS ChemistryDriver probeSample
+PASS ChemistryDriver paper
+PASS Prepare operation ChemistryDriver
+PASS C06 start
+PASS ChemistryDriver dilute10
+PASS C06 dilution requires fresh rinsed probe and BTB observation
+PASS ChemistryDriver rinseProbe
+PASS ChemistryDriver probeSample
+PASS ChemistryDriver paper
+PASS C06 retains water control after sample dilution
+PASS C06 actual tenfold acid dilution approaches neutral
+PASS C06 paused clock preserves instrument state
+PASS C06 final source-backed measurement
+PASS C06 detailed apparatus record
+PASS C06 safe draft restore never resumes apparatus/power
+PASS C07 install flask
+PASS C07 install stopper
+PASS C07 install tube
+PASS C07 install syringe
+PASS C07 install chips
+PASS C07 install boat
+PASS C07 install balance
+PASS C07 install timer
+PASS C07 install acid
+PASS C07 apparatus installed
+PASS C07 rejects measurement before preparation
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS C07 start
+PASS C07 syringe collection respects limiting moles
+PASS C07 paused clock preserves instrument state
+PASS C07 final source-backed measurement
+PASS C07 detailed apparatus record
+PASS C07 safe draft restore never resumes apparatus/power
+PASS C08 install cal
+PASS C08 install acidCup
+PASS C08 install baseCup
+PASS C08 install thermometer
+PASS C08 install timer
+PASS C08 install stir
+PASS C08 apparatus installed
+PASS C08 rejects measurement before preparation
+PASS Prepare operation ChemistryDriver
+PASS ChemistryDriver acidT
+PASS ChemistryDriver baseT
+PASS Prepare operation ChemistryDriver
+PASS Prepare operation ChemistryDriver
+PASS C08 start
+PASS C08 SDK actual25mL0.5M heat with57000J/mol
+PASS C08 real calorimeter thermal state heats
+PASS C08 paused clock preserves instrument state
+PASS C08 final source-backed measurement
+PASS C08 detailed apparatus record
+PASS C08 safe draft restore never resumes apparatus/power

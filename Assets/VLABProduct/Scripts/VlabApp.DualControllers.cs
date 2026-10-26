@@ -77,17 +77,19 @@ namespace Vlab.Product
                 start=Mathf.Clamp(start,0,Mathf.Max(0,dual.Devices.Count-3));
                 for(int i=start;i<Mathf.Min(dual.Devices.Count,start+3);i++) {
                     var device=dual.Devices[i];int hand=device.name=="VLAB-Left"?1:2;
-                    Button(box,device.name+" · "+device.address+" · "+device.rssi+" dBm",40,345+(i-start)*72,1015,62,()=>{if(!dual.Connect(hand,device.address))Toast(L("Chưa thể kết nối; kiểm tra quyền và địa chỉ hai tay.","Connection unavailable; check permissions and distinct addresses."));ShowDualControllers();});
+                    string handName=hand==1?L("Tay trái","Left hand"):L("Tay phải","Right hand");
+                    Button(box,handName+" · "+device.name+" · "+device.address,40,345+(i-start)*72,1015,62,()=>{if(!dual.Connect(hand,device.address)){Toast(L("Chưa thể kết nối; kiểm tra quyền Bluetooth và mỗi tay phải có một địa chỉ khác nhau.","Connection unavailable; check Bluetooth permission and use a distinct address for each hand."));return;}ShowDualControllers();});
                 }
                 Button(box,L("Thiết bị trước","Previous devices"),40,566,490,54,()=>ShowDualControllers(false,start-3)).interactable=start>0;
                 Button(box,L("Thiết bị sau","More devices"),565,566,490,54,()=>ShowDualControllers(false,start+3)).interactable=start+3<dual.Devices.Count;
-                ui.Text(box,L("Bóp Grip để cầm. Bấm cần để đổi di chuyển tay; giữ MODE + cần để lên/xuống. Chế độ thường: cần trái đi lại. Nhả hết nút sau khi nối lại.","Hold Grip to grab. Click stick for hand movement; MODE + stick moves up/down. Normal mode: left stick walks. Release all controls after reconnect."),40,640,1015,84,22,VlabUi.Secondary);
+                ui.Text(box,L("Bóp Grip để cầm; cần trái đi lại. Thả hết nút sau khi nối lại. Gán nút dùng chung cho hai tay; hiệu chỉnh vị trí và góc lắp riêng từng tay. Áp dụng trong Cài đặt để lưu thay đổi nút.","Hold Grip to grab; the left stick walks. Release all controls after reconnect. Button mapping is shared by both hands; position and mounting are calibrated separately. Apply in Settings to save button changes."),40,640,1015,84,22,VlabUi.Secondary);
             }
             Button(box,L("Hiệu chỉnh tay trái","Calibrate left"),40,740,315,60,()=>ShowDualCalibration(1));
             Button(box,L("Hiệu chỉnh tay phải","Calibrate right"),390,740,315,60,()=>ShowDualCalibration(2));
             Button(box,diagnostics?L("Thiết bị","Devices"):L("Chẩn đoán trực tiếp","Live diagnostics"),740,740,315,60,()=>ShowDualControllers(!diagnostics));
-            Button(box,L("BLE cũ / hồ sơ khác","Legacy BLE / other profiles"),40,822,490,58,()=>ShowBleController());
-            Button(box,L("Quay lại","Back"),565,822,490,58,()=>{CloseModal();ShowSettings();});
+            Button(box,L("Gán nút hai tay","Map both hands"),40,822,315,58,()=>{if(draft==null){draft=Profile.settings.Copy();draftLocale=Profile.locale;}ShowControllerBindings();}).name="Dual controller shared mapping";
+            Button(box,L("BLE khác","Other BLE"),390,822,315,58,()=>ShowBleController());
+            Button(box,L("Quay lại","Back"),740,822,315,58,()=>{CloseModal();ShowSettings();});
         }
         IEnumerator DualControllerStatus(TextMeshProUGUI label,bool diagnostics)
         {
@@ -96,7 +98,10 @@ namespace Vlab.Product
                 string text=BleControllerRuntime.Plain(dual.ScanStatus)+"\n";
                 for(int hand=1;hand<=2;hand++) {
                     var state=dual.Hand(hand);var p=state.Raw;double age=state.ReceivedAt<0?-1:(Time.realtimeSinceStartupAsDouble-state.ReceivedAt)*1000;
-                    text+=(hand==1?L("TRÁI","LEFT"):L("PHẢI","RIGHT"))+" · "+BleControllerRuntime.Plain(dual.Status(hand))+" · "+(state.Armed?L("Sẵn sàng","Armed"):L("Thả nút / hiệu chỉnh","Release controls / calibrate"))+"\n";
+                    bool fresh=state.Fresh(Time.realtimeSinceStartupAsDouble);
+                    string connection=fresh?(state.Armed?L("Đang nhận dữ liệu · Sẵn sàng","Live data · Ready"):L("Đã nối · Thả nút / hiệu chỉnh","Connected · Release controls / calibrate")):string.IsNullOrEmpty(state.Address)?L("Chưa ghép","Not paired"):dual.Status(hand).StartsWith("Connecting")?L("Đang kết nối","Connecting"):L("Đã lưu · Chưa có dữ liệu","Saved · No live data");
+                    text+=(hand==1?L("TAY TRÁI · VLAB-Left","LEFT HAND · VLAB-Left"):L("TAY PHẢI · VLAB-Right","RIGHT HAND · VLAB-Right"))+" · "+connection+"\n";
+                    if(diagnostics)text+=BleControllerRuntime.Plain(dual.Status(hand))+"\n";
                     if(diagnostics)text+=$"{state.Address} · seq {p.sequence} · age {age:F0}ms · interval {state.IntervalMilliseconds:F1}ms · accepted/reject/gaps {state.Accepted}/{state.Rejected}/{state.Missing}\n"+
                         $"stick {state.Stick:F2} · trigger {state.Trigger:F3} · buttons 0x{p.buttons:X4} · moveMode {state.MovementMode}\n"+
                         $"ADC X/Y/H {p.rawX}/{p.rawY}/{p.rawHall} · battery estimate {p.batteryMillivolts}mV · flags 0x{p.flags:X2} · cal 0x{p.calibration:X2}\n"+

@@ -53,6 +53,7 @@ namespace Vlab.Product
             if(!hold.item||!hold.item.Release(HandOwner(hand)))return;
             if(hold.dropper)hold.dropper.SetSqueeze(0);if(hold.forceps)hold.forceps.SetSqueeze(0);
             bool fitted=false;
+            if(place&&hold.item.installed)fitted=TryPlaceSupported(hold.item,out _);
             if(place&&!hold.item.installed&&Vector3.Distance(hold.item.transform.position,hold.item.slot)<.22f&&!Selected) {
                 Select(hold.item,false);fitted=InstallSelected();if(!fitted)CancelGrab();
             }

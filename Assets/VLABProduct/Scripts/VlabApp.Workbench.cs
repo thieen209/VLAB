@@ -97,10 +97,10 @@ namespace Vlab.Product
             }
             else if(Apparatus.InspectingInstalled)
             {
-                toolState.text=L("Đang nhấc lên quan sát. Bấm Đặt xuống để trả về đúng chỗ cũ; số đo được giữ nguyên.","Lifted for inspection. Choose Put down to restore its original position; readings are preserved.");
-                Button(toolCard,L("Đặt xuống","Put down"),24,224,432,68,()=>{Apparatus.CancelGrab();SelectWorkbenchTool(item);},Accent).name="Return inspected equipment";
-                Button(toolCard,"↶",24,312,208,68,()=>Apparatus.RotateInspected(-15)).name="Rotate equipment left";
-                Button(toolCard,"↷",248,312,208,68,()=>Apparatus.RotateInspected(15)).name="Rotate equipment right";
+                toolState.text=L("Đưa dụng cụ đến mặt bàn rồi Đặt xuống. Bấm × để trả lại chỗ cũ.","Move the tool over the bench, then Put down. Use × to return it to its previous position.");
+                Button(toolCard,L("Đặt xuống","Put down"),24,224,432,68,()=>{if(Apparatus.ReleaseInspected(out var why))SelectWorkbenchTool(item);else toolState.text=LessonGuide.ExplainFailure(why,Vi);},Accent).name="Return inspected equipment";
+                Button(toolCard,L("Xoay trái","Turn left"),24,312,208,68,()=>Apparatus.RotateInspected(-15)).name="Rotate equipment left";
+                Button(toolCard,L("Xoay phải","Turn right"),248,312,208,68,()=>Apparatus.RotateInspected(15)).name="Rotate equipment right";
             }
             else for(int n=0;n<4;n++)
             {

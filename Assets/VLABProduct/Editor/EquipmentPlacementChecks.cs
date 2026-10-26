@@ -58,8 +58,9 @@ public sealed partial class WorkbenchUpgradeProbe
                 var vessel=rig.items.First(rig.CanLiftForInspection);var rest=vessel.transform.position;var rotation=vessel.transform.rotation;
                 Call("SelectWorkbenchTool",vessel,"");yield return new WaitForSecondsRealtime(.4f);yield return Tap("Lift equipment");
                 Check("Inspection lifts the actual vessel",rig.InspectingInstalled&&Vector3.Distance(rest,vessel.transform.position)>.05f);
-                yield return Capture("C01-inspection-put-down");yield return Tap("Return inspected equipment");
-                Check("Inspection put-down restores exact pose",!rig.IsCarrying&&vessel.Owner==EquipmentGrabOwner.None&&Vector3.Distance(rest,vessel.transform.position)<.001f&&Quaternion.Angle(rotation,vessel.transform.rotation)<.1f);
+                yield return Capture("C01-inspection-put-down");vessel.transform.position=rest+Vector3.up*.2f;yield return Tap("Return inspected equipment");
+                Check("Inspection put-down settles onto supported bench",!rig.IsCarrying&&vessel.Owner==EquipmentGrabOwner.None&&Vector2.Distance(new Vector2(rest.x,rest.z),new Vector2(vessel.transform.position.x,vessel.transform.position.z))<.001f);
+                rest=vessel.transform.position;
                 yield return Tap("Lift equipment");Call("ControllerBack");yield return null;
                 Check("Back puts down before leaving activity",App.Route=="activity"&&!rig.IsCarrying&&Vector3.Distance(rest,vessel.transform.position)<.001f);
             }

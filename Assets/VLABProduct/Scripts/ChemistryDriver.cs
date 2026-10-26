@@ -35,7 +35,7 @@ namespace Vlab.Product
         bool waterObserved;double waterPh;
         bool calibrated,rinsed,probeIn,paperUsed,stockRinsed,dilutionTransferred,filledMark,labels,gasSealed,contact,temperaturesRead;
         double charge,initialMass=10,finalMass,gasMoles,lastSample=-10,additionalDilution=1;int qualitativeSelection,unitsLeft=12,naclUnits,nitrateUnits,waterUnits;
-        bool naclSolid;string currentFlask="vol50";string sampleId="";
+        bool naclSolid;double precipitateSeconds;string currentFlask="vol50";string sampleId="";
         string configurationStamp="";
         readonly Dictionary<string,ScientificFixtureSupport> electrodeHolders=new Dictionary<string,ScientificFixtureSupport>();
         public ChemistryDriver(ExperimentSession session):base(session){id=session.spec.id;}
@@ -430,6 +430,12 @@ namespace Vlab.Product
             if(id=="C02"&&CellReady())I<VlabMultimeter>("meter").TrySetReading(CellVoltage());
             if(id=="C03")AdvanceElectrolysis(seconds);
             if(id=="C07")AdvanceGas(seconds);
+            if(id=="C04"&&naclUnits>0)
+            {
+                // Three seconds is a presentation transition, not measured AgCl kinetics.
+                precipitateSeconds=Math.Min(3,precipitateSeconds+seconds);naclSolid=precipitateSeconds>0;
+                Must(I<VlabPrecipitate>("solidNaCl").TrySetQualitative(naclSolid,(float)(.8*precipitateSeconds/3)),"AgCl presentation is unavailable.");
+            }
             if(id=="C08")
             {var c=I<VlabCalorimeter>("cal");c.Advance(seconds);var region=CalRegion();Must(I<VlabThermometer>("thermometer").TryObserve(region,(float)c.TemperatureC),"Thermometer sensor left the calorimeter liquid.");}
             clock+=seconds;if(Has("timer")&&I<VlabTimer>("timer").Running)I<VlabTimer>("timer").TrySample(clock);
@@ -474,7 +480,7 @@ namespace Vlab.Product
                 case "C01":var b=I<VlabBurette>("burette");r.Add("meniscus",b.ReadingMl,"mL","Mặt khum burette","Burette meniscus").Add("delivered",delivered,"mL","Thể tích đã chuyển","Transferred volume").Add("validTitres",titres.Count(x=>x.valid),"","Lượt hợp lệ","Valid titres");if(mixed&&indicator)r.Add("pH",Kernel(delivered).Get("pH"),"","pH sau trộn","Mixed solution pH");r.note=mixed?EndpointText():"Swirl after delivery before judging the indicator.";break;
                 case "C02":if(CellReady()){I<VlabMultimeter>("meter").TrySetReading(CellVoltage());r.Add("voltage",I<VlabMultimeter>("meter").Reading,"V","Điện áp pin","Cell voltage");}else r.note="Open ionic/electrical circuit: no valid voltage reading.";break;
                 case "C03":r.Add("charge",charge,"C","Điện lượng thực","Actual integrated charge").Add("copperMass",charge/(2*ScienceModels.F)*63.546,"g","Đồng bám tính theo điện lượng","Charge-derived copper deposit").Add("initialMass",initialMass,"g","Khối lượng cân đầu","Initial balance mass").Add("anodeMassLoss",P("copperAnode")>.5?charge/(2*ScienceModels.F)*63.546:0,"g","Khối lượng anode hòa tan","Dissolved anode mass").Add("oxygenMoles",P("copperAnode")>.5?0:charge/(4*ScienceModels.F),"mol","Oxy ở anode trơ","Inert-anode oxygen").Add("remainingCopper",P("copperAnode")>.5?P("moles"):Math.Max(0,P("moles")-charge/(2*ScienceModels.F)),"mol","Cu2+ còn trong dung dịch","Copper ions remaining");if(finalWeighed)r.Add("finalMass",finalMass,"g","Khối lượng cân sau khô","Final dry balance mass").Add("massChange",finalMass-initialMass,"g","Độ tăng khối lượng cân","Observed balance mass change");r.note="100% current efficiency; virtual clean cathode starts at 10.000 g; deposited mass and 0.001 g balance resolution are recorded separately.";break;
-                case "C04":r.Add("NaClSolid",naclSolid?1:0,"presence","NaCl: cặn trắng","NaCl: white solid").Add("NaNO3Solid",0,"presence","NaNO3: cặn trắng","NaNO3: white solid").Add("waterSolid",0,"presence","Nước: cặn trắng","Water: white solid");r.note="Qualitative only. Each deliberate transfer is 2 simulation units; no molar quantity or mL conversion is inferred.";break;
+                case "C04":r.Add("NaClSolid",naclSolid?1:0,"presence","NaCl: cặn trắng","NaCl: white solid").Add("NaNO3Solid",0,"presence","NaNO3: cặn trắng","NaNO3: white solid").Add("waterSolid",0,"presence","Nước: cặn trắng","Water: white solid");r.note="Qualitative only. Each deliberate transfer is 2 simulation units; no molar quantity or mL conversion is inferred. The 3-second appearance transition is illustrative, not reaction kinetics.";break;
                 case "C05":var f=I<VlabVolumetricFlask>(currentFlask).Liquid;r.Add("aliquot",dilutionTransferred?10:0,"mL","Aliquot đã chuyển","Transferred aliquot").Add("solute",sampleMoles,"mol","Mol chất tan bảo toàn","Conserved solute amount").Add("finalVolume",f.VolumeMl,"mL","Thể tích thực trong bình","Actual flask volume");if(f.VolumeMl>0)r.Add("concentration",sampleMoles/(f.VolumeMl/1000),"mol/L","Nồng độ mẫu","Sample concentration");r.note=sampleId;break;
                 case "C06":var probe=I<VlabPhProbe>("probe");if(waterObserved)r.Add("waterControlPh",waterPh,"","pH mẫu nước đã đo","Observed water control pH");r.Add("dilutionFactor",P("dilution")*additionalDilution,"","Tổng hệ số pha loãng","Total dilution factor").Add("concentration",P("concentration")/(P("dilution")*additionalDilution),"mol/L","Nồng độ mẫu","Sample concentration");if(probeIn&&calibrated&&rinsed&&probe.TryObserve(BeakerRegion("test"),sampleId,(float)Ph()))r.Add("pH",probe.Reading,"","pH đầu dò","Probe pH");if(paperUsed){int s=I<VlabIndicatorPaper>("paper").State;r.Add("BTBstate",s,"interval","Khoảng màu BTB","BTB colour interval");r.note=I<VlabIndicatorPaper>("paper").IntervalLabel;}break;
                 case "C07":var ch=I<VlabChips>("chips");double max=Math.Min(ch.MassGrams/100.0869,P("acid")*P("volume")/2000);r.Add("gasVolume",I<VlabGasSyringe>("syringe").VolumeMl,"mL","Thể tích CO2 syringe","Syringe CO2 volume").Add("gasLimit",max*.082057*298.15*1000,"mL","Plateau khí lý tưởng","Ideal gas plateau").Add("carbonateMass",ch.MassGrams,"g","Khối lượng hạt thực","Actual chip mass").Add("particleCount",ch.Count,"","Số hạt","Particle count").Add("area",ch.ExteriorAreaM2,"m²","Diện tích hình học","Geometric exterior area").Add("time",clock,"s","Thời gian phản ứng","Reaction time");r.note="Illustrative k=0.04/(relative-area·mol/L·s); ideal gas at 298.15 K and 1 atm. Only sealed collection is valid.";break;
@@ -503,7 +509,7 @@ namespace Vlab.Product
                 case "C01":var valid=titres.Where(t=>t.valid).ToList();if(valid.Count<3){message="Retain three valid titres with the burette control, preparing a fresh aliquot between each.";return false;}var last=valid.Skip(valid.Count-3).ToArray();if(last.Max(t=>t.delivered)-last.Min(t=>t.delivered)>.10+1e-8){message="The three latest valid titres must agree within 0.10 mL.";return false;}return true;
                 case "C02":return Require(CellReady()&&clock>=2,"Restore both wet half-cells, salt bridge and correct meter contacts before recording.",out message);
                 case "C03":return Require(finalWeighed&&dry&&!I<VlabPowerSupply>("supply").On&&clock+1e-8>=P("time"),"Finish the timed current interval, switch off, rinse, dry and weigh the cathode.",out message);
-                case "C04":return Require(labels&&naclUnits==2&&nitrateUnits==2&&waterUnits==2,"All three labelled samples need one deliberate 2-unit AgNO3 transfer.",out message);
+                case "C04":return Require(labels&&naclUnits==2&&nitrateUnits==2&&waterUnits==2&&precipitateSeconds>=3,"Dose all three labelled samples, then observe the illustrative appearance transition for 3 seconds.",out message);
                 case "C05":return Require(filledMark&&mixed&&samples.Any(s=>s.id==sampleId),"Fill to mark, close and mix the labelled sample.",out message);
                 case "C06":return Require(calibrated&&rinsed&&probeIn&&paperUsed&&!float.IsNaN(I<VlabPhProbe>("probe").Reading),"A rinsed calibrated probe must remain fully immersed; observe BTB separately.",out message);
                 case "C07":double max=Math.Min(I<VlabChips>("chips").MassGrams/100.0869,P("acid")*P("volume")/2000);return Require(gasSealed&&curve.Count>=3&&max>0&&gasMoles>=.99*max,"Continue sealed sampling until at least three time points and 99% of the predicted plateau.",out message);
@@ -605,8 +611,8 @@ namespace Vlab.Product
             {
                 Must(Vector3.Dot(drop.EmissionDirection,Vector3.down)>.999f&&drop.SetSqueeze(1),"Aim the dropper outlet downward over the selected beaker.");
                 var solid=I<VlabPrecipitate>(cup=="nacl"?"solidNaCl":cup=="nitrate"?"solidNitrate":"solidWater");
-                Must(solid.TrySetQualitative(cup=="nacl",.8f),"Place the precipitate upright inside its sample cup.");
-                qualitativeSelection=0;unitsLeft-=2;if(cup=="nacl"){naclUnits=2;naclSolid=true;}else if(cup=="nitrate")nitrateUnits=2;else waterUnits=2;
+                Must(solid.TrySetQualitative(false),"Place the precipitate upright inside its sample cup.");
+                qualitativeSelection=0;unitsLeft-=2;if(cup=="nacl"){naclUnits=2;naclSolid=false;precipitateSeconds=0;}else if(cup=="nitrate")nitrateUnits=2;else waterUnits=2;
             }
             finally{drop.SetSqueeze(0);drop.transform.SetPositionAndRotation(restPosition,restRotation);}
         }

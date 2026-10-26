@@ -9,49 +9,29 @@ public static class StepFocusChecks
     const BindingFlags Private=BindingFlags.Instance|BindingFlags.NonPublic;
     public static void Run(VlabApp app,Action<string,bool> check)
     {
-        if(app.Input.VrMode||app.Input.SimulatorMode||!app.Apparatus||!app.Apparatus.Ready)return;
-        var item=app.Apparatus.items.First(x=>x.installed&&x.gameObject.activeInHierarchy);
+        if(!app.Apparatus||!app.Apparatus.Ready)return;
         var camera=app.View;var position=camera.transform.position;var rotation=camera.transform.rotation;float fov=camera.fieldOfView;
-        bool assist=app.Profile.settings.focusAssist;var field=typeof(VlabApp).GetField("lastFocusedTaskTarget",Private);var prior=field.GetValue(app);
-        var auto=typeof(VlabApp).GetMethod("FocusStepTarget",Private);var explicitFocus=typeof(VlabApp).GetMethod("FocusInstrument",Private);
-        var task=new GuideTask("instrument",item.assetId,"","","");var itemPosition=item.transform.position;var itemScale=item.transform.localScale;
+        var origin=camera.transform.parent;var originPosition=origin.position;var originRotation=origin.rotation;var localPosition=camera.transform.localPosition;var localRotation=camera.transform.localRotation;
+        var item=app.Apparatus.items.First(x=>x.installed&&x.gameObject.activeInHierarchy);var itemPosition=item.transform.position;var itemScale=item.transform.localScale;
+        object Call(string method,params object[] args)=>typeof(VlabApp).GetMethod(method,Private).Invoke(app,args);
+        bool SameView()=>Vector3.Distance(position,camera.transform.position)<.0001f&&Quaternion.Angle(rotation,camera.transform.rotation)<.001f&&Mathf.Abs(fov-camera.fieldOfView)<.001f;
         try
         {
-            field.SetValue(app,null);app.Profile.settings.focusAssist=false;
-            auto.Invoke(app,new object[]{task});check("Automatic step focus off preserves camera",camera.transform.position==position&&camera.transform.rotation==rotation&&camera.fieldOfView==fov);
-            explicitFocus.Invoke(app,new object[]{item,false});check("Explicit inspection stays available with assist off without moving camera or model",camera.transform.position==position&&item.transform.position==itemPosition&&item.transform.localScale==itemScale&&camera.fieldOfView>=20&&camera.fieldOfView<=app.Profile.settings.cameraFov);
-            field.SetValue(app,null);app.Profile.settings.focusAssist=true;auto.Invoke(app,new object[]{task});
-            check("Automatic focus consumes a meaningful target and preparation phase once",!string.IsNullOrEmpty((string)field.GetValue(app)));
-            var focusedPosition=camera.transform.position;
-            camera.transform.rotation=Quaternion.Euler(7,29,0);camera.fieldOfView=47;auto.Invoke(app,new object[]{task});
-            check("Repeated refresh preserves manual look and zoom on same target",Quaternion.Angle(camera.transform.rotation,Quaternion.Euler(7,29,0))<.001f&&Mathf.Abs(camera.fieldOfView-47)<.001f&&camera.transform.position==focusedPosition);
-            check("Step framing never rescales or moves native apparatus",item.transform.position==itemPosition&&item.transform.localScale==itemScale);
-            if(app.Session.spec.id=="P03")
+            Call("RefreshActivity");check("Routine activity refresh preserves camera pose and lens",SameView());
+            Call("ShowVariables");check("Opening controls preserves camera pose and lens",SameView());Call("CloseModal");check("Closing controls preserves camera pose and lens",SameView());
+            app.ShowInstrument(item);check("Opening instrument preserves camera pose and lens",SameView());Call("CloseModal");check("Closing instrument preserves camera pose and lens",SameView());
+            if(app.Input.VrMode||app.Input.SimulatorMode){Call("FocusInstrument",item,false);check("Phone focus cannot overwrite tracked camera",SameView());}
+            else
             {
-                var meter=app.Apparatus.items.Single(x=>x.assetId=="meter");explicitFocus.Invoke(app,new object[]{meter,true});
-                bool visible=true;
-                foreach(var part in app.Apparatus.items.Where(x=>x.installed&&(x.assetId=="surface"||x.assetId=="block"||x.assetId=="meter")))
-                    if(ApparatusRig.TryVisibleBounds(part,out var bounds))
-                        for(int i=0;i<8;i++)
-                        {
-                            var point=bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
-                            var v=camera.WorldToViewportPoint(point);visible&=v.z>0&&v.x>=.01f&&v.x<=.52f&&v.y>=.02f&&v.y<=.98f;
-                        }
-                check("P03 block, complete travel surface and force meter all fit beside controls",visible);
+                Call("FocusStation");check("Explicit station focus preserves standing eye height",Mathf.Abs(camera.transform.position.y-position.y)<.0001f);
+                check("Explicit phone framing stays within vertical FOV 70 to 120",camera.fieldOfView>=70&&camera.fieldOfView<=120);
+                var focused=camera.transform.position;var aimed=camera.transform.rotation;
+                Call("ZoomPhone",-1000f);check("Phone zoom clamps to 70 without moving learner",Mathf.Abs(camera.fieldOfView-70)<.001f&&camera.transform.position==focused&&camera.transform.rotation==aimed);
+                Call("ZoomPhone",1000f);check("Phone zoom clamps to 120 without moving learner",Mathf.Abs(camera.fieldOfView-120)<.001f&&camera.transform.position==focused&&camera.transform.rotation==aimed);
             }
-
-            var variables=typeof(VlabApp).GetMethod("ShowVariables",Private);var close=typeof(VlabApp).GetMethod("CloseModal",Private);
-            Quaternion returnRotation=camera.transform.rotation;float returnFov=camera.fieldOfView;
-            variables.Invoke(app,null);
-            check("Phone variable sheet remembers activity view",(bool)typeof(VlabApp).GetField("toolSheetFocusSaved",Private).GetValue(app));
-            camera.transform.rotation=Quaternion.Euler(9,31,0);camera.fieldOfView=43;
-            variables.Invoke(app,null);
-            check("Variable rebuild preserves user view instead of reframing",Quaternion.Angle(camera.transform.rotation,Quaternion.Euler(9,31,0))<.001f&&Mathf.Abs(camera.fieldOfView-43)<.001f);
-            close.Invoke(app,null);
-            check("Closing tool sheet restores prior activity view",Quaternion.Angle(camera.transform.rotation,returnRotation)<.001f&&Mathf.Abs(camera.fieldOfView-returnFov)<.001f);
-
+            check("Camera controls preserve native apparatus placement and scale",item.transform.position==itemPosition&&item.transform.localScale==itemScale);
         }
-        finally{camera.transform.position=position;app.Input.FocusAtWorldTarget(position+rotation*Vector3.forward);camera.fieldOfView=fov;app.Profile.settings.focusAssist=assist;field.SetValue(app,prior);}
+        finally{origin.SetPositionAndRotation(originPosition,originRotation);camera.transform.SetLocalPositionAndRotation(localPosition,localRotation);if(!app.Input.VrMode&&!app.Input.SimulatorMode)app.Input.FocusAtWorldTarget(position+rotation*Vector3.forward);camera.fieldOfView=fov;}
     }
 }
 #endif

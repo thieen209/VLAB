@@ -18,6 +18,7 @@ namespace Vlab.Product
         Transform target;
         EquipmentHandle equipment;
         bool reducedMotion,stopped,world,placement;
+        Transform semanticAnchor;
         public bool IsStopped=>stopped;
         float started,topViewport=.97f;
         Rect clearArea=new Rect(.03f,.03f,.94f,.94f);
@@ -72,6 +73,9 @@ namespace Vlab.Product
             cue.dot=cue.Line("Route dot",.006f,Amber);
             cue.objectOutline=cue.Line("Object highlight",.003f,Amber);
             cue.leader=cue.Line("Callout leader",.002f,Amber);
+            var dropper=item.GetComponentInChildren<VlabDropper>();
+            var microscope=item.GetComponentInChildren<VlabMicroscope>();
+            cue.semanticAnchor=dropper?dropper.Tip:microscope?microscope.Stage:null;
             cue.CreateCallout();
             cue.Render(0);return cue;
         }
@@ -120,7 +124,7 @@ namespace Vlab.Product
             bool show=view&&caption&&!string.IsNullOrWhiteSpace(caption.text)&&Vector3.Dot(view.transform.forward,c-view.transform.position)>0;
             callout.gameObject.SetActive(show);leader.enabled=show;
             if(!show)return;
-            var anchor=new Vector3(c.x,bounds.max.y+.035f,c.z);
+            var anchor=!placement&&semanticAnchor?semanticAnchor.position:new Vector3(c.x,bounds.max.y+.035f,c.z);
             float distance=Vector3.Distance(view.transform.position,anchor);
             // Keep angular text size readable as the learner moves, with a bounded physical footprint in VR.
             float scale=Mathf.Clamp(distance*Mathf.Tan(view.fieldOfView*.5f*Mathf.Deg2Rad)*.0012f,.00015f,.0024f);
@@ -139,7 +143,9 @@ namespace Vlab.Product
             float beside=left-halfWidth-.015f;
             if(beside>=clearArea.xMin+halfWidth)screen.x=beside;
             else if(right+halfWidth+.015f<=clearArea.xMax-halfWidth)screen.x=right+halfWidth+.015f;
-            screen.x=Mathf.Clamp(screen.x,clearArea.xMin+halfWidth,clearArea.xMax-halfWidth);screen.y=Mathf.Clamp(screen.y,.03f+halfHeight,topViewport-halfHeight);
+            float fit=Mathf.Min(1,(clearArea.width-.02f)/Mathf.Max(.001f,halfWidth*2),(topViewport-.05f)/Mathf.Max(.001f,halfHeight*2));
+            if(fit<1){scale*=Mathf.Max(.1f,fit);callout.localScale=Vector3.one*scale;halfWidth*=Mathf.Max(.1f,fit);halfHeight*=Mathf.Max(.1f,fit);}
+            screen.x=ClampLabelAxis(screen.x,clearArea.xMin,clearArea.xMax,halfWidth);screen.y=ClampLabelAxis(screen.y,.03f,topViewport,halfHeight);
             callout.position=view.ViewportToWorldPoint(screen);
             callout.rotation=view.transform.rotation;
             var localAnchor=callout.InverseTransformPoint(anchor);float edgeRatio=Mathf.Max(Mathf.Abs(localAnchor.x)/(callout.sizeDelta.x*.5f),Mathf.Abs(localAnchor.y)/(callout.sizeDelta.y*.5f));
@@ -170,7 +176,7 @@ namespace Vlab.Product
         void Update()
         {
             if(stopped)return;
-            if(world&&Time.unscaledTime-started>12&&(!equipment||equipment.Owner==EquipmentGrabOwner.None)){Stop();return;}
+            // The app clears a step cue when its target/state changes; slow learners must not lose it on a timer.
             if(!target||!target.gameObject.activeInHierarchy){Stop();return;}
             Render(reducedMotion?0:Mathf.Repeat(Time.unscaledTime-started,Period)/Period);
         }
@@ -224,7 +230,7 @@ namespace Vlab.Product
             bounds=default;bool found=false;
             foreach(var renderer in item.GetComponentsInChildren<Renderer>(false))
             {
-                if(!renderer.enabled)continue;
+                if(!renderer.enabled||renderer.GetComponentInParent<EquipmentHandle>()!=item)continue;
                 Bounds visible;
                 if(renderer is LineRenderer line)
                 {
@@ -245,6 +251,12 @@ namespace Vlab.Product
                 {var b=TransformBounds(chips.SharedMesh.bounds,chips.MatrixAt(i));if(!found){bounds=b;found=true;}else bounds.Encapsulate(b);}
             }
             return found;
+        }
+
+        internal static float ClampLabelAxis(float value,float minimum,float maximum,float halfExtent)
+        {
+            float inset=Mathf.Min(Mathf.Max(0,halfExtent),Mathf.Max(0,(maximum-minimum)*.5f));
+            return Mathf.Clamp(value,minimum+inset,maximum-inset);
         }
 
         // Call from an editor smoke check: rendering one cue frame must not change its target or lesson.

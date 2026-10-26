@@ -248,7 +248,16 @@ namespace Vlab.Product
                 case "Classify cell first.":return "Chọn nhãn kỳ phân bào cho ô đang chọn trước khi kiểm tra. Nếu chưa rõ, giữ Chưa rõ và tiếp tục quan sát.";
                 case "Focus mounted specimen first.":return "Lắp lam lên bàn kính và chỉnh ảnh đủ nét trước khi chọn tế bào trên hình.";
                 case "Mount and focus slide with both clips closed.":return "Lắp lam lên bàn kính, đóng cả hai ngàm giữ và lấy nét ảnh rồi bắt đầu.";
-                case "Focus at actual 4× objective first using microscope controls.":return "Chọn vật kính 4× và lấy nét đến khi cấu trúc rõ, rồi mở Phân loại mẫu.";
+                case "Focus at actual 4× objective first using microscope controls.":return "Lấy nét ở vật kính nhỏ trước khi tăng độ phóng đại.";
+                case "Focus at the 10× objective before changing to 40×.":return "Chọn vật kính 10×, lấy nét rõ rồi mới chuyển sang 40×.";
+                case "Complete focused observation at 10× before changing to 40×.":return "Hoàn thành quan sát rõ nét ở vật kính 10× trước khi chuyển sang 40×.";
+                case "At 40× use the fine-focus knob; coarse movement can hit the slide.":return "Ở vật kính 40×, chỉ dùng núm chỉnh tinh; chỉnh thô có thể làm vật kính chạm lam.";
+                case "Place the slide on the microscope stage before closing the clips.":return "Đặt lam lên bàn kính trước, rồi chạm kẹp để giữ lam.";
+                case "Mount, secure and focus the slide before recording.":return "Đặt lam đúng vị trí, đóng kẹp và lấy nét rõ trước khi ghi nhận.";
+                case "Place the slide on the stage, then close the clips on the microscope.":return "Đưa lam kính lên giữa bàn kính, sau đó chạm kẹp để giữ lam.";
+                case "Move the slide onto the centre of the microscope stage.":return "Kéo lam kính vào giữa bàn kính, đúng vị trí được đánh dấu.";
+                case "Place the complete item over a clear bench surface.":return "Đưa toàn bộ dụng cụ lên phần bàn trống rồi bấm Đặt xuống. Bấm × để trả về chỗ cũ.";
+                case "Keep the vessel upright before setting it down.":return "Giữ bình thẳng đứng trước khi đặt xuống bàn.";
                 case "Find and focus mounted specimen at low power first.":return "Tìm và lấy nét mẫu đã lắp ở vật kính nhỏ trước khi chuyển sang vật kính lớn hơn.";
                 case "Focus travel rejected.":return "Kính chưa nhận được vị trí lấy nét này. Kiểm tra kính đã lắp và đang hoạt động, rồi chỉnh lại trong hành trình cho phép.";
                 case "Objective change rejected.":return "Chưa đổi được vật kính. Kiểm tra lam đã lắp, vị trí lấy nét và giới hạn cơ cấu rồi thử lại.";
@@ -277,7 +286,7 @@ namespace Vlab.Product
             if(text.Contains("buffer")||text.Contains("calibrat"))return "Chưa hiệu chuẩn đủ. Dùng máy pH: buffer 4 → rửa → buffer 7 → rửa, rồi thử lại.";
             if(text.Contains("mark")&&text.Contains("mix"))return "Chưa đủ nước hoặc chưa trộn. Mở bình định mức → Thêm nước tới vạch → Đậy và đảo trộn.";
             if(text.Contains("temperature")&&text.Contains("acid"))return "Chưa đo đủ nhiệt độ đầu. Mở nhiệt kế → Đo T acid, rồi Đo T base.";
-            if(text.Contains("focus"))return "Hình chưa đủ nét. Ở vật kính 4×, chỉnh lấy nét từng bước đến khi các cấu trúc đủ rõ rồi thử lại. Hình sơ đồ không phải phép đo kích thước đã hiệu chuẩn.";
+            if(text.Contains("focus"))return "Kiểm tra lam đã đặt đúng và đóng kẹp. Chỉnh lấy nét từng bước; ở vật kính 40× chỉ dùng chỉnh tinh. Hình sơ đồ không phải phép đo kích thước đã hiệu chuẩn.";
             if(text.Contains("overshot")||text.Contains("overshoot"))return "Đã quá điểm cuối. Trong burette, chọn Giữ lượt chuẩn độ để giữ lượt bị loại và lý do; sau đó chọn Mẫu mới và chuẩn độ chậm hơn. Lượt bị loại không tính vào ba lượt hợp lệ.";
             if(text.Contains("20")&&text.Contains("cell"))return "Chưa đủ nhóm ô. Chọn và phân loại cùng 20–30 mã tế bào; không đổi nhóm khi thay dung dịch.";
             if(text.Contains("100")&&text.Contains("id"))return "Chưa đủ 100 mã khác nhau. Tiếp tục phân loại; mã lặp chỉ sửa đáp án, không tăng số ô.";

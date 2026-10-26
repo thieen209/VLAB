@@ -8,7 +8,7 @@
 
 [Cài APK](#chơi-trên-android--không-cần-cài-unity) · [Mở project Unity](#mở-và-phát-triển-mã-nguồn) · [Tài liệu](docs/README.md) · [Nhật ký thay đổi](CHANGELOG.md)
 
-> **Trạng thái 25/10/2026:** bản thử nghiệm **0.1.16/code36**: chạm dụng cụ mở ngay Đặt xuống / Trả về khay; dấu đặt không biến mất khi đang cầm; thiếu giá đỡ được giải thích. [Kiểm tra và giới hạn](docs/EquipmentPlacement/REPORT.md). Chưa xác minh điện thoại/kính/tay cầm thật.
+> **Trạng thái 26/10/2026:** bản thử nghiệm **0.1.17/code38**: sửa camera tự nhảy, FOV70–120°, nút thoát tại cửa, đặt dụng cụ lên bàn, thao tác kính hiển vi và âm thanh vòi nước. [Kiểm tra và phần chưa hoàn thành](docs/ExperienceRepair/REPORT.md). Chưa nghiệm thu điện thoại/kính/tay cầm thật.
 
 
 <p align="center">
@@ -117,12 +117,12 @@ VLAB hướng tới việc xây dựng một nền tảng phòng thí nghiệm �
 
 ### Chơi trên Android — không cần cài Unity
 
-1. [Tải APK VLAB 0.1.16 / code36](https://github.com/thieen209/VLAB/releases/download/v0.1.16-placement-code36/VLAB-0.1.16-placement-code36.apk). Xem [SHA256 và cấu hình](docs/EquipmentPlacement/ARTIFACT.json) để đối chiếu. APK mới nằm trên Releases; code29 cũ được giữ trong Git LFS. File Source code (zip) là mã nguồn để mở bằng Unity.
+1. [Tải APK VLAB 0.1.17 / code38](https://github.com/thieen209/VLAB/releases/download/v0.1.17-experience-code38/VLAB-0.1.17-experience-code38.apk). Xem [SHA256 và cấu hình](docs/ExperienceRepair/ARTIFACT.json) để đối chiếu. APK mới nằm trên Releases; code29 cũ được giữ trong Git LFS. File Source code (zip) là mã nguồn để mở bằng Unity.
 2. Mở APK trên điện thoại. Nếu Android yêu cầu, cho phép **Cài ứng dụng không rõ nguồn gốc** cho trình duyệt hoặc ứng dụng quản lý tệp đang dùng, rồi xác nhận cài đặt. Có thể tắt quyền này sau khi cài xong.
 3. Mở ứng dụng **VLAB**, dùng máy theo chiều ngang và chọn phòng thí nghiệm. Nội dung học và tiến độ được lưu trên thiết bị; chơi không cần tài khoản hay mạng.
 4. Có thể chơi bằng màn hình cảm ứng. Để dùng kính, chọn **Vào VR** hoặc chế độ kính trong Cài đặt → Điều khiển, sau đó lắp điện thoại vào kính Cardboard phù hợp. Điện thoại cần cảm biến hỗ trợ head tracking; có màn hình Android không đồng nghĩa chắc chắn hỗ trợ VR. Quét QR của kính trong phần Điều khiển để cấu hình kính khi cần.
 
-**Phân biệt phiên bản:** bản mới là **0.1.16/code36**. Các số code cũ trong biên bản là lịch sử. Xem [báo cáo và giới hạn kiểm thử](docs/EquipmentPlacement/REPORT.md).
+**Phân biệt phiên bản:** bản mới là **0.1.17/code38**. Các số code cũ trong biên bản là lịch sử. Xem [báo cáo và giới hạn kiểm thử](docs/ExperienceRepair/REPORT.md).
 
 Cập nhật đè bằng APK có **cùng chữ ký** để giữ tiến độ. Nếu báo xung đột chữ ký, đừng gỡ ứng dụng hoặc xóa dữ liệu chỉ để cài tiếp: việc đó có thể làm mất sổ tay và kết quả đang lưu. APK tự build bằng debug key không thể cập nhật đè bản phát hành dùng chữ ký khác.
 

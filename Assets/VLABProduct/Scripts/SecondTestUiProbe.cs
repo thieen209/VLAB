@@ -167,9 +167,15 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         }
         if(id=="B01")
         {
-            if(App.Session.Operation<3){yield return ModelTap(new[]{"onion","coverslip","slide"}[App.Session.Operation]);yield break;}
+            if(App.Session.Operation<2){yield return ModelTap(new[]{"onion","coverslip"}[App.Session.Operation]);yield break;}
+            if(App.Session.Operation==2)
+            {
+                var stage=Model("microscope").GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_SlideCenter_SOCKET",StringComparison.Ordinal));
+                yield return ModelDrag("slide",App.View.WorldToScreenPoint(stage.position));yield return ModelTap("microscope","Clip");yield break;
+            }
             if(task.kind=="instrument")
             {
+                if(task.control.StartsWith("obj",StringComparison.Ordinal)){yield return ModelTap("microscope","Turret");yield break;}
                 string part=task.control.StartsWith("focusFine",StringComparison.Ordinal)?"Fine":"Coarse";
                 var from=ModelPoint(Model("microscope"),part);yield return ModelDrag("microscope",from+Vector2.up*(Screen.height*.035f*(task.control.EndsWith("+",StringComparison.Ordinal)?1:-1)),part);yield break;
             }

@@ -49,7 +49,7 @@ namespace Vlab.Product
                 var prefab=Resources.Load<GameObject>("Equipment/VLAB_"+assets[i]);if(!prefab)throw new InvalidOperationException("Required equipment missing: "+assets[i]);
                 var go=Instantiate(prefab,transform);go.name="Equipment · "+assets[i];
                 var handle=go.AddComponent<EquipmentHandle>();handle.assetId=assets[i];
-                if(assets[i]=="stand"||assets[i]=="clamp")go.transform.rotation=Quaternion.AngleAxis(assets[i]=="stand"?-90:90,Vector3.up)*go.transform.rotation;
+                if(assets[i]=="stand")go.transform.rotation=Quaternion.AngleAxis(-90,Vector3.up)*go.transform.rotation;
                 handle.rotation=go.transform.rotation;
                 if(assets[i]=="stand")ConfigureSupport(handle);
                 handle.slot=Slot(assets[i]);handle.installed=false;
@@ -150,9 +150,10 @@ namespace Vlab.Product
         void ConfigureSupport(EquipmentHandle item)
         {
             var stand=item.GetComponent<VlabStand>();
-            // The separate clamp has its own real 10 mm bore and mounts directly on the main rod.
-            // Keep the unused native carriage below it so the two physical bosses cannot overlap.
-            if(!stand||!stand.TrySetHeight(.450f))throw new InvalidOperationException("Delivered stand carriage is unavailable.");
+            // The delivered 10 mm stub is 30 mm above its carriage; turn the existing arm outboard.
+            if(!stand||!stand.TrySetHeight(PendulumClampHeight-.030f))throw new InvalidOperationException("Delivered stand carriage is unavailable.");
+            var boss=item.GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_Boss_VIS",StringComparison.Ordinal));
+            boss.localRotation=Quaternion.AngleAxis(180,item.transform.InverseTransformDirection(Vector3.up))*boss.localRotation;
             // The brief's long strings hang outside the tabletop, rather than stretching the stand.
             var top=FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None)
                 .Where(r=>!r.transform.IsChildOf(transform)&&r.bounds.size.x>.65f&&r.bounds.size.z>.3f&&Mathf.Abs(r.bounds.max.y-(Worktop.y-.005f))<.015f)
@@ -165,8 +166,7 @@ namespace Vlab.Product
             if(!hasStationTop)throw new InvalidOperationException("P01 requires an identified worktop edge for long-string clearance.");
             var support=items.First(x=>x.assetId=="stand");var clampItem=items.First(x=>x.assetId=="clamp");
             var clamp=clampItem.GetComponent<VlabClamp>();clamp.SetOpening(.002);
-            // Reverse the original stand so its main rod is nearest the edge; the independently
-            // fitted clamp points outboard. The complete original base now rests on the bench.
+            // The supplied carriage arm and clamp put the suspension outside the edge while the full base stays supported.
             // 28 mm keeps the 15 mm-radius bob and its swing outside the worktop with margin.
             float shift=stationTop.min.z-.028f-clamp.Grip.position.z;
             support.transform.position+=Vector3.forward*shift;clampItem.transform.position+=Vector3.forward*shift;
@@ -174,12 +174,10 @@ namespace Vlab.Product
             var foot=support.GetComponentsInChildren<Renderer>().Single(r=>r.name.EndsWith("_Base_VIS",StringComparison.Ordinal));
             if(!ContainsRect(Footprint(stationTop),Footprint(foot.bounds),.001f))throw new InvalidOperationException("The original pendulum base must fit completely on the identified worktop.");
         }
-        Vector3 MainRodClampPoint()
+        Vector3 PendulumClampPoint()
         {
             var support=items.First(x=>x.assetId=="stand");
-            var bottom=support.GetComponentsInChildren<Transform>().Single(x=>x.name.EndsWith("_RodBase_SOCKET",StringComparison.Ordinal));
-            var top=support.GetComponentsInChildren<Transform>().Single(x=>x.name.EndsWith("_RodTop_SOCKET",StringComparison.Ordinal));
-            return bottom.position+(top.position-bottom.position).normalized*(PendulumClampHeight-RodBottom);
+            return support.GetComponent<VlabStand>().Mount.position;
         }
         Vector3 Slot(string id)
         {
@@ -188,7 +186,7 @@ namespace Vlab.Product
                 case "stand":var placed=items.FirstOrDefault(x=>x.assetId=="stand"&&x.installed);return placed?placed.transform.position:centre+new Vector3(-.10f,0,0);
                 case "clamp":
                     var support=items.FirstOrDefault(x=>x.assetId=="stand");
-                    if(support)return MainRodClampPoint();
+                    if(support)return PendulumClampPoint();
                     return Pivot;
                 case "pendulum":return Pivot-Vector3.up*(float)session.parameters["length"];
                 case "string":return Pivot;
@@ -941,10 +939,9 @@ namespace Vlab.Product
             if(item.assetId=="clamp")
             {
                 var clamp=item.GetComponent<VlabClamp>();
-                // The main source rod and the clamp's actual bored boss are both 10 mm fittings.
-                // Seat the bore centre on the rod axis; never align the instrument's root to it.
+                // Seat the actual bore on the supplied, fit-validated 10 mm carriage stub.
                 var bore=item.GetComponentsInChildren<Transform>().Single(x=>x.name.EndsWith("_StandRod_SOCKET",StringComparison.Ordinal));
-                item.transform.position+=MainRodClampPoint()-bore.position;
+                item.transform.position+=PendulumClampPoint()-bore.position;
                 if(clamp)Pivot=clamp.Grip.position;
                 PositionStockSupportAtEdge();
                 foreach(var part in items)part.slot=Slot(part.assetId);
@@ -1026,11 +1023,12 @@ namespace Vlab.Product
             var bounds=renderer.bounds;
             if(Mathf.Abs(bounds.min.y-support.transform.position.y-RodBottom)>.001f||Mathf.Abs(bounds.max.y-support.transform.position.y-SupportTop)>.001f){failure="Stand differs from the delivered 720 mm geometry.";return false;}
             var clampItem=items.First(x=>x.assetId=="clamp");var bore=clampItem.GetComponentsInChildren<Transform>().Single(x=>x.name.EndsWith("_StandRod_SOCKET",StringComparison.Ordinal));
-            if(Vector3.Distance(bore.position,MainRodClampPoint())>.001f){failure="Clamp bore is detached from the original main rod axis.";return false;}
+            if(Vector3.Distance(bore.position,PendulumClampPoint())>.001f){failure="Clamp bore is detached from the original carriage mount socket.";return false;}
             var clampBounds=clampItem.GetComponentsInChildren<Renderer>().Where(r=>r.enabled).Select(r=>r.bounds).ToArray();
-            var carriage=support.GetComponentsInChildren<Renderer>().Where(r=>r.name.EndsWith("_Boss_VIS",StringComparison.Ordinal)||r.name.EndsWith("_ClampMount_VIS",StringComparison.Ordinal)).ToArray();
-            if(carriage.Length==0||clampBounds.Length==0||carriage.Max(r=>r.bounds.max.y)+.01f>clampBounds.Min(b=>b.min.y))
-            {failure="Unused native carriage is not clear of the directly fitted clamp.";return false;}
+            if(clampBounds.Length==0||clampBounds.Any(b=>b.Intersects(bounds)))
+            {failure="Mounted clamp intersects the main support upright.";return false;}
+            if(Mathf.Abs(Pivot.x-bounds.center.x)<.050f)
+            {failure="Pendulum suspension lacks lateral clearance from the upright in the learner's front view.";return false;}
             if(!ValidateInstalledSurfaceLayout(out failure))return false;
             // Swing is in world XY. The support and its horizontal arm sit behind that plane.
             // Sample every prescribed length and angle, including both extremes, without moving the lesson.

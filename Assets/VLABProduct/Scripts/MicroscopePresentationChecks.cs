@@ -40,7 +40,12 @@ public static class MicroscopePresentationChecks
         {
             while(page<i/6){yield return Press("Next");page++;}var item=app.Apparatus.items[i];yield return PressRaw(app.Apparatus.EquipmentLabel(item,Vi));yield return Press("Place at installation anchor");Verify("B01 installed "+item.assetId,item.installed);
         }
-        yield return Press("Done");for(int i=0;i<4;i++){int before=app.Session.Operation;yield return Press("Perform current action");Verify("B01 native preparation "+(i+1),app.Session.Operation==before+1);}
+        yield return Press("Done");for(int i=0;i<2;i++){int before=app.Session.Operation;yield return Press("Perform current action");Verify("B01 native preparation "+(i+1),app.Session.Operation==before+1);}
+        var fixtureDriver=(BiologyDriver)app.Apparatus.Driver;var slide=app.Apparatus.items.First(item=>item.assetId=="slide");
+        var seat=slide.GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_Base_SOCKET",StringComparison.Ordinal));
+        var stage=app.Apparatus.items.First(item=>item.assetId=="microscope").GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_SlideCenter_SOCKET",StringComparison.Ordinal));
+        slide.transform.position+=stage.position-seat.position;Verify("Presentation fixture seats actual slide",fixtureDriver.PlaceSlideAtCurrentPose(out _));Verify("Presentation fixture closes stage clips",fixtureDriver.Operate("clips",out _));
+        yield return Press("Perform current action");Verify("Presentation fixture selects required 10×",fixtureDriver.Operate("obj10",out _));yield return Press("Perform current action");
         app.Input.SetSimulator(true);yield return new WaitForSecondsRealtime(.35f);
         // A forward-facing VR gaze otherwise dwells on the inspected image during captures,
         // silently rebuilding its modal and rearming the input guard between scripted clicks.
@@ -69,12 +74,12 @@ public static class MicroscopePresentationChecks
         Verify("Higher power centers on the learner selected source point",Vector2.Distance(Image().uvRect.center,source)<.0001f);
         var presentation=Image().GetComponent<MicroscopePresentation>();presentation.RefreshNow();Verify("Existing target6.5mm produces sharp illustrative view",Mathf.Abs(sdk.FocusMm-6.5f)<.0001f&&presentation.BlurRadiusSourcePixels<.0001f);
         FocusDiagnostic("before focus increase",sdk,driver,presentation);
-        yield return Control("focus+");presentation=Image().GetComponent<MicroscopePresentation>();presentation.RefreshNow();FocusDiagnostic("after first +0.5mm",sdk,driver,presentation);
+        for(int n=0;n<10;n++)yield return Control("focusFine+");presentation=Image().GetComponent<MicroscopePresentation>();presentation.RefreshNow();FocusDiagnostic("after first +0.5mm",sdk,driver,presentation);
         Verify("First focus UI increment reaches SDK and lesson state",Mathf.Abs(sdk.FocusMm-7)<.0001f&&Mathf.Abs(State().focus-7)<.0001f);
-        yield return Control("focus+");presentation=Image().GetComponent<MicroscopePresentation>();presentation.RefreshNow();FocusDiagnostic("after second +0.5mm",sdk,driver,presentation);
+        for(int n=0;n<10;n++)yield return Control("focusFine+");presentation=Image().GetComponent<MicroscopePresentation>();presentation.RefreshNow();FocusDiagnostic("after second +0.5mm",sdk,driver,presentation);
         Verify("Focus SDK movement creates visible illustrative defocus",Mathf.Abs(sdk.FocusMm-7.5f)<.0001f&&presentation.BlurRadiusSourcePixels>1);
         string defocused=driver.SaveState();yield return null;yield return null;Verify("Defocus rendering does not change scientific state",defocused==driver.SaveState());capture("31-B01-illustrative-defocus-"+(Vi?"VI":"EN")+"-VR");
-        yield return Control("focus-");yield return Control("focus-");presentation=Image().GetComponent<MicroscopePresentation>();presentation.RefreshNow();Verify("Focus returning to existing target clears blur",presentation.BlurRadiusSourcePixels<.0001f);
+        for(int n=0;n<20;n++)yield return Control("focusFine-");presentation=Image().GetComponent<MicroscopePresentation>();presentation.RefreshNow();Verify("Focus returning to existing target clears blur",presentation.BlurRadiusSourcePixels<.0001f);
         Canvas.ForceUpdateCanvases();var status=app.GetComponentsInChildren<TextMeshProUGUI>().FirstOrDefault(text=>text.isActiveAndEnabled&&text.text.Contains(MicroscopePresentation.Notice(Vi)));
         Verify("Localized illustrative notice is present and fits actual text field",status&&!status.isTextOverflowing);
         if(status)foreach(bool vi in new[]{false,true})Verify((vi?"VI":"EN")+" illustrative notice fits the actual template",status.GetPreferredValues(MicroscopePresentation.Notice(vi),status.rectTransform.rect.width,Mathf.Infinity).y<=status.rectTransform.rect.height+1);

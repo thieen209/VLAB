@@ -56,7 +56,13 @@ public static class ChemistryIntegrationChecks
                     case "C04":
                         Prepare(rig);Assert(!rig.Driver.Operate("dose:water",out _),"C04 rejects cup click without selected reagent");
                         Action(rig,"selectAg");Action(rig,"dose:water");Assert(!rig.Driver.Operate("dose:nitrate",out _),"C04 selection clears after transfer");Action(rig,"selectAg");Action(rig,"dose:nitrate");Prepare(rig);
-                        Action(rig,"selectAg");Action(rig,"dose:nacl");Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,3);
+                        Action(rig,"selectAg");Action(rig,"dose:nacl");
+                        var sediment=rig.items.Find(x=>x.assetId=="solidNaCl").GetComponentInChildren<VlabPrecipitate>();
+                        Assert(!sediment.QualitativePresent&&!rig.Driver.CanRecord(out _),"C04 accepted dose does not instantly reveal sediment or enable recording");
+                        Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,1);
+                        float firstLevel=sediment.VisualLevel;Assert(firstLevel>0&&firstLevel<.8f,"C04 partial appearance after one second");
+                        session.Pause();Tick(session,5);Assert(Math.Abs(sediment.VisualLevel-firstLevel)<1e-6,"C04 pause freezes illustrative sediment");session.Resume();Tick(session,2);
+                        Assert(Math.Abs(sediment.VisualLevel-.8f)<1e-6&&rig.Driver.CanRecord(out _),"C04 transition completes only after three active seconds");
                         Assert(rig.Driver.Observe().Get("NaClSolid")==1&&rig.Driver.Observe().Get("NaNO3Solid")==0,"C04 qualitative positive and controls");break;
                     case "C05":
                         Prepare(rig);Prepare(rig);Action(rig,"waterMark");Action(rig,"invert");Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,2);

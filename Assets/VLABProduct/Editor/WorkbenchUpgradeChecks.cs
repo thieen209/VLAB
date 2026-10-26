@@ -111,10 +111,12 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
         InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
         touch=InputSystem.AddDevice<Touchscreen>();mouse=InputSystem.AddDevice<Mouse>();var stack=new Stack<IEnumerator>();stack.Push(Run());
         while(stack.Count>0){object value=null;bool next=false;try{next=stack.Peek().MoveNext();if(next)value=stack.Peek().Current;}catch(Exception e){rows.Add("FAIL "+e);failures++;break;}if(!next){stack.Pop();continue;}if(value is IEnumerator nested&&!(value is CustomYieldInstruction))stack.Push(nested);else yield return value;}
-        yield return Capture("last-state");InputSystem.RemoveDevice(touch);InputSystem.RemoveDevice(mouse);File.WriteAllLines("Evidence/WorkbenchUpgrade/checks.txt",new[]{"Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence."}.Concat(rows));SessionState.SetString("VLAB.TestProfile","");SecondTestGameView.Restore();EditorApplication.Exit(failures==0?0:1);
+        yield return Capture("last-state");InputSystem.RemoveDevice(touch);InputSystem.RemoveDevice(mouse);File.WriteAllLines("Evidence/WorkbenchUpgrade/checks.txt",new[]{"Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence."}.Concat(rows));SessionState.SetString("VLAB.TestProfile","");SecondTestGameView.Restore();
+        if(failures==0&&Environment.GetEnvironmentVariable("VLAB_EXPERIENCE_BUILD")=="1"){SessionState.SetBool("VLAB.BuildExperience",true);EditorApplication.isPlaying=false;}else EditorApplication.Exit(failures==0?0:1);
     }
     IEnumerator Run()
     {
+        if(Environment.GetEnvironmentVariable("VLAB_EXPERIENCE_BUILD")=="1"){yield return ExperienceRepairChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_EQUIPMENT_PLACEMENT_CHECKS")=="1"){yield return EquipmentPlacementChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_STUDENT_TOUR_CHECKS")=="1"){yield return StudentTourChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_PRACTICE_CHECKS")=="1"){yield return PracticeChecks();yield break;}
@@ -152,7 +154,7 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
             {
                 Vector3 rest=first.transform.position;Quaternion rotation=first.transform.rotation;yield return Tap("Lift equipment");Check(id+" actual model lifted",App.Apparatus.InspectingInstalled&&Vector3.Distance(rest,first.transform.position)>.05f);
                 yield return Tap("Rotate equipment right");Check(id+" actual model rotated",Quaternion.Angle(rotation,first.transform.rotation)>1);
-                yield return Tap("Return inspected equipment");Check(id+" original supported pose restored",!App.Apparatus.IsCarrying&&Vector3.Distance(rest,first.transform.position)<.001f&&Quaternion.Angle(rotation,first.transform.rotation)<.1f);
+                first.transform.position=rest+Vector3.up*.2f;yield return Tap("Return inspected equipment");Check(id+" supported put-down preserves horizontal placement",!App.Apparatus.IsCarrying&&first.Owner==EquipmentGrabOwner.None&&Vector2.Distance(new Vector2(rest.x,rest.z),new Vector2(first.transform.position.x,first.transform.position.z))<.001f);
             }
             yield return Capture(id+"-controls");yield return Tap("Close equipment controls");yield return Tap("Station tools");yield return Tap("Sketch board");Check(id+" lesson formula visible",App.GetComponentsInChildren<RawImage>().Any(i=>i.name=="Lesson board formula"&&i.texture));yield return Capture(id+"-board");yield return Tap("Open sketch page");Check(id+" existing drawing preserved",App.GetComponentInChildren<VlabWhiteboard>());yield return Tap("Close dialog");
             App.Profile.settings.hints=false;Call("ApplySettings");Call("ShowEquipmentCue",first,true);Check(id+" hint off suppresses cue",!Read<GuideCue>("worldGuideCue"));App.Profile.settings.hints=true;Call("ApplySettings");
