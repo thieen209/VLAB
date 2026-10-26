@@ -38,6 +38,22 @@ namespace Vlab.Product
             carryingInstalled=false;CancelGrab();return true;
         }
         public bool CanReleaseLoose=>Selected&&!Selected.installed&&Selected.Owner==EquipmentGrabOwner.Legacy&&carrying&&MovableTool(Selected);
+        bool MovePhoneCarryOverSurface(Ray pointer)
+        {
+            if(!MovableTool(Selected)||!TryVisibleBounds(Selected,out var bounds))return false;
+            float nearest=float.PositiveInfinity;Vector3 destination=default;
+            foreach(var surface in storageSurfaces)
+            {
+                // shortcut: touch uses 8 cm support clearance; replace if explicit vertical touch placement is added.
+                float height=surface.bounds.max.y+.08f-(bounds.min.y-Selected.transform.position.y);
+                if(!new Plane(Vector3.up,new Vector3(0,height,0)).Raycast(pointer,out float distance)||!float.IsFinite(distance)||distance<.2f||distance>2.5f||distance>=nearest)continue;
+                var position=pointer.GetPoint(distance);var candidate=bounds;candidate.center+=position-Selected.transform.position;
+                if(!TryGetRestingSupport(Selected,candidate,out var support,out _)||Mathf.Abs(support.max.y-surface.bounds.max.y)>.001f)continue;
+                nearest=distance;destination=position;
+            }
+            if(float.IsPositiveInfinity(nearest))return false;
+            Selected.transform.position=destination;return true;
+        }
         public bool ReleaseLooseOnSurface(out string message)
         {
             message="Place the complete item over a clear bench surface.";

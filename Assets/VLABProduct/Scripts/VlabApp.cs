@@ -1219,7 +1219,7 @@ namespace Vlab.Product
                     else{var fixture=hit.collider.GetComponentInParent<LabFixture>();if(fixture&&fixture.CanInteract)ActivateFixture(fixture);}
                 }
                 if(!PointerHitsUi(frame.pointer))
-                {lastInteractionRay=frame.pointer;UpdateFlagshipDrag(frame);if(Apparatus)Apparatus.UpdateGrab(frame);}
+                {lastInteractionRay=frame.pointer;UpdateFlagshipDrag(frame);if(Apparatus)Apparatus.UpdateGrab(frame,Input.PhoneFlatActive);}
                 else{CancelWashGesture();CancelPipetteGesture();CancelDropperGesture();CancelPourGesture();if(frame.released){CancelFlagshipDrag();if(Apparatus&&!Apparatus.HasLatchedCarry)Apparatus.CancelGrab();}}
             }
         }

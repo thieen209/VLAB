@@ -29,6 +29,7 @@ public sealed partial class WorkbenchUpgradeProbe
         }
         yield return Wait("home");if(Find("Skip quick tour"))yield return Tap("Skip quick tour");
         if(scope=="boot")yield break;
+        if(scope=="phone-placement"){yield return PhonePlacementJourney();yield break;}
         Action<string> capture=name=>ScreenCapture.CaptureScreenshot("Evidence/WorkbenchUpgrade/"+name+".png");
         if(scope=="trays")
         {

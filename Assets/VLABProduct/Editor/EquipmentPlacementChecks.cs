@@ -95,5 +95,31 @@ public sealed partial class WorkbenchUpgradeProbe
         var placed=item.transform.position;yield return Tap("Equipment take selected");yield return Tap("Close equipment controls");
         Check("Cancel after reacquiring preserves the latest resting place",!rig.IsCarrying&&item.Owner==EquipmentGrabOwner.None&&Vector3.Distance(item.transform.position,placed)<.001f);
     }
+    IEnumerator PhonePlacementJourney()
+    {
+        foreach(bool joystick in new[]{true,false})
+        {
+        App.Profile.settings.showPhoneJoystick=joystick;Call("ApplySettings");
+        App.ShowHome();yield return null;yield return Tap("Subject C");yield return Wait("browser");
+        yield return Tap("Browser lesson C06");yield return Tap("Browser start");yield return Wait("readiness");yield return Tap("Readiness enter");yield return Wait("activity");
+        var rig=App.Apparatus;var item=rig.items.Single(i=>i.assetId=="test");var rest=item.trayPosition;
+        Call("ChooseWorkbenchItem",item,false);yield return Tap("Equipment take selected");
+        Check("Phone placement starts with actual held equipment",rig.CanReleaseLoose);
+        var heldPosition=item.transform.position;yield return new WaitForSecondsRealtime(.5f);
+        Check("Held equipment stays visible while finger is lifted; joystick="+joystick,Vector3.Distance(item.transform.position,heldPosition)<.001f);
+        var target=App.View.WorldToScreenPoint(rest+Vector3.up*.08f);
+        Check("Phone placement target is in view",target.z>0&&target.x>0&&target.x<Screen.width&&target.y>0&&target.y<Screen.height);
+        yield return Drag(ModelPoint(item),target);
+        Check("Phone drag reaches the chosen bench position without pose injection",Vector2.Distance(new Vector2(item.transform.position.x,item.transform.position.z),new Vector2(rest.x,rest.z))<.06f);
+        heldPosition=item.transform.position;yield return new WaitForSecondsRealtime(.5f);
+        Check("Finger release preserves dragged position",Vector3.Distance(item.transform.position,heldPosition)<.001f);
+        yield return Tap("Equipment take selected");
+        Check("Phone put-down releases after a real drag",!rig.IsCarrying&&!item.installed&&item.Owner==EquipmentGrabOwner.None);
+        var falling=item.GetComponent<ReleasedEquipment>();Check("Phone put-down invokes physical settling",falling);
+        for(int n=0;n<150&&falling.IsSettling;n++)yield return new WaitForFixedUpdate();
+        Check("Phone drag and release reaches support",!falling.IsSettling&&Vector2.Distance(new Vector2(item.transform.position.x,item.transform.position.z),new Vector2(rest.x,rest.z))<.06f);
+        yield return Capture("C06-phone-drag-release");
+        }
+    }
 }
 #endif

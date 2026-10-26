@@ -1,5 +1,11 @@
 # Nhật ký thay đổi VLAB
 
+## 0.1.21 / code42 — 2026-10-26
+
+- Sửa dụng cụ trôi khỏi màn hình khi nhấc tay sau khi lấy; kéo dụng cụ rời tới mặt đỡ để đặt xuống bằng cảm ứng.
+- Giữ kiểm tra mặt đỡ/vật cản, tư thế bình và cơ chế lắp ráp. Hành trình kéo–đặt C06 qua khi bật và tắt joystick trong Unity.
+- [Bằng chứng và giới hạn](docs/PhonePlacement/REPORT.md). Chưa kiểm tra Android/Cardboard/BLE thật ở lượt này.
+
 ## 0.1.20 / code41 — 2026-10-26
 
 - Hiện logo và dòng Made by Ngựa Mán team with love khi khởi động; cửa sổ quy trình riêng và khả năng nhìn gần hơn.

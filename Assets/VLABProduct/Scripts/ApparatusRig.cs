@@ -887,10 +887,12 @@ namespace Vlab.Product
             carrying=!item.installed;latchedCarry=latch;carryDistance=Mathf.Clamp(Vector3.Distance(pointer.origin,item.transform.position),.35f,2.5f);
             Changed?.Invoke();
         }
-        public void UpdateGrab(ActionFrame frame)
+        public void UpdateGrab(ActionFrame frame,bool phone=false)
         {
             if(!Selected||Selected.Owner!=EquipmentGrabOwner.Legacy)return;
             if(frame.lost){CancelGrab();return;}
+            // A released phone finger has no world pointer; keep the held model where it was left.
+            if(phone&&!frame.held&&!frame.released)return;
             if(pullingBob)
             {
                 var plane=new Plane(Vector3.forward,Pivot);if(plane.Raycast(frame.pointer,out float distance))
@@ -899,7 +901,8 @@ namespace Vlab.Product
             }
             if(carrying)
             {
-                carryDistance=Mathf.Clamp(carryDistance+frame.adjustment*.05f,.35f,2.5f);Selected.transform.position=frame.pointer.GetPoint(carryDistance);
+                carryDistance=Mathf.Clamp(carryDistance+frame.adjustment*.05f,.35f,2.5f);
+                if(!phone||!MovePhoneCarryOverSurface(frame.pointer))Selected.transform.position=frame.pointer.GetPoint(carryDistance);
                 if(frame.released&&!latchedCarry)
                 {
                     // A missed fit can rest on a clear surface without completing installation.

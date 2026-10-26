@@ -117,7 +117,7 @@ namespace Vlab.Product
         ScreenOrientation phoneOrientation;int phoneWidth,phoneHeight;
         AttitudeSensor ownedAttitude;bool enabledAttitude,gyroCalibrated;
         Quaternion gyroZero,gyroView;double gyroSampleTime=-1;
-        bool PhoneFlatActive=>Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!UseMockController&&!UsingGamepad&&!UsingBle&&(Application.isMobilePlatform||Touchscreen.current!=null);
+        public bool PhoneFlatActive=>Gameplay&&!uiBlocked&&!VrMode&&!SimulatorMode&&!UseMockController&&!UsingGamepad&&!UsingBle&&(Application.isMobilePlatform||Touchscreen.current!=null);
         public bool PhoneControlsVisible=>showPhoneJoystick&&PhoneFlatActive;
         public bool PhoneGestureActive=>phoneTouches.HasTouches;
         public bool PhoneJoystickActive=>PhoneControlsVisible&&showPhoneJoystick&&phoneTouches.JoystickActive;
