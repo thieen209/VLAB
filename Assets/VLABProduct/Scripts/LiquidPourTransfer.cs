@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Vlab.Product
 {
-    // Integration boundary: NOT WIRED to VlabApp input or any lesson yet.
+    // Shared physical pour preflight; C08 commits accepted flow through its thermal ledger.
     // The lesson must supply authored geometry, open/cap state, liquid identity and
     // a justified requested dose, then update composition from the returned amount.
     // No flow-rate, reaction kinetics, spilling or tilted liquid rendering is implied.
@@ -28,6 +28,13 @@ namespace Vlab.Product
         // belongs to the caller; the delivered SDK performs the conserved mutation.
         public static double Transfer(Vessel source,Vessel target,double requestedMl,out string reason)
         {
+            double allowed=AllowedVolume(source,target,requestedMl,out reason);
+            return allowed>0?source.liquid.TransferTo(target.liquid,allowed):0;
+        }
+
+        // Read-only preflight lets a thermal/composition transaction own the accepted mutation.
+        public static double AllowedVolume(Vessel source,Vessel target,double requestedMl,out string reason)
+        {
             reason="";
             if(!Valid(source)||!Valid(target)||!source.outlet||!source.outlet.IsChildOf(source.liquid.transform)||source.liquid==target.liquid||double.IsNaN(requestedMl)||double.IsInfinity(requestedMl)||requestedMl<=0)
             {reason="Invalid vessel geometry or requested volume.";return 0;}
@@ -48,11 +55,15 @@ namespace Vlab.Product
             // their origin. Saturated queries fail closed instead of skipping objects.
             int count=Physics.OverlapSphereNonAlloc(origin,StreamRadius,contacts,~0,QueryTriggerInteraction.Ignore);
             if(count==contacts.Length){reason="The outlet is obstructed.";return 0;}
-            for(int i=0;i<count;i++)if(!contacts[i].transform.IsChildOf(source.liquid.transform)){reason="The outlet is obstructed.";return 0;}
+            for(int i=0;i<count;i++)if(!contacts[i].transform.IsChildOf(source.liquid.transform)){
+#if UNITY_EDITOR
+                Debug.Log("Pour outlet obstruction: "+contacts[i].name+" root="+contacts[i].transform.root.name+" at="+origin);
+#endif
+                reason="The outlet is obstructed.";return 0;}
             count=Physics.SphereCastNonAlloc(origin,StreamRadius,Vector3.down,hits,drop-StreamRadius*2,~0,QueryTriggerInteraction.Ignore);
             if(count==hits.Length){reason="The pouring path is obstructed.";return 0;}
             for(int i=0;i<count;i++)if(!hits[i].collider.transform.IsChildOf(source.liquid.transform)){reason="The pouring path is obstructed.";return 0;}
-            return source.liquid.TransferTo(target.liquid,requestedMl);
+            return Math.Min(requestedMl,Math.Min(source.liquid.VolumeMl,target.liquid.CapacityMl-target.liquid.VolumeMl));
         }
     }
 }

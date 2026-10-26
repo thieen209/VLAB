@@ -147,6 +147,47 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         Touch(UnityEngine.InputSystem.TouchPhase.Stationary,to,id);yield return new WaitForSecondsRealtime(.12f);
         Touch(UnityEngine.InputSystem.TouchPhase.Ended,to,id);yield return null;yield return null;yield return new WaitForSecondsRealtime(.2f);
     }
+    IEnumerator ChemistryGesture(GuideTask task)
+    {
+        var rig=App.Apparatus;var chemistry=(ChemistryDriver)rig.Driver;string id=App.Session.spec.id,tool,target;float plane;Func<bool> accepted;
+        if(id=="C04")
+        {
+            tool="dropper";plane=rig.Worktop.y+.16f;
+            string cup=!string.IsNullOrEmpty(chemistry.ActiveDropperCup)?chemistry.ActiveDropperCup:new[]{"nitrate","water","nacl"}.First(key=>chemistry.QualitativeDoseUnits(key)<2);
+            int needed=2-chemistry.QualitativeDoseUnits(cup);
+            if(chemistry.LoadedDropperUnits<needed){target="reagent";accepted=()=>chemistry.LoadedDropperUnits>=needed;}
+            else{target=cup;accepted=()=>chemistry.QualitativeDoseUnits(cup)==2;}
+        }
+        else
+        {
+            string flask=App.Session.parameters["final"]<75?"vol50":"vol100";
+            if(App.Session.Operation==2){tool="wash";target=flask;plane=rig.Worktop.y+.28f;accepted=()=>!chemistry.CanManualWash;}
+            else
+            {
+                tool="pipette";plane=rig.Worktop.y+.18f;int completed=chemistry.CompletedPipetteOperations;
+                double remaining=10-chemistry.Observe().Get(completed==0?"rinse":"aliquot");var liquid=Model(tool).GetComponentInChildren<VlabFlask>();
+                if(liquid.VolumeMl<remaining-1e-8){target="stock";accepted=()=>liquid.VolumeMl>=remaining-1e-8;}
+                else{target=completed==0?"waste":flask;accepted=()=>chemistry.CompletedPipetteOperations>completed;}
+            }
+        }
+        var item=Model(tool);var from=ModelPoint(item);var world=Model(target).transform.position;var projected=App.View.WorldToScreenPoint(new Vector3(world.x,plane,world.z));
+        if(projected.z<=0)throw new Exception("Chemistry target is behind the camera: "+target);var to=ValidPoint(projected.x,projected.y);int finger=++serial;current.holds++;
+        trace.Add(id+" queued actual "+tool+" hold toward "+target+"; acceptance uses instrument amounts");
+        Touch(UnityEngine.InputSystem.TouchPhase.Began,from,finger);
+        try
+        {
+            yield return null;yield return new WaitForSecondsRealtime(.15f);if(item.Owner!=EquipmentGrabOwner.Flagship)throw new Exception("Chemistry phone did not acquire "+tool);
+            for(int n=1;n<=12;n++){Touch(UnityEngine.InputSystem.TouchPhase.Moved,Vector2.Lerp(from,to,n/12f),finger);yield return new WaitForSecondsRealtime(.03f);}
+            double deadline=Time.realtimeSinceStartupAsDouble+(tool=="wash"?45:15);while(!accepted()&&Time.realtimeSinceStartupAsDouble<deadline)yield return null;
+            if(!accepted())throw new Exception("Actual chemistry transfer did not complete: "+target+" "+chemistry.SaveState());
+        }
+        finally{Touch(UnityEngine.InputSystem.TouchPhase.Ended,to,finger);}
+        yield return null;yield return new WaitForSecondsRealtime(.2f);if(item.Owner!=EquipmentGrabOwner.None)throw new Exception("Chemistry release retained tool ownership");
+        if(id=="C04")
+        {
+            var r=chemistry.Observe();if(r.Get("sourceDrops")+r.Get("loadedDrops")+r.Get("naclDrops")+r.Get("nitrateDrops")+r.Get("waterDrops")!=12)throw new Exception("Qualitative units were not conserved");
+        }
+    }
     IEnumerator DirectShowcase(GuideTask task)
     {
         string id=current.id;
@@ -162,8 +203,7 @@ public sealed class SecondTestUiProbe : MonoBehaviour
         if(id=="C04")
         {
             if(task.key=="reagent"){yield return ModelTap("reagent");yield break;}
-            if(!ApparatusRig.TryVisibleBounds(Model(task.key),out var cup))throw new Exception("Sample cup has no visible geometry");
-            yield return ModelDrag("dropper",App.View.WorldToScreenPoint(new Vector3(cup.center.x,cup.max.y-.004f,cup.center.z)));yield break;
+            yield return ChemistryGesture(task);yield break;
         }
         if(id=="B01")
         {
@@ -483,6 +523,7 @@ if(id=="B03")yield return ConfigureShortB03();
                 else yield return Tap(control);
                 yield return Close();
             }
+            else if(task.kind=="gesture"&&(id=="C04"||id=="C05"))yield return ChemistryGesture(task);
             else if(task.kind=="observe")
             {
                 if(id=="P01"&&!current.observingCueCaptured&&App.Session.Elapsed>=13)

@@ -1,0 +1,351 @@
+Native Editor touchscreen events with simultaneous mouse movement and runtime checks. Not Android/headset hardware evidence.
+BEGIN learner scope boot
+PASS Startup is visible before Home
+PASS Startup contains exact team credit
+PASS Reached home
+PASS Reachable Skip quick tour
+PASS Touch click delivered Skip quick tour
+END learner scope boot
+BEGIN learner scope notebook
+PASS Reached home
+PASS whiteboard bounded coordinate, point, stroke, page isolation, erase, undo and clear checks; pointer and visual acceptance require runtime.
+PASS Legacy profile migrates without repeating consent or clearing settings
+PASS Vietnamese notebook page saves atomically
+PASS Title, Unicode, line breaks and lesson association survive reopening
+PASS Writing does not fabricate a measured attempt
+PASS Backup failure preserves successful primary commit and current writing on reload
+PASS Progress reset preserves personally written pages
+PASS Full reset clears notebook only as part of the explicit full reset
+PASS Post-reset backup cannot resurrect written pages
+PASS Oversized pages are refused without claiming save success
+PASS Duplicate page IDs are refused
+PASS Future notebook schema is preserved and write protected
+PASS Explicitly corrupt notebook data is not silently replaced
+PASS A schema-2 page without ink loads all legacy typed notes unchanged
+PASS Ink and typed notes save together through the existing atomic store
+PASS Fresh profile reload restores each normalized stroke and typed note exactly
+PASS Failed ink save retains draft strokes and the previously committed file
+PASS Retry after an ink-save failure commits the retained draft
+PASS Undo changes the persisted page draft without changing its text
+PASS Undone ink stays removed after a fresh reload
+PASS Progress reset preserves typed notes and drawings together
+PASS Malformed or oversized notebook ink is rejected before disk changes: 0
+PASS Malformed or oversized notebook ink is rejected before disk changes: 1
+PASS Malformed or oversized notebook ink is rejected before disk changes: 2
+PASS Malformed or oversized notebook ink is rejected before disk changes: 3
+PASS Malformed or oversized notebook ink is rejected before disk changes: 4
+PASS Malformed or oversized notebook ink is rejected before disk changes: 5
+PASS Malformed or oversized notebook ink is rejected before disk changes: 6
+PASS Malformed or oversized notebook ink is rejected before disk changes: 7
+PASS Malformed or oversized notebook ink is rejected before disk changes: 8
+PASS Malformed or oversized notebook ink is rejected before disk changes: 9
+PASS Explicit null ink is protected instead of silently erasing drawings
+PASS Out-of-range persisted ink cannot enter the renderer
+PASS Writing tests use an isolated smoke profile
+PASS Writable journal starts at Home
+PASS Notebook writing UI: Open journal
+PASS Notebook writing UI: Journal mode notes
+PASS Notebook writing UI: Journal note new
+PASS New page contains no fabricated learner writing
+PASS Writing field uses readable Unicode-capable TMP input
+PASS Actual TMP text events preserve typed Vietnamese and newlines
+PASS Notebook title has visible ink inside its viewport after typing and mode switches
+PASS The selected page caption updates while typing without reopening the page
+PASS Writing field uses readable Unicode-capable TMP input
+PASS Actual TMP text events preserve typed Vietnamese and newlines
+PASS Writing rules are masked, behind ink and do not intercept selection
+PASS Visible writing baseline aligns with its paper rule: 0
+PASS Visible writing baseline aligns with its paper rule: 1
+PASS Visible writing baseline aligns with its paper rule: 2
+PASS Native typed body has at least 1 measured visible ruled baselines
+PASS Unicode typing updates only the explicit learner draft
+PASS Draft does not claim successful saving
+PASS Notebook writing UI: Journal note draw
+PASS Notebook drawing replaces only the body area and retains the authored text
+PASS Phone-style press and drag form one stroke while a second touch is ignored
+PASS Notebook writing UI: Journal ink pen
+PASS VR-style point selection joins points and New stroke separates lines
+PASS Notebook writing UI: Journal ink undo
+PASS Notebook Undo removes the last stroke
+PASS Notebook writing UI: Journal ink erase
+PASS Notebook eraser removes a touched segment's whole stroke
+PASS Notebook writing UI: Journal ink undo
+PASS Notebook Undo restores accidentally erased ink
+PASS Notebook writing UI: Journal ink pen
+PASS A phone tap is not applied again by its following click event
+PASS Notebook writing UI: Journal ink undo
+PASS Notebook title has visible ink inside its viewport after typing and mode switches
+PASS The selected page caption updates while typing without reopening the page
+PASS Notebook writing UI: Journal note write
+PASS Notebook title has visible ink inside its viewport after typing and mode switches
+PASS The selected page caption updates while typing without reopening the page
+PASS Switching back to writing preserves all text and drawn strokes
+PASS Notebook writing UI: Journal mode records
+PASS Notebook writing UI: Journal mode notes
+PASS Switching book modes retains unsaved writing
+PASS Notebook writing UI: Journal note new
+PASS Writing field uses readable Unicode-capable TMP input
+PASS Actual TMP text events preserve typed Vietnamese and newlines
+PASS Notebook title has visible ink inside its viewport after typing and mode switches
+PASS The selected page caption updates while typing without reopening the page
+PASS Writing field uses readable Unicode-capable TMP input
+PASS Actual TMP text events preserve typed Vietnamese and newlines
+PASS Writing rules are masked, behind ink and do not intercept selection
+PASS Visible writing baseline aligns with its paper rule: 0
+PASS Native typed body has at least 1 measured visible ruled baselines
+PASS Notebook writing UI: Journal note previous
+PASS Page navigation retains the first draft
+PASS Notebook writing UI: Journal note next
+PASS Notebook writing UI: Journal note save
+PASS Save status follows actual atomic-save success
+PASS Reloading actual profile recovers both authored pages and page-local ink
+PASS Notebook writing UI: Journal note previous
+PASS Notebook writing UI: Journal note lesson
+PASS Notebook writing UI: Journal note link subject B
+PASS Notebook writing UI: Journal note link B01
+PASS Optional lesson link changes metadata without rewriting notes
+PASS Notebook linked to microscopy uses Biology room background rather than the previous room
+PASS Notebook writing UI: Journal note lesson
+PASS Notebook writing UI: Journal note link subject P
+PASS Notebook writing UI: Journal note link P01
+PASS Pendulum showcase note links its matching lesson through the actual picker
+PASS Notebook follows the actual pendulum lesson link back to Physics room background
+PASS Notebook writing UI: Journal note save
+PASS Notebook writing UI: Journal note draw
+PASS Notebook writing UI: Journal ink pen
+PASS Notebook writing UI: Journal note write
+PASS Failure fixture begins with a genuinely unsaved changed body
+PASS Failure fixture owns a previously absent temp path
+PASS Notebook writing UI: Journal note save
+PASS Save failure exposes localized Retry and Back actions
+PASS Save failure retains both typed notes and unsaved drawing
+PASS Failed temp write leaves committed primary bytes unchanged
+PASS Notebook writing UI: Thử lưu lại
+PASS Actual Retry reports successful local saving
+PASS Retried save reopens with authored text, strokes and scientific attempts intact
+PASS Notebook writing UI: Journal note save
+PASS Showcase restores its original body through the real field and Save
+PASS Linked notebook background has fully settled before mode change
+PASS Notebook paper and ink reach full contrast after the UI entrance
+PASS Switching notebook view preserves its background without a second fade
+PASS Writing rules are masked, behind ink and do not intercept selection
+PASS Visible writing baseline aligns with its paper rule: 0
+PASS Visible writing baseline aligns with its paper rule: 1
+PASS Visible writing baseline aligns with its paper rule: 2
+PASS Native typed body has at least 3 measured visible ruled baselines
+PASS Showcase paper rules continue across blank rows without skipped geometry
+PASS Notebook writing UI: ‹ Quay lại
+PASS Notebook writing UI: Open journal
+PASS Notebook writing UI: Journal mode notes
+PASS Returning Home and reopening preserves written page
+PASS Notebook writing UI: Journal note delete
+PASS Notebook writing UI: Hủy
+PASS Cancelling deletion retains the page
+PASS Notebook writing UI: Journal note delete
+PASS Notebook writing UI: Xác nhận
+PASS Confirmed deletion removes only selected notebook page
+PASS Deleted page stays deleted after disk reload
+PASS Writing and deletion preserve every scientific attempt
+PASS Notebook writing UI: ‹ Quay lại
+PASS VR writing review begins with a saved personal page
+PASS Existing note does not select all writing on focus
+PASS VR field pointer accepts released pointing sample
+PASS VR field pointer sends a fresh selection edge
+PASS Selecting a VR notebook field opens its real keyboard
+PASS Keyboard backing prevents underlying notebook writing showing through
+PASS Keyboard test controller accepts fresh pointing sample
+PASS Actual VR pointer ray types exactly one character into the authored page
+PASS VR notebook ink accepts a released pointing sample 0
+PASS VR notebook ink accepts a fresh selection edge 0
+PASS VR notebook ink accepts a released pointing sample 1
+PASS VR notebook ink accepts a fresh selection edge 1
+PASS Actual VR pointer draws two joined points directly into the current page
+PASS VR keyboard returns safely to Home after saved writing
+END learner scope notebook
+BEGIN learner scope microscope
+PASS Reached home
+PASS Reachable Subject B
+PASS Touch click delivered Subject B
+PASS Reached browser
+PASS Reachable Browser lesson B01
+PASS Touch click delivered Browser lesson B01
+PASS Reachable Browser start
+PASS Touch click delivered Browser start
+PASS Reached readiness
+PASS Reachable Readiness enter
+PASS Touch click delivered Readiness enter
+PASS Reached activity
+Installation and specimen preparation below are fixture setup, not user-interaction coverage; eyepiece controls use native UI raycasts.
+PASS Eyepiece fixture separates epidermis
+PASS Eyepiece fixture lowers cover
+PASS Eyepiece fixture mounts actual slide
+PASS Eyepiece fixture closes actual clips
+PASS Eyepiece fixture completes mounting
+PASS Eyepiece fixture sets 10x objective
+PASS Eyepiece fixture completes focusing
+PASS Eyepiece uses black surround
+PASS Eyepiece source image has circular shader clipping and pointer bounds
+PASS Eyepiece remains geometrically circular
+PASS Circular field preserves source specimen proportions
+PASS Clicking the black corner cannot select or classify a source cell
+PASS Eyepiece keeps actual microscope control visible: obj4
+PASS Eyepiece keeps actual microscope control visible: obj10
+PASS Eyepiece keeps actual microscope control visible: obj40
+PASS Eyepiece keeps actual microscope control visible: focus-
+PASS Eyepiece keeps actual microscope control visible: focus+
+PASS Eyepiece keeps actual microscope control visible: focusFine-
+PASS Eyepiece keeps actual microscope control visible: focusFine+
+PASS Hide controls leaves specimen and show control available
+PASS Hide controls retains original source texture and UV
+PASS Show controls restores actual microscope controls
+PASS Rendering and hide/show preserve scientific state, preparation and pause
+PASS Native pointer target enabled: Microscope toggle controls
+PASS Native UI raycast reaches Microscope toggle controls
+PASS Pointer hides microscope controls
+PASS Native pointer target enabled: Microscope toggle controls
+PASS Native UI raycast reaches Microscope toggle controls
+PASS Pointer restores microscope controls
+PASS Pointer hide/show preserves lesson state and pause
+PASS Native pointer target enabled: Instrument control obj4
+PASS Native UI raycast reaches Instrument control obj4
+PASS Pointer objective control reaches actual SDK
+PASS Native pointer target enabled: Instrument control obj10
+PASS Native UI raycast reaches Instrument control obj10
+PASS Pointer higher objective changes actual source field
+PASS Native pointer target enabled: Instrument control focusFine+
+PASS Native UI raycast reaches Instrument control focusFine+
+PASS Pointer fine focus reaches actual stage
+PASS Native pointer target enabled: Instrument control focusFine-
+PASS Native UI raycast reaches Instrument control focusFine-
+PASS Pointer fine focus returns actual stage
+PASS Focused eyepiece contains an identifiable original source region
+PASS Native UI raycast reaches Microscope source image
+PASS Native eyepiece pointer preserves original cell and structure identity
+PASS Native image selection never classifies or advances the lesson
+PASS Native pointer target enabled: Instrument control obj10
+PASS Native UI raycast reaches Instrument control obj10
+PASS Eyepiece checks retain original focus and objective
+PASS Reachable Subject B
+PASS Touch click delivered Subject B
+PASS Reached browser
+PASS Reachable Browser lesson B02
+PASS Touch click delivered Browser lesson B02
+PASS Reachable Browser start
+PASS Touch click delivered Browser start
+PASS Reached readiness
+PASS Reachable Readiness enter
+PASS Touch click delivered Readiness enter
+PASS Reached activity
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+Installation and specimen preparation below are fixture setup, not user-interaction coverage; eyepiece controls use native UI raycasts.
+PASS B02 fixture mounts source slide
+PASS B02 fixture sets 10x
+PASS Eyepiece uses black surround
+PASS Eyepiece source image has circular shader clipping and pointer bounds
+PASS Eyepiece remains geometrically circular
+PASS Circular field preserves source specimen proportions
+PASS Clicking the black corner cannot select or classify a source cell
+PASS Eyepiece keeps actual microscope control visible: obj4
+PASS Eyepiece keeps actual microscope control visible: obj10
+PASS Eyepiece keeps actual microscope control visible: obj40
+PASS Eyepiece keeps actual microscope control visible: focus-
+PASS Eyepiece keeps actual microscope control visible: focus+
+PASS Eyepiece keeps actual microscope control visible: focusFine-
+PASS Eyepiece keeps actual microscope control visible: focusFine+
+PASS Hide controls leaves specimen and show control available
+PASS Hide controls retains original source texture and UV
+PASS Show controls restores actual microscope controls
+PASS Rendering and hide/show preserve scientific state, preparation and pause
+PASS Native pointer target enabled: Microscope toggle controls
+PASS Native UI raycast reaches Microscope toggle controls
+PASS Pointer hides microscope controls
+PASS Native pointer target enabled: Microscope toggle controls
+PASS Native UI raycast reaches Microscope toggle controls
+PASS Pointer restores microscope controls
+PASS Pointer hide/show preserves lesson state and pause
+PASS Native pointer target enabled: Instrument control obj4
+PASS Native UI raycast reaches Instrument control obj4
+PASS Pointer objective control reaches actual SDK
+PASS Native pointer target enabled: Instrument control obj10
+PASS Native UI raycast reaches Instrument control obj10
+PASS Pointer higher objective changes actual source field
+PASS Native pointer target enabled: Instrument control focusFine+
+PASS Native UI raycast reaches Instrument control focusFine+
+PASS Pointer fine focus reaches actual stage
+PASS Native pointer target enabled: Instrument control focusFine-
+PASS Native UI raycast reaches Instrument control focusFine-
+PASS Pointer fine focus returns actual stage
+PASS Native pointer target enabled: Instrument control obj10
+PASS Native UI raycast reaches Instrument control obj10
+PASS Eyepiece checks retain original focus and objective
+PASS Reachable Subject B
+PASS Touch click delivered Subject B
+PASS Reached browser
+PASS Reachable Browser lesson B08
+PASS Touch click delivered Browser lesson B08
+PASS Reachable Browser start
+PASS Touch click delivered Browser start
+PASS Reached readiness
+PASS Reachable Readiness enter
+PASS Touch click delivered Readiness enter
+PASS Reached activity
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+PASS Eyepiece fixture installs apparatus
+Installation and specimen preparation below are fixture setup, not user-interaction coverage; eyepiece controls use native UI raycasts.
+PASS B08 fixture mounts source slide
+PASS B08 fixture sets 10x
+PASS Eyepiece uses black surround
+PASS Eyepiece source image has circular shader clipping and pointer bounds
+PASS Eyepiece remains geometrically circular
+PASS Circular field preserves source specimen proportions
+PASS Clicking the black corner cannot select or classify a source cell
+PASS Eyepiece keeps actual microscope control visible: obj4
+PASS Eyepiece keeps actual microscope control visible: obj10
+PASS Eyepiece keeps actual microscope control visible: obj40
+PASS Eyepiece keeps actual microscope control visible: focus-
+PASS Eyepiece keeps actual microscope control visible: focus+
+PASS Eyepiece keeps actual microscope control visible: focusFine-
+PASS Eyepiece keeps actual microscope control visible: focusFine+
+PASS Hide controls leaves specimen and show control available
+PASS Hide controls retains original source texture and UV
+PASS Show controls restores actual microscope controls
+PASS Rendering and hide/show preserve scientific state, preparation and pause
+PASS Native pointer target enabled: Microscope toggle controls
+PASS Native UI raycast reaches Microscope toggle controls
+PASS Pointer hides microscope controls
+PASS Native pointer target enabled: Microscope toggle controls
+PASS Native UI raycast reaches Microscope toggle controls
+PASS Pointer restores microscope controls
+PASS Pointer hide/show preserves lesson state and pause
+PASS Native pointer target enabled: Instrument control obj4
+PASS Native UI raycast reaches Instrument control obj4
+PASS Pointer objective control reaches actual SDK
+PASS Native pointer target enabled: Instrument control obj10
+PASS Native UI raycast reaches Instrument control obj10
+PASS Pointer higher objective changes actual source field
+PASS Native pointer target enabled: Instrument control focusFine+
+PASS Native UI raycast reaches Instrument control focusFine+
+PASS Pointer fine focus reaches actual stage
+PASS Native pointer target enabled: Instrument control focusFine-
+PASS Native UI raycast reaches Instrument control focusFine-
+PASS Pointer fine focus returns actual stage
+PASS Native pointer target enabled: Instrument control obj10
+PASS Native UI raycast reaches Instrument control obj10
+PASS Eyepiece checks retain original focus and objective
+END learner scope microscope
+BEGIN learner scope dropper
+PASS Reached home
+PASS C04 real geometry and finite qualitative unit regression
+FAIL System.Exception: Chemistry apparatus checks failed; inspect the evidence file.
+  at ChemistryIntegrationChecks.Run () [0x00d0a] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Scripts\ChemistryIntegrationChecks.cs:93
+  at WorkbenchUpgradeProbe+<ManualDropperJourney>d__0.MoveNext () [0x000b2] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\C04DropperUiChecks.cs:15
+  at WorkbenchUpgradeProbe+<Start>d__44.MoveNext () [0x0008d] in E:\VLAB\4 LABS\Ngua Man VLAB\Assets\VLABProduct\Editor\WorkbenchUpgradeChecks.cs:113

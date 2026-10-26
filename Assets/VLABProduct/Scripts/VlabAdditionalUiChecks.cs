@@ -58,8 +58,15 @@ public static class VlabAdditionalUiChecks
             else if(id=="C03")yield return CopperPowerNavigation();
             else if(id=="C05")
             {
-                yield return PrepareUntil(2);yield return GuideControl("Add water to mark");yield return GuideControl("Stopper and invert to mix");yield return PrepareUntil(3);
-                Verify("C05 guide exposes real mark and mixing controls before preparation advances",app.Session.Phase==ExperimentPhase.Ready);
+                lines.Add("C05 shared UI fixture uses labelled rinse/aliquot/water assistance; manual transfers are covered by the independent queued phone journey.");
+                var rig=app.Apparatus;
+                Verify("C05 explicit rinse assistance fixture",rig.Driver.Operate("autoRinsePipette",out _));Verify("C05 fixture accepts completed rinse",rig.PrepareNext(out _));
+                Verify("C05 explicit aliquot assistance fixture",rig.Driver.Operate("transferAliquot",out _));Verify("C05 fixture accepts actual aliquot",rig.PrepareNext(out _));
+                Verify("C05 fixture retains actual 10 mL aliquot",Math.Abs(rig.Driver.Observe().Get("aliquot")-10)<1e-8);
+                var task=new LessonGuide(app.Session).Current(rig,false);Verify("C05 primary guide requires the manual wash gesture",task.kind=="gesture"&&task.key=="wash");
+                Verify("C05 explicit water assistance fixture",rig.Driver.Operate("waterMark",out _));app.ShowActivity();yield return null;
+                yield return GuideControl("Stopper and invert to mix");yield return PrepareUntil(3);
+                Verify("C05 mixing UI validates the accepted marked dilution",app.Session.Phase==ExperimentPhase.Ready&&Math.Abs(rig.Driver.Observe().Get("concentration")-.2)<1e-8&&!string.IsNullOrEmpty(app.Session.Assistance));
             }
             else if(id=="C06")
             {

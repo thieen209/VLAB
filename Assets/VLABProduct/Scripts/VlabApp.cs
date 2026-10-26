@@ -260,7 +260,7 @@ namespace Vlab.Product
         void ShowReadiness(bool resume)
         {
             readinessResume=resume;NewPage("readiness");
-            ReadinessView.Render(ui,page,selected,Vi,Accent,resume,ShowBrowser,()=>ShowHelp("readiness"),()=>StartCoroutine(LoadRoom(true,resume)));
+            ReadinessView.Render(ui,page,selected,Vi,Accent,resume,ShowBrowser,ShowLessonProcedure,()=>StartCoroutine(LoadRoom(true,resume)));
         }
         public void CancelRoomEntry()
         {
@@ -580,6 +580,7 @@ namespace Vlab.Product
             bool classifier=driver is BiologyDriver&&item.assetId=="microscope"&&(Session.spec.id=="B01"||Session.spec.id=="B02"||Session.spec.id=="B08");
             bool same=inspectedItem==item;if(!same){inspectionTab=classifier&&Session.Phase==ExperimentPhase.Preparing?"tools":texture?"view":"readings";readingPage=0;}
             bool classification=classifier&&inspectionTab=="view";
+            if((inspectionTab=="view"||inspectionTab=="tools")&&driver is BiologyDriver microscope&&(classifier||item.assetId=="specimen"&&microscope.HasMicroscopePresentation)){ShowMicroscopeView(item,microscope);return;}
             var box=Modal(EquipmentName(item),1440,900,true);inspectedItem=item;
             var title=box.GetComponentInChildren<TextMeshProUGUI>();title.fontSize=40;title.fontWeight=FontWeight.SemiBold;
             selectedCellSummary=ui.Text(box,"",1000,24,300,80,26,Accent,TextAlignmentOptions.TopRight);selectedCellSummary.lineSpacing=0;
@@ -781,7 +782,7 @@ namespace Vlab.Product
                 if(zoom){var corners=new Vector3[4];zoom.GetWorldCorners(corners);clearTop=corners.Min(corner=>RectTransformUtility.WorldToScreenPoint(null,corner).y)/Screen.height-.02f;}
             }
             var cord=Resources.Load<GameObject>("Equipment/VLAB_string").GetComponentInChildren<LineRenderer>();
-            string instruction=Apparatus.HasLatchedCarry?(placement?L("Bấm Đặt xuống để lắp vào đây.","Choose Put down to fit here."):L("Lắp dụng cụ này trước.","Fit this support first.")):CurrentGuide()?.key==item.assetId?ShortInstruction(CurrentGuide().action):EquipmentPurpose(item);
+            string instruction=Apparatus.HasLatchedCarry?(placement?L("Bấm Lắp vào vị trí để gắn vào đây.","Choose Fit in place to mount here."):L("Lắp dụng cụ này trước.","Fit this support first.")):CurrentGuide()?.key==item.assetId?ShortInstruction(CurrentGuide().action):EquipmentPurpose(item);
             if(Session.spec.id=="P01"&&!Apparatus.IsCarrying)
             {
                 string purpose=item.assetId switch{"stand"=>L("Đỡ và cố định hệ con lắc.","Supports the pendulum assembly."),"clamp"=>L("Giữ dây tại điểm treo.","Secures the cord at its suspension point."),"pendulum"=>L("Vật dao động để đo chu kỳ.","Oscillating mass used to measure the period."),"string"=>L("Nối điểm treo với quả nặng.","Connects the suspension point to the bob."),"ruler"=>L("Đọc chiều dài bằng vạch chia milimét.","Reads length using millimetre graduations."),"timer"=>L("Đo thời gian của các chu kỳ.","Measures the elapsed time of oscillations."),_=>""};
@@ -1219,7 +1220,7 @@ namespace Vlab.Product
                 }
                 if(!PointerHitsUi(frame.pointer))
                 {lastInteractionRay=frame.pointer;UpdateFlagshipDrag(frame);if(Apparatus)Apparatus.UpdateGrab(frame);}
-                else{CancelWashGesture();if(frame.released){CancelFlagshipDrag();if(Apparatus&&!Apparatus.HasLatchedCarry)Apparatus.CancelGrab();}}
+                else{CancelWashGesture();CancelPipetteGesture();CancelDropperGesture();CancelPourGesture();if(frame.released){CancelFlagshipDrag();if(Apparatus&&!Apparatus.HasLatchedCarry)Apparatus.CancelGrab();}}
             }
         }
         bool PointerHitsUi(Ray ray)
@@ -1297,21 +1298,21 @@ namespace Vlab.Product
             string id=Session.spec.id;
             if(id=="P01")return Session.Phase==ExperimentPhase.Preparing?(Session.Operation==0?L("Chạm giá đỡ để kiểm tra giá và kẹp.","Touch the stand to check its support and clamp."):Session.Operation==1?L("Chạm quả nặng để kiểm tra dây nối tới tâm quả.","Touch the bob to check the pivot-to-centre suspension."):Session.Operation==2?L("Chạm quả ở vị trí cân bằng để đặt mốc đo.","Touch the bob at equilibrium to set the timing mark."):L("Giữ quả nặng, kéo sang bên rồi thả tay.","Hold the bob, pull it aside, then release.")):Session.Phase==ExperimentPhase.Running?L("Đếm đủ chu kỳ cùng chiều qua mốc cân bằng rồi ghi số đo.","Count full same-direction cycles, then record."):L("Giữ quả nặng, kéo sang bên rồi thả tay.","Hold the bob, pull it aside, then release.");
             if(!Apparatus.Ready)return L("Chọn và lắp dụng cụ. Có thể tự lấy trên bàn hoặc mở danh sách.","Select and install the apparatus, directly or from the equipment list.");
-            if(id=="C04")return Session.Phase==ExperimentPhase.Preparing?L("Chạm chai AgNO₃ để chọn thuốc thử. Giữ ống nhỏ giọt, kéo và thả trên cốc. So sánh với hai mẫu đối chứng.","Select AgNO3. Hold the dropper, drag it and release over a cup. Compare both controls."):L("Quan sát cặn trong ba cốc. Mở cốc để đọc kết quả; Ghi số đo lưu lượt của bạn.","Observe all three cups. Select a cup to inspect; Record saves your own trial.");
+            if(id=="C04")return Session.Phase==ExperimentPhase.Preparing?L("Chọn AgNO₃. Giữ đầu ống trong nguồn để nạp hai giọt mô phỏng, rồi hướng xuống trên miệng cốc để nhỏ. Thả để dừng; thể tích chưa hiệu chuẩn.","Select AgNO3. Hold the tip in the source to load two simulated drops, then point down through a cup mouth to dispense. Release to stop; volume is uncalibrated."):L("Quan sát cặn trong ba cốc. Mở cốc để đọc kết quả; Ghi số đo lưu lượt của bạn.","Observe all three cups. Select a cup to inspect; Record saves your own trial.");
             if(id=="B01")return Session.Phase==ExperimentPhase.Preparing?(Session.Operation==0?L("Chạm mẫu hành để lấy lớp biểu bì mỏng trên lam có nước.","Touch the onion to prepare a thin wet epidermis layer."):Session.Operation==1?L("Chạm lamen để hạ nghiêng lên mẫu và thấm phần dư.","Touch the coverslip to lower it at an angle and blot excess liquid."):Session.Operation==2?L("Chạm lam kính để đặt vào bàn kính và đóng hai kẹp.","Touch the slide to mount it and close both stage clips."):L("Giữ ốc lấy nét, kéo lên/xuống. Chạm thị kính để nhìn mẫu.","Drag a focus knob up/down. Select the eyepiece to observe.")):L("Qua thị kính, chạm vùng quan sát rồi tự chọn tên cấu trúc. Chỉnh nét trước khi đổi vật kính.","In the eyepiece, select a region and identify its structure. Focus before changing objectives.");
             return Session.Phase==ExperimentPhase.Preparing||Session.Phase==ExperimentPhase.Ready?L("Chạm bánh 12/24 răng để chọn đầu vào, bánh 36 để chọn đầu ra. Chạm motor để chạy; chọn tốc kế để đọc.","Select the 12/24-tooth input or 36-tooth output gear. Touch the motor to run; inspect the tachometer."):L("Quan sát chiều quay và tốc kế. Chạm motor để tạm dừng/tiếp tục. Ghi lượt rồi làm lại để đổi bộ răng.","Observe direction and speed. Touch the motor to pause/resume. Record, then repeat to change the gears.");
         }
         string FlagshipPurpose(EquipmentHandle item)
         {
             string key=item.assetId;
-            if(Session.spec.id=="C04")return key=="reagent"?L("AgNO₃ là thuốc thử. Mỗi lần chọn dùng cho một lần chuyển.","AgNO3 is the reagent. Select it again before each transfer."):key=="dropper"?L("Giữ để cầm; kéo đầu ống tới miệng cốc rồi thả.","Hold to pick up; drag the tip over a cup, then release."):L("Mẫu cần quan sát; so hiện tượng với các cốc đối chứng.","Observe this sample and compare the control cups.");
+            if(Session.spec.id=="C04")return key=="reagent"?L("Chọn AgNO₃ rồi đưa đầu ống vào nguồn để nạp hai giọt mô phỏng.","Select AgNO3, then immerse the tip to load two simulated drops."):key=="dropper"?L("Giữ để cầm và nhỏ qua miệng cốc. Thả để dừng. Giọt mô phỏng chưa hiệu chuẩn thể tích.","Hold to carry and dispense through the cup mouth. Release to stop. Simulated drop volume is uncalibrated."):L("Mẫu cần quan sát; so hiện tượng với các cốc đối chứng.","Observe this sample and compare the control cups.");
             if(Session.spec.id=="B01")return key=="microscope"?L("Giữ ốc để chỉnh nét; chạm thị kính để nhìn. Chỉ đổi vật kính sau khi đã rõ.","Drag a focus knob; select the eyepiece to look. Focus before increasing magnification."):key=="onion"?L("Mẫu hành cung cấp lớp biểu bì mỏng để ánh sáng đi qua.","Onion provides a thin epidermis layer for transmitted light."):key=="coverslip"?L("Lamen giữ mẫu phẳng; hạ nghiêng để hạn chế bọt khí.","A coverslip flattens the sample; lower it at an angle to limit air bubbles."):L("Lam kính đỡ mẫu và được cố định trên bàn kính.","The slide supports the specimen and is secured to the stage.");
             if(Session.spec.id=="M01")return key=="motor"?L("Chạm để chạy, tạm dừng hoặc tiếp tục; không đổi bộ răng trong lượt đang đo.","Touch to run, pause or resume; do not change the gears during a trial."):key=="gears"?L("Các răng ăn khớp truyền chuyển động. Chọn trực tiếp bánh 12/24/36 trên mô hình.","Meshing teeth transmit motion. Select the actual 12/24/36-tooth gear."):key=="tach"?L("Tốc kế đọc tốc độ từ góc quay của trục đã quan sát.","The tachometer reads speed from the observed shaft rotation."):L("Bảng lắp giữ các trục đúng vị trí và khoảng tâm.","The mounting board holds shaft positions and centre distances.");
             return "";
         }
         static bool Flagship(string id)=>id=="P01"||id=="C04"||id=="B01"||id=="M01";
         EquipmentHandle flagshipDrag;Vector3 flagshipRest;Quaternion flagshipRotation;Plane flagshipPlane;Vector3 flagshipLast;float flagshipDistance;bool flagshipFine;Ray lastInteractionRay;
-        void CancelFlagshipDrag(){CancelWashGesture();if(flagshipDrag&&Apparatus&&Apparatus.EndFlagshipGrab(flagshipDrag)&&(Session?.spec.id=="C04"||Session?.spec.id=="C06"||(Session?.spec.id=="B01"&&flagshipDrag.assetId=="slide")))flagshipDrag.transform.SetPositionAndRotation(flagshipRest,flagshipRotation);flagshipDrag=null;}
+        void CancelFlagshipDrag(){CancelWashGesture();CancelPipetteGesture();CancelDropperGesture();CancelPourGesture();if(flagshipDrag&&Apparatus&&Apparatus.EndFlagshipGrab(flagshipDrag)&&(Session?.spec.id=="C06"||(Session?.spec.id=="B01"&&flagshipDrag.assetId=="slide")))flagshipDrag.transform.SetPositionAndRotation(flagshipRest,flagshipRotation);flagshipDrag=null;}
         bool FlagshipOperate(string action)
         {
             if(!Apparatus.Driver.Operate(action,out var why)){ActionFailure(why);return false;}
@@ -1338,6 +1339,9 @@ namespace Vlab.Product
             if(!item||item.Owner!=EquipmentGrabOwner.None)return false;
             if(BeginMicroscopeGesture(item,hit,frame))return true;
             if(BeginWashGesture(item,hit,frame))return true;
+            if(BeginPipetteGesture(item,hit,frame))return true;
+            if(BeginDropperGesture(item,hit,frame))return true;
+            if(BeginPourGesture(item,hit,frame))return true;
             string id=Session.spec.id,key=item.assetId,part=hit.collider.name;
             if(!Flagship(id))return BeginWorkbenchDrag(item,hit,frame);
             if(!Apparatus.Ready){ActionFailure(L("Lắp đủ dụng cụ trước khi thao tác.","Install the required apparatus first."));return true;}
@@ -1351,9 +1355,7 @@ namespace Vlab.Product
             if(id=="C04")
             {
                 if(key=="reagent"){if(Session.Operation==0&&!Apparatus.PrepareNext(out var why)){ActionFailure(why);return true;}FlagshipOperate("selectAg");return true;}
-                if(key=="dropper")
-                {if(!Apparatus.BeginFlagshipGrab(item))return false;flagshipDrag=item;flagshipRest=item.transform.position;flagshipRotation=item.transform.rotation;flagshipDistance=Mathf.Clamp(hit.distance,.3f,3f);return true;}
-                if(key=="nacl"||key=="nitrate"||key=="water"){if(Session.Phase==ExperimentPhase.Running||Session.Phase==ExperimentPhase.Measured)return false;ActionFailure(L("Chạm chai AgNO₃, rồi giữ ống nhỏ giọt và kéo thả trên cốc cần thử.","Select the AgNO3 bottle, then drag and release the dropper over a sample cup."));return true;}
+                if(key=="nacl"||key=="nitrate"||key=="water"){if(Session.Phase==ExperimentPhase.Running||Session.Phase==ExperimentPhase.Measured)return false;ActionFailure(L("Chọn AgNO₃, giữ đầu ống trong nguồn để nạp rồi đưa trên miệng cốc để nhỏ. Thả để dừng.","Select AgNO3, hold the tip in the source to load, then hold it over the cup mouth to dispense. Release to stop."));return true;}
             }
             if(id=="B01")
             {
@@ -1401,22 +1403,14 @@ namespace Vlab.Product
         void UpdateFlagshipDrag(ActionFrame frame)
         {
             if(!flagshipDrag)return;
-            if(flagshipDrag.Owner!=EquipmentGrabOwner.Flagship){CancelWashGesture();flagshipDrag=null;return;}
+            if(flagshipDrag.Owner!=EquipmentGrabOwner.Flagship){CancelWashGesture();CancelPipetteGesture();CancelDropperGesture();CancelPourGesture();flagshipDrag=null;return;}
             if(frame.lost||frame.back||frame.menu){CancelFlagshipDrag();return;}
             if(UpdateWashGesture(frame))return;
+            if(UpdatePipetteGesture(frame))return;
+            if(UpdateDropperGesture(frame))return;
+            if(UpdatePourGesture(frame))return;
             if(UpdateWorkbenchDrag(frame))return;
-            if(Session.spec.id=="C04")
-            {
-                flagshipDrag.transform.position=frame.pointer.GetPoint(flagshipDistance)+Vector3.up*.06f;
-                if(frame.released)
-                {
-                    var cup=FindSampleCup(frame.pointer);
-                    bool dosed=!PointerHitsUi(frame.pointer)&&cup&&FlagshipOperate("dose:"+cup.assetId);CancelFlagshipDrag();
-                    if(!cup)ActionFailure(L("Thả đầu nhỏ giọt trên miệng một cốc mẫu.","Release the dropper over a sample cup."));
-                    if(dosed){if(Session.Phase==ExperimentPhase.Preparing)Apparatus.PrepareNext(out _);if(Session.Phase==ExperimentPhase.Preparing)Apparatus.PrepareNext(out _);if(Session.Phase==ExperimentPhase.Ready)Session.Start(out _);Save();RefreshActivity();}
-                }
-            }
-            else if(Session.spec.id=="B01")
+            if(Session.spec.id=="B01")
             {
                 if(flagshipPlane.Raycast(frame.pointer,out float d)){var point=frame.pointer.GetPoint(d);float delta=Vector3.Dot(point-flagshipLast,View.transform.up);if(Mathf.Abs(delta)>.012f){FlagshipOperate(flagshipFine?(delta>0?"focusFine+":"focusFine-"):(delta>0?"focus+":"focus-"));flagshipLast=point;}}
                 if(frame.released)CancelFlagshipDrag();
@@ -1469,7 +1463,7 @@ namespace Vlab.Product
         void ZoomPhone(float amount)
         {
             if(Input.VrMode||Input.SimulatorMode||flagshipDrag||Apparatus?.IsPullingBob==true)return;
-            View.fieldOfView=Mathf.Clamp(View.fieldOfView+amount,70,120);
+            View.fieldOfView=Mathf.Clamp(View.fieldOfView+amount,35,120);
         }
         bool TryFocusBounds(EquipmentHandle item,out Bounds bounds,bool includeSetup=true)
         {

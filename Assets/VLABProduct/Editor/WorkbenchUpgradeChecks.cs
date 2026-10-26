@@ -29,7 +29,7 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
     object Call(string method,params object[] args)=>typeof(VlabApp).GetMethod(method,Private).Invoke(App,args);
     Button Find(string name)=>App.GetComponentsInChildren<Button>().FirstOrDefault(b=>b.name==name&&b.IsInteractable());
     void Check(string name,bool pass){rows.Add((pass?"PASS ":"FAIL ")+name);File.WriteAllLines("Evidence/WorkbenchUpgrade/progress.txt",rows);if(!pass)throw new Exception(name);}
-    IEnumerator Tap(string name,float after=.35f,float before=.3f)
+    IEnumerator Tap(string name,float after=.35f,float before=.3f,Action beforeRelease=null)
     {
         yield return new WaitForSecondsRealtime(before);Canvas.ForceUpdateCanvases();var button=Find(name);if(!button)throw new Exception("Missing button "+name+" on "+App.Route);
         var rect=(RectTransform)button.transform;var canvas=button.GetComponentInParent<Canvas>();Vector2 point=RectTransformUtility.WorldToScreenPoint(canvas.renderMode==RenderMode.ScreenSpaceOverlay?null:canvas.worldCamera,rect.TransformPoint(rect.rect.center));
@@ -38,6 +38,7 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
         bool clicked=false;button.onClick.AddListener(()=>clicked=true);var trace=button.gameObject.AddComponent<WorkbenchPointerTrace>();
         int id=++serial;InputSystem.QueueStateEvent(touch,new TouchState{touchId=id,phase=UnityEngine.InputSystem.TouchPhase.Began,position=point});yield return null;yield return new WaitForSecondsRealtime(.12f);
         InputSystem.QueueStateEvent(mouse,new MouseState{position=new Vector2(8+serial%4,8)});yield return null;
+        beforeRelease?.Invoke();
         InputSystem.QueueStateEvent(touch,new TouchState{touchId=id,phase=UnityEngine.InputSystem.TouchPhase.Ended,position=point});yield return null;yield return new WaitForSecondsRealtime(after);
         if(!clicked)rows.Add("Pointer trace "+name+": "+string.Join("; ",trace.events)+"; active module="+EventSystem.current.currentInputModule+" touch="+touch.primaryTouch.phase.ReadValue());
         if(trace)Destroy(trace);Check("Touch click delivered "+name,clicked);
@@ -116,6 +117,7 @@ public sealed partial class WorkbenchUpgradeProbe:MonoBehaviour
     }
     IEnumerator Run()
     {
+        if(Environment.GetEnvironmentVariable("VLAB_LEARNER_EXPERIENCE_CHECKS")=="1"){yield return LearnerExperienceChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_EXPERIENCE_BUILD")=="1"||Environment.GetEnvironmentVariable("VLAB_EXPERIENCE_CHECKS")=="1"){yield return ExperienceRepairChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_EQUIPMENT_PLACEMENT_CHECKS")=="1"){yield return EquipmentPlacementChecks();yield break;}
         if(Environment.GetEnvironmentVariable("VLAB_STUDENT_TOUR_CHECKS")=="1"){yield return StudentTourChecks();yield break;}

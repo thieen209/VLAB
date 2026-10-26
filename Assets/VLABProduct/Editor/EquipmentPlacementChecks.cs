@@ -12,6 +12,11 @@ public sealed partial class WorkbenchUpgradeProbe
 {
     IEnumerator TouchEquipment(EquipmentHandle item)
     {
+        if(item.stowed)
+        {
+            rows.Add(item.assetId+" is stored off the bench; use its actual picker and pickup buttons.");
+            Call("ShowEquipment");yield return Tap("Equipment item "+item.assetId);yield return Tap("Equipment take selected");yield break;
+        }
         var point=ModelPoint(item);int finger=++serial;
         InputSystem.QueueStateEvent(touch,new TouchState{touchId=finger,phase=UnityEngine.InputSystem.TouchPhase.Began,position=point});
         yield return null;yield return new WaitForSecondsRealtime(.12f);
@@ -30,13 +35,13 @@ public sealed partial class WorkbenchUpgradeProbe
             yield return TouchEquipment(item);
             Check(id+" touching loose model opens placement controls",Read<EquipmentHandle>("workbenchItem")==item&&Find("Equipment place selected"));
             Check(id+" tap keeps model held after release",rig.HasLatchedCarry&&item.Owner==EquipmentGrabOwner.Legacy);
-            Check(id+" explicit put-down label",Find("Equipment place selected").GetComponentInChildren<TextMeshProUGUI>().text=="Đặt xuống");
+            Check(id+" fitting is distinct from putting down",Find("Equipment place selected").GetComponentInChildren<TextMeshProUGUI>().text=="Lắp vào vị trí");
             yield return Capture(id+"-holding-clear-actions");
-            yield return Tap("Equipment take selected");
+            yield return Tap("Close equipment controls");
             Check(id+" return restores tray and releases ownership",!rig.IsCarrying&&item.Owner==EquipmentGrabOwner.None&&!item.installed&&(item.stowed||Vector3.Distance(item.transform.position,item.trayPosition)<.001f));
-            yield return Tap("Equipment take selected");
+            yield return TouchEquipment(item);
             yield return Tap("Equipment place selected");
-            Check(id+" put down fits and releases without completing procedure",item.installed&&item.Owner==EquipmentGrabOwner.None&&!rig.IsCarrying&&App.Session.Operation==0);
+            Check(id+" fit action installs and releases without completing procedure",item.installed&&item.Owner==EquipmentGrabOwner.None&&!rig.IsCarrying&&App.Session.Operation==0);
             yield return Tap("Close equipment controls");
             if(id=="C01")
             {
@@ -46,7 +51,7 @@ public sealed partial class WorkbenchUpgradeProbe
                 Call("ChooseWorkbenchItem",clamp,true);yield return new WaitForSecondsRealtime(.4f);
                 Check("Unsupported placement is disabled",!Find("Equipment place selected")&&rig.HasLatchedCarry);
                 Check("Missing support is explained",Read<TextMeshProUGUI>("toolState").text.Contains(rig.EquipmentLabel(item,true)));
-                yield return Tap("Equipment take selected");Check("Wrong-order pickup can be returned",!rig.IsCarrying&&clamp.Owner==EquipmentGrabOwner.None&&!clamp.installed);
+                yield return Tap("Close equipment controls");Check("Wrong-order pickup can be returned",!rig.IsCarrying&&clamp.Owner==EquipmentGrabOwner.None&&!clamp.installed);
                 App.Profile.settings.hints=false;Call("ApplySettings");Call("ChooseWorkbenchItem",item,true);yield return new WaitForSecondsRealtime(.4f);
                 Check("Hint-off still shows essential placement target",Read<GuideCue>("worldGuideCue")&&!Read<GuideCue>("worldGuideCue").IsStopped);
                 yield return new WaitForSecondsRealtime(13);
@@ -55,17 +60,40 @@ public sealed partial class WorkbenchUpgradeProbe
                 App.Profile.settings.hints=true;Call("ApplySettings");
                 // Installed apparatus fixture isolates inspect/return; no measurement is fabricated.
                 for(int n=0;n<40&&!rig.Ready;n++){rig.Select(rig.NextInstallableItem());Check("Inspection fixture fits apparatus",rig.InstallSelected());}
-                var vessel=rig.items.First(rig.CanLiftForInspection);var rest=vessel.transform.position;var rotation=vessel.transform.rotation;
+                // The titration flask sits around the burette outlet; use the unobstructed waste beaker for a vertical drop.
+                var vessel=rig.items.Single(item=>item.assetId=="waste"&&rig.CanLiftForInspection(item));var rest=vessel.transform.position;var rotation=vessel.transform.rotation;
                 Call("SelectWorkbenchTool",vessel,"");yield return new WaitForSecondsRealtime(.4f);yield return Tap("Lift equipment");
                 Check("Inspection lifts the actual vessel",rig.InspectingInstalled&&Vector3.Distance(rest,vessel.transform.position)>.05f);
-                yield return Capture("C01-inspection-put-down");vessel.transform.position=rest+Vector3.up*.2f;yield return Tap("Return inspected equipment");
+                yield return Capture("C01-inspection-put-down");
+                // Supply fixture pose after pointer motion, immediately before the real button release.
+                yield return Tap("Return inspected equipment",beforeRelease:()=>{vessel.transform.position=rest+Vector3.up*.2f;Physics.SyncTransforms();});
                 Check("Inspection put-down settles onto supported bench",!rig.IsCarrying&&vessel.Owner==EquipmentGrabOwner.None&&Vector2.Distance(new Vector2(rest.x,rest.z),new Vector2(vessel.transform.position.x,vessel.transform.position.z))<.001f);
                 rest=vessel.transform.position;
                 yield return Tap("Lift equipment");Call("ControllerBack");yield return null;
                 Check("Back puts down before leaving activity",App.Route=="activity"&&!rig.IsCarrying&&Vector3.Distance(rest,vessel.transform.position)<.001f);
             }
         }
+        yield return LoosePutDownUiCheck();
         rows.Add("Editor touchscreen input on four lab setups; not physical Android/BLE/headset acceptance.");
+    }
+    IEnumerator LoosePutDownUiCheck()
+    {
+        App.ShowHome();yield return null;yield return Tap("Subject C");yield return Wait("browser");
+        yield return Tap("Browser lesson C06");yield return Tap("Browser start");yield return Wait("readiness");yield return Tap("Readiness enter");yield return Wait("activity");
+        var rig=App.Apparatus;var item=rig.items.Single(i=>i.assetId=="test");
+        var original=item.trayPosition;var rotation=item.trayRotation;
+        rows.Add("Loose release fixture supplies a clear raised pose; only pickup/put-down/cancel buttons use queued touchscreen input. This does not claim a hand-drag journey.");
+        Call("ChooseWorkbenchItem",item,false);yield return null;yield return Tap("Equipment take selected");
+        Check("Loose pickup exposes an explicit put-down action",rig.CanReleaseLoose&&Find("Equipment take selected").GetComponentInChildren<TextMeshProUGUI>().text=="Đặt xuống bàn");
+        item.transform.SetPositionAndRotation(original+Vector3.up*.12f,rotation);Physics.SyncTransforms();
+        yield return Tap("Equipment take selected",beforeRelease:()=>{item.transform.SetPositionAndRotation(original+Vector3.up*.12f,rotation);Physics.SyncTransforms();});
+        Check("Put-down button releases without mounting or preparing",!rig.IsCarrying&&!item.installed&&item.Owner==EquipmentGrabOwner.None&&App.Session.Operation==0);
+        var falling=item.GetComponent<ReleasedEquipment>();Check("Put-down button uses physical settling",falling);
+        for(int n=0;n<150&&falling.IsSettling;n++)yield return new WaitForFixedUpdate();
+        Check("Put-down button leaves the tool on its selected support",!falling.IsSettling&&Vector2.Distance(new Vector2(item.transform.position.x,item.transform.position.z),new Vector2(original.x,original.z))<.001f);
+        yield return Capture("C06-loose-put-down");
+        var placed=item.transform.position;yield return Tap("Equipment take selected");yield return Tap("Close equipment controls");
+        Check("Cancel after reacquiring preserves the latest resting place",!rig.IsCarrying&&item.Owner==EquipmentGrabOwner.None&&Vector3.Distance(item.transform.position,placed)<.001f);
     }
 }
 #endif

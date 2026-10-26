@@ -55,6 +55,7 @@ public static class MicroscopePresentationChecks
         var driver=(BiologyDriver)app.Apparatus.Driver;var sdk=app.Apparatus.items.First(item=>item.assetId=="microscope").GetComponentInChildren<VlabMicroscope>();
         yield return CheckLiveReadingPages();yield return PressName("Instrument tab view");
         MicroscopePresentation.CheckGeometry(Verify);MicroscopePresentation.CheckBinding(Image(),driver,Verify);
+        MicroscopeEyepieceChecks.Run(app,Verify);
         Vector2 source=Vector2.zero;int expectedCell=0,expectedRegion=0;
         for(int y=0;y<40&&expectedCell==0;y++)for(int x=0;x<40&&expectedCell==0;x++)
         {var candidate=new Vector2(.47f+x*.0015f,.47f+y*.0015f);if(driver.TryB01SourceIdentity(candidate,out int cell,out int region)){source=candidate;expectedCell=cell;expectedRegion=region;}}
@@ -64,7 +65,7 @@ public static class MicroscopePresentationChecks
         {
             int index=objective.StartsWith("4×",StringComparison.Ordinal)?0:objective.StartsWith("10",StringComparison.Ordinal)?1:2;
             yield return Control(index==0?"obj4":index==1?"obj10":"obj40");var image=Image();Verify("Actual microscope SDK objective changed to "+objective,sdk.ObjectiveIndex==index);
-            float width=index==0?1:index==1?.4f:.1f;Verify(objective+" updates actual RawImage crop",Mathf.Abs(image.uvRect.width-width)<.00001f);
+            float height=index==0?1:index==1?.4f:.1f,width=height*image.texture.height/image.texture.width;Verify(objective+" updates actual RawImage crop without stretching source",Mathf.Abs(image.uvRect.width-width)<.00001f&&Mathf.Abs(image.uvRect.height-height)<.00001f);
             string before=driver.SaveState();yield return null;yield return null;Verify(objective+" rendering does not mutate lesson state",before==driver.SaveState());
             yield return ImageClick(source);var state=State();Verify(objective+" real image pointer preserves global cell/structure ID",state.selectedCell==expectedCell&&state.selectedStructure==expectedRegion);
             Verify(objective+" source selection does not classify or advance preparation",state.structures.Count==classificationCount&&app.Session.Operation==preparation);
@@ -115,6 +116,8 @@ public static class MicroscopePresentationChecks
     }
     static IEnumerator Control(string id)
     {
+        var direct=Buttons().FirstOrDefault(button=>button.name=="Instrument control "+id);
+        if(direct){yield return PressName("Instrument control "+id);yield break;}
         var control=app.Apparatus.Driver.Controls("microscope").Single(value=>value.id==id);string label=Vi?control.vi:control.en;
         // Biology has five optics controls on page1; labels may occupy more than one later page.
         for(int guard=0;guard<8&&!Buttons().Any(value=>Label(value)==label);guard++)

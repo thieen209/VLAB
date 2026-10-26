@@ -6,19 +6,26 @@ namespace Vlab.Product
     public sealed partial class ApparatusRig
     {
         bool carryingInstalled;Vector3 carryRest;Quaternion carryRestRotation;
+        public string LastPlacementFailure{get;private set;}="";
         public bool InspectingInstalled=>carryingInstalled&&carrying&&Selected;
+        bool MovableTool(EquipmentHandle item)
+        {
+            var spec=Driver?.Kit.FirstOrDefault(k=>k.key==item.assetId);
+            if(item.installed&&spec!=null&&!spec.onSurface)return false;
+            return new[]{"beaker","test_tube","test_tube_15ml","beaker_100ml","beaker_250ml","dropper","pipette","forceps","stir_rod","thermometer","pestle","flask","erlenmeyer"}.Contains(spec?.prefab??item.assetId);
+        }
         public bool CanLiftForInspection(EquipmentHandle item)
         {
             if(!item||!item.installed||item.Owner!=EquipmentGrabOwner.None||session.Phase==ExperimentPhase.Paused)return false;
-            string prefab=Driver?.Kit.FirstOrDefault(k=>k.key==item.assetId)?.prefab??item.assetId;
-            return new[]{"beaker","test_tube","test_tube_15ml","beaker_100ml","beaker_250ml","dropper","pipette","forceps","stir_rod","thermometer","pestle","flask","erlenmeyer"}.Contains(prefab);
+            return MovableTool(item);
         }
         // Cancellation restores the picked-up pose; explicit placement preserves a supported new pose.
         public bool LiftForInspection(EquipmentHandle item,Ray pointer)
         {
             if(!CanLiftForInspection(item)||IsCarrying||IsPullingBob)return false;
+            var falling=item.GetComponent<ReleasedEquipment>();var rest=falling&&falling.IsSettling?falling.SupportedPosition:item.transform.position;
             Select(item,false);if(!item.TryAcquire(EquipmentGrabOwner.Legacy))return false;
-            carryRest=item.transform.position;carryRestRotation=item.transform.rotation;
+            carryRest=rest;carryRestRotation=item.transform.rotation;
             carryingInstalled=carrying=latchedCarry=true;carryDistance=.65f;
             item.transform.position=pointer.GetPoint(carryDistance);Changed?.Invoke();return true;
         }
@@ -30,22 +37,34 @@ namespace Vlab.Product
             if(!TryPlaceSupported(Selected,out message))return false;
             carryingInstalled=false;CancelGrab();return true;
         }
+        public bool CanReleaseLoose=>Selected&&!Selected.installed&&Selected.Owner==EquipmentGrabOwner.Legacy&&carrying&&MovableTool(Selected);
+        public bool ReleaseLooseOnSurface(out string message)
+        {
+            message="Place the complete item over a clear bench surface.";
+            if(!CanReleaseLoose)return false;
+            if(!TryPlaceSupported(Selected,out message))return false;
+            var item=Selected;item.stowed=false;item.Release(EquipmentGrabOwner.Legacy);
+            item.trayPosition=item.GetComponent<ReleasedEquipment>().SupportedPosition;item.trayRotation=item.transform.rotation;
+            Selected=null;carrying=pullingBob=latchedCarry=carriedFromStorage=false;UpdateTargets();Changed?.Invoke();return true;
+        }
         bool TryPlaceSupported(EquipmentHandle item,out string message)
         {
             message="Place the complete item over a clear bench surface.";
-            if(!item||!TryVisibleBounds(item,out var bounds))return false;
+            if(!item||!MovableTool(item)||!TryVisibleBounds(item,out var bounds))return false;
             bool vessel=item.GetComponentInChildren<VlabBeaker>()||item.GetComponentInChildren<VlabFlask>();
+            var liquid=item.GetComponentInChildren<VlabFlask>();
+            if(liquid&&liquid.VolumeMl>0&&Vector3.Dot((liquid.CavityCentreAt(1)-liquid.CavityCentreAt(0)).normalized,Vector3.up)<.99999f)
+            {message="Keep the vessel upright before setting it down.";return false;}
             if(vessel&&Vector3.Dot(item.transform.rotation*Quaternion.Inverse(item.rotation)*Vector3.up,Vector3.up)<.98f)
             {message="Keep the vessel upright before setting it down.";return false;}
-            foreach(var surface in storageSurfaces.OrderBy(s=>Mathf.Abs(s.bounds.max.y-bounds.min.y)))
-            {
-                if(!ContainsRect(Footprint(surface.bounds,-.005f),Footprint(bounds))||bounds.min.y<surface.bounds.max.y-.08f||bounds.min.y>surface.bounds.max.y+.9f)continue;
-                var delta=Vector3.up*(surface.bounds.max.y+StorageLift-bounds.min.y);var placed=bounds;placed.center+=delta;placed.Expand(-.002f);
-                if(items.Any(other=>other&&other!=item&&other.gameObject.activeInHierarchy&&!other.transform.IsChildOf(item.transform)&&!item.transform.IsChildOf(other.transform)&&TryVisibleBounds(other,out var occupied)&&placed.Intersects(occupied)))continue;
-                // shortcut: settle on the existing measured bench bounds; free falling and spill simulation need calibrated vessel dynamics.
-                item.transform.position+=delta;Physics.SyncTransforms();message="";return true;
-            }
-            return false;
+            if(!TryGetRestingSupport(item,bounds,out var support,out message))return false;
+            if(bounds.min.y<support.max.y-.001f){message="Lift the tool above the surface before letting go.";return false;}
+            var swept=bounds;swept.Encapsulate(new Vector3(bounds.min.x,support.max.y+.002f,bounds.min.z));swept.Expand(-.001f);
+            if(items.Any(other=>other&&other!=item&&other.gameObject.activeInHierarchy&&!other.transform.IsChildOf(item.transform)&&!item.transform.IsChildOf(other.transform)&&TryVisibleBounds(other,out var occupied)&&swept.Intersects(occupied)))
+            {message="Move above a clear resting area before letting go.";return false;}
+            var settling=item.GetComponent<ReleasedEquipment>()??item.gameObject.AddComponent<ReleasedEquipment>();
+            if(!settling.Begin(bounds,support)){message="This mounted assembly cannot be dropped.";return false;}
+            message="";return true;
         }
         void RestoreInspected()
         {if(carryingInstalled&&Selected&&Selected.Owner==EquipmentGrabOwner.Legacy)Selected.transform.SetPositionAndRotation(carryRest,carryRestRotation);carryingInstalled=false;}

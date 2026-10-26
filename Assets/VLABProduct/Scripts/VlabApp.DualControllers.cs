@@ -11,6 +11,7 @@ namespace Vlab.Product
         void UpdateDualHands(ref ActionFrame primary)
         {
             var dual=Input.Dual;if(!dual)return;
+            if(Session?.spec.id=="C08"&&!flagshipDrag)HidePourStream();
             bool gameplay=!modal&&!changing&&(Route=="activity"||Route=="explore")&&Time.unscaledTime>=inputAfter;
             if(dualGameplay&&!gameplay){Apparatus?.CancelHandGrabs();dual.LeftControllerState.CancelUntilReleased();dual.RightControllerState.CancelUntilReleased();primary.pressed=primary.held=primary.grabPressed=false;primary.released=true;}
             dualGameplay=gameplay;
@@ -29,15 +30,16 @@ namespace Vlab.Product
                 if(!fresh||!gameplay||!state.Armed||state.Frame.lost) {if(holding)Apparatus.EndHandGrab(hand,false);continue;}
                 if(holding) {
                     var heldItem=Apparatus.HandItem(hand);
-                    if(!state.GripHeld(Profile.settings)){Apparatus.EndHandGrab(hand,true);continue;}
+                    if(!state.GripHeld(Profile.settings)){Apparatus.EndHandGrab(hand,true);if(!string.IsNullOrEmpty(Apparatus.LastPlacementFailure))Toast(LessonGuide.ExplainFailure(Apparatus.LastPlacementFailure,Vi));continue;}
                     Apparatus.UpdateHandGrab(hand,state.Pose,state.Trigger);
+                    if(Session.spec.id=="C08"&&(heldItem.assetId=="acidCup"||heldItem.assetId=="baseCup")&&state.ActionTrigger>.55f&&Apparatus.Driver is ChemistryDriver pourChemistry)
+                    {
+                        if(pourChemistry.BeginManualPour(heldItem.assetId,out _))
+                        {double moved=pourChemistry.TransferManualPour(5*Mathf.Min(Time.unscaledDeltaTime,.05f),out _);pourChemistry.StopManualPour();ShowAcceptedPour(heldItem,moved);}
+                    }
                     if(Session.spec.id=="C04"&&heldItem.assetId=="dropper"&&state.Frame.pressed&&state.ActionTrigger>.55f) {
-                        var dropper=heldItem.GetComponentInChildren<VlabDropper>();
-                        var ray=dropper?new Ray(dropper.Tip.position,dropper.EmissionDirection):state.Frame.pointer;
-                        var cup=FindSampleCup(ray);
-                        if(cup&&FlagshipOperate("dose:"+cup.assetId)) {
-                            if(Session.Phase==ExperimentPhase.Preparing)Apparatus.PrepareNext(out _);if(Session.Phase==ExperimentPhase.Preparing)Apparatus.PrepareNext(out _);if(Session.Phase==ExperimentPhase.Ready)Session.Start(out _);Save();RefreshActivity();
-                        }
+                        if(Apparatus.Driver is ChemistryDriver chemistry)
+                        {if(chemistry.BeginManualDropper(out var why)){int moved=chemistry.TransferManualDropper(out why);chemistry.StopManualDropper();if(moved>0)AdvanceDropperStages(chemistry);else ActionFailure(why);}else ActionFailure(why);}
                     }
                     if(hand==2||!dual.RightControllerState.Fresh(Time.realtimeSinceStartupAsDouble))primary.pressed=false;
                 }else if(state.Frame.grabPressed&&!flagshipDrag) {

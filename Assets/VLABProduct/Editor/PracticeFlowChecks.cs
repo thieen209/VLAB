@@ -59,6 +59,8 @@ public sealed partial class WorkbenchUpgradeProbe
     IEnumerator PracticeCase(string id)
     {
         yield return PracticeEnter(id);if(id=="P01"){yield return PracticeRecovery();yield return PracticeLayout();}yield return PracticeInstall();
+        if(id=="C04")yield return ManualDropperJourney(true);
+        if(id=="C05")yield return ManualPipetteJourney(true);
         if(id=="P03"){App.Profile.settings.hints=false;Call("RefreshActivity");rows.Add("P03 hints disabled fixture; subsequent practice uses touch controls");}
         if(id=="B03"||id=="C03")
         {
@@ -85,11 +87,10 @@ public sealed partial class WorkbenchUpgradeProbe
             else if(task.kind=="instrument")
             {
                 if(!Find("Instrument control "+task.control))yield return Tap("Compact current action");yield return Tap("Instrument control "+task.control,.08f,.02f);
-                if(task.control.StartsWith("weighInitial:")||task.control=="gasRead"||task.control=="dose:water")
+                if(task.control.StartsWith("weighInitial:")||task.control=="gasRead")
                 {
                     var partial=App.Profile.attempts.SingleOrDefault(x=>x.attemptId==App.Session.TrialId);
                     Check(id+" intermediate real reading retained",partial!=null&&partial.readings.Count>0);
-                    if(task.control=="dose:water")Check("Valid zero control is retained",partial.readings.Any(x=>x.value==0));
                 }
             }
             else if(task.kind=="image")yield return PracticeImages(id);

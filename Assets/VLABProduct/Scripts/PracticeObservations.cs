@@ -33,9 +33,11 @@ namespace Vlab.Product
             }
             else if(id=="C04")
             {
-                if(naclUnits>0)r.Add("NaClSolid",naclSolid?1:0,"presence","NaCl: cặn trắng","NaCl: white solid");
-                if(nitrateUnits>0)r.Add("NaNO3Solid",0,"presence","NaNO3: cặn trắng","NaNO3: white solid");
-                if(waterUnits>0)r.Add("waterSolid",0,"presence","Nước: cặn trắng","Water: white solid");
+                if(unitsLeft<12){r=Observe();r.detailJson=SaveState();}
+            }
+            else if(id=="C05"&&(rinseMl>0||aliquotMl>0||I<VlabFlask>("pipette").VolumeMl>0))
+            {
+                r=Observe();r.detailJson=SaveState();
             }
             else if(id=="C06")
             {
@@ -49,6 +51,7 @@ namespace Vlab.Product
             }
             else if(id=="C08")
             {
+                var cal=I<VlabCalorimeter>("cal");if(cal.AcidReceivedMl+cal.BaseReceivedMl>0)r=Observe();
                 if(acidTempSeen)r.Add("acidTemperature",V("acidC",25),"°C","Nhiệt độ acid đã đọc","Measured acid temperature");
                 if(baseTempSeen)r.Add("baseTemperature",V("baseC",25),"°C","Nhiệt độ base đã đọc","Measured base temperature");
             }

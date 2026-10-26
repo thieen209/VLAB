@@ -9,8 +9,16 @@ namespace Vlab.Product
     public sealed class BenchDisplayVisibility : MonoBehaviour
     {
         readonly List<GameObject> hidden=new List<GameObject>();
+        readonly List<BenchContrastTray> trays=new List<BenchContrastTray>();
+        public IReadOnlyList<BenchContrastTray> ContrastTrays=>trays;
         Renderer worktopRenderer;Material[] originalSurface,ownedSurface;
         public static bool NeedsLightSurface(string lesson)=>lesson=="C01"||lesson=="C02"||lesson=="C03"||lesson=="C04"||lesson=="C05"||lesson=="C06"||lesson=="B06";
+        public static bool SupportsContrastTray(string lesson)=>LessonSpec.All.ContainsKey(lesson??"")&&(lesson[0]=='C'||lesson[0]=='B');
+        public bool TryAddContrastTray(string lesson,Bounds bench,Bounds target,Bounds[] blockers,out BenchContrastTray tray)
+        {
+            tray=null;if(!SupportsContrastTray(lesson)||!BenchContrastTray.TryPlace(transform,bench,target,blockers,true,out tray))return false;
+            trays.Add(tray);return true;
+        }
         public void SetSurface(string lesson,Vector3 worktop)
         {
             RestoreSurface();if(!NeedsLightSurface(lesson))return;
@@ -22,7 +30,7 @@ namespace Vlab.Product
             foreach(var material in ownedSurface){material.color=new Color(.78f,.79f,.77f);if(material.HasProperty("_Metallic"))material.SetFloat("_Metallic",0);if(material.HasProperty("_Smoothness"))material.SetFloat("_Smoothness",.12f);}
             worktopRenderer.sharedMaterials=ownedSurface;
         }
-        void RestoreSurface(){if(worktopRenderer&&originalSurface!=null)worktopRenderer.sharedMaterials=originalSurface;if(ownedSurface!=null)foreach(var material in ownedSurface)if(material)Destroy(material);worktopRenderer=null;originalSurface=ownedSurface=null;}
+        void RestoreSurface(){foreach(var tray in trays)if(tray)BenchContrastTray.Remove(tray.gameObject);trays.Clear();if(worktopRenderer&&originalSurface!=null)worktopRenderer.sharedMaterials=originalSurface;if(ownedSurface!=null)foreach(var material in ownedSurface)if(material)Destroy(material);worktopRenderer=null;originalSurface=ownedSurface=null;}
         public static bool IsDisplayProp(string name)
         {
             foreach(var stem in new[]{"Balance-body","Balance-pan","Ready-tray","Tray-rim"})

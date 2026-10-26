@@ -170,11 +170,12 @@ public sealed class ControllerV6RegressionProbe:MonoBehaviour
         });
         foreach(bool handFirst in new[]{true,false})TestRig("F04 flagship "+handFirst,(rig,session)=>{
             foreach(var item in rig.items.ToArray()){rig.Select(item);if(!rig.InstallSelected())throw new Exception("Install "+item.assetId);}
+            if(!rig.PrepareNext(out var prepareWhy)||!rig.Driver.Operate("selectAg",out prepareWhy)||!((ChemistryDriver)rig.Driver).CanManualDropper)throw new Exception("F04 reagent-selection fixture: "+prepareWhy);
             ControllerV6RegressionChecks.Invoke(app,"ConfigureFlagshipTargets");
             var tool=rig.items.First(i=>i.assetId=="dropper");var pose=new Pose(tool.transform.position,Quaternion.identity);var collider=tool.GetComponentInChildren<Collider>();Physics.SyncTransforms();
             var ray=new Ray(collider.bounds.center-Vector3.forward,Vector3.forward);if(!collider.Raycast(ray,out var hit,3))throw new Exception("Dropper collider hit required");
             if(handFirst){rig.BeginHandGrab(1,tool,pose,tool.transform.position);ControllerV6RegressionChecks.Invoke(app,"BeginFlagship",tool,hit,new ActionFrame{pointer=ray,held=true});ControllerV6RegressionChecks.Check("F04 hand owner blocks flagship acquisition",ControllerV6RegressionChecks.Get(app,"flagshipDrag")==null&&rig.HandItem(1)==tool);}
-            else{ControllerV6RegressionChecks.Invoke(app,"BeginFlagship",tool,hit,new ActionFrame{pointer=ray,held=true});ControllerV6RegressionChecks.Check("F04 flagship owner blocks hand acquisition",!rig.BeginHandGrab(1,tool,pose,tool.transform.position));}
+            else{ControllerV6RegressionChecks.Invoke(app,"BeginFlagship",tool,hit,new ActionFrame{pointer=ray,held=true});ControllerV6RegressionChecks.Check("F04 actual flagship owner acquired before conflict",tool.Owner==EquipmentGrabOwner.Flagship&&ControllerV6RegressionChecks.Get(app,"flagshipDrag")==tool);ControllerV6RegressionChecks.Check("F04 flagship owner blocks hand acquisition",!rig.BeginHandGrab(1,tool,pose,tool.transform.position));}
         });
         ControllerV6RegressionChecks.Case("F08",()=>{
             var dual=app.Input.Dual;dual.LeftControllerState.Disconnect();dual.RightControllerState.Disconnect();var s=dual.LeftControllerState;s.Connected=true;app.View.transform.rotation=Quaternion.identity;

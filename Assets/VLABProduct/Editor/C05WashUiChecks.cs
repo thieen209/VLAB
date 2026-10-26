@@ -14,7 +14,7 @@ public sealed partial class WorkbenchUpgradeProbe
         C05ManualWashChecks.Run();Check("C05 manual volume, mark, restore and actual concentration",true);
         yield return Tap("Subject C");yield return Wait("browser");yield return Tap("Browser lesson C05");yield return Tap("Browser start");yield return Wait("readiness");yield return Tap("Readiness enter");yield return Wait("activity");
         var rig=App.Apparatus;for(int i=0;i<40&&!rig.Ready;i++){rig.Select(rig.NextInstallableItem());Check("C05 fixture installation",rig.InstallSelected());}
-        Check("C05 fixture rinse",rig.PrepareNext(out _));Check("C05 fixture transfers10mL aliquot",rig.PrepareNext(out _));
+        Check("C05 explicit assisted rinse fixture",rig.Driver.Operate("autoRinsePipette",out _));Check("C05 fixture rinse",rig.PrepareNext(out _));Check("C05 explicit assisted aliquot fixture",rig.Driver.Operate("transferAliquot",out _));Check("C05 fixture transfers10mL aliquot",rig.PrepareNext(out _));
         rows.Add("Installation/rinse/aliquot above are explicit fixtures; only wash gesture below uses queued phone input.");
         App.ShowActivity();yield return new WaitForSecondsRealtime(.4f);
         var focus=App.GetComponentsInChildren<UnityEngine.UI.Button>().FirstOrDefault(b=>b.GetComponentInChildren<TMPro.TMP_Text>()?.text=="Nhìn về bàn");if(focus)yield return Tap(focus.name);

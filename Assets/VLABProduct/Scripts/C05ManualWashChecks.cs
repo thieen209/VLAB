@@ -12,7 +12,11 @@ public static class C05ManualWashChecks
     {
         var rig=root.AddComponent<ApparatusRig>();rig.Build(session,at);
         foreach(var item in rig.items){rig.Select(item);Check(rig.InstallSelected(),"Install "+item.assetId);}
-        Check(rig.PrepareNext(out var why),why);Check(rig.PrepareNext(out why),why);return rig;
+        var chemistry=(ChemistryDriver)rig.Driver;
+        if(chemistry.CompletedPipetteOperations<1)Check(chemistry.Operate("autoRinsePipette",out var rinseAssist),"Explicit rinse fixture: "+rinseAssist);
+        Check(rig.PrepareNext(out var why),why);
+        if(chemistry.CompletedPipetteOperations<2)Check(chemistry.Operate("transferAliquot",out var aliquotAssist),"Explicit aliquot fixture: "+aliquotAssist);
+        Check(rig.PrepareNext(out why),why);return rig;
     }
     static T Item<T>(ApparatusRig rig,string key) where T:Component=>rig.items.First(i=>i.assetId==key).GetComponentInChildren<T>();
     static void Aim(VlabWashBottle wash,VlabVolumetricFlask flask)

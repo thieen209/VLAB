@@ -135,7 +135,7 @@ public static class BiologyIntegrationChecks
             movable.transform.position=c.rig.Worktop+new Vector3(.85f,.2f,.3f);float placedX=movable.transform.position.x;
             C(c.rig.ReleaseInspected(out _),"Movable tool can settle on a clear supported bench location");
             C(movable.Owner==EquipmentGrabOwner.None&&Math.Abs(movable.transform.position.x-placedX)<.0001f&&Vector3.Distance(original,movable.transform.position)>.2f,"Normal release retains the new supported location and releases ownership");
-            var placed=movable.transform.position;C(c.rig.LiftForInspection(movable,new Ray(placed+Vector3.up,Vector3.down)),"Tool can be picked up again");c.rig.CancelGrab();C(Vector3.Distance(placed,movable.transform.position)<.0001f,"Cancellation returns to the last supported pickup location");
+            var placed=movable.GetComponent<ReleasedEquipment>().SupportedPosition;C(c.rig.LiftForInspection(movable,new Ray(placed+Vector3.up,Vector3.down)),"Tool can be picked up again");c.rig.CancelGrab();C(Vector3.Distance(placed,movable.transform.position)<.0001f,"Cancellation returns to the last supported pickup location");
             c.Prep();c.Prep();C(!c.rig.PrepareNext(out _),"B01 panel cannot mount and close the slide automatically");
             var biology=(BiologyDriver)c.driver;C(!biology.PlaceSlideAtCurrentPose(out _),"B01 rejects a slide still on the tray");
             var seat=c.Handle("slide").GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_Base_SOCKET",StringComparison.Ordinal));

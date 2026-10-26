@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Vlab.Product;
@@ -24,6 +25,10 @@ public static class ChemistryIntegrationChecks
     {
         if(!Application.isPlaying)throw new InvalidOperationException("Run these apparatus integration checks in Play mode so the delivered SDK Awake geometry initialization has executed.");
         evidence.Clear();bool success=true;
+        // Isolate synchronous SDK fixtures from the loaded room, then restore it before native UI journeys.
+        var foreign=UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).Where(c=>c.enabled).ToArray();
+        foreach(var collider in foreign)collider.enabled=false;
+        try {
         foreach(string id in new[]{"C01","C02","C03","C04","C05","C06","C07","C08"})
         {
             var root=new GameObject("Chemistry integration "+id);
@@ -55,8 +60,8 @@ public static class ChemistryIntegrationChecks
                         Assert(!rig.Driver.CanRecord(out _),"C03 wet electrode cannot be recorded as dry mass");Action(rig,"off");Action(rig,"rinseCathode");Action(rig,"dryCathode");Action(rig,"weighFinal");break;
                     case "C04":
                         Prepare(rig);Assert(!rig.Driver.Operate("dose:water",out _),"C04 rejects cup click without selected reagent");
-                        Action(rig,"selectAg");Action(rig,"dose:water");Assert(!rig.Driver.Operate("dose:nitrate",out _),"C04 selection clears after transfer");Action(rig,"selectAg");Action(rig,"dose:nitrate");Prepare(rig);
-                        Action(rig,"selectAg");Action(rig,"dose:nacl");
+                        Action(rig,"assistDose:water");Assert(!rig.Driver.Operate("dose:nitrate",out _),"C04 selection clears after transfer");Action(rig,"assistDose:nitrate");Prepare(rig);
+                        Action(rig,"assistDose:nacl");
                         var sediment=rig.items.Find(x=>x.assetId=="solidNaCl").GetComponentInChildren<VlabPrecipitate>();
                         Assert(!sediment.QualitativePresent&&!rig.Driver.CanRecord(out _),"C04 accepted dose does not instantly reveal sediment or enable recording");
                         Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,1);
@@ -65,7 +70,7 @@ public static class ChemistryIntegrationChecks
                         Assert(Math.Abs(sediment.VisualLevel-.8f)<1e-6&&rig.Driver.CanRecord(out _),"C04 transition completes only after three active seconds");
                         Assert(rig.Driver.Observe().Get("NaClSolid")==1&&rig.Driver.Observe().Get("NaNO3Solid")==0,"C04 qualitative positive and controls");break;
                     case "C05":
-                        Prepare(rig);Prepare(rig);Action(rig,"waterMark");Action(rig,"invert");Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,2);
+                        Assert(!rig.PrepareNext(out _),"C05 preparation cannot silently rinse or transfer");Action(rig,"autoRinsePipette");Prepare(rig);Action(rig,"transferAliquot");Prepare(rig);Action(rig,"waterMark");Action(rig,"invert");Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,2);
                         Assert(Math.Abs(rig.Driver.Observe().Get("concentration")-.2)<1e-8,"C05 10 mL 1 M aliquot diluted to actual50 mL");
                         Action(rig,"serial");Action(rig,"waterMark");Action(rig,"invert");Assert(Math.Abs(rig.Driver.Observe().Get("concentration")-.02)<1e-8,"C05 serial sample conserves measured aliquot solute");break;
                     case "C06":
@@ -76,7 +81,10 @@ public static class ChemistryIntegrationChecks
                         Prepare(rig);Prepare(rig);Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,300);
                         var gas=rig.Driver.Observe();Assert(gas.Get("gasVolume")<=gas.Get("gasLimit")+1e-5,"C07 syringe collection respects limiting moles");break;
                     case "C08":
-                        Prepare(rig);Action(rig,"acidT");Action(rig,"baseT");Prepare(rig);Prepare(rig);Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,20);
+                        Prepare(rig);Action(rig,"acidT");Action(rig,"baseT");Prepare(rig);Prepare(rig);
+                        Assert(rig.Driver.Observe().Get("receivedVolume")==0&&rig.Driver.Observe().Get("acidRemaining")==25&&rig.Driver.Observe().Get("baseRemaining")==25,"C08 primary preparation preserves both finite source cups and an empty receiver");
+                        Assert(session.Start(out startWhy),id+" start "+startWhy);Tick(session,1);Assert(rig.Driver.Observe().Get("releasedHeat")==0&&!rig.Driver.CanRecord(out _),"C08 empty running calorimeter invents no reaction or record");
+                        Action(rig,"assistPourBoth");Action(rig,"observeCal");Assert(!rig.Driver.CanRecord(out _),"C08 actual doses require twenty seconds of immersed observation");Tick(session,20);
                         var thermal=rig.Driver.Observe();Assert(Math.Abs(thermal.Get("releasedHeat")-712.5*(1-Math.Exp(-10)))<1e-6,"C08 SDK actual25mL0.5M heat with57000J/mol");
                         Assert(thermal.Get("temperature")>thermal.Get("initialTemperature"),"C08 real calorimeter thermal state heats");break;
                 }
@@ -88,6 +96,7 @@ public static class ChemistryIntegrationChecks
             catch(Exception ex){success=false;evidence.Add("FAIL "+id+" "+ex);}
             finally {UnityEngine.Object.DestroyImmediate(root);}
         }
+        } finally {foreach(var collider in foreign)if(collider)collider.enabled=true;Physics.SyncTransforms();}
         Directory.CreateDirectory("Evidence/Chemistry");File.WriteAllLines("Evidence/Chemistry/integration-checks.txt",evidence);Debug.Log("Chemistry integration: "+(success?"PASS":"FAIL")+" (see Evidence/Chemistry/integration-checks.txt)");
         if(!success)throw new Exception("Chemistry apparatus checks failed; inspect the evidence file.");
     }

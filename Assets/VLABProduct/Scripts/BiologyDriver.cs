@@ -289,7 +289,7 @@ namespace Vlab.Product
                 var m=Instrument<VlabMicroscope>("microscope");s.focus=(float)V("focus",s.focus);
                 double objective=V("objective",s.objective==0?4:s.objective==1?10:40);s.objective=objective>=25?2:objective>=7?1:0;
                 if(session.parameters.ContainsKey("objective"))session.parameters["objective"]=s.objective==0?4:s.objective==1?10:40;
-                if(Id=="B01"&&m.ObjectiveIndex!=s.objective&&b01SelectedUv.HasValue)b01ViewCenter=b01SelectedUv.Value;
+                if(m.ObjectiveIndex!=s.objective&&b01SelectedUv.HasValue)b01ViewCenter=b01SelectedUv.Value;
                 Check(m.TrySetFocus(s.focus)&&m.TrySetObjective(s.objective),"Microscope mechanical setting rejected.");ShowView();
             }
             if(Id=="B02"&&session.parameters.ContainsKey("water"))session.parameters["water"]=s.waterAdded?1:0;
@@ -367,8 +367,9 @@ namespace Vlab.Product
             return Id=="B02"?Instrument<VlabPlasmolysis>("specimen").CurrentTexture:Image(Id=="B08"?"_Atlas_VIS":"_Texture_VIS");
         }
         public bool HasB01Presentation=>Id=="B01"&&On("microscope");
-        public int MicroscopeObjectiveIndex=>HasB01Presentation?Instrument<VlabMicroscope>("microscope").ObjectiveIndex:0;
-        public float MicroscopeFocusMm=>HasB01Presentation?Instrument<VlabMicroscope>("microscope").FocusMm:6.5f;
+        public bool HasMicroscopePresentation=>(Id=="B01"||Id=="B02"||Id=="B08")&&On("microscope");
+        public int MicroscopeObjectiveIndex=>HasMicroscopePresentation?Instrument<VlabMicroscope>("microscope").ObjectiveIndex:0;
+        public float MicroscopeFocusMm=>HasMicroscopePresentation?Instrument<VlabMicroscope>("microscope").FocusMm:6.5f;
         public float MicroscopeFocusQuality=>Mathf.Exp(-Mathf.Pow((MicroscopeFocusMm-6.5f)/1.2f,2));
         // Relative field cropping is illustrative, not a pixel-to-micrometre calibration.
         public static Rect B01InspectionCrop(int objectiveIndex,Vector2 center)
@@ -383,7 +384,26 @@ namespace Vlab.Product
             cell=value.r;structure=value.g;return cell>=1&&cell<=64&&structure>=1&&structure<=6;
         }
         public override Rect InspectionUv(string key)
-        {if(Id=="B01")return B01InspectionCrop(MicroscopeObjectiveIndex,b01ViewCenter);if(Id!="B08")return new Rect(0,0,1,1);int field=(int)V("field",1);return field==2?new Rect(0,0,.5f,1):field==3?new Rect(.5f,0,.5f,1):new Rect(0,0,1,1);}
+        {
+            if(!HasMicroscopePresentation)return new Rect(0,0,1,1);
+            Rect field=MicroscopeField();Vector2 center=new Vector2((b01ViewCenter.x-field.x)/field.width,(b01ViewCenter.y-field.y)/field.height);
+            Rect crop=B01InspectionCrop(MicroscopeObjectiveIndex,center);
+            Rect view=new Rect(field.x+crop.x*field.width,field.y+crop.y*field.height,crop.width*field.width,crop.height*field.height);
+            var source=key=="microscope"?Inspection(key):null;
+            if(!source)return view;
+            float aspect=(float)source.width/source.height,width=Mathf.Min(view.width,view.height/aspect),height=width*aspect;
+            Vector2 middle=new Vector2(Mathf.Clamp(b01ViewCenter.x,field.xMin+width*.5f,field.xMax-width*.5f),Mathf.Clamp(b01ViewCenter.y,field.yMin+height*.5f,field.yMax-height*.5f));
+            return new Rect(middle.x-width*.5f,middle.y-height*.5f,width,height);
+        }
+        Rect MicroscopeField()
+        {int field=Id=="B08"?(int)V("field",1):1;return field==2?new Rect(0,0,.5f,1):field==3?new Rect(.5f,0,.5f,1):new Rect(0,0,1,1);}
+        // View motion uses source UVs, not a calibrated stage-travel measurement.
+        public void PanMicroscopeView(Vector2 direction)
+        {
+            if(!HasMicroscopePresentation||!float.IsFinite(direction.x)||!float.IsFinite(direction.y))return;
+            Rect crop=InspectionUv("microscope"),field=MicroscopeField();Vector2 center=crop.center+Vector2.Scale(direction,new Vector2(crop.width,crop.height))*.35f;
+            b01ViewCenter=direction==Vector2.zero?field.center:new Vector2(Mathf.Clamp(center.x,field.xMin+crop.width*.5f,field.xMax-crop.width*.5f),Mathf.Clamp(center.y,field.yMin+crop.height*.5f,field.yMax-crop.height*.5f));
+        }
         public override bool PointOnInspection(string key,Vector2 uv,out string message)
         {
             message="";if(!s.mounted||Sharpness()<.7)return Require(false,"Focus mounted specimen first.",out message);
@@ -392,12 +412,12 @@ namespace Vlab.Product
                 if(!Instrument<VlabPlasmolysis>("specimen").TryGetCell(uv,out int id))return Require(false,"Point inside a source cell.",out message);
                 s.selectedCell=id;var cell=s.cells.FirstOrDefault(c=>c.id==id);
                 if(cell==null){if(s.baselineLocked)return Require(false,"Cell outside locked 20–30-cell field.",out message);if(s.cells.Count>=30)return Require(false,"Track at most 30 cells.",out message);s.cells.Add(new BiologyCellAnswer{id=id});}
-                message="Cell "+id+" selected. Classify visible state; selection alone does not count it.";return true;
+                b01SelectedUv=uv;message="Cell "+id+" selected. Classify visible state; selection alone does not count it.";return true;
             }
             if(Id=="B08")
             {
                 if(!Instrument<VlabMitosisAtlas>("specimen").TryResolve(uv,out int id,out _,out _))return Require(false,"Point inside a source atlas cell.",out message);
-                s.selectedCell=id;var prior=s.cells.FirstOrDefault(c=>c.id==id);message="Global cell "+id+(prior==null?" selected; choose stage or unclear.":" already classified as "+prior.answer+". Choosing again edits this ID without duplicate counting.");return true;
+                b01SelectedUv=uv;s.selectedCell=id;var prior=s.cells.FirstOrDefault(c=>c.id==id);message="Global cell "+id+(prior==null?" selected; choose stage or unclear.":" already classified as "+prior.answer+". Choosing again edits this ID without duplicate counting.");return true;
             }
             if(Id=="B01")
             {
@@ -473,7 +493,7 @@ namespace Vlab.Product
                     if(Id=="B01"&&objective==2)Check(s.prep>=4&&(s.objective==1||s.objective==2),"Complete focused observation at 10× before changing to 40×.");
                     if(objective>0)Check(s.mounted&&Sharpness()>=.7,"Find and focus mounted specimen at low power first.");
                     Check(Instrument<VlabMicroscope>("microscope").TrySetObjective(objective),"Objective change rejected.");s.objective=objective;
-                    if(Id=="B01"&&b01SelectedUv.HasValue)b01ViewCenter=b01SelectedUv.Value;
+                    if(b01SelectedUv.HasValue)b01ViewCenter=b01SelectedUv.Value;
                     if(session.parameters.ContainsKey("objective"))session.parameters["objective"]=objective==0?4:objective==1?10:40;return true;
                 }
                 if(id.StartsWith("structure:",StringComparison.Ordinal)&&Id=="B01")
@@ -502,7 +522,7 @@ namespace Vlab.Product
                 }
                 if(Id=="B08")
                 {
-                    if(id=="field1"||id=="field2"||id=="field3"){session.parameters["field"]=id[id.Length-1]-'0';return true;}
+                    if(id=="field1"||id=="field2"||id=="field3"){session.parameters["field"]=id[id.Length-1]-'0';b01ViewCenter=MicroscopeField().center;return true;}
                     if(id.StartsWith("stage:",StringComparison.Ordinal))
                     {
                         int index=Index(id,Stages.Length);Check(s.selectedCell>=1&&s.selectedCell<=100,"Select actual source cell.");

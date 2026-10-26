@@ -60,6 +60,24 @@ public sealed class Qa016CoreProbe:MonoBehaviour
     }
     void WorldPress(string key,string part="")
     {var item=App.Apparatus.items.Single(x=>x.assetId==key);var hit=ModelHit(item,part);Call("BeginFlagship",item,hit,new ActionFrame{pressed=true,pointer=new Ray(hit.point+hit.normal*.5f,-hit.normal)});}
+    IEnumerator QualitativeVisualFixture()
+    {
+        // These component/rendering receipts use explicit assistance. Manual phone
+        // acceptance is covered separately by ManualDropperJourney.
+        rows.Add("C04 visual fixture: explicit assisted positioning through accepted tip/source transfer; not manual-input coverage.");
+        var rig=App.Apparatus;
+        void Require(string label,bool success){Check(label,success);if(!success)throw new Exception(label);}
+        Require("C04 visual fixture labels samples",rig.PrepareNext(out _));
+        foreach(string key in new[]{"water","nitrate","nacl"})
+        {
+            Require("C04 explicit assisted visual dose "+key,rig.Driver.Operate("assistDose:"+key,out _));
+            Require("C04 visual fixture has exactly two accepted simulated drops "+key,((ChemistryDriver)rig.Driver).QualitativeDoseUnits(key)==2);
+            if(key=="nitrate"||key=="nacl")Require("C04 visual fixture validates completed preparation",rig.PrepareNext(out _));
+        }
+        var r=rig.Driver.Observe();Require("C04 visual fixture conserves twelve qualitative units",r.Get("sourceDrops")==6&&r.Get("loadedDrops")==0&&r.Get("waterDrops")==2&&r.Get("nitrateDrops")==2&&r.Get("naclDrops")==2);
+        Require("C04 assisted fixture starts observation after accepted doses",App.Session.Start(out _));yield return new WaitForSecondsRealtime(3.2f);
+        Require("C04 visual caption is gated by real positive and two negative controls",rig.Driver.CanRecord(out _)&&rig.Driver.Observe().Get("NaClSolid")==1&&rig.Driver.Observe().Get("NaNO3Solid")==0&&rig.Driver.Observe().Get("waterSolid")==0);
+    }
     IEnumerator FlagshipComponents(string id)
     {
         Call("ShowHome");yield return new WaitForSecondsRealtime(.4f);yield return Press("Subject "+id[0]);yield return Press("Browser lesson "+id);yield return Press("Browser start");yield return Press("Readiness enter");float limit=Time.realtimeSinceStartup+45;while(App.Route!="activity"&&Time.realtimeSinceStartup<limit)yield return null;
@@ -77,16 +95,9 @@ public sealed class Qa016CoreProbe:MonoBehaviour
         if(id=="C04")
         {
             WorldPress("water");Check("C04 wrong direct cup action does not prepare or create result",App.Session.Operation==0&&App.Profile.attempts.All(a=>a.experimentId!="C04"));
-            var testCup=App.Apparatus.items.Single(x=>x.assetId=="water");ApparatusRig.TryVisibleBounds(testCup,out var testBounds);var rimRay=new Ray(testBounds.center+Vector3.up*.6f,Vector3.down);Check("C04 open cup mouth is a drop target",Call("FindSampleCup",rimRay) as EquipmentHandle==testCup);var occluder=GameObject.CreatePrimitive(PrimitiveType.Cube);occluder.transform.position=rimRay.GetPoint(.2f);occluder.transform.localScale=Vector3.one*.1f;Physics.SyncTransforms();Check("C04 refuses drop through intervening solid",Call("FindSampleCup",rimRay)==null);Destroy(occluder);yield return null;
-
-            foreach(string key in new[]{"water","nitrate","nacl"})
-            {
-                WorldPress("reagent");WorldPress("dropper");var cup=App.Apparatus.items.Single(x=>x.assetId==key);ApparatusRig.TryVisibleBounds(cup,out var b);var ray=new Ray(b.center+Vector3.up*.5f,Vector3.down);
-                Call("UpdateFlagshipDrag",new ActionFrame{pointer=ray,held=true});Check("C04 actual dropper moves during learner drag "+key,Vector3.Distance(Field<EquipmentHandle>("flagshipDrag").transform.position,Field<Vector3>("flagshipRest"))>.01f);Call("UpdateFlagshipDrag",new ActionFrame{pointer=ray,released=true});
-                Check("C04 dropper returns to supported rest "+key,!Field<EquipmentHandle>("flagshipDrag"));
-            }
-            App.Session.Advance(3);var solid=App.Apparatus.items.Single(x=>x.assetId=="solidNaCl").GetComponent<VlabPrecipitate>();Check("C04 illustrative precipitate becomes visible after active transition",solid.QualitativePresent&&solid.Sediment.enabled&&solid.Sediment.bounds.size.y>.002f);rows.Add("C04 sediment bounds="+solid.Sediment.bounds+" material="+solid.Sediment.sharedMaterial.name);
-            Check("C04 actual three transfers start observation",App.Session.Phase==ExperimentPhase.Running);App.Session.Advance(4);Check("C04 own controlled observations can record",App.Session.Authority.CanRecord(out _));Call("RecordMeasurement");Check("C04 recorded actual precipitate and two controls",App.Profile.attempts.Last().readings.Single(r=>r.key=="NaClSolid").value==1&&App.Profile.attempts.Last().readings.Single(r=>r.key=="waterSolid").value==0);
+            C04ManualDropperChecks.Run();Check("C04 current actual-tip geometry regression",true);yield return QualitativeVisualFixture();
+            var solid=App.Apparatus.items.Single(x=>x.assetId=="solidNaCl").GetComponent<VlabPrecipitate>();Check("C04 illustrative precipitate becomes visible after active transition",solid.QualitativePresent&&solid.Sediment.enabled&&solid.Sediment.bounds.size.y>.002f);rows.Add("C04 sediment bounds="+solid.Sediment.bounds+" material="+solid.Sediment.sharedMaterial.name);
+            Call("RecordMeasurement");Check("C04 assisted visual fixture records actual precipitate and two controls",App.Profile.attempts.Last().readings.Single(r=>r.key=="NaClSolid").value==1&&App.Profile.attempts.Last().readings.Single(r=>r.key=="waterSolid").value==0);
         }
         else if(id=="B01")
         {
@@ -122,11 +133,11 @@ public sealed class Qa016CoreProbe:MonoBehaviour
             Call("ShowHome");yield return new WaitForSecondsRealtime(.3f);yield return Press("Subject "+id[0]);yield return Press("Browser lesson "+id);yield return Press("Browser start");yield return Press("Readiness enter");float limit=Time.realtimeSinceStartup+45;while(App.Route!="activity"&&Time.realtimeSinceStartup<limit)yield return null;if(App.Session?.spec.id!=id)throw new Exception("Album entry "+id);
             var work=App.Apparatus.Worktop;Field<Transform>("origin").position=work+new Vector3(-.25f,1.15f,-2.75f);App.Input.FocusAtWorldTarget(work+new Vector3(0,.55f,.12f));App.View.fieldOfView=65;yield return new WaitForSecondsRealtime(.5f);yield return AlbumFrame((n++).ToString("00")+"-"+id+"-room","Toàn cảnh phòng "+id+", dụng cụ chuẩn bị sẵn",true);
             var item=App.Apparatus.items.Single(x=>x.assetId==(id=="P01"?"pendulum":id=="C04"?"nacl":id=="B01"?"microscope":"gears"));AlbumFit(item,true);yield return null;yield return AlbumFrame((n++).ToString("00")+"-"+id+"-setup","Bộ dụng cụ "+id+" trước thao tác; model kích thước gốc",true);
-            if(id=="C04")foreach(string key in new[]{"water","nitrate","nacl"}){WorldPress("reagent");WorldPress("dropper");ApparatusRig.TryVisibleBounds(App.Apparatus.items.Single(x=>x.assetId==key),out var b);var ray=new Ray(b.center+Vector3.up*.5f,Vector3.down);Call("UpdateFlagshipDrag",new ActionFrame{pointer=ray,held=true});Call("UpdateFlagshipDrag",new ActionFrame{pointer=ray,released=true});yield return null;}
+            if(id=="C04")yield return QualitativeVisualFixture();
             if(id=="M01"){WorldPress("gears","Gear36");WorldPress("motor");yield return new WaitForSecondsRealtime(1);}
             if(id=="P01"){WorldPress("stand");WorldPress("pendulum");WorldPress("pendulum");var hit=ModelHit(item);App.Apparatus.BeginGrab(item,new Ray(hit.point+hit.normal*.5f,-hit.normal));var ray=new Ray(App.View.transform.position,App.Apparatus.Pivot+new Vector3(.12f,-.45f,0)-App.View.transform.position);App.Apparatus.UpdateGrab(new ActionFrame{pointer=ray,held=true});App.Apparatus.UpdateGrab(new ActionFrame{pointer=ray,released=true});yield return new WaitForSecondsRealtime(.5f);}
             if(id=="B01"){WorldPress("onion");WorldPress("coverslip");WorldPress("slide");}
-            AlbumFit(item,true);yield return null;yield return AlbumFrame((n++).ToString("00")+"-"+id+"-action",id=="C04"?"NaCl có AgCl, hai đối chứng không cặn; mô phỏng định tính":id=="M01"?"Truyền động đang chạy theo góc trục SDK":id=="P01"?"Con lắc đang dao động sau kéo thả":"Lam biểu bì đã lắp; chưa hoàn thành phân loại tế bào",true);
+            AlbumFit(item,true);yield return null;yield return AlbumFrame((n++).ToString("00")+"-"+id+"-action",id=="C04"?"Thiết lập hỗ trợ: NaCl có AgCl, hai đối chứng không cặn; giọt mô phỏng chưa hiệu chuẩn thể tích":id=="M01"?"Truyền động đang chạy theo góc trục SDK":id=="P01"?"Con lắc đang dao động sau kéo thả":"Lam biểu bì đã lắp; chưa hoàn thành phân loại tế bào",true);
             AlbumFit(item,false);yield return null;yield return AlbumFrame((n++).ToString("00")+"-"+id+"-detail","Cận cảnh dụng cụ/hiện tượng "+id+"; chưa chứng nhận điện thoại thật",true);object[] uiAim={item,new Bounds(),true};typeof(VlabApp).GetMethod("TryFocusBounds",Private).Invoke(App,uiAim);Call("FitFocusBounds",(Bounds)uiAim[1],new Rect(.44f,.08f,.52f,.72f));yield return null;yield return AlbumFrame((n++).ToString("00")+"-"+id+"-ui","UI bình thường "+id+", đúng trạng thái trong ảnh",false);
         }
         rows.Add("ALBUM actual scene/UI renders; scripted Editor state setup is not native Android touch acceptance.");

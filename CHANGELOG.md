@@ -1,5 +1,12 @@
 # Nhật ký thay đổi VLAB
 
+## 0.1.20 / code41 — 2026-10-26
+
+- Hiện logo và dòng Made by Ngựa Mán team with love khi khởi động; cửa sổ quy trình riêng và khả năng nhìn gần hơn.
+- Thị kính tròn nền đen với chỉnh tiêu cự/vật kính, ẩn bảng điều khiển; ghi và lưu nét vẽ trong sổ ngoại tuyến.
+- Khay tương phản thật cho dụng cụ phù hợp, tính cả nắp mở khi bố trí; đặt dụng cụ rời có trọng lực và kiểm tra mặt đỡ/vật cản.
+- C05 hút/chuyển bằng pipette, C04 nhỏ giọt, C08 rót từng phần vào cốc cách nhiệt: lượng nguồn hữu hạn, chặn nắp/vật cản và kiểm tra thời gian đo.
+- [Bằng chứng và giới hạn](docs/LearnerExperience/REPORT.md). Còn thao tác hỗ trợ; chưa xác minh Android/Cardboard/BLE thật ở lượt này.
 ## 0.1.19 / code40 — 2026-10-26
 
 - C05: giữ/kéo bình rửa qua cổ bình mở để thêm nước dần; thả dừng dòng.

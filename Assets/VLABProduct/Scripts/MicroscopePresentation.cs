@@ -12,7 +12,7 @@ namespace Vlab.Product
         public static string Notice(bool vi)=>vi?"Sơ đồ minh họa: phóng to/lấy nét, chưa có thước hiệu chuẩn.":"Illustrative schematic: zoom/focus only. No calibrated scale.";
         public void Bind(RawImage target,BiologyDriver source)
         {
-            if(!target||source==null||!source.HasB01Presentation)return;
+            if(!target||source==null||!source.HasMicroscopePresentation)return;
             image=target;driver=source;
             if(!focusMaterial)
             {
@@ -24,10 +24,12 @@ namespace Vlab.Product
         void LateUpdate(){RefreshNow();}
         public void RefreshNow()
         {
-            if(!image||driver==null||!focusMaterial||!driver.HasB01Presentation)return;
+            if(!image||driver==null||!focusMaterial||!driver.HasMicroscopePresentation)return;
             Rect uv=driver.InspectionUv("microscope");image.uvRect=uv;
-            BlurRadiusSourcePixels=(1-driver.MicroscopeFocusQuality)*36*uv.width;
+            BlurRadiusSourcePixels=(1-driver.MicroscopeFocusQuality)*36*Mathf.Max(uv.width,uv.height);
             focusMaterial.SetFloat("_BlurPixels",BlurRadiusSourcePixels);focusMaterial.SetVector("_UvBounds",new Vector4(uv.xMin,uv.yMin,uv.xMax,uv.yMax));
+            var wall=driver.PlasmolysisWallTexture;focusMaterial.SetTexture("_WallTex",wall);focusMaterial.SetFloat("_HasWall",wall?1:0);
+            var selection=image.GetComponent<InstrumentInspection>();focusMaterial.SetFloat("_Circular",selection&&selection.Circular?1:0);
         }
         void OnDestroy(){if(image&&image.material==focusMaterial)image.material=previousMaterial;if(focusMaterial)Destroy(focusMaterial);}
 #if UNITY_EDITOR

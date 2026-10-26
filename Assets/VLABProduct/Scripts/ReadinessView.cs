@@ -82,8 +82,8 @@ namespace Vlab.Product
             Tile(ui,box,412,"2","Teleport",L(vi,"Trỏ và chọn","Point and select"),L(vi,"Trỏ vào nút muốn chọn.\nChạm hoặc bấm nút chọn.","Point at a button.\nClick, tap or trigger."),accent);
             Tile(ui,box,792,"3","Pause",L(vi,"Tạm dừng khi cần","Pause when needed"),L(vi,"Quay lại để tạm dừng.\nCăn lại nếu bảng lệch.","Back opens pause.\nRecenter if needed."),accent);
             ui.Rule(box,32,640,1136,1,VlabUi.Stroke);
-            ui.Text(box,L(vi,"Chưa rõ? Chúng mình có hướng dẫn.","Need a hand? Guidance is always available."),32,674,520,48,22,VlabUi.Secondary);
-            ui.Button(box,L(vi,"Trợ giúp","Help"),616,662,230,70,()=>activate(help)).name="Readiness help";
+            ui.Text(box,L(vi,"Đọc quy trình, rồi tự tay thực hiện.","Read the procedure, then try it yourself."),32,674,520,48,22,VlabUi.Secondary);
+            ui.Button(box,L(vi,"Quy trình đầy đủ","Full procedure"),578,662,268,70,()=>activate(help)).name="Readiness help";
             ui.Button(box,L(vi,"Vào trạm","Enter station"),872,662,296,70,()=>activate(enter),accent).name="Readiness enter";
             return box;
         }

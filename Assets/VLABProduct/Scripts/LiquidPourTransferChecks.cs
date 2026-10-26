@@ -28,6 +28,8 @@ public static class LiquidPourTransferChecks
             a.transform.position+=b.transform.TransformPoint(mouthLocal)+Vector3.up*.12f-spout.position;
             source.Add(25);target.Add(90);
             double Move(double amount)=>LiquidPourTransfer.Transfer(s,t,amount,out _);
+            Check(Math.Abs(LiquidPourTransfer.AllowedVolume(s,t,20,out _)-10)<1e-8,"Read-only preflight caps the allowed dose.");
+            Check(source.VolumeMl==25&&target.VolumeMl==90,"Read-only geometry preflight does not mutate either volume.");
             Check(Move(double.NaN)==0,"Invalid volume must not mutate state.");
             t.open=false;Check(Move(5)==0,"Closed receiver must reject flow.");t.open=true;
             a.transform.position+=Vector3.right*.08f;Check(Move(5)==0,"A stream outside the mouth must not transfer.");a.transform.position-=Vector3.right*.08f;

@@ -34,6 +34,18 @@ namespace Vlab.Product
             check("Actual VR pointer ray types exactly one character into the authored page",body.text==before+" ");
             app.Input.Controller.Submit(new ControllerSignal{sequence=20002,receivedAt=Time.realtimeSinceStartupAsDouble,orientation=Quaternion.LookRotation(Vector3.up,Vector3.forward)});yield return null;yield return null;
             capture("45-ban-phim-ghi-chep-VI");yield return Press(app,"Notebook key Done");yield return Press(app,"Journal note save");
+            yield return Press(app,"Journal note draw");yield return Press(app,"Journal ink pen");
+            var board=app.GetComponentsInChildren<VlabWhiteboard>().Single(ink=>ink.isActiveAndEnabled&&ink.name=="Journal note ink");
+            var note=app.Profile.notebookPages.Single(page=>page.body==body.text);int beforeStrokes=note.inkStrokes.Count;Canvas.ForceUpdateCanvases();
+            for(int i=0;i<2;i++)
+            {
+                var normalized=i==0?new Vector2(.25f,.3f):new Vector2(.65f,.7f);var position=board.rectTransform.TransformPoint(board.rectTransform.rect.min+Vector2.Scale(normalized,board.rectTransform.rect.size));var pointing=Quaternion.LookRotation(position-app.View.transform.position);
+                check("VR notebook ink accepts a released pointing sample "+i,app.Input.Controller.Submit(new ControllerSignal{sequence=(uint)(20100+i*2),receivedAt=Time.realtimeSinceStartupAsDouble,orientation=pointing}));yield return null;yield return null;
+                check("VR notebook ink accepts a fresh selection edge "+i,app.Input.Controller.Submit(new ControllerSignal{sequence=(uint)(20101+i*2),receivedAt=Time.realtimeSinceStartupAsDouble,orientation=pointing,select=true}));yield return null;yield return null;
+            }
+            app.Input.Controller.Submit(new ControllerSignal{sequence=20104,receivedAt=Time.realtimeSinceStartupAsDouble,orientation=Quaternion.LookRotation(Vector3.up,Vector3.forward)});yield return null;yield return null;
+            check("Actual VR pointer draws two joined points directly into the current page",note.inkStrokes.Count==beforeStrokes+1&&note.inkStrokes.Last().points.Count==2&&note.body==before+" ");
+            capture("45a-so-ve-VR");yield return Press(app,"Journal note save");yield return Press(app,"Journal note write");
             var back=app.GetComponentsInChildren<Button>().Single(button=>button.isActiveAndEnabled&&button.GetComponentInChildren<TextMeshProUGUI>()?.text=="‹ Quay lại");yield return new WaitForSecondsRealtime(.3f);back.onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);
             check("VR keyboard returns safely to Home after saved writing",app.Route=="home");
         }

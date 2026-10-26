@@ -26,7 +26,7 @@ public static class StepFocusChecks
                 Call("FocusStation");check("Explicit station focus preserves standing eye height",Mathf.Abs(camera.transform.position.y-position.y)<.0001f);
                 check("Explicit phone framing stays within vertical FOV 70 to 120",camera.fieldOfView>=70&&camera.fieldOfView<=120);
                 var focused=camera.transform.position;var aimed=camera.transform.rotation;
-                Call("ZoomPhone",-1000f);check("Phone zoom clamps to 70 without moving learner",Mathf.Abs(camera.fieldOfView-70)<.001f&&camera.transform.position==focused&&camera.transform.rotation==aimed);
+                Call("ZoomPhone",-1000f);check("Phone close inspection reaches 35 degrees without moving learner",Mathf.Abs(camera.fieldOfView-35)<.001f&&camera.transform.position==focused&&camera.transform.rotation==aimed);
                 Call("ZoomPhone",1000f);check("Phone zoom clamps to 120 without moving learner",Mathf.Abs(camera.fieldOfView-120)<.001f&&camera.transform.position==focused&&camera.transform.rotation==aimed);
             }
             check("Camera controls preserve native apparatus placement and scale",item.transform.position==itemPosition&&item.transform.localScale==itemScale);

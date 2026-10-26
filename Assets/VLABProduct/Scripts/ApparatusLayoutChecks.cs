@@ -149,7 +149,12 @@ public static class ApparatusLayoutChecks
                 var gaugeItem=rig.items.Single(item=>item.assetId=="gauge");Vector3 gaugePosition=gaugeItem.transform.position;gaugeItem.transform.position+=Vector3.right*.005f;
                 check("M06 gauge validation rejects detached tip and mounting bore",!rig.ValidateGaugeSupport(out _));gaugeItem.transform.position=gaugePosition;
             }
-            if(new[]{"C01","C05","C06"}.Contains(id))
+            if(id=="C05")
+            {
+                bool parked=((ChemistryDriver)rig.Driver).ValidatePipetteParking(out var parkingReason);
+                check("C05 pipette is parked upright in its native clamp: "+parkingReason,parked);
+            }
+            if(new[]{"C01","C06"}.Contains(id))
             {
                 var pipette=rig.items.Single(item=>item.assetId=="pipette");
                 var tip=pipette.GetComponentsInChildren<Transform>().Single(t=>t.name.EndsWith("_TipOutlet_SOCKET",StringComparison.Ordinal));

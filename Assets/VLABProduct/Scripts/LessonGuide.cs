@@ -32,7 +32,7 @@ namespace Vlab.Product
             ["C02"]=new Entry("Pin Daniell","Daniell cell","zn,bridge,meter","Đọc điện áp; có thể đảo đầu đo để so sánh dấu.","Read voltage; optionally reverse probes to compare its sign."),
             ["C03"]=new Entry("Điện phân đồng","Copper electrolysis","balance,cathode,supply","Đủ thời gian: tắt nguồn, rửa, làm khô rồi cân cathode.","At target time: switch off, rinse, dry and weigh the cathode."),
             ["C04"]=new Entry("Nhận biết chloride","Chloride test","reagent,nitrate,nacl","So sánh NaCl với hai mẫu đối chứng.","Compare NaCl with both negative controls."),
-            ["C05"]=new Entry("Pha loãng","Dilution","pipette,vol50,vol50","Đọc nồng độ mẫu có nhãn sau khi trộn.","Read the labelled sample concentration after mixing."),
+            ["C05"]=new Entry("Pha loãng","Dilution","pipette,pipette,vol50","Đọc nồng độ mẫu có nhãn sau khi trộn.","Read the labelled sample concentration after mixing."),
             ["C06"]=new Entry("Đo pH","pH measurement","test,probe,paper","Đọc đầu dò ngập trong mẫu và màu giấy BTB riêng.","Read the immersed probe and the separate BTB colour."),
             ["C07"]=new Entry("Tốc độ tạo khí","Gas reaction rate","chips,tube,flask","Theo dõi thể tích khí; không mở cổng khi đang phản ứng.","Observe gas volume; keep the reaction ports sealed."),
             ["C08"]=new Entry("Nhiệt trung hòa","Neutralization heat","acidCup,thermometer,cal","Theo dõi nhiệt kế ít nhất 20 giây.","Observe the immersed thermometer for at least 20 seconds."),
@@ -71,7 +71,7 @@ namespace Vlab.Product
             ["C05"]=new[]{"Pipette được tráng bằng đúng dung dịch nguồn.|Phần mẫu nằm trong bình định mức đã chọn.|Đã tới vạch và đảo trộn; mẫu có nhãn riêng.","The pipette is rinsed with the intended stock.|The aliquot is in the selected volumetric flask.|The solution reaches the mark and is mixed with its own label."},
             ["C06"]=new[]{"Mẫu có nhãn và điều kiện pha loãng rõ ràng.|Đã đọc hai dung dịch đệm và rửa đầu dò giữa các lần.|Đầu dò ngập mẫu; giấy BTB đã được thử riêng.","The sample has a label and declared dilution conditions.|Both buffers were read and the probe rinsed between them.|The probe is immersed; BTB paper was tested separately."},
             ["C07"]=new[]{"Đã cân nhóm hạt và đong lượng acid của lượt.|Bình, nút và syringe nối thành đường khí kín.|Hạt tiếp xúc acid; bắt đầu theo dõi khí khi chạy lượt.","Chip batch and acid amount are prepared.|Flask, stopper and syringe form a sealed gas route.|Chips contact acid; monitor gas when the trial runs."},
-            ["C08"]=new[]{"Thể tích hai phần không vượt sức chứa cốc.|Nhiệt độ đầu acid và base đã được đọc riêng.|Dung dịch trong cốc cách nhiệt, đầu dò được đặt đúng.","Combined volumes fit the calorimeter.|Initial acid and base temperatures were read separately.|The solutions are in the calorimeter with the probe positioned."},
+            ["C08"]=new[]{"Thể tích hai phần không vượt sức chứa cốc.|Nhiệt độ đầu acid và base đã được đọc riêng.|Cốc cách nhiệt còn rỗng; hai phần dung dịch vẫn ở cốc nguồn. Bắt đầu đồng hồ trước khi rót.","Combined volumes fit the calorimeter.|Initial acid and base temperatures were read separately.|The calorimeter is empty and both solutions remain in their source cups. Start the clock before pouring."},
             ["B01"]=new[]{"Lớp biểu bì được trải trên lam có nước.|Lamen đã hạ nghiêng và phần dư được thấm.|Lam nằm trong bàn kính và hai kẹp đóng.|Ở vật kính thấp, chỉnh đến khi cấu trúc trên hình đủ rõ.","An epidermis layer is spread on the wet slide.|The coverslip is lowered at an angle and excess blotted.|The slide is on the stage with both clips closed.|At low power, adjust until the illustrated structures are clear."},
             ["B02"]=new[]{"Lam đã gắn và thấy được hình ban đầu.|Cùng nhóm mã đã được phân loại ban đầu và giữ cố định.|Dung dịch đã thay; tiếp tục quan sát đúng nhóm mã cũ.","The slide is mounted and the baseline view is visible.|The same IDs have baseline classifications and are locked.|The solution is exchanged; retain the original tracked IDs."},
             ["B03"]=new[]{"Cả ba mã mẫu có số cân đầu riêng.|Phân biệt dung dịch thử và nước đối chứng.|Mẫu có nhãn nằm trong dung dịch; giữ thời điểm bắt đầu ngâm.|Cách thấm trước cân cuối đã thống nhất cho cả nhóm.","All three sample IDs have separate initial masses.|Test solution and water control are identified.|Labelled samples are immersed with soak start times retained.|One blotting protocol is agreed for all final weighings."},
@@ -96,6 +96,38 @@ namespace Vlab.Product
         {if(id=="fresh"){applied.Clear();actions.Clear();}if(id=="resetPull"){applied.Remove("pull+");applied.Remove("steady");}if(id=="serial"){applied.Remove("waterMark");applied.Remove("invert");}applied.Add(id);actions.Add(id);}
         public void Variable(string key,double value){if(key=="flow"&&value>0){applied.Remove("swirl");applied.Remove("final");applied.Remove("titre");}}
         public static string ShortTitle(string id,bool vi)=>entries.TryGetValue(id,out var entry)?(vi?entry.vi:entry.en):id;
+        public static string FullProcedure(string id,bool vi,ExperimentBrief brief=null)
+        {
+            if(!LessonSpec.All.TryGetValue(id,out var spec)||!entries.TryGetValue(id,out var entry))return "";
+            var text=new System.Text.StringBuilder();
+            text.AppendLine(vi?"MỤC TIÊU":"GOAL").AppendLine(ReadinessView.Goal(id,vi)).AppendLine();
+            if(vi&&brief!=null&&brief.id==id&&!string.IsNullOrWhiteSpace(brief.theoryVi))
+                text.AppendLine("NGUYÊN LÝ").AppendLine(brief.theoryVi).AppendLine();
+            text.AppendLine(vi?"CHUẨN BỊ VÀ THỰC HIỆN":"PREPARE AND PERFORM");
+            var actions=vi?spec.operationsVi:spec.operationsEn;
+            var checks=preparationChecks[id][vi?0:1].Split('|');
+            for(int i=0;i<actions.Length;i++)
+            {
+                text.Append(i+1).Append(". ").AppendLine(actions[i]);
+                if(id=="C05"&&i<2)text.AppendLine(vi?
+                    (i==0?"Giữ pipette, đưa đầu xuống dung dịch nguồn để hút một phần; đưa sang cốc thải để tráng. Chỉ chuyển bước khi đã tráng xong.":"Hút đủ 10 mL từ nguồn, đưa đầu pipette vào bình định mức đang mở rồi nhả hết phần mẫu. Có thể dừng giữa chừng để kiểm tra lượng còn lại."):
+                    (i==0?"Hold the pipette, immerse its tip in stock to aspirate, then move over the waste cup to rinse. Continue only after the rinse is complete.":"Aspirate 10 mL from stock, move the tip into the open volumetric flask and deliver the complete aliquot. You can stop to inspect the remaining amount."));
+                if(id=="C04"&&i>0)text.AppendLine(vi?"Chọn AgNO3. Giữ ống nhỏ giọt, nhúng đầu vào nguồn để nạp rồi hướng xuống miệng cốc. Mỗi cốc nhận hai giọt mô phỏng; thả tay để dừng. Giọt chưa hiệu chuẩn thể tích, không suy ra mL hay mol.":"Select AgNO3. Hold the dropper, immerse its tip in stock to load, then point down over the cup. Deliver two simulated drops per cup; release to stop. Drop volume is uncalibrated; do not infer mL or moles.");
+                text.Append(vi?"Kiểm tra: ":"Check: ").AppendLine(checks[i]).AppendLine();
+            }
+            text.AppendLine(vi?"QUAN SÁT VÀ GHI SỐ ĐO":"OBSERVE AND RECORD");
+            text.AppendLine(vi?entry.runVi:entry.runEn);
+            if(id=="C08")text.AppendLine(vi?"Bắt đầu lượt đo khi cốc cách nhiệt còn rỗng. Giữ cốc acid và kéo miệng rót qua cốc cách nhiệt đang mở; thả tay để dừng. Làm tương tự với base. Điện thoại hỗ trợ độ cao và độ nghiêng, nhưng dung dịch chỉ chuyển khi đường rót thật thông thoáng. Sau lần rót cuối, đặt nhiệt kế vào dung dịch và quan sát ít nhất 20 giây. Lượng đã nhận, nhiệt độ và đường T(t) tiếp tục từ trạng thái thực; không tạo lại số liệu khi nhấc cốc lần nữa. Tốc độ dòng và thời gian hòa trộn là minh họa.":"Start the trial while the calorimeter is empty. Hold the acid cup and drag its spout over the open calorimeter; release to stop. Repeat for base. Phone height and tilt are assisted, but solution moves only through a valid real pouring path. After the final addition, immerse the thermometer and observe for at least 20 seconds. Accepted quantities, temperature and T(t) continue from their actual state. Flow and mixing rates are illustrative.");
+            text.AppendLine(vi?"Khi chuẩn bị hoàn tất, bắt đầu lượt đo. Thao tác theo gợi ý cạnh dụng cụ; chỉ ghi số đo khi ứng dụng xác nhận đã đủ quan sát. Ghi nhận xét của bạn trong sổ thực hành.":"After preparation, start the trial. Follow the instrument cues and record only when the required observations are complete. Add your own observations to the lab notebook.");
+            var learning=LearningGuide.Load(id);
+            if(vi&&learning!=null)text.AppendLine().AppendLine(learning.practiceVi);
+            if(vi&&brief!=null&&brief.id==id&&!string.IsNullOrWhiteSpace(brief.variablesVi))
+                text.AppendLine().AppendLine("ĐIỀU KIỆN VÀ BẢNG GHI").AppendLine(brief.variablesVi);
+            text.AppendLine().AppendLine(vi?"CÁCH HIỂU KẾT QUẢ":"INTERPRETING THE RESULT").AppendLine(LessonContext.Explanation(id,vi));
+            if(vi&&learning!=null)text.AppendLine().AppendLine("CHỖ DỄ NHẦM").AppendLine(learning.pitfallsVi);
+            text.AppendLine().AppendLine(vi?"LẶP LẠI VÀ SO SÁNH":"REPEAT AND COMPARE").AppendLine(vi?"Giữ điều kiện giống nhau khi lặp lại. Muốn khảo sát yếu tố khác, tạo lượt mới và chỉ đổi một thông số; các số đo cũ vẫn nằm trong sổ tay.":"Keep conditions unchanged for repeats. Start a new trial and change one parameter to make a comparison; previous readings remain in the notebook.");
+            return text.ToString().Trim();
+        }
         public static string[] ValidateMetadata()=>LessonSpec.All.Where(pair=>!entries.ContainsKey(pair.Key)||entries[pair.Key].targets.Length!=pair.Value.operationsEn.Length||!preparationChecks.TryGetValue(pair.Key,out var checks)||checks.Length!=2||checks.Any(text=>text.Split('|').Length!=pair.Value.operationsEn.Length)).Select(pair=>pair.Key).ToArray();
         public string Explanation(GuideTask task,bool vi)
         {
@@ -166,7 +198,9 @@ namespace Vlab.Product
             var entry=entries[session.spec.id];int index=Mathf.Clamp(operation,0,entry.targets.Length-1);string key=Target(rig,entry,index);
             string successVi="Dụng cụ xác nhận bước chuẩn bị; kiểm tra lại bố trí trước khi tiếp tục.",successEn="The instrument validates this step; inspect the setup before continuing.";
             if(preparationChecks.TryGetValue(session.spec.id,out var checks)){var viChecks=checks[0].Split('|');var enChecks=checks[1].Split('|');if(index<viChecks.Length&&index<enChecks.Length){successVi=viChecks[index];successEn=enChecks[index];}}
-            return Task(vi,"prepare",key,"",session.spec.operationsVi[index],session.spec.operationsEn[index],successVi,successEn);
+            var task=Task(vi,"prepare",key,"",session.spec.operationsVi[index],session.spec.operationsEn[index],successVi,successEn);
+            if(session.spec.id=="C05"&&index<2){task.kind="gesture";task.action=L(vi,index==0?"Giữ pipette hoặc quả bóp; đưa đầu pipette vào chai nguồn để hút, rồi chuyển sang cốc thải để tráng. Thả tay để dừng.":"Giữ pipette; hút đủ 10 mL từ nguồn rồi đưa đầu vào bình định mức mở để chuyển hết mẫu. Thả tay để dừng.",index==0?"Hold the pipette or bulb, draw from the stock bottle, then move over waste to rinse. Release to stop.":"Hold the pipette, draw 10 mL from stock and deliver it into the open volumetric flask. Release to stop.");}
+            return task;
         }
         public GuideTask Current(ApparatusRig rig,bool vi,bool suspendedRunning=false)
         {
@@ -184,7 +218,7 @@ namespace Vlab.Product
             if(session.Phase==ExperimentPhase.Preparing)
             {
                 if(id=="C01"&&op==2&&!Seen("initial"))return Control(rig,vi,"burette","initial","Mặt khum đầu được giữ cho lượt này; sau đó quay lại Thực hiện bước này.","The initial meniscus is retained; then return to Perform current action.");
-                if(id=="C05"&&op==2){string key=session.parameters["final"]<75?"vol50":"vol100";if(Enabled(rig,key,"waterMark"))return Control(rig,vi,key,"waterMark");if(Enabled(rig,key,"invert"))return Control(rig,vi,key,"invert","Mẫu có nhãn sau khi trộn; quay lại Thực hiện bước này.","A mixed labelled sample is retained; return to Perform current action.");}
+                if(id=="C05"&&op==2){string key=session.parameters["final"]<75?"vol50":"vol100";if(rig.Driver is ChemistryDriver dilution&&dilution.CanManualWash)return Task(vi,"gesture","wash","","Giữ bình tia, đưa vòi vào miệng bình định mức và thêm nước tới vạch. Thả tay để dừng kiểm tra mặt khum.","Hold the wash bottle, aim inside the volumetric flask and add water to its mark. Release to inspect the meniscus.","Mặt khum nằm trong vùng vạch; tiếp theo đậy và trộn đều.","The meniscus reaches the calibration band; next, close and mix.");if(Enabled(rig,key,"invert"))return Control(rig,vi,key,"invert","Mẫu có nhãn sau khi trộn; quay lại Thực hiện bước này.","A mixed labelled sample is retained; return to Perform current action.");}
                 if(id=="C06"&&op==1)
                 {
                     if(!Seen("buffer4"))return Control(rig,vi,"probe","buffer4");
@@ -194,7 +228,16 @@ namespace Vlab.Product
                 if(id=="C06"&&op==2){if(!Seen("probeSample"))return Control(rig,vi,"probe","probeSample");if(!Seen("paper"))return Control(rig,vi,"paper","paper");}
                 if(id=="C08"&&op==1){if(!Seen("acidT"))return Control(rig,vi,"thermometer","acidT");if(!Seen("baseT"))return Control(rig,vi,"thermometer","baseT");}
                 if(id=="C04"&&(op==1||op==2))
-                {string target=op==2?"nacl":!Seen("dose:nitrate")?"nitrate":"water";if(!Seen("dose:"+target)){if(actions.LastOrDefault()!="selectAg")return Control(rig,vi,"reagent","selectAg");return Control(rig,vi,target,"dose:"+target);}}
+                {
+                    var dropper=rig.Driver as ChemistryDriver;string target=op==2?"nacl":dropper==null||dropper.QualitativeDoseUnits("nitrate")<2?"nitrate":"water";
+                    if(dropper!=null&&!string.IsNullOrEmpty(dropper.ActiveDropperCup))target=dropper.ActiveDropperCup;
+                    if(Enabled(rig,"reagent","selectAg"))return Control(rig,vi,"reagent","selectAg");
+                    string cupLabel=rig.EquipmentLabel(rig.items.First(i=>i.assetId==target),vi);
+                    return Task(vi,"gesture",dropper!=null&&dropper.LoadedDropperUnits>0?target:"dropper","",
+                        "Giữ ống nhỏ giọt: nhúng đầu vào nguồn để nạp, rồi hướng xuống miệng "+cupLabel+". Mỗi cốc nhận hai giọt mô phỏng; thả tay để dừng.",
+                        "Hold the dropper: immerse its tip in stock to load, then point down over "+cupLabel+". Deliver two simulated drops per cup; release to stop.",
+                        "Cốc nhận đủ hai giọt. Chưa hiệu chuẩn thể tích; không suy ra mL hay mol.","The cup receives two drops. Volume is uncalibrated; do not infer mL or moles.");
+                }
                 var biology=Biology(rig);
                 if(id=="B01"&&op==3&&biology!=null&&Math.Abs(biology.focus-6.5)>.7)return Control(rig,vi,"microscope",biology.focus>6.5?"focus-":"focus+");
                 if(id=="B02"&&op==1&&biology!=null&&biology.cells.Count(x=>x.baseline>=0)<20)return CellTask(rig,vi,biology,0);
@@ -206,6 +249,18 @@ namespace Vlab.Product
             if(id=="P02"&&session.Authority?.CanRecord(out _)==true)return Task(vi,"record","target","","Nhìn dấu trên tấm hứng dưới sàn, rồi chọn Ghi số đo.","Inspect the mark on the floor mat, then Record measurement.","Lượt đo xuất hiện trong Sổ tay.","The trial appears in Notebook.");
             if(session.Phase==ExperimentPhase.Ready)return Task(vi,"start",Target(rig,entry,entry.targets.Length-1),"",id=="P01"?"Giữ quả nặng, kéo lệch nhẹ rồi thả tay để con lắc dao động.":"Nhấn Bắt đầu lượt đo. Sau khi quan sát đủ, chọn Ghi số đo để lưu.",id=="P01"?"Hold the bob, pull it gently to one side, then release it.":"Select Start trial. After completing the observations, select Record measurement to save.","Trạng thái chuyển sang Đang quan sát, đồng hồ chạy.","The phase becomes Observing and its clock advances.");
             if(session.Authority?.CanRecord(out _)==true||(session.Pendulum!=null&&session.Pendulum.Cycles>=session.parameters["cycles"]))return Task(vi,"record","","","Nhấn Ghi số đo để lưu lượt thực hành.","Select Record measurement to save this trial.","Màn hình kết quả mở và lượt xuất hiện trong Sổ tay.","Results opens and the attempt appears in Notebook.");
+            if(id=="C08"&&rig.Driver is ChemistryDriver pouring)
+            {
+                if(Enabled(rig,"cal","lidOpen"))
+                {
+                    var cal=rig.items.First(i=>i.assetId=="cal").GetComponentInChildren<VlabCalorimeter>();
+                    if(!cal.LidOpen&&(pouring.CanManualPour("acidCup")||pouring.CanManualPour("baseCup")))return Control(rig,vi,"cal","lidOpen");
+                }
+                string cup=pouring.CanManualPour("acidCup")?"acidCup":pouring.CanManualPour("baseCup")?"baseCup":"";
+                if(cup!="")return Task(vi,"gesture",cup,"",cup=="acidCup"?"Giữ cốc acid, kéo miệng rót qua cốc cách nhiệt mở. Thả để dừng.":"Giữ cốc base, kéo miệng rót qua cốc cách nhiệt mở. Thả để dừng.",cup=="acidCup"?"Hold the acid cup and drag its spout over the open calorimeter. Release to stop.":"Hold the base cup and drag its spout over the open calorimeter. Release to stop.","Mực nguồn giảm, lượng nhận tăng đúng theo dòng; không có dòng khi rót lệch.","Source level falls and accepted volume rises only through a valid stream.");
+                if(Enabled(rig,"thermometer","observeCal"))return Control(rig,vi,"thermometer","observeCal");
+                return Wait(vi,"thermometer","Quan sát nhiệt kế ngập mẫu ít nhất 20 giây sau lần rót cuối. Nhiệt tiếp tục biến đổi theo thời gian.","Observe the immersed thermometer for at least 20 seconds after the final pour. Temperature continues evolving.");
+            }
             var s=Biology(rig);
             if(s!=null)
             {
@@ -281,6 +336,11 @@ namespace Vlab.Product
             if(!string.IsNullOrEmpty(raw)&&raw.Any(c=>c>127&&char.IsLetter(c)))return raw;
             switch((raw??"").Trim())
             {
+                case "Place the complete item over a clear bench or tray bay.":return "Đưa cả dụng cụ lên vùng bàn hoặc ngăn khay còn trống rồi đặt xuống.";
+                case "Lift the tool above the surface before letting go.":return "Nhấc dụng cụ lên khỏi mặt bàn hoặc khay trước khi thả.";
+                case "Move above a clear resting area before letting go.":return "Chuyển dụng cụ tới vùng còn trống trước khi thả, tránh chạm dụng cụ khác.";
+                case "This mounted assembly cannot be dropped.":
+                case "Fit this supported assembly at its marked position.":return "Bộ dụng cụ này cần giá đỡ. Hãy lắp tại vị trí được đánh dấu.";
                 case "Select actual source structure first.":return "Chạm vào cấu trúc cần nhận diện trên hình trước, rồi chọn tên cấu trúc.";
                 case "Select tracked source cell.":return "Chạm chọn một tế bào trong nhóm đang theo dõi rồi phân loại trạng thái của chính mã ô đó.";
                 case "Select actual source cell.":return "Chạm chọn một tế bào trên atlas trước, rồi chọn nhãn kỳ phân bào.";

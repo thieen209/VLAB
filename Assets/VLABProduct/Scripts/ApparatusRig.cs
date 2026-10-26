@@ -25,7 +25,7 @@ namespace Vlab.Product
         const float RodBottom=.020f,SupportTop=.720f,PendulumClampHeight=.660f;
         Bounds stationTop;bool hasStationTop;
         public Bounds WorkSurface=>hasStationTop?stationTop:new Bounds(Worktop,new Vector3(1.6f,.04f,.8f));
-        sealed class StorageSurface {public Bounds bounds;public string name;}
+        sealed class StorageSurface {public Bounds bounds;public string name;public BenchContrastTray tray;public bool trayBay;}
         readonly List<StorageSurface> storageSurfaces=new List<StorageSurface>();
         const float StorageInset=.012f,StorageGap=.018f,StorageLift=.002f;
         public bool UsesSyntheticStorageSurface{get;private set;}
@@ -111,6 +111,9 @@ namespace Vlab.Product
                     // Source head r10/z-76 and handle flare r6/z23 share the lower support line.
                     go.transform.rotation=Quaternion.AngleAxis(-Mathf.Atan(.004f/.099f)*Mathf.Rad2Deg,Vector3.forward)*go.transform.rotation;
                 }
+                // Reserve the open stopper footprint used by dilution preparation before choosing a tray bay.
+                var volumetric=go.GetComponentInChildren<VlabVolumetricFlask>();
+                if(volumetric&&(session.spec.id=="C05"||session.spec.id=="C06"))volumetric.TrySetStopperOpen(true);
                 if(spec.onSurface)PlaceInstalledOnSurface(go,Worktop+spec.position);
                 if(spec.prefab=="launcher")SeatLauncherFootAtLeftEdge(go);
                 // The 55 mm source crowns cannot clear the 103 mm underside gauge body.
@@ -124,7 +127,7 @@ namespace Vlab.Product
                 var handle=go.AddComponent<EquipmentHandle>();handle.assetId=spec.key;handle.slot=go.transform.position;handle.rotation=go.transform.rotation;
                 items.Add(handle);indexed.Add(spec.key,handle);
             }
-            ArrangeLooseItems();Driver.Bind(indexed,Worktop);Driver.RestoreState(session.RestoredDetailJson);session.Authority=Driver;session.SetApparatusReady(false);Changed?.Invoke();
+            ConfigureContrastTrays();ArrangeLooseItems();Driver.Bind(indexed,Worktop);Driver.RestoreState(session.RestoredDetailJson);session.Authority=Driver;session.SetApparatusReady(false);Changed?.Invoke();
         }
         public string EquipmentLabel(EquipmentHandle item,bool vietnamese)
         {
@@ -218,14 +221,19 @@ namespace Vlab.Product
             {
                 go.transform.rotation=Quaternion.AngleAxis(turn*90,Vector3.up)*original;
                 var b=renderers[0].bounds;foreach(var renderer in renderers.Skip(1))b.Encapsulate(renderer.bounds);if(TryPestleBounds(go,out var pestleBounds))b=pestleBounds;
-                var area=Footprint(surface.bounds,-StorageInset);
-                if(b.size.x>area.width||b.size.z>area.height)continue;
-                float x=Mathf.Clamp(desired.x,area.xMin+b.extents.x,area.xMax-b.extents.x),z=Mathf.Clamp(desired.z,area.yMin+b.extents.z,area.yMax-b.extents.z);
-                float score=new Vector2(x-desired.x,z-desired.z).sqrMagnitude+turn*.0001f;
-                if(score>=best)continue;best=score;bestRotation=go.transform.rotation;
-                bestDelta=new Vector3(x-b.center.x,surface.bounds.max.y+StorageLift-b.min.y,z-b.center.z);
+                foreach(var area in ClearSurfaceAreas(surface,go,b.size.y))
+                {
+                    if(b.size.x>area.width||b.size.z>area.height)continue;
+                    float x=Mathf.Clamp(desired.x,area.xMin+b.extents.x,area.xMax-b.extents.x),z=Mathf.Clamp(desired.z,area.yMin+b.extents.z,area.yMax-b.extents.z);
+                    var candidate=b;candidate.center+=new Vector3(x-b.center.x,surface.bounds.max.y+StorageLift-b.min.y,z-b.center.z);if(!CanUseStorageSurface(surface,candidate))continue;
+                    float score=new Vector2(x-desired.x,z-desired.z).sqrMagnitude+turn*.0001f;
+                    if(score>=best)continue;best=score;bestRotation=go.transform.rotation;
+                    bestDelta=new Vector3(x-b.center.x,surface.bounds.max.y+StorageLift-b.min.y,z-b.center.z);
+                }
             }
-            go.transform.rotation=bestRotation;if(best<float.PositiveInfinity)go.transform.position+=bestDelta;
+            go.transform.rotation=bestRotation;
+            if(best==float.PositiveInfinity)throw new InvalidOperationException("The complete instrument does not fit a clear worktop or native tray bay: "+go.name);
+            go.transform.position+=bestDelta;
         }
         void SeatLauncherFootAtLeftEdge(GameObject source)
         {
@@ -686,12 +694,13 @@ namespace Vlab.Product
         }
         void ArrangeLooseItems(EquipmentHandle preferred=null)
         {
-            var free=storageSurfaces.Select(s=>new List<Rect>{Footprint(s.bounds,-StorageInset)}).ToArray();
-            foreach(var installed in items.Where(x=>x.installed&&x.gameObject.activeInHierarchy))
+            var free=storageSurfaces.Select(s=>new List<Rect>{Footprint(s.bounds,-SurfaceInset(s))}).ToArray();
+            ReserveContrastTrays(free);
+            foreach(var installed in items.Where(x=>(x.installed||LearnerPlaced(x))&&x.gameObject.activeInHierarchy))
                 if(TryVisibleBounds(installed,out var occupied))for(int n=0;n<free.Length;n++)
-                    if(occupied.max.y>=storageSurfaces[n].bounds.max.y-.01f&&occupied.min.y<=storageSurfaces[n].bounds.max.y+.10f)
-                        free[n]=Subtract(free[n],Footprint(occupied,StorageGap*.5f));
-            var loose=items.Where(x=>!x.installed&&x.Owner==EquipmentGrabOwner.None).ToArray();foreach(var item in loose)PrepareLoosePose(item);
+                    if(LearnerPlaced(installed)||occupied.max.y>=storageSurfaces[n].bounds.max.y-.01f&&occupied.min.y<=storageSurfaces[n].bounds.max.y+.10f)
+                        free[n]=Subtract(free[n],Footprint(occupied,storageSurfaces[n].trayBay ? .003f : StorageGap*.5f));
+            var loose=items.Where(x=>!x.installed&&!LearnerPlaced(x)&&x.Owner==EquipmentGrabOwner.None).ToArray();foreach(var item in loose)PrepareLoosePose(item);
             var ordered=loose.OrderByDescending(x=>x==preferred).ThenByDescending(x=>TryVisibleBounds(x,out var b)?Mathf.Max(b.size.x,b.size.z):0).ThenByDescending(x=>TryVisibleBounds(x,out var b)?b.size.x*b.size.z:0).ToArray();
             foreach(var item in ordered)
             {
@@ -708,11 +717,12 @@ namespace Vlab.Product
                 {
                     item.transform.rotation=Quaternion.AngleAxis(turn*90,Vector3.up)*item.trayRotation;
                     if(!TryVisibleBounds(item,out var b))continue;
-                    float width=Mathf.Max(.008f,b.size.x)+StorageGap,depth=Mathf.Max(.008f,b.size.z)+StorageGap;
+                    float gap=storageSurfaces[surface].trayBay ? .006f : StorageGap;
+                    float width=Mathf.Max(.008f,b.size.x)+gap,depth=Mathf.Max(.008f,b.size.z)+gap;
                     foreach(var r in free[surface])
                     {
                         if(width>r.width+.0001f||depth>r.height+.0001f)continue;
-                        float score=surface*1000+Mathf.Min(r.width-width,r.height-depth)+.01f*(r.width*r.height-width*depth);
+                        float score=surface*1000+(storageSurfaces[surface].trayBay&&NeedsContrast(item)?-100000:0)+Mathf.Min(r.width-width,r.height-depth)+.01f*(r.width*r.height-width*depth);
                         if(score>=bestScore)continue;
                         bestScore=score;bestSurface=surface;bestRect=new Rect(r.xMax-width,r.yMax-depth,width,depth);bestRotation=item.transform.rotation;bestBounds=b;
                     }
@@ -740,9 +750,9 @@ namespace Vlab.Product
                     if(InvisibleNativeItemReason(item)!="")continue;
                     failure=session.spec.id+" loose "+item.assetId+" has no visible source geometry and no declared empty-state reason.";return false;
                 }
-                bool supported=storageSurfaces.Any(s=>ContainsRect(Footprint(s.bounds),Footprint(b),.002f)&&Mathf.Abs(b.min.y-(s.bounds.max.y+StorageLift))<=.004f);
+                bool supported=storageSurfaces.Any(s=>ContainsRect(Footprint(s.bounds),Footprint(b),.002f)&&Mathf.Abs(b.min.y-(s.bounds.max.y+StorageLift))<=.004f&&CanUseStorageSurface(s,b));
                 if(!supported){failure=session.spec.id+" loose "+item.assetId+" is outside a worktop or not resting on it: "+b;return false;}
-                foreach(var other in visible)if(Footprint(other.Value,StorageGap*.25f).Overlaps(Footprint(b,StorageGap*.25f)))
+                foreach(var other in visible)if(Footprint(other.Value,StorageValidationMargin(other.Value)).Overlaps(Footprint(b,StorageValidationMargin(b))))
                 {failure=session.spec.id+" loose footprints overlap: "+other.Key+" / "+item.assetId;return false;}
                 visible.Add(new KeyValuePair<string,Bounds>(item.assetId,b));
             }
@@ -802,7 +812,7 @@ namespace Vlab.Product
                     // Articulated barrels and stand arms may overhang; their original complete bases must be supported.
                     var foot=item.GetComponentsInChildren<Renderer>().FirstOrDefault(r=>r.enabled&&r.name.EndsWith("_Base_VIS",StringComparison.Ordinal));if(foot)b=foot.bounds;
                 }
-                if(!storageSurfaces.Any(s=>ContainsRect(Footprint(s.bounds),Footprint(b),.003f)&&Mathf.Abs(b.min.y-s.bounds.max.y)<=.012f))
+                if(!storageSurfaces.Any(s=>ContainsRect(Footprint(s.bounds),Footprint(b),.003f)&&Mathf.Abs(b.min.y-s.bounds.max.y)<=.012f&&CanUseStorageSurface(s,b)))
                 {failure=session.spec.id+" installed "+item.assetId+" lacks real worktop support: "+b;return false;}
             }
             failure="";return true;
@@ -892,8 +902,8 @@ namespace Vlab.Product
                 carryDistance=Mathf.Clamp(carryDistance+frame.adjustment*.05f,.35f,2.5f);Selected.transform.position=frame.pointer.GetPoint(carryDistance);
                 if(frame.released&&!latchedCarry)
                 {
-                    // A missed drag returns to its supported tray pose instead of floating.
-                    if(Vector3.Distance(Selected.transform.position,Selected.slot)>=.22f||!InstallSelected())CancelGrab();
+                    // A missed fit can rest on a clear surface without completing installation.
+                    if(Vector3.Distance(Selected.transform.position,Selected.slot)>=.22f||!InstallSelected()) {if(!ReleaseLooseOnSurface(out var why)){LastPlacementFailure=why;CancelGrab();}}
                     else Changed?.Invoke();
                 }
             }

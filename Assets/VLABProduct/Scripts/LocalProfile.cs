@@ -88,9 +88,24 @@ namespace Vlab.Product
     }
     [Serializable] public sealed class SessionCheckpoint
     {public string experimentId,detailJson,assistance;public int operation,seed;public double[] values;public bool apparatusReady;}
+    [Serializable] public sealed class NotebookStroke
+    {
+        public List<Vector2> points=new List<Vector2>();
+    }
     [Serializable] public sealed class NotebookPage
     {
+        public const int InkStrokeLimit=48,InkPointLimit=128;
         public string id,experimentId="",title="",body="",createdAtUtc,updatedAtUtc;
+        public List<NotebookStroke> inkStrokes=new List<NotebookStroke>();
+        public void ValidateInk()
+        {
+            if(inkStrokes==null||inkStrokes.Count>InkStrokeLimit)throw new InvalidDataException("Invalid notebook drawing.");
+            foreach(var stroke in inkStrokes)
+            {
+                if(stroke==null||stroke.points==null||stroke.points.Count==0||stroke.points.Count>InkPointLimit)throw new InvalidDataException("Invalid notebook stroke.");
+                foreach(var point in stroke.points)if(!float.IsFinite(point.x)||!float.IsFinite(point.y)||point.x<0||point.x>1||point.y<0||point.y>1)throw new InvalidDataException("Invalid notebook ink coordinate.");
+            }
+        }
     }
     [Serializable] public sealed class LocalProfile
     {
@@ -123,7 +138,10 @@ namespace Vlab.Product
             foreach(var a in attempts){if(a==null||!LessonSpec.All.ContainsKey(a.experimentId)||a.readings==null)throw new InvalidDataException("Invalid attempt.");foreach(var r in a.readings)if(r==null||double.IsNaN(r.value)||double.IsInfinity(r.value))throw new InvalidDataException("Invalid reading.");}
             var pageIds=new HashSet<string>();
             foreach(var note in notebookPages)
+            {
                 if(note==null||string.IsNullOrWhiteSpace(note.id)||note.id.Length>64||!pageIds.Add(note.id)||note.title==null||note.title.Length>120||note.body==null||note.body.Length>12000||(!string.IsNullOrEmpty(note.experimentId)&&!LessonSpec.All.ContainsKey(note.experimentId))||!DateTime.TryParse(note.createdAtUtc,out _)||!DateTime.TryParse(note.updatedAtUtc,out _))throw new InvalidDataException("Invalid notebook page.");
+                note.ValidateInk();
+            }
             // Unity inline serialization materializes a null nested DTO as an empty object on load.
             if(checkpoint!=null&&string.IsNullOrEmpty(checkpoint.experimentId)&&checkpoint.operation==0&&(checkpoint.values==null||checkpoint.values.Length==0))checkpoint=null;
             if(checkpoint!=null)
@@ -175,6 +193,9 @@ namespace Vlab.Product
             if(Regex.IsMatch(envelope.payload,"\"notebookPages\"\\s*:\\s*null"))throw new InvalidDataException("Invalid notebook page collection.");
             if(p.schemaVersion==1){if(!hasNotes)p.notebookPages=new List<NotebookPage>();p.schemaVersion=2;}
             else if(!hasNotes)throw new InvalidDataException("Missing notebook pages in current profile.");
+            // Older pages have no ink field; explicit null ink remains corrupt rather than erased.
+            if(Regex.IsMatch(envelope.payload,"\"inkStrokes\"\\s*:\\s*null"))throw new InvalidDataException("Invalid notebook drawing collection.");
+            if(p.notebookPages!=null)foreach(var note in p.notebookPages)if(note!=null&&note.inkStrokes==null)note.inkStrokes=new List<NotebookStroke>();
             p.Validate();return p;
         }
         long MinimumGeneration()
